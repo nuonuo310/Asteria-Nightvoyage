@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "materialKind": "fictional",
+  "license": "MIT",
+  "scriptedSimulatorOnly": true,
+  "realModelRequests": 0,
+  "qualityAssessed": false,
+  "scenes": [
+    {
+      "id": "ordinary-no-goal",
+      "event": "梦里的人站在石桥边，一片叶子落在水面。",
+      "appraisal": { "goalEffect": 0, "control": 0.5, "uncertainty": 0.5 },
+      "delta": { "valence": 0, "arousal": 0 },
+      "basis": { "goal": null, "controlExcerpt": null, "uncertaintyExcerpt": null, "affectExcerpt": null }
+    },
+    {
+      "id": "stated-goal-hindered",
+      "event": "梦里的人想把小船推离浅滩。推了两次，小船仍卡在沙里，梦里的人垂下肩膀，不知道水何时会涨。",
+      "appraisal": { "goalEffect": -1, "control": 0.2, "uncertainty": 0.7 },
+      "delta": { "valence": -0.1, "arousal": 0.05 },
+      "basis": {
+        "goal": { "goalExcerpt": "想把小船推离浅滩", "outcomeExcerpt": "推了两次，小船仍卡在沙里" },
+        "controlExcerpt": "推了两次，小船仍卡在沙里",
+        "uncertaintyExcerpt": "不知道水何时会涨",
+        "affectExcerpt": "梦里的人垂下肩膀"
+      }
+    },
+    {
+      "id": "stated-goal-helped",
+      "event": "梦里的人想让木轮转起来，拨开轮边的细枝后，木轮转了半圈。梦里的人松开紧握的手。",
+      "appraisal": { "goalEffect": 1, "control": 0.7, "uncertainty": 0.5 },
+      "delta": { "valence": 0.1, "arousal": -0.05 },
+      "basis": {
+        "goal": { "goalExcerpt": "想让木轮转起来", "outcomeExcerpt": "拨开轮边的细枝后，木轮转了半圈" },
+        "controlExcerpt": "拨开轮边的细枝后，木轮转了半圈",
+        "uncertaintyExcerpt": null,
+        "affectExcerpt": "梦里的人松开紧握的手"
+      }
+    },
+    {
+      "id": "affect-without-goal",
+      "event": "梦里的人听见楼梯深处的一声轻响，手心忽然发凉，却辨不出声音来自哪一层。",
+      "appraisal": { "goalEffect": 0, "control": 0.5, "uncertainty": 0.8 },
+      "delta": { "valence": -0.05, "arousal": 0.1 },
+      "basis": { "goal": null, "controlExcerpt": null, "uncertaintyExcerpt": "辨不出声音来自哪一层", "affectExcerpt": "手心忽然发凉" }
+    }
+  ]
+}
