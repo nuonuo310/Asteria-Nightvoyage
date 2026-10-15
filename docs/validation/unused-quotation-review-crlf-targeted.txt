@@ -1,0 +1,16 @@
+✔ offline review leaves valid strict scenes alone and returns no generated data (10.107515ms)
+✔ discard-only comparison preserves current event, numbers, bound quotes and shared indices without mutating input (10.280261ms)
+✔ later goal, unknown-placeholder and affect checks remain required after discarding unused quotes (5.008405ms)
+✔ invalid unused data is rejected before pruning rather than concealed (2.49922ms)
+✔ unused rule is the only comparison exception; neutral goal evidence cannot be reinterpreted as purpose (4.071747ms)
+✔ literal support remains semantically unassessed even when a referenced quote is irrelevant (5.616053ms)
+✔ review context rejects real/unmarked input and never enables the existing live protocol (9.990178ms)
+✔ offline command uses 15 independent scripted comparisons with no provider, user body or quality claim (542.301769ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1190.917472

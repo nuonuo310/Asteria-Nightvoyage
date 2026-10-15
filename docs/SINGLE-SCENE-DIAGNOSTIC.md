@@ -1,6 +1,6 @@
 # 单幕、单请求的协议诊断入口
 
-状态：代码及离线测试完成，真实诊断尚未批准、初始化或执行。没有读取真实密钥、打开用户梦簿或发起真实请求。旧失败的原因仍未知，本入口不能找回已丢弃的响应。
+最新状态：用户报告 Windows 167 项离线测试通过，随后明确批准并本地执行唯一一次诊断，分类为 `unused_compact_evidence`，该次额度已消耗且被阻止继续。两笔未知占用保留，没有保存生成正文。详情及只用独立虚构样例的候选比较见 [诊断复查](UNUSED-QUOTATION-REVIEW.md)。下文保留原交付提案与合同背景，不代表再次运行授权。旧失败的原因仍未知，本入口不能找回已丢弃的响应。
 
 ## 本轮要回答的一个问题
 
@@ -33,15 +33,6 @@
 
 13 项新测试覆盖精确批准和旧失败前置条件、额外未知阻断、未批准预检只读、无密钥/无 live/非法参数、保留旧账本、一次成功、细分失败、HTTP/坏 JSON、取消/撤回、实际子进程退出、重复/并行去重和状态/结算写盘故障。测试使用独立虚构事件、dummy key、临时 Store 和明确的内存 HTTP 模拟；生产入口不开放模拟、时钟或 endpoint 覆盖。
 
-完整 Linux LF 与临时 Linux CRLF 副本结果及源码摘要见 `docs/validation/single-scene-diagnostic.*`。这是同作者复查，不是独立审计；本入口的 Windows 和真实模型行为尚未验证。假响应通过不能证明真实 token 适配、实际费用、语义支持或梦境质量。
+原交付完整 Linux LF 与临时 Linux CRLF 副本结果及源码摘要见 `docs/validation/single-scene-diagnostic.*`。后续用户报告 Windows 167 项通过并完成唯一一次真实诊断，结果见上述复查。这是同作者复查和用户本地报告，不是独立审计、原始 HTTP 或账单核验；均不能证明语义支持或梦境质量。
 
-现在只运行以下 Windows 离线检查，无需 Key；最后应为 `single_scene_approval_required / credentialRead:false`：
-
-```powershell
-git switch main
-git pull --ff-only origin main
-npm.cmd test
-node src/single-scene-cli.js preflight
-```
-
-暂不提供付费初始化/执行指令。离线结果确认后，再请用户对新增一次请求、固定虚构外发、人民币 3 元上限及保留旧未知占用作明确决定。本轮没有 Asteria 或其他仓库修改；未来适配器仍为待对接。
+当前额度已消耗，勿再提供初始化/执行指令，也无需为补证重复跑既有套件。新的离线引文策略对照尚未启用；未来若另做真实验证，需要先准备明确范围并重新取得批准，不能沿用本次授权。本轮没有 Asteria 或其他仓库修改；未来适配器仍为待对接。

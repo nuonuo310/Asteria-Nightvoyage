@@ -1,0 +1,16 @@
+{
+  "date":"2026-10-15",
+  "evidence":"user-reported Windows terminal summary and diagnostic metadata; no independent machine, checkout, raw HTTP or provider invoice verification",
+  "windowsOfflineTests":{"tests":167,"pass":167,"fail":0,"cancelled":0,"skipped":0,"todo":0,"reportedDurationMs":8605.4302},
+  "unapprovedPreflight":{"reason":"single_scene_approval_required","credentialRead":false},
+  "approval":{"caseId":"sparse-context","fictionalEgress":true,"maxAdditionalCalls":1,"additionalBudgetCny":3,"preservedPriorHoldAcknowledged":true},
+  "reportedDiagnostic":{"diagnosticStatus":"failed","protocolValidation":"rejected","check":"unused_compact_evidence","calls":1,"runs":1,"billingStatus":"unknown","heldMicroCny":"2203200","providerTokenUsage":null,"providerActualChargeCny":null,"persistedGeneratedBody":false,"preflightReason":"diagnostic_attempt_consumed"},
+  "previousCompactTrial":{"calls":1,"runs":1,"heldMicroCny":"2203200","specificCause":null},
+  "allAllowances":{"calls":23,"runs":9,"heldOrSpentMicroCny":"4443340"},
+  "exactUnusedQuoteCount":null,
+  "laterValidationWouldPass":null,
+  "priorFailureSameCauseProved":false,
+  "qualityAssessed":false,
+  "newRealRequestsInThisCloseout":0,
+  "newPaidTrialApproved":false
+}

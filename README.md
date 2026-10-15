@@ -2,7 +2,7 @@
 
 Latest: the user-reported compact live trial stopped on its first validation failure, publishing no dream. [Body-free failure diagnostics and limits](docs/COMPACT-VALIDATION-DIAGNOSTICS.md) preserve the unknown budget hold; installing the change does not retry or recover the discarded response.
 
-A [single-scene, one-request diagnostic proposal](docs/SINGLE-SCENE-DIAGNOSTIC.md) is prepared for offline review. It stores no generated body, requires a separate new approval and preserves the old hold. It has not been run against a real provider.
+The user reports the [single-scene diagnostic](docs/SINGLE-SCENE-DIAGNOSTIC.md) is consumed and rejected for unused quote entries, with no generated body saved. [Result and isolated offline comparison](docs/UNUSED-QUOTATION-REVIEW.md) do not change the live validator or release either unknown hold. No further real call is approved.
 
 Experimental standalone dream layer: fictional input snapshots → two scenes with simulated affect → a separate wake record and decaying residue → typed cue-recall candidates.
 
