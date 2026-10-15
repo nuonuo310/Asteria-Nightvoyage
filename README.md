@@ -6,6 +6,8 @@ The user reports the [single-scene diagnostic](docs/SINGLE-SCENE-DIAGNOSTIC.md) 
 
 An [independent v2 candidate](docs/COMPACT-V2-OFFLINE.md) now supports simulator-only persistence and read views with program-owned pruning counts. The user reported its Windows simulator happy path. A separate [version-bound budget core](docs/PRUNED-V2-BUDGET-CORE.md) now has stub evidence; transport defaults off. The [bounded v2 trial](docs/PRUNED-V2-TRIAL-ENTRY.md) was subsequently approved and reported a first-scene rejection for missing affect evidence. [Outcome review](docs/PRUNED-V2-LIVE-REVIEW.md) records zero published scenes and a third preserved unknown hold; further calls are blocked. Real-provider behavior and quality remain unassessed.
 
+[Coupled affect/evidence offline comparison](docs/COUPLED-AFFECT-OFFLINE-REVIEW.md) explores an explicit unchanged/estimated union. It keeps all evidence requirements, returns only aggregate comparisons, and is not a live selector. Scripted validity does not establish better model compliance.
+
 Experimental standalone dream layer: fictional input snapshots → two scenes with simulated affect → a separate wake record and decaying residue → typed cue-recall candidates.
 
 Requires Node.js 24+. No packages, credentials or network model calls are needed.

@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "phase": "offline-coupled-affect-review-only",
+  "node": "v24.19.0",
+  "platform": "Linux",
+  "linuxLF": {
+    "command": "node --test test/coupled-affect-review.test.js test/compact-v2-offline.test.js",
+    "passed": 31,
+    "failed": 0,
+    "skipped": 0,
+    "fullSuite": false
+  },
+  "linuxCRLF": {
+    "command": "node --test test/coupled-affect-review.test.js",
+    "passed": 19,
+    "failed": 0,
+    "skipped": 0,
+    "temporaryCopy": true,
+    "nativeWindows": false
+  },
+  "scriptedPairs": 15,
+  "bothAcceptedAndCanonicalEquivalent": 7,
+  "initialCheckerAttempts": {
+    "failed": 2,
+    "causes": [
+      "fixture-generation shared-object mutation",
+      "wrong expected numeric-domain error code"
+    ],
+    "fixedIn": "fictional fixture and expected error; no production validator edits"
+  },
+  "intermediateLF": {
+    "passed": 30,
+    "failed": 0,
+    "beforeAdditionalExplicitZeroEstimateCase": true
+  },
+  "realModelRequests": 0,
+  "persistentRuntimeWrites": 0,
+  "liveSourcePinsUnchanged": true,
+  "userRuntimeOpened": false,
+  "allowanceModified": false,
+  "review": "same-author",
+  "modelComplianceImproved": "not_assessed",
+  "semanticSupport": "not_assessed",
+  "qualityAssessed": false,
+  "sourceSha256": {
+    "src/coupled-affect-review.js": "886c2427db8fde2404b8bdfc9e365fc9ae06202f40107b5c671689339f2a688f",
+    "scripts/check-coupled-affect-review.mjs": "26cc20af9bee593a59b93e1f18177c8828dce6495038f95b4ad3fc10eb5a0fbf",
+    "fixtures/coupled-affect-review.json": "5633bc1ab6239fadaa9cc71564f9a929848c09353e8eaf10371a7be36db6ab3d",
+    "test/coupled-affect-review.test.js": "2b7ae72fbcad95dcac80bb3e0986cdb16d8dbebe5e4eb216c13cb68d70d7e4c2"
+  }
+}

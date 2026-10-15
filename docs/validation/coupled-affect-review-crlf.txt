@@ -1,0 +1,27 @@
+✔ coupled review: ordinary-no-goal (9.890375ms)
+✔ coupled review: stated-goal-hindered (2.26287ms)
+✔ coupled review: stated-goal-helped (1.385674ms)
+✔ coupled review: affect-without-goal (0.932525ms)
+✔ coupled review: missing-reference-nonzero (1.701273ms)
+✔ coupled review: unchanged-cannot-hide-supplied-delta (0.683951ms)
+✔ coupled review: out-of-range (0.985224ms)
+✔ coupled review: ungrounded (0.434014ms)
+✔ coupled review: irrelevant-literal-is-not-semantic-support (0.507014ms)
+✔ coupled review: validated-unused-table (1.705657ms)
+✔ coupled review: control-still-needs-evidence (2.448387ms)
+✔ coupled review: goal-still-needs-evidence (1.99167ms)
+✔ coupled review: numeric-domain-still-enforced (0.409467ms)
+✔ coupled review: null-estimate-not-inferred-unchanged (2.762654ms)
+✔ coupled review: explicit-zero-estimate-retains-evidence (0.256449ms)
+✔ coupled review rejects real or missing identity and invalid before values (2.849875ms)
+✔ coupled branch selection never infers a delta or reference, permits extras or echoes arbitrary data (1.590035ms)
+✔ coupled review is not a transport selector or allowance protocol and leaves all nine live pins intact (4.395438ms)
+✔ independent coupled comparison script returns only aggregates, zero requests and no quality claim (296.270211ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 790.45963

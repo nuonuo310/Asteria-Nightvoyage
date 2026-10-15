@@ -1,0 +1,806 @@
+{
+  "schemaVersion": 1,
+  "license": "MIT",
+  "materialKind": "fictional",
+  "scriptedOnly": true,
+  "realModelRequests": 0,
+  "reconstructsRejectedResponse": false,
+  "cases": [
+    {
+      "id": "ordinary-no-goal",
+      "flat": {
+        "event": "梦里的人站在石桥边，一片叶子落在水面。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "delta": {
+          "valence": 0,
+          "arousal": 0
+        },
+        "evidence": [],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": null,
+          "affect": null
+        }
+      },
+      "coupled": {
+        "event": "梦里的人站在石桥边，一片叶子落在水面。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "evidence": [],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": null
+        },
+        "affect": {
+          "kind": "unchanged"
+        }
+      },
+      "expected": {
+        "flatAccepted": true,
+        "coupledAccepted": true,
+        "flatCheck": null,
+        "coupledCheck": null
+      }
+    },
+    {
+      "id": "stated-goal-hindered",
+      "flat": {
+        "event": "梦里的人想把小船推离浅滩。推了两次，小船仍卡在沙里，梦里的人垂下肩膀，不知道水何时会涨。",
+        "appraisal": {
+          "goalEffect": -1,
+          "control": 0.2,
+          "uncertainty": 0.7
+        },
+        "delta": {
+          "valence": -0.1,
+          "arousal": 0.05
+        },
+        "evidence": [
+          "想把小船推离浅滩",
+          "推了两次，小船仍卡在沙里",
+          "不知道水何时会涨",
+          "梦里的人垂下肩膀"
+        ],
+        "links": {
+          "goal": [
+            0,
+            1
+          ],
+          "control": 1,
+          "uncertainty": 2,
+          "affect": 3
+        }
+      },
+      "coupled": {
+        "event": "梦里的人想把小船推离浅滩。推了两次，小船仍卡在沙里，梦里的人垂下肩膀，不知道水何时会涨。",
+        "appraisal": {
+          "goalEffect": -1,
+          "control": 0.2,
+          "uncertainty": 0.7
+        },
+        "evidence": [
+          "想把小船推离浅滩",
+          "推了两次，小船仍卡在沙里",
+          "不知道水何时会涨",
+          "梦里的人垂下肩膀"
+        ],
+        "links": {
+          "goal": [
+            0,
+            1
+          ],
+          "control": 1,
+          "uncertainty": 2
+        },
+        "affect": {
+          "kind": "estimated",
+          "delta": {
+            "valence": -0.1,
+            "arousal": 0.05
+          },
+          "evidence": 3
+        }
+      },
+      "expected": {
+        "flatAccepted": true,
+        "coupledAccepted": true,
+        "flatCheck": null,
+        "coupledCheck": null
+      }
+    },
+    {
+      "id": "stated-goal-helped",
+      "flat": {
+        "event": "梦里的人想让木轮转起来，拨开轮边的细枝后，木轮转了半圈。梦里的人松开紧握的手。",
+        "appraisal": {
+          "goalEffect": 1,
+          "control": 0.7,
+          "uncertainty": 0.5
+        },
+        "delta": {
+          "valence": 0.1,
+          "arousal": -0.05
+        },
+        "evidence": [
+          "想让木轮转起来",
+          "拨开轮边的细枝后，木轮转了半圈",
+          "梦里的人松开紧握的手"
+        ],
+        "links": {
+          "goal": [
+            0,
+            1
+          ],
+          "control": 1,
+          "uncertainty": null,
+          "affect": 2
+        }
+      },
+      "coupled": {
+        "event": "梦里的人想让木轮转起来，拨开轮边的细枝后，木轮转了半圈。梦里的人松开紧握的手。",
+        "appraisal": {
+          "goalEffect": 1,
+          "control": 0.7,
+          "uncertainty": 0.5
+        },
+        "evidence": [
+          "想让木轮转起来",
+          "拨开轮边的细枝后，木轮转了半圈",
+          "梦里的人松开紧握的手"
+        ],
+        "links": {
+          "goal": [
+            0,
+            1
+          ],
+          "control": 1,
+          "uncertainty": null
+        },
+        "affect": {
+          "kind": "estimated",
+          "delta": {
+            "valence": 0.1,
+            "arousal": -0.05
+          },
+          "evidence": 2
+        }
+      },
+      "expected": {
+        "flatAccepted": true,
+        "coupledAccepted": true,
+        "flatCheck": null,
+        "coupledCheck": null
+      }
+    },
+    {
+      "id": "affect-without-goal",
+      "flat": {
+        "event": "梦里的人听见楼梯深处的一声轻响，手心忽然发凉，却辨不出声音来自哪一层。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.8
+        },
+        "delta": {
+          "valence": -0.05,
+          "arousal": 0.1
+        },
+        "evidence": [
+          "辨不出声音来自哪一层",
+          "手心忽然发凉"
+        ],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": 0,
+          "affect": 1
+        }
+      },
+      "coupled": {
+        "event": "梦里的人听见楼梯深处的一声轻响，手心忽然发凉，却辨不出声音来自哪一层。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.8
+        },
+        "evidence": [
+          "辨不出声音来自哪一层",
+          "手心忽然发凉"
+        ],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": 0
+        },
+        "affect": {
+          "kind": "estimated",
+          "delta": {
+            "valence": -0.05,
+            "arousal": 0.1
+          },
+          "evidence": 1
+        }
+      },
+      "expected": {
+        "flatAccepted": true,
+        "coupledAccepted": true,
+        "flatCheck": null,
+        "coupledCheck": null
+      }
+    },
+    {
+      "id": "missing-reference-nonzero",
+      "flat": {
+        "event": "梦里的人站在石桥边，一片叶子落在水面。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "delta": {
+          "valence": -0.1,
+          "arousal": 0
+        },
+        "evidence": [],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": null,
+          "affect": null
+        }
+      },
+      "coupled": {
+        "event": "梦里的人站在石桥边，一片叶子落在水面。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "evidence": [],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": null
+        },
+        "affect": {
+          "kind": "estimated",
+          "delta": {
+            "valence": -0.1,
+            "arousal": 0
+          }
+        }
+      },
+      "expected": {
+        "flatAccepted": false,
+        "coupledAccepted": false,
+        "flatCheck": "affect_change_requires_evidence",
+        "coupledCheck": "coupled_affect_shape_invalid"
+      }
+    },
+    {
+      "id": "unchanged-cannot-hide-supplied-delta",
+      "flat": {
+        "event": "梦里的人站在石桥边，一片叶子落在水面。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "delta": {
+          "valence": 0,
+          "arousal": 0
+        },
+        "evidence": [],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": null,
+          "affect": null
+        }
+      },
+      "coupled": {
+        "event": "梦里的人站在石桥边，一片叶子落在水面。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "evidence": [],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": null
+        },
+        "affect": {
+          "kind": "unchanged",
+          "delta": {
+            "valence": -0.1,
+            "arousal": 0
+          }
+        }
+      },
+      "expected": {
+        "flatAccepted": true,
+        "coupledAccepted": false,
+        "flatCheck": null,
+        "coupledCheck": "coupled_affect_shape_invalid"
+      }
+    },
+    {
+      "id": "out-of-range",
+      "flat": {
+        "event": "梦里的人听见楼梯深处的一声轻响，手心忽然发凉，却辨不出声音来自哪一层。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.8
+        },
+        "delta": {
+          "valence": -0.05,
+          "arousal": 0.1
+        },
+        "evidence": [
+          "辨不出声音来自哪一层",
+          "手心忽然发凉"
+        ],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": 0,
+          "affect": 1
+        }
+      },
+      "coupled": {
+        "event": "梦里的人听见楼梯深处的一声轻响，手心忽然发凉，却辨不出声音来自哪一层。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.8
+        },
+        "evidence": [
+          "辨不出声音来自哪一层",
+          "手心忽然发凉"
+        ],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": 0
+        },
+        "affect": {
+          "kind": "estimated",
+          "delta": {
+            "valence": -0.05,
+            "arousal": 0.1
+          },
+          "evidence": 99
+        }
+      },
+      "expected": {
+        "flatAccepted": true,
+        "coupledAccepted": false,
+        "flatCheck": null,
+        "coupledCheck": "invalid_compact_reference"
+      }
+    },
+    {
+      "id": "ungrounded",
+      "flat": {
+        "event": "梦里的人听见楼梯深处的一声轻响，手心忽然发凉，却辨不出声音来自哪一层。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.8
+        },
+        "delta": {
+          "valence": -0.05,
+          "arousal": 0.1
+        },
+        "evidence": [
+          "辨不出声音来自哪一层",
+          "不存在的引文"
+        ],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": 0,
+          "affect": 1
+        }
+      },
+      "coupled": {
+        "event": "梦里的人听见楼梯深处的一声轻响，手心忽然发凉，却辨不出声音来自哪一层。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.8
+        },
+        "evidence": [
+          "辨不出声音来自哪一层",
+          "不存在的引文"
+        ],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": 0
+        },
+        "affect": {
+          "kind": "estimated",
+          "delta": {
+            "valence": -0.05,
+            "arousal": 0.1
+          },
+          "evidence": 1
+        }
+      },
+      "expected": {
+        "flatAccepted": false,
+        "coupledAccepted": false,
+        "flatCheck": "invalid_compact_evidence",
+        "coupledCheck": "invalid_compact_evidence"
+      }
+    },
+    {
+      "id": "irrelevant-literal-is-not-semantic-support",
+      "flat": {
+        "event": "梦里的人站在石桥边，一片叶子落在水面。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "delta": {
+          "valence": 0.1,
+          "arousal": 0
+        },
+        "evidence": [
+          "石桥"
+        ],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": null,
+          "affect": 0
+        }
+      },
+      "coupled": {
+        "event": "梦里的人站在石桥边，一片叶子落在水面。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "evidence": [
+          "石桥"
+        ],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": null
+        },
+        "affect": {
+          "kind": "estimated",
+          "delta": {
+            "valence": 0.1,
+            "arousal": 0
+          },
+          "evidence": 0
+        }
+      },
+      "expected": {
+        "flatAccepted": true,
+        "coupledAccepted": true,
+        "flatCheck": null,
+        "coupledCheck": null
+      }
+    },
+    {
+      "id": "validated-unused-table",
+      "flat": {
+        "event": "梦里的人站在石桥边，一片叶子落在水面。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "delta": {
+          "valence": 0,
+          "arousal": 0
+        },
+        "evidence": [
+          "梦"
+        ],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": null,
+          "affect": null
+        }
+      },
+      "coupled": {
+        "event": "梦里的人站在石桥边，一片叶子落在水面。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "evidence": [
+          "梦"
+        ],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": null
+        },
+        "affect": {
+          "kind": "unchanged"
+        }
+      },
+      "expected": {
+        "flatAccepted": true,
+        "coupledAccepted": true,
+        "flatCheck": null,
+        "coupledCheck": null
+      }
+    },
+    {
+      "id": "control-still-needs-evidence",
+      "flat": {
+        "event": "梦里的人站在石桥边，一片叶子落在水面。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.9,
+          "uncertainty": 0.5
+        },
+        "delta": {
+          "valence": 0,
+          "arousal": 0
+        },
+        "evidence": [],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": null,
+          "affect": null
+        }
+      },
+      "coupled": {
+        "event": "梦里的人站在石桥边，一片叶子落在水面。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.9,
+          "uncertainty": 0.5
+        },
+        "evidence": [],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": null
+        },
+        "affect": {
+          "kind": "unchanged"
+        }
+      },
+      "expected": {
+        "flatAccepted": false,
+        "coupledAccepted": false,
+        "flatCheck": "unbased_appraisal_requires_placeholder",
+        "coupledCheck": "unbased_appraisal_requires_placeholder"
+      }
+    },
+    {
+      "id": "goal-still-needs-evidence",
+      "flat": {
+        "event": "梦里的人站在石桥边，一片叶子落在水面。",
+        "appraisal": {
+          "goalEffect": -1,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "delta": {
+          "valence": 0,
+          "arousal": 0
+        },
+        "evidence": [],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": null,
+          "affect": null
+        }
+      },
+      "coupled": {
+        "event": "梦里的人站在石桥边，一片叶子落在水面。",
+        "appraisal": {
+          "goalEffect": -1,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "evidence": [],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": null
+        },
+        "affect": {
+          "kind": "unchanged"
+        }
+      },
+      "expected": {
+        "flatAccepted": false,
+        "coupledAccepted": false,
+        "flatCheck": "nonzero_goal_requires_evidence",
+        "coupledCheck": "nonzero_goal_requires_evidence"
+      }
+    },
+    {
+      "id": "numeric-domain-still-enforced",
+      "flat": {
+        "event": "梦里的人听见楼梯深处的一声轻响，手心忽然发凉，却辨不出声音来自哪一层。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.8
+        },
+        "delta": {
+          "valence": 4,
+          "arousal": 0.1
+        },
+        "evidence": [
+          "辨不出声音来自哪一层",
+          "手心忽然发凉"
+        ],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": 0,
+          "affect": 1
+        }
+      },
+      "coupled": {
+        "event": "梦里的人听见楼梯深处的一声轻响，手心忽然发凉，却辨不出声音来自哪一层。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.8
+        },
+        "evidence": [
+          "辨不出声音来自哪一层",
+          "手心忽然发凉"
+        ],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": 0
+        },
+        "affect": {
+          "kind": "estimated",
+          "delta": {
+            "valence": 4,
+            "arousal": 0.1
+          },
+          "evidence": 1
+        }
+      },
+      "expected": {
+        "flatAccepted": false,
+        "coupledAccepted": false,
+        "flatCheck": "invalid_affect",
+        "coupledCheck": "invalid_affect"
+      }
+    },
+    {
+      "id": "null-estimate-not-inferred-unchanged",
+      "flat": {
+        "event": "梦里的人站在石桥边，一片叶子落在水面。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "delta": {
+          "valence": 0,
+          "arousal": 0
+        },
+        "evidence": [],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": null,
+          "affect": null
+        }
+      },
+      "coupled": {
+        "event": "梦里的人站在石桥边，一片叶子落在水面。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "evidence": [],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": null
+        },
+        "affect": {
+          "kind": "estimated",
+          "delta": {
+            "valence": 0,
+            "arousal": 0
+          },
+          "evidence": null
+        }
+      },
+      "expected": {
+        "flatAccepted": true,
+        "coupledAccepted": false,
+        "flatCheck": null,
+        "coupledCheck": "coupled_affect_shape_invalid"
+      }
+    },
+    {
+      "id": "explicit-zero-estimate-retains-evidence",
+      "flat": {
+        "event": "梦里的人听见楼梯深处的一声轻响，手心忽然发凉，却辨不出声音来自哪一层。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.8
+        },
+        "delta": {
+          "valence": 0,
+          "arousal": 0
+        },
+        "evidence": [
+          "辨不出声音来自哪一层",
+          "手心忽然发凉"
+        ],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": 0,
+          "affect": 1
+        }
+      },
+      "coupled": {
+        "event": "梦里的人听见楼梯深处的一声轻响，手心忽然发凉，却辨不出声音来自哪一层。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.8
+        },
+        "evidence": [
+          "辨不出声音来自哪一层",
+          "手心忽然发凉"
+        ],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": 0
+        },
+        "affect": {
+          "kind": "estimated",
+          "delta": {
+            "valence": 0,
+            "arousal": 0
+          },
+          "evidence": 1
+        }
+      },
+      "expected": {
+        "flatAccepted": true,
+        "coupledAccepted": true,
+        "flatCheck": null,
+        "coupledCheck": null
+      }
+    }
+  ]
+}
