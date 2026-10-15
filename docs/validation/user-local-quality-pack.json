@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "evidenceKind": "user_reported_terminal_output",
+  "independentlyObserved": false,
+  "reportedCheckout": "5f17f1c",
+  "command": "node scripts/check-quality-pack.mjs",
+  "node": "v24.19.0",
+  "platform": "win32",
+  "cases": 6,
+  "contractAndFileAdapterPassed": 6,
+  "fakePersistenceAndReopenPassed": 6,
+  "fakeCalls": 18,
+  "realModelRequests": 0,
+  "qualityAssessed": false,
+  "rawTranscriptPublished": false,
+  "runtimeJournalPublished": false
+}

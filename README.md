@@ -30,3 +30,5 @@ The first user-local three-run fictional trial is complete (reported nine calls;
 [One additional grounded-wake validation](docs/GROUNDED-WAKE-FOLLOWUP.md) has a separate one-run/three-call/CNY 3 approval and reports cumulative accounting without resetting the first trial. The follow-up CLI defaults to no network; user-reported Windows 90/90 tests and one grounded-wake live sample are recorded in the handoff. Its allowance is now complete; broader narrative quality remains unaccepted.
 
 [Dream-quality evaluation plan](docs/QUALITY-EVALUATION.md): six independently authored fictional inputs, an offline checker and a blank human-review template. Inputs deny model egress by default; no new live evaluation is enabled.
+
+[Three-case evaluation entry](docs/QUALITY-BATCH-ENTRY.md) pins the selected fictional inputs and protocol, keeps a separate immutable three-run/nine-call allowance, and stops on unresolved attempts. It is implemented with offline simulator evidence only; new fixture egress and spending still require approval. Start with `node src/quality-cli.js preflight` without a key.
