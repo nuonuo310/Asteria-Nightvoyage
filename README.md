@@ -8,9 +8,9 @@ An [independent v2 candidate](docs/COMPACT-V2-OFFLINE.md) now supports simulator
 
 [Coupled affect/evidence offline comparison](docs/COUPLED-AFFECT-OFFLINE-REVIEW.md) explores an explicit unchanged/estimated union. It keeps all evidence requirements, returns only aggregate comparisons, and is not a live selector. Scripted validity does not establish better model compliance.
 
-[Coupled-affect simulator loop](docs/COUPLED-AFFECT-OFFLINE.md) now saves explicit branch declarations, validates checkpoints/read views and tests cancellation/withdrawal. Run `node scripts/check-coupled-affect-offline.mjs` without a key. No coupled live selector or paid trial exists.
+[Coupled-affect simulator loop](docs/COUPLED-AFFECT-OFFLINE.md) now saves explicit branch declarations, validates checkpoints/read views and tests cancellation/withdrawal. Run `node scripts/check-coupled-affect-offline.mjs` without a key. The offline protocol remains simulator-only; the separate gated core below has no paid CLI trial.
 
-[Coupled size and budget design review](docs/COUPLED-SIZE-AND-BUDGET-DESIGN.md) measures byte boundaries and records the source-pin read coupling found in an isolated copy. [Historical-read compatibility](docs/HISTORICAL-READ-COMPATIBILITY.md) now separates fixed old-contract reads from fresh dispatch checks. Coupled budget integration is still pending; the Windows standalone fake loop is user-reported complete.
+[Coupled size and budget design review](docs/COUPLED-SIZE-AND-BUDGET-DESIGN.md) measures byte boundaries and records the source-pin read coupling found in an isolated copy. [Historical-read compatibility](docs/HISTORICAL-READ-COMPATIBILITY.md) now separates fixed old-contract reads from fresh dispatch checks. [Coupled budget core](docs/COUPLED-BUDGET-CORE.md) now has a distinct version-bound selector and stub-only evidence. Run `node scripts/check-coupled-budget.mjs` without a key. Its current core changes intentionally block old pruned-v2 dispatch pins while preserving historical reads. No new paid entry or approval exists; the Windows standalone fake loop is user-reported complete.
 
 Experimental standalone dream layer: fictional input snapshots → two scenes with simulated affect → a separate wake record and decaying residue → typed cue-recall candidates.
 

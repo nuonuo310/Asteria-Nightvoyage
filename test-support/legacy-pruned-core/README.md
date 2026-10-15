@@ -1,0 +1,3 @@
+# Frozen project-owned sources for isolated historical tests
+
+These three files are exact public MIT sources from Asteria-Nightvoyage commit c0ed88a5e10e396a1268b7b523860c1cd46709dd (PR #27). They are not a second production core and must not be imported by production code. The frozen-project helper verifies their LF-normalized SHA-256 against the unchanged reviewed historical profile before installing them into an explicitly created disposable test copy. This preserves the original 13 entry probes while current production source drift intentionally blocks old dispatch approvals. No third-party code or user runtime data is included.

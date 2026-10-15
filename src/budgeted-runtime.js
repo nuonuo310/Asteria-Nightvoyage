@@ -1,3 +1,5 @@
+import { coupledBudgetVersion, normalizeBudgetCoupledCheckpoint } from './coupled-affect-protocol.js';
+import { neutral } from './contract.js';
 import { Nightvoyage } from './engine.js';
 import { GatedDeepSeekClient } from './gated-deepseek-client.js';
 import { copy, fail } from './store.js';
@@ -16,7 +18,8 @@ export class BudgetedNightvoyage extends Nightvoyage {
   }
   initialRunMetadata() {
     return {billingAllowanceId:this.allowanceId,billingProtocolVersion:this.client.protocolVersion,
-      ...(this.client.protocol!=='grounded-wake-v2'?{appraisalProtocolVersion:this.client.protocolVersion}:{})};
+      ...(this.client.protocol!=='grounded-wake-v2'?{appraisalProtocolVersion:this.client.protocolVersion}:{}),
+      ...(this.client.protocol==='coupled-affect-v1'?{normalizationPolicyVersion:'validated-unused-quotation-pruning-v1',affectEncodingVersion:'explicit-affect-union-v1'}:{})};
   }
   start(requestId,sessionId,input,settings={}) {
     const pricing = this.client.ledger.account(this.allowanceId).allowance.pricing;
@@ -32,6 +35,10 @@ export class BudgetedNightvoyage extends Nightvoyage {
     const r=this.run(id),version=r.billingProtocolVersion??r.appraisalProtocolVersion??protocolVersion;
     if (r.billingAllowanceId!==this.allowanceId||version!==this.client.protocolVersion||
         (this.client.protocol!=='grounded-wake-v2'&&r.appraisalProtocolVersion!==this.client.protocolVersion)) fail('billing_run_identity_mismatch');
+    if(this.client.protocolVersion===coupledBudgetVersion){
+      if(r.normalizationPolicyVersion!=='validated-unused-quotation-pruning-v1'||r.affectEncodingVersion!=='explicit-affect-union-v1')fail('billing_run_identity_mismatch');
+      if(r.snapshot&&r.scenes){let before=r.snapshot.channels.affect.value??neutral();for(const scene of r.scenes){before=normalizeBudgetCoupledCheckpoint(scene,before).after;}}
+    }
   }
   execute(id) {this.assertRunIdentity(id);return super.execute(id);}
   resume(id,options) {this.assertRunIdentity(id);return super.resume(id,options);}

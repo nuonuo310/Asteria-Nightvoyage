@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "stage": "coupled_budget_core_stub",
+  "baseCommit": "c0ed88a5e10e396a1268b7b523860c1cd46709dd",
+  "protocolVersion": "coupled-affect-quotes-v1",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "fullOuterTests": {
+    "pass": 277,
+    "fail": 0,
+    "skip": 0
+  },
+  "linuxTargetedOuterTests": {
+    "pass": 38,
+    "fail": 0,
+    "skip": 0
+  },
+  "linuxCRLFTargetedOuterTests": {
+    "pass": 38,
+    "fail": 0,
+    "skip": 0
+  },
+  "historicalEntryChildTests": {
+    "pass": 13,
+    "fail": 0,
+    "scope": "inside one wrapper test in each final suite; exact three frozen historical core sources, other sources current"
+  },
+  "newCoupledCoreTests": 22,
+  "nativeWindowsTestsRun": false,
+  "realModelRequests": 0,
+  "actualCredentialRead": false,
+  "userStoreAccess": false,
+  "userHoldMutations": false,
+  "newPaidEntryAvailable": false,
+  "historicalCurrentSourcePinsMatch": false,
+  "historicalProfilePinsRewritten": false,
+  "semanticSupport": "not_assessed",
+  "qualityAssessed": false,
+  "actualProviderFees": "not_assessed",
+  "review": "same-author",
+  "sha256LF": {
+    "src/coupled-affect-protocol.js": "a29727739495a2fad672efd536105f36417c9607110c927beb41d0997f4173a6",
+    "src/budget-ledger.js": "b01649e302f23cffbd581bc2337f12645019480cd818b67a9f14f4e16e62acc4",
+    "src/gated-deepseek-client.js": "61416d3355fe6387b0815474c7e87573a881aba3008bfeef86faa0f699c01a82",
+    "src/budgeted-runtime.js": "1c23e4d40d681e22f1bd11f16ceb34ace518206522d70a699725fe83b3eb9d3a",
+    "src/appraisal-view.js": "bb09fa989f78227285f8d46e69a2287e2ef7796f4fbcf60594aa4400cfbc58f3",
+    "scripts/check-coupled-budget.mjs": "cb348902acb1548a6bf58d9afc34f8e9446a993d267974f32aabc302595a2a74",
+    "test/coupled-budget.test.js": "a66edc166fd05852181190940badab3cc8426ba753f54c4a89d240f77900d5bf",
+    "test-support/frozen-pruned-project.js": "4bf6a5b3c8f0e34a96803d73b82c415278d5d038147068811eb16223e9163b7b",
+    "docs/validation/coupled-budget-linux.txt": "bf2c1d98f73aa93b89b3e7b08d0f3bcc3978a08d0c9596c28eddb163a23c0fe1",
+    "docs/validation/coupled-budget-crlf.txt": "136aa793936847b5bb000358df70f0dfb4d813adc2b4a4f3db14ddc9fdf45ea0",
+    "docs/validation/coupled-budget-targeted.txt": "8eef03766f0cf725d5e841a4f3ba8502600488e5211c7576e1272546cec50100",
+    "docs/validation/coupled-budget-script.json": "62caee3721f3bc10dffd9887ca361ae2cbc02b49cb2da593e16096e99ec4314b"
+  }
+}

@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
-import { prunedV2TrialProposal } from '../src/pruned-v2-trial-config.js';
+import { prunedV2SourcePinsMatch } from '../src/pruned-v2-trial-config.js';
+import { prunedV2ReviewedProposal } from '../src/pruned-v2-reviewed-profile.js';
 import os from 'node:os';
 import path from 'node:path';
 import { CoupledAffectRehearsal, coupledAffectVersion } from '../src/coupled-affect-offline.js';
@@ -24,9 +25,9 @@ try {
   engine.close();engine=new CoupledAffectRehearsal(directory,{model:'deepseek-flash',simulator});
   const before=calls;await engine.execute(id);const view=readAppraisalView(engine.store,packet.dream.id),recall=engine.recall('小船','coupled-cue');
   engine.withdraw('q-sparse-memory');const withdrawnView=readAppraisalView(engine.store,packet.dream.id),withdrawnRecall=engine.recall('小船','coupled-cue');
-  assert.equal(status.status,'completed');assert.equal(calls,3);assert.equal(calls-before,0);assert.equal(view.status,'available');assert.equal(recall.length,1);assert.equal(withdrawnRecall.length,0);assert.equal(withdrawnView,null);assert.equal(nativeCalls,0);assert.equal(prunedV2TrialProposal().protocolVersion,'compact-appraisal-quotes-v2-pruned-unused');
+  assert.equal(status.status,'completed');assert.equal(calls,3);assert.equal(calls-before,0);assert.equal(view.status,'available');assert.equal(recall.length,1);assert.equal(withdrawnRecall.length,0);assert.equal(withdrawnView,null);assert.equal(nativeCalls,0);assert.equal(prunedV2ReviewedProposal().protocolVersion,'compact-appraisal-quotes-v2-pruned-unused');
   console.log(JSON.stringify({command:'node scripts/check-coupled-affect-offline.mjs',node:process.version,platform:process.platform,protocolVersion:coupledAffectVersion,
-    status:status.status,fakeStageCalls:calls,realModelRequests:nativeCalls,liveSourcePinsUnchanged:true,recallCandidates:recall.length,recallOrigin:recall[0].origin,recallIsRealityFact:recall[0].isRealityFact,withdrawnRecallCount:withdrawnRecall.length,reopened:true,duplicateCalls:calls-before,normalizationAudits:audits,affectDeclarations:packet.dream.scenes.map(s=>s.affectDeclaration),
+    status:status.status,fakeStageCalls:calls,realModelRequests:nativeCalls,liveSourcePinsUnchanged:prunedV2SourcePinsMatch(),recallCandidates:recall.length,recallOrigin:recall[0].origin,recallIsRealityFact:recall[0].isRealityFact,withdrawnRecallCount:withdrawnRecall.length,reopened:true,duplicateCalls:calls-before,normalizationAudits:audits,affectDeclarations:packet.dream.scenes.map(s=>s.affectDeclaration),
     typedViewAvailable:view.status==='available',absentControlValue:view.scenes[0].control.value,withdrawalViewNull:withdrawnView===null,
     originalSourceGrantsNoEgress:seed.sources.every(s=>s.grant.modelEgress===false),liveProtocolEnabled:false,semanticSupport:'not_assessed',qualityAssessed:false},null,2));
 }finally{engine?.close();fs.rmSync(directory,{recursive:true,force:true});}
