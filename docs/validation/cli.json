@@ -1,0 +1,10 @@
+{
+  "command": "node src/cli.js <external-temp-directory> demo (twice), recall lantern, withdraw fiction-paper, list",
+  "exitCode": 0,
+  "completed": true,
+  "sameRunOnReplay": true,
+  "callsAfterReplay": 3,
+  "typedDreamRecall": true,
+  "entriesAfterWithdrawal": 0,
+  "dataDirectoryRemovedAfterCheck": true
+}
