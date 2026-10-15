@@ -31,4 +31,6 @@ The first user-local three-run fictional trial is complete (reported nine calls;
 
 [Dream-quality evaluation plan](docs/QUALITY-EVALUATION.md): six independently authored fictional inputs, an offline checker and a blank human-review template. Inputs deny model egress by default; no new live evaluation is enabled.
 
-[Three-case evaluation entry](docs/QUALITY-BATCH-ENTRY.md) pins the selected fictional inputs and protocol, keeps a separate immutable three-run/nine-call allowance, and stops on unresolved attempts. It is implemented with offline simulator evidence only; new fixture egress and spending still require approval. Start with `node src/quality-cli.js preflight` without a key.
+[Three-case evaluation entry](docs/QUALITY-BATCH-ENTRY.md) pins the selected fictional inputs and protocol, keeps a separate immutable three-run/nine-call allowance, and stops on unresolved attempts. It was prepared with offline simulator evidence before the separate egress and spending approval below. Its approved batch is now complete; `node src/quality-cli.js preflight` needs no key.
+
+The user subsequently approved and reported completion of that three-case live screen: nine settled calls, then the call cap blocked further generation. [Limited quality review](docs/QUALITY-SCREEN-REVIEW.md) records grounded excerpts alongside remaining appraisal, viewpoint and excerpt-selection concerns. General dream quality remains unaccepted; no further paid run is approved.

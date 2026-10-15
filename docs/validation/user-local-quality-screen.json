@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "evidenceKind": "user_reported_terminal_output_and_same_author_content_review",
+  "independentlyObserved": false,
+  "platform": "win32",
+  "entryMergeCommit": "75babad9bf2ba446b7330cc4967cc6d63920fb71",
+  "userCheckoutIndependentlyVerified": false,
+  "reportedOfflineTests": { "passed": 103, "failed": 0, "skipped": 0 },
+  "approval": {
+    "batchId": "quality-screen-20261015",
+    "fictionalEgressApproved": true,
+    "additionalBudgetCny": 3,
+    "maxRuns": 3,
+    "maxCalls": 9,
+    "cases": ["courtyard-cloth", "drawer-and-orbit", "sparse-context"],
+    "privateMaterialApproved": false,
+    "priorAccountingReset": false
+  },
+  "results": [
+    { "caseId": "courtyard-cloth", "status": "completed", "scenes": 2, "calls": 3, "settledCalls": 3, "inputTokens": 1947, "outputTokens": 241, "heldOrSpentMicroCny": "5822", "wakeExcerptMatchesReferencedScene": true },
+    { "caseId": "drawer-and-orbit", "status": "completed", "scenes": 2, "calls": 3, "settledCalls": 3, "inputTokens": 1811, "outputTokens": 221, "heldOrSpentMicroCny": "5390", "wakeExcerptMatchesReferencedScene": true },
+    { "caseId": "sparse-context", "status": "completed", "scenes": 2, "calls": 3, "settledCalls": 3, "inputTokens": 1882, "outputTokens": 289, "heldOrSpentMicroCny": "6076", "wakeExcerptMatchesReferencedScene": true }
+  ],
+  "batchTotals": { "calls": 9, "runs": 3, "inputTokens": 5640, "outputTokens": 751, "heldOrSpentMicroCny": "17288" },
+  "allAllowanceTotals": { "calls": 21, "runs": 7, "heldOrSpentMicroCny": "36940" },
+  "finalPreflight": { "ready": false, "reason": "call_limit_reached", "credentialRead": false },
+  "providerInvoiceVerified": false,
+  "humanReviewStatus": "limited_review_with_concerns",
+  "generalQualityAccepted": false,
+  "nextPaidRunApproved": false,
+  "runtimeJournalPublished": false,
+  "rawUserTranscriptPublished": false,
+  "generatedNarrativePublished": false,
+  "credentialReceived": false
+}
