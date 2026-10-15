@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "evidenceKind": "user_report",
+  "date": "2026-10-15",
+  "batchId": "pruned-v2-dream-trial-20261015",
+  "caseId": "sparse-context",
+  "protocolVersion": "compact-appraisal-quotes-v2-pruned-unused",
+  "approval": {
+    "additionalMaxCny": 3,
+    "maxRuns": 1,
+    "maxCalls": 3,
+    "fictionalFixtureEgress": true,
+    "preserveTwoPriorUnknownHolds": true
+  },
+  "materialKind": "fictional",
+  "generatedEventOrigin": "dream",
+  "isRealityFact": false,
+  "reportedOutcome": {
+    "status": "failed",
+    "stagesSaved": 0,
+    "dreamPublished": false,
+    "wakePublished": false,
+    "appraisalViewPublished": false,
+    "ledgerAttempts": 1,
+    "engineCommittedAttempts": 0,
+    "error": "compact_appraisal_invalid",
+    "validationDiagnostic": {
+      "schemaVersion": 1,
+      "protocolVersion": "compact-appraisal-quotes-v2-pruned-unused",
+      "stage": "scene",
+      "check": "affect_change_requires_evidence"
+    },
+    "billingStatus": "unknown",
+    "reservedMicroCny": "2203200",
+    "chargedOrHeldMicroCny": "2203200",
+    "usageKnown": false,
+    "pruningOccurred": "not_established",
+    "rejectedBodyAvailable": false
+  },
+  "postRunPreflight": {
+    "ready": false,
+    "reason": "unsettled_attempt_requires_review",
+    "credentialRead": false
+  },
+  "preservedPriorUnknowns": {
+    "calls": 2,
+    "runs": 2,
+    "heldOrSpentMicroCny": "4406400"
+  },
+  "allAllowances": {
+    "calls": 24,
+    "runs": 10,
+    "heldOrSpentMicroCny": "6646540"
+  },
+  "allUnknownHoldsMicroCny": "6609600",
+  "earlierSettledLedgerMicroCny": "36940",
+  "providerInvoiceVerified": false,
+  "semanticSupport": "not_assessed",
+  "qualityAssessed": false,
+  "exactCheckoutIndependentlyVerified": false,
+  "rawTranscriptPublished": false
+}

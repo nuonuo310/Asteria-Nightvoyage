@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "evidenceKind": "user_report",
+  "date": "2026-10-15",
+  "reportedPlatform": "Windows PowerShell",
+  "tests": 13,
+  "passed": 13,
+  "failed": 0,
+  "cancelled": 0,
+  "skipped": 0,
+  "todo": 0,
+  "durationMs": 6211.0721,
+  "preflight": {
+    "reason": "pruned_v2_approval_required",
+    "credentialRead": false,
+    "fixtureEgressApproved": false,
+    "paidEvaluationApproved": false,
+    "sourcePinsMatchPreparedProposal": true
+  },
+  "exactCheckoutIndependentlyVerified": false,
+  "nodeVersion": "not_in_this_excerpt",
+  "scope": "13 new entry tests only; not Windows full 214 suite",
+  "rawTranscriptPublished": false,
+  "qualityAssessed": false
+}
