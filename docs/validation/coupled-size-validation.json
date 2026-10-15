@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "phase": "offline-size-audit-and-budget-design",
+  "platform": "Linux",
+  "node": "v24.19.0",
+  "newTests": 8,
+  "linuxLF": {
+    "passed": 27,
+    "failed": 0,
+    "skipped": 0,
+    "scope": [
+      "test/coupled-size-review.test.js",
+      "test/coupled-affect-offline.test.js"
+    ],
+    "fullSuite": false
+  },
+  "temporaryLinuxCRLF": {
+    "passed": 8,
+    "failed": 0,
+    "skipped": 0,
+    "scope": [
+      "test/coupled-size-review.test.js"
+    ],
+    "nativeWindows": false
+  },
+  "development": "Initial script assumed 250 astral characters exceeded the byte limit; measurement showed exactly 1200. Kept exact-boundary case and added 251 characters (1204 bytes). Intermediate 7-test audit plus 19 loop tests passed 26/26 before adding isolated source-drift read probe.",
+  "historicalPinProbe": {
+    "temporarySourceCopy": true,
+    "syntheticConfigurationOnly": true,
+    "readBeforeSourceDrift": true,
+    "readAfterSourceDriftBlocked": true,
+    "userStoreOpened": false,
+    "workingTreePinnedSourcesModified": false
+  },
+  "realModelRequests": 0,
+  "runtimeSourceChanges": false,
+  "allowanceOrHoldChanges": false,
+  "semanticSupport": "not_assessed",
+  "modelComplianceImproved": "not_assessed",
+  "qualityAssessed": false,
+  "review": "same-author",
+  "sourceSha256": {
+    "src/coupled-size-review.js": "2feeb9402ce399ebfa3c0348b8f9ca5c81893ad173579f71d0a6be05654dfab1",
+    "scripts/audit-coupled-affect-size.mjs": "182a8b7e81b1d0aedbf4e5cb862f765e310a2b9353bef3535cd4b466f3b713c3",
+    "test/coupled-size-review.test.js": "bf9c8694d8a331edb5e55d2f2dce9e77254c0b983b31294e358cb73606749287"
+  }
+}

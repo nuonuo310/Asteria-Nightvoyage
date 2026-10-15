@@ -1,0 +1,16 @@
+✔ coupled size audit measures bytes, leaves scripted inputs/grants unchanged and returns no narrative (61.607338ms)
+✔ coupled exact 1200-byte output passes and 1201 fails without affecting shape validity (24.764591ms)
+✔ individually valid maximal quotation table can exceed the unchanged response bound (19.67373ms)
+✔ JSON escapes and astral UTF-8 are measured in serialized bytes rather than character count (13.362043ms)
+✔ synthetic large fictional request explicitly requires a future gated pre-reservation byte guard (13.154927ms)
+✔ size audit refuses real, unmarked, egress-enabled or unsafe scripted inputs (3.923704ms)
+✔ independent byte audit command dispatches nothing and verifies existing live source pins (425.523093ms)
+✔ isolated source-drift probe reproduces old configuration read coupling without opening a user Store (1452.839076ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2377.281054

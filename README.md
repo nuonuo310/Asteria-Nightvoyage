@@ -10,6 +10,8 @@ An [independent v2 candidate](docs/COMPACT-V2-OFFLINE.md) now supports simulator
 
 [Coupled-affect simulator loop](docs/COUPLED-AFFECT-OFFLINE.md) now saves explicit branch declarations, validates checkpoints/read views and tests cancellation/withdrawal. Run `node scripts/check-coupled-affect-offline.mjs` without a key. No coupled live selector or paid trial exists.
 
+[Coupled size and budget design review](docs/COUPLED-SIZE-AND-BUDGET-DESIGN.md) measures byte boundaries and reproduces historical-config/source-pin read coupling in an isolated copy. Budget integration is still pending; the Windows standalone fake loop is user-reported complete.
+
 Experimental standalone dream layer: fictional input snapshots → two scenes with simulated affect → a separate wake record and decaying residue → typed cue-recall candidates.
 
 Requires Node.js 24+. No packages, credentials or network model calls are needed.

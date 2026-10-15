@@ -35,3 +35,5 @@ node scripts/check-coupled-affect-offline.mjs
 ```
 
 这些都是独立虚构脚本，不证明真实模型更少遗漏、引文语义支持、真实情绪、400-token 实际可装下所有合法情况或梦境质量。没有打开用户梦簿/账本、复制第三方实现、新依赖或跨仓库写入；全为本项目 MIT 模块。Asteria 适配器待对接。下一步先核对候选的请求/大小边界与预算集成设计，再决定是否值得准备新的门控入口；现在不发真实试跑命令。
+
+后续 Windows 独立脚本 happy path 已由用户报告完成，聚合见 `docs/validation/user-local-coupled-affect-offline.json`；不扩展为完整 Windows 测试报告。[大小边界与预算设计](COUPLED-SIZE-AND-BUDGET-DESIGN.md)已给出实际边界探针和历史读取耦合复现，尚未实施新的预算协议。

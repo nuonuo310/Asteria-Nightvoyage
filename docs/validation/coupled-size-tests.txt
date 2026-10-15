@@ -1,0 +1,35 @@
+✔ coupled preserves event, numbers and linked evidence while stamping program-owned pruning counts (69.559678ms)
+✔ coupled audit is idempotent across checkpoints and rejects forged counts, versions and extra fields (32.645443ms)
+✔ coupled never conceals malformed unused quotes and still enforces later missing-basis rules (29.459811ms)
+✔ coupled request stays bounded and validates distinct checkpoints without changing live source pins (38.254533ms)
+✔ coupled cannot run without explicit local simulator and rejects malformed responses with no repair call (55.34402ms)
+✔ coupled full fictional loop persists audit and view, reopens with no replay calls and preserves original during append (59.570564ms)
+✔ coupled cancellation suppresses late simulator output and wake never invents an aftermath (47.94594ms)
+✔ coupled withdrawal removes scenes, nested audit/evidence, view and recall after reopening (31.986206ms)
+✔ coupled rejects cross-version execute/resume and cannot read a tampered audit from a managed dream (29.16369ms)
+✔ coupled actual child exit after scene checkpoint resumes remaining fake stages without regenerating it (851.020279ms)
+✔ coupled save failure cannot publish a dream or partially persisted normalization audit (7.869042ms)
+✔ coupled offline command reports fake-only persistence, explicit audit counts, no duplicates and withdrawal (272.516471ms)
+✔ coupled branch declarations cannot be forged or silently change on checkpoint/view reads (16.007388ms)
+✔ coupled request supplies only the paired wire example and validates source/policy before dispatch (0.919349ms)
+✔ coupled raw response byte and output token limits reject before publishing or repairing (7.20949ms)
+✔ coupled cancellation before dispatch and call budget do not create extra stages (10.96476ms)
+✔ coupled withdrawal in flight and deletion remove declaration/evidence/recall bodies (33.60537ms)
+✔ actual coupled process exit after dispatch reopens uncertain without automatic or unapproved resume calls (255.924874ms)
+✔ coupled timeout discards delayed response and cancel after a saved scene prevents wake dispatch (12.751718ms)
+✔ coupled size audit measures bytes, leaves scripted inputs/grants unchanged and returns no narrative (131.225799ms)
+✔ coupled exact 1200-byte output passes and 1201 fails without affecting shape validity (33.834091ms)
+✔ individually valid maximal quotation table can exceed the unchanged response bound (58.212782ms)
+✔ JSON escapes and astral UTF-8 are measured in serialized bytes rather than character count (25.755892ms)
+✔ synthetic large fictional request explicitly requires a future gated pre-reservation byte guard (51.946458ms)
+✔ size audit refuses real, unmarked, egress-enabled or unsafe scripted inputs (7.448088ms)
+✔ independent byte audit command dispatches nothing and verifies existing live source pins (735.106714ms)
+✔ isolated source-drift probe reproduces old configuration read coupling without opening a user Store (223.422178ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2895.930343

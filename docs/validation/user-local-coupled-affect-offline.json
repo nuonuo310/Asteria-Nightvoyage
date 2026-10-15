@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "evidenceKind": "user_report",
+  "date": "2026-10-15",
+  "command": "node scripts/check-coupled-affect-offline.mjs",
+  "node": "v24.19.0",
+  "platform": "win32",
+  "protocolVersion": "offline-coupled-affect-quotes-v1",
+  "status": "completed",
+  "fakeStageCalls": 3,
+  "realModelRequests": 0,
+  "liveSourcePinsUnchanged": true,
+  "recallCandidates": 1,
+  "recallOrigin": "dream",
+  "recallIsRealityFact": false,
+  "withdrawnRecallCount": 0,
+  "reopened": true,
+  "duplicateCalls": 0,
+  "auditCounts": [
+    {
+      "received": 1,
+      "kept": 0,
+      "discarded": 1
+    },
+    {
+      "received": 5,
+      "kept": 4,
+      "discarded": 1
+    }
+  ],
+  "affectDeclarations": [
+    "unchanged",
+    "estimated"
+  ],
+  "typedViewAvailable": true,
+  "absentControlValue": null,
+  "withdrawalViewNull": true,
+  "originalSourceGrantsNoEgress": true,
+  "liveProtocolEnabled": false,
+  "semanticSupport": "not_assessed",
+  "qualityAssessed": false,
+  "scope": "standalone happy path only; not Windows 252-test or fault suite",
+  "exactCheckoutIndependentlyVerified": false,
+  "rawTranscriptPublished": false
+}
