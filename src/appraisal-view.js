@@ -2,6 +2,7 @@
 import { Store, copy, fail } from './store.js';
 import { hash, neutral, own, safeId } from './contract.js';
 import { normalizeAppraisalScene, appraisalProtocolVersion } from './appraisal-rehearsal.js';
+import { normalizeCompactCheckpoint, compactProtocolVersion } from './compact-appraisal-protocol.js';
 
 export const appraisalViewVersion = 'appraisal-read-view-v1';
 const unknown = () => ({status:'not_stated',value:null,evidence:null});
@@ -20,12 +21,12 @@ export function readAppraisalView(store,entryId) {
   // A derived read is stamped from the managed parent, not caller-provided metadata.
   const envelope={schemaVersion:1,viewVersion:appraisalViewVersion,origin:'dream_appraisal_view',materialKind:'fictional',isRealityFact:false,
     sourceRefs:copy(entry.sourceRefs),derivedFrom:[entry.id],semanticSupport:'not_assessed'};
-  if (run.appraisalProtocolVersion!==appraisalProtocolVersion) return {...envelope,status:'unsupported_protocol',scenes:[]};
+  if (![appraisalProtocolVersion,compactProtocolVersion].includes(run.appraisalProtocolVersion)) return {...envelope,status:'unsupported_protocol',scenes:[]};
   if (run.status!=='completed'||!run.snapshot||!entry.scenes?.length||hash(run.scenes)!==hash(entry.scenes)||
       hash(entry.sourceRefs)!==hash(run.snapshot.sources.map(s=>({id:s.id,version:s.version})))) fail('invalid_appraisal_view_record');
   let before=run.snapshot.channels.affect.value??neutral();
   const scenes=entry.scenes.map((saved,sceneIndex)=>{
-    const normalized=normalizeAppraisalScene({...saved,basis:saved.appraisalBasis?.evidence},before);
+    const normalized=run.appraisalProtocolVersion===compactProtocolVersion?normalizeCompactCheckpoint(saved,before):normalizeAppraisalScene({...saved,basis:saved.appraisalBasis?.evidence},before);
     if (hash(normalized)!==hash(saved)) fail('invalid_appraisal_view_record');
     before=normalized.after;
     const e=normalized.appraisalBasis.evidence;
@@ -36,5 +37,5 @@ export function readAppraisalView(store,entryId) {
       affectChange:e.affectExcerpt===null?unknown():estimate(normalized.delta,e.affectExcerpt),
       appliedAffect:{origin:'simulated_affect',isRealityFact:false,before:copy(normalized.before),delta:copy(normalized.delta),after:copy(normalized.after)}};
   });
-  return {...envelope,status:'available',protocolVersion:appraisalProtocolVersion,scenes};
+  return {...envelope,status:'available',protocolVersion:run.appraisalProtocolVersion,scenes};
 }

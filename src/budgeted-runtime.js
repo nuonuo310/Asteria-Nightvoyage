@@ -5,22 +5,36 @@ import { protocolVersion } from './deepseek-protocol.js';
 
 // Same dream core and journal. Only stage dispatch/publication differs from fake mode.
 export class BudgetedNightvoyage extends Nightvoyage {
-  constructor(directory, { allowance, credential, enabled = false, mode = 'disabled', fetchImpl, timeoutMs = 60000, fault = () => {} } = {}) {
+  constructor(directory, { allowance, credential, enabled = false, mode = 'disabled', fetchImpl, timeoutMs = 60000, fault = () => {}, protocol = 'grounded-wake-v2' } = {}) {
     super(directory,{fault});
     try {
-      this.client = new GatedDeepSeekClient(this.store,{enabled,mode,fetchImpl,timeoutMs,fault});
+      this.client = new GatedDeepSeekClient(this.store,{enabled,mode,fetchImpl,timeoutMs,fault,protocol});
       this.client.ledger.approve(allowance);
       this.allowanceId = allowance.id; this.credential = credential;
-      this.provider.identity = `${protocolVersion}:${mode}:${allowance.id}:${allowance.pricing.model}`;
+      this.provider.identity = `${this.client.protocolVersion}:${mode}:${allowance.id}:${allowance.pricing.model}`;
     } catch (e) { this.store.close(); throw e; }
+  }
+  initialRunMetadata() {
+    return {billingAllowanceId:this.allowanceId,billingProtocolVersion:this.client.protocolVersion,
+      ...(this.client.protocol==='compact-appraisal-v1'?{appraisalProtocolVersion:this.client.protocolVersion}:{})};
   }
   start(requestId,sessionId,input,settings={}) {
     const pricing = this.client.ledger.account(this.allowanceId).allowance.pricing;
     // Input is bounded by reviewed provider context; never use the fake byte estimate.
     if (settings.perCallOutput !== undefined && settings.perCallOutput !== 400) fail('unsupported_live_output_limit');
     const id = super.start(requestId,sessionId,input,{inputTokens:pricing.contextTokenLimit*3,timeoutMs:60000,...settings});
-    this.run(id).billingAllowanceId = this.allowanceId; this.store.save(); return id;
+    this.run(id).billingAllowanceId = this.allowanceId;
+    this.run(id).billingProtocolVersion=this.client.protocolVersion;
+    if (this.client.protocol==='compact-appraisal-v1') this.run(id).appraisalProtocolVersion=this.client.protocolVersion;
+    this.store.save(); return id;
   }
+  assertRunIdentity(id) {
+    const r=this.run(id),version=r.billingProtocolVersion??r.appraisalProtocolVersion??protocolVersion;
+    if (r.billingAllowanceId!==this.allowanceId||version!==this.client.protocolVersion||
+        (this.client.protocol==='compact-appraisal-v1'&&r.appraisalProtocolVersion!==this.client.protocolVersion)) fail('billing_run_identity_mismatch');
+  }
+  execute(id) {this.assertRunIdentity(id);return super.execute(id);}
+  resume(id,options) {this.assertRunIdentity(id);return super.resume(id,options);}
   async stage(r,stage,signal) {
     const rows = this.client.ledger.status(this.allowanceId).attempts.filter(t=>t.runId===r.id);
     const requestId = `stage-${r.id}-${stage}-${r.scenes.length}`;

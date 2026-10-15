@@ -8,6 +8,7 @@ export class Nightvoyage {
     this.store = new Store(directory); this.provider = provider; this.fault = fault; this.active = new Map();
   }
   run(id) { this.store.assert(); return own(this.store.state.runs, id) ?? fail('unknown_run'); }
+  initialRunMetadata() { return {}; }
   start(requestId, sessionId, input, settings) {
     this.store.assert();
     if (![requestId,sessionId].every(safeId)) fail('invalid_request_id');
@@ -20,7 +21,7 @@ export class Nightvoyage {
     const id = existing ?? randomUUID();
     this.store.state.requests[requestId] = { fingerprint, runId: id };
     this.store.state.sessions[fingerprint] = id;
-    if (!existing) this.store.state.runs[id] = { id, status: snap.channels.memory.availability === 'present' ? 'queued' : 'skipped', snapshot: snap, config: cfg, sourceIds: snap.sources.map(s => s.id), scenes: [], attempts: [], budget: { calls: 0, input: 0, output: 0 } };
+    if (!existing) this.store.state.runs[id] = { id, status: snap.channels.memory.availability === 'present' ? 'queued' : 'skipped', snapshot: snap, config: cfg, sourceIds: snap.sources.map(s => s.id), scenes: [], attempts: [], budget: { calls: 0, input: 0, output: 0 }, ...this.initialRunMetadata() };
     this.store.save(); return id;
   }
   status(id) {
@@ -58,7 +59,7 @@ export class Nightvoyage {
       if (r.status === 'running') await this.wakeStep(r, controller.signal);
     } catch (error) {
       if (this.store.poisoned) throw error;
-      if (r.status === 'running') { r.status = ['simulated_crash','ambiguous_attempt'].includes(error.message) ? 'uncertain' : 'failed'; r.error = ['budget_exhausted','timeout','invalid_scene','invalid_affect','invalid_appraisal','invalid_wake','wake_fragment_not_grounded','simulated_crash','ambiguous_attempt','allowance_exhausted','allowance_expired','source_egress_denied_or_withdrawn','provider_authentication_failed','provider_rate_limited','provider_http_failure','request_failed'].includes(error.message) ? error.message : 'provider_or_validation_failure'; this.store.save(); }
+      if (r.status === 'running') { r.status = ['simulated_crash','ambiguous_attempt'].includes(error.message) ? 'uncertain' : 'failed'; r.error = ['compact_appraisal_invalid','budget_exhausted','timeout','invalid_scene','invalid_affect','invalid_appraisal','invalid_wake','wake_fragment_not_grounded','simulated_crash','ambiguous_attempt','allowance_exhausted','allowance_expired','source_egress_denied_or_withdrawn','provider_authentication_failed','provider_rate_limited','provider_http_failure','request_failed'].includes(error.message) ? error.message : 'provider_or_validation_failure'; this.store.save(); }
     } finally { this.active.delete(id); }
     return this.status(id);
   }

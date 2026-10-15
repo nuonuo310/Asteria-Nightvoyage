@@ -1,0 +1,50 @@
+{
+  "command": "node scripts/check-compact-appraisal.mjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "protocolVersion": "compact-appraisal-quotes-v1",
+  "providerOutputTokenCap": 400,
+  "responseByteSafetyCeiling": 1200,
+  "actualModelTokenCount": null,
+  "units": "UTF-8 JSON bytes; not model tokens",
+  "realModelRequests": 0,
+  "stubCalls": 3,
+  "stubSettledCalls": 3,
+  "reopened": true,
+  "duplicateCalls": 0,
+  "typedAppraisalView": true,
+  "qualityAssessed": false,
+  "sizes": [
+    {
+      "id": "ordinary-no-goal",
+      "expandedJsonBytes": 255,
+      "compactJsonBytes": 248,
+      "savedBytes": 7
+    },
+    {
+      "id": "stated-goal-hindered",
+      "expandedJsonBytes": 509,
+      "compactJsonBytes": 441,
+      "savedBytes": 68
+    },
+    {
+      "id": "stated-goal-helped",
+      "expandedJsonBytes": 492,
+      "compactJsonBytes": 413,
+      "savedBytes": 79
+    },
+    {
+      "id": "affect-without-goal",
+      "expandedJsonBytes": 353,
+      "compactJsonBytes": 349,
+      "savedBytes": 4
+    }
+  ],
+  "sharedBoundaryProbe": {
+    "kind": "synthetic_literal_boundary_only",
+    "expandedJsonBytes": 1384,
+    "compactJsonBytes": 575,
+    "quoteTableEntries": 1,
+    "semanticSupport": "not_assessed"
+  }
+}
