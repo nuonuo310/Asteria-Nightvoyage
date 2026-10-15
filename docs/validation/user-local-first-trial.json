@@ -1,0 +1,37 @@
+{
+  "evidenceKind": "user_reported_terminal_output",
+  "date": "2026-10-15",
+  "testedRemoteHead": "036f51e7bff84d64b9f1c3e750bc62a2fcbb7381",
+  "windowsTests": {
+    "passed": 78,
+    "failed": 0,
+    "skipped": 0
+  },
+  "preflightBeforeRun": {
+    "ready": true,
+    "credentialRead": false,
+    "maxCny": 3,
+    "calls": 0,
+    "runs": 0
+  },
+  "reportedLiveResult": {
+    "status": "completed",
+    "scenesSaved": 2,
+    "wakePresent": true,
+    "calls": 3,
+    "allBillingRowsSettled": true,
+    "inputTokens": 1526,
+    "outputTokens": 251,
+    "ledgerMicroCny": 5060,
+    "ledgerIsProviderInvoice": false,
+    "materialKind": "fictional",
+    "origin": "dream",
+    "isRealityFact": false,
+    "associationsCount": 0
+  },
+  "credentialReceivedByWorkspace": false,
+  "rawTranscriptOrJournalPublished": false,
+  "independentProviderVerification": false,
+  "generalQualityAccepted": false,
+  "reopenReplayAndCueRecall": "pending"
+}
