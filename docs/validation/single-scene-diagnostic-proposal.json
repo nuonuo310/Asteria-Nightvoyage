@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "batchId": "compact-single-scene-diagnostic-20261015",
+  "protocolVersion": "compact-appraisal-quotes-v1",
+  "protocolSourcePins": {
+    "compact-appraisal-protocol.js": "935762c0e5961b0abcd38d0d5a959ff40ebd97e051a1236e57c7ab3fb8118e34",
+    "appraisal-rehearsal.js": "361f2a81e4dc63ca7f6f138032fc65d649e53f1b3039cd0841f614396d1cc23f",
+    "deepseek-protocol.js": "0f8471c69f170ec74880ef0e7deef8889df8a3b12e6e86c0aea2b13fcefa681e",
+    "validation-diagnostic.js": "931a0bd25e03755570a8931fc5efa4d25a2c2548b164ede0051b005b17d9c0be"
+  },
+  "caseId": "sparse-context",
+  "fixtureSha256": "66a19f5968bc0bb60c8ff4918d6e57e223b008329c2a7028f3ac478cb6256d10",
+  "sourceRefs": [
+    {
+      "id": "q-sparse-memory",
+      "version": "1"
+    }
+  ],
+  "model": "deepseek-flash",
+  "expiresAt": 1792152600000,
+  "proposedAdditionalBudgetCny": 3,
+  "maxAdditionalRuns": 1,
+  "maxAdditionalCalls": 1,
+  "perCallOutputTokens": 400,
+  "fixtureEgressApproved": false,
+  "paidEvaluationApproved": false,
+  "qualityAssessed": false,
+  "kind": "single_scene_protocol_diagnostic",
+  "persistsGeneratedBody": false,
+  "continuesPriorRun": false,
+  "diagnosesDiscardedPriorResponse": false
+}
