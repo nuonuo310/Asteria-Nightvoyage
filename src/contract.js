@@ -1,6 +1,8 @@
 import { createHash } from 'node:crypto';
 import { fail, copy } from './store.js';
 export const hash = value => createHash('sha256').update(JSON.stringify(value)).digest('hex');
+export const own = (obj, key) => Object.hasOwn(obj, key) ? obj[key] : undefined;
+export const safeId = value => typeof value === 'string' && /^[\w-]{1,100}$/.test(value) && !['__proto__','constructor','prototype'].includes(value);
 export const channels = ['memory', 'background', 'affect', 'mind', 'intents'];
 const text = value => typeof value === 'string' && value.length > 0 && value.length <= 20000;
 export function snapshot(input) {
@@ -19,6 +21,10 @@ export function snapshot(input) {
     for (const id of c.sourceIds) { if (!seen.has(id)) fail('unknown_source'); used.add(id); }
     if (c.availability === 'present' && !c.sourceIds.length) fail('empty_present_channel');
     out.channels[key] = { availability: c.availability, sourceIds: [...c.sourceIds] };
+    if (key === 'affect' && c.availability === 'present') {
+      if (!c.value || !Number.isFinite(c.value.valence) || c.value.valence < -1 || c.value.valence > 1 || !Number.isFinite(c.value.arousal) || c.value.arousal < 0 || c.value.arousal > 1) fail('invalid_initial_affect');
+      out.channels[key].value = { valence: c.value.valence, arousal: c.value.arousal };
+    }
   }
   out.sources = input.sources.filter(s => used.has(s.id)).map(s => ({ id: s.id, version: s.version, text: s.text, grant: copy(s.grant) }));
   return out;
@@ -40,7 +46,7 @@ export function scene(raw, before) {
     if (!Number.isFinite(d) || Math.abs(d) > 0.5) fail('invalid_affect');
     delta[key] = d; after[key] = Math.max(key === 'valence' ? -1 : 0, Math.min(1, before[key] + d));
   }
-  return { event: raw.event, appraisal: copy(raw.appraisal), before: copy(before), delta, after };
+  return { event: raw.event, appraisal: { goalEffect: raw.appraisal.goalEffect, control: raw.appraisal.control, uncertainty: raw.appraisal.uncertainty }, before: copy(before), delta, after };
 }
 export function wake(raw) {
   if (!raw || !text(raw.fragment) || !Array.isArray(raw.associations) || raw.associations.length > 1 || raw.associations.some(a => !text(a)) || !Number.isFinite(raw.residue) || raw.residue < 0 || raw.residue > 0.3) fail('invalid_wake');

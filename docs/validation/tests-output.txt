@@ -1,0 +1,190 @@
+TAP version 13
+# Subtest: fictional local loop persists two scenes, wake, empty insight and typed recall
+ok 1 - fictional local loop persists two scenes, wake, empty insight and typed recall
+  ---
+  duration_ms: 22.621379
+  type: 'test'
+  ...
+# Subtest: recollection and imagined continuation never overwrite original
+ok 2 - recollection and imagined continuation never overwrite original
+  ---
+  duration_ms: 13.811934
+  type: 'test'
+  ...
+# Subtest: cherishing, cue access and wake residue are independent
+ok 3 - cherishing, cue access and wake residue are independent
+  ---
+  duration_ms: 8.805483
+  type: 'test'
+  ...
+# Subtest: absent memory skips, unavailable channels do not smuggle content
+ok 4 - absent memory skips, unavailable channels do not smuggle content
+  ---
+  duration_ms: 3.624488
+  type: 'test'
+  ...
+# Subtest: real sources and missing permission are rejected before any call
+ok 5 - real sources and missing permission are rejected before any call
+  ---
+  duration_ms: 3.128971
+  type: 'test'
+  ...
+# Subtest: duplicate requests and sessions do not repeat calls; changed request conflicts
+ok 6 - duplicate requests and sessions do not repeat calls; changed request conflicts
+  ---
+  duration_ms: 20.257999
+  type: 'test'
+  ...
+# Subtest: overlapping execute is refused; cancelling in flight suppresses late body and wake
+ok 7 - overlapping execute is refused; cancelling in flight suppresses late body and wake
+  ---
+  duration_ms: 14.524377
+  type: 'test'
+  ...
+# Subtest: queued cancellation consumes no budget
+ok 8 - queued cancellation consumes no budget
+  ---
+  duration_ms: 3.163811
+  type: 'test'
+  ...
+# Subtest: call timeout aborts cooperative provider and does not save delayed response
+ok 9 - call timeout aborts cooperative provider and does not save delayed response
+  ---
+  duration_ms: 15.960503
+  type: 'test'
+  ...
+# Subtest: budgets bound calls, cumulative input and cumulative output reservations
+ok 10 - budgets bound calls, cumulative input and cumulative output reservations
+  ---
+  duration_ms: 17.775129
+  type: 'test'
+  ...
+# Subtest: failed scene validation retains completed checkpoint and retry respects remaining budget
+ok 11 - failed scene validation retains completed checkpoint and retry respects remaining budget
+  ---
+  duration_ms: 7.694876
+  type: 'test'
+  ...
+# Subtest: process death after dispatch reopens uncertain, never automatically calls again
+ok 12 - process death after dispatch reopens uncertain, never automatically calls again
+  ---
+  duration_ms: 254.30163
+  type: 'test'
+  ...
+# Subtest: persisted scene checkpoint resumes without regenerating that scene
+ok 13 - persisted scene checkpoint resumes without regenerating that scene
+  ---
+  duration_ms: 10.881841
+  type: 'test'
+  ...
+# Subtest: withdrawal purges source text, dream, descendants and cached recalls across restart
+ok 14 - withdrawal purges source text, dream, descendants and cached recalls across restart
+  ---
+  duration_ms: 13.85533
+  type: 'test'
+  ...
+# Subtest: withdrawal during generation aborts and discards late provider output
+ok 15 - withdrawal during generation aborts and discards late provider output
+  ---
+  duration_ms: 7.737718
+  type: 'test'
+  ...
+# Subtest: withdrawal journal survives crash before body purge and startup removes abandoned temp
+ok 16 - withdrawal journal survives crash before body purge and startup removes abandoned temp
+  ---
+  duration_ms: 8.906491
+  type: 'test'
+  ...
+# Subtest: storage failure fails closed; reopening enforces durable withdrawal
+ok 17 - storage failure fails closed; reopening enforces durable withdrawal
+  ---
+  duration_ms: 6.852616
+  type: 'test'
+  ...
+# Subtest: deletion removes dream descendants, run bodies and stale recall delivery
+ok 18 - deletion removes dream descendants, run bodies and stale recall delivery
+  ---
+  duration_ms: 9.022463
+  type: 'test'
+  ...
+# Subtest: second store owner and checkout or symlink storage paths are rejected
+ok 19 - second store owner and checkout or symlink storage paths are rejected
+  ---
+  duration_ms: 1.919064
+  type: 'test'
+  ...
+# Subtest: special object keys cannot act as request, recall or entry records
+ok 20 - special object keys cannot act as request, recall or entry records
+  ---
+  duration_ms: 1.949262
+  type: 'test'
+  ...
+# Subtest: initial affect is supplied explicitly or neutral; model cannot override origin/appraisal fields
+ok 21 - initial affect is supplied explicitly or neutral; model cannot override origin/appraisal fields
+  ---
+  duration_ms: 11.45579
+  type: 'test'
+  ...
+# Subtest: cue replay expires and policy changes cannot re-expose old candidate
+ok 22 - cue replay expires and policy changes cannot re-expose old candidate
+  ---
+  duration_ms: 4.785802
+  type: 'test'
+  ...
+# Subtest: dream-like commands are data and never execute a tool or create tasks
+ok 23 - dream-like commands are data and never execute a tool or create tasks
+  ---
+  duration_ms: 4.218005
+  type: 'test'
+  ...
+# Subtest: deletion journal reapplies after interruption before managed body purge
+ok 24 - deletion journal reapplies after interruption before managed body purge
+  ---
+  duration_ms: 4.154701
+  type: 'test'
+  ...
+# Subtest: cancel after a durable scene prevents subsequent dispatch and resume
+ok 25 - cancel after a durable scene prevents subsequent dispatch and resume
+  ---
+  duration_ms: 3.248503
+  type: 'test'
+  ...
+# Subtest: oversized and malformed outputs cannot publish a dream
+ok 26 - oversized and malformed outputs cannot publish a dream
+  ---
+  duration_ms: 8.174891
+  type: 'test'
+  ...
+# Subtest: stale inputs and withdrawn source identities never enter a new run
+ok 27 - stale inputs and withdrawn source identities never enter a new run
+  ---
+  duration_ms: 2.634289
+  type: 'test'
+  ...
+# Subtest: withdrawal before tombstone persistence fails closed and must be retried after repair
+ok 28 - withdrawal before tombstone persistence fails closed and must be retried after repair
+  ---
+  duration_ms: 7.760346
+  type: 'test'
+  ...
+# Subtest: initial persistence failure does not leave an active execution that prevents close
+ok 29 - initial persistence failure does not leave an active execution that prevents close
+  ---
+  duration_ms: 1.251781
+  type: 'test'
+  ...
+# Subtest: file adapter uses the same normalized contract as direct snapshot input
+ok 30 - file adapter uses the same normalized contract as direct snapshot input
+  ---
+  duration_ms: 8.364861
+  type: 'test'
+  ...
+1..30
+# tests 30
+# suites 0
+# pass 30
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 766.539243

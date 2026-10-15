@@ -1,22 +1,22 @@
 import { randomUUID } from 'node:crypto';
 import { Store, copy, fail } from './store.js';
-import { snapshot, config, hash, neutral, scene, wake } from './contract.js';
+import { snapshot, config, hash, neutral, scene, wake, own, safeId } from './contract.js';
 import { FakeProvider } from './fake-provider.js';
 export class Nightvoyage {
   constructor(directory, { provider = new FakeProvider(), fault = () => {} } = {}) {
     if (!(provider instanceof FakeProvider)) fail('real_provider_not_authorized');
     this.store = new Store(directory); this.provider = provider; this.fault = fault; this.active = new Map();
   }
-  run(id) { this.store.assert(); return this.store.state.runs[id] ?? fail('unknown_run'); }
+  run(id) { this.store.assert(); return own(this.store.state.runs, id) ?? fail('unknown_run'); }
   start(requestId, sessionId, input, settings) {
     this.store.assert();
-    if (![requestId,sessionId].every(v => typeof v === 'string' && /^[\w-]{1,100}$/.test(v))) fail('invalid_request_id');
+    if (![requestId,sessionId].every(safeId)) fail('invalid_request_id');
     const snap = snapshot(input), cfg = config(settings);
     if (snap.sources.some(s => this.store.withdrawn.includes(s.id))) fail('source_withdrawn');
     const fingerprint = hash({ sessionId, snap, cfg, provider: this.provider.identity });
-    const previous = this.store.state.requests[requestId];
+    const previous = own(this.store.state.requests, requestId);
     if (previous) { if (previous.fingerprint !== fingerprint) fail('request_conflict'); return previous.runId; }
-    const existing = this.store.state.sessions[fingerprint];
+    const existing = own(this.store.state.sessions, fingerprint);
     const id = existing ?? randomUUID();
     this.store.state.requests[requestId] = { fingerprint, runId: id };
     this.store.state.sessions[fingerprint] = id;
@@ -44,19 +44,20 @@ export class Nightvoyage {
     if (this.active.has(id)) fail('run_busy');
     if (r.status !== 'queued') return this.status(id);
     const controller = new AbortController(); this.active.set(id, controller);
-    r.status = 'running'; this.store.save();
+    r.status = 'running';
     try {
+      this.store.save();
       while (r.scenes.length < r.config.scenes) {
         const raw = await this.call(r, 'scene', controller.signal);
         if (r.status !== 'running') return this.status(id);
-        const before = r.scenes.at(-1)?.after ?? neutral();
+        const before = r.scenes.at(-1)?.after ?? r.snapshot.channels.affect.value ?? neutral();
         r.scenes.push(scene(raw, before)); this.store.save(); this.fault('scene_saved');
       }
       const raw = await this.call(r, 'wake', controller.signal);
       if (r.status !== 'running') return this.status(id);
       r.wake = wake(raw);
       const entryId = `dream-${id}`;
-      this.store.state.entries[entryId] = { ...this.envelope(r, entryId, 'dream'), scenes: copy(r.scenes), wake: { ...this.envelope(r, `wake-${id}`, 'wake_note'), ...r.wake }, residue: { origin: 'simulated_affect', isRealityFact: false, strength: r.wake.residue, startedAt: Date.now(), durationMs: 3600000 }, cherished: false, recallAccess: 'cue' };
+      this.store.state.entries[entryId] = { ...this.envelope(r, entryId, 'dream'), scenes: copy(r.scenes), wake: { ...this.envelope(r, `wake-${id}`, 'wake_note'), ...r.wake }, residue: { ...this.envelope(r, `residue-${id}`, 'simulated_affect'), strength: r.wake.residue, startedAt: Date.now(), durationMs: 3600000 }, cherished: false, recallAccess: 'cue' };
       r.entryId = entryId; r.status = 'completed'; this.store.save();
     } catch (error) {
       if (this.store.poisoned) throw error;
@@ -66,7 +67,8 @@ export class Nightvoyage {
   }
   async call(r, stage, signal) {
     if (r.status !== 'running' || signal.aborted) fail('cancelled');
-    const payload = { stage, index: r.scenes.length, snapshot: copy(r.snapshot), scenes: copy(r.scenes), signal };
+    const callController = new AbortController();
+    const payload = { stage, index: r.scenes.length, snapshot: copy(r.snapshot), scenes: copy(r.scenes), signal: callController.signal };
     const input = Math.ceil(Buffer.byteLength(JSON.stringify({ ...payload, signal: undefined })) / 3);
     const b = r.budget, c = r.config;
     if (b.calls + 1 > c.maxCalls || b.input + input > c.inputTokens || b.output + c.perCallOutput > c.outputTokens) fail('budget_exhausted');
@@ -75,9 +77,9 @@ export class Nightvoyage {
     r.attempts.push(attempt); this.store.save(); this.fault('dispatched');
     let timer, onAbort;
     const abort = new Promise((_, reject) => {
-      onAbort = () => reject(new Error('cancelled'));
+      onAbort = () => { callController.abort(); reject(new Error('cancelled')); };
       signal.addEventListener('abort', onAbort, { once: true });
-      timer = setTimeout(() => reject(new Error('timeout')), c.timeoutMs);
+      timer = setTimeout(() => { callController.abort(); reject(new Error('timeout')); }, c.timeoutMs);
     });
     try {
       const result = await Promise.race([Promise.resolve().then(() => this.provider.generate(payload)), abort]);
@@ -87,8 +89,8 @@ export class Nightvoyage {
     } finally { clearTimeout(timer); signal.removeEventListener('abort', onAbort); }
   }
   envelope(r, id, origin) { return { schemaVersion: 1, id, runId: r.id, materialKind: r.snapshot.materialKind, origin, isRealityFact: false, sourceRefs: r.snapshot.sources.map(s => ({ id: s.id, version: s.version })), derivedFrom: [r.snapshot.id] }; }
-  read(id) { this.store.assert(); const e = this.store.state.entries[id]; return e ? copy(e) : null; }
-  list() { this.store.assert(); return Object.values(this.store.state.entries).map(e => ({ id: e.id, origin: e.origin, materialKind: e.materialKind, isRealityFact: false })); }
+  read(id) { this.store.assert(); const e = own(this.store.state.entries, id); return e ? copy(e) : null; }
+  list() { this.store.assert(); return Object.values(this.store.state.entries).map(e => ({ schemaVersion: e.schemaVersion, id: e.id, origin: e.origin, materialKind: e.materialKind, isRealityFact: false, sourceRefs: copy(e.sourceRefs), derivedFrom: copy(e.derivedFrom) })); }
   append(id, kind, text) {
     const e = this.read(id); if (!e || e.origin !== 'dream' || !['recollection','imagined_continuation'].includes(kind) || typeof text !== 'string' || !text || text.length > 20000) fail('invalid_append');
     const childId = randomUUID();
@@ -101,28 +103,26 @@ export class Nightvoyage {
   }
   recall(cue, requestId, now = Date.now()) {
     this.store.assert();
-    if (typeof cue !== 'string' || !cue.trim() || cue.length > 200 || typeof requestId !== 'string' || !/^[\w-]{1,100}$/.test(requestId) || !Number.isFinite(now)) fail('invalid_cue');
+    if (typeof cue !== 'string' || !cue.trim() || cue.length > 200 || !safeId(requestId) || !Number.isFinite(now)) fail('invalid_cue');
     const fingerprint = hash(cue.toLowerCase());
-    const previous = this.store.state.recalls[requestId];
+    const previous = own(this.store.state.recalls, requestId);
     if (previous && previous.fingerprint !== fingerprint) fail('recall_conflict');
     let e;
     if (previous) e = this.read(previous.entryId);
     else e = Object.values(this.store.state.entries).find(v => v.origin === 'dream' && v.recallAccess === 'cue' && v.scenes.some(s => s.event.toLowerCase().includes(cue.toLowerCase())));
     if (!previous) { this.store.state.recalls[requestId] = { fingerprint, entryId: e?.id ?? null, expiresAt: now + 60000 }; this.store.save(); }
-    const receipt = this.store.state.recalls[requestId];
+    const receipt = own(this.store.state.recalls, requestId);
     if (!e || e.recallAccess !== 'cue' || now >= receipt.expiresAt) return [];
     return [{ schemaVersion: 1, id: requestId, origin: 'dream', materialKind: e.materialKind, isRealityFact: false, sourceRefs: e.sourceRefs, derivedFrom: [e.id], fragment: e.wake.fragment, reason: 'literal_scene_match', expiresAt: receipt.expiresAt }];
   }
   residue(id, now = Date.now()) {
     const e = this.read(id); if (!e?.residue) return null;
-    return { origin: 'simulated_affect', isRealityFact: false, sourceRefs: e.sourceRefs, derivedFrom: [id], strength: e.residue.strength * Math.max(0, 1 - Math.max(0, now - e.residue.startedAt) / e.residue.durationMs) };
+    return { schemaVersion: 1, origin: 'simulated_affect', materialKind: e.materialKind, isRealityFact: false, sourceRefs: e.sourceRefs, derivedFrom: [id], strength: e.residue.strength * Math.max(0, 1 - Math.max(0, now - e.residue.startedAt) / e.residue.durationMs) };
   }
   withdraw(sourceId) { this.store.withdraw(sourceId); for (const [id, c] of this.active) if (this.run(id).status === 'revoked') c.abort(); }
   deleteEntry(id) {
     const e = this.read(id); if (!e) return;
-    for (const [key, value] of Object.entries(this.store.state.entries)) if (value.runId === e.runId && (e.origin === 'dream' || key === id)) delete this.store.state.entries[key];
-    if (e.origin === 'dream') { const r = this.run(e.runId); r.status = 'deleted'; delete r.snapshot; delete r.scenes; delete r.wake; }
-    this.store.save();
+    this.store.deleteEntry(e);
   }
   result(id) {
     const r = this.run(id), e = this.read(r.entryId);

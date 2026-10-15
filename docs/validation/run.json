@@ -1,0 +1,23 @@
+{
+  "command": "node --test --test-reporter=tap",
+  "exitCode": 0,
+  "node": "v24.19.0",
+  "platform": "Linux",
+  "date": "2026-10-15",
+  "scope": "fictional fixtures and fake provider only",
+  "sourceSha256": {
+    "fixtures/paper-harbor.json": "7151c9c5e1d88b4c1b3fe8412b1fb41c9d25bf2d9c85c3c5680f380b898cb7b4",
+    "package.json": "8ebbf5270f9c23228409410269e56cc009779eff803d3d5cd1144a3f4b04a56f",
+    "src/adapters.js": "98aa38e7c9860c2058f9d8ebe7a24bc20670abf0cbbf4ec0d14d995af164cd79",
+    "src/cli.js": "b9e1fd81054f45e5a477c256bc3b9cea36bbf51f05722adf84654fae6d6196bc",
+    "src/contract.js": "0f31b37187dc69a2632bdc09aa8fa562bcd13cce89592802dcff23080ca7c96f",
+    "src/engine.js": "8a1bf04b8cf373ba20b39e3733501de4deb8c91e5df530195e214f34b2601a14",
+    "src/fake-provider.js": "9460fac1e2d936b5aacde19ec1c79a07b1d1db77987cc4b51e815acd913f6456",
+    "src/store.js": "6ddc0047533bf585d4b315bb33ae315dac43602dda3136b997a76950e2554735",
+    "test/basic.test.js": "e64a83c96aec98ea2063a21d4787a3e621d57758f0672afbb5bc976d232776d8",
+    "test/lifecycle.test.js": "35f0e594fdda07b01de52045b70e9620ebeb0f617c559c37e07d6c35facacee4"
+  },
+  "testOutputSha256": "a53d62ce320b8e65170d04556601c3cf7cc8aed930fc6b524fb06979708d68c5",
+  "testsPassed": 30,
+  "testsFailed": 0
+}

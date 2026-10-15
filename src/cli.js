@@ -1,4 +1,4 @@
-import fs from 'node:fs';
+import { FileSnapshotAdapter } from './adapters.js';
 import { Nightvoyage } from './engine.js';
 const [directory, action = 'demo', arg] = process.argv.slice(2);
 if (!directory) { console.error('Usage: node src/cli.js <external-data-directory> [demo|list|read|status|cancel|resume|withdraw|delete|recall] [id-or-cue]'); process.exitCode = 1; }
@@ -8,7 +8,7 @@ else {
     engine = new Nightvoyage(directory);
     let result;
     if (action === 'demo') {
-      const snapshot = JSON.parse(fs.readFileSync(new URL('../fixtures/paper-harbor.json', import.meta.url)));
+      const snapshot = new FileSnapshotAdapter().read(new URL('../fixtures/paper-harbor.json', import.meta.url));
       const id = engine.start('demo-v1','demo-session-v1',snapshot);
       await engine.execute(id); result = engine.result(id);
     } else if (action === 'list') result = engine.list();

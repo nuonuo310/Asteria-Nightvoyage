@@ -19,23 +19,31 @@ export class Store {
     try { this.lockfd = fs.openSync(this.lock, 'wx', 0o600); }
     catch (e) {
       if (e.code !== 'EEXIST') throw e;
-      let owner; try { owner = JSON.parse(fs.readFileSync(this.lock, 'utf8')); } catch { fail('lock_requires_manual_recovery'); }
-      try { process.kill(owner.pid, 0); fail('store_busy'); }
-      catch (e2) { if (e2.code !== 'ESRCH') throw e2; }
-      fs.unlinkSync(this.lock);
-      this.lockfd = fs.openSync(this.lock, 'wx', 0o600);
+      const recovery = path.join(canonical, 'recovery.lock');
+      try { fs.mkdirSync(recovery, { mode: 0o700 }); } catch { fail('recovery_busy_or_manual_cleanup_required'); }
+      try {
+        let owner; try { owner = JSON.parse(fs.readFileSync(this.lock, 'utf8')); } catch { fail('lock_requires_manual_recovery'); }
+        if (!Number.isSafeInteger(owner.pid) || owner.pid <= 0) fail('invalid_owner_lock');
+        try { process.kill(owner.pid, 0); fail('store_busy'); }
+        catch (e2) { if (e2.code !== 'ESRCH') throw e2; }
+        fs.unlinkSync(this.lock);
+        this.lockfd = fs.openSync(this.lock, 'wx', 0o600);
+      } finally { fs.rmdirSync(recovery); }
     }
     fs.writeFileSync(this.lockfd, JSON.stringify({ pid: process.pid }));
     fs.fsyncSync(this.lockfd);
     try {
-      for (const name of ['state.json', 'withdrawals.json', 'snapshot.tmp']) {
+      for (const name of ['state.json', 'withdrawals.json', 'deletions.json', 'snapshot.tmp']) {
         const p = path.join(canonical, name);
         if (fs.existsSync(p) && (!fs.lstatSync(p).isFile() || fs.lstatSync(p).isSymbolicLink())) fail('unsafe_storage_file');
       }
       fs.rmSync(path.join(canonical, 'snapshot.tmp'), { force: true });
       this.withdrawn = this.load('withdrawals.json', []);
+      this.deletions = this.load('deletions.json', []);
       this.state = this.load('state.json', { version: 1, runs: {}, requests: {}, sessions: {}, entries: {}, recalls: {} });
+      if (this.state.version !== 1 || !Array.isArray(this.withdrawn) || !this.withdrawn.every(id => typeof id === 'string') || !Array.isArray(this.deletions)) fail('invalid_storage_version_or_journal');
       for (const id of this.withdrawn) this.purge(id);
+      for (const deletion of this.deletions) this.applyDeletion(deletion);
       for (const run of Object.values(this.state.runs)) {
         if (run.status === 'running') run.status = 'uncertain';
       }
@@ -74,9 +82,27 @@ export class Store {
   }
   withdraw(sourceId) {
     this.assert();
+    if (typeof sourceId !== 'string' || !sourceId || sourceId.length > 200) fail('invalid_source_id');
     if (!this.withdrawn.includes(sourceId)) this.withdrawn.push(sourceId);
     this.atomic('withdrawals.json', this.withdrawn);
     this.purge(sourceId); this.save();
+  }
+  applyDeletion({ entryId, runId, wholeRun }) {
+    for (const [id, entry] of Object.entries(this.state.entries)) {
+      if (id === entryId || (wholeRun && entry.runId === runId)) delete this.state.entries[id];
+    }
+    if (wholeRun && Object.hasOwn(this.state.runs, runId)) {
+      const r = this.state.runs[runId];
+      if (r.status !== 'revoked') r.status = 'deleted';
+      delete r.snapshot; delete r.scenes; delete r.wake;
+    }
+  }
+  deleteEntry(entry) {
+    this.assert();
+    const deletion = { entryId: entry.id, runId: entry.runId, wholeRun: entry.origin === 'dream' };
+    this.deletions.push(deletion);
+    this.atomic('deletions.json', this.deletions);
+    this.applyDeletion(deletion); this.save();
   }
   close() {
     if (this.closed) return;
