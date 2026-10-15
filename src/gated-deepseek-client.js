@@ -1,6 +1,6 @@
-import { buildDeepSeekRequest, parseDeepSeekResponse } from './deepseek-protocol.js';
+import { buildDeepSeekRequest, parseDeepSeekResponse, normalizeDeepSeekStage } from './deepseek-protocol.js';
 import { BudgetLedger } from './budget-ledger.js';
-import { snapshot, hash, scene, wake, safeId } from './contract.js';
+import { snapshot, hash, safeId } from './contract.js';
 import { fail, copy } from './store.js';
 
 async function boundedBody(response, signal) {
@@ -71,14 +71,14 @@ export class GatedDeepSeekClient {
       };
       const result=await Promise.race([operation(),stopped]);
       if (controller.signal.aborted || this.closed) fail('cancelled'); this.checkSources(input);
-      const value=material.stage==='wake' ? wake(result.data) : scene(result.data,material.previousAffect);
+      const value=normalizeDeepSeekStage(result.data,material);
       if (publish !== undefined && typeof publish !== 'function') fail('invalid_publication');
       const receipt=this.ledger.settle(allowanceId,requestId,result.receipt,publish ? accounting => publish(copy(value),accounting) : undefined);
       return { replayed:false, receipt, generated:{schemaVersion:1,materialKind:'fictional',origin:material.stage==='wake'?'wake_note':'dream',isRealityFact:false,sourceRefs:copy(receipt.sourceRefs),derivedFrom:[input.id],value} };
     } catch (error) {
       controller.abort();
       if (!this.store.poisoned && !this.store.closed) this.ledger.unknown(allowanceId,requestId);
-      const permitted=['source_egress_denied_or_withdrawn','cancelled','storage_io_failure','usage_exceeds_reviewed_bounds','provider_authentication_failed','provider_rate_limited','provider_http_failure','provider_incomplete_response','provider_invalid_json','provider_invalid_usage','provider_empty_or_oversized_content','provider_tools_forbidden','provider_response_too_large'];
+      const permitted=['wake_fragment_not_grounded','source_egress_denied_or_withdrawn','cancelled','storage_io_failure','usage_exceeds_reviewed_bounds','provider_authentication_failed','provider_rate_limited','provider_http_failure','provider_incomplete_response','provider_invalid_json','provider_invalid_usage','provider_empty_or_oversized_content','provider_tools_forbidden','provider_response_too_large'];
       fail(timedOut ? 'timeout' : permitted.includes(error.message)?error.message:'request_failed');
     } finally {clearTimeout(timer);signal?.removeEventListener('abort',abort);this.pending.delete(key);}
   }

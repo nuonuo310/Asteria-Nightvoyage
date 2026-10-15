@@ -1,0 +1,45 @@
+{
+  "evidenceKind": "user_reported_terminal_output",
+  "date": "2026-10-15",
+  "model": "deepseek-flash",
+  "materialKind": "fictional",
+  "slots": [
+    {
+      "slot": 1,
+      "status": "completed",
+      "calls": 3,
+      "input": 1526,
+      "output": 251,
+      "ledgerMicroCny": 5060
+    },
+    {
+      "slot": 2,
+      "status": "completed",
+      "calls": 3,
+      "input": 1464,
+      "output": 226,
+      "ledgerMicroCny": 4736
+    },
+    {
+      "slot": 3,
+      "status": "completed",
+      "calls": 3,
+      "input": 1430,
+      "output": 231,
+      "ledgerMicroCny": 4708
+    }
+  ],
+  "finalPreflight": {
+    "ready": false,
+    "reason": "call_limit_reached",
+    "credentialRead": false,
+    "runs": 3,
+    "calls": 9,
+    "ledgerMicroCny": 14504,
+    "ceilingCny": 3
+  },
+  "providerInvoiceVerified": false,
+  "rawJournalPublished": false,
+  "qualityAccepted": false,
+  "newProtocolLiveTest": "not_run; no additional paid allowance approved"
+}

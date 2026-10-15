@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { buildDeepSeekRequest, parseDeepSeekResponse, OfflineDeepSeekProvider } from '../src/deepseek-protocol.js';
+import { buildDeepSeekRequest, parseDeepSeekResponse, normalizeDeepSeekStage, OfflineDeepSeekProvider } from '../src/deepseek-protocol.js';
 import { Nightvoyage } from '../src/engine.js';
 import { FakeProvider } from '../src/fake-provider.js';
 const fixture=JSON.parse(fs.readFileSync(new URL('../fixtures/paper-harbor.json',import.meta.url)));
@@ -41,7 +41,7 @@ test('missing, inconsistent, excessive and invalid usage fails closed',()=>{
  for(const usage of [null,{}, {prompt_tokens:100,completion_tokens:401,total_tokens:501},{prompt_tokens:100,completion_tokens:60,total_tokens:999},{prompt_tokens:-1,completion_tokens:60,total_tokens:59},{prompt_tokens:100,completion_tokens:60,total_tokens:160,prompt_cache_hit_tokens:200,prompt_cache_miss_tokens:0}]){const r=response();r.body.usage=usage;assert.throws(()=>parseDeepSeekResponse(r,settings),/invalid_usage/);}
 });
 test('offline protocol rehearsal traverses the real local engine using only a local simulator',async t=>{
- let calls=0;const fake=new FakeProvider();const provider=new OfflineDeepSeekProvider({...settings,simulator:async request=>{calls++;const material=JSON.parse(request.body.messages[1].content);return response(await fake.generate({stage:material.stage,index:material.sceneIndex}));}});
+ let calls=0;const fake=new FakeProvider();const provider=new OfflineDeepSeekProvider({...settings,simulator:async request=>{calls++;const material=JSON.parse(request.body.messages[1].content);return response(material.stage==='wake'?{fragment:material.previousScenes.at(-1).event,residue:0.1,associations:[]}:await fake.generate({stage:material.stage,index:material.sceneIndex}));}});
  const e=setup(t,provider),id=e.start('protocol','session',fixture);assert.equal((await e.execute(id)).status,'completed');assert.equal(calls,3);assert.equal(e.result(id).dream.isRealityFact,false);assert.deepEqual(e.result(id).associations,[]);assert.equal(e.recall('lantern','cue')[0].origin,'dream');
 });
 test('bad provider shape consumes one engine attempt and never triggers implicit repair or retry',async t=>{
@@ -56,4 +56,21 @@ test('offline cancellation reaches the simulator and suppresses late protocol ou
 test('offline provider cannot load credentials or send anything without a supplied simulator',()=>{
  assert.throws(()=>new OfflineDeepSeekProvider(settings),/offline_simulator_required/);
  assert.throws(()=>new Nightvoyage('unused',{provider:{generate(){throw new Error('not allowed');}}}),/real_provider_not_authorized/);
+});
+
+test('wake excerpts are grounded in saved scenes with program-owned evidence',()=>{
+ const material={stage:'wake',previousScenes:[{event:'梦里的人停在蓝色的门边。'},{event:'门没有打开，灯还亮着。'}]};
+ const frozen=structuredClone(material);
+ const out=normalizeDeepSeekStage({fragment:'灯还亮着',residue:0.2,associations:['这扇门让我想到什么？'],fragmentBasis:{kind:'provider_claim',sceneIndex:99}},material);
+ assert.equal(out.fragment,'灯还亮着');assert.deepEqual(out.fragmentBasis,{kind:'scene_excerpt',sceneIndex:1});assert.deepEqual(material,frozen);assert.equal(out.residue,0.2);assert.equal(out.associations.length,1);
+});
+test('wake paraphrases, invented aftermath and joined excerpts are rejected without trimming or seed fallback',()=>{
+ const material={stage:'wake',previousScenes:[{event:'A blue bell stayed silent.'},{event:'A window remained closed.'}],sources:[{text:'The door opened.'}]};
+ for(const fragment of ['The door opened.','The window opened.','A blue bell A window','Afterward the bell rang.',' A blue bell stayed silent. ',' ']){
+  assert.throws(()=>normalizeDeepSeekStage({fragment,residue:0.1,associations:[],fragmentBasis:{kind:'scene_excerpt',sceneIndex:0}},material),/wake_fragment_not_grounded/);
+ }
+});
+test('offline provider also refuses novel wake events with no repair request',async t=>{
+ let calls=0;const fake=new FakeProvider();const provider=new OfflineDeepSeekProvider({...settings,simulator:async request=>{calls++;const m=JSON.parse(request.body.messages[1].content);return response(m.stage==='wake'?{fragment:'An invented later event.',residue:0.1,associations:[]}:await fake.generate({stage:m.stage,index:m.sceneIndex}));}});
+ const e=setup(t,provider),id=e.start('r','s',fixture);assert.equal((await e.execute(id)).status,'failed');assert.equal(e.status(id).stagesSaved,2);assert.equal(e.result(id).dream,null);assert.equal(calls,3);
 });
