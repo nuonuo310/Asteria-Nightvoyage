@@ -2,20 +2,20 @@
 
 The integrated runner is implemented but no real request was executed for this delivery. Windows execution is pending user-side validation. Linux tests exercise the same JavaScript with stub HTTP. Node.js 24+ and Git are needed; the `.cmd` launcher avoids npm.ps1 execution-policy issues.
 
-## Resolve budget before local initialization
+## Approved trial budget
 
-The authorized trial ceiling is CNY 1, at most three dreams and nine calls, fictional material only. Full-context reservation currently cannot start under that ceiling. The [official Chinese pricing page](https://api-docs.deepseek.com/zh-cn/quick_start/pricing/), checked 2026-10-15, lists Flash peak cache-miss input CNY 2 per million tokens, output CNY 8 per million and a 1M context. We use 1,100,000 as a conservative bound covering both common readings of “1M”; it is not a claim that the API accepts that many tokens. Each call therefore reserves CNY 2.2032 with 400 output tokens.
+The user approved a CNY 3 total trial ceiling on 2026-10-15, at most three dreams and nine calls, fictional material only. This supersedes the earlier CNY 1 ceiling. The [official Chinese pricing page](https://api-docs.deepseek.com/zh-cn/quick_start/pricing/), checked 2026-10-15, lists Flash peak cache-miss input CNY 2 per million tokens, output CNY 8 per million and a 1M context. We use 1,100,000 as a conservative bound covering both common readings of “1M”; it is not a claim that the API accepts that many tokens. Each call therefore reserves CNY 2.2032 with 400 output tokens.
 
 The ledger uses peak cache-miss prices even off peak, so settlement is a conservative upper-cost record, not the exact provider invoice. A provider bill may be lower. No cache discounts or currency conversions are assumed. External price/model bounds remain prerequisites, not facts established by tests. The profile expires 2026-10-16 12:10 UTC.
 
-CNY 1 preflight reports `ready:false` before reading the key. An explicitly newly approved CNY 3 ceiling would permit this reservation strategy with unchanged call/run limits. It is not automatically approved. A failed/ambiguous request keeps its full hold and may prevent further calls. Do not silently increase limits or clear a ledger.
+CNY 1 preflight reports `ready:false` before reading the key. The newly approved CNY 3 ceiling permits this reservation strategy with unchanged call/run limits. A failed/ambiguous request keeps its full hold and may prevent further calls. Do not silently increase limits or clear a ledger.
 
 ## Get the code
 
-Before merge use the review branch; after authorized merge use main. Do not overwrite existing local work.
+Use main after PR #3 is confirmed merged. Do not overwrite existing local work.
 
 ```powershell
-git clone --branch feat/budget-and-gated-transport https://github.com/nuonuo310/Asteria-Nightvoyage.git
+git clone --branch main https://github.com/nuonuo310/Asteria-Nightvoyage.git
 cd Asteria-Nightvoyage
 npm.cmd test
 .\nightvoyage.cmd help
@@ -23,16 +23,16 @@ npm.cmd test
 
 Default data directory: `%LOCALAPPDATA%\Nightvoyage\first-fictional-trial`, outside the checkout. `--data-dir` selects an alternative external directory. Retain that directory across every trial run; moving/deleting it breaks budget continuity. Keys are not written there.
 
-## Initialize after the decision
+## Initialize the approved trial
 
-Use only the explicitly approved amount. CNY 1 initialization below deliberately reports insufficient reservation budget:
+Initialize the approved CNY 3 ceiling:
 
 ```powershell
-.\nightvoyage.cmd init --approve-budget-cny 1 --allow-fictional-egress
+.\nightvoyage.cmd init --approve-budget-cny 3 --allow-fictional-egress
 .\nightvoyage.cmd preflight
 ```
 
-Wait for the budget decision before initializing the actual directory: changing an existing allowance/configuration conflicts. Do not delete a ledger to bypass this. A CNY 3 initialization requires explicit approval of that new ceiling. The egress flag covers only the SHA-256 pinned fictional fixture, not private files or Asteria data.
+Changing an existing allowance/configuration conflicts. If a CNY 1 configuration already exists, stop for inspection; do not delete a ledger to bypass it. Approval to raise the trial ceiling does not authorize discarding prior usage. The egress flag covers only the SHA-256 pinned fictional fixture, not private files or Asteria data.
 
 ## Key entry only after ready preflight
 
