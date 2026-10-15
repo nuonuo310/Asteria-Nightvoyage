@@ -1,0 +1,35 @@
+✔ allowance binding is optional for legacy records, immutable when present and rejects unreviewed/offline versions (13.810896ms)
+✔ gated v2 and offline v2 checkpoints have distinct identities and preserve counts (7.249708ms)
+✔ v2 without a matching immutable allowance binding is blocked before reservation or dispatch (8.338778ms)
+✔ default v2 transport stays disabled and live HTTP override is still forbidden (6.037837ms)
+✔ integrated v2 commits audits, scenes and three settled rows atomically without touching an older hold (70.181148ms)
+✔ invalid v2 quotes and later affect rules retain typed body-free rejection and full unknown reservation (59.568155ms)
+✔ v2 diagnostic metadata strips arbitrary text and is accepted only by its bound account (15.984972ms)
+✔ v2 wake rejection cannot publish a dream or trigger a fourth repair call (29.731098ms)
+✔ v2 cancellation and withdrawal suppress late output and purge counts/view/recall (72.877421ms)
+✔ v2 run identity cannot switch allowance or protocol through execute/resume (36.84352ms)
+✔ v2 atomic settlement failure reopens with neither audit nor scene and retains unknown hold (15.918104ms)
+✔ actual exit after v2 atomic scene commit resumes only the remaining two paid-path simulator stages (304.244382ms)
+✔ actual exit after dispatch keeps unknown v2 hold and explicit resume cannot send again (335.037532ms)
+✔ v2 allowance call cap and missing egress block before any over-limit dispatch (47.33384ms)
+✔ pruned v2 proposal is unapproved and missing approval preflight creates no runtime directory (102.009976ms)
+✔ pruned v2 init needs exact case, egress, fee and completed prior quality screen (32.430856ms)
+✔ pruned v2 approval preserves prior ledger and cannot reset or edit its new immutable allowance (115.453037ms)
+✔ pruned v2 CLI remains disabled without live flag, approval or key and rejects unknown flags (2035.14994ms)
+✔ pruned v2 CLI simulator loop returns typed view, blocks cap and replays without credentials (1718.440427ms)
+✔ invalid pruned v2 reply and in-flight cancellation retain holds and never retry (2433.649087ms)
+✔ pruned v2 entry resumes a committed checkpoint only explicitly without paying for it twice (1320.872373ms)
+✔ first durable pruned v2 start includes protocol/allowance identity before any dispatch (745.144984ms)
+✔ pruned v2 withdrawal blocks read/replay/reinit and expiry cannot extend approval (1639.260121ms)
+✔ pruned v2 requires both exact preserved holds and rejects unrelated unresolved attempts (176.806355ms)
+✔ pruned v2 approval requires explicit hold acknowledgement and binds protocol immutably (48.446584ms)
+✔ pruned v2 entry cannot replay an in-flight process death or open a second Store owner (3021.01769ms)
+✔ pruned v2 missing approval and wrong ack cause no new directory or key read (3940.059643ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 17806.17197

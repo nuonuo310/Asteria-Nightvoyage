@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "phase": "pruned-v2-trial-entry-prepared-not-approved",
+  "node": "v24.19.0",
+  "platform": "Linux",
+  "fullLF": {
+    "passed": 214,
+    "failed": 0,
+    "skipped": 0
+  },
+  "targetedCRLF": {
+    "passed": 27,
+    "failed": 0,
+    "skipped": 0,
+    "scope": [
+      "test/pruned-v2-trial.test.js",
+      "test/pruned-v2-budget.test.js"
+    ],
+    "nativeWindows": false
+  },
+  "developmentInitialTargeted": {
+    "passed": 9,
+    "failed": 2,
+    "correction": "missing-prior-config expected error; allow revoked/purged old failure only for withdrawn source read, still block dispatch"
+  },
+  "correctedIntermediateTargeted": {
+    "passed": 11,
+    "failed": 0
+  },
+  "newEntryTests": 13,
+  "realModelRequests": 0,
+  "userRuntimeOpened": false,
+  "newUserAllowanceCreated": false,
+  "paidEvaluationApproved": false,
+  "fixtureEgressApproved": false,
+  "proposedNewMaxCny": 3,
+  "proposedNewMaxRuns": 1,
+  "proposedNewMaxCalls": 3,
+  "oldUnknownHolds": "preserved; no real account touched",
+  "review": "same-author",
+  "semanticSupport": "not_assessed",
+  "qualityAssessed": false,
+  "sourceSha256": {
+    "src/pruned-v2-trial-config.js": "ccf1dc13dc0a7f66f510b32600dd32e04c63fc75ba1423e97985064ca53c198f",
+    "src/pruned-v2-trial-cli.js": "169d029551dd056dcb3838a5b9952283cfc4bc03ed412e8b4d7dac196252b0b2",
+    "test/pruned-v2-trial.test.js": "d2fefab828ef7144569734c7c8ce077d5de95f0a7a17887b193a56ee3c44e052"
+  },
+  "logNormalization": "Initial development failure log has trailing whitespace removed; content otherwise retained"
+}

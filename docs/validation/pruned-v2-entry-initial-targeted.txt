@@ -1,0 +1,74 @@
+✔ compact proposal is unapproved and missing approval preflight creates no runtime directory (112.257027ms)
+✖ compact init needs exact case, egress, fee and completed prior quality screen (12.961704ms)
+✔ compact approval preserves prior ledger and cannot reset or edit its new immutable allowance (195.134079ms)
+✔ compact CLI remains disabled without live flag, approval or key and rejects unknown flags (2574.643217ms)
+✔ compact CLI simulator loop returns typed view, blocks cap and replays without credentials (1427.88617ms)
+✔ invalid compact reply and in-flight cancellation retain holds and never retry (1672.845053ms)
+✔ compact entry resumes a committed checkpoint only explicitly without paying for it twice (1181.120405ms)
+✔ first durable compact start includes protocol/allowance identity before any dispatch (935.405677ms)
+✖ compact withdrawal blocks read/replay/reinit and expiry cannot extend approval (1200.419928ms)
+✔ pruned v2 requires both exact preserved holds and rejects unrelated unresolved attempts (92.299417ms)
+✔ pruned v2 approval requires explicit hold acknowledgement and binds protocol immutably (59.292395ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 9
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10073.985708
+
+✖ failing tests:
+
+test at test/pruned-v2-trial.test.js:50:1
+✖ compact init needs exact case, egress, fee and completed prior quality screen (12.961704ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /prior_quality_screen_not_complete/. Input:
+
+  'Error: compact_approval_missing_or_unsafe'
+
+      at TestContext.<anonymous> (file:///workspace/scratch/d75e454b415e/Asteria-Nightvoyage/test/pruned-v2-trial.test.js:51:33)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: compact_approval_missing_or_unsafe
+        at fail (file:///workspace/scratch/d75e454b415e/Asteria-Nightvoyage/src/store.js:6:36)
+        at readCompactTrial (file:///workspace/scratch/d75e454b415e/Asteria-Nightvoyage/src/compact-trial-config.js:38:94)
+        at initPrunedV2Trial (file:///workspace/scratch/d75e454b415e/Asteria-Nightvoyage/src/pruned-v2-trial-config.js:67:33)
+        at approve (file:///workspace/scratch/d75e454b415e/Asteria-Nightvoyage/test/pruned-v2-trial.test.js:35:18)
+        at file:///workspace/scratch/d75e454b415e/Asteria-Nightvoyage/test/pruned-v2-trial.test.js:51:44
+        at getActual (node:assert:611:5)
+        at strict.throws (node:assert:759:24)
+        at TestContext.<anonymous> (file:///workspace/scratch/d75e454b415e/Asteria-Nightvoyage/test/pruned-v2-trial.test.js:51:33)
+        at Test.runInAsyncScope (node:async_hooks:227:14)
+        at Test.run (node:internal/test_runner/test:1382:25),
+    expected: /prior_quality_screen_not_complete/,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at test/pruned-v2-trial.test.js:83:1
+✖ compact withdrawal blocks read/replay/reinit and expiry cannot extend approval (1200.419928ms)
+  AssertionError [ERR_ASSERTION]: Nightvoyage compact trial stopped: expected_two_preserved_holds_required. No raw provider error or key is printed.
+
+
+  1 !== 0
+
+      at TestContext.<anonymous> (file:///workspace/scratch/d75e454b415e/Asteria-Nightvoyage/test/pruned-v2-trial.test.js:85:67)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
