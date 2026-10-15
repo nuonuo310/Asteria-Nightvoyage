@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-15",
+  "evidence": "user-reported Windows script output; not independent machine or exact-checkout verification",
+  "command": "node scripts/check-compact-v2-offline.mjs",
+  "node": "v24.19.0",
+  "platform": "win32",
+  "protocolVersion": "offline-compact-quotes-v2-pruned-unused",
+  "status": "completed",
+  "fakeStageCalls": 3,
+  "realModelRequests": 0,
+  "reopened": true,
+  "duplicateCalls": 0,
+  "normalizationAudits": [
+    {"schemaVersion":1,"policyVersion":"validated-unused-quotation-pruning-v1","receivedQuoteCount":1,"keptQuoteCount":0,"discardedUnusedQuoteCount":1},
+    {"schemaVersion":1,"policyVersion":"validated-unused-quotation-pruning-v1","receivedQuoteCount":5,"keptQuoteCount":4,"discardedUnusedQuoteCount":1}
+  ],
+  "typedViewAvailable": true,
+  "absentControlValue": null,
+  "withdrawalViewNull": true,
+  "originalSourceGrantsNoEgress": true,
+  "liveProtocolEnabled": false,
+  "semanticSupport": "not_assessed",
+  "qualityAssessed": false,
+  "windowsFull187TestSuiteReported": false,
+  "windowsFaultAndCancellationSuiteReported": false,
+  "newPaidTrialApproved": false
+}
