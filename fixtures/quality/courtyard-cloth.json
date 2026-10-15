@@ -1,0 +1,55 @@
+{
+  "id": "quality-courtyard-cloth",
+  "version": "1",
+  "materialKind": "fictional",
+  "sources": [
+    {
+      "id": "q-courtyard-memory",
+      "version": "1",
+      "text": "完全虚构：一位没有指定性别的住客在院子里收起三块晾干的方布，把空夹子留在绳上，听见墙外有人慢慢推过一辆自行车。",
+      "grant": {
+        "dream": true,
+        "modelEgress": false
+      }
+    },
+    {
+      "id": "q-courtyard-affect",
+      "version": "1",
+      "text": "完全虚构的当前情绪输入：略微舒展，唤醒程度较低；这不规定梦的走向。",
+      "grant": {
+        "dream": true,
+        "modelEgress": false
+      }
+    }
+  ],
+  "channels": {
+    "memory": {
+      "availability": "present",
+      "sourceIds": [
+        "q-courtyard-memory"
+      ]
+    },
+    "background": {
+      "availability": "absent",
+      "sourceIds": []
+    },
+    "affect": {
+      "availability": "present",
+      "sourceIds": [
+        "q-courtyard-affect"
+      ],
+      "value": {
+        "valence": 0.2,
+        "arousal": 0.15
+      }
+    },
+    "mind": {
+      "availability": "absent",
+      "sourceIds": []
+    },
+    "intents": {
+      "availability": "absent",
+      "sourceIds": []
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "command": "node scripts/check-quality-pack.mjs",
+  "exitCode": 0,
+  "node": "v24.19.0",
+  "platform": "linux",
+  "casesAccepted": 6,
+  "fakeLoopsCompleted": 6,
+  "fakeCalls": 18,
+  "realModelRequests": 0,
+  "qualityAssessed": false,
+  "paidEvaluationApproved": false,
+  "scope": "contract/file adapter/fake loop/reopen only; not narrative quality evidence",
+  "sourceSha256": {
+    "scripts/check-quality-pack.mjs": "c8e4607ea8ca5c5bb884158144c46bdf3ae06c093697a40a4bb6a9b8c2599dc6",
+    "fixtures/quality/manifest.json": "0d28256d2ceb11936a9b41baee09f9bee94ca9c66a10a53e0d44fddba25a1191",
+    "fixtures/quality/courtyard-cloth.json": "be3803ed59e84963e51bc22d927929241406aa80d0cdd3de8c93dc89955beff3",
+    "fixtures/quality/empty-platform.json": "1621694a769590aa4af9280021c8deaac43d23c747404c4ef22fb96086e856e0",
+    "fixtures/quality/drawer-and-orbit.json": "c9b5c2f10e53007960164e783086243e3fbe15ec14bd2adabfdb381b8248983d",
+    "fixtures/quality/weather-room.json": "f8cc01870720f4fa1a5a65d28dd11c7afb6890536d579a2345f90fa2d83c3f82",
+    "fixtures/quality/two-maps.json": "401c4f2f8fb72e8f6594c4dc73309a25aa79073d77369adc0890fe3120b40118",
+    "fixtures/quality/sparse-context.json": "66a19f5968bc0bb60c8ff4918d6e57e223b008329c2a7028f3ac478cb6256d10",
+    "src/contract.js": "850c99572c39930eac150588e379c9af90b5e792159ae46a04f9fad0f9d52ca7",
+    "src/adapters.js": "98aa38e7c9860c2058f9d8ebe7a24bc20670abf0cbbf4ec0d14d995af164cd79",
+    "src/engine.js": "2c327aabd4aa9cb6489f2bf99b81be17eede4adea5073bbe9caf3ce6c17a5a03",
+    "src/fake-provider.js": "9460fac1e2d936b5aacde19ec1c79a07b1d1db77987cc4b51e815acd913f6456",
+    "src/store.js": "07711405e41780805dbe23a3f993fdfb7a7d0b44a39d3dbd160374dafd1aaacb"
+  },
+  "outputSha256": "aaa283f502c2f1b7e92e3e984d6dd49795789b3d615f2ed3b5241579823152b3"
+}

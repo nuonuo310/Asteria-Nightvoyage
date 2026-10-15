@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "status": "not_assessed",
+  "caseId": null,
+  "inputMaterialKind": "fictional",
+  "outputOrigin": "dream",
+  "outputIsRealityFact": false,
+  "protocolVersion": null,
+  "sourceCommit": null,
+  "model": null,
+  "privateEvidenceReference": null,
+  "mechanismChecks": {
+    "sourceIdentity": "not_assessed",
+    "stagePersistence": "not_assessed",
+    "affectContinuity": "not_assessed",
+    "wakeExcerptMatchesScene": "not_assessed",
+    "originalUnchanged": "not_assessed",
+    "billingAndLimits": "not_assessed"
+  },
+  "humanReview": {
+    "sceneExperience": { "status": "not_assessed", "note": "" },
+    "sceneTransition": { "status": "not_assessed", "note": "" },
+    "eventAffectRelationship": { "status": "not_assessed", "note": "" },
+    "wakeExcerptUsefulness": { "status": "not_assessed", "note": "" },
+    "narrationAndRepetition": { "status": "not_assessed", "note": "" },
+    "provenanceAndAuthority": { "status": "not_assessed", "note": "" }
+  },
+  "toneObservation": "",
+  "insightRequired": false,
+  "associationRequired": false,
+  "limitedConclusion": "",
+  "qualityAccepted": false,
+  "nextPaidRunApproved": false
+}

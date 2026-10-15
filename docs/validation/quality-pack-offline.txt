@@ -1,0 +1,71 @@
+{
+  "command": "node scripts/check-quality-pack.mjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "cases": 6,
+  "fakeCalls": 18,
+  "realModelRequests": 0,
+  "qualityAssessed": false,
+  "results": [
+    {
+      "caseId": "courtyard-cloth",
+      "contractAccepted": true,
+      "fileAdapterMatches": true,
+      "allSourcesNoEgress": true,
+      "fakeLoopCompleted": true,
+      "fakeCalls": 3,
+      "reopened": true,
+      "qualityAssessed": false
+    },
+    {
+      "caseId": "empty-platform",
+      "contractAccepted": true,
+      "fileAdapterMatches": true,
+      "allSourcesNoEgress": true,
+      "fakeLoopCompleted": true,
+      "fakeCalls": 3,
+      "reopened": true,
+      "qualityAssessed": false
+    },
+    {
+      "caseId": "drawer-and-orbit",
+      "contractAccepted": true,
+      "fileAdapterMatches": true,
+      "allSourcesNoEgress": true,
+      "fakeLoopCompleted": true,
+      "fakeCalls": 3,
+      "reopened": true,
+      "qualityAssessed": false
+    },
+    {
+      "caseId": "weather-room",
+      "contractAccepted": true,
+      "fileAdapterMatches": true,
+      "allSourcesNoEgress": true,
+      "fakeLoopCompleted": true,
+      "fakeCalls": 3,
+      "reopened": true,
+      "qualityAssessed": false
+    },
+    {
+      "caseId": "two-maps",
+      "contractAccepted": true,
+      "fileAdapterMatches": true,
+      "allSourcesNoEgress": true,
+      "fakeLoopCompleted": true,
+      "fakeCalls": 3,
+      "reopened": true,
+      "qualityAssessed": false
+    },
+    {
+      "caseId": "sparse-context",
+      "contractAccepted": true,
+      "fileAdapterMatches": true,
+      "allSourcesNoEgress": true,
+      "fakeLoopCompleted": true,
+      "fakeCalls": 3,
+      "reopened": true,
+      "qualityAssessed": false
+    }
+  ]
+}

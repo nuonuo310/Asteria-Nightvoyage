@@ -1,0 +1,51 @@
+{
+  "id": "quality-two-maps",
+  "version": "1",
+  "materialKind": "fictional",
+  "sources": [
+    {
+      "id": "q-maps-memory",
+      "version": "1",
+      "text": "完全虚构：一位没有指定性别的散步者把两张公园手绘图并排摊开；一张有环形池塘，一张在同处留着空白。两张图的绘制时间都不清楚。",
+      "grant": {
+        "dream": true,
+        "modelEgress": false
+      }
+    },
+    {
+      "id": "q-maps-mind",
+      "version": "1",
+      "text": "完全虚构的当前关切：在意两张图为何不一致，尚未选择相信哪一张，也没有结论。",
+      "grant": {
+        "dream": true,
+        "modelEgress": false
+      }
+    }
+  ],
+  "channels": {
+    "memory": {
+      "availability": "present",
+      "sourceIds": [
+        "q-maps-memory"
+      ]
+    },
+    "background": {
+      "availability": "absent",
+      "sourceIds": []
+    },
+    "affect": {
+      "availability": "absent",
+      "sourceIds": []
+    },
+    "mind": {
+      "availability": "present",
+      "sourceIds": [
+        "q-maps-mind"
+      ]
+    },
+    "intents": {
+      "availability": "absent",
+      "sourceIds": []
+    }
+  }
+}

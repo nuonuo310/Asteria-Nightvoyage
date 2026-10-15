@@ -1,0 +1,40 @@
+{
+  "id": "quality-sparse-context",
+  "version": "1",
+  "materialKind": "fictional",
+  "sources": [
+    {
+      "id": "q-sparse-memory",
+      "version": "1",
+      "text": "完全虚构：一个未命名、未指定性别的人把一把绿色钥匙放到窗台，随后看见玻璃上短暂映出一只不在屋里的风筝。除此以外没有可用背景。",
+      "grant": {
+        "dream": true,
+        "modelEgress": false
+      }
+    }
+  ],
+  "channels": {
+    "memory": {
+      "availability": "present",
+      "sourceIds": [
+        "q-sparse-memory"
+      ]
+    },
+    "background": {
+      "availability": "unavailable",
+      "sourceIds": []
+    },
+    "affect": {
+      "availability": "absent",
+      "sourceIds": []
+    },
+    "mind": {
+      "availability": "denied",
+      "sourceIds": []
+    },
+    "intents": {
+      "availability": "stale",
+      "sourceIds": []
+    }
+  }
+}

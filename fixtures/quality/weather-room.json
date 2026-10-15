@@ -1,0 +1,55 @@
+{
+  "id": "quality-weather-room",
+  "version": "1",
+  "materialKind": "fictional",
+  "sources": [
+    {
+      "id": "q-weather-memory",
+      "version": "1",
+      "text": "完全虚构：一位没有指定性别的观测员在山间小屋看到气压计的指针停在两格刻度之间，窗外的雾遮住了小路，炉边的水壶尚未烧开。",
+      "grant": {
+        "dream": true,
+        "modelEgress": false
+      }
+    },
+    {
+      "id": "q-weather-affect",
+      "version": "1",
+      "text": "完全虚构的当前情绪输入：略有不安并比较警觉；不要求生成噩梦，也不要求安慰结尾。",
+      "grant": {
+        "dream": true,
+        "modelEgress": false
+      }
+    }
+  ],
+  "channels": {
+    "memory": {
+      "availability": "present",
+      "sourceIds": [
+        "q-weather-memory"
+      ]
+    },
+    "background": {
+      "availability": "absent",
+      "sourceIds": []
+    },
+    "affect": {
+      "availability": "present",
+      "sourceIds": [
+        "q-weather-affect"
+      ],
+      "value": {
+        "valence": -0.3,
+        "arousal": 0.65
+      }
+    },
+    "mind": {
+      "availability": "absent",
+      "sourceIds": []
+    },
+    "intents": {
+      "availability": "absent",
+      "sourceIds": []
+    }
+  }
+}
