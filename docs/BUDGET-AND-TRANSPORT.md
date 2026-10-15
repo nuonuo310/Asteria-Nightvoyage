@@ -27,3 +27,7 @@ A successful send returns typed non-factual generated content plus a detached ac
 See `test/budget-transport.test.js` and `docs/validation/budget-transport.*`. Tests use fictional snapshots, dummy credentials, invented prices and stub Response streams; no production HTTP is invoked. They cover caps, replay/conflict, process death, persistence failures, timeout/body bounds, cancellation, late withdrawal, metadata whitelists and default/live permission refusal.
 
 Before actual trials: review/authorize the exact model, prices, context bound, allowance and fictional egress grants; implement/review the engine integration and external credential/Windows runner; run stub integration crash tests; then request the explicitly approved real trial. The earlier conversational suggestion of CNY 1 / three dreams / nine calls is not an approved live allowance. This PR has no merge authorization.
+
+## Integrated runner follow-up
+
+`BudgetedNightvoyage` now shares the original dream core/Store and publishes a normalized scene/wake in the same save as billing settlement. Publication callbacks are synchronous internal code, never model instructions. Callback/storage failure blocks access until reopen. Stable per-stage IDs prevent a second request for an unknown uncommitted result. See `RUN-ON-WINDOWS.md`: no live request ran, and CNY 1 currently fails conservative reservation preflight.

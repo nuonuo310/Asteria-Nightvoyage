@@ -29,7 +29,7 @@ export class GatedDeepSeekClient {
     this.store.assert();
     if (input.sources.some(s => s.grant.modelEgress !== true || this.store.withdrawn.includes(s.id))) fail('source_egress_denied_or_withdrawn');
   }
-  async send({ allowanceId, requestId, runId, payload, credential, signal } = {}) {
+  async send({ allowanceId, requestId, runId, payload, credential, signal, publish } = {}) {
     if (this.closed || this.enabled !== true || this.mode === 'disabled') fail('transport_disabled');
     if (signal?.aborted) fail('cancelled');
     if (typeof credential !== 'string' || !credential.trim() || credential.length > 2000 || /[\r\n]/.test(credential)) fail('credential_required');
@@ -60,6 +60,7 @@ export class GatedDeepSeekClient {
       });
       const operation = async () => {
         if (controller.signal.aborted) fail('cancelled');
+        this.checkSources(input);
         // Native fetch is reached only for explicitly enabled, approved live mode.
         const transport = this.mode === 'stub' ? this.fetchImpl : globalThis.fetch;
         const response = await transport(request.endpoint,{ method:'POST',redirect:'error',signal:controller.signal,headers:{'Content-Type':'application/json',Authorization:`Bearer ${credential}`},body:JSON.stringify(request.body) });
@@ -71,7 +72,8 @@ export class GatedDeepSeekClient {
       const result=await Promise.race([operation(),stopped]);
       if (controller.signal.aborted || this.closed) fail('cancelled'); this.checkSources(input);
       const value=material.stage==='wake' ? wake(result.data) : scene(result.data,material.previousAffect);
-      const receipt=this.ledger.settle(allowanceId,requestId,result.receipt);
+      if (publish !== undefined && typeof publish !== 'function') fail('invalid_publication');
+      const receipt=this.ledger.settle(allowanceId,requestId,result.receipt,publish ? accounting => publish(copy(value),accounting) : undefined);
       return { replayed:false, receipt, generated:{schemaVersion:1,materialKind:'fictional',origin:material.stage==='wake'?'wake_note':'dream',isRealityFact:false,sourceRefs:copy(receipt.sourceRefs),derivedFrom:[input.id],value} };
     } catch (error) {
       controller.abort();

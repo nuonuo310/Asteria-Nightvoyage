@@ -57,13 +57,16 @@ export class BudgetLedger {
   unknown(id, requestId) {
     const t = this.attempt(id, requestId); if (t.status !== 'settled') { t.status = 'unknown'; this.store.save(); }
   }
-  settle(id, requestId, receipt) {
+  settle(id, requestId, receipt, publish) {
     const a = this.account(id), t = this.attempt(id, requestId), p = a.allowance.pricing, u = receipt?.usage;
     if (t.status !== 'dispatched') fail('attempt_not_settleable');
     if (receipt?.model !== p.model || !u || !Number.isSafeInteger(u.inputTokens) || u.inputTokens < 0 || u.inputTokens > p.contextTokenLimit || !Number.isSafeInteger(u.outputTokens) || u.outputTokens < 0 || u.outputTokens > t.maxOutputTokens || u.totalTokens !== u.inputTokens + u.outputTokens) fail('usage_exceeds_reviewed_bounds');
     const cost = ceilMillion(u.inputTokens,p.inputMicroCnyPerMillion) + ceilMillion(u.outputTokens,p.outputMicroCnyPerMillion);
     if (cost > BigInt(t.reservedMicroCny)) fail('cost_exceeds_reservation');
     t.status = 'settled'; t.chargedMicroCny = cost.toString(); t.usage = { inputTokens: u.inputTokens, outputTokens: u.outputTokens, totalTokens: u.totalTokens }; t.model = receipt.model;
+    if (publish) {
+      try { publish(copy(t)); } catch { this.store.poisoned = true; fail('publication_failed'); }
+    }
     this.store.save(); return copy(t);
   }
 }
