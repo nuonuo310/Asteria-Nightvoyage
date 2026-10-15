@@ -24,6 +24,8 @@ Reviewed model names in the current API page: `deepseek-flash`, `deepseek-v4-pro
 3. Put the API key in an environment variable or an external local file on the user's computer, outside the checkout. Do not paste it in chat or commit it. Credential handling and a Windows setup command are not yet implemented; no real setup command is supplied prematurely.
 4. Test that live gates, sanitized failures and cumulative limits work with stub HTTP before authorizing actual requests. Then run fictional trials, inspect scenes, affect and wake fragments together, and keep quality assessment separate from mechanism tests.
 
-The current input grants explicitly forbid model egress. This preparation must not silently flip them. Any future fictional trial needs a separate explicit egress-grant path. Real material remains excluded.
+The supplied fixture grants explicitly forbid model egress. This preparation must not silently flip them. Any future fictional trial needs a separate explicit egress-grant path. Real material remains excluded.
 
 Windows execution, actual DeepSeek compatibility, API latency, billed token counts, cost and dream quality are unverified. A local simulator cannot prove them. No Asteria or other repository was changed. This preparation PR is not merged under the earlier authorization, which applied specifically to PR #1.
+
+Follow-up: gated HTTP and monetary accounting components are now implemented separately; see [budget and transport](BUDGET-AND-TRANSPORT.md). The offline simulator remains unchanged. Live engine integration, user-approved configuration and external credential loading remain pending.

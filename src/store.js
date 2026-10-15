@@ -47,6 +47,14 @@ export class Store {
       for (const run of Object.values(this.state.runs)) {
         if (run.status === 'running') run.status = 'uncertain';
       }
+      if (this.state.billing) {
+        if (this.state.billing.version !== 1 || !this.state.billing.accounts) fail('invalid_billing_version');
+        for (const account of Object.values(this.state.billing.accounts)) {
+          for (const attempt of Object.values(account.attempts)) {
+            if (['reserved','dispatched'].includes(attempt.status)) attempt.status = 'unknown';
+          }
+        }
+      }
       this.save();
     } catch (e) { this.close(); throw e; }
   }

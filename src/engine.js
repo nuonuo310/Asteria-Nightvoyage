@@ -25,7 +25,14 @@ export class Nightvoyage {
   }
   status(id) {
     const r = this.run(id);
-    return copy({ id, status: r.status, stagesSaved: r.scenes?.length ?? 0, budget: r.budget, error: r.error, attempts: r.attempts });
+    const result = copy({ id, status: r.status, stagesSaved: r.scenes?.length ?? 0, budget: r.budget, error: r.error, attempts: r.attempts });
+    const account = r.billingAllowanceId ? own(this.store.state.billing?.accounts ?? {}, r.billingAllowanceId) : null;
+    if (account) {
+      const rows = Object.values(account.attempts).filter(t => t.runId === id);
+      result.billing = copy(rows);
+      result.budget = { kind: 'provider_usage_and_reservations', calls: rows.length, input: rows.reduce((n,t)=>n+(t.usage?.inputTokens??0),0), output: rows.reduce((n,t)=>n+(t.usage?.outputTokens??0),0), heldOrSpentMicroCny: rows.reduce((n,t)=>n+BigInt(t.chargedMicroCny),0n).toString() };
+    }
+    return result;
   }
   cancel(id) {
     const r = this.run(id);
@@ -47,23 +54,29 @@ export class Nightvoyage {
     r.status = 'running';
     try {
       this.store.save();
-      while (r.scenes.length < r.config.scenes) {
-        const raw = await this.call(r, 'scene', controller.signal);
-        if (r.status !== 'running') return this.status(id);
-        const before = r.scenes.at(-1)?.after ?? r.snapshot.channels.affect.value ?? neutral();
-        r.scenes.push(scene(raw, before)); this.store.save(); this.fault('scene_saved');
-      }
-      const raw = await this.call(r, 'wake', controller.signal);
-      if (r.status !== 'running') return this.status(id);
-      r.wake = wake(raw);
-      const entryId = `dream-${id}`;
-      this.store.state.entries[entryId] = { ...this.envelope(r, entryId, 'dream'), scenes: copy(r.scenes), wake: { ...this.envelope(r, `wake-${id}`, 'wake_note'), ...r.wake }, residue: { ...this.envelope(r, `residue-${id}`, 'simulated_affect'), strength: r.wake.residue, startedAt: Date.now(), durationMs: 3600000 }, cherished: false, recallAccess: 'cue' };
-      r.entryId = entryId; r.status = 'completed'; this.store.save();
+      while (r.status === 'running' && r.scenes.length < r.config.scenes) await this.sceneStep(r, controller.signal);
+      if (r.status === 'running') await this.wakeStep(r, controller.signal);
     } catch (error) {
       if (this.store.poisoned) throw error;
-      if (r.status === 'running') { r.status = error.message === 'simulated_crash' ? 'uncertain' : 'failed'; r.error = ['budget_exhausted','timeout','invalid_scene','invalid_affect','invalid_appraisal','invalid_wake','simulated_crash'].includes(error.message) ? error.message : 'provider_or_validation_failure'; this.store.save(); }
+      if (r.status === 'running') { r.status = ['simulated_crash','ambiguous_attempt'].includes(error.message) ? 'uncertain' : 'failed'; r.error = ['budget_exhausted','timeout','invalid_scene','invalid_affect','invalid_appraisal','invalid_wake','simulated_crash','ambiguous_attempt','allowance_exhausted','allowance_expired','source_egress_denied_or_withdrawn','provider_authentication_failed','provider_rate_limited','provider_http_failure','request_failed'].includes(error.message) ? error.message : 'provider_or_validation_failure'; this.store.save(); }
     } finally { this.active.delete(id); }
     return this.status(id);
+  }
+  async sceneStep(r, signal) {
+    const raw = await this.call(r, 'scene', signal);
+    if (r.status !== 'running') return;
+    const before = r.scenes.at(-1)?.after ?? r.snapshot.channels.affect.value ?? neutral();
+    r.scenes.push(scene(raw, before)); this.store.save(); this.fault('scene_saved');
+  }
+  async wakeStep(r, signal) {
+    const raw = await this.call(r, 'wake', signal);
+    if (r.status !== 'running') return;
+    r.wake = wake(raw); this.publishDream(r); this.store.save();
+  }
+  publishDream(r) {
+    const id = r.id, entryId = `dream-${id}`;
+    this.store.state.entries[entryId] = { ...this.envelope(r, entryId, 'dream'), scenes: copy(r.scenes), wake: { ...this.envelope(r, `wake-${id}`, 'wake_note'), ...r.wake }, residue: { ...this.envelope(r, `residue-${id}`, 'simulated_affect'), strength: r.wake.residue, startedAt: Date.now(), durationMs: 3600000 }, cherished: false, recallAccess: 'cue' };
+    r.entryId = entryId; r.status = 'completed';
   }
   async call(r, stage, signal) {
     if (r.status !== 'running' || signal.aborted) fail('cancelled');
