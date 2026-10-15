@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-15",
+  "evidence": "user-reported Windows terminal test summary; not independent checkout or machine verification",
+  "command": "npm.cmd test",
+  "platform": "win32",
+  "tests": 154,
+  "pass": 154,
+  "fail": 0,
+  "cancelled": 0,
+  "skipped": 0,
+  "todo": 0,
+  "reportedDurationMs": 5825.4446,
+  "diagnosticTestsReportedPassing": 6,
+  "realModelRequestsInTheseTests": 0,
+  "liveFailureCauseRecovered": false,
+  "unknownHoldReleased": false,
+  "newPaidTrialApproved": false,
+  "qualityAssessed": false
+}
