@@ -1,3 +1,4 @@
+import { freezePrunedCore } from '../test-support/frozen-pruned-project.js';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -8,13 +9,14 @@ import { prunedV2ReviewedConfig, prunedV2ReviewedProposal } from '../src/pruned-
 import { readPrunedV2Trial, prunedV2TrialId } from '../src/pruned-v2-trial-config.js';
 import { pricingProfile, profileExpiresAt } from '../src/trial-config.js';
 const now=pricingProfile.checkedAt+1000;
-function project(t,kind='queued') {
+function project(t,kind='queued',keepFrozen=false) {
   const base=fs.mkdtempSync(path.join(os.tmpdir(),'nightvoyage-history-copy-'));t.after(()=>fs.rmSync(base,{recursive:true,force:true}));
   const repo=path.join(base,'project'),data=path.join(base,'data');fs.mkdirSync(repo);
   for(const name of ['src','fixtures','test-support'])fs.cpSync(new URL(`../${name}`,import.meta.url),path.join(repo,name),{recursive:true});
   fs.copyFileSync(new URL('../package.json',import.meta.url),path.join(repo,'package.json'));
+  const restore=freezePrunedCore(repo);
   const program=`import fs from 'node:fs';import {preparePrunedHistory} from './test-support/pruned-history-fixtures.js';import {initPrunedV2Trial,prunedV2TrialId,prunedV2TrialInput} from './src/pruned-v2-trial-config.js';import {BudgetedNightvoyage} from './src/budgeted-runtime.js';import {pricingProfile} from './src/trial-config.js';Date.now=()=>${now};const original=preparePrunedHistory({after:()=>{}});fs.renameSync(original,process.argv[1]);const d=process.argv[1],c=initPrunedV2Trial(d,{budgetCny:3,approvedCase:'sparse-context',approveFictionalEgress:true,acknowledgePreservedHolds:true});let calls=0;globalThis.fetch=async(_u,r)=>{calls++;const m=JSON.parse(JSON.parse(r.body).messages[1].content),pairs=JSON.parse(fs.readFileSync('fixtures/coupled-affect-review.json')).cases,data=m.stage==='wake'?{fragment:m.previousScenes.at(-1).event.split('。')[0]+'。',residue:.1,associations:[]}:pairs[m.sceneIndex].flat;if(${JSON.stringify(kind)}==='failed')data.delta.arousal=.1;return new Response(JSON.stringify({model:'deepseek-flash',choices:[{finish_reason:'stop',message:{role:'assistant',content:JSON.stringify(data)}}],usage:{prompt_tokens:100,completion_tokens:80,total_tokens:180}}));};if(${JSON.stringify(kind)}!=='queued'){const e=new BudgetedNightvoyage(d,{allowance:c.allowance,mode:'live',enabled:true,protocol:'compact-appraisal-v2',credential:'DUMMY-HISTORY-ONLY'});await e.execute(e.start(prunedV2TrialId,prunedV2TrialId,prunedV2TrialInput(c)));e.close();}console.log(JSON.stringify({calls}));`;
-  const r=spawnSync(process.execPath,['--input-type=module','-e',program,data],{cwd:repo,encoding:'utf8'});assert.equal(r.status,0,r.stderr);return {base,repo,data,setupCalls:JSON.parse(r.stdout).calls};
+  const r=spawnSync(process.execPath,['--input-type=module','-e',program,data],{cwd:repo,encoding:'utf8'});assert.equal(r.status,0,r.stderr);if(!keepFrozen)restore();return {base,repo,data,setupCalls:JSON.parse(r.stdout).calls};
 }
 function cli(p,args,{clock=now}={}) {
   const keyMarker=path.join(p.base,'key-read'),networkMarker=path.join(p.base,'network-call');
@@ -51,7 +53,7 @@ test('withdrawal still removes historical bodies and stale replay even after sou
   const read=cli(p,['read']);assert.equal(read.status,0,read.stderr);assert.equal(JSON.parse(read.stdout).dream,null);assert.equal(JSON.parse(read.stdout).appraisalView,null);assert.equal(cli(p,['run','--live']).status,1);assert.deepEqual(disk(p).billing.accounts,before);
 });
 test('unchanged sources but expired approval allow metadata reads while init and new run remain blocked',t=>{
-  const p=project(t),before=disk(p).billing.accounts,pre=cli(p,['preflight'],{clock:profileExpiresAt+1});assert.equal(pre.status,0,pre.stderr);const v=JSON.parse(pre.stdout);assert.equal(v.sourcePinsMatch,true);assert.equal(v.reason,'pricing_or_allowance_expired');
+  const p=project(t,'queued',true),before=disk(p).billing.accounts,pre=cli(p,['preflight'],{clock:profileExpiresAt+1});assert.equal(pre.status,0,pre.stderr);const v=JSON.parse(pre.stdout);assert.equal(v.sourcePinsMatch,true);assert.equal(v.reason,'pricing_or_allowance_expired');
   const read=cli(p,['read'],{clock:profileExpiresAt+1});assert.equal(read.status,0,read.stderr);assert.equal(cli(p,['run','--live'],{clock:profileExpiresAt+1}).status,1);assert.equal(cli(p,['init','--approve-budget-cny','3','--approve-case','sparse-context','--allow-fictional-egress','--acknowledge-preserved-holds'],{clock:profileExpiresAt+1}).status,1);assert.deepEqual(disk(p).billing.accounts,before);
 });
 test('historical CLI rejects mutated stored allowance despite source drift without revealing a body or reading key',t=>{

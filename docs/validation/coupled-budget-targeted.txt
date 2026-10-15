@@ -1,0 +1,68 @@
+✔ allowance binding is optional for legacy records, immutable when present and rejects unreviewed/offline versions (134.339705ms)
+✔ gated coupled and offline coupled checkpoints have distinct identities and preserve counts (85.302061ms)
+✔ coupled budget without a matching immutable allowance binding is blocked before reservation or dispatch (197.931834ms)
+✔ default coupled transport stays disabled and live HTTP override is still forbidden (21.3778ms)
+✔ integrated coupled commits audits, scenes and three settled rows atomically without touching an older hold (446.526715ms)
+✔ invalid coupled quotes and later affect rules retain typed body-free rejection and full unknown reservation (109.375649ms)
+✔ coupled budget diagnostic metadata strips arbitrary text and is accepted only by its bound account (20.763962ms)
+✔ coupled budget wake rejection cannot publish a dream or trigger a fourth repair call (90.635906ms)
+✔ coupled budget cancellation and withdrawal suppress late output and purge counts/view/recall (122.072364ms)
+✔ coupled budget run identity cannot switch allowance or protocol through execute/resume (12.109145ms)
+✔ coupled budget atomic settlement failure reopens with neither audit nor scene and retains unknown hold (16.457542ms)
+✔ actual exit after coupled atomic scene commit resumes only the remaining two paid-path simulator stages (1088.716626ms)
+✔ actual exit after dispatch keeps unknown coupled hold and explicit resume cannot send again (1262.490756ms)
+✔ coupled budget allowance call cap and missing egress block before any over-limit dispatch (85.556165ms)
+✔ coupled exact input/output byte ceilings reject before reserve or before publication without repair (111.243967ms)
+✔ coupled direct-store in-flight withdrawal suppresses late response and reopen cannot reveal body (55.412315ms)
+✔ coupled timeout and invalid usage each keep one unknown hold and no scene declaration (233.540119ms)
+✔ coupled declarations, audits and policy identity cannot be forged before dispatch or via read view (100.641043ms)
+✔ coupled diagnostic checks are bounded, version-bound and cannot alter settled billing (20.044993ms)
+✔ coupled duplicate starts and overlapping execute dispatch once and queued cancel consumes no allowance (89.955273ms)
+✔ fixed coupled budget command exercises only stub settlement and reports withdrawal/replay without quality claims (662.50602ms)
+✔ new coupled stub account preserves all three independent synthetic historical full holds byte-for-byte (162.875514ms)
+✔ coupled size audit measures bytes, leaves scripted inputs/grants unchanged and returns no narrative (64.290903ms)
+✔ coupled exact 1200-byte output passes and 1201 fails without affecting shape validity (50.28477ms)
+✔ individually valid maximal quotation table can exceed the unchanged response bound (29.249741ms)
+✔ JSON escapes and astral UTF-8 are measured in serialized bytes rather than character count (14.862868ms)
+✔ synthetic large fictional request explicitly requires a future gated pre-reservation byte guard (27.29232ms)
+✔ size audit refuses real, unmarked, egress-enabled or unsafe scripted inputs (3.166637ms)
+✔ independent byte audit command dispatches nothing and verifies existing live source pins (1068.298522ms)
+✔ isolated source-drift probe keeps historical configuration readable after current source drift without opening a user Store (854.483542ms)
+✔ historical profile is detached immutable data and missing/config-tampered reads never create an account (128.081163ms)
+✔ source drift keeps old unknown accounting readable but blocks new init/run before key/reservation (7978.971577ms)
+✔ failed third unknown stays body-free and unchanged through source drift and expiry reads (8223.880868ms)
+✔ completed historical dream/view replay survives source drift and expiry with zero key or fetch access (1986.316452ms)
+✔ withdrawal still removes historical bodies and stale replay even after source drift (2671.651641ms)
+✔ unchanged sources but expired approval allow metadata reads while init and new run remain blocked (2001.92532ms)
+✔ historical CLI rejects mutated stored allowance despite source drift without revealing a body or reading key (2211.342763ms)
+✔ all 13 original entry probes still pass against the exact historical core in an isolated copy (28255.889918ms)
+ℹ ✔ pruned v2 proposal is unapproved and missing approval preflight creates no runtime directory (123.957654ms)
+✔ pruned v2 init needs exact case, egress, fee and completed prior quality screen (10.981707ms)
+✔ pruned v2 approval preserves prior ledger and cannot reset or edit its new immutable allowance (178.566005ms)
+✔ pruned v2 CLI remains disabled without live flag, approval or key and rejects unknown flags (6153.724393ms)
+✔ pruned v2 CLI simulator loop returns typed view, blocks cap and replays without credentials (4566.721035ms)
+✔ invalid pruned v2 reply and in-flight cancellation retain holds and never retry (6712.989972ms)
+✔ pruned v2 entry resumes a committed checkpoint only explicitly without paying for it twice (2161.674312ms)
+✔ first durable pruned v2 start includes protocol/allowance identity before any dispatch (1867.562992ms)
+✔ pruned v2 withdrawal blocks read/replay/reinit and expiry cannot extend approval (1574.71671ms)
+✔ pruned v2 requires both exact preserved holds and rejects unrelated unresolved attempts (126.953334ms)
+✔ pruned v2 approval requires explicit hold acknowledgement and binds protocol immutably (64.426968ms)
+✔ pruned v2 entry cannot replay an in-flight process death or open a second Store owner (2225.280467ms)
+✔ pruned v2 missing approval and wrong ack cause no new directory or key read (688.374682ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 27208.764828
+
+ℹ tests 38
+ℹ suites 0
+ℹ pass 38
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 30109.094899
