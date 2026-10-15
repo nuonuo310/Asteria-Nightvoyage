@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "evidenceKind": "user_report",
+  "date": "2026-10-15",
+  "reportedPlatform": "Windows PowerShell",
+  "nodeVersion": "not_in_this_excerpt",
+  "command": "npm.cmd test (requested; exact invocation not shown in excerpt)",
+  "tests": 201,
+  "passed": 201,
+  "failed": 0,
+  "cancelled": 0,
+  "skipped": 0,
+  "todo": 0,
+  "durationMs": 8894.6466,
+  "scope": "reported prior budget-core suite; not new trial entry",
+  "exactCheckoutIndependentlyVerified": false,
+  "rawTranscriptPublished": false,
+  "realModelQualityAssessed": false
+}

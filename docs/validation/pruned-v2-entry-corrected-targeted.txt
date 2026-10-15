@@ -1,0 +1,19 @@
+✔ pruned v2 proposal is unapproved and missing approval preflight creates no runtime directory (406.002303ms)
+✔ pruned v2 init needs exact case, egress, fee and completed prior quality screen (44.274875ms)
+✔ pruned v2 approval preserves prior ledger and cannot reset or edit its new immutable allowance (522.148271ms)
+✔ pruned v2 CLI remains disabled without live flag, approval or key and rejects unknown flags (4724.8891ms)
+✔ pruned v2 CLI simulator loop returns typed view, blocks cap and replays without credentials (1692.030039ms)
+✔ invalid pruned v2 reply and in-flight cancellation retain holds and never retry (1552.908733ms)
+✔ pruned v2 entry resumes a committed checkpoint only explicitly without paying for it twice (885.827719ms)
+✔ first durable pruned v2 start includes protocol/allowance identity before any dispatch (981.626148ms)
+✔ pruned v2 withdrawal blocks read/replay/reinit and expiry cannot extend approval (1171.039623ms)
+✔ pruned v2 requires both exact preserved holds and rejects unrelated unresolved attempts (139.384568ms)
+✔ pruned v2 approval requires explicit hold acknowledgement and binds protocol immutably (70.557337ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13236.633249
