@@ -44,7 +44,7 @@ test('v2 request stays bounded and validates distinct checkpoints without changi
   assert.equal(request.protocolVersion,compactV2Version);assert.equal(request.body.max_tokens,400);assert.equal(request.body.stream,false);assert.equal(request.body.thinking.type,'disabled');assert.equal(request.body.tools,undefined);assert.equal(request.headers,undefined);
   assert.deepEqual(m.previousScenes[0].normalizationAudit,first.normalizationAudit);assert.equal(singleSceneProposal().protocolVersion,'compact-appraisal-quotes-v1');
   first.normalizationAudit.discardedUnusedQuoteCount=99;assert.throws(()=>buildCompactV2Request({stage:'scene',index:1,snapshot:seed,scenes:[first]},{model:'deepseek-flash'}),/invalid_compact_v2/);
-  assert.throws(()=>new GatedDeepSeekClient(null,{protocol:'compact-appraisal-v2'}),/unreviewed_transport_protocol/);
+  assert.throws(()=>new GatedDeepSeekClient(null,{protocol:'compact-appraisal-v2-unreviewed'}),/unreviewed_transport_protocol/);
 });
 test('v2 cannot run without explicit local simulator and rejects malformed responses with no repair call',async t=>{
   assert.throws(()=>new OfflineCompactV2Provider({model:'deepseek-flash'}),/simulator_required/);

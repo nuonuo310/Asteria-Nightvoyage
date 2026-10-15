@@ -1,6 +1,7 @@
 import { buildDeepSeekRequest, parseDeepSeekResponse, normalizeDeepSeekStage, protocolVersion } from './deepseek-protocol.js';
 import { buildCompactAppraisalRequest, normalizeCompactStage, normalizeCompactScene, compactProtocolVersion } from './compact-appraisal-protocol.js';
 import { compactValidationDiagnostic } from './validation-diagnostic.js';
+import { prunedCompactV2Version, buildPrunedV2Request, normalizePrunedV2Stage, normalizePrunedV2Scene, prunedV2Diagnostic } from './compact-v2-protocol.js';
 import { BudgetLedger } from './budget-ledger.js';
 import { snapshot, hash, safeId } from './contract.js';
 import { fail, copy } from './store.js';
@@ -20,14 +21,14 @@ async function boundedBody(response, signal) {
 }
 export class GatedDeepSeekClient {
   constructor(store, { enabled = false, mode = 'disabled', fetchImpl, timeoutMs = 10000, fault = () => {}, protocol = 'grounded-wake-v2' } = {}) {
-    if (!['grounded-wake-v2','compact-appraisal-v1'].includes(protocol)) fail('unreviewed_transport_protocol');
+    if (!['grounded-wake-v2','compact-appraisal-v1','compact-appraisal-v2'].includes(protocol)) fail('unreviewed_transport_protocol');
     if (!['disabled','stub','live'].includes(mode) || !Number.isSafeInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 60000) fail('invalid_transport_config');
     if (mode === 'stub' && typeof fetchImpl !== 'function') fail('stub_transport_required');
     if (mode === 'live' && fetchImpl !== undefined) fail('live_transport_override_forbidden');
     this.store = store; this.enabled = enabled; this.mode = mode; this.fetchImpl = mode === 'stub' ? fetchImpl : undefined;
     this.timeoutMs = timeoutMs; this.fault = fault; this.pending = new Map(); this.closed = false;
     Object.defineProperties(this,{protocol:{value:protocol,enumerable:true},
-      protocolVersion:{value:protocol==='compact-appraisal-v1'?compactProtocolVersion:protocolVersion,enumerable:true}});
+      protocolVersion:{value:protocol==='compact-appraisal-v2'?prunedCompactV2Version:protocol==='compact-appraisal-v1'?compactProtocolVersion:protocolVersion,enumerable:true}});
     this.ledger = new BudgetLedger(store);
   }
   checkSources(input) {
@@ -42,8 +43,10 @@ export class GatedDeepSeekClient {
     const input = snapshot(payload?.snapshot); this.checkSources(input);
     const allowance = this.ledger.account(allowanceId).allowance;
     if (allowance.mode !== this.mode) fail('allowance_mode_mismatch');
+    if ((this.protocol==='compact-appraisal-v2'&&allowance.protocolVersion!==this.protocolVersion)||
+        (allowance.protocolVersion!==undefined&&allowance.protocolVersion!==this.protocolVersion)) fail('allowance_protocol_mismatch');
     if (Date.now() >= allowance.expiresAt) fail('allowance_expired');
-    const build=this.protocol==='compact-appraisal-v1'?buildCompactAppraisalRequest:buildDeepSeekRequest;
+    const build=this.protocol==='compact-appraisal-v2'?buildPrunedV2Request:this.protocol==='compact-appraisal-v1'?buildCompactAppraisalRequest:buildDeepSeekRequest;
     const request = build({ ...payload, snapshot: input }, { model: allowance.pricing.model, maxOutputTokens: 400 });
     // JSON bytes are only a request size guard; cost reserves the whole context bound.
     if (Buffer.byteLength(JSON.stringify(request.body)) > 65536) fail('request_too_large');
@@ -77,11 +80,12 @@ export class GatedDeepSeekClient {
       };
       const result=await Promise.race([operation(),stopped]);
       if (controller.signal.aborted || this.closed) fail('cancelled'); this.checkSources(input);
-      const normalize=this.protocol==='compact-appraisal-v1'?normalizeCompactStage:normalizeDeepSeekStage;
+      const normalize=this.protocol==='compact-appraisal-v2'?normalizePrunedV2Stage:this.protocol==='compact-appraisal-v1'?normalizeCompactStage:normalizeDeepSeekStage;
       let value;
-      if (this.protocol==='compact-appraisal-v1' && material.stage==='scene') {
-        try {value=normalizeCompactScene(result.data,material.previousAffect);}
-        catch (error) {validationDiagnostic=compactValidationDiagnostic(error?.message);fail('compact_appraisal_invalid');}
+      if (this.protocol!=='grounded-wake-v2' && material.stage==='scene') {
+        const sceneNormalizer=this.protocol==='compact-appraisal-v2'?normalizePrunedV2Scene:normalizeCompactScene;
+        try {value=sceneNormalizer(result.data,material.previousAffect);}
+        catch (error) {validationDiagnostic=this.protocol==='compact-appraisal-v2'?prunedV2Diagnostic(error?.message):compactValidationDiagnostic(error?.message);fail('compact_appraisal_invalid');}
       } else value=normalize(result.data,material);
       if (publish !== undefined && typeof publish !== 'function') fail('invalid_publication');
       const receipt=this.ledger.settle(allowanceId,requestId,result.receipt,publish ? accounting => publish(copy(value),accounting) : undefined);
