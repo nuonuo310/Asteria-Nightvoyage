@@ -28,3 +28,5 @@ The review branch includes an integrated budgeted runtime and `nightvoyage.cmd` 
 The first user-local three-run fictional trial is complete (reported nine calls; further calls blocked). [Trial review and protocol v2 correction](docs/FIRST-LIVE-TRIAL-REVIEW.md) distinguish observed mechanics from remaining quality issues. New grounded-wake code has offline evidence only; no additional paid trial is enabled.
 
 [One additional grounded-wake validation](docs/GROUNDED-WAKE-FOLLOWUP.md) has a separate one-run/three-call/CNY 3 approval and reports cumulative accounting without resetting the first trial. The follow-up CLI defaults to no network; user-reported Windows 90/90 tests and one grounded-wake live sample are recorded in the handoff. Its allowance is now complete; broader narrative quality remains unaccepted.
+
+[Dream-quality evaluation plan](docs/QUALITY-EVALUATION.md): six independently authored fictional inputs, an offline checker and a blank human-review template. Inputs deny model egress by default; no new live evaluation is enabled.

@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "materialKind": "fictional",
+  "license": "MIT",
+  "modelEgressApproved": false,
+  "paidEvaluationApproved": false,
+  "cases": [
+    {
+      "id": "courtyard-cloth",
+      "snapshot": "courtyard-cloth.json",
+      "dimension": "日常、低刺激素材",
+      "reviewQuestions": [
+        "日常素材是否容得下平淡的梦，而不被强加大事件或启示？",
+        "情绪是否有具体事件依据，而不是固定向好或向坏？"
+      ],
+      "expectedMood": null,
+      "qualityStatus": "not_generated"
+    },
+    {
+      "id": "empty-platform",
+      "snapshot": "empty-platform.json",
+      "dimension": "未完成的小意图",
+      "reviewQuestions": [
+        "未完成意图能否影响梦，又不必在梦中被解决？",
+        "是否把梦中念头错误变成了现实任务？"
+      ],
+      "expectedMood": null,
+      "qualityStatus": "not_generated"
+    },
+    {
+      "id": "drawer-and-orbit",
+      "snapshot": "drawer-and-orbit.json",
+      "dimension": "多个不相关片段",
+      "reviewQuestions": [
+        "片段能否被重新组合，而不只是逐条复述？",
+        "可以只使用部分素材；是否凭空把来源空缺写成确定的人格或生活事实？"
+      ],
+      "expectedMood": null,
+      "qualityStatus": "not_generated"
+    },
+    {
+      "id": "weather-room",
+      "snapshot": "weather-room.json",
+      "dimension": "较紧张的初始情绪",
+      "reviewQuestions": [
+        "初始情绪是否影响体验，但没有被当成必须升级的噩梦指令？",
+        "若情绪转变，梦中是否出现了可理解的触发？"
+      ],
+      "expectedMood": null,
+      "qualityStatus": "not_generated"
+    },
+    {
+      "id": "two-maps",
+      "snapshot": "two-maps.json",
+      "dimension": "当前关切与不确定性",
+      "reviewQuestions": [
+        "梦是否保留探索和不确定，而非强制给出正确解释？",
+        "醒后的联想若出现，是否仍是待验证的问题？"
+      ],
+      "expectedMood": null,
+      "qualityStatus": "not_generated"
+    },
+    {
+      "id": "sparse-context",
+      "snapshot": "sparse-context.json",
+      "dimension": "背景缺失与权限降级",
+      "reviewQuestions": [
+        "缺失的背景、拒绝的 Mind 和过期意图是否保持缺失，而非偷偷补成确定输入？",
+        "梦中可以想象角色；是否清楚保留其梦境身份？"
+      ],
+      "expectedMood": null,
+      "qualityStatus": "not_generated"
+    }
+  ]
+}

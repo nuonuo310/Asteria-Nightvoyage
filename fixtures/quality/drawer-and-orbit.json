@@ -1,0 +1,50 @@
+{
+  "id": "quality-drawer-and-orbit",
+  "version": "1",
+  "materialKind": "fictional",
+  "sources": [
+    {
+      "id": "q-drawer-memory",
+      "version": "1",
+      "text": "完全虚构：一个没有指定性别的人整理旧抽屉，找到一枚透明纽扣，把它放进空火柴盒。",
+      "grant": {
+        "dream": true,
+        "modelEgress": false
+      }
+    },
+    {
+      "id": "q-orbit-memory",
+      "version": "1",
+      "text": "完全虚构：同一个人在小天象馆看过一颗缓慢移动的投影圆点，离场时发现衣袋里多了一张空白票根。",
+      "grant": {
+        "dream": true,
+        "modelEgress": false
+      }
+    }
+  ],
+  "channels": {
+    "memory": {
+      "availability": "present",
+      "sourceIds": [
+        "q-drawer-memory",
+        "q-orbit-memory"
+      ]
+    },
+    "background": {
+      "availability": "absent",
+      "sourceIds": []
+    },
+    "affect": {
+      "availability": "absent",
+      "sourceIds": []
+    },
+    "mind": {
+      "availability": "absent",
+      "sourceIds": []
+    },
+    "intents": {
+      "availability": "absent",
+      "sourceIds": []
+    }
+  }
+}

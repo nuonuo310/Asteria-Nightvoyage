@@ -1,0 +1,51 @@
+{
+  "id": "quality-empty-platform",
+  "version": "1",
+  "materialKind": "fictional",
+  "sources": [
+    {
+      "id": "q-platform-memory",
+      "version": "1",
+      "text": "完全虚构：一位没有指定性别的旅人在空站台上看过一张褪色的站名牌，列车已驶走；长椅上留着一片落叶。",
+      "grant": {
+        "dream": true,
+        "modelEgress": false
+      }
+    },
+    {
+      "id": "q-platform-intent",
+      "version": "1",
+      "text": "完全虚构的未完成意图：想在下次经过时辨认站名牌上模糊的最后一个字；没有现实行动授权。",
+      "grant": {
+        "dream": true,
+        "modelEgress": false
+      }
+    }
+  ],
+  "channels": {
+    "memory": {
+      "availability": "present",
+      "sourceIds": [
+        "q-platform-memory"
+      ]
+    },
+    "background": {
+      "availability": "absent",
+      "sourceIds": []
+    },
+    "affect": {
+      "availability": "absent",
+      "sourceIds": []
+    },
+    "mind": {
+      "availability": "absent",
+      "sourceIds": []
+    },
+    "intents": {
+      "availability": "present",
+      "sourceIds": [
+        "q-platform-intent"
+      ]
+    }
+  }
+}
