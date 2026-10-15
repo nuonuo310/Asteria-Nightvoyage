@@ -40,3 +40,5 @@ The user subsequently approved and reported completion of that three-case live s
 User-reported Windows validation also passed all 120 tests and all three scripted appraisal rehearsals, with zero real requests. This confirms reported offline compatibility, not real-provider behavior or semantic quality; the candidate still has no paid entry or new spending approval.
 
 [Appraisal read and size review](docs/APPRAISAL-READ-AND-SIZE-REVIEW.md) adds an uncached, provenance-preserving read view that exposes absent evidence as null instead of a numeric placeholder. The offline audit measures UTF-8 JSON bytes only: short probes fit, while a legal maximal-field combination is refused by the overall response limit. No token count, price estimate or real quality acceptance is inferred.
+
+The user also reported Windows 127/127 tests and matching byte-audit outcomes, with zero real requests. The offline read/size validation is complete; compact evidence design and real-provider quality remain separate future work, with no new paid authorization.
