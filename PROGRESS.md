@@ -73,3 +73,11 @@ Same-author review, not an independent-agent audit. An execution-environment dis
 ## Trial decision and merge authorization — 2026-10-15
 
 The user explicitly approved the revised CNY 3 total ceiling, at most three fictional dreams / nine calls, and merging PR #3. This supersedes the prior CNY 1 trial ceiling. Updated the Windows handoff to initialize CNY 3 and use main after confirmed merge. No runtime code changed; the 76-test evidence remains bound to the same source hashes. No local user credential or production API request was accessed. Merge confirmation follows through GitHub metadata; user-local Windows execution and actual dream-quality review remain next.
+
+## Windows compatibility correction — 2026-10-15
+
+User-local Windows validation of merged PR #3 reported 72 passed / 4 failed: three `fixture_changed` failures and one URL-path assertion failure. Initialization/preflight stopped before credential entry; no live output was reported. Reproduced the three fixture failures on the unchanged parent by converting text working files to CRLF (8 passed / 3 failed in integration tests). The attached terminal transcript is not copied into this public repository.
+
+The pinned fictional fixture verifier now converts CRLF to LF before SHA-256 comparison, with the original canonical digest unchanged. No whitespace, JSON reformatting, content or permission edits are normalized. Added regression tests for both newline forms, unchanged no-egress grants, and rejection of changed text/grants/whitespace/lone CR. The lifecycle test now converts file URLs with `fileURLToPath` and uses a Windows junction without symlink privileges; production storage isolation remains unchanged.
+
+Validation: **78 passed / 0 failed / 0 skipped** on Linux with LF working files and independently in a temporary CRLF text checkout. Direct output, baseline reproduction and source hashes: `docs/validation/windows-compatibility.json` and referenced TAP files. This is CRLF simulation on Linux, not Windows execution. Source/fixture budget gates remain active, user-local CNY 3 accounting is retained, no real request or key access occurred. Next: Windows rerun on the fix branch, then merge review and credential-free preflight before the first live fictional dream.

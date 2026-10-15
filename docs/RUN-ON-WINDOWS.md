@@ -59,3 +59,18 @@ Completed-slot replay returns the saved result without key access or another req
 A scene/wake and its settled billing row share one atomic state snapshot. Crash before it exposes neither settlement nor a new stage; the previous hold becomes unknown. Crash after it retains both. There is no separate model-response cache. Withdrawal clears dependent journal bodies while retaining body-free money receipts. Existing single-host, external-backup and physical-erasure limits remain.
 
 Actual DeepSeek compatibility, actual charges, Windows execution and dream quality remain unverified until the corresponding user-local run produces evidence. The shell key-entry example and `.cmd` launcher have not been executed on Windows in this environment.
+
+## Windows compatibility correction
+
+If the first Windows run reports `fixture_changed` and a doubled-drive path in the lifecycle test, use the `fix/windows-fixture-and-paths` review branch until that correction is confirmed merged. Do not reclone or remove runtime data:
+
+```powershell
+git status --short
+git fetch origin
+git switch --track origin/fix/windows-fixture-and-paths
+npm.cmd test
+.\nightvoyage.cmd init --approve-budget-cny 3 --allow-fictional-egress
+.\nightvoyage.cmd preflight
+```
+
+Stop if there are existing local edits, a branch conflict or test failures. Identical CNY 3 initialization is idempotent and preserves accounting. No key is needed for these checks. The correction allows only CRLF-to-LF normalization for the pinned fictional fixture; all other content stays covered by the original SHA-256 pin. LF and CRLF simulations pass 78 tests on Linux; a Windows rerun is still needed.

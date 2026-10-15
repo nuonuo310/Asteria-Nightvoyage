@@ -1,0 +1,55 @@
+{
+  "platform": "Linux",
+  "node": "v24.19.0",
+  "linuxLF": {
+    "passed": 78,
+    "failed": 0,
+    "output": "windows-fix-linux.txt"
+  },
+  "linuxCRLFSimulation": {
+    "passed": 78,
+    "failed": 0,
+    "output": "windows-fix-crlf-linux.txt"
+  },
+  "baselineCRLF": {
+    "passed": 8,
+    "failed": 3,
+    "scope": "integration tests on parent df58bbd with CRLF working files",
+    "output": "windows-crlf-before.txt"
+  },
+  "userReportedWindowsBaseline": {
+    "passed": 72,
+    "failed": 4,
+    "source": "user supplied terminal output; private attachment not copied"
+  },
+  "windowsFixExecutedOnWindows": false,
+  "realModelRequests": 0,
+  "sourceSha256": {
+    "fixtures/paper-harbor.json": "7151c9c5e1d88b4c1b3fe8412b1fb41c9d25bf2d9c85c3c5680f380b898cb7b4",
+    "nightvoyage.cmd": "961ca585990c6b520cd54c2e5235093cc8bfec65171aedf2e014b34373224ff6",
+    "package.json": "8ebbf5270f9c23228409410269e56cc009779eff803d3d5cd1144a3f4b04a56f",
+    "src/adapters.js": "98aa38e7c9860c2058f9d8ebe7a24bc20670abf0cbbf4ec0d14d995af164cd79",
+    "src/budget-ledger.js": "f18512c5e88864aad335fc9f3bb9ebd931f3880a03b044285c0556f425cdcfcb",
+    "src/budgeted-runtime.js": "ec5c5fa1d6da0897c197bfecb042b00b32c6d292d9ef1de0e0dc61210cae499b",
+    "src/cli.js": "b9e1fd81054f45e5a477c256bc3b9cea36bbf51f05722adf84654fae6d6196bc",
+    "src/contract.js": "850c99572c39930eac150588e379c9af90b5e792159ae46a04f9fad0f9d52ca7",
+    "src/deepseek-protocol.js": "46bb12fbf0a766bb88f802cda32633bd7e56d0cfd2202a8ab373de9d87200b0c",
+    "src/engine.js": "8ac1658c5f943881e6ee546d50baccd46423cee79ef634664ec05580932a5ae9",
+    "src/fake-provider.js": "9460fac1e2d936b5aacde19ec1c79a07b1d1db77987cc4b51e815acd913f6456",
+    "src/gated-deepseek-client.js": "76710f9e2560f9903187821d9b66728c4a61dc575beb1143705a5eccba300a16",
+    "src/store.js": "07711405e41780805dbe23a3f993fdfb7a7d0b44a39d3dbd160374dafd1aaacb",
+    "src/trial-cli.js": "60b4e421c8abb068cde1e2f014ee7cb6824442f92f05cefc42661b2d3b4d8f9b",
+    "src/trial-config.js": "32762a9fae9872e9533a292a40b729c55c4f1ce258b1f91a0d5d0f454c007d90",
+    "test/basic.test.js": "e64a83c96aec98ea2063a21d4787a3e621d57758f0672afbb5bc976d232776d8",
+    "test/budget-transport.test.js": "5c12a68c9a141b6d4d6ab86b0219bf5d333224766063eae548dff2dabe133fa3",
+    "test/deepseek.test.js": "300e8a7378450541f917af309717d83f712af4cc949a16d58b3afdcf494aaf33",
+    "test/integration.test.js": "538de5eeb69288ad621f753276aa007bb6127ebb7668a878a7e0a13c2a54b210",
+    "test/lifecycle.test.js": "a7cb6f8a9141d5cf336d2602502a8f9d848f87079ae06bae050e8bee467dc367",
+    "test/review.test.js": "9c7c9fa05e11b5c5ca0b7787a7d787b0adea50cb76287ba08ea055ec5b17aacf"
+  },
+  "outputSha256": {
+    "windows-fix-crlf-linux.txt": "7dd9dbfa696a8ac632a376c22a137432e148ad503849b16294a0d0f4aa535282",
+    "windows-crlf-before.txt": "1bec585e2501aa8e7f716a16b121c3b6e985693ebf35c9d0268abb49d6485255",
+    "windows-fix-linux.txt": "5bedf505e0e62792cebbb7cd04515aa6ff3963f567cbd25a3b0055502fc80d90"
+  }
+}

@@ -8,11 +8,17 @@ import { BudgetLedger, maximumCost, validateAllowance } from './budget-ledger.js
 export const pricingProfile = Object.freeze({model:'deepseek-flash',contextTokenLimit:1100000,inputMicroCnyPerMillion:2000000,outputMicroCnyPerMillion:8000000,reference:'https://api-docs.deepseek.com/zh-cn/quick_start/pricing/',checkedAt:Date.parse('2026-10-15T12:10:00Z')});
 export const profileExpiresAt = Date.parse('2026-10-16T12:10:00Z');
 export const fixtureDigest = '7151c9c5e1d88b4c1b3fe8412b1fb41c9d25bf2d9c85c3c5680f380b898cb7b4';
+export function verifiedFixture(bytes) {
+  // Git may check text out with CRLF on Windows. Only normalize CRLF;
+  // every other byte remains part of the pinned fictional-material identity.
+  const canonical = Buffer.from(bytes.toString('utf8').replace(/\r\n/g, '\n'), 'utf8');
+  if (createHash('sha256').update(canonical).digest('hex')!==fixtureDigest) fail('fixture_changed');
+  return JSON.parse(canonical);
+}
 export function trialFixture(config) {
   if (config.fixtureEgressApproved!==true || config.fixtureSha256!==fixtureDigest) fail('fixture_egress_not_approved');
   const bytes=fs.readFileSync(new URL('../fixtures/paper-harbor.json',import.meta.url));
-  if (createHash('sha256').update(bytes).digest('hex')!==fixtureDigest) fail('fixture_changed');
-  const f=JSON.parse(bytes);for(const s of f.sources)s.grant.modelEgress=true;return f;
+  const f=verifiedFixture(bytes);for(const s of f.sources)s.grant.modelEgress=true;return f;
 }
 export function initTrial(directory,{budgetCny,approveFictionalEgress=false,now=Date.now()}={}) {
   if (approveFictionalEgress!==true || !['1','3'].includes(String(budgetCny))) fail('explicit_trial_approval_required');
