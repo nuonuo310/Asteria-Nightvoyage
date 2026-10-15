@@ -1,0 +1,263 @@
+{
+  "command": "node scripts/audit-coupled-affect-size.mjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "schemaVersion": 1,
+  "protocolVersion": "offline-coupled-affect-quotes-v1",
+  "materialKind": "fictional",
+  "generatedEventOrigin": "dream",
+  "isRealityFact": false,
+  "unit": "UTF-8 JSON bytes; not model tokens",
+  "outputTokenCap": 400,
+  "responseByteSafetyCeiling": 1200,
+  "actualModelTokenCount": null,
+  "responseParserUsage": "independent synthetic claims only; not provider usage",
+  "rows": [
+    {
+      "id": "ordinary-no-goal",
+      "jsonBytes": 230,
+      "shapeAccepted": true,
+      "shapeCheck": null,
+      "jsonParserAccepted": true,
+      "parserCheck": null,
+      "passesBothGuards": true,
+      "claimedOutputTokens": 400,
+      "actualModelTokenCount": null
+    },
+    {
+      "id": "stated-goal-hindered",
+      "jsonBytes": 473,
+      "shapeAccepted": true,
+      "shapeCheck": null,
+      "jsonParserAccepted": true,
+      "parserCheck": null,
+      "passesBothGuards": true,
+      "claimedOutputTokens": 400,
+      "actualModelTokenCount": null
+    },
+    {
+      "id": "stated-goal-helped",
+      "jsonBytes": 445,
+      "shapeAccepted": true,
+      "shapeCheck": null,
+      "jsonParserAccepted": true,
+      "parserCheck": null,
+      "passesBothGuards": true,
+      "claimedOutputTokens": 400,
+      "actualModelTokenCount": null
+    },
+    {
+      "id": "affect-without-goal",
+      "jsonBytes": 381,
+      "shapeAccepted": true,
+      "shapeCheck": null,
+      "jsonParserAccepted": true,
+      "parserCheck": null,
+      "passesBothGuards": true,
+      "claimedOutputTokens": 400,
+      "actualModelTokenCount": null
+    },
+    {
+      "id": "missing-reference-nonzero",
+      "jsonBytes": 267,
+      "shapeAccepted": false,
+      "shapeCheck": "coupled_affect_shape_invalid",
+      "jsonParserAccepted": true,
+      "parserCheck": null,
+      "passesBothGuards": false,
+      "claimedOutputTokens": 400,
+      "actualModelTokenCount": null
+    },
+    {
+      "id": "unchanged-cannot-hide-supplied-delta",
+      "jsonBytes": 267,
+      "shapeAccepted": false,
+      "shapeCheck": "coupled_affect_shape_invalid",
+      "jsonParserAccepted": true,
+      "parserCheck": null,
+      "passesBothGuards": false,
+      "claimedOutputTokens": 400,
+      "actualModelTokenCount": null
+    },
+    {
+      "id": "out-of-range",
+      "jsonBytes": 382,
+      "shapeAccepted": false,
+      "shapeCheck": "invalid_compact_reference",
+      "jsonParserAccepted": true,
+      "parserCheck": null,
+      "passesBothGuards": false,
+      "claimedOutputTokens": 400,
+      "actualModelTokenCount": null
+    },
+    {
+      "id": "ungrounded",
+      "jsonBytes": 381,
+      "shapeAccepted": false,
+      "shapeCheck": "invalid_compact_evidence",
+      "jsonParserAccepted": true,
+      "parserCheck": null,
+      "passesBothGuards": false,
+      "claimedOutputTokens": 400,
+      "actualModelTokenCount": null
+    },
+    {
+      "id": "irrelevant-literal-is-not-semantic-support",
+      "jsonBytes": 287,
+      "shapeAccepted": true,
+      "shapeCheck": null,
+      "jsonParserAccepted": true,
+      "parserCheck": null,
+      "passesBothGuards": true,
+      "claimedOutputTokens": 400,
+      "actualModelTokenCount": null
+    },
+    {
+      "id": "validated-unused-table",
+      "jsonBytes": 235,
+      "shapeAccepted": true,
+      "shapeCheck": null,
+      "jsonParserAccepted": true,
+      "parserCheck": null,
+      "passesBothGuards": true,
+      "claimedOutputTokens": 400,
+      "actualModelTokenCount": null
+    },
+    {
+      "id": "control-still-needs-evidence",
+      "jsonBytes": 230,
+      "shapeAccepted": false,
+      "shapeCheck": "unbased_appraisal_requires_placeholder",
+      "jsonParserAccepted": true,
+      "parserCheck": null,
+      "passesBothGuards": false,
+      "claimedOutputTokens": 400,
+      "actualModelTokenCount": null
+    },
+    {
+      "id": "goal-still-needs-evidence",
+      "jsonBytes": 231,
+      "shapeAccepted": false,
+      "shapeCheck": "nonzero_goal_requires_evidence",
+      "jsonParserAccepted": true,
+      "parserCheck": null,
+      "passesBothGuards": false,
+      "claimedOutputTokens": 400,
+      "actualModelTokenCount": null
+    },
+    {
+      "id": "numeric-domain-still-enforced",
+      "jsonBytes": 377,
+      "shapeAccepted": false,
+      "shapeCheck": "invalid_affect",
+      "jsonParserAccepted": true,
+      "parserCheck": null,
+      "passesBothGuards": false,
+      "claimedOutputTokens": 400,
+      "actualModelTokenCount": null
+    },
+    {
+      "id": "null-estimate-not-inferred-unchanged",
+      "jsonBytes": 280,
+      "shapeAccepted": false,
+      "shapeCheck": "coupled_affect_shape_invalid",
+      "jsonParserAccepted": true,
+      "parserCheck": null,
+      "passesBothGuards": false,
+      "claimedOutputTokens": 400,
+      "actualModelTokenCount": null
+    },
+    {
+      "id": "explicit-zero-estimate-retains-evidence",
+      "jsonBytes": 375,
+      "shapeAccepted": true,
+      "shapeCheck": null,
+      "jsonParserAccepted": true,
+      "parserCheck": null,
+      "passesBothGuards": true,
+      "claimedOutputTokens": 400,
+      "actualModelTokenCount": null
+    }
+  ],
+  "boundaries": [
+    {
+      "id": "exact-byte-limit",
+      "jsonBytes": 1200,
+      "shapeAccepted": true,
+      "shapeCheck": null,
+      "jsonParserAccepted": true,
+      "parserCheck": null,
+      "passesBothGuards": true,
+      "claimedOutputTokens": 400,
+      "actualModelTokenCount": null
+    },
+    {
+      "id": "one-byte-over",
+      "jsonBytes": 1201,
+      "shapeAccepted": true,
+      "shapeCheck": null,
+      "jsonParserAccepted": false,
+      "parserCheck": "provider_empty_or_oversized_content",
+      "passesBothGuards": false,
+      "claimedOutputTokens": 400,
+      "actualModelTokenCount": null
+    },
+    {
+      "id": "five-maximal-quotations",
+      "jsonBytes": 2198,
+      "shapeAccepted": true,
+      "shapeCheck": null,
+      "jsonParserAccepted": false,
+      "parserCheck": "provider_empty_or_oversized_content",
+      "passesBothGuards": false,
+      "claimedOutputTokens": 400,
+      "actualModelTokenCount": null
+    },
+    {
+      "id": "escaped-json-expansion",
+      "jsonBytes": 1700,
+      "shapeAccepted": true,
+      "shapeCheck": null,
+      "jsonParserAccepted": false,
+      "parserCheck": "provider_empty_or_oversized_content",
+      "passesBothGuards": false,
+      "claimedOutputTokens": 400,
+      "actualModelTokenCount": null
+    },
+    {
+      "id": "astral-exact-byte-limit",
+      "jsonBytes": 1200,
+      "shapeAccepted": true,
+      "shapeCheck": null,
+      "jsonParserAccepted": true,
+      "parserCheck": null,
+      "passesBothGuards": true,
+      "claimedOutputTokens": 400,
+      "actualModelTokenCount": null
+    },
+    {
+      "id": "astral-over-byte-limit",
+      "jsonBytes": 1204,
+      "shapeAccepted": true,
+      "shapeCheck": null,
+      "jsonParserAccepted": false,
+      "parserCheck": "provider_empty_or_oversized_content",
+      "passesBothGuards": false,
+      "claimedOutputTokens": 400,
+      "actualModelTokenCount": null
+    }
+  ],
+  "requests": {
+    "fictionalFixtureBodyBytes": 4380,
+    "syntheticLargeBodyBytes": 104478,
+    "futureGatedRequestByteCeiling": 65536,
+    "syntheticLargeRequiresPreDispatchRejection": true,
+    "offlineBuilderAppliesGatedByteCeiling": false
+  },
+  "realModelRequests": 0,
+  "persistentWrites": 0,
+  "semanticSupport": "not_assessed",
+  "modelComplianceImproved": "not_assessed",
+  "qualityAssessed": false,
+  "liveSourcePinsUnchanged": true
+}
