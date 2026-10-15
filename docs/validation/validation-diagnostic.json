@@ -1,0 +1,30 @@
+{
+  "command": "node --test",
+  "platform": "linux",
+  "node": "v24.19.0",
+  "lf": {
+    "tests": 154,
+    "pass": 154,
+    "fail": 0,
+    "skipped": 0
+  },
+  "temporaryLinuxCrlfSimulation": {
+    "tests": 154,
+    "pass": 154,
+    "fail": 0,
+    "skipped": 0
+  },
+  "newNativeWindowsValidation": false,
+  "realModelRequests": 0,
+  "userStoreOpened": false,
+  "newTests": 6,
+  "rejectionClassesExercised": 10,
+  "originalLiveFailureCause": null,
+  "qualityAssessed": false,
+  "sourceSha256": {
+    "src/validation-diagnostic.js": "931a0bd25e03755570a8931fc5efa4d25a2c2548b164ede0051b005b17d9c0be",
+    "src/gated-deepseek-client.js": "1d412292e7f73881b55c138414ff2c07579d6d579906f3732d359e01afb3ac9d",
+    "src/budget-ledger.js": "8d8b64109e765320d0ed31e2fd2f2c8261a87e3658d6a9083ff0dec0f5fc6496",
+    "test/validation-diagnostic.test.js": "6fd8e6579dbbd96396a1fe35725dc3cd1cebfb01c0a577f657cb00c2caac596a"
+  }
+}

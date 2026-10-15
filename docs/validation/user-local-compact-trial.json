@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-15",
+  "evidence": "user-reported terminal results; not independent Windows, checkout or provider-bill verification",
+  "platform": "win32",
+  "node": "v24.19.0",
+  "offlineTests": {"tests":148,"pass":148,"fail":0,"cancelled":0,"skipped":0,"todo":0},
+  "offlineCompactCheck": {"realModelRequests":0,"stubCalls":3,"stubSettledCalls":3,"reopened":true,"duplicateCalls":0,"typedAppraisalView":true,"actualModelTokenCount":null,"qualityAssessed":false},
+  "liveTrial": {
+    "protocolVersion":"compact-appraisal-quotes-v1",
+    "caseId":"sparse-context",
+    "fixtureEgressApproved":true,
+    "additionalBudgetCny":3,
+    "maxRuns":1,
+    "maxCalls":3,
+    "calls":1,
+    "status":"failed",
+    "error":"compact_appraisal_invalid",
+    "stagesSaved":0,
+    "dreamPublished":false,
+    "appraisalViewPublished":false,
+    "billingStatus":"unknown",
+    "heldMicroCny":"2203200",
+    "providerActualChargeCny":null,
+    "providerTokenUsage":null,
+    "specificValidationCause":null,
+    "preflightReason":"unsettled_attempt_requires_review"
+  },
+  "allAllowances":{"calls":22,"runs":8,"heldOrSpentMicroCny":"2240140"},
+  "newProviderCallsInThisCloseout":0,
+  "qualityAssessed":false
+}

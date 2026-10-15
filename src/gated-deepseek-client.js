@@ -1,5 +1,6 @@
 import { buildDeepSeekRequest, parseDeepSeekResponse, normalizeDeepSeekStage, protocolVersion } from './deepseek-protocol.js';
-import { buildCompactAppraisalRequest, normalizeCompactStage, compactProtocolVersion } from './compact-appraisal-protocol.js';
+import { buildCompactAppraisalRequest, normalizeCompactStage, normalizeCompactScene, compactProtocolVersion } from './compact-appraisal-protocol.js';
+import { compactValidationDiagnostic } from './validation-diagnostic.js';
 import { BudgetLedger } from './budget-ledger.js';
 import { snapshot, hash, safeId } from './contract.js';
 import { fail, copy } from './store.js';
@@ -53,7 +54,7 @@ export class GatedDeepSeekClient {
     const key = `${allowanceId}:${requestId}`, controller = new AbortController();
     this.pending.set(key,{ controller, sourceIds: input.sources.map(s=>s.id) });
     const abort = () => controller.abort(); signal?.addEventListener('abort',abort,{once:true});
-    let timer, timedOut = false;
+    let timer, timedOut = false, validationDiagnostic;
     try {
       this.fault('reserved');
       if (signal?.aborted || this.closed) fail('cancelled');
@@ -77,13 +78,17 @@ export class GatedDeepSeekClient {
       const result=await Promise.race([operation(),stopped]);
       if (controller.signal.aborted || this.closed) fail('cancelled'); this.checkSources(input);
       const normalize=this.protocol==='compact-appraisal-v1'?normalizeCompactStage:normalizeDeepSeekStage;
-      const value=normalize(result.data,material);
+      let value;
+      if (this.protocol==='compact-appraisal-v1' && material.stage==='scene') {
+        try {value=normalizeCompactScene(result.data,material.previousAffect);}
+        catch (error) {validationDiagnostic=compactValidationDiagnostic(error?.message);fail('compact_appraisal_invalid');}
+      } else value=normalize(result.data,material);
       if (publish !== undefined && typeof publish !== 'function') fail('invalid_publication');
       const receipt=this.ledger.settle(allowanceId,requestId,result.receipt,publish ? accounting => publish(copy(value),accounting) : undefined);
       return { replayed:false, receipt, generated:{schemaVersion:1,materialKind:'fictional',origin:material.stage==='wake'?'wake_note':'dream',isRealityFact:false,sourceRefs:copy(receipt.sourceRefs),derivedFrom:[input.id],value} };
     } catch (error) {
       controller.abort();
-      if (!this.store.poisoned && !this.store.closed) this.ledger.unknown(allowanceId,requestId);
+      if (!this.store.poisoned && !this.store.closed) this.ledger.unknown(allowanceId,requestId,validationDiagnostic);
       const permitted=['compact_appraisal_invalid','wake_fragment_not_grounded','source_egress_denied_or_withdrawn','cancelled','storage_io_failure','usage_exceeds_reviewed_bounds','provider_authentication_failed','provider_rate_limited','provider_http_failure','provider_incomplete_response','provider_invalid_json','provider_invalid_usage','provider_empty_or_oversized_content','provider_tools_forbidden','provider_response_too_large'];
       fail(timedOut ? 'timeout' : permitted.includes(error.message)?error.message:'request_failed');
     } finally {clearTimeout(timer);signal?.removeEventListener('abort',abort);this.pending.delete(key);}
