@@ -55,3 +55,11 @@ After success the cumulative count should be twelve calls / four runs and the fo
 ## Evidence
 
 Linux LF and independent CRLF checkout simulation: **90 passed / 0 failed / 0 skipped**. Eight new tests cover explicit approvals, original-trial prerequisite, unchanged prior ledger rows, idempotent initialization, cumulative totals, one-run/three-call caps across reopen, unknown holds, withdrawal, expiry/config tampering, disabled/missing-approval CLI paths, credential-free completed replay and conflicting fake-only IDs. Evidence and source hashes: `validation/followup-entry.json` and referenced TAP files. Prior ledger rows and completed-journal replay fixtures in these tests are invented, not real provider executions. This is same-author review. New entry has not been executed on Windows or against DeepSeek yet.
+
+## Reported Windows and live result — 2026-10-15
+
+The user supplied Windows output showing 90 passed / 0 failed / 0 skipped, then ready preflight with the old nine calls retained and the new allowance at zero. The authorized follow-up subsequently reported a completed two-scene/wake run, three settled calls, 1,650 input / 231 output tokens and 5,148 micro-CNY conservative ledger cost. The wake fragment matches a verbatim excerpt of the referenced second scene (`sceneIndex:1`). Associations were empty and simulated residue remained separate.
+
+Final preflight blocked additional generation at the new three-call limit. Original accounting stayed nine calls / three runs / 14,504 micro-CNY; new accounting was three / one / 5,148; combined accounting was twelve / four / 19,652 (CNY 0.019652). There is no additional trial approval. Key entry and runtime storage remained user-local. Only body-free aggregates are published in `validation/user-local-grounded-followup.json`; no transcript, runtime journal or generated scene text is included.
+
+This is a successful single reported live sample of the excerpt constraint, not an independent provider invoice or general dream-quality acceptance. Gender-neutral prompt guidance was not fully followed, so narration remains a known quality limitation. Completed replay/recall of this new run has not been separately exercised by the user; those mechanisms have offline tests, and the original trial had a user-reported replay/recall check.

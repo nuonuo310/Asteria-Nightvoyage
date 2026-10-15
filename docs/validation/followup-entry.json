@@ -44,5 +44,16 @@
   "outputSha256": {
     "followup-entry-crlf.txt": "864ff96bce492152ed138a46866f80b5c3cbd0c42b7263a0efd7f6ba0964922e",
     "followup-entry.txt": "741eb585d9de84a6dded6e15b10811dece8d5776c5770dcb14d88eebb45dfaaa"
+  },
+  "userReportedWindows": {
+    "passed": 90,
+    "failed": 0,
+    "skipped": 0,
+    "date": "2026-10-15",
+    "reportedBranch": "feat/grounded-wake-followup",
+    "candidateRemoteHead": "8b660a484b22e9cf5a8753800c7acfe6b77f0213",
+    "userCheckoutHeadIndependentlyVerified": false,
+    "evidenceKind": "user_reported_terminal_output",
+    "rawTranscriptPublished": false
   }
 }
