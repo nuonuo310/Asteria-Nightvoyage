@@ -1,0 +1,39 @@
+✔ v2 preserves event, numbers and linked evidence while stamping program-owned pruning counts (21.292252ms)
+✔ v2 audit is idempotent across checkpoints and rejects forged counts, versions and extra fields (6.811472ms)
+✔ v2 never conceals malformed unused quotes and still enforces later missing-basis rules (1.248308ms)
+✔ v2 request stays bounded and validates distinct checkpoints without changing live source pins (14.860609ms)
+✔ v2 cannot run without explicit local simulator and rejects malformed responses with no repair call (20.967979ms)
+✔ v2 full fictional loop persists audit and view, reopens with no replay calls and preserves original during append (22.438167ms)
+✔ v2 cancellation suppresses late simulator output and wake never invents an aftermath (48.598361ms)
+✔ v2 withdrawal removes scenes, nested audit/evidence, view and recall after reopening (16.673722ms)
+✔ v2 rejects cross-version execute/resume and cannot read a tampered audit from a managed dream (16.084729ms)
+✔ v2 actual child exit after scene checkpoint resumes remaining fake stages without regenerating it (805.223253ms)
+✔ v2 save failure cannot publish a dream or partially persisted normalization audit (7.081962ms)
+✔ v2 offline command reports fake-only persistence, explicit audit counts, no duplicates and withdrawal (257.251634ms)
+✔ coupled review: ordinary-no-goal (33.478197ms)
+✔ coupled review: stated-goal-hindered (5.663108ms)
+✔ coupled review: stated-goal-helped (7.655557ms)
+✔ coupled review: affect-without-goal (3.140604ms)
+✔ coupled review: missing-reference-nonzero (0.824111ms)
+✔ coupled review: unchanged-cannot-hide-supplied-delta (1.794428ms)
+✔ coupled review: out-of-range (5.018332ms)
+✔ coupled review: ungrounded (7.979091ms)
+✔ coupled review: irrelevant-literal-is-not-semantic-support (20.888861ms)
+✔ coupled review: validated-unused-table (9.85984ms)
+✔ coupled review: control-still-needs-evidence (5.576231ms)
+✔ coupled review: goal-still-needs-evidence (0.350431ms)
+✔ coupled review: numeric-domain-still-enforced (0.191513ms)
+✔ coupled review: null-estimate-not-inferred-unchanged (0.129142ms)
+✔ coupled review: explicit-zero-estimate-retains-evidence (2.51563ms)
+✔ coupled review rejects real or missing identity and invalid before values (8.596205ms)
+✔ coupled branch selection never infers a delta or reference, permits extras or echoes arbitrary data (5.165119ms)
+✔ coupled review is not a transport selector or allowance protocol and leaves all nine live pins intact (26.732005ms)
+✔ independent coupled comparison script returns only aggregates, zero requests and no quality claim (355.294945ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2067.840524

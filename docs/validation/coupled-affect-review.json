@@ -1,0 +1,436 @@
+{
+  "command": "node scripts/check-coupled-affect-review.mjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "cases": 15,
+  "realModelRequests": 0,
+  "transportEnabled": false,
+  "persistentWrites": 0,
+  "reconstructsRejectedResponse": false,
+  "liveSourcePinsUnchanged": true,
+  "modelComplianceImproved": "not_assessed",
+  "semanticSupport": "not_assessed",
+  "qualityAssessed": false,
+  "results": [
+    {
+      "caseId": "ordinary-no-goal",
+      "schemaVersion": 1,
+      "reviewVersion": "offline-coupled-affect-review-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "modelComplianceImproved": "not_assessed",
+      "qualityAssessed": false,
+      "flat": {
+        "accepted": true,
+        "check": null
+      },
+      "coupled": {
+        "accepted": true,
+        "check": null
+      },
+      "normalizedEquivalent": true,
+      "sizes": {
+        "unit": "UTF-8 JSON bytes; not tokens",
+        "flat": 248,
+        "coupled": 230
+      }
+    },
+    {
+      "caseId": "stated-goal-hindered",
+      "schemaVersion": 1,
+      "reviewVersion": "offline-coupled-affect-review-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "modelComplianceImproved": "not_assessed",
+      "qualityAssessed": false,
+      "flat": {
+        "accepted": true,
+        "check": null
+      },
+      "coupled": {
+        "accepted": true,
+        "check": null
+      },
+      "normalizedEquivalent": true,
+      "sizes": {
+        "unit": "UTF-8 JSON bytes; not tokens",
+        "flat": 441,
+        "coupled": 473
+      }
+    },
+    {
+      "caseId": "stated-goal-helped",
+      "schemaVersion": 1,
+      "reviewVersion": "offline-coupled-affect-review-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "modelComplianceImproved": "not_assessed",
+      "qualityAssessed": false,
+      "flat": {
+        "accepted": true,
+        "check": null
+      },
+      "coupled": {
+        "accepted": true,
+        "check": null
+      },
+      "normalizedEquivalent": true,
+      "sizes": {
+        "unit": "UTF-8 JSON bytes; not tokens",
+        "flat": 413,
+        "coupled": 445
+      }
+    },
+    {
+      "caseId": "affect-without-goal",
+      "schemaVersion": 1,
+      "reviewVersion": "offline-coupled-affect-review-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "modelComplianceImproved": "not_assessed",
+      "qualityAssessed": false,
+      "flat": {
+        "accepted": true,
+        "check": null
+      },
+      "coupled": {
+        "accepted": true,
+        "check": null
+      },
+      "normalizedEquivalent": true,
+      "sizes": {
+        "unit": "UTF-8 JSON bytes; not tokens",
+        "flat": 349,
+        "coupled": 381
+      }
+    },
+    {
+      "caseId": "missing-reference-nonzero",
+      "schemaVersion": 1,
+      "reviewVersion": "offline-coupled-affect-review-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "modelComplianceImproved": "not_assessed",
+      "qualityAssessed": false,
+      "flat": {
+        "accepted": false,
+        "check": "affect_change_requires_evidence"
+      },
+      "coupled": {
+        "accepted": false,
+        "check": "coupled_affect_shape_invalid"
+      },
+      "normalizedEquivalent": null,
+      "sizes": {
+        "unit": "UTF-8 JSON bytes; not tokens",
+        "flat": 251,
+        "coupled": 267
+      }
+    },
+    {
+      "caseId": "unchanged-cannot-hide-supplied-delta",
+      "schemaVersion": 1,
+      "reviewVersion": "offline-coupled-affect-review-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "modelComplianceImproved": "not_assessed",
+      "qualityAssessed": false,
+      "flat": {
+        "accepted": true,
+        "check": null
+      },
+      "coupled": {
+        "accepted": false,
+        "check": "coupled_affect_shape_invalid"
+      },
+      "normalizedEquivalent": null,
+      "sizes": {
+        "unit": "UTF-8 JSON bytes; not tokens",
+        "flat": 248,
+        "coupled": 267
+      }
+    },
+    {
+      "caseId": "out-of-range",
+      "schemaVersion": 1,
+      "reviewVersion": "offline-coupled-affect-review-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "modelComplianceImproved": "not_assessed",
+      "qualityAssessed": false,
+      "flat": {
+        "accepted": true,
+        "check": null
+      },
+      "coupled": {
+        "accepted": false,
+        "check": "invalid_compact_reference"
+      },
+      "normalizedEquivalent": null,
+      "sizes": {
+        "unit": "UTF-8 JSON bytes; not tokens",
+        "flat": 349,
+        "coupled": 382
+      }
+    },
+    {
+      "caseId": "ungrounded",
+      "schemaVersion": 1,
+      "reviewVersion": "offline-coupled-affect-review-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "modelComplianceImproved": "not_assessed",
+      "qualityAssessed": false,
+      "flat": {
+        "accepted": false,
+        "check": "invalid_compact_evidence"
+      },
+      "coupled": {
+        "accepted": false,
+        "check": "invalid_compact_evidence"
+      },
+      "normalizedEquivalent": null,
+      "sizes": {
+        "unit": "UTF-8 JSON bytes; not tokens",
+        "flat": 349,
+        "coupled": 381
+      }
+    },
+    {
+      "caseId": "irrelevant-literal-is-not-semantic-support",
+      "schemaVersion": 1,
+      "reviewVersion": "offline-coupled-affect-review-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "modelComplianceImproved": "not_assessed",
+      "qualityAssessed": false,
+      "flat": {
+        "accepted": true,
+        "check": null
+      },
+      "coupled": {
+        "accepted": true,
+        "check": null
+      },
+      "normalizedEquivalent": true,
+      "sizes": {
+        "unit": "UTF-8 JSON bytes; not tokens",
+        "flat": 255,
+        "coupled": 287
+      }
+    },
+    {
+      "caseId": "validated-unused-table",
+      "schemaVersion": 1,
+      "reviewVersion": "offline-coupled-affect-review-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "modelComplianceImproved": "not_assessed",
+      "qualityAssessed": false,
+      "flat": {
+        "accepted": true,
+        "check": null
+      },
+      "coupled": {
+        "accepted": true,
+        "check": null
+      },
+      "normalizedEquivalent": true,
+      "sizes": {
+        "unit": "UTF-8 JSON bytes; not tokens",
+        "flat": 253,
+        "coupled": 235
+      }
+    },
+    {
+      "caseId": "control-still-needs-evidence",
+      "schemaVersion": 1,
+      "reviewVersion": "offline-coupled-affect-review-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "modelComplianceImproved": "not_assessed",
+      "qualityAssessed": false,
+      "flat": {
+        "accepted": false,
+        "check": "unbased_appraisal_requires_placeholder"
+      },
+      "coupled": {
+        "accepted": false,
+        "check": "unbased_appraisal_requires_placeholder"
+      },
+      "normalizedEquivalent": null,
+      "sizes": {
+        "unit": "UTF-8 JSON bytes; not tokens",
+        "flat": 248,
+        "coupled": 230
+      }
+    },
+    {
+      "caseId": "goal-still-needs-evidence",
+      "schemaVersion": 1,
+      "reviewVersion": "offline-coupled-affect-review-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "modelComplianceImproved": "not_assessed",
+      "qualityAssessed": false,
+      "flat": {
+        "accepted": false,
+        "check": "nonzero_goal_requires_evidence"
+      },
+      "coupled": {
+        "accepted": false,
+        "check": "nonzero_goal_requires_evidence"
+      },
+      "normalizedEquivalent": null,
+      "sizes": {
+        "unit": "UTF-8 JSON bytes; not tokens",
+        "flat": 249,
+        "coupled": 231
+      }
+    },
+    {
+      "caseId": "numeric-domain-still-enforced",
+      "schemaVersion": 1,
+      "reviewVersion": "offline-coupled-affect-review-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "modelComplianceImproved": "not_assessed",
+      "qualityAssessed": false,
+      "flat": {
+        "accepted": false,
+        "check": "invalid_affect"
+      },
+      "coupled": {
+        "accepted": false,
+        "check": "invalid_affect"
+      },
+      "normalizedEquivalent": null,
+      "sizes": {
+        "unit": "UTF-8 JSON bytes; not tokens",
+        "flat": 345,
+        "coupled": 377
+      }
+    },
+    {
+      "caseId": "null-estimate-not-inferred-unchanged",
+      "schemaVersion": 1,
+      "reviewVersion": "offline-coupled-affect-review-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "modelComplianceImproved": "not_assessed",
+      "qualityAssessed": false,
+      "flat": {
+        "accepted": true,
+        "check": null
+      },
+      "coupled": {
+        "accepted": false,
+        "check": "coupled_affect_shape_invalid"
+      },
+      "normalizedEquivalent": null,
+      "sizes": {
+        "unit": "UTF-8 JSON bytes; not tokens",
+        "flat": 248,
+        "coupled": 280
+      }
+    },
+    {
+      "caseId": "explicit-zero-estimate-retains-evidence",
+      "schemaVersion": 1,
+      "reviewVersion": "offline-coupled-affect-review-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "modelComplianceImproved": "not_assessed",
+      "qualityAssessed": false,
+      "flat": {
+        "accepted": true,
+        "check": null
+      },
+      "coupled": {
+        "accepted": true,
+        "check": null
+      },
+      "normalizedEquivalent": true,
+      "sizes": {
+        "unit": "UTF-8 JSON bytes; not tokens",
+        "flat": 343,
+        "coupled": 375
+      }
+    }
+  ]
+}
