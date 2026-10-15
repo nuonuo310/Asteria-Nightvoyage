@@ -1,0 +1,68 @@
+{
+  "command": "node scripts/audit-appraisal-output.mjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "providerOutputTokenCap": 400,
+  "responseByteSafetyCeiling": 1200,
+  "units": "UTF-8 JSON bytes; not model tokens",
+  "actualModelTokenCount": null,
+  "realModelRequests": 0,
+  "qualityAssessed": false,
+  "limitsChanged": false,
+  "results": [
+    {
+      "id": "ordinary-no-goal",
+      "coreJsonBytes": 164,
+      "candidateJsonBytes": 255,
+      "addedEvidenceBytes": 91,
+      "byteAdmission": "accepted",
+      "qualityAssessed": false
+    },
+    {
+      "id": "stated-goal-hindered",
+      "coreJsonBytes": 246,
+      "candidateJsonBytes": 509,
+      "addedEvidenceBytes": 263,
+      "byteAdmission": "accepted",
+      "qualityAssessed": false
+    },
+    {
+      "id": "stated-goal-helped",
+      "coreJsonBytes": 230,
+      "candidateJsonBytes": 492,
+      "addedEvidenceBytes": 262,
+      "byteAdmission": "accepted",
+      "qualityAssessed": false
+    },
+    {
+      "id": "affect-without-goal",
+      "coreJsonBytes": 218,
+      "candidateJsonBytes": 353,
+      "addedEvidenceBytes": 135,
+      "byteAdmission": "accepted",
+      "qualityAssessed": false
+    }
+  ],
+  "oversizedProbe": {
+    "kind": "synthetic_bound_probe",
+    "individualExcerptCharacters": 160,
+    "candidateJsonBytes": 3112,
+    "structureAccepted": true,
+    "byteAdmission": "rejected_oversized",
+    "semanticSupport": "not_assessed"
+  },
+  "boundaries": [
+    {
+      "jsonBytes": 1199,
+      "byteAdmission": "accepted"
+    },
+    {
+      "jsonBytes": 1200,
+      "byteAdmission": "accepted"
+    },
+    {
+      "jsonBytes": 1201,
+      "byteAdmission": "rejected_oversized"
+    }
+  ]
+}

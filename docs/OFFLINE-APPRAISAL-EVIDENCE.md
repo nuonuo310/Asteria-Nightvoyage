@@ -19,6 +19,8 @@
 
 `control / uncertainty` 的 `0.5 + null` **表示未说明、使用占位**，不能对外宣称测出了中等控制感或不确定性。使用者必须同时读取 basis；这也是该候选暂不进入付费核心的原因之一。以后若改为可空数值，需另行评审合同，不能静默换掉现有数据含义。
 
+后续新增的派生读取视图会把这种占位表示为 `not_stated / null`，保留原始候选记录；有引文的估计仍是未核验模型声明。字节开销和最大字段组合的拒绝结果见 `APPRAISAL-READ-AND-SIZE-REVIEW.md`。它不改变本候选 wire/store 合同或真实调用上限。
+
 程序将校验后的摘录写入每幕 `appraisalBasis.evidence`，同时自行标记 `origin:dream_appraisal / isRealityFact:false / verification:literal_excerpt_only / semanticSupport:not_assessed` 及候选协议版本。提供者不能自行声称语义已验证。该对象属于其原幕，来源身份继承梦记录；不能把它脱离父记录转存成现实依据。
 
 提示词要求非零目标影响在梦中正文写出目标及帮助/阻碍结果，但程序仅能检查引用存在。测试刻意放入了“不相关但逐字存在”的引文：它仍满足结构，因此永远保留 `semanticSupport:not_assessed`。**这不是自动心理解释器或语义验真器。** 人工仍须判读引用是否支持该评价；有凭据不等于结论正确。
