@@ -1,0 +1,27 @@
+✔ read view presents missing appraisal as null rather than numeric placeholders (49.291211ms)
+✔ quoted estimates remain model claims, including an explicitly quoted midpoint (24.571395ms)
+✔ view is recomputed without persistence or calls; returned mutation cannot alter provenance (20.098888ms)
+✔ withdrawal blocks new views after restart and introduces no body cache (20.692653ms)
+✔ deletion removes view source; later recollections and legacy runs cannot masquerade as evidence (43.620019ms)
+✔ closed, forged and tampered records cannot produce an available view (16.188034ms)
+✔ byte audit admits short probes and exact boundary, rejects composite oversize without token estimates (285.44661ms)
+✔ v2 preserves event, numbers and linked evidence while stamping program-owned pruning counts (8.527117ms)
+✔ v2 audit is idempotent across checkpoints and rejects forged counts, versions and extra fields (2.491388ms)
+✔ v2 never conceals malformed unused quotes and still enforces later missing-basis rules (1.693978ms)
+✔ v2 request stays bounded and validates distinct checkpoints without changing live source pins (4.78597ms)
+✔ v2 cannot run without explicit local simulator and rejects malformed responses with no repair call (32.437767ms)
+✔ v2 full fictional loop persists audit and view, reopens with no replay calls and preserves original during append (27.801635ms)
+✔ v2 cancellation suppresses late simulator output and wake never invents an aftermath (37.291138ms)
+✔ v2 withdrawal removes scenes, nested audit/evidence, view and recall after reopening (23.959849ms)
+✔ v2 rejects cross-version execute/resume and cannot read a tampered audit from a managed dream (16.553227ms)
+✔ v2 actual child exit after scene checkpoint resumes remaining fake stages without regenerating it (355.088987ms)
+✔ v2 save failure cannot publish a dream or partially persisted normalization audit (11.374266ms)
+✔ v2 offline command reports fake-only persistence, explicit audit counts, no duplicates and withdrawal (279.214869ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3202.828423

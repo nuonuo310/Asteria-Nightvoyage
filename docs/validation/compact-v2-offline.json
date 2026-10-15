@@ -1,0 +1,43 @@
+{
+  "node": "v24.19.0",
+  "platform": "linux",
+  "protocolVersion": "offline-compact-quotes-v2-pruned-unused",
+  "initialTargetedRun": {
+    "tests": 12,
+    "pass": 11,
+    "fail": 1,
+    "reason": "independent check script missing closing brace caused SyntaxError; corrected before full verification"
+  },
+  "fullLfSuite": {
+    "tests": 187,
+    "pass": 187,
+    "fail": 0,
+    "skipped": 0
+  },
+  "temporaryLinuxCrlfTargetedSuite": {
+    "command": "node --test test/compact-v2-offline.test.js test/appraisal-view.test.js",
+    "tests": 19,
+    "pass": 19,
+    "fail": 0,
+    "fullSuiteRepeated": false
+  },
+  "newTests": 12,
+  "independentCheckEachCopy": {
+    "fakeStageCalls": 3,
+    "reopened": true,
+    "duplicateCalls": 0,
+    "withdrawalViewNull": true
+  },
+  "realModelRequests": 0,
+  "liveTransportSelectorAdded": false,
+  "userStoreOpened": false,
+  "realCredentialRead": false,
+  "nativeWindowsCandidateValidated": false,
+  "qualityAssessed": false,
+  "sourceSha256": {
+    "src/compact-v2-offline.js": "097857494759b96d0a18338a0b071c3d3b8c6832441ec91a19b786b67b244c10",
+    "src/appraisal-view.js": "d07724bbd4099068c12748be8e65ce479fec14e2b0009e28703195c99e6c2506",
+    "scripts/check-compact-v2-offline.mjs": "696a8263938c31097ebf3eeab8e5623d430db6ba5b0c9bc9e4db25619040bc7a",
+    "test/compact-v2-offline.test.js": "5e65d82307ac43a84efa3b8aa91026ae10af5016e48077513ae112de91abc9c4"
+  }
+}
