@@ -1,0 +1,1 @@
+{"name":"asteria-nightvoyage","version":"0.1.0","private":true,"type":"module","engines":{"node":">=24"},"scripts":{"test":"node --test","demo":"node src/cli.js"},"license":"MIT"}
