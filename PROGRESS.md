@@ -41,3 +41,11 @@ User authorized merging PR #1 after review. Same-author review (not an independe
 Three targeted probes failed on remote baseline `6f3a9e086a5c6aacc1c1323fbc1d66020486220a` before the fixes. After fixes, full suite: **33 passed, 0 failed, 0 skipped** on Linux / Node.js v24.19.0. `docs/validation/review-before.txt`, `review-after.txt` and `review.json` preserve direct output, source hashes and scope. The earlier 30-test evidence remains historical evidence for the earlier source hashes; the review evidence supersedes it for current code.
 
 No GitHub Actions workflow is configured; local test evidence is not CI evidence. Existing storage/backup, Windows, fake-provider and quality limits remain. Review disposition: eligible for the explicitly authorized B/C merge after verifying remote content and current PR head. D remains paused; merge does not authorize a real provider or private data.
+
+## DeepSeek offline preparation — 2026-10-15
+
+Provider preference is DeepSeek. User is away from the home computer and approved preparing code and offline tests only; no live request or credential work is authorized now. Added an independent request/response protocol module and an engine-compatible fake simulator provider. The live engine gate, existing CLI and source grants remain unchanged.
+
+Full suite: **43 passed, 0 failed, 0 skipped**, Linux / Node.js v24.19.0. Ten new tests cover request framing, explicit model/options, JSON/empty/truncated/tool responses, sanitized HTTP errors, usage validation, a three-stage local protocol rehearsal, no automatic repair, cancellation/late output and missing-simulator refusal. Evidence: `docs/validation/deepseek-offline.txt` and source hashes in `deepseek-offline.json`. No production API was called.
+
+Live transport, external credential loading, explicit fictional-material egress grants and a durable session-wide monetary ledger are still pending. The proposed CNY 1 / 3 dreams / 9 calls budget was not approved and is not enabled. See `docs/DEEPSEEK-PREPARATION.md` for the at-home handoff. Ready for review as a separate PR; do not merge on PR #1's authorization. No real-generation quality claim.

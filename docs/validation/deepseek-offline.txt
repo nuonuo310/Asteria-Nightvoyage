@@ -1,0 +1,268 @@
+TAP version 13
+# Subtest: fictional local loop persists two scenes, wake, empty insight and typed recall
+ok 1 - fictional local loop persists two scenes, wake, empty insight and typed recall
+  ---
+  duration_ms: 21.695087
+  type: 'test'
+  ...
+# Subtest: recollection and imagined continuation never overwrite original
+ok 2 - recollection and imagined continuation never overwrite original
+  ---
+  duration_ms: 14.16091
+  type: 'test'
+  ...
+# Subtest: cherishing, cue access and wake residue are independent
+ok 3 - cherishing, cue access and wake residue are independent
+  ---
+  duration_ms: 8.583718
+  type: 'test'
+  ...
+# Subtest: absent memory skips, unavailable channels do not smuggle content
+ok 4 - absent memory skips, unavailable channels do not smuggle content
+  ---
+  duration_ms: 3.128158
+  type: 'test'
+  ...
+# Subtest: real sources and missing permission are rejected before any call
+ok 5 - real sources and missing permission are rejected before any call
+  ---
+  duration_ms: 2.48051
+  type: 'test'
+  ...
+# Subtest: request enables JSON, caps output, disables streaming/thinking and exposes no tools or credentials
+ok 6 - request enables JSON, caps output, disables streaming/thinking and exposes no tools or credentials
+  ---
+  duration_ms: 4.468465
+  type: 'test'
+  ...
+# Subtest: model choice is explicit, output bound and stages are checked before simulation
+ok 7 - model choice is explicit, output bound and stages are checked before simulation
+  ---
+  duration_ms: 2.21182
+  type: 'test'
+  ...
+# Subtest: parser returns normalized usage, not provider reasoning or arbitrary metadata
+ok 8 - parser returns normalized usage, not provider reasoning or arbitrary metadata
+  ---
+  duration_ms: 2.143076
+  type: 'test'
+  ...
+# Subtest: empty, invalid JSON, scalar, truncated and tool outputs are rejected without repair calls
+ok 9 - empty, invalid JSON, scalar, truncated and tool outputs are rejected without repair calls
+  ---
+  duration_ms: 1.060462
+  type: 'test'
+  ...
+# Subtest: HTTP failures are sanitized and do not return provider error bodies or credentials
+ok 10 - HTTP failures are sanitized and do not return provider error bodies or credentials
+  ---
+  duration_ms: 0.38783
+  type: 'test'
+  ...
+# Subtest: missing, inconsistent, excessive and invalid usage fails closed
+ok 11 - missing, inconsistent, excessive and invalid usage fails closed
+  ---
+  duration_ms: 0.698089
+  type: 'test'
+  ...
+# Subtest: offline protocol rehearsal traverses the real local engine using only a local simulator
+ok 12 - offline protocol rehearsal traverses the real local engine using only a local simulator
+  ---
+  duration_ms: 17.531713
+  type: 'test'
+  ...
+# Subtest: bad provider shape consumes one engine attempt and never triggers implicit repair or retry
+ok 13 - bad provider shape consumes one engine attempt and never triggers implicit repair or retry
+  ---
+  duration_ms: 5.398758
+  type: 'test'
+  ...
+# Subtest: offline cancellation reaches the simulator and suppresses late protocol output
+ok 14 - offline cancellation reaches the simulator and suppresses late protocol output
+  ---
+  duration_ms: 27.112194
+  type: 'test'
+  ...
+# Subtest: offline provider cannot load credentials or send anything without a supplied simulator
+ok 15 - offline provider cannot load credentials or send anything without a supplied simulator
+  ---
+  duration_ms: 2.428918
+  type: 'test'
+  ...
+# Subtest: duplicate requests and sessions do not repeat calls; changed request conflicts
+ok 16 - duplicate requests and sessions do not repeat calls; changed request conflicts
+  ---
+  duration_ms: 25.910281
+  type: 'test'
+  ...
+# Subtest: overlapping execute is refused; cancelling in flight suppresses late body and wake
+ok 17 - overlapping execute is refused; cancelling in flight suppresses late body and wake
+  ---
+  duration_ms: 25.221376
+  type: 'test'
+  ...
+# Subtest: queued cancellation consumes no budget
+ok 18 - queued cancellation consumes no budget
+  ---
+  duration_ms: 7.380913
+  type: 'test'
+  ...
+# Subtest: call timeout aborts cooperative provider and does not save delayed response
+ok 19 - call timeout aborts cooperative provider and does not save delayed response
+  ---
+  duration_ms: 15.396714
+  type: 'test'
+  ...
+# Subtest: budgets bound calls, cumulative input and cumulative output reservations
+ok 20 - budgets bound calls, cumulative input and cumulative output reservations
+  ---
+  duration_ms: 18.254465
+  type: 'test'
+  ...
+# Subtest: failed scene validation retains completed checkpoint and retry respects remaining budget
+ok 21 - failed scene validation retains completed checkpoint and retry respects remaining budget
+  ---
+  duration_ms: 9.607416
+  type: 'test'
+  ...
+# Subtest: process death after dispatch reopens uncertain, never automatically calls again
+ok 22 - process death after dispatch reopens uncertain, never automatically calls again
+  ---
+  duration_ms: 151.193591
+  type: 'test'
+  ...
+# Subtest: persisted scene checkpoint resumes without regenerating that scene
+ok 23 - persisted scene checkpoint resumes without regenerating that scene
+  ---
+  duration_ms: 9.670281
+  type: 'test'
+  ...
+# Subtest: withdrawal purges source text, dream, descendants and cached recalls across restart
+ok 24 - withdrawal purges source text, dream, descendants and cached recalls across restart
+  ---
+  duration_ms: 18.936458
+  type: 'test'
+  ...
+# Subtest: withdrawal during generation aborts and discards late provider output
+ok 25 - withdrawal during generation aborts and discards late provider output
+  ---
+  duration_ms: 8.363988
+  type: 'test'
+  ...
+# Subtest: withdrawal journal survives crash before body purge and startup removes abandoned temp
+ok 26 - withdrawal journal survives crash before body purge and startup removes abandoned temp
+  ---
+  duration_ms: 7.938183
+  type: 'test'
+  ...
+# Subtest: storage failure fails closed; reopening enforces durable withdrawal
+ok 27 - storage failure fails closed; reopening enforces durable withdrawal
+  ---
+  duration_ms: 7.268739
+  type: 'test'
+  ...
+# Subtest: deletion removes dream descendants, run bodies and stale recall delivery
+ok 28 - deletion removes dream descendants, run bodies and stale recall delivery
+  ---
+  duration_ms: 11.804116
+  type: 'test'
+  ...
+# Subtest: second store owner and checkout or symlink storage paths are rejected
+ok 29 - second store owner and checkout or symlink storage paths are rejected
+  ---
+  duration_ms: 3.034166
+  type: 'test'
+  ...
+# Subtest: special object keys cannot act as request, recall or entry records
+ok 30 - special object keys cannot act as request, recall or entry records
+  ---
+  duration_ms: 1.475884
+  type: 'test'
+  ...
+# Subtest: initial affect is supplied explicitly or neutral; model cannot override origin/appraisal fields
+ok 31 - initial affect is supplied explicitly or neutral; model cannot override origin/appraisal fields
+  ---
+  duration_ms: 9.908347
+  type: 'test'
+  ...
+# Subtest: cue replay expires and policy changes cannot re-expose old candidate
+ok 32 - cue replay expires and policy changes cannot re-expose old candidate
+  ---
+  duration_ms: 11.382279
+  type: 'test'
+  ...
+# Subtest: dream-like commands are data and never execute a tool or create tasks
+ok 33 - dream-like commands are data and never execute a tool or create tasks
+  ---
+  duration_ms: 7.389266
+  type: 'test'
+  ...
+# Subtest: deletion journal reapplies after interruption before managed body purge
+ok 34 - deletion journal reapplies after interruption before managed body purge
+  ---
+  duration_ms: 5.964091
+  type: 'test'
+  ...
+# Subtest: cancel after a durable scene prevents subsequent dispatch and resume
+ok 35 - cancel after a durable scene prevents subsequent dispatch and resume
+  ---
+  duration_ms: 3.098387
+  type: 'test'
+  ...
+# Subtest: oversized and malformed outputs cannot publish a dream
+ok 36 - oversized and malformed outputs cannot publish a dream
+  ---
+  duration_ms: 4.804736
+  type: 'test'
+  ...
+# Subtest: stale inputs and withdrawn source identities never enter a new run
+ok 37 - stale inputs and withdrawn source identities never enter a new run
+  ---
+  duration_ms: 1.65627
+  type: 'test'
+  ...
+# Subtest: withdrawal before tombstone persistence fails closed and must be retried after repair
+ok 38 - withdrawal before tombstone persistence fails closed and must be retried after repair
+  ---
+  duration_ms: 5.862048
+  type: 'test'
+  ...
+# Subtest: initial persistence failure does not leave an active execution that prevents close
+ok 39 - initial persistence failure does not leave an active execution that prevents close
+  ---
+  duration_ms: 1.906362
+  type: 'test'
+  ...
+# Subtest: file adapter uses the same normalized contract as direct snapshot input
+ok 40 - file adapter uses the same normalized contract as direct snapshot input
+  ---
+  duration_ms: 7.602318
+  type: 'test'
+  ...
+# Subtest: mutating a returned recall cannot erase provenance and bypass withdrawal
+ok 41 - mutating a returned recall cannot erase provenance and bypass withdrawal
+  ---
+  duration_ms: 23.366389
+  type: 'test'
+  ...
+# Subtest: accepted source IDs always fit the withdrawal contract
+ok 42 - accepted source IDs always fit the withdrawal contract
+  ---
+  duration_ms: 2.630493
+  type: 'test'
+  ...
+# Subtest: residue rejects invalid clocks rather than returning nonfinite affect
+ok 43 - residue rejects invalid clocks rather than returning nonfinite affect
+  ---
+  duration_ms: 11.61752
+  type: 'test'
+  ...
+1..43
+# tests 43
+# suites 0
+# pass 43
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 724.114623

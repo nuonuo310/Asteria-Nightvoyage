@@ -18,3 +18,5 @@ The demo is deterministic fake generation. Rerunning it returns the same durable
 Input material kind and generated event origin are separate. Dreams are never reality facts, including in recall and derived records. This release rejects real input materials and non-fake providers. It cannot modify personality, factual memory, daily emotion, tasks or tools. There is no Asteria adapter or frontend.
 
 See [contract](docs/CONTRACT.md), [plan](docs/PLAN.md), [fictional walkthrough](docs/WALKTHROUGH.md), [references](docs/REFERENCES.md), and [progress and limitations](PROGRESS.md). Storage and backup boundaries are part of the contract. Do not commit local runtime data, real journals, chats, private configuration or credentials. MIT licensed.
+
+DeepSeek preparation is available as an **offline protocol/simulator**, not a live CLI mode. See [offline preparation and at-home handoff](docs/DEEPSEEK-PREPARATION.md). No API key is needed for its tests; real transport, spending controls and egress authorization remain pending.
