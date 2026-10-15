@@ -1,0 +1,61 @@
+{
+  "command": "node --test --test-reporter=tap",
+  "node": "v24.19.0",
+  "platform": "Linux",
+  "linuxLF": {
+    "passed": 82,
+    "failed": 0
+  },
+  "linuxCRLFSimulation": {
+    "passed": 82,
+    "failed": 0
+  },
+  "beforeRegression": {
+    "passed": 0,
+    "failed": 1,
+    "baseline": "75a9e8519d3550f9e8b689cd0f948fa687ec6d9e",
+    "meaning": "invented aftermath was accepted as completed wake"
+  },
+  "windowsFixExecutedOnWindows": false,
+  "newRealModelRequests": 0,
+  "generationQualityAccepted": false,
+  "sourceSha256": {
+    "fixtures/paper-harbor.json": "7151c9c5e1d88b4c1b3fe8412b1fb41c9d25bf2d9c85c3c5680f380b898cb7b4",
+    "nightvoyage.cmd": "961ca585990c6b520cd54c2e5235093cc8bfec65171aedf2e014b34373224ff6",
+    "package.json": "8ebbf5270f9c23228409410269e56cc009779eff803d3d5cd1144a3f4b04a56f",
+    "src/adapters.js": "98aa38e7c9860c2058f9d8ebe7a24bc20670abf0cbbf4ec0d14d995af164cd79",
+    "src/budget-ledger.js": "f18512c5e88864aad335fc9f3bb9ebd931f3880a03b044285c0556f425cdcfcb",
+    "src/budgeted-runtime.js": "e3aa0ac7372a6666a18b82ca4cde94bbd5f372a11bbd7fa29074f86b7d3ab25d",
+    "src/cli.js": "b9e1fd81054f45e5a477c256bc3b9cea36bbf51f05722adf84654fae6d6196bc",
+    "src/contract.js": "850c99572c39930eac150588e379c9af90b5e792159ae46a04f9fad0f9d52ca7",
+    "src/deepseek-protocol.js": "0f8471c69f170ec74880ef0e7deef8889df8a3b12e6e86c0aea2b13fcefa681e",
+    "src/engine.js": "2c327aabd4aa9cb6489f2bf99b81be17eede4adea5073bbe9caf3ce6c17a5a03",
+    "src/fake-provider.js": "9460fac1e2d936b5aacde19ec1c79a07b1d1db77987cc4b51e815acd913f6456",
+    "src/gated-deepseek-client.js": "73264e49a2d5a3e363afae9c32ecd153d3c651a29fe7885b98d49c1cd2c36685",
+    "src/store.js": "07711405e41780805dbe23a3f993fdfb7a7d0b44a39d3dbd160374dafd1aaacb",
+    "src/trial-cli.js": "60b4e421c8abb068cde1e2f014ee7cb6824442f92f05cefc42661b2d3b4d8f9b",
+    "src/trial-config.js": "32762a9fae9872e9533a292a40b729c55c4f1ce258b1f91a0d5d0f454c007d90",
+    "test/basic.test.js": "e64a83c96aec98ea2063a21d4787a3e621d57758f0672afbb5bc976d232776d8",
+    "test/budget-transport.test.js": "5c12a68c9a141b6d4d6ab86b0219bf5d333224766063eae548dff2dabe133fa3",
+    "test/deepseek.test.js": "d1f2520f80a413912188866e141062ff7b7e68965299439a1abf34ff226cae0e",
+    "test/integration.test.js": "7e130f83382d87864d244529d6eca06a04e8f8b215c1f889087ac4b23b1721ae",
+    "test/lifecycle.test.js": "a7cb6f8a9141d5cf336d2602502a8f9d848f87079ae06bae050e8bee467dc367",
+    "test/review.test.js": "9c7c9fa05e11b5c5ca0b7787a7d787b0adea50cb76287ba08ea055ec5b17aacf"
+  },
+  "outputSha256": {
+    "wake-grounding-after.txt": "0448e1beebd191bec350017bdb8b22e83b33211f98cb045b9169c78f19af22f9",
+    "wake-grounding-before.txt": "fe99e146a3fa63f8a1efbe20b5d51e12c9e86f082866076f5e6eb7f003b7e25f",
+    "wake-grounding-crlf.txt": "f0fb9d0175d765d806593f84e4a55c3e8e3f54d1847c22162a7cae552b45080e"
+  },
+  "userReportedWindows": {
+    "passed": 82,
+    "failed": 0,
+    "skipped": 0,
+    "date": "2026-10-15",
+    "reportedBranch": "fix/grounded-wake-fragments",
+    "candidateRemoteHead": "5959bd906af81f2eb811d905041e398b82211e33",
+    "userCheckoutHeadIndependentlyVerified": false,
+    "evidenceKind": "user_reported_terminal_output",
+    "rawTranscriptPublished": false
+  }
+}

@@ -58,7 +58,7 @@ export class Nightvoyage {
       if (r.status === 'running') await this.wakeStep(r, controller.signal);
     } catch (error) {
       if (this.store.poisoned) throw error;
-      if (r.status === 'running') { r.status = ['simulated_crash','ambiguous_attempt'].includes(error.message) ? 'uncertain' : 'failed'; r.error = ['budget_exhausted','timeout','invalid_scene','invalid_affect','invalid_appraisal','invalid_wake','simulated_crash','ambiguous_attempt','allowance_exhausted','allowance_expired','source_egress_denied_or_withdrawn','provider_authentication_failed','provider_rate_limited','provider_http_failure','request_failed'].includes(error.message) ? error.message : 'provider_or_validation_failure'; this.store.save(); }
+      if (r.status === 'running') { r.status = ['simulated_crash','ambiguous_attempt'].includes(error.message) ? 'uncertain' : 'failed'; r.error = ['budget_exhausted','timeout','invalid_scene','invalid_affect','invalid_appraisal','invalid_wake','wake_fragment_not_grounded','simulated_crash','ambiguous_attempt','allowance_exhausted','allowance_expired','source_egress_denied_or_withdrawn','provider_authentication_failed','provider_rate_limited','provider_http_failure','request_failed'].includes(error.message) ? error.message : 'provider_or_validation_failure'; this.store.save(); }
     } finally { this.active.delete(id); }
     return this.status(id);
   }

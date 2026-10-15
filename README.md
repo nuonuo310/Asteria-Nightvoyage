@@ -24,3 +24,5 @@ DeepSeek preparation is available as an **offline protocol/simulator**, not a li
 [Budget accounting and gated transport](docs/BUDGET-AND-TRANSPORT.md) are separate API components. Transport defaults off, no actual pricing/allowance is bundled, and the CLI remains fake-only. Tests use stub HTTP. Live engine integration and external credential/Windows setup are still pending.
 
 The review branch includes an integrated budgeted runtime and `nightvoyage.cmd` launcher. [Windows handoff](docs/RUN-ON-WINDOWS.md) covers initialization, key entry, preflight, resume and the CNY 1 reservation conflict. Defaults send nothing; actual Windows/API execution remains unverified. A higher allowance needs explicit approval.
+
+The first user-local three-run fictional trial is complete (reported nine calls; further calls blocked). [Trial review and protocol v2 correction](docs/FIRST-LIVE-TRIAL-REVIEW.md) distinguish observed mechanics from remaining quality issues. New grounded-wake code has offline evidence only; no additional paid trial is enabled.

@@ -1,6 +1,7 @@
 import { Nightvoyage } from './engine.js';
 import { GatedDeepSeekClient } from './gated-deepseek-client.js';
 import { copy, fail } from './store.js';
+import { protocolVersion } from './deepseek-protocol.js';
 
 // Same dream core and journal. Only stage dispatch/publication differs from fake mode.
 export class BudgetedNightvoyage extends Nightvoyage {
@@ -10,7 +11,7 @@ export class BudgetedNightvoyage extends Nightvoyage {
       this.client = new GatedDeepSeekClient(this.store,{enabled,mode,fetchImpl,timeoutMs,fault});
       this.client.ledger.approve(allowance);
       this.allowanceId = allowance.id; this.credential = credential;
-      this.provider.identity = `budgeted-v1:${mode}:${allowance.id}:${allowance.pricing.model}`;
+      this.provider.identity = `${protocolVersion}:${mode}:${allowance.id}:${allowance.pricing.model}`;
     } catch (e) { this.store.close(); throw e; }
   }
   start(requestId,sessionId,input,settings={}) {

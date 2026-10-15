@@ -41,3 +41,7 @@ A successful control response is the durability acknowledgement. If storage fail
 Public return values are detached copies: mutating a recall candidate must never alter stored provenance. Non-finite clock inputs are rejected. Grant normalization retains only supported permission fields.
 
 The optional billing ledger shares this authoritative Store and persists allowance metadata and body-free attempt/usage receipts. It is separate from the fake engine token reservations. See BUDGET-AND-TRANSPORT.md; no real price or live allowance is enabled by default.
+
+## DeepSeek wake policy v2 (new generations only)
+
+The integrated and offline DeepSeek adapters additionally require wake fragments to be exact contiguous excerpts from one saved scene event. Integrated output attaches program-owned `fragmentBasis:{kind:scene_excerpt,sceneIndex}`. This links a quotation to a scene, not to a reality fact. Residue and optional unverified associations remain independent. Generic fake B/C generation and existing stored records are unchanged. Invalid fragments fail before publication and do not trigger repair calls; the conservative billing hold remains. New protocol identity prevents silently resuming older partial work under different semantics. See FIRST-LIVE-TRIAL-REVIEW.md for evidence and limitations.

@@ -23,11 +23,11 @@ test('newline normalization never authorizes modified fictional material or perm
 });
 const grant=()=>{const f=structuredClone(fixture);f.sources[0].grant.modelEgress=true;return f;};
 const allowance=()=>({id:'integration-stub',mode:'stub',approved:true,expiresAt:Date.now()+60000,limits:{maxRuns:3,maxCalls:9,maxMicroCny:1000000},pricing:{model:'deepseek-flash',contextTokenLimit:1000,inputMicroCnyPerMillion:1000000,outputMicroCnyPerMillion:2000000,reference:'https://api-docs.deepseek.com/TEST-ONLY',checkedAt:1}});
-function simulator(counter){const fake=new FakeProvider();return async(_url,request)=>{counter.calls++;const body=JSON.parse(request.body),material=JSON.parse(body.messages[1].content);const data=await fake.generate({stage:material.stage,index:material.sceneIndex});return new Response(JSON.stringify({model:'deepseek-flash',choices:[{finish_reason:'stop',message:{role:'assistant',content:JSON.stringify(data)}}],usage:{prompt_tokens:100,completion_tokens:50,total_tokens:150}}));};}
+function simulator(counter){const fake=new FakeProvider();return async(_url,request)=>{counter.calls++;const body=JSON.parse(request.body),material=JSON.parse(body.messages[1].content);const data=material.stage==='wake'?{fragment:material.previousScenes.at(-1).event,residue:0.1,associations:[]}:await fake.generate({stage:material.stage,index:material.sceneIndex});return new Response(JSON.stringify({model:'deepseek-flash',choices:[{finish_reason:'stop',message:{role:'assistant',content:JSON.stringify(data)}}],usage:{prompt_tokens:100,completion_tokens:50,total_tokens:150}}));};}
 function setup(t,{fault=()=>{},config=allowance()}={}){const dir=fs.mkdtempSync(path.join(os.tmpdir(),'nightvoyage-integrated-')),counter={calls:0};const engine=new BudgetedNightvoyage(dir,{allowance:config,credential:'dummy-local-key',enabled:true,mode:'stub',fetchImpl:simulator(counter),fault});t.after(()=>{engine.close();fs.rmSync(dir,{recursive:true,force:true});});return {dir,engine,counter,config};}
 test('integrated budgeted loop atomically publishes two scenes, wake, recall and three settled rows',async t=>{
  const {engine:e,counter}=setup(t),id=e.start('r','s',grant());assert.equal((await e.execute(id)).status,'completed');const result=e.result(id);
- assert.equal(result.dream.scenes.length,2);assert.equal(result.receipt.budget.calls,3);assert.equal(result.receipt.budget.input,300);assert.equal(result.receipt.billing.every(t=>t.status==='settled'),true);assert.equal(counter.calls,3);assert.equal(e.recall('lantern','cue')[0].isRealityFact,false);
+ assert.equal(result.dream.scenes.length,2);assert.deepEqual(result.wake.fragmentBasis,{kind:'scene_excerpt',sceneIndex:1});assert.equal(result.wake.fragment,result.dream.scenes[1].event);assert.equal(result.receipt.budget.calls,3);assert.equal(result.receipt.budget.input,300);assert.equal(result.receipt.billing.every(t=>t.status==='settled'),true);assert.equal(counter.calls,3);assert.equal(e.recall('lantern','cue')[0].isRealityFact,false);
  assert.equal(e.start('r','s',grant()),id);await e.execute(id);assert.equal(counter.calls,3);
 });
 test('three dreams share the same nine-call allowance and fourth run is blocked',async t=>{
@@ -50,7 +50,7 @@ test('settlement write failure exposes neither output nor committed dream; reope
 });
 test('actual process death after atomic scene settlement cannot split ledger and checkpoint',t=>{
  const {engine:e,dir,config,counter}=setup(t);e.close();
- const script=`import fs from 'node:fs';import {BudgetedNightvoyage} from './src/budgeted-runtime.js';import {FakeProvider} from './src/fake-provider.js';const fake=new FakeProvider();const fixture=JSON.parse(fs.readFileSync('fixtures/paper-harbor.json'));fixture.sources[0].grant.modelEgress=true;const e=new BudgetedNightvoyage(process.argv[1],{allowance:JSON.parse(process.argv[2]),credential:'dummy',enabled:true,mode:'stub',fetchImpl:async(_,i)=>{const m=JSON.parse(JSON.parse(i.body).messages[1].content);const d=await fake.generate({stage:m.stage,index:m.sceneIndex});return new Response(JSON.stringify({model:'deepseek-flash',choices:[{finish_reason:'stop',message:{role:'assistant',content:JSON.stringify(d)}}],usage:{prompt_tokens:100,completion_tokens:50,total_tokens:150}}));},fault:p=>{if(p==='scene_saved')process.exit(75);}});await e.execute(e.start('child','child',fixture));`;
+ const script=`import fs from 'node:fs';import {BudgetedNightvoyage} from './src/budgeted-runtime.js';import {FakeProvider} from './src/fake-provider.js';const fake=new FakeProvider();const fixture=JSON.parse(fs.readFileSync('fixtures/paper-harbor.json'));fixture.sources[0].grant.modelEgress=true;const e=new BudgetedNightvoyage(process.argv[1],{allowance:JSON.parse(process.argv[2]),credential:'dummy',enabled:true,mode:'stub',fetchImpl:async(_,i)=>{const m=JSON.parse(JSON.parse(i.body).messages[1].content);const d=m.stage==='wake'?{fragment:m.previousScenes.at(-1).event,residue:0.1,associations:[]}:await fake.generate({stage:m.stage,index:m.sceneIndex});return new Response(JSON.stringify({model:'deepseek-flash',choices:[{finish_reason:'stop',message:{role:'assistant',content:JSON.stringify(d)}}],usage:{prompt_tokens:100,completion_tokens:50,total_tokens:150}}));},fault:p=>{if(p==='scene_saved')process.exit(75);}});await e.execute(e.start('child','child',fixture));`;
  const child=spawnSync(process.execPath,['--input-type=module','-e',script,dir,JSON.stringify(config)],{cwd:new URL('..',import.meta.url),encoding:'utf8'});assert.equal(child.status,75,child.stderr);
  const next=new BudgetedNightvoyage(dir,{allowance:config,credential:'dummy',enabled:true,mode:'stub',fetchImpl:simulator(counter)});const id=next.start('child','child',grant());assert.equal(next.status(id).stagesSaved,1);assert.equal(next.status(id).billing[0].status,'settled');return next.resume(id,{retryUnknown:true}).then(r=>{assert.equal(r.status,'completed');assert.equal(counter.calls,2);next.close();});
 });
@@ -82,4 +82,16 @@ test('credential-free completed replay reports persisted billing usage rather th
  const {engine:e,dir}=setup(t),id=e.start('r','s',grant());await e.execute(id);e.close();
  const {Nightvoyage}=await import('../src/engine.js');const reader=new Nightvoyage(dir);const result=reader.result(id);
  assert.equal(result.receipt.budget.calls,3);assert.equal(result.receipt.budget.input,300);assert.equal(result.receipt.billing.length,3);assert.equal(result.receipt.budget.kind,'provider_usage_and_reservations');reader.close();
+});
+
+test('invented wake events cannot publish or trigger a fourth repair call',async t=>{
+ const {engine:e,dir,config,counter}=setup(t);const original=e.client.fetchImpl;
+ e.client.fetchImpl=async(url,request)=>{
+  if(JSON.parse(JSON.parse(request.body).messages[1].content).stage!=='wake')return original(url,request);
+  counter.calls++;return new Response(JSON.stringify({model:'deepseek-flash',choices:[{finish_reason:'stop',message:{role:'assistant',content:JSON.stringify({fragment:'An unrelated invented event occurs after waking.',residue:0.1,associations:[]})}}],usage:{prompt_tokens:100,completion_tokens:50,total_tokens:150}}));
+ };
+ const id=e.start('bad-wake','bad-wake',grant());assert.equal((await e.execute(id)).status,'failed');
+ assert.equal(e.result(id).dream,null);assert.equal(e.status(id).error,'wake_fragment_not_grounded');assert.equal(e.status(id).stagesSaved,2);assert.equal(counter.calls,3);assert.equal(e.status(id).billing.at(-1).status,'unknown');e.close();
+ const next=new BudgetedNightvoyage(dir,{allowance:config,credential:'dummy',enabled:true,mode:'stub',fetchImpl:simulator(counter)});
+ assert.equal((await next.resume(id,{retryUnknown:true})).status,'uncertain');assert.equal(counter.calls,3);assert.equal(next.result(id).dream,null);next.close();
 });
