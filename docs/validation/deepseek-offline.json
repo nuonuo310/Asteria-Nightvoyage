@@ -1,0 +1,26 @@
+{
+  "command": "node --test --test-reporter=tap",
+  "exitCode": 0,
+  "node": "v24.19.0",
+  "platform": "Linux",
+  "testsPassed": 43,
+  "testsFailed": 0,
+  "realModelRequests": 0,
+  "scope": "fictional fixtures, fake and local protocol simulator only",
+  "sourceSha256": {
+    "fixtures/paper-harbor.json": "7151c9c5e1d88b4c1b3fe8412b1fb41c9d25bf2d9c85c3c5680f380b898cb7b4",
+    "package.json": "8ebbf5270f9c23228409410269e56cc009779eff803d3d5cd1144a3f4b04a56f",
+    "src/adapters.js": "98aa38e7c9860c2058f9d8ebe7a24bc20670abf0cbbf4ec0d14d995af164cd79",
+    "src/cli.js": "b9e1fd81054f45e5a477c256bc3b9cea36bbf51f05722adf84654fae6d6196bc",
+    "src/contract.js": "e7eb39501ed9632e4223ebe271163266006c3cf868d06652a442311c8dc05e18",
+    "src/deepseek-protocol.js": "45cdefbb2229fe296d55a444f1f0b441b05ef4bb9128d4cb3c22b2a4fee5d5a5",
+    "src/engine.js": "30976f4a694db048c836525b2dbc7163f630c6e31cc21e8128819f8e3e5bffb7",
+    "src/fake-provider.js": "9460fac1e2d936b5aacde19ec1c79a07b1d1db77987cc4b51e815acd913f6456",
+    "src/store.js": "6ddc0047533bf585d4b315bb33ae315dac43602dda3136b997a76950e2554735",
+    "test/basic.test.js": "e64a83c96aec98ea2063a21d4787a3e621d57758f0672afbb5bc976d232776d8",
+    "test/deepseek.test.js": "300e8a7378450541f917af309717d83f712af4cc949a16d58b3afdcf494aaf33",
+    "test/lifecycle.test.js": "35f0e594fdda07b01de52045b70e9620ebeb0f617c559c37e07d6c35facacee4",
+    "test/review.test.js": "9c7c9fa05e11b5c5ca0b7787a7d787b0adea50cb76287ba08ea055ec5b17aacf"
+  },
+  "testOutputSha256": "5303b65b7e4fc0d30e5760aaa559adaccc08e9cab6c3ff098950bae9791d03de"
+}
