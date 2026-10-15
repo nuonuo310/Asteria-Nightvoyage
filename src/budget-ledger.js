@@ -1,5 +1,6 @@
 import { copy, fail } from './store.js';
 import { hash, own, safeId } from './contract.js';
+import { reviewedValidationDiagnostic } from './validation-diagnostic.js';
 const positive = n => Number.isSafeInteger(n) && n > 0;
 export function validateAllowance(input) {
   const { id, mode, expiresAt, limits, pricing } = input ?? {};
@@ -54,8 +55,12 @@ export class BudgetLedger {
     const t = this.attempt(id, requestId); if (t.status !== 'reserved') fail('attempt_not_dispatchable');
     t.status = 'dispatched'; this.store.save();
   }
-  unknown(id, requestId) {
-    const t = this.attempt(id, requestId); if (t.status !== 'settled') { t.status = 'unknown'; this.store.save(); }
+  unknown(id, requestId, diagnostic) {
+    const t = this.attempt(id, requestId); if (t.status !== 'settled') {
+      const reviewed = reviewedValidationDiagnostic(diagnostic);
+      if (reviewed) t.validationDiagnostic = reviewed;
+      t.status = 'unknown'; this.store.save();
+    }
   }
   settle(id, requestId, receipt, publish) {
     const a = this.account(id), t = this.attempt(id, requestId), p = a.allowance.pricing, u = receipt?.usage;

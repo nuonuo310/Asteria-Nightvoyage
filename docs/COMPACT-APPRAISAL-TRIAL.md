@@ -1,6 +1,6 @@
 # 共享引文协议与单场复测入口
 
-状态：`compact-appraisal-quotes-v1`、预算运行路径和单场 CLI 已实现，只有离线模拟证据。**未为用户初始化新额度、读取密钥或发起真实调用；本场复测尚未获得新外发/费用批准。** 不迁移旧梦正文，不接 Asteria。
+最新状态：用户已批准并本地执行本场复测，第一幕评价校验失败，未发布梦境；未知尝试保留预算，后续被阻止。Windows 原版本 148 项离线测试报告通过。完整限制和新增无正文诊断见 [失败复查](COMPACT-VALIDATION-DIAGNOSTICS.md)。下文提案/交付描述保留实施时背景，不能视为新的运行授权；勿重置或重复初始化绕过阻断。不迁移旧梦正文，不接 Asteria。
 
 ## 引文只输出一次
 
@@ -35,7 +35,7 @@
 
 阶段正文、引文与费用结算仍在同一 Store 操作中原子发布。取消/撤回抑制迟到正文，来源墓碑在重开后先清除关联原幕/引文/醒来正文，再允许读。账本只存白名单计费元数据。没有新增正文缓存、索引、日志或自动备份。外部复制、旧备份、其他机器和物理擦除仍超出首版自动清除边界。
 
-## 单场提案：尚未授权
+## 单场提案与原交付边界
 
 `compact-appraisal-trial-20261015` 固定一场 `sparse-context`，最多两幕、一次醒来、三次调用，新增总上限人民币 3 元提案。它针对前一批稀疏输入的评价依据问题，不要求重复剧情，也不是统计性对照。原三组筛查必须已有九次结算；新额度独立，不重置旧账本。
 
@@ -60,4 +60,4 @@ node src/compact-trial-cli.js preflight
 
 脚本使用临时目录、dummy credential、stub allowance 和内存传输，禁止 native fetch，不读真实密钥、不写用户梦簿。源码素材的授权副本只用于本地模拟；stub usage/单价是测试数据，不是真实 token/费用。
 
-未初始化时预检应为 `ready:false / compact_approval_required / credentialRead:false`。本轮不提供真实初始化或密钥执行步骤。Linux LF/CRLF 完整测试、脚本输出和源码摘要见 `docs/validation/compact-appraisal.*`。同作者复查，不是独立代理审计；新的 Windows 入口及真实模型质量未验证。先做 Windows 离线检查，再单独决定真实复测。没有第三方实现或新依赖，全部使用本项目 MIT 代码和独立虚构探针。
+原交付时，未初始化预检应为 `ready:false / compact_approval_required / credentialRead:false`。其 Linux LF/CRLF 完整测试、脚本输出和源码摘要见 `docs/validation/compact-appraisal.*`。后续 Windows 离线报告与失败试跑见上述复查；真实模型质量仍未验收。现有用户预检为 `unsettled_attempt_requires_review`，新诊断无法倒填旧失败原因或解除保留。没有第三方实现或新依赖，全部使用本项目 MIT 代码和独立虚构探针。
