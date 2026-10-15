@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "phase": "simulator-only-coupled-affect-loop",
+  "protocolVersion": "offline-coupled-affect-quotes-v1",
+  "affectEncodingVersion": "explicit-affect-union-v1",
+  "platform": "Linux",
+  "node": "v24.19.0",
+  "newTests": 19,
+  "initialTargeted": {
+    "passed": 35,
+    "failed": 0,
+    "scope": "first 16 new tests + 19 prior review tests"
+  },
+  "initialFull": {
+    "passed": 251,
+    "failed": 1,
+    "cause": "test used delete instead of existing deleteEntry method; corrected test, no runtime change"
+  },
+  "finalLF": {
+    "command": "node --test",
+    "passed": 252,
+    "failed": 0,
+    "skipped": 0,
+    "fullSuite": true
+  },
+  "temporaryCRLF": {
+    "command": "node --test test/coupled-affect-offline.test.js test/coupled-affect-review.test.js test/appraisal-view.test.js",
+    "passed": 45,
+    "failed": 0,
+    "skipped": 0,
+    "nativeWindows": false,
+    "fullSuite": false
+  },
+  "realModelRequests": 0,
+  "liveProtocolEnabled": false,
+  "oldLiveSourcePinsUnchanged": true,
+  "userRuntimeOpened": false,
+  "allowancesChanged": false,
+  "originalSourceGrantsNoEgress": true,
+  "review": "same-author",
+  "semanticSupport": "not_assessed",
+  "modelComplianceImproved": "not_assessed",
+  "qualityAssessed": false,
+  "sourceSha256": {
+    "src/coupled-affect-wire.js": "ea93558e31edecc2c8b55ea2ef0f08595e2299bf71ed0ae83c3cdd6a649be355",
+    "src/coupled-affect-offline.js": "44108df3059b9173d1fd3f611456b666912ed144b6965d892a98586043e0a9c8",
+    "src/coupled-affect-review.js": "f023ebfd129424cc17dc61b753bbdee7c4e18fd24a976d34f8f5b1f3ec0c49ba",
+    "src/appraisal-view.js": "fff73d419a925e6564d1f233c465067b555e850dc4a75d82a73fe9394c630f8d",
+    "test/coupled-affect-offline.test.js": "97e27f78db33046e371e73840d5345f2a29f3cf4c8eff58c39e1777a62a8c95a",
+    "scripts/check-coupled-affect-offline.mjs": "4f35ff7d0dece16fa3202d454a707b7164adb59b6196acc7bf7da1d758e9b116"
+  }
+}
