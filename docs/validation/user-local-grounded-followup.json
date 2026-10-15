@@ -1,0 +1,52 @@
+{
+  "evidenceKind": "user_reported_terminal_output",
+  "date": "2026-10-15",
+  "model": "deepseek-flash",
+  "materialKind": "fictional",
+  "candidateRemoteHead": "8b660a484b22e9cf5a8753800c7acfe6b77f0213",
+  "reportedResult": {
+    "status": "completed",
+    "scenes": 2,
+    "wakeOrigin": "wake_note",
+    "isRealityFact": false,
+    "fragmentBasis": {
+      "kind": "scene_excerpt",
+      "sceneIndex": 1
+    },
+    "fragmentMatchesReferencedSceneVerbatim": true,
+    "associationsCount": 0,
+    "simulatedResidue": 0.1,
+    "calls": 3,
+    "inputTokens": 1650,
+    "outputTokens": 231,
+    "allBillingRowsSettled": true,
+    "ledgerMicroCny": 5148
+  },
+  "finalPreflight": {
+    "ready": false,
+    "reason": "call_limit_reached",
+    "credentialRead": false,
+    "previousTrial": {
+      "calls": 9,
+      "runs": 3,
+      "ledgerMicroCny": 14504
+    },
+    "followupTrial": {
+      "calls": 3,
+      "runs": 1,
+      "ledgerMicroCny": 5148
+    },
+    "cumulative": {
+      "calls": 12,
+      "runs": 4,
+      "ledgerMicroCny": 19652
+    }
+  },
+  "providerInvoiceVerified": false,
+  "rawJournalPublished": false,
+  "keyReceivedByWorkspace": false,
+  "limitedWakeGroundingSamplePassed": true,
+  "generalQualityAccepted": false,
+  "remainingQualityObservation": "gender-neutral narration guidance was not fully followed; source identity and original-vs-wake separation remain distinct",
+  "newPaidTrialAuthorized": false
+}
