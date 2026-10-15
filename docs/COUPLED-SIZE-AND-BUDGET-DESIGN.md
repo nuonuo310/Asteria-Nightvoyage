@@ -1,5 +1,7 @@
 # 成对情绪候选：大小边界与预算接入设计
 
+后续进度：[历史读取分离已实现](HISTORICAL-READ-COMPATIBILITY.md)，当前 proposal 继续检查源码，已存配置可在摘要漂移后读取。本文的阻断复现与待实施表记录当时设计阶段；coupled 门控预算协议及真实入口仍待实施。
+
 本阶段已交付离线字节审查器和可复现测试；预算接入部分是设计，**尚未实现或运行真实预算闭环**。用户报告 Windows/Node v24.19.0 独立模拟脚本 completed、假调用三次、重开/零重复、一个 dream/非事实召回、撤回后候选零/视图 null，两幕声明及审计一致。聚合见 `docs/validation/user-local-coupled-affect-offline.json`。这不是 Windows 完整 252 项或故障测试报告，也不是独立机器/checkout 验证。
 
 ## 字节审查结果

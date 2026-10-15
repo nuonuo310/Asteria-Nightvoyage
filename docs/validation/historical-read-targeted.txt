@@ -1,0 +1,15 @@
+✔ historical profile is detached immutable data and missing/config-tampered reads never create an account (19.926506ms)
+✔ source drift keeps old unknown accounting readable but blocks new init/run before key/reservation (39108.337561ms)
+✔ failed third unknown stays body-free and unchanged through source drift and expiry reads (3940.34798ms)
+✔ completed historical dream/view replay survives source drift and expiry with zero key or fetch access (1742.350051ms)
+✔ withdrawal still removes historical bodies and stale replay even after source drift (3215.699751ms)
+✔ unchanged sources but expired approval allow metadata reads while init and new run remain blocked (3022.572429ms)
+✔ historical CLI rejects mutated stored allowance despite source drift without revealing a body or reading key (1336.244151ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 52953.994312
