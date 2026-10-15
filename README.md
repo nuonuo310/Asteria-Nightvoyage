@@ -2,6 +2,8 @@
 
 Latest: the user-reported compact live trial stopped on its first validation failure, publishing no dream. [Body-free failure diagnostics and limits](docs/COMPACT-VALIDATION-DIAGNOSTICS.md) preserve the unknown budget hold; installing the change does not retry or recover the discarded response.
 
+A [single-scene, one-request diagnostic proposal](docs/SINGLE-SCENE-DIAGNOSTIC.md) is prepared for offline review. It stores no generated body, requires a separate new approval and preserves the old hold. It has not been run against a real provider.
+
 Experimental standalone dream layer: fictional input snapshots → two scenes with simulated affect → a separate wake record and decaying residue → typed cue-recall candidates.
 
 Requires Node.js 24+. No packages, credentials or network model calls are needed.

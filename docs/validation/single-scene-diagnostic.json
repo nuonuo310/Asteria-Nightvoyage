@@ -1,0 +1,35 @@
+{
+  "command": "node --test",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "lf": {
+    "tests": 167,
+    "pass": 167,
+    "fail": 0,
+    "skipped": 0
+  },
+  "temporaryLinuxCrlfSimulation": {
+    "tests": 167,
+    "pass": 167,
+    "fail": 0,
+    "skipped": 0
+  },
+  "newTests": 13,
+  "realModelRequests": 0,
+  "realCredentialRead": false,
+  "userStoreOpened": false,
+  "paidTrialApproved": false,
+  "nativeWindowsValidation": false,
+  "qualityAssessed": false,
+  "preflightWithoutApproval": {
+    "ready": false,
+    "reason": "single_scene_approval_required",
+    "credentialRead": false,
+    "directoryCreated": false
+  },
+  "sourceSha256": {
+    "src/single-scene-diagnostic.js": "5bbc25ec7b9e8af872dcdb715019500a1db772cd741d07a135ce8b4fea6ee5e5",
+    "src/single-scene-cli.js": "6c84bf3c890a8cc007bbb4fa3a0aa7d270fd64b60a1f2e711efe42e55670b824",
+    "test/single-scene-diagnostic.test.js": "567a79c62adcb4848f9eaef190c2d91cf9b605f582dfb3babdb9887355b54244"
+  }
+}
