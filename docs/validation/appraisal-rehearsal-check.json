@@ -1,0 +1,43 @@
+{
+  "command": "node scripts/check-appraisal-rehearsal.mjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "protocolVersion": "offline-appraisal-evidence-v1",
+  "scriptedSimulatorOnly": true,
+  "realModelRequests": 0,
+  "fakeStageCalls": 9,
+  "qualityAssessed": false,
+  "liveEntryChanged": false,
+  "results": [
+    {
+      "id": "ordinary-unchanged",
+      "status": "completed",
+      "fakeStageCalls": 3,
+      "evidencePersisted": true,
+      "reopened": true,
+      "duplicateCalls": 0,
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false
+    },
+    {
+      "id": "explicit-goal-effects",
+      "status": "completed",
+      "fakeStageCalls": 3,
+      "evidencePersisted": true,
+      "reopened": true,
+      "duplicateCalls": 0,
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false
+    },
+    {
+      "id": "affect-without-resolution",
+      "status": "completed",
+      "fakeStageCalls": 3,
+      "evidencePersisted": true,
+      "reopened": true,
+      "duplicateCalls": 0,
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false
+    }
+  ]
+}
