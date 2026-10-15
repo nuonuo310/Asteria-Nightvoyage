@@ -1,0 +1,41 @@
+✔ read view presents missing appraisal as null rather than numeric placeholders (38.036337ms)
+✔ quoted estimates remain model claims, including an explicitly quoted midpoint (34.877745ms)
+✔ view is recomputed without persistence or calls; returned mutation cannot alter provenance (29.835926ms)
+✔ withdrawal blocks new views after restart and introduces no body cache (13.622081ms)
+✔ deletion removes view source; later recollections and legacy runs cannot masquerade as evidence (28.140135ms)
+✔ closed, forged and tampered records cannot produce an available view (9.974313ms)
+✔ byte audit admits short probes and exact boundary, rejects composite oversize without token estimates (389.15459ms)
+✔ v2 preserves event, numbers and linked evidence while stamping program-owned pruning counts (13.95557ms)
+✔ v2 audit is idempotent across checkpoints and rejects forged counts, versions and extra fields (7.11204ms)
+✔ v2 never conceals malformed unused quotes and still enforces later missing-basis rules (3.165986ms)
+✔ v2 request stays bounded and validates distinct checkpoints without changing live source pins (14.820209ms)
+✔ v2 cannot run without explicit local simulator and rejects malformed responses with no repair call (26.326808ms)
+✔ v2 full fictional loop persists audit and view, reopens with no replay calls and preserves original during append (58.642419ms)
+✔ v2 cancellation suppresses late simulator output and wake never invents an aftermath (60.35692ms)
+✔ v2 withdrawal removes scenes, nested audit/evidence, view and recall after reopening (26.960358ms)
+✔ v2 rejects cross-version execute/resume and cannot read a tampered audit from a managed dream (15.636575ms)
+✔ v2 actual child exit after scene checkpoint resumes remaining fake stages without regenerating it (372.840416ms)
+✔ v2 save failure cannot publish a dream or partially persisted normalization audit (11.980022ms)
+✔ v2 offline command reports fake-only persistence, explicit audit counts, no duplicates and withdrawal (469.907658ms)
+✔ allowance binding is optional for legacy records, immutable when present and rejects unreviewed/offline versions (12.627759ms)
+✔ gated v2 and offline v2 checkpoints have distinct identities and preserve counts (13.084869ms)
+✔ v2 without a matching immutable allowance binding is blocked before reservation or dispatch (5.651231ms)
+✔ default v2 transport stays disabled and live HTTP override is still forbidden (3.474188ms)
+✔ integrated v2 commits audits, scenes and three settled rows atomically without touching an older hold (82.012774ms)
+✔ invalid v2 quotes and later affect rules retain typed body-free rejection and full unknown reservation (137.971377ms)
+✔ v2 diagnostic metadata strips arbitrary text and is accepted only by its bound account (5.75092ms)
+✔ v2 wake rejection cannot publish a dream or trigger a fourth repair call (47.493302ms)
+✔ v2 cancellation and withdrawal suppress late output and purge counts/view/recall (56.047274ms)
+✔ v2 run identity cannot switch allowance or protocol through execute/resume (8.754568ms)
+✔ v2 atomic settlement failure reopens with neither audit nor scene and retains unknown hold (14.723595ms)
+✔ actual exit after v2 atomic scene commit resumes only the remaining two paid-path simulator stages (376.781063ms)
+✔ actual exit after dispatch keeps unknown v2 hold and explicit resume cannot send again (347.586355ms)
+✔ v2 allowance call cap and missing egress block before any over-limit dispatch (20.088823ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 33
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1636.651517

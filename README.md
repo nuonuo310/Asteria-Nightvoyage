@@ -4,7 +4,7 @@ Latest: the user-reported compact live trial stopped on its first validation fai
 
 The user reports the [single-scene diagnostic](docs/SINGLE-SCENE-DIAGNOSTIC.md) is consumed and rejected for unused quote entries, with no generated body saved. [Result and isolated offline comparison](docs/UNUSED-QUOTATION-REVIEW.md) do not change the live validator or release either unknown hold. No further real call is approved.
 
-An [independent v2 candidate](docs/COMPACT-V2-OFFLINE.md) now supports simulator-only persistence and read views with program-owned pruning counts. It has no paid transport selector or trial entry; real quality and native Windows candidate validation remain pending.
+An [independent v2 candidate](docs/COMPACT-V2-OFFLINE.md) now supports simulator-only persistence and read views with program-owned pruning counts. The user reported its Windows simulator happy path. A separate [version-bound budget core](docs/PRUNED-V2-BUDGET-CORE.md) now has stub evidence; transport defaults off and no v2 trial entry or new paid approval exists. Real-provider behavior and quality remain unassessed.
 
 Experimental standalone dream layer: fictional input snapshots → two scenes with simulated affect → a separate wake record and decaying residue → typed cue-recall candidates.
 

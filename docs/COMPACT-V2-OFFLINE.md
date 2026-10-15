@@ -18,7 +18,7 @@
 
 ## 模拟运行、保存和读取
 
-`src/compact-v2-offline.js` 提供明确要求本地 simulator 的 FakeProvider 子类及 `CompactV2Rehearsal`，复用原 Nightvoyage/Store。没有默认 HTTP、密钥读取或生产传输参数；GatedDeepSeekClient 仍拒绝 v2 selector。固定真实入口的三个协议文件及诊断白名单源码摘要未变，旧账本/价格/权限/恢复门不变。
+`src/compact-v2-offline.js` 提供明确要求本地 simulator 的 FakeProvider 子类及 `CompactV2Rehearsal`，复用原 Nightvoyage/Store。该模拟组件没有默认 HTTP、密钥读取或生产传输参数。后续另行完成了[版本绑定预算核心](PRUNED-V2-BUDGET-CORE.md)，使用不同的 gated 协议身份；模拟身份本身不能绑定付费额度。固定真实入口的三个协议文件及诊断白名单源码摘要未变，旧账本/价格/权限/恢复门不变。
 
 首次 queued 保存已有新协议及归一化策略身份；执行/恢复核对身份。最多两幕加一次原有逐字醒来摘录。供应商响应仍先经原 400-token/1200-byte 解析守卫；程序审计不是模型输出，不用它虚增响应限额。假运行的请求预算是本地字节估计/调用上限，不能当作真实 token、收费或真实传输结算证据。
 
@@ -38,6 +38,6 @@
 
 后续用户提供 Windows / Node.js v24.19.0 的独立脚本结果：completed，三次假调用，成功重开，重复调用零次；两幕 received/kept/discarded 分别为 1/0/1 和 5/4/1。读取视图可用，无依据控制值为 null，撤回后视图为 null，原素材仍不外发，真实请求零次。聚合证据见 `docs/validation/user-local-compact-v2-offline.json`。这是用户本地报告，不是独立机器或精确 checkout 核验；没有报告 Windows 完整 187 项或故障/取消测试套件，不据此补计通过。真实生成质量仍未验收。
 
-后续若需用户本地检查，仅用 `node scripts/check-compact-v2-offline.mjs`，无需 Key。真实集成需单独评审新版本、检查点/计费原子发布和明确试跑范围，并另行取得费用/素材外发决定；**当前没有新付费入口或新试跑授权**。两笔未知预算占用继续保留，不能因此把旧失败改成成功或重试旧请求。Asteria 适配器仍为待对接。
+后续若需用户本地检查，仅用 `node scripts/check-compact-v2-offline.mjs`，无需 Key。预算核心的新版本隔离及检查点/计费原子发布已有 stub 测试，尚未制作新试跑入口；真实试跑仍需明确范围并另行取得费用/素材外发决定。独立脚本的 liveProtocolEnabled:false 描述该次模拟运行，不表示整个项目不存在默认关闭的 gated API；**当前没有新付费入口或新试跑授权**。两笔未知预算占用继续保留，不能因此把旧失败改成成功或重试旧请求。Asteria 适配器仍为待对接。
 
 本实现使用本项目 MIT 模块及独立虚构探针，没有第三方实现复制、新依赖或跨仓库修改。

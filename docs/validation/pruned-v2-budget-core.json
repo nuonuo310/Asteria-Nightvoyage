@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "phase": "pruned-v2-budget-core",
+  "platform": "Linux",
+  "node": "v24.19.0",
+  "protocolVersion": "compact-appraisal-quotes-v2-pruned-unused",
+  "transportDefaultsOff": true,
+  "newTrialEntry": false,
+  "newUserAllowanceCreated": false,
+  "realModelRequests": 0,
+  "privateMaterialUsed": false,
+  "userRuntimeOpened": false,
+  "linuxLF": {
+    "command": "node --test",
+    "passed": 201,
+    "failed": 0,
+    "skipped": 0
+  },
+  "linuxCRLF": {
+    "command": "node --test test/pruned-v2-budget.test.js test/compact-v2-offline.test.js test/appraisal-view.test.js",
+    "temporaryCopy": true,
+    "passed": 33,
+    "failed": 0,
+    "skipped": 0,
+    "fullSuite": false
+  },
+  "nativeWindowsCurrentPhase": "not_reported",
+  "newTests": 14,
+  "review": "same-author",
+  "semanticSupport": "not_assessed",
+  "qualityAssessed": false,
+  "actualProviderBillVerified": false,
+  "oldUnknownHolds": "unchanged; no user ledger access",
+  "sourceSha256": {
+    "src/compact-v2-protocol.js": "a9e26e5ffe8dee7102e695af7dd9ee92f90426d7d94b126126f171be6a0a312b",
+    "src/compact-v2-offline.js": "097857494759b96d0a18338a0b071c3d3b8c6832441ec91a19b786b67b244c10",
+    "src/budget-ledger.js": "bd71f25562edf177e736cf19aa45c989826584897918f471fa263ac4401ec1d5",
+    "src/gated-deepseek-client.js": "33e629221ca69e8dc6f1c719dcf6e0faad3b70d385021af4a48da591c9b22149",
+    "src/budgeted-runtime.js": "2739b3c0513ddcb1d833c26175fd3f07836cd4c12d76d7c73621d54670fa3871",
+    "src/appraisal-view.js": "42d79d713e69ce84d51fe26958b1af1f4b0fdfc5d3cd403bed392de6b7e4b874",
+    "src/compact-appraisal-protocol.js": "935762c0e5961b0abcd38d0d5a959ff40ebd97e051a1236e57c7ab3fb8118e34",
+    "src/appraisal-rehearsal.js": "361f2a81e4dc63ca7f6f138032fc65d649e53f1b3039cd0841f614396d1cc23f",
+    "src/deepseek-protocol.js": "0f8471c69f170ec74880ef0e7deef8889df8a3b12e6e86c0aea2b13fcefa681e",
+    "src/validation-diagnostic.js": "931a0bd25e03755570a8931fc5efa4d25a2c2548b164ede0051b005b17d9c0be",
+    "test/pruned-v2-budget.test.js": "38be6b93cdb47da13c7d4759825759df238661ab35c981bf848c14e346af0001"
+  }
+}

@@ -16,7 +16,7 @@ export class BudgetedNightvoyage extends Nightvoyage {
   }
   initialRunMetadata() {
     return {billingAllowanceId:this.allowanceId,billingProtocolVersion:this.client.protocolVersion,
-      ...(this.client.protocol==='compact-appraisal-v1'?{appraisalProtocolVersion:this.client.protocolVersion}:{})};
+      ...(this.client.protocol!=='grounded-wake-v2'?{appraisalProtocolVersion:this.client.protocolVersion}:{})};
   }
   start(requestId,sessionId,input,settings={}) {
     const pricing = this.client.ledger.account(this.allowanceId).allowance.pricing;
@@ -25,13 +25,13 @@ export class BudgetedNightvoyage extends Nightvoyage {
     const id = super.start(requestId,sessionId,input,{inputTokens:pricing.contextTokenLimit*3,timeoutMs:60000,...settings});
     this.run(id).billingAllowanceId = this.allowanceId;
     this.run(id).billingProtocolVersion=this.client.protocolVersion;
-    if (this.client.protocol==='compact-appraisal-v1') this.run(id).appraisalProtocolVersion=this.client.protocolVersion;
+    if (this.client.protocol!=='grounded-wake-v2') this.run(id).appraisalProtocolVersion=this.client.protocolVersion;
     this.store.save(); return id;
   }
   assertRunIdentity(id) {
     const r=this.run(id),version=r.billingProtocolVersion??r.appraisalProtocolVersion??protocolVersion;
     if (r.billingAllowanceId!==this.allowanceId||version!==this.client.protocolVersion||
-        (this.client.protocol==='compact-appraisal-v1'&&r.appraisalProtocolVersion!==this.client.protocolVersion)) fail('billing_run_identity_mismatch');
+        (this.client.protocol!=='grounded-wake-v2'&&r.appraisalProtocolVersion!==this.client.protocolVersion)) fail('billing_run_identity_mismatch');
   }
   execute(id) {this.assertRunIdentity(id);return super.execute(id);}
   resume(id,options) {this.assertRunIdentity(id);return super.resume(id,options);}
