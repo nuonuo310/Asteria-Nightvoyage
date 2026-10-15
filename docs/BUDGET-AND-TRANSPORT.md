@@ -1,0 +1,29 @@
+# Budget ledger and gated HTTP client
+
+Status: code implemented and exercised with stub HTTP only. No real request or credential read occurred. No actual model, price, allowance or spending authorization is configured. This does not complete live dream generation.
+
+## Monetary and call accounting
+
+`BudgetLedger` uses the existing single-owner external Store. An immutable allowance contains an explicit ID, `stub|live` mode, approval flag, expiry, run/call/micro-CNY limits, and a reviewed pricing profile. A profile records model, verified context-token upper bound, worst-case input rate and output rate in integer micro-CNY per million tokens, official reference URL and review timestamp. One CNY is 1,000,000 micro-CNY. Values in tests are invented and are not current prices.
+
+Before dispatch, reserve the cost of the **entire verified model context** at the configured worst-case input rate, plus the capped output. Integer BigInt arithmetic rounds each component upward. This is deliberately conservative: small inputs may still require a large temporary reservation. The system does not infer a real input-token bound from the fake provider's bytes/3 estimate. If this conservative reservation exceeds the approved allowance, dispatch is refused; budget may not be silently increased to make a trial fit.
+
+The bound depends on correct, independently checked model limits and pricing, and on the provider honoring those limits. A URL or `approved:true` is not automatic verification of those facts. Live setup must review them explicitly. The client cannot retroactively cap a provider bill that violates the reviewed profile; inconsistent usage stops settlement, retains the full hold and requires investigation. No hard external billing guarantee is claimed from local tests.
+
+Run count is the count of distinct run IDs admitted to an allowance; call count includes every reserved attempt, including retries with new IDs. Same request ID/content replays its receipt without another dispatch; changed content conflicts. A settled response charges its normalized usage and releases unused reserved money. Failed, cancelled, timed-out or interrupted requests hold their full reservation. Reopening marks reserved/dispatched attempts unknown and does not release them. Unknown requests are never automatically retried or refunded. Recreating an existing allowance with different limits/prices fails instead of resetting totals. A deliberately new allowance ID is a new authorization, not a refill mechanism for the same trial.
+
+Ledger rows contain request hashes, source IDs/versions, status, usage counts and money only: no prompts, dream body, response body, credential or reasoning text. Deleting/withdrawing source content does not erase accounting or refund an incurred/ambiguous charge. The ledger must stay in the same authoritative data directory across all runs in a trial. Copying old directories, restoring stale backups, manually editing ledger files or starting a new directory is outside budget-continuity support, just as external backup restoration is outside Store v1 support.
+
+## HTTP client gates
+
+`GatedDeepSeekClient` defaults to `enabled:false, mode:disabled`. Stub mode requires injected HTTP; live mode disallows injected HTTP and uses native fetch only after every gate passes. Required gates are explicit enabled mode, a nonempty caller-supplied credential, matching immutable approved allowance, valid expiry and reviewed profile, fictional-only input, and explicit per-source `modelEgress:true` permission. The snapshot validator now accepts a boolean egress grant; existing fixtures remain false and are never automatically upgraded.
+
+The endpoint is fixed to official HTTPS chat completions, redirects are refused, request JSON is limited to 64 KiB, response JSON to 64 KiB, and one timeout covers dispatch and body reading. No retry, JSON repair, model fallback or automatic spending increase exists. Errors use fixed codes. Cancellation before reservation consumes nothing; cancellation after reservation is conservative and keeps the hold. The client copies input/provenance and rejects a response if a source is withdrawn while waiting. `client.withdraw()` also aborts its pending requests; direct Store withdrawal still suppresses late content at the return gate. Call `client.close()` to abort pending client requests, await them, then close the shared Store.
+
+A successful send returns typed non-factual generated content plus a detached accounting receipt. A replay returns only the receipt, not a content cache. This client is a separate lower-level component: the existing `Nightvoyage` engine and CLI still use fake-provider mechanics and do not automatically accept the live client. Wiring durable dream-stage publication to the ledger/client, credential loading and the Windows live runner remain future work. The live runner must not generate a second paid call to reconstruct an output lost between receipt settlement and journal publication; that integration needs its own crash tests.
+
+## Tests and next step
+
+See `test/budget-transport.test.js` and `docs/validation/budget-transport.*`. Tests use fictional snapshots, dummy credentials, invented prices and stub Response streams; no production HTTP is invoked. They cover caps, replay/conflict, process death, persistence failures, timeout/body bounds, cancellation, late withdrawal, metadata whitelists and default/live permission refusal.
+
+Before actual trials: review/authorize the exact model, prices, context bound, allowance and fictional egress grants; implement/review the engine integration and external credential/Windows runner; run stub integration crash tests; then request the explicitly approved real trial. The earlier conversational suggestion of CNY 1 / three dreams / nine calls is not an approved live allowance. This PR has no merge authorization.
