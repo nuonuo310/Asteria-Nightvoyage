@@ -1,0 +1,36 @@
+✔ coupled size audit measures bytes, leaves scripted inputs/grants unchanged and returns no narrative (373.838287ms)
+✔ coupled exact 1200-byte output passes and 1201 fails without affecting shape validity (14.204336ms)
+✔ individually valid maximal quotation table can exceed the unchanged response bound (12.861948ms)
+✔ JSON escapes and astral UTF-8 are measured in serialized bytes rather than character count (66.542755ms)
+✔ synthetic large fictional request explicitly requires a future gated pre-reservation byte guard (24.595058ms)
+✔ size audit refuses real, unmarked, egress-enabled or unsafe scripted inputs (70.011594ms)
+✔ independent byte audit command dispatches nothing and verifies existing live source pins (1967.927898ms)
+✔ isolated source-drift probe keeps historical configuration readable after current source drift without opening a user Store (598.243778ms)
+✔ historical profile is detached immutable data and missing/config-tampered reads never create an account (74.75416ms)
+✔ source drift keeps old unknown accounting readable but blocks new init/run before key/reservation (6427.248212ms)
+✔ failed third unknown stays body-free and unchanged through source drift and expiry reads (7923.469929ms)
+✔ completed historical dream/view replay survives source drift and expiry with zero key or fetch access (3016.334533ms)
+✔ withdrawal still removes historical bodies and stale replay even after source drift (2190.221091ms)
+✔ unchanged sources but expired approval allow metadata reads while init and new run remain blocked (2011.578375ms)
+✔ historical CLI rejects mutated stored allowance despite source drift without revealing a body or reading key (1718.302617ms)
+✔ pruned v2 proposal is unapproved and missing approval preflight creates no runtime directory (355.856619ms)
+✔ pruned v2 init needs exact case, egress, fee and completed prior quality screen (42.031452ms)
+✔ pruned v2 approval preserves prior ledger and cannot reset or edit its new immutable allowance (546.382797ms)
+✔ pruned v2 CLI remains disabled without live flag, approval or key and rejects unknown flags (5003.730532ms)
+✔ pruned v2 CLI simulator loop returns typed view, blocks cap and replays without credentials (9201.762454ms)
+✔ invalid pruned v2 reply and in-flight cancellation retain holds and never retry (2489.658396ms)
+✔ pruned v2 entry resumes a committed checkpoint only explicitly without paying for it twice (3449.188432ms)
+✔ first durable pruned v2 start includes protocol/allowance identity before any dispatch (1625.59136ms)
+✔ pruned v2 withdrawal blocks read/replay/reinit and expiry cannot extend approval (2478.232797ms)
+✔ pruned v2 requires both exact preserved holds and rejects unrelated unresolved attempts (214.939088ms)
+✔ pruned v2 approval requires explicit hold acknowledgement and binds protocol immutably (79.083486ms)
+✔ pruned v2 entry cannot replay an in-flight process death or open a second Store owner (2445.695925ms)
+✔ pruned v2 missing approval and wrong ack cause no new directory or key read (383.664304ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 29275.915518

@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "phase": "historical-read-current-dispatch-separation",
+  "node": "v24.19.0",
+  "platform": "Linux",
+  "newTests": 7,
+  "initialRelatedTargeted": {
+    "passed": 21,
+    "failed": 0,
+    "scope": "existing pruned13 + updated size8"
+  },
+  "newTargeted": {
+    "passed": 7,
+    "failed": 0
+  },
+  "finalLF": {
+    "command": "node --test",
+    "passed": 267,
+    "failed": 0,
+    "skipped": 0,
+    "fullSuite": true
+  },
+  "temporaryCRLF": {
+    "command": "node --test test/pruned-history-read.test.js test/pruned-v2-trial.test.js test/coupled-size-review.test.js",
+    "passed": 28,
+    "failed": 0,
+    "skipped": 0,
+    "nativeWindows": false,
+    "fullSuite": false
+  },
+  "sourceDriftProbes": "temporary source copies only; three inert comments in client/ledger/runtime",
+  "syntheticHistories": [
+    "not_started",
+    "failed third unknown",
+    "completed",
+    "withdrawn",
+    "expired",
+    "tampered allowance/config"
+  ],
+  "blockedKeyPropertyAccesses": 0,
+  "blockedNetworkDispatches": 0,
+  "testSetupProvider": "process-local fetch simulator with dummy credential; no external HTTP",
+  "historicalTemplate": "captured from prior reviewed public proposal/config shape before refactor, never from user runtime files",
+  "existingNineSourcePinsChanged": false,
+  "historicalPricesOrExpiryChanged": false,
+  "realModelRequests": 0,
+  "userRuntimeOpened": false,
+  "realAllowancesOrHoldsChanged": false,
+  "review": "same-author",
+  "semanticSupport": "not_assessed",
+  "qualityAssessed": false,
+  "sourceSha256": {
+    "src/pruned-v2-trial-config.js": "59ea7938284dae90eb3991e7e39ac47b5bd31c7371bd2e0c2ef94db01a5284b8",
+    "src/pruned-v2-reviewed-profile.js": "eea51f1ac5d283e7f13dfd8bd711ad9dc12ff5a62094e6b13205443f6cc8c35b",
+    "test/pruned-history-read.test.js": "702f88e3e99f271a235a71688e06dc581842fc438378c986f2c56054815dd1a8",
+    "test-support/pruned-history-fixtures.js": "012479a57470d0a77bfa868118046ef06f681fd56353271620f224ebac5b2880",
+    "test/coupled-size-review.test.js": "6a623716b7978e372e73a6ad3041f169363f5c14a89b0fb7a204ac36495811ac"
+  }
+}

@@ -3,34 +3,31 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { Store, fail } from './store.js';
 import { hash, own } from './contract.js';
-import { BudgetLedger, validateAllowance, maximumCost } from './budget-ledger.js';
-import { pricingProfile, profileExpiresAt } from './trial-config.js';
+import { BudgetLedger, maximumCost } from './budget-ledger.js';
+import { prunedV2ReviewedConfig, prunedV2ReviewedProposal } from './pruned-v2-reviewed-profile.js';
 import { readQualityConfig, verifiedQualityFixture } from './quality-config.js';
-import { prunedCompactV2Version as compactProtocolVersion } from './compact-v2-protocol.js';
 import { compactTrialId as oldCompactId, readCompactTrial } from './compact-trial-config.js';
 import { diagnosticId, readSingleSceneConfig } from './single-scene-diagnostic.js';
 
+const historical=prunedV2ReviewedConfig(),compactProtocolVersion=historical.protocolVersion,pricingProfile=historical.allowance.pricing,profileExpiresAt=historical.expiresAt;
+
 export const prunedV2TrialId='pruned-v2-dream-trial-20261015';
 const filename=`${prunedV2TrialId}.json`,caseId='sparse-context';
-const sourcePins=Object.freeze({"compact-appraisal-protocol.js": "935762c0e5961b0abcd38d0d5a959ff40ebd97e051a1236e57c7ab3fb8118e34", "appraisal-rehearsal.js": "361f2a81e4dc63ca7f6f138032fc65d649e53f1b3039cd0841f614396d1cc23f", "deepseek-protocol.js": "0f8471c69f170ec74880ef0e7deef8889df8a3b12e6e86c0aea2b13fcefa681e", "validation-diagnostic.js": "931a0bd25e03755570a8931fc5efa4d25a2c2548b164ede0051b005b17d9c0be", "compact-v2-offline.js": "097857494759b96d0a18338a0b071c3d3b8c6832441ec91a19b786b67b244c10", "compact-v2-protocol.js": "a9e26e5ffe8dee7102e695af7dd9ee92f90426d7d94b126126f171be6a0a312b", "budget-ledger.js": "bd71f25562edf177e736cf19aa45c989826584897918f471fa263ac4401ec1d5", "gated-deepseek-client.js": "33e629221ca69e8dc6f1c719dcf6e0faad3b70d385021af4a48da591c9b22149", "budgeted-runtime.js": "2739b3c0513ddcb1d833c26175fd3f07836cd4c12d76d7c73621d54670fa3871"});
+const sourcePins=Object.freeze(historical.protocolSourcePins);
 function fixture() {return verifiedQualityFixture(caseId,fs.readFileSync(new URL('../fixtures/quality/sparse-context.json',import.meta.url)));}
-export function prunedV2TrialProposal() {
-  for(const [file,pin] of Object.entries(sourcePins)) {
+export function prunedV2SourcePinsMatch() {
+  try {return Object.entries(sourcePins).every(([file,pin])=>{
     const bytes=fs.readFileSync(new URL(`./${file}`,import.meta.url),'utf8').replace(/\r\n/g,'\n');
-    if(createHash('sha256').update(bytes).digest('hex')!==pin)fail('pruned_v2_protocol_source_changed');
-  }
-  const input=fixture();
-  return {schemaVersion:1,batchId:prunedV2TrialId,protocolVersion:compactProtocolVersion,protocolSourcePins:{...sourcePins},
-    caseId,fixtureSha256:'66a19f5968bc0bb60c8ff4918d6e57e223b008329c2a7028f3ac478cb6256d10',
-    sourceRefs:input.sources.map(s=>({id:s.id,version:s.version})),model:pricingProfile.model,expiresAt:profileExpiresAt,
-    proposedAdditionalBudgetCny:3,maxAdditionalRuns:1,maxAdditionalCalls:3,perCallOutputTokens:400,persistsGeneratedBody:true,requiresPreservedHoldsAcknowledgement:true,continuesPriorRun:false,
-    fixtureEgressApproved:false,paidEvaluationApproved:false,qualityAssessed:false};
+    return createHash('sha256').update(bytes).digest('hex')===pin;
+  });}catch{return false;}
 }
-function reviewedConfig() {
-  return {...prunedV2TrialProposal(),fixtureEgressApproved:true,paidEvaluationApproved:true,
-    allowance:validateAllowance({id:prunedV2TrialId,mode:'live',approved:true,expiresAt:profileExpiresAt,
-      protocolVersion:compactProtocolVersion,limits:{maxRuns:1,maxCalls:3,maxMicroCny:3000000},pricing:pricingProfile})};
+function assertCurrentDispatchReview() {
+  if(!prunedV2SourcePinsMatch())fail('pruned_v2_protocol_source_changed');
+  fixture();
 }
+export function prunedV2TrialProposal() {assertCurrentDispatchReview();return prunedV2ReviewedProposal();}
+function reviewedConfig() {return prunedV2ReviewedConfig();}
+
 export function readPrunedV2Trial(directory) {
   const file=path.join(directory,filename);
   if(!fs.existsSync(file)||!fs.lstatSync(file).isFile()||fs.lstatSync(file).isSymbolicLink())fail('pruned_v2_approval_missing_or_unsafe');
@@ -65,6 +62,7 @@ const clockReady=now=>Number.isFinite(now)&&now>=pricingProfile.checkedAt&&now<p
 export function initPrunedV2Trial(directory,{budgetCny,approvedCase,approveFictionalEgress=false,acknowledgePreservedHolds=false,now=Date.now()}={}) {
   if(String(budgetCny)!=='3'||approvedCase!==caseId||approveFictionalEgress!==true||acknowledgePreservedHolds!==true)fail('explicit_pruned_v2_approval_required');
   if(!clockReady(now))fail('pricing_review_expired');
+  assertCurrentDispatchReview();
   const config=reviewedConfig();readCompactTrial(directory);readSingleSceneConfig(directory);const store=new Store(directory);
   try {
     const ledger=new BudgetLedger(store);
@@ -76,6 +74,7 @@ export function initPrunedV2Trial(directory,{budgetCny,approvedCase,approveFicti
 }
 export function prunedV2TrialInput(config) {
   if(hash(config)!==hash(reviewedConfig()))fail('pruned_v2_config_not_reviewed');
+  assertCurrentDispatchReview();
   const input=fixture();for(const s of input.sources)s.grant.modelEgress=true;return input;
 }
 export function prunedV2TrialState(store,config,now=Date.now()) {
@@ -85,12 +84,13 @@ export function prunedV2TrialState(store,config,now=Date.now()) {
   const runId=own(store.state.requests,prunedV2TrialId)?.runId,run=runId?own(store.state.runs,runId):null;
   if(runId&&(!run||run.billingAllowanceId!==config.allowance.id||run.billingProtocolVersion!==compactProtocolVersion||run.appraisalProtocolVersion!==compactProtocolVersion))fail('pruned_v2_run_identity_mismatch');
   const preserved=preservedFailures(store,ledger);
-  const cost=maximumCost(config.allowance.pricing,400),reason=!clockReady(now)?'pricing_or_allowance_expired':
+  const sourcePinsMatch=prunedV2SourcePinsMatch();
+  const cost=maximumCost(config.allowance.pricing,400),reason=!sourcePinsMatch?'pruned_v2_protocol_source_changed':!clockReady(now)?'pricing_or_allowance_expired':
     config.sourceRefs.some(s=>store.withdrawn.includes(s.id))?'source_withdrawn':current.attempts.some(t=>t.status!=='settled')?'unsettled_attempt_requires_review':
     current.calls>=3?'call_limit_reached':run?.status==='completed'?'completed_replay_available':run&&['cancelled','revoked','deleted','skipped'].includes(run.status)?'run_stopped':
     current.runs>=1&&!runId?'run_limit_reached':BigInt(current.heldOrSpentMicroCny)+cost>3000000n?'reservation_exceeds_remaining_budget':'limits_checked';
   const summary=s=>({calls:s.calls,runs:s.runs,heldOrSpentMicroCny:s.heldOrSpentMicroCny}),all=Object.keys(store.state.billing.accounts).map(id=>ledger.status(id));
-  return {ready:reason==='limits_checked',reason,credentialRead:false,batchId:prunedV2TrialId,caseId,model:config.model,
+  return {ready:reason==='limits_checked',reason,credentialRead:false,sourcePinsMatch,batchId:prunedV2TrialId,caseId,model:config.model,
     additionalBudgetCny:3,maxAdditionalRuns:1,maxAdditionalCalls:3,nextReservationCny:Number(cost)/1000000,
     run:runId?{id:runId,status:run.status,stagesSaved:run.scenes?.length??0}:null,previousQualityScreen:summary(prior),preservedUnknowns:preserved,prunedV2Trial:summary(current),
     allAllowances:{calls:all.reduce((n,s)=>n+s.calls,0),runs:all.reduce((n,s)=>n+s.runs,0),heldOrSpentMicroCny:all.reduce((n,s)=>n+BigInt(s.heldOrSpentMicroCny),0n).toString()},qualityAssessed:false};
