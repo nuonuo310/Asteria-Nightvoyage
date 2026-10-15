@@ -33,5 +33,18 @@
   "rawTranscriptOrJournalPublished": false,
   "independentProviderVerification": false,
   "generalQualityAccepted": false,
-  "reopenReplayAndCueRecall": "pending"
+  "reopenReplayAndCueRecall": {
+    "evidenceKind": "user_reported_terminal_output",
+    "completedReplaySameRun": true,
+    "cueCandidateReturned": true,
+    "cueOrigin": "dream",
+    "cueMaterialKind": "fictional",
+    "cueIsRealityFact": false,
+    "cueReason": "literal_scene_match",
+    "allowanceCallsAfter": 3,
+    "allowanceRunsAfter": 1,
+    "ledgerMicroCnyAfter": 5060,
+    "additionalModelCallsObserved": 0,
+    "powershellPipelineJsonDecode": "failed on garbled Chinese; direct CLI output and preflight succeeded"
+  }
 }

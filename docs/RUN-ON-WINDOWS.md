@@ -74,3 +74,9 @@ npm.cmd test
 ```
 
 Stop if there are existing local edits, a branch conflict or test failures. Identical CNY 3 initialization is idempotent and preserves accounting. No key is needed for these checks. The correction allows only CRLF-to-LF normalization for the pinned fictional fixture; all other content stays covered by the original SHA-256 pin. LF and CRLF simulations pass 78 tests on Linux; a Windows rerun is still needed.
+
+## Reopen and recall verification
+
+The user reported 78/78 tests passing on Windows and one completed fictional live trial. Reopen/completed replay and a literal cue candidate succeeded with the same three total calls and 5,060 micro-CNY conservative ledger amount. These are user-reported results, not independent platform billing evidence; one sample does not establish general generation quality.
+
+Prefer direct output while checking a completed slot. Windows PowerShell can decode native UTF-8 output using a legacy code page when piping into `ConvertFrom-Json`, producing garbled Chinese or invalid JSON even though direct display and stored UTF-8 are valid. If a pipeline is needed, set `[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)` in that shell before capturing native output. This workaround has not been revalidated on the user's machine. A pipeline display error does not require regenerating a dream, deleting data or resetting accounting.
