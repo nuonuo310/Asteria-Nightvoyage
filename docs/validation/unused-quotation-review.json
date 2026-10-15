@@ -1,0 +1,33 @@
+{
+  "node": "v24.19.0",
+  "platform": "linux",
+  "fullLfSuite": {
+    "tests": 175,
+    "pass": 175,
+    "fail": 0,
+    "skipped": 0
+  },
+  "temporaryLinuxCrlfTargetedSuite": {
+    "command": "node --test test/unused-quotation-review.test.js",
+    "tests": 8,
+    "pass": 8,
+    "fail": 0,
+    "fullSuiteRepeated": false
+  },
+  "scriptedComparisonCases": 15,
+  "originallyAccepted": 4,
+  "candidateAcceptedAfterOnlyUnusedQuotePruning": 4,
+  "candidateRejectedByLaterRules": 3,
+  "rejectedBeforePruning": 4,
+  "realModelRequests": 0,
+  "userResponseReconstructed": false,
+  "productionProtocolChanged": false,
+  "userStoreOpened": false,
+  "nativeWindowsCandidateValidated": false,
+  "qualityAssessed": false,
+  "sourceSha256": {
+    "src/unused-quotation-review.js": "f80db327bbdf7aaa8ad8df6f41dfc7a7fc16dcf96f834d41ca5965ab8ebac865",
+    "scripts/check-unused-quotation-policy.mjs": "df95624363f821f5d6f9f25152f5df0c91ed503903cb466d462bb62d83603003",
+    "test/unused-quotation-review.test.js": "226ff117820679f5526e9862a15a2c43d69ca1d7401783f7ad3e42805549331a"
+  }
+}

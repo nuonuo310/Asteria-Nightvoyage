@@ -1,0 +1,346 @@
+{
+  "command": "node scripts/check-unused-quotation-policy.mjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "reviewVersion": "unused-quotation-offline-comparison-v1",
+  "cases": 15,
+  "realModelRequests": 0,
+  "liveProtocolChanged": false,
+  "userResponseReconstructed": false,
+  "qualityAssessed": false,
+  "results": [
+    {
+      "id": "ordinary-no-goal-unchanged",
+      "schemaVersion": 1,
+      "reviewVersion": "unused-quotation-offline-comparison-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false,
+      "strict": {
+        "accepted": true,
+        "check": null
+      },
+      "candidate": null
+    },
+    {
+      "id": "ordinary-no-goal-unused-inserted",
+      "schemaVersion": 1,
+      "reviewVersion": "unused-quotation-offline-comparison-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false,
+      "strict": {
+        "accepted": false,
+        "check": "unused_compact_evidence"
+      },
+      "candidate": {
+        "considered": true,
+        "accepted": true,
+        "check": null,
+        "removedUnusedQuoteCount": 1,
+        "preservesEvent": true,
+        "preservesAppraisal": true,
+        "preservesDelta": true,
+        "preservesLinkedEvidence": true
+      }
+    },
+    {
+      "id": "stated-goal-hindered-unchanged",
+      "schemaVersion": 1,
+      "reviewVersion": "unused-quotation-offline-comparison-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false,
+      "strict": {
+        "accepted": true,
+        "check": null
+      },
+      "candidate": null
+    },
+    {
+      "id": "stated-goal-hindered-unused-inserted",
+      "schemaVersion": 1,
+      "reviewVersion": "unused-quotation-offline-comparison-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false,
+      "strict": {
+        "accepted": false,
+        "check": "unused_compact_evidence"
+      },
+      "candidate": {
+        "considered": true,
+        "accepted": true,
+        "check": null,
+        "removedUnusedQuoteCount": 1,
+        "preservesEvent": true,
+        "preservesAppraisal": true,
+        "preservesDelta": true,
+        "preservesLinkedEvidence": true
+      }
+    },
+    {
+      "id": "stated-goal-helped-unchanged",
+      "schemaVersion": 1,
+      "reviewVersion": "unused-quotation-offline-comparison-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false,
+      "strict": {
+        "accepted": true,
+        "check": null
+      },
+      "candidate": null
+    },
+    {
+      "id": "stated-goal-helped-unused-inserted",
+      "schemaVersion": 1,
+      "reviewVersion": "unused-quotation-offline-comparison-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false,
+      "strict": {
+        "accepted": false,
+        "check": "unused_compact_evidence"
+      },
+      "candidate": {
+        "considered": true,
+        "accepted": true,
+        "check": null,
+        "removedUnusedQuoteCount": 1,
+        "preservesEvent": true,
+        "preservesAppraisal": true,
+        "preservesDelta": true,
+        "preservesLinkedEvidence": true
+      }
+    },
+    {
+      "id": "affect-without-goal-unchanged",
+      "schemaVersion": 1,
+      "reviewVersion": "unused-quotation-offline-comparison-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false,
+      "strict": {
+        "accepted": true,
+        "check": null
+      },
+      "candidate": null
+    },
+    {
+      "id": "affect-without-goal-unused-inserted",
+      "schemaVersion": 1,
+      "reviewVersion": "unused-quotation-offline-comparison-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false,
+      "strict": {
+        "accepted": false,
+        "check": "unused_compact_evidence"
+      },
+      "candidate": {
+        "considered": true,
+        "accepted": true,
+        "check": null,
+        "removedUnusedQuoteCount": 1,
+        "preservesEvent": true,
+        "preservesAppraisal": true,
+        "preservesDelta": true,
+        "preservesLinkedEvidence": true
+      }
+    },
+    {
+      "id": "missing-affect-basis",
+      "schemaVersion": 1,
+      "reviewVersion": "unused-quotation-offline-comparison-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false,
+      "strict": {
+        "accepted": false,
+        "check": "unused_compact_evidence"
+      },
+      "candidate": {
+        "considered": true,
+        "accepted": false,
+        "check": "affect_change_requires_evidence",
+        "removedUnusedQuoteCount": 1,
+        "preservesEvent": true,
+        "preservesAppraisal": true,
+        "preservesDelta": true,
+        "preservesLinkedEvidence": null
+      }
+    },
+    {
+      "id": "missing-control-basis",
+      "schemaVersion": 1,
+      "reviewVersion": "unused-quotation-offline-comparison-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false,
+      "strict": {
+        "accepted": false,
+        "check": "unused_compact_evidence"
+      },
+      "candidate": {
+        "considered": true,
+        "accepted": false,
+        "check": "unbased_appraisal_requires_placeholder",
+        "removedUnusedQuoteCount": 1,
+        "preservesEvent": true,
+        "preservesAppraisal": true,
+        "preservesDelta": true,
+        "preservesLinkedEvidence": null
+      }
+    },
+    {
+      "id": "missing-goal-basis",
+      "schemaVersion": 1,
+      "reviewVersion": "unused-quotation-offline-comparison-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false,
+      "strict": {
+        "accepted": false,
+        "check": "unused_compact_evidence"
+      },
+      "candidate": {
+        "considered": true,
+        "accepted": false,
+        "check": "nonzero_goal_requires_evidence",
+        "removedUnusedQuoteCount": 1,
+        "preservesEvent": true,
+        "preservesAppraisal": true,
+        "preservesDelta": true,
+        "preservesLinkedEvidence": null
+      }
+    },
+    {
+      "id": "invalid-index",
+      "schemaVersion": 1,
+      "reviewVersion": "unused-quotation-offline-comparison-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false,
+      "strict": {
+        "accepted": false,
+        "check": "invalid_compact_reference"
+      },
+      "candidate": null
+    },
+    {
+      "id": "ungrounded-unused-quote",
+      "schemaVersion": 1,
+      "reviewVersion": "unused-quotation-offline-comparison-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false,
+      "strict": {
+        "accepted": false,
+        "check": "invalid_compact_evidence"
+      },
+      "candidate": null
+    },
+    {
+      "id": "duplicate-unused-quote",
+      "schemaVersion": 1,
+      "reviewVersion": "unused-quotation-offline-comparison-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false,
+      "strict": {
+        "accepted": false,
+        "check": "invalid_compact_evidence"
+      },
+      "candidate": null
+    },
+    {
+      "id": "overlong-unused-quote",
+      "schemaVersion": 1,
+      "reviewVersion": "unused-quotation-offline-comparison-v1",
+      "origin": "offline_protocol_comparison",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "realModelRequests": 0,
+      "generatedBodyReturned": false,
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false,
+      "strict": {
+        "accepted": false,
+        "check": "invalid_compact_evidence"
+      },
+      "candidate": null
+    }
+  ]
+}
