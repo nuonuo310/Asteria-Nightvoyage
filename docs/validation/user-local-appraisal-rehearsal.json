@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "evidenceKind": "user_reported_terminal_output",
+  "independentlyObserved": false,
+  "candidateMergeCommit": "f16354a78c7392015d4f7ee4c293e780dc85171c",
+  "userCheckoutIndependentlyVerified": false,
+  "platform": "win32",
+  "node": "v24.19.0",
+  "reportedTests": { "passed": 120, "failed": 0, "cancelled": 0, "skipped": 0, "todo": 0 },
+  "rehearsalCommand": "node scripts/check-appraisal-rehearsal.mjs",
+  "protocolVersion": "offline-appraisal-evidence-v1",
+  "scriptedSimulatorOnly": true,
+  "realModelRequests": 0,
+  "fakeStageCalls": 9,
+  "liveEntryChanged": false,
+  "scenarios": [
+    { "id": "ordinary-unchanged", "status": "completed", "fakeStageCalls": 3, "evidencePersisted": true, "reopened": true, "duplicateCalls": 0, "semanticSupport": "not_assessed", "qualityAssessed": false },
+    { "id": "explicit-goal-effects", "status": "completed", "fakeStageCalls": 3, "evidencePersisted": true, "reopened": true, "duplicateCalls": 0, "semanticSupport": "not_assessed", "qualityAssessed": false },
+    { "id": "affect-without-resolution", "status": "completed", "fakeStageCalls": 3, "evidencePersisted": true, "reopened": true, "duplicateCalls": 0, "semanticSupport": "not_assessed", "qualityAssessed": false }
+  ],
+  "generalDreamQualityAccepted": false,
+  "realProviderCandidateValidated": false,
+  "nextPaidRunApproved": false,
+  "rawTranscriptPublished": false,
+  "runtimeJournalPublished": false,
+  "credentialReceived": false
+}
