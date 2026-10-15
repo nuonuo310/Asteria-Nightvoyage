@@ -1,23 +1,12 @@
 // Offline design comparison only: no provider, persistent scene, key or transport.
+import { decodeCoupledScene } from './coupled-affect-wire.js';
 import { normalizeCompactV2Scene } from './compact-v2-offline.js';
 import { compactValidationDiagnostic } from './validation-diagnostic.js';
 import { copy, fail } from './store.js';
 import { hash } from './contract.js';
 
 export const coupledAffectReviewVersion='offline-coupled-affect-review-v1';
-const exact=(v,keys)=>v&&typeof v==='object'&&!Array.isArray(v)&&Object.keys(v).length===keys.length&&keys.every(k=>Object.hasOwn(v,k));
-function candidate(raw,before) {
-  if(!exact(raw,['event','appraisal','evidence','links','affect'])||!exact(raw.links,['goal','control','uncertainty']))fail('invalid_coupled_scene_shape');
-  const a=raw.affect;let delta,reference;
-  if(exact(a,['kind'])&&a.kind==='unchanged') {delta={valence:0,arousal:0};reference=null;}
-  else if(exact(a,['kind','delta','evidence'])&&a.kind==='estimated'&&exact(a.delta,['valence','arousal'])&&Number.isSafeInteger(a.evidence)&&a.evidence>=0) {
-    delta=copy(a.delta);reference=a.evidence;
-  } else fail('coupled_affect_shape_invalid');
-  // Declared unchanged encodes zero. Never infer a branch or drop supplied fields.
-  // Referenced estimates preserve every supplied number; all original v2 guards run.
-  return normalizeCompactV2Scene({event:raw.event,appraisal:copy(raw.appraisal),evidence:copy(raw.evidence),
-    links:{...copy(raw.links),affect:reference},delta},before);
-}
+const candidate=(raw,before)=>normalizeCompactV2Scene(decodeCoupledScene(raw),before);
 const diagnostic=error=>['invalid_coupled_scene_shape','coupled_affect_shape_invalid'].includes(error?.message)?error.message:compactValidationDiagnostic(error?.message).check;
 function evaluate(normalize,raw,before) {
   try {return {value:normalize(raw,before),result:{accepted:true,check:null}};}

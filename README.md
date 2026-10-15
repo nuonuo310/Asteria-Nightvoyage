@@ -8,6 +8,8 @@ An [independent v2 candidate](docs/COMPACT-V2-OFFLINE.md) now supports simulator
 
 [Coupled affect/evidence offline comparison](docs/COUPLED-AFFECT-OFFLINE-REVIEW.md) explores an explicit unchanged/estimated union. It keeps all evidence requirements, returns only aggregate comparisons, and is not a live selector. Scripted validity does not establish better model compliance.
 
+[Coupled-affect simulator loop](docs/COUPLED-AFFECT-OFFLINE.md) now saves explicit branch declarations, validates checkpoints/read views and tests cancellation/withdrawal. Run `node scripts/check-coupled-affect-offline.mjs` without a key. No coupled live selector or paid trial exists.
+
 Experimental standalone dream layer: fictional input snapshots → two scenes with simulated affect → a separate wake record and decaying residue → typed cue-recall candidates.
 
 Requires Node.js 24+. No packages, credentials or network model calls are needed.
