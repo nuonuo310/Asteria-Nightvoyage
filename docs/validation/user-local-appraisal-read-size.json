@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "evidenceKind": "user_reported_terminal_output",
+  "independentlyObserved": false,
+  "implementationMergeCommit": "a1792260c831a88fbf255f022fed4ba34d93bad0",
+  "userCheckoutIndependentlyVerified": false,
+  "node": "v24.19.0",
+  "platform": "win32",
+  "reportedTests": { "passed": 127, "failed": 0, "cancelled": 0, "skipped": 0, "todo": 0 },
+  "auditCommand": "node scripts/audit-appraisal-output.mjs",
+  "providerOutputTokenCap": 400,
+  "responseByteSafetyCeiling": 1200,
+  "units": "UTF-8 JSON bytes; not model tokens",
+  "actualModelTokenCount": null,
+  "realModelRequests": 0,
+  "qualityAssessed": false,
+  "limitsChanged": false,
+  "shortProbeResults": [
+    { "id": "ordinary-no-goal", "coreJsonBytes": 164, "candidateJsonBytes": 255, "addedEvidenceBytes": 91, "byteAdmission": "accepted" },
+    { "id": "stated-goal-hindered", "coreJsonBytes": 246, "candidateJsonBytes": 509, "addedEvidenceBytes": 263, "byteAdmission": "accepted" },
+    { "id": "stated-goal-helped", "coreJsonBytes": 230, "candidateJsonBytes": 492, "addedEvidenceBytes": 262, "byteAdmission": "accepted" },
+    { "id": "affect-without-goal", "coreJsonBytes": 218, "candidateJsonBytes": 353, "addedEvidenceBytes": 135, "byteAdmission": "accepted" }
+  ],
+  "oversizedProbe": { "candidateJsonBytes": 3112, "structureAccepted": true, "byteAdmission": "rejected_oversized", "semanticSupport": "not_assessed" },
+  "boundaries": [
+    { "jsonBytes": 1199, "byteAdmission": "accepted" },
+    { "jsonBytes": 1200, "byteAdmission": "accepted" },
+    { "jsonBytes": 1201, "byteAdmission": "rejected_oversized" }
+  ],
+  "generalDreamQualityAccepted": false,
+  "nextPaidRunApproved": false,
+  "rawTranscriptPublished": false,
+  "runtimeJournalPublished": false,
+  "credentialReceived": false
+}
