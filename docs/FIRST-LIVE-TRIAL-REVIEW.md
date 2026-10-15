@@ -40,3 +40,7 @@ Protocol and budgeted-provider identities change for new requests. Existing comp
 The regression probe failed on merged parent 75a9e8519d3550f9e8b689cd0f948fa687ec6d9e because invented aftermath was accepted as completed. After correction: **82 passed / 0 failed / 0 skipped** on Linux with LF files and separately in a temporary CRLF text checkout. Evidence and source hashes: `validation/wake-grounding.json` and linked TAP output. Tests cover accepted Chinese excerpts, forged evidence, seed-only text, paraphrase/combined/new-event rejection, independent residue/associations, no publication on invalid wake, retained accounting, reopened refusal without a fourth call, and the offline-provider path. This is same-author review.
 
 The new correction has not run on Windows or against DeepSeek. The original three-run/nine-call trial is complete. Next: review/merge decision and Windows offline tests. Any new paid trial needs a separate approved allowance and explicit cumulative accounting; do not delete or enlarge the completed trial. No private materials or Asteria integration are authorized.
+
+## Windows follow-up
+
+After switching to the correction branch, the user supplied Windows output showing **82 passed / 0 failed / 0 skipped**. The source correction therefore has reported Windows offline evidence in addition to the local Linux runs; this is not an independently observed checkout or a new model-quality test. The original trial remains complete and capped. Merge decision and any separately authorized live follow-up remain outstanding.

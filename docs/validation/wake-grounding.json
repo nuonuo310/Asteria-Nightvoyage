@@ -46,5 +46,16 @@
     "wake-grounding-after.txt": "0448e1beebd191bec350017bdb8b22e83b33211f98cb045b9169c78f19af22f9",
     "wake-grounding-before.txt": "fe99e146a3fa63f8a1efbe20b5d51e12c9e86f082866076f5e6eb7f003b7e25f",
     "wake-grounding-crlf.txt": "f0fb9d0175d765d806593f84e4a55c3e8e3f54d1847c22162a7cae552b45080e"
+  },
+  "userReportedWindows": {
+    "passed": 82,
+    "failed": 0,
+    "skipped": 0,
+    "date": "2026-10-15",
+    "reportedBranch": "fix/grounded-wake-fragments",
+    "candidateRemoteHead": "5959bd906af81f2eb811d905041e398b82211e33",
+    "userCheckoutHeadIndependentlyVerified": false,
+    "evidenceKind": "user_reported_terminal_output",
+    "rawTranscriptPublished": false
   }
 }
