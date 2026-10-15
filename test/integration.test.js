@@ -7,8 +7,20 @@ import { spawnSync } from 'node:child_process';
 import { BudgetedNightvoyage } from '../src/budgeted-runtime.js';
 import { FakeProvider } from '../src/fake-provider.js';
 import { Store } from '../src/store.js';
-import { initTrial,preflight,readTrial,trialFixture,pricingProfile,profileExpiresAt } from '../src/trial-config.js';
+import { initTrial,preflight,readTrial,trialFixture,verifiedFixture,pricingProfile,profileExpiresAt } from '../src/trial-config.js';
 const fixture=JSON.parse(fs.readFileSync(new URL('../fixtures/paper-harbor.json',import.meta.url)));
+test('pinned fictional fixture accepts LF and Windows CRLF with identical content and grants',()=>{
+ const lf=fs.readFileSync(new URL('../fixtures/paper-harbor.json',import.meta.url),'utf8').replace(/\r\n/g,'\n');
+ assert.deepEqual(verifiedFixture(Buffer.from(lf)),fixture);
+ assert.deepEqual(verifiedFixture(Buffer.from(lf.replace(/\n/g,'\r\n'))),fixture);
+ assert.equal(verifiedFixture(Buffer.from(lf)).sources[0].grant.modelEgress,false);
+});
+test('newline normalization never authorizes modified fictional material or permissions',()=>{
+ const text=fs.readFileSync(new URL('../fixtures/paper-harbor.json',import.meta.url),'utf8').replace(/\r\n/g,'\n');
+ for(const changed of [text+' ',text.replace('false','true'),text.replace('An invented','A real'),text.replace(/\n/g,'\r'),text.replace(/\n/,'\n ')]){
+  assert.notEqual(changed,text);assert.throws(()=>verifiedFixture(Buffer.from(changed)),/fixture_changed/);
+ }
+});
 const grant=()=>{const f=structuredClone(fixture);f.sources[0].grant.modelEgress=true;return f;};
 const allowance=()=>({id:'integration-stub',mode:'stub',approved:true,expiresAt:Date.now()+60000,limits:{maxRuns:3,maxCalls:9,maxMicroCny:1000000},pricing:{model:'deepseek-flash',contextTokenLimit:1000,inputMicroCnyPerMillion:1000000,outputMicroCnyPerMillion:2000000,reference:'https://api-docs.deepseek.com/TEST-ONLY',checkedAt:1}});
 function simulator(counter){const fake=new FakeProvider();return async(_url,request)=>{counter.calls++;const body=JSON.parse(request.body),material=JSON.parse(body.messages[1].content);const data=await fake.generate({stage:material.stage,index:material.sceneIndex});return new Response(JSON.stringify({model:'deepseek-flash',choices:[{finish_reason:'stop',message:{role:'assistant',content:JSON.stringify(data)}}],usage:{prompt_tokens:100,completion_tokens:50,total_tokens:150}}));};}

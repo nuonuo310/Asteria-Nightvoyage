@@ -1,0 +1,120 @@
+TAP version 13
+# Subtest: integrated budgeted loop atomically publishes two scenes, wake, recall and three settled rows
+ok 1 - integrated budgeted loop atomically publishes two scenes, wake, recall and three settled rows
+  ---
+  duration_ms: 73.226462
+  type: 'test'
+  ...
+# Subtest: three dreams share the same nine-call allowance and fourth run is blocked
+ok 2 - three dreams share the same nine-call allowance and fourth run is blocked
+  ---
+  duration_ms: 82.200911
+  type: 'test'
+  ...
+# Subtest: crash after a committed scene resumes from that checkpoint without paying for it again
+ok 3 - crash after a committed scene resumes from that checkpoint without paying for it again
+  ---
+  duration_ms: 14.797795
+  type: 'test'
+  ...
+# Subtest: settlement write failure exposes neither output nor committed dream; reopen retains unknown hold
+ok 4 - settlement write failure exposes neither output nor committed dream; reopen retains unknown hold
+  ---
+  duration_ms: 15.999546
+  type: 'test'
+  ...
+# Subtest: actual process death after atomic scene settlement cannot split ledger and checkpoint
+ok 5 - actual process death after atomic scene settlement cannot split ledger and checkpoint
+  ---
+  duration_ms: 857.5122
+  type: 'test'
+  ...
+# Subtest: withdrawal removes integrated dream bodies while accounting holds remain body-free
+ok 6 - withdrawal removes integrated dream bodies while accounting holds remain body-free
+  ---
+  duration_ms: 28.787623
+  type: 'test'
+  ...
+# Subtest: default integrated runtime is still disabled and does not dispatch
+ok 7 - default integrated runtime is still disabled and does not dispatch
+  ---
+  duration_ms: 4.633289
+  type: 'test'
+  ...
+# Subtest: one-CNY reviewed trial is rejected at credential-free preflight; cap is never raised
+not ok 8 - one-CNY reviewed trial is rejected at credential-free preflight; cap is never raised
+  ---
+  duration_ms: 6.325385
+  type: 'test'
+  location: '/tmp/nightvoyage-crlf-before-yr3inygf/checkout/test/integration.test.js:52:1'
+  failureType: 'testCodeFailure'
+  error: 'fixture_changed'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    fail (file:///tmp/nightvoyage-crlf-before-yr3inygf/checkout/src/store.js:6:36)
+    trialFixture (file:///tmp/nightvoyage-crlf-before-yr3inygf/checkout/src/trial-config.js:14:73)
+    readTrial (file:///tmp/nightvoyage-crlf-before-yr3inygf/checkout/src/trial-config.js:37:3)
+    preflight (file:///tmp/nightvoyage-crlf-before-yr3inygf/checkout/src/trial-config.js:42:18)
+    TestContext.<anonymous> (file:///tmp/nightvoyage-crlf-before-yr3inygf/checkout/test/integration.test.js:54:77)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+  ...
+# Subtest: trial init requires explicit egress and budget, pins fictional fixture and expires pricing
+not ok 9 - trial init requires explicit egress and budget, pins fictional fixture and expires pricing
+  ---
+  duration_ms: 3.449332
+  type: 'test'
+  location: '/tmp/nightvoyage-crlf-before-yr3inygf/checkout/test/integration.test.js:57:1'
+  failureType: 'testCodeFailure'
+  error: 'fixture_changed'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    fail (file:///tmp/nightvoyage-crlf-before-yr3inygf/checkout/src/store.js:6:36)
+    trialFixture (file:///tmp/nightvoyage-crlf-before-yr3inygf/checkout/src/trial-config.js:14:73)
+    TestContext.<anonymous> (file:///tmp/nightvoyage-crlf-before-yr3inygf/checkout/test/integration.test.js:60:86)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: CLI help and blocked preflight run without a key and never expose environment sentinel
+not ok 10 - CLI help and blocked preflight run without a key and never expose environment sentinel
+  ---
+  duration_ms: 802.674351
+  type: 'test'
+  location: '/tmp/nightvoyage-crlf-before-yr3inygf/checkout/test/integration.test.js:63:1'
+  failureType: 'testCodeFailure'
+  error: 'fixture_changed'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    fail (file:///tmp/nightvoyage-crlf-before-yr3inygf/checkout/src/store.js:6:36)
+    trialFixture (file:///tmp/nightvoyage-crlf-before-yr3inygf/checkout/src/trial-config.js:14:73)
+    readTrial (file:///tmp/nightvoyage-crlf-before-yr3inygf/checkout/src/trial-config.js:37:3)
+    TestContext.<anonymous> (file:///tmp/nightvoyage-crlf-before-yr3inygf/checkout/test/integration.test.js:67:83)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: credential-free completed replay reports persisted billing usage rather than fake zero counters
+ok 11 - credential-free completed replay reports persisted billing usage rather than fake zero counters
+  ---
+  duration_ms: 15.727216
+  type: 'test'
+  ...
+1..11
+# tests 11
+# suites 0
+# pass 8
+# fail 3
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2409.808012

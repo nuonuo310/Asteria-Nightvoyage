@@ -73,3 +73,25 @@ Same-author review, not an independent-agent audit. An execution-environment dis
 ## Trial decision and merge authorization — 2026-10-15
 
 The user explicitly approved the revised CNY 3 total ceiling, at most three fictional dreams / nine calls, and merging PR #3. This supersedes the prior CNY 1 trial ceiling. Updated the Windows handoff to initialize CNY 3 and use main after confirmed merge. No runtime code changed; the 76-test evidence remains bound to the same source hashes. No local user credential or production API request was accessed. Merge confirmation follows through GitHub metadata; user-local Windows execution and actual dream-quality review remain next.
+
+## Windows compatibility correction — 2026-10-15
+
+User-local Windows validation of merged PR #3 reported 72 passed / 4 failed: three `fixture_changed` failures and one URL-path assertion failure. Initialization/preflight stopped before credential entry; no live output was reported. Reproduced the three fixture failures on the unchanged parent by converting text working files to CRLF (8 passed / 3 failed in integration tests). The attached terminal transcript is not copied into this public repository.
+
+The pinned fictional fixture verifier now converts CRLF to LF before SHA-256 comparison, with the original canonical digest unchanged. No whitespace, JSON reformatting, content or permission edits are normalized. Added regression tests for both newline forms, unchanged no-egress grants, and rejection of changed text/grants/whitespace/lone CR. The lifecycle test now converts file URLs with `fileURLToPath` and uses a Windows junction without symlink privileges; production storage isolation remains unchanged.
+
+Validation: **78 passed / 0 failed / 0 skipped** on Linux with LF working files and independently in a temporary CRLF text checkout. Direct output, baseline reproduction and source hashes: `docs/validation/windows-compatibility.json` and referenced TAP files. This is CRLF simulation on Linux, not Windows execution. Source/fixture budget gates remain active, user-local CNY 3 accounting is retained, no real request or key access occurred. Next: Windows rerun on the fix branch, then merge review and credential-free preflight before the first live fictional dream.
+
+## User-local Windows and first live fictional trial — 2026-10-15
+
+The user supplied Windows terminal output for the correction branch showing **78 passed / 0 failed / 0 skipped**, followed by successful CNY 3 preflight with zero calls/runs and no credential read. The user then entered a key locally and supplied the first live result: completed, two saved scenes, separate wake note and simulated residue, three committed/settled calls, 1,526 input tokens and 251 output tokens. The conservative ledger total is 5,060 micro-CNY (CNY 0.00506), not independently verified provider billing. The key was not shared with this workspace.
+
+Evidence is user-reported terminal output, not an independently observed Windows execution or provider dashboard. The runtime dream journal, generated narrative, IDs and raw user transcript are not published. A body-free aggregate record is in `docs/validation/user-local-first-trial.json`. This establishes one reported live protocol/persistence success; it does not establish general dream quality. No insight was produced, which is valid. Wake notes may reconstruct details and retain their separate non-factual identity; they must not overwrite the original.
+
+Next: user-local credential-free reopen/replay and cue recall, verifying allowance calls remain three. Do not automatically generate slots 2/3 or clear accounting. PR #4 remains the unmerged review branch pending the merge decision.
+
+## User-local reopen, replay and cue recall — 2026-10-15
+
+User-reported follow-up output returned the same completed run after reopen and a literal-match cue candidate with dream origin, fictional material and `isRealityFact:false`. Final preflight still showed three calls, one run and 5,060 micro-CNY held/spent. No additional model call was observed. This completes the first reported user-local fictional loop through generation, persistence, wake, reopened replay and cue recall. It is one successful sample, not general narrative-quality acceptance or an independent provider invoice audit.
+
+The suggested PowerShell `ConvertFrom-Json` pipeline failed on mojibake while direct CLI Chinese output remained readable. The failure occurred in shell decoding after the saved result had been returned, not in model generation or journal parsing. Windows PowerShell native-output decoding is the likely cause; set UTF-8 before piping if that optional presentation is retried. No rerun or data reset is required. Recorded aggregates only; no dream journal or user transcript was copied to the public repository.

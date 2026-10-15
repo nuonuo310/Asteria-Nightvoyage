@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import { Nightvoyage } from '../src/engine.js';
 import { FakeProvider } from '../src/fake-provider.js';
 const fixture = JSON.parse(fs.readFileSync(new URL('../fixtures/paper-harbor.json',import.meta.url)));
@@ -99,8 +100,8 @@ test('deletion removes dream descendants, run bodies and stale recall delivery',
 });
 test('second store owner and checkout or symlink storage paths are rejected',t=>{
   const {e,dir}=setup(t);assert.throws(()=>new Nightvoyage(dir),/store_busy/);
-  assert.throws(()=>new Nightvoyage(new URL('../data',import.meta.url).pathname),/data_inside_checkout/);
-  const link=path.join(path.dirname(dir),`${path.basename(dir)}-link`);fs.symlinkSync(dir,link);t.after(()=>fs.unlinkSync(link));assert.throws(()=>new Nightvoyage(link),/symlink_data/);
+  assert.throws(()=>new Nightvoyage(fileURLToPath(new URL('../data',import.meta.url))),/data_inside_checkout/);
+  const link=path.join(path.dirname(dir),`${path.basename(dir)}-link`);fs.symlinkSync(dir,link,process.platform==='win32'?'junction':'dir');t.after(()=>process.platform==='win32'?fs.rmdirSync(link):fs.unlinkSync(link));assert.throws(()=>new Nightvoyage(link),/symlink_data/);
 });
 test('special object keys cannot act as request, recall or entry records',t=>{
   const {e}=setup(t);for(const id of ['__proto__','constructor','prototype']){assert.throws(()=>e.start(id,'s',fixture),/invalid_request/);assert.throws(()=>e.recall('x',id),/invalid_cue/);assert.equal(e.read(id),null);assert.throws(()=>e.status(id),/unknown_run/);}
