@@ -113,9 +113,10 @@ export class Nightvoyage {
     if (!previous) { this.store.state.recalls[requestId] = { fingerprint, entryId: e?.id ?? null, expiresAt: now + 60000 }; this.store.save(); }
     const receipt = own(this.store.state.recalls, requestId);
     if (!e || e.recallAccess !== 'cue' || now >= receipt.expiresAt) return [];
-    return [{ schemaVersion: 1, id: requestId, origin: 'dream', materialKind: e.materialKind, isRealityFact: false, sourceRefs: e.sourceRefs, derivedFrom: [e.id], fragment: e.wake.fragment, reason: 'literal_scene_match', expiresAt: receipt.expiresAt }];
+    return [{ schemaVersion: 1, id: requestId, origin: 'dream', materialKind: e.materialKind, isRealityFact: false, sourceRefs: copy(e.sourceRefs), derivedFrom: [e.id], fragment: e.wake.fragment, reason: 'literal_scene_match', expiresAt: receipt.expiresAt }];
   }
   residue(id, now = Date.now()) {
+    if (!Number.isFinite(now)) fail('invalid_clock');
     const e = this.read(id); if (!e?.residue) return null;
     return { schemaVersion: 1, origin: 'simulated_affect', materialKind: e.materialKind, isRealityFact: false, sourceRefs: e.sourceRefs, derivedFrom: [id], strength: e.residue.strength * Math.max(0, 1 - Math.max(0, now - e.residue.startedAt) / e.residue.durationMs) };
   }

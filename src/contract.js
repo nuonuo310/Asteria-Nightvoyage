@@ -9,7 +9,7 @@ export function snapshot(input) {
   if (!input || !text(input.id) || !text(input.version) || input.materialKind !== 'fictional' || !Array.isArray(input.sources)) fail('invalid_snapshot');
   const seen = new Set();
   for (const s of input.sources) {
-    if (!s || !text(s.id) || seen.has(s.id) || !text(s.version) || !text(s.text) || s.grant?.dream !== true || s.grant?.modelEgress !== false) fail('invalid_source');
+    if (!s || !text(s.id) || s.id.length > 200 || seen.has(s.id) || !text(s.version) || !text(s.text) || s.grant?.dream !== true || s.grant?.modelEgress !== false) fail('invalid_source');
     seen.add(s.id);
   }
   const used = new Set();
@@ -26,7 +26,7 @@ export function snapshot(input) {
       out.channels[key].value = { valence: c.value.valence, arousal: c.value.arousal };
     }
   }
-  out.sources = input.sources.filter(s => used.has(s.id)).map(s => ({ id: s.id, version: s.version, text: s.text, grant: copy(s.grant) }));
+  out.sources = input.sources.filter(s => used.has(s.id)).map(s => ({ id: s.id, version: s.version, text: s.text, grant: { dream: true, modelEgress: false } }));
   return out;
 }
 export function config(input = {}) {

@@ -4,7 +4,7 @@ Status: implementation contract; no Asteria compatibility claim. The local file 
 
 ## Inputs and authority
 
-A snapshot has `id`, `version`, `materialKind` (`fictional` in this release), `sources`, and five channels: memory, background, affect, mind, intents. A present affect channel additionally supplies bounded `value:{valence,arousal}`; otherwise the simulated initial affect is neutral. Each channel has availability `present|absent|denied|stale|unavailable` and source IDs. Every source has ID, version, text and grant `{dream:true, modelEgress:false}`. Only present, explicitly referenced sources participate. Missing channels are recorded; missing memory skips generation. No implicit personality, concern, intent or lived event is invented as an input.
+A snapshot has `id`, `version`, `materialKind` (`fictional` in this release), `sources`, and five channels: memory, background, affect, mind, intents. A present affect channel additionally supplies bounded `value:{valence,arousal}`; otherwise the simulated initial affect is neutral. Each channel has availability `present|absent|denied|stale|unavailable` and source IDs. Every source has an ID of 1–200 characters, version, text and grant `{dream:true, modelEgress:false}`. Only present, explicitly referenced sources participate. Missing channels are recorded; missing memory skips generation. No implicit personality, concern, intent or lived event is invented as an input.
 
 Input material identity and output epistemic identity are separate: every generated artifact carries `materialKind`, `origin: dream|simulated_affect|wake_note|recollection|imagined_continuation`, `isRealityFact:false`, source refs and derivation refs. Real-source support is deliberately disabled in this release. Model output cannot supply or override provenance.
 
@@ -37,3 +37,5 @@ Snapshots use exclusive temporary creation, file fsync, atomic rename and direct
 Revocation during an in-flight call discards its response. A successful withdrawal means the managed live state and managed temporary files contain no dependent body. Storage I/O failures are surfaced and the instance fails closed until reopened. Deletion and revocation are exceptions to append-only preservation.
 
 A successful control response is the durability acknowledgement. If storage fails before the withdrawal/deletion tombstone is durable, the current instance blocks all access, but no restart guarantee can be made for that failed request: repair storage and retry the control request before resuming service. Crash tests cover process interruption, not physical power-loss guarantees or forensic secure erasure. The withdrawal authority is monotonic per source ID, across versions; regrant is not implemented.
+
+Public return values are detached copies: mutating a recall candidate must never alter stored provenance. Non-finite clock inputs are rejected. Grant normalization retains only supported permission fields.

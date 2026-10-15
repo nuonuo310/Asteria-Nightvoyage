@@ -33,3 +33,11 @@ Review corrections: added own-property ID lookup, explicit initial affect valida
 - Source IDs remain withdrawn across versions; regrant and backup restore require future design. Corrupt locks/PID reuse or an abandoned recovery guard require manual inspection.
 
 **Authorized B/C implementation complete. D is paused:** no real provider, credentials, private input, Asteria modification, frontend or automatic merge. Next decision: select and authorize a real provider and explicit cost/data limits before implementing D. Work remains on a review branch and PR.
+
+## Pre-merge review — corrections verified, 2026-10-15
+
+User authorized merging PR #1 after review. Same-author review (not an independent-agent audit) found and fixed three issues: a fresh recall result shared its source-ref array with stored state, accepted source IDs could exceed the withdrawal API length limit, and residue accepted non-finite clocks. The recall alias could let a caller damage provenance and prevent an entry from being purged; candidates now return detached source refs. Source IDs are bounded at admission, and invalid clocks are rejected. Grant fields are also normalized to the supported permission fields.
+
+Three targeted probes failed on remote baseline `6f3a9e086a5c6aacc1c1323fbc1d66020486220a` before the fixes. After fixes, full suite: **33 passed, 0 failed, 0 skipped** on Linux / Node.js v24.19.0. `docs/validation/review-before.txt`, `review-after.txt` and `review.json` preserve direct output, source hashes and scope. The earlier 30-test evidence remains historical evidence for the earlier source hashes; the review evidence supersedes it for current code.
+
+No GitHub Actions workflow is configured; local test evidence is not CI evidence. Existing storage/backup, Windows, fake-provider and quality limits remain. Review disposition: eligible for the explicitly authorized B/C merge after verifying remote content and current PR head. D remains paused; merge does not authorize a real provider or private data.
