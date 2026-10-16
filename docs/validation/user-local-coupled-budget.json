@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "evidenceKind": "user_reported_windows_script_only",
+  "reportedCommand": "node scripts/check-coupled-budget.mjs",
+  "node": "v24.19.0",
+  "platform": "win32",
+  "protocolVersion": "coupled-affect-quotes-v1",
+  "status": "completed",
+  "stubCalls": 3,
+  "stubSettledCalls": 3,
+  "affectDeclarations": [
+    "unchanged",
+    "estimated"
+  ],
+  "normalizationAudits": [
+    {
+      "schemaVersion": 1,
+      "policyVersion": "validated-unused-quotation-pruning-v1",
+      "receivedQuoteCount": 1,
+      "keptQuoteCount": 0,
+      "discardedUnusedQuoteCount": 1
+    },
+    {
+      "schemaVersion": 1,
+      "policyVersion": "validated-unused-quotation-pruning-v1",
+      "receivedQuoteCount": 5,
+      "keptQuoteCount": 4,
+      "discardedUnusedQuoteCount": 1
+    }
+  ],
+  "reopened": true,
+  "duplicateCalls": 0,
+  "typedViewAvailable": true,
+  "recallCandidates": 1,
+  "recallOrigin": "dream",
+  "recallIsRealityFact": false,
+  "withdrawalViewNull": true,
+  "withdrawalSurvivesReopen": true,
+  "originalSourceGrantsNoEgress": true,
+  "historicalPrunedDispatchPinsMatch": false,
+  "realModelRequests": 0,
+  "credentialEnvironmentRead": false,
+  "paidEntryAvailable": false,
+  "semanticSupport": "not_assessed",
+  "qualityAssessed": false,
+  "nativeWindowsFullSuiteClaimed": false
+}

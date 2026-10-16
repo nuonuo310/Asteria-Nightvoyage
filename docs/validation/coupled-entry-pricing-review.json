@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "source": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
+  "retrievedOn": "2026-10-16",
+  "reviewedAt": "2026-10-16T14:20:00Z",
+  "expiresAt": "2026-10-17T14:20:00Z",
+  "verification": "same-day official webpage open plus public HTML fetch; no model API",
+  "htmlSha256": "69911c5295d9955f36d0188f2aceae4b6c996c897bd19ea2231fd1e5a0952b30",
+  "model": "deepseek-flash",
+  "officialContextLabel": "1M",
+  "conservativeReservationContextTokens": 1100000,
+  "peakCacheMissInputCnyPerMillion": 2,
+  "peakOutputCnyPerMillion": 8,
+  "reservedPerCallMicroCny": "2203200",
+  "actualProviderFees": "not_assessed",
+  "oldPricingOrExpiryChanged": false
+}

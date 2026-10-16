@@ -53,10 +53,10 @@ function preservedFailures(store,ledger) {
     one?.runId!==diagnosticId||one?.requestId!==`${diagnosticId}-scene-0`||one?.validationDiagnostic?.check!=='unused_compact_evidence'||
     one?.validationDiagnostic?.protocolVersion!==diagnostic.protocolVersion||one?.validationDiagnostic?.stage!=='scene'||
     [row,one].some(t=>t.status!=='unknown'||t.reservedMicroCny!=='2203200'||t.chargedMicroCny!==t.reservedMicroCny))fail('expected_two_preserved_holds_required');
-  for(const [id,account] of Object.entries(store.state.billing.accounts))
-    if(![oldCompactId,diagnosticId,prunedV2TrialId].includes(id)&&Object.values(account.attempts).some(t=>t.status!=='settled'))fail('other_unsettled_attempt_requires_review');
   return {calls:prior.calls+probe.calls,runs:prior.runs+probe.runs,heldOrSpentMicroCny:(BigInt(prior.heldOrSpentMicroCny)+BigInt(probe.heldOrSpentMicroCny)).toString()};
 }
+
+const hasOtherUnsettled=store=>Object.entries(store.state.billing.accounts).some(([id,a])=>![oldCompactId,diagnosticId,prunedV2TrialId].includes(id)&&Object.values(a.attempts).some(t=>t.status!=='settled'));
 
 const clockReady=now=>Number.isFinite(now)&&now>=pricingProfile.checkedAt&&now<profileExpiresAt;
 export function initPrunedV2Trial(directory,{budgetCny,approvedCase,approveFictionalEgress=false,acknowledgePreservedHolds=false,now=Date.now()}={}) {
@@ -67,7 +67,7 @@ export function initPrunedV2Trial(directory,{budgetCny,approvedCase,approveFicti
   try {
     const ledger=new BudgetLedger(store);
     if(config.sourceRefs.some(s=>store.withdrawn.includes(s.id)))fail('source_withdrawn');
-    previousQuality(store,ledger);preservedFailures(store,ledger);
+    previousQuality(store,ledger);preservedFailures(store,ledger);if(hasOtherUnsettled(store))fail('other_unsettled_attempt_requires_review');
     if(fs.existsSync(path.join(store.directory,filename)))readPrunedV2Trial(store.directory);else store.atomic(filename,config);
     ledger.approve(config.allowance);return config;
   } finally {store.close();}
@@ -86,7 +86,7 @@ export function prunedV2TrialState(store,config,now=Date.now()) {
   const preserved=preservedFailures(store,ledger);
   const sourcePinsMatch=prunedV2SourcePinsMatch();
   const cost=maximumCost(config.allowance.pricing,400),reason=!sourcePinsMatch?'pruned_v2_protocol_source_changed':!clockReady(now)?'pricing_or_allowance_expired':
-    config.sourceRefs.some(s=>store.withdrawn.includes(s.id))?'source_withdrawn':current.attempts.some(t=>t.status!=='settled')?'unsettled_attempt_requires_review':
+    config.sourceRefs.some(s=>store.withdrawn.includes(s.id))?'source_withdrawn':hasOtherUnsettled(store)?'other_unsettled_attempt_requires_review':current.attempts.some(t=>t.status!=='settled')?'unsettled_attempt_requires_review':
     current.calls>=3?'call_limit_reached':run?.status==='completed'?'completed_replay_available':run&&['cancelled','revoked','deleted','skipped'].includes(run.status)?'run_stopped':
     current.runs>=1&&!runId?'run_limit_reached':BigInt(current.heldOrSpentMicroCny)+cost>3000000n?'reservation_exceeds_remaining_budget':'limits_checked';
   const summary=s=>({calls:s.calls,runs:s.runs,heldOrSpentMicroCny:s.heldOrSpentMicroCny}),all=Object.keys(store.state.billing.accounts).map(id=>ledger.status(id));
