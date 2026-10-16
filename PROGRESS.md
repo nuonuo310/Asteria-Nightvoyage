@@ -509,3 +509,10 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - Linux全仓454/454；新增入口31/31；临时Linux CRLF入口/预算/历史60/60。冻结历史entry coupled23/23、pruned13/13另列。零真实模型请求、零真实Key读取、未开用户Store/新额度；仅独立虚构历史、dummy Key与进程内fetch simulator。没有新增Windows实机或真实费用/语义/质量验收。
 - 测试包含真正子进程在初始保存、派发1/2/3、场景原子提交时退出，明确恢复/unknown不补发、取消、撤回、旧账项不变、配置/素材/源代码/账项变更、source中途漂移阻断第二次HTTP、底层API替换拒绝和内容显示来源。原始日志/哈希见 docs/validation/continuity-entry-validation.json。
 - 公开内容仅项目自有MIT实现、独立表述和虚构脚本，旧profile/私有仓库/用户梦簿未改。完整Windows安全同步检查及仅获新批准后才执行的收费块见 docs/CONTINUITY-TRIAL-ENTRY.md。下一步只需确认这一次具体费用与虚构外发，再由用户电脑安全输入Key试跑；不自行访问私人材料或供应商账户。
+
+## 分幕候选第一幕拒绝：停止真实调用，离线复查
+
+- 本次明确费用/虚构外发/旧三hold保留批准已给出，用户报告Windows仅1次调用即第一幕invalid_compact_reference，0幕提交，无梦/醒来发布；新unknown保守hold2.2032 CNY保留，实际供应商费用未知。旧三hold6.6096 CNY不变，四笔合计8.8128 CNY，不清算/退款/重发或新增额度。
+- 不是新提示的质量结论：新增提示仅第二幕，第一幕实际body离线核对与旧coupled一致，未到候选干预阶段。被拒正文已丢弃，只能列出错误码可能路径，不能诊断具体字段或倒填响应。
+- 11个独立虚构引用反例与12项新增检查，联合原候选预算27项合计39/39；脚本零真实请求/Key/Store，生产源代码与50pin未变，无新付费诊断。本轮无新增Windows全套、CRLF或真实质量验收，前阶段证据不重标。
+- 公开只保存独立机制摘要、固定诊断与合成测试，没有用户运行编号、指纹、响应正文、终端聊天、私有配置或密钥。下阶段仅做离线编码负担比较，不自动放宽引用、修复数值或再次花费。见 docs/CONTINUITY-LIVE-REVIEW.md。
