@@ -1,5 +1,7 @@
 # Asteria-Nightvoyage · 夜航
 
+[Direct-quotation production core](docs/INLINE-PRODUCTION-CORE.md) now binds its own protocol/allowance and atomically saves stages with usage settlement through supplied local HTTP simulators. Run `node scripts/check-inline-production.mjs` without a key. Live mode and live allowances are explicitly blocked; no paid profile or CLI is added. New-protocol production appraisal adapters still report unsupported, and dream quality remains unassessed.
+
 [Execution ownership is now enforced in production](docs/EXECUTION-OWNERSHIP.md): generic fake execute/resume cannot adopt records owned by specialized runtimes. Ordinary reads and withdrawal remain available. The shared-source fix intentionally blocks old dispatch pins without changing their profiles or holds; frozen historical tests are separate from current-source checks. No new paid protocol or entry is enabled.
 
 [Isolated direct-quotation budget stub](docs/INLINE-BUDGET-STUB.md) now tests full-context reservations, exact request fingerprints and atomic stage/usage settlement in a separate `inlineStubBilling` root. Run `node scripts/check-inline-budget.mjs` without a key. Synthetic amounts are algorithm probes, not provider bills or a current price review; no production selector or paid entry is added.

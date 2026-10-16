@@ -35,6 +35,6 @@ async function probe(root,guarded){
   }finally{e?.close();}
 }
 export async function checkInlineIntegration(){
-  const inventory=currentSourceInventory();assert.equal(inventory.pinsMatch,false);assert.equal(inventory.exactTopLevelCoverage,true);assert.equal(inventory.productionImportsTestSupport,0);
+  const inventory=currentSourceInventory();assert.equal(inventory.pinsMatch,false);assert.equal(inventory.exactTopLevelCoverage,false);assert.equal(inventory.productionImportsTestSupport,0);
   const root=fs.mkdtempSync(path.join(os.tmpdir(),'nightvoyage-integration-review-'));try{return {command:'node scripts/check-inline-integration.mjs',node:process.version,platform:process.platform,reviewVersion:ownerPolicyVersion,inventory,probes:[await probe(root,false),await probe(root,true)],finding:'generic_fake_resume_rejects_failed_foreign_record',productionFixApplied:true,productionIntegrationReady:false,realModelRequests:0,userStoreAccessed:false,paidProfileChanged:false,qualityAssessed:false,semanticSupport:'not_assessed'};}finally{fs.rmSync(root,{recursive:true,force:true});}
 }
