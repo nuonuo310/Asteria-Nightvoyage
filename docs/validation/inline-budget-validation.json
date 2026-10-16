@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "stage": "isolated_inline_budget_stub",
+  "baseCommit": "9cc5a8933c15c7ffb23b2c961a4a6b253c33327f",
+  "stubAccountingVersion": "offline-inline-budget-stub-v1",
+  "checks": {
+    "targeted": {
+      "newBudgetStub": 33,
+      "previousInlineRuntime": 25,
+      "currentPaidEntry": 31,
+      "tests": 89,
+      "pass": 89,
+      "fail": 0
+    },
+    "linuxCRLF": {
+      "tests": 33,
+      "pass": 33,
+      "fail": 0,
+      "isWindowsHost": false
+    }
+  },
+  "script": {
+    "command": "node scripts/check-inline-budget.mjs",
+    "node": "v24.19.0",
+    "platform": "linux",
+    "stubAccountingVersion": "offline-inline-budget-stub-v1",
+    "status": "completed_before_withdrawal",
+    "stubCalls": 3,
+    "stubSettledCalls": 3,
+    "actualRequestFingerprintsMatched": 3,
+    "identityBeforeDispatch": true,
+    "fullContextReservationMicroCny": "2203200",
+    "syntheticSettledMicroCny": "2520",
+    "actualProviderTokensOrCurrencyValidated": false,
+    "syntheticUsageOnly": true,
+    "productionBillingRootCreated": false,
+    "isolatedAccountingRoot": "inlineStubBilling",
+    "reopened": true,
+    "duplicateCalls": 0,
+    "typedOfflineViewAvailable": true,
+    "recallOrigin": "dream",
+    "recallIsRealityFact": false,
+    "withdrawalSurvivesReopen": true,
+    "sourceGrantsNoEgress": true,
+    "currentPaidPinsMatch": true,
+    "realModelRequests": 0,
+    "credentialReads": 0,
+    "liveSelectorAvailable": false,
+    "paidEntryAvailable": false,
+    "semanticSupport": "not_assessed",
+    "qualityAssessed": false
+  },
+  "syntheticHistoricalUnknowns": {
+    "count": 4,
+    "heldMicroCny": "8812800",
+    "productionBillingJsonUnchangedAcrossStubWithdrawalReopen": true,
+    "isUserStore": false
+  },
+  "newProductionSourceOrProfileChanges": false,
+  "userStoreAccessed": false,
+  "realCredentialReads": 0,
+  "newPaidAllowanceOrTransport": false,
+  "officialPricesRechecked": false,
+  "newFullSuiteOrWindowsHostResult": false,
+  "thirdPartyImplementationCopied": false,
+  "privateTextOrUserGeneratedBodiesIncluded": false,
+  "reviewFix": "foreign stub allowance cannot relabel a prior run receipt",
+  "sourceHashes": {
+    "test-support/inline-budget-runtime.js": "d7fe977ebafe5a96308ddd156d1181b3a4bd342be27d88a20a8bf9d27de7930d",
+    "test-support/inline-budget-fixtures.js": "97b68d277f96d5e9c474ead25d278055ecfc585d25945b510badd81748373617",
+    "test/inline-budget.test.js": "ec8ee28bc0e6fd14c1c447f705d8cfba6b84a240928a2619f1cdcf712455764d",
+    "scripts/check-inline-budget.mjs": "622f75046a1435b961d61c15a3d97b2ad629ef4b8e4a1dd5a97989d55bd664e1",
+    "docs/INLINE-BUDGET-STUB.md": "3b78dce9453678aff80abf7aa24363581bd748bb66fb118dd56d10a51d04de37",
+    "docs/validation/inline-budget-targeted.txt": "e8b680d6cade120f8abaf7aa50a55421af98f4d424d68a742fe07595a4d45976",
+    "docs/validation/inline-budget-crlf.txt": "6208275554d942ef6274e4c513649cb01302c2f4e6c950f7fa861a4d5256438f",
+    "docs/validation/inline-budget-script.json": "20cb4b2961ae39ad1037e64262b15f958318b0e273e25a8017b0df67a7834ef7"
+  }
+}

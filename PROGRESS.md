@@ -531,3 +531,11 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 新生命周期25项＋格式32项＋当前入口31项=88/88；临时Linux CRLF新25/25，未新增Windows实机或全仓成绩。脚本3次fake、零真实请求/Key，当前50生产pin匹配；无生产src/profile/额度修改或费用清算。
 - fake payload字节估算不含system提示，不是token/费用证据；实际序列化请求另守65536-byte，响应1200 JSON bytes不放宽。语义、幅度、模型遵循与质量均未验收。详见docs/INLINE-RUNTIME.md及validation/inline-runtime-validation.json。
 - 公开仅独立MIT实现、虚构脚本和无正文汇总；无第三方实现复制、私有原文、用户梦簿、聊天、运行编号/指纹、配置或Key。下一步独立预算核心的stub验证，收费提案仍需另行准备与确认。
+
+## 直接引文：独立预算stub
+
+- offline-inline-budget-stub-v1在test-support实现完整context整数预留、实际请求body＋snapshot指纹、阶段与模拟usage原子提交。仅显式simulator/stub allowance，默认disabled，无Key/native transport/live selector；合成账项放inlineStubBilling独立根，生产账本不能将其当作已批准账户。
+- 首次派发前保存运行/提示/allowance身份；重开未知预留不重发，只有完整committed前缀可显式恢复。真正进程退出覆盖预留、派发1/2/3、第一/第二幕及醒来提交；取消/超时、并发、写盘失败、响应/usage拒绝、撤回、删除与预算限制有测试。
+- 新33项＋原模拟运行器25项＋当前入口31项=89/89，临时Linux CRLF新33/33；无新增Windows实机或全仓成绩。脚本3调用/3结算/3指纹匹配、重放0追加，撤回重开屏蔽梦/视图/召回。独立伪造四unknown共8812800 micro-CNY，原billing根JSON跨新stub/撤回/重开逐字不变。
+- 生产src、50pin、已批准profile不变，未打开用户Store/Key或发出真实请求。2203200预留/2520合成结算均仅算法参数与脚本usage，不是当前官方价格复核、实际费用或token证据，语义及梦质量未验收。
+- 公开仅自有MIT实现、独立说明与虚构测试，无第三方实现复制、私有原文或用户正文/运行编号/指纹/配置。见docs/INLINE-BUDGET-STUB.md及validation/inline-budget-validation.json。下一步先审查生产集成与历史保留方案，再考虑独立收费提案，不能直接启用本stub为live。

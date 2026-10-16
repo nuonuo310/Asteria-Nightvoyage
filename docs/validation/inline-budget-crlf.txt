@@ -1,0 +1,41 @@
+✔ stub accounting is disabled by default and invalid live options create no Store (10.191538ms)
+✔ three atomic settlements bind exact request bodies and isolate synthetic billing from production (25.885149ms)
+✔ completed replay and dedup across reopen never dispatch again or reset allowance (24.849613ms)
+✔ reservation cap: money (3.458802ms)
+✔ reservation cap: global calls (7.764446ms)
+✔ reservation cap: per-run calls (14.692051ms)
+✔ reservation cap: input full context (3.795705ms)
+✔ reservation cap: output reservation (6.23281ms)
+✔ expiry, input egress, oversized body and changed account identity block before reservation (10.137883ms)
+✔ rejected HTTP retains full unknown hold without body or repair (7.466077ms)
+✔ rejected invalid JSON retains full unknown hold without body or repair (6.296894ms)
+✔ rejected numeric quote retains full unknown hold without body or repair (5.288751ms)
+✔ rejected usage retains full unknown hold without body or repair (5.668751ms)
+✔ rejected model retains full unknown hold without body or repair (4.741581ms)
+✔ cancel before dispatch reserves nothing; in-flight cancel aborts and ignores late body (15.030932ms)
+✔ timeout bounds a noncooperative simulator and retains unknown hold (15.21275ms)
+✔ withdrawal after completion purges views and recalls through reopen, retaining body-free accounting (12.250197ms)
+✔ direct Store withdrawal in-flight suppresses response even without runtime abort hook (4.234275ms)
+✔ actual exit at stub_reserved preserves atomic stage/account and never auto-retries (113.447068ms)
+✔ actual exit at stub_dispatched preserves atomic stage/account and never auto-retries (127.462543ms)
+✔ actual exit at stub_scene_saved preserves atomic stage/account and never auto-retries (129.268218ms)
+✔ actual exit at stub_wake_saved preserves atomic stage/account and never auto-retries (115.827296ms)
+✔ exit on dispatch 2 retains prefix and blocks repeat of ambiguous request (145.084356ms)
+✔ exit on dispatch 3 retains prefix and blocks repeat of ambiguous request (134.535093ms)
+✔ atomic settlement write failure cannot expose body and reopen retains full hold (7.801285ms)
+✔ four fabricated production unknown holds stay byte-for-byte unchanged across isolated stub and withdrawal (68.795584ms)
+✔ overlapping execution cannot duplicate a reservation or dispatch (20.35802ms)
+✔ uncommitted novel wake keeps two settled scenes and one full unknown hold without a fourth repair (20.222507ms)
+✔ a reservation persistence failure dispatches nothing and reopening has no invented charge (5.806449ms)
+✔ cancel after an atomic scene and deleting a completed parent forbid further publication (35.659773ms)
+✔ fixed budget script blocks native transport/key reads and does not report real quality or billing (159.531759ms)
+✔ actual exit after second atomic scene resumes only wake without repaying either prefix scene (135.266615ms)
+✔ run cap blocks a new session; another isolated allowance cannot relabel old results or dedup into them (27.192777ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 33
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1575.934501
