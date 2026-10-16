@@ -1,0 +1,26 @@
+✔ support contrast literal contract: bell-positive (5.304906ms)
+✔ support contrast literal contract: bell-negative (4.816492ms)
+✔ support contrast literal contract: explicit-relief (1.242355ms)
+✔ support contrast literal contract: explicit-alarm (1.767799ms)
+✔ support contrast literal contract: bowl-unrelated-quote (1.599407ms)
+✔ support contrast literal contract: blackout-linked-quote (0.948432ms)
+✔ support contrast literal contract: direction-conflict (1.460709ms)
+✔ support contrast literal contract: explicit-unchanged (0.780041ms)
+✔ support contrast literal contract: missing-reference (0.938741ms)
+✔ support contrast literal contract: ungrounded-reference (1.661177ms)
+✔ same event and quote can pass with opposite valence estimates without a semantic verdict (1.352084ms)
+✔ literal acceptance includes author-flagged unrelated and conflicting examples, not semantic approval (1.32308ms)
+✔ annotation change cannot change validation; authored semantic labels are not treated as verified truth (7.220352ms)
+✔ ordinary and transformed transitions remain author observations with no automatic ranking (1.472684ms)
+✔ only explicitly fictional, no-egress, bounded scripted contrast fixtures enter the helper (4.145894ms)
+✔ unknown annotation text, duplicate IDs and narrative extras cannot enter summary metadata (2.187398ms)
+✔ summary returns neither raw scene/quote/note bodies nor a paid selector and leaves live pins intact (13.431305ms)
+✔ fixed offline command uses no credential or transport and reports expectations rather than semantic success (129.706129ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 379.71392

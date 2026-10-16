@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "stage": "offline_authored_affect_support_contrasts",
+  "baseCommit": "05128348dbc71a7e712966f5acdc049e75cc3db8",
+  "reviewVersion": "offline-affect-support-contrast-v1",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "targetedTests": {
+    "pass": 59,
+    "fail": 0,
+    "skip": 0
+  },
+  "newTests": 18,
+  "linuxCRLFNewTests": {
+    "pass": 18,
+    "fail": 0,
+    "skip": 0
+  },
+  "fullSuiteRerun": false,
+  "nativeWindowsTestsRun": false,
+  "scriptedSceneCases": 10,
+  "literalAccepted": 8,
+  "literalRejected": 2,
+  "authoredTransitionPairs": 3,
+  "semanticClassifier": false,
+  "annotationsSemanticallyVerified": false,
+  "qualityAccepted": false,
+  "realModelRequests": 0,
+  "credentialRead": false,
+  "userStoreOpened": false,
+  "existingLiveSourcePinsChanged": false,
+  "feeOrRuntimeDataChanged": false,
+  "reconstructsUserDreamOrRejectedResponse": false,
+  "review": "same-author independently authored examples, not blind or independent evaluation",
+  "sha256LF": {
+    "fixtures/affect-support-contrasts.json": "0639ac18834c7775e1899c65a98675d341dcbcf26348115490879c1de3da94b5",
+    "src/affect-support-contrast.js": "94155019be20b7d0b761e88c3382369b280faa744933389973ad00ee9edb0065",
+    "scripts/check-affect-support-contrasts.mjs": "b776fef8f783fafd5982bc3b6b00c6d78b4501bf3abdaa1441c07499499bacbd",
+    "test/affect-support-contrast.test.js": "e1766652f3ede7032cb9655660fb6acc4021fa1c8e888d93e6769a1f75ab44a0",
+    "docs/validation/affect-support-linux.txt": "b0168259b8bfc2aa20827b036e717590ff1191459d777edeecedca93ba44623c",
+    "docs/validation/affect-support-crlf.txt": "254437795747a60c61afd68341e18eaecbd11acb0cbb5ac55fc828c6581d2386",
+    "docs/validation/affect-support-script.json": "40e54bff08e081a15668709c7b1537b84dab52a8c41c2e8d82a5425132f8b985"
+  }
+}
