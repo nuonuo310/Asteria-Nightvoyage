@@ -60,6 +60,7 @@ export class OfflineInlineProvider extends FakeProvider {
   }
 }
 export class InlineRehearsal extends Nightvoyage {
+  executionFamily(){return `specialized:${inlineRuntimeVersion}`;}
   constructor(directory,options={}) {
     if(!options||typeof options!=='object'||Object.keys(options).some(k=>!['simulator','fault'].includes(k)))fail('invalid_inline_runtime_options');
     const provider=new OfflineInlineProvider({simulator:options.simulator});

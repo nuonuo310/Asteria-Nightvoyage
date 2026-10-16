@@ -73,6 +73,7 @@ export class OfflineCompactV2Provider extends FakeProvider {
   }
 }
 export class CompactV2Rehearsal extends Nightvoyage {
+  executionFamily(){return `specialized:${compactV2Version}`;}
   constructor(directory,{model,maxOutputTokens=400,simulator,fault=()=>{}}={}) {
     super(directory,{provider:new OfflineCompactV2Provider({model,maxOutputTokens,simulator}),fault});
   }

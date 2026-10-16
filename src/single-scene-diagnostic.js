@@ -6,7 +6,7 @@ import { hash, own } from './contract.js';
 import { BudgetLedger, validateAllowance, maximumCost } from './budget-ledger.js';
 import { GatedDeepSeekClient } from './gated-deepseek-client.js';
 import { pricingProfile, profileExpiresAt } from './trial-config.js';
-import { compactTrialId, compactTrialProposal, readCompactTrial, compactTrialInput, compactTrialState } from './compact-trial-config.js';
+import { compactTrialId, compactTrialProposal, compactHistoricalProposal, readCompactTrial, compactTrialInput, compactTrialState } from './compact-trial-config.js';
 
 export const diagnosticId='compact-single-scene-diagnostic-20261015';
 const filename=`${diagnosticId}.json`,requestId=`${diagnosticId}-scene-0`;
@@ -16,12 +16,15 @@ export function singleSceneProposal() {
   const p=compactTrialProposal();
   const bytes=fs.readFileSync(new URL('./validation-diagnostic.js',import.meta.url),'utf8').replace(/\r\n/g,'\n');
   if(createHash('sha256').update(bytes).digest('hex')!==diagnosticPin)fail('diagnostic_source_changed');
+  return historicalDiagnosticProposal(p);
+}
+function historicalDiagnosticProposal(p=compactHistoricalProposal()){
   return {...p,batchId:diagnosticId,protocolSourcePins:{...p.protocolSourcePins,'validation-diagnostic.js':diagnosticPin},
     kind:'single_scene_protocol_diagnostic',maxAdditionalCalls:1,maxAdditionalRuns:1,
     persistsGeneratedBody:false,continuesPriorRun:false,diagnosesDiscardedPriorResponse:false};
 }
 function reviewedConfig() {
-  return {...singleSceneProposal(),fixtureEgressApproved:true,paidEvaluationApproved:true,
+  return {...historicalDiagnosticProposal(),fixtureEgressApproved:true,paidEvaluationApproved:true,
     allowance:validateAllowance({id:diagnosticId,mode:'live',approved:true,expiresAt:profileExpiresAt,
       limits:{maxRuns:1,maxCalls:1,maxMicroCny:3000000},pricing:pricingProfile})};
 }
@@ -48,6 +51,7 @@ export function initSingleSceneDiagnostic(directory,{budgetCny,approvedCase,appr
   if(String(budgetCny)!=='3'||approvedCase!=='sparse-context'||approveFictionalEgress!==true||approvePreservedHold!==true)
     fail('explicit_diagnostic_approval_required');
   if(!clockReady(now))fail('pricing_review_expired');
+  singleSceneProposal();
   const config=reviewedConfig();readCompactTrial(directory);const store=new Store(directory);
   try {
     if(config.sourceRefs.some(s=>store.withdrawn.includes(s.id)))fail('source_withdrawn');
@@ -66,11 +70,12 @@ export function singleSceneState(store,config,now=Date.now()) {
   const row=current.attempts[0];
   if(current.calls>1||current.runs>1||row&&(row.runId!==diagnosticId||row.requestId!==requestId))fail('diagnostic_run_identity_mismatch');
   const cost=maximumCost(config.allowance.pricing,400);
-  let reason=!clockReady(now)?'pricing_or_allowance_expired':config.sourceRefs.some(s=>store.withdrawn.includes(s.id))?'source_withdrawn':
+  let sourcePinsMatch=true;try{singleSceneProposal();}catch{sourcePinsMatch=false;}
+  let reason=!sourcePinsMatch?'diagnostic_source_changed':!clockReady(now)?'pricing_or_allowance_expired':config.sourceRefs.some(s=>store.withdrawn.includes(s.id))?'source_withdrawn':
     current.calls?'diagnostic_attempt_consumed':record?'diagnostic_already_started':BigInt(current.heldOrSpentMicroCny)+cost>3000000n?'reservation_exceeds_remaining_budget':'limits_checked';
   if(reason==='limits_checked')previousFailure(store,ledger,now);
   const summary=s=>({calls:s.calls,runs:s.runs,heldOrSpentMicroCny:s.heldOrSpentMicroCny}),all=Object.keys(store.state.billing.accounts).map(id=>ledger.status(id));
-  return {ready:reason==='limits_checked',reason,credentialRead:false,batchId:diagnosticId,caseId:config.caseId,model:config.model,
+  return {ready:reason==='limits_checked',reason,sourcePinsMatch,credentialRead:false,batchId:diagnosticId,caseId:config.caseId,model:config.model,
     kind:'single_scene_protocol_diagnostic',materialKind:'fictional',generatedEventOrigin:'dream',isRealityFact:false,sourceRefs:copy(config.sourceRefs),
     additionalBudgetCny:3,maxAdditionalRuns:1,maxAdditionalCalls:1,nextReservationCny:Number(cost)/1000000,
     diagnosticStatus:row?.status==='settled'?'accepted':record?.status==='running'&&row?.status==='unknown'?'interrupted':record?.status??(row?'interrupted':'not_started'),

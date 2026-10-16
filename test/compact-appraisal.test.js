@@ -72,7 +72,7 @@ test('default v2 queued runs remain compatible with legacy missing protocol meta
   const {d,e,config,counter}=setup(t);e.close();const old=new BudgetedNightvoyage(d,{allowance:config,credential:'dummy',enabled:true,mode:'stub',fetchImpl:async(_url,r)=>{
     counter.calls++;const m=JSON.parse(JSON.parse(r.body).messages[1].content),data=m.stage==='wake'?{fragment:m.previousScenes.at(-1).event,residue:0.1,associations:[]}:probes.scenes[0];
     return new Response(JSON.stringify({model:'deepseek-flash',choices:[{finish_reason:'stop',message:{role:'assistant',content:JSON.stringify(data)}}],usage:{prompt_tokens:100,completion_tokens:80,total_tokens:180}}));}});
-  const id=old.start('legacy','legacy',grant());delete old.run(id).billingProtocolVersion;old.store.save();assert.equal((await old.execute(id)).status,'completed');assert.equal(counter.calls,3);old.close();
+  const id=old.start('legacy','legacy',grant());delete old.run(id).billingProtocolVersion;delete old.run(id).executionOwner;old.store.save();assert.equal((await old.execute(id)).status,'completed');assert.equal(counter.calls,3);old.close();
 });
 test('compact cancellation ignores late body and withdrawal purges nested evidence and view',async t=>{
   let start,deliver;const begun=new Promise(resolve=>start=resolve);const {e}=setup(t,{fetchImpl:()=>{start();return new Promise(resolve=>deliver=resolve);}}),id=e.start('cancel','cancel',grant()),work=e.execute(id);await begun;e.cancel(id);assert.equal((await work).status,'cancelled');deliver(new Response('{}'));await new Promise(resolve=>setImmediate(resolve));assert.equal(e.result(id).dream,null);

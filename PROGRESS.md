@@ -547,3 +547,12 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 候选检查11项＋预算33项＋当前入口31项=75/75，无新增全仓/CRLF/Windows成绩。固定脚本native fetch和Key读取均0；只输出无正文机制汇总，公开无私有原文/聊天/梦正文/配置/运行编号。
 - 集成顺序：明确执行family和专用合同guard＋历史测试冻结 → 新生产协议/预算stub默认关闭 → 显式只读/评审适配 → 独立profile/闭包/preflight/Windows入口 → 新具体费用/外发另行确认。正式billing用新协议绑定账户，不迁入inlineStubBilling的合成usage；旧四unknown逐项保留，不只比总额。
 - 见docs/INLINE-PRODUCTION-INTEGRATION.md及validation/inline-integration-validation.json。本轮是设计与独立反例验证，不是生产修复、真实费用或梦境质量验收；下一切片先修复执行归属，无须用户输Key。
+
+## 执行归属生产修复
+
+- 共享engine在首次保存写executionOwner（family/provider身份）；execute/resume/call和请求/会话去重重用前拒绝不匹配或foreign专属metadata。各专用运行器声明family并保留自身合同核验；旧无owner普通fake及明确grounded缺旧版本字段兼容，不倒填历史owner。
+- 旧compact/单幕诊断历史读取与当前source pins检查解耦：固定旧合同仍精确匹配，init及preflight另查当前源码并阻断。普通读/状态/撤回/删除仍可用，不清算账项。当前旧50pin漂移属预期，profile未改，无新真实入口/额度。
+- 修复前8个自有MIT文件按旧pin冻结于test-support，仅临时历史测试使用；compact9/诊断13/continuity31/coupled23/pruned13另列。原fixture历史构造也使用临时固定源码，当前读取与新guard仍在当前源码核验，生产不回退旧执行代码。
+- 最终Linux全仓535/535；当前归属18＋旧读取2＋inline预算33=53/53，临时Linux CRLF同组53/53；未新增Windows实机。初次回归发现并修复source-pin读取耦合及旧兼容后重跑，最终证据见docs/validation/execution-owner-validation.json。
+- 上轮反例在当前生产代码已拒绝，运行和合成unknown不变。固定脚本native fetch/Key为0；未打开用户Store、无真实调用/费用，四旧hold未释放；生产直接引文整体仍未ready，语义/梦质量未验收。详见docs/EXECUTION-OWNERSHIP.md。
+- 下一步新生产直接引文协议/预算/受限transport的默认关闭stub集成；不修改Asteria或其他仓库，不沿用旧授权开真实调用。

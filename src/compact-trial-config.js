@@ -21,6 +21,10 @@ export function compactTrialProposal() {
     const bytes=fs.readFileSync(new URL(`./${file}`,import.meta.url),'utf8').replace(/\r\n/g,'\n');
     if(createHash('sha256').update(bytes).digest('hex')!==pin)fail('compact_protocol_source_changed');
   }
+  return compactHistoricalProposal();
+}
+// Fixed historical contract data; never authorizes initialization or dispatch.
+export function compactHistoricalProposal(){
   const input=fixture();
   return {schemaVersion:1,batchId:compactTrialId,protocolVersion:compactProtocolVersion,protocolSourcePins:{...sourcePins},
     caseId,fixtureSha256:'66a19f5968bc0bb60c8ff4918d6e57e223b008329c2a7028f3ac478cb6256d10',
@@ -29,7 +33,7 @@ export function compactTrialProposal() {
     fixtureEgressApproved:false,paidEvaluationApproved:false,qualityAssessed:false};
 }
 function reviewedConfig() {
-  return {...compactTrialProposal(),fixtureEgressApproved:true,paidEvaluationApproved:true,
+  return {...compactHistoricalProposal(),fixtureEgressApproved:true,paidEvaluationApproved:true,
     allowance:validateAllowance({id:compactTrialId,mode:'live',approved:true,expiresAt:profileExpiresAt,
       limits:{maxRuns:1,maxCalls:3,maxMicroCny:3000000},pricing:pricingProfile})};
 }
@@ -48,6 +52,7 @@ const clockReady=now=>Number.isFinite(now)&&now>=pricingProfile.checkedAt&&now<p
 export function initCompactTrial(directory,{budgetCny,approvedCase,approveFictionalEgress=false,now=Date.now()}={}) {
   if(String(budgetCny)!=='3'||approvedCase!==caseId||approveFictionalEgress!==true)fail('explicit_compact_approval_required');
   if(!clockReady(now))fail('pricing_review_expired');
+  compactTrialProposal();
   const config=reviewedConfig(),store=new Store(directory);
   try {
     const ledger=new BudgetLedger(store);previousQuality(store,ledger);
@@ -66,12 +71,13 @@ export function compactTrialState(store,config,now=Date.now()) {
   if(hash(current.allowance)!==hash(config.allowance))fail('allowance_conflict');
   const runId=own(store.state.requests,compactTrialId)?.runId,run=runId?own(store.state.runs,runId):null;
   if(runId&&(!run||run.billingAllowanceId!==config.allowance.id||run.billingProtocolVersion!==compactProtocolVersion||run.appraisalProtocolVersion!==compactProtocolVersion))fail('compact_run_identity_mismatch');
-  const cost=maximumCost(config.allowance.pricing,400),reason=!clockReady(now)?'pricing_or_allowance_expired':
+  let sourcePinsMatch=true;try{compactTrialProposal();}catch{sourcePinsMatch=false;}
+  const cost=maximumCost(config.allowance.pricing,400),reason=!sourcePinsMatch?'compact_protocol_source_changed':!clockReady(now)?'pricing_or_allowance_expired':
     config.sourceRefs.some(s=>store.withdrawn.includes(s.id))?'source_withdrawn':current.attempts.some(t=>t.status!=='settled')?'unsettled_attempt_requires_review':
     current.calls>=3?'call_limit_reached':run?.status==='completed'?'completed_replay_available':run&&['cancelled','revoked','deleted','skipped'].includes(run.status)?'run_stopped':
     current.runs>=1&&!runId?'run_limit_reached':BigInt(current.heldOrSpentMicroCny)+cost>3000000n?'reservation_exceeds_remaining_budget':'limits_checked';
   const summary=s=>({calls:s.calls,runs:s.runs,heldOrSpentMicroCny:s.heldOrSpentMicroCny}),all=Object.keys(store.state.billing.accounts).map(id=>ledger.status(id));
-  return {ready:reason==='limits_checked',reason,credentialRead:false,batchId:compactTrialId,caseId,model:config.model,
+  return {ready:reason==='limits_checked',reason,sourcePinsMatch,credentialRead:false,batchId:compactTrialId,caseId,model:config.model,
     additionalBudgetCny:3,maxAdditionalRuns:1,maxAdditionalCalls:3,nextReservationCny:Number(cost)/1000000,
     run:runId?{id:runId,status:run.status,stagesSaved:run.scenes?.length??0}:null,previousQualityScreen:summary(prior),compactTrial:summary(current),
     allAllowances:{calls:all.reduce((n,s)=>n+s.calls,0),runs:all.reduce((n,s)=>n+s.runs,0),heldOrSpentMicroCny:all.reduce((n,s)=>n+BigInt(s.heldOrSpentMicroCny),0n).toString()},qualityAssessed:false};

@@ -11,7 +11,7 @@ import {fail} from '../src/store.js';
 export const ownerPolicyVersion='offline-execution-owner-review-v1';
 const foreignMarkers=['billingAllowanceId','billingProtocolVersion','appraisalProtocolVersion','stubAccountingVersion','stubAllowanceId','stubAllowanceHash','accountingMode'];
 export function assertPlainFakeOwner(record){
-  if(!record||typeof record!=='object'||Array.isArray(record)||foreignMarkers.some(k=>Object.hasOwn(record,k))||(Object.hasOwn(record,'executionOwner')&&record.executionOwner!=='plain-fake-v1'))fail('foreign_execution_owner');
+  if(!record||typeof record!=='object'||Array.isArray(record)||foreignMarkers.some(k=>Object.hasOwn(record,k))||(Object.hasOwn(record,'executionOwner')&&(typeof record.executionOwner==='object'?record.executionOwner?.family!=='plain-fake-v1':record.executionOwner!=='plain-fake-v1')))fail('foreign_execution_owner');
 }
 export class ReviewedPlainFake extends Nightvoyage {
   execute(id){assertPlainFakeOwner(this.run(id));return super.execute(id);}
@@ -30,12 +30,11 @@ async function probe(root,guarded){
     e=new InlineBudgetRehearsal(directory,{allowance:inlineStubAllowance(),enabled:true,simulator:r=>{calls++;const response=inlineResponse(r);response.body.choices[0].message.content='{}';return response;}});const id=e.start('foreign','foreign',inlineSeed());await e.execute(id);assert.equal(e.status(id).status,'failed');assert.equal(e.rows(id)[0].status,'unknown');const ledger=JSON.stringify(e.store.state.inlineStubBilling);e.close();
     e=guarded?new ReviewedPlainFake(directory):new Nightvoyage(directory);const before=JSON.stringify(e.store.state.runs[id]);let rejected=false;try{await e.resume(id);}catch(error){assert.equal(error.message,'foreign_execution_owner');rejected=true;}
     assert.equal(JSON.stringify(e.store.state.inlineStubBilling),ledger);assert.equal(calls,1);
-    if(guarded){assert.equal(rejected,true);assert.equal(JSON.stringify(e.store.state.runs[id]),before);assert.equal(e.result(id).dream,null);}
-    else{assert.equal(rejected,false);assert.equal(e.status(id).status,'completed');assert.equal(e.run(id).scenes.length,2);assert.equal(e.result(id).dream.origin,'dream');assert.equal(e.result(id).dream.isRealityFact,false);}
-    return {guarded,rejected,runStateUnchanged:guarded,fakeDreamPublished:!guarded,syntheticUnknownHoldUnchanged:true,stubRequests:1};
+    assert.equal(rejected,true);assert.equal(JSON.stringify(e.store.state.runs[id]),before);assert.equal(e.result(id).dream,null);
+    return {guarded,rejected,runStateUnchanged:true,fakeDreamPublished:false,syntheticUnknownHoldUnchanged:true,stubRequests:1};
   }finally{e?.close();}
 }
 export async function checkInlineIntegration(){
-  const inventory=currentSourceInventory();assert.equal(inventory.pinsMatch,true);assert.equal(inventory.exactTopLevelCoverage,true);assert.equal(inventory.productionImportsTestSupport,0);
-  const root=fs.mkdtempSync(path.join(os.tmpdir(),'nightvoyage-integration-review-'));try{return {command:'node scripts/check-inline-integration.mjs',node:process.version,platform:process.platform,reviewVersion:ownerPolicyVersion,inventory,probes:[await probe(root,false),await probe(root,true)],finding:'generic_fake_resume_accepts_failed_foreign_record',productionFixApplied:false,productionIntegrationReady:false,realModelRequests:0,userStoreAccessed:false,paidProfileChanged:false,qualityAssessed:false,semanticSupport:'not_assessed'};}finally{fs.rmSync(root,{recursive:true,force:true});}
+  const inventory=currentSourceInventory();assert.equal(inventory.pinsMatch,false);assert.equal(inventory.exactTopLevelCoverage,true);assert.equal(inventory.productionImportsTestSupport,0);
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'nightvoyage-integration-review-'));try{return {command:'node scripts/check-inline-integration.mjs',node:process.version,platform:process.platform,reviewVersion:ownerPolicyVersion,inventory,probes:[await probe(root,false),await probe(root,true)],finding:'generic_fake_resume_rejects_failed_foreign_record',productionFixApplied:true,productionIntegrationReady:false,realModelRequests:0,userStoreAccessed:false,paidProfileChanged:false,qualityAssessed:false,semanticSupport:'not_assessed'};}finally{fs.rmSync(root,{recursive:true,force:true});}
 }

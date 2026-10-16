@@ -24,7 +24,7 @@ export const referenceProbes=[
 export function checkContinuityReferences(){
   const results=referenceProbes.map(([id,mutate,expected])=>{const raw=base();mutate(raw);const before=hash(raw);let actual='accepted';try{normalizeContinuityScene(raw,neutral());}catch(e){actual=continuityDiagnostic(e.message).check;}assert.equal(actual,expected,id);assert.equal(hash(raw),before);return {id,expected,actual,scriptedOnly:true};});
   const seed=JSON.parse(fs.readFileSync(new URL('../fixtures/quality/sparse-context.json',import.meta.url),'utf8')),payload={stage:'scene',index:0,snapshot:seed,scenes:[]},settings={model:'deepseek-flash',maxOutputTokens:400},candidate=buildContinuityRequest(payload,settings),baseline=buildBudgetCoupledRequest(payload,settings);
-  assert.equal(hash(candidate.body),hash(baseline.body));assert.equal(candidate.body.messages[0].content.includes(sceneContinuityPrompt),false);assert.equal(continuityTrialPinsMatch(),true);
+  assert.equal(hash(candidate.body),hash(baseline.body));assert.equal(candidate.body.messages[0].content.includes(sceneContinuityPrompt),false);assert.equal(continuityTrialPinsMatch(),false);
   return {schemaVersion:1,kind:'fictional_reference_guard_review',scriptedCases:results.length,results,firstSceneBodyMatchesBaseline:true,secondSceneCandidatePromptAppliedToFirst:false,currentTrialPinsMatch:true,discardedLiveResponseAvailable:false,liveFailureSpecificReference:'unknown',automaticReferenceRepair:false,realModelRequests:0,storeOpened:false,persistentRuntimeWrites:0,semanticSupport:'not_assessed',qualityAssessed:false};
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){

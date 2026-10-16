@@ -1,0 +1,32 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import {spawnSync} from 'node:child_process';
+import {Nightvoyage} from '../src/engine.js';
+import {InlineBudgetRehearsal} from '../test-support/inline-budget-runtime.js';
+import {inlineSeed,inlineStubAllowance,inlineResponse} from '../test-support/inline-budget-fixtures.js';
+import {continuityTrialPinsMatch} from '../src/continuity-trial-config.js';
+function directory(t){const d=fs.mkdtempSync(path.join(os.tmpdir(),'nightvoyage-owner-fix-'));t.after(()=>fs.rmSync(d,{recursive:true,force:true}));return d;}
+test('new plain owner is durable before dispatch and unmarked legacy fake can still explicitly resume',async t=>{
+  const d=directory(t),e=new Nightvoyage(d);try{const id=e.start('plain','plain',inlineSeed()),r=e.run(id);assert.deepEqual(JSON.parse(fs.readFileSync(path.join(d,'state.json'))).runs[id].executionOwner,{schemaVersion:1,family:'plain-fake-v1',providerIdentity:'fake-v1'});delete r.executionOwner;r.status='failed';e.store.save();await e.resume(id);assert.equal(e.status(id).status,'completed');assert.equal(e.status(id).budget.calls,3);}finally{e.close();}
+});
+for(const marker of ['billingAllowanceId','billingProtocolVersion','appraisalProtocolVersion','stubAccountingVersion','stubAllowanceId','stubAllowanceHash','accountingMode'])test(`legacy ${marker} cannot be adopted by the plain fake runtime`,async t=>{
+  const d=directory(t),e=new Nightvoyage(d);try{const id=e.start('foreign','foreign',inlineSeed()),r=e.run(id);delete r.executionOwner;r[marker]='foreign';r.status='failed';e.store.save();const before=fs.readFileSync(path.join(d,'state.json'),'utf8');await assert.rejects(e.resume(id),/foreign_execution_owner/);await assert.rejects(e.execute(id),/foreign_execution_owner/);await assert.rejects(e.call(r,'scene',new AbortController().signal),/foreign_execution_owner/);assert.equal(fs.readFileSync(path.join(d,'state.json'),'utf8'),before);}finally{e.close();}
+});
+for(const owner of [null,{},'plain-fake-v1',{schemaVersion:1,family:'foreign',providerIdentity:'fake-v1'},{schemaVersion:1,family:'plain-fake-v1',providerIdentity:'changed-provider'}])test(`malformed or mismatched persisted owner is rejected before state mutation: ${JSON.stringify(owner)}`,async t=>{
+  const e=new Nightvoyage(directory(t));try{const id=e.start('bad','bad',inlineSeed());e.run(id).executionOwner=owner;e.store.save();const before=JSON.stringify(e.store.state);await assert.rejects(e.execute(id),/foreign_execution_owner/);assert.equal(JSON.stringify(e.store.state),before);assert.throws(()=>e.start('bad','bad',inlineSeed()),/foreign_execution_owner/);}finally{e.close();}
+});
+for(const queued of [true,false])test(`generic API and CLI cannot ${queued?'execute queued':'resume failed'} inline stub record; reads and hold remain available`,async t=>{
+  const d=directory(t),allowance=inlineStubAllowance();let calls=0,e=new InlineBudgetRehearsal(d,{allowance,enabled:true,simulator:r=>{calls++;const response=inlineResponse(r);response.body.choices[0].message.content='{}';return response;}}),id=e.start('foreign','foreign',inlineSeed());if(!queued)await e.execute(id);const stub=JSON.stringify(e.store.state.inlineStubBilling);e.close();e=new Nightvoyage(d);try{const before=JSON.stringify(e.run(id));await assert.rejects(queued?e.execute(id):e.resume(id),/foreign_execution_owner/);assert.equal(JSON.stringify(e.run(id)),before);assert.equal(JSON.stringify(e.store.state.inlineStubBilling),stub);assert.equal(e.status(id).status,queued?'queued':'failed');assert.equal(e.result(id).dream,null);}finally{e.close();}
+  const rawBefore=fs.readFileSync(path.join(d,'state.json'),'utf8'),preload="globalThis.fetch=()=>{throw Error('forbidden HTTP');};const env=process.env;process.env=new Proxy(env,{get(t,k){if(k==='NIGHTVOYAGE_DEEPSEEK_KEY')throw Error('forbidden key');return Reflect.get(t,k);}});",r=spawnSync(process.execPath,['--import',`data:text/javascript,${encodeURIComponent(preload)}`,'src/cli.js',d,'resume',id],{encoding:'utf8',timeout:15000});assert.equal(r.status,1);assert.match(r.stderr,/foreign_execution_owner/);assert.equal(fs.readFileSync(path.join(d,'state.json'),'utf8'),rawBefore);assert.equal(calls,queued?0:1);assert.equal(continuityTrialPinsMatch(),false);
+});
+test('generic read and withdrawal of a completed specialized dream remain available without execution rights',async t=>{
+  const d=directory(t),allowance=inlineStubAllowance();let e=new InlineBudgetRehearsal(d,{allowance,enabled:true,simulator:inlineResponse});const id=e.start('read','read',inlineSeed());await e.execute(id);const packet=e.result(id),billing=JSON.stringify(e.store.state.inlineStubBilling);e.close();e=new Nightvoyage(d);try{assert.equal(e.read(packet.dream.id).origin,'dream');assert.equal(e.read(packet.dream.id).isRealityFact,false);await assert.rejects(e.execute(id),/foreign_execution_owner/);e.withdraw('q-sparse-memory');assert.equal(e.read(packet.dream.id),null);assert.equal(JSON.stringify(e.store.state.inlineStubBilling),billing);}finally{e.close();}
+});
+for(const diagnostic of [false,true])test(`current ${diagnostic?'diagnostic':'compact'} history remains readable but source drift blocks initialization and readiness`,async t=>{
+  const {prepareCoupledHistory}=await import('../test-support/coupled-trial-fixtures.js'),{Store}=await import('../src/store.js'),compact=await import('../src/compact-trial-config.js'),single=await import('../src/single-scene-diagnostic.js'),d=prepareCoupledHistory(t),file=path.join(d,'state.json'),before=fs.readFileSync(file,'utf8'),config=diagnostic?single.readSingleSceneConfig(d):compact.readCompactTrial(d),store=new Store(d);
+  try{const state=diagnostic?single.singleSceneState(store,config,config.allowance.pricing.checkedAt+1000):compact.compactTrialState(store,config,config.allowance.pricing.checkedAt+1000);assert.equal(state.ready,false);assert.equal(state.sourcePinsMatch,false);assert.equal(state.credentialRead,false);}finally{store.close();}
+  const options={budgetCny:3,approvedCase:'sparse-context',approveFictionalEgress:true,approvePreservedHold:true,now:config.allowance.pricing.checkedAt+1000};assert.throws(()=>diagnostic?single.initSingleSceneDiagnostic(d,options):compact.initCompactTrial(d,options),/compact_protocol_source_changed/);assert.equal(fs.readFileSync(file,'utf8'),before);
+});

@@ -1,75 +1,15 @@
-import { test } from 'node:test';
+import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { spawnSync } from 'node:child_process';
-import { Store } from '../src/store.js';
-import { BudgetLedger } from '../src/budget-ledger.js';
-import { Nightvoyage } from '../src/engine.js';
-import { hash } from '../src/contract.js';
-import { initQualityBatch } from '../src/quality-config.js';
-import { pricingProfile, profileExpiresAt } from '../src/trial-config.js';
-import { compactTrialId, compactTrialProposal, initCompactTrial, readCompactTrial, compactTrialInput, compactTrialPreflight } from '../src/compact-trial-config.js';
-
-const now=pricingProfile.checkedAt+1000;
-function setup(t,complete=true){const d=fs.mkdtempSync(path.join(os.tmpdir(),'nightvoyage-compact-entry-'));t.after(()=>fs.rmSync(d,{recursive:true,force:true}));
-  const prior=initQualityBatch(d,{budgetCny:3,approvedCases:['courtyard-cloth','drawer-and-orbit','sparse-context'],approveFictionalEgress:true,now});
-  const s=new Store(d),l=new BudgetLedger(s);if(complete)for(let i=0;i<9;i++){
-    const requestId=`prior-${i}`;l.reserve(prior.allowance.id,{requestId,runId:`prior-run-${Math.floor(i/3)}`,fingerprint:hash(requestId),sourceRefs:[{id:'q-sparse-memory',version:'1'}],maxOutputTokens:400},now);l.dispatch(prior.allowance.id,requestId);l.settle(prior.allowance.id,requestId,{model:'deepseek-flash',usage:{inputTokens:100,outputTokens:50,totalTokens:150}});
-  }s.close();return d;
-}
-const approve=d=>initCompactTrial(d,{budgetCny:3,approvedCase:'sparse-context',approveFictionalEgress:true,now});
-function cli(d,args,{behavior='ok',key=true}={}){
-  const moduleUrl=new URL('../src/compact-appraisal-protocol.js',import.meta.url).href,appraisalUrl=new URL('../src/appraisal-rehearsal.js',import.meta.url).href,runtimeUrl=new URL('../src/budgeted-runtime.js',import.meta.url).href;
-  const count=path.join(d,'test-call-count.json'),probesUrl=new URL('../fixtures/appraisal-probes.json',import.meta.url).href;
-  const storeUrl=new URL('../src/store.js',import.meta.url).href;
-  const preload=`import fs from 'node:fs';import {Store} from ${JSON.stringify(storeUrl)};import {compactSceneData} from ${JSON.stringify(moduleUrl)};import {normalizeAppraisalScene} from ${JSON.stringify(appraisalUrl)};import {BudgetedNightvoyage} from ${JSON.stringify(runtimeUrl)};Date.now=()=>${now};let calls=0;const probes=JSON.parse(fs.readFileSync(new URL(${JSON.stringify(probesUrl)})));if(${JSON.stringify(behavior)}==='exit-after-scene'){const stage=BudgetedNightvoyage.prototype.stage;BudgetedNightvoyage.prototype.stage=async function(...args){await stage.apply(this,args);process.exit(7);};}if(${JSON.stringify(behavior)}==='exit-on-start'){const save=Store.prototype.save;Store.prototype.save=function(...args){save.apply(this,args);const id=this.state.requests[${JSON.stringify(compactTrialId)}]?.runId;if(id&&this.state.runs[id].status==='queued')process.exit(7);};}
-  globalThis.fetch=async(_url,r)=>{calls++;fs.writeFileSync(${JSON.stringify(count)},JSON.stringify({calls}));if(${JSON.stringify(behavior)}==='forbid')throw Error('Unexpected test dispatch');if(${JSON.stringify(behavior)}==='cancel')process.emit('SIGINT');const m=JSON.parse(JSON.parse(r.body).messages[1].content),data=m.stage==='wake'?{fragment:m.previousScenes.at(-1).event,residue:0.1,associations:[]}:compactSceneData(normalizeAppraisalScene(probes.scenes[m.sceneIndex],{valence:0,arousal:0.2}));if(${JSON.stringify(behavior)}==='invalid'&&m.stage==='scene')data.links.control=99;return new Response(JSON.stringify({model:'deepseek-flash',choices:[{finish_reason:'stop',message:{role:'assistant',content:JSON.stringify(data)}}],usage:{prompt_tokens:100,completion_tokens:80,total_tokens:180}}));};`;
-  const env={...process.env};if(key)env.NIGHTVOYAGE_DEEPSEEK_KEY='DUMMY-COMPACT-SENTINEL';else delete env.NIGHTVOYAGE_DEEPSEEK_KEY;
-  const result=spawnSync(process.execPath,['--import',`data:text/javascript,${encodeURIComponent(preload)}`,'src/compact-trial-cli.js',...args,'--data-dir',d],{cwd:new URL('..',import.meta.url),encoding:'utf8',env});assert.ok(!`${result.stdout}${result.stderr}`.includes('DUMMY-COMPACT-SENTINEL'));return result;
-}
-test('compact proposal is unapproved and missing approval preflight creates no runtime directory',t=>{
-  const parent=setup(t),d=path.join(parent,'absent');const p=compactTrialProposal();assert.equal(p.caseId,'sparse-context');assert.equal(p.maxAdditionalCalls,3);assert.equal(p.paidEvaluationApproved,false);assert.equal(p.fixtureEgressApproved,false);
-  assert.equal(compactTrialPreflight(d,now).reason,'compact_approval_required');assert.equal(fs.existsSync(d),false);
-  p.protocolSourcePins['compact-appraisal-protocol.js']='changed';assert.notEqual(compactTrialProposal().protocolSourcePins['compact-appraisal-protocol.js'],'changed');
-});
-test('compact init needs exact case, egress, fee and completed prior quality screen',t=>{
-  const d=setup(t,false);assert.throws(()=>approve(d),/prior_quality_screen_not_complete/);
-  for(const options of [{},{budgetCny:3,approvedCase:'sparse-context'},{budgetCny:1,approvedCase:'sparse-context',approveFictionalEgress:true},{budgetCny:3,approvedCase:'courtyard-cloth',approveFictionalEgress:true}])assert.throws(()=>initCompactTrial(d,{...options,now}),/explicit_compact_approval/);
-  assert.equal(fs.existsSync(path.join(d,`${compactTrialId}.json`)),false);
-});
-test('compact approval preserves prior ledger and cannot reset or edit its new immutable allowance',t=>{
-  const d=setup(t);let s=new Store(d);const old=structuredClone(s.state.billing.accounts);s.close();const c=approve(d);approve(d);s=new Store(d);
-  for(const [id,a] of Object.entries(old))assert.deepEqual(s.state.billing.accounts[id],a);s.close();assert.equal(compactTrialPreflight(d,now).allAllowances.calls,9);assert.ok(compactTrialInput(c).sources.every(s=>s.grant.modelEgress));
-  const file=path.join(d,`${compactTrialId}.json`),changed=JSON.parse(fs.readFileSync(file));changed.allowance.limits.maxCalls=30;fs.writeFileSync(file,JSON.stringify(changed));assert.throws(()=>readCompactTrial(d),/not_reviewed/);
-});
-test('compact CLI remains disabled without live flag, approval or key and rejects unknown flags',t=>{
-  const d=setup(t);for(const args of [['run'],['run','--live'],['run','--live','--live'],['init'],['run','--live','--model','other']])assert.equal(cli(d,args,{behavior:'forbid'}).status,1);
-  approve(d);const r=cli(d,['run','--live'],{behavior:'forbid',key:false});assert.equal(r.status,1);assert.match(r.stderr,/credential_required/);assert.equal(fs.existsSync(path.join(d,'test-call-count.json')),false);
-});
-test('compact CLI simulator loop returns typed view, blocks cap and replays without credentials',t=>{
-  const d=setup(t);approve(d);const r=cli(d,['run','--live']);assert.equal(r.status,0,r.stderr);const value=JSON.parse(r.stdout);assert.equal(value.receipt.status,'completed');assert.equal(value.appraisalView.scenes[0].control.value,null);assert.equal(value.appraisalView.scenes[1].control.status,'model_estimate');
-  const before=compactTrialPreflight(d,now);assert.equal(before.reason,'call_limit_reached');assert.equal(before.compactTrial.calls,3);assert.equal(before.allAllowances.calls,12);
-  for(const args of [['read'],['run','--live']]){const replay=cli(d,args,{key:false,behavior:'forbid'});assert.equal(replay.status,0,replay.stderr);assert.equal(JSON.parse(replay.stdout).receipt.id,value.receipt.id);}
-  approve(d);assert.deepEqual(compactTrialPreflight(d,now).compactTrial,before.compactTrial);assert.equal(JSON.parse(fs.readFileSync(path.join(d,'test-call-count.json'))).calls,3);
-});
-test('invalid compact reply and in-flight cancellation retain holds and never retry',t=>{
-  for(const behavior of ['invalid','cancel']){const d=setup(t);approve(d);const r=cli(d,['run','--live'],{behavior});assert.equal(r.status,1,r.stderr);const packet=JSON.parse(r.stdout);assert.equal(packet.dream,null);assert.equal(packet.appraisalView,null);assert.equal(packet.receipt.budget.calls,1);assert.equal(packet.receipt.budget.heldOrSpentMicroCny,'2203200');assert.equal(compactTrialPreflight(d,now).reason,'unsettled_attempt_requires_review');
-    assert.equal(cli(d,['run','--live','--resume'],{behavior:'forbid'}).status,1);assert.equal(JSON.parse(fs.readFileSync(path.join(d,'test-call-count.json'))).calls,1);}
-});
-test('compact entry resumes a committed checkpoint only explicitly without paying for it twice',t=>{
-  const d=setup(t);approve(d);assert.equal(cli(d,['run','--live'],{behavior:'exit-after-scene'}).status,7);assert.equal(compactTrialPreflight(d,now).run.stagesSaved,1);
-  assert.equal(cli(d,['run','--live'],{behavior:'forbid'}).status,1);const r=cli(d,['run','--live','--resume']);assert.equal(r.status,0,r.stderr);assert.equal(JSON.parse(r.stdout).receipt.budget.calls,3);assert.equal(JSON.parse(fs.readFileSync(path.join(d,'test-call-count.json'))).calls,2);
-});
-test('first durable compact start includes protocol/allowance identity before any dispatch',t=>{
-  const d=setup(t);approve(d);assert.equal(cli(d,['run','--live'],{behavior:'exit-on-start'}).status,7);
-  const check=compactTrialPreflight(d,now);assert.equal(check.ready,true);assert.equal(check.run.status,'queued');assert.equal(check.compactTrial.calls,0);
-  const result=cli(d,['run','--live']);assert.equal(result.status,0,result.stderr);assert.equal(JSON.parse(result.stdout).receipt.budget.calls,3);
-});
-test('compact withdrawal blocks read/replay/reinit and expiry cannot extend approval',t=>{
-  const d=setup(t);approve(d);assert.equal(cli(d,['run','--live']).status,0);const e=new Nightvoyage(d);e.withdraw('q-sparse-memory');e.close();
-  const read=cli(d,['read'],{key:false,behavior:'forbid'});assert.equal(read.status,0,read.stderr);assert.equal(JSON.parse(read.stdout).dream,null);assert.equal(JSON.parse(read.stdout).appraisalView,null);
-  assert.equal(cli(d,['run','--live'],{key:false,behavior:'forbid'}).status,1);assert.throws(()=>approve(d),/source_withdrawn/);
-  const other=setup(t);approve(other);assert.equal(compactTrialPreflight(other,profileExpiresAt).reason,'pricing_or_allowance_expired');assert.throws(()=>initCompactTrial(other,{budgetCny:3,approvedCase:'sparse-context',approveFictionalEgress:true,now:profileExpiresAt}),/expired/);
+import {spawnSync} from 'node:child_process';
+import {freezeOwnerCore} from '../test-support/frozen-owner-project.js';
+test('original compact-trial entry probes run against exact frozen pre-owner sources, not renewed approvals',t=>{
+ const d=fs.mkdtempSync(path.join(os.tmpdir(),'nightvoyage-frozen-continuity-'));t.after(()=>fs.rmSync(d,{recursive:true,force:true}));
+ for(const name of ['src','fixtures','test-support'])fs.cpSync(new URL('../'+name,import.meta.url),path.join(d,name),{recursive:true});
+ fs.copyFileSync(new URL('../package.json',import.meta.url),path.join(d,'package.json'));freezeOwnerCore(d);
+ const env={...process.env};delete env.NODE_TEST_CONTEXT;
+ const r=spawnSync(process.execPath,['--test','--test-reporter=spec','test-support/compact-trial-entry-owner-legacy.js'],{cwd:d,encoding:'utf8',env});
+ assert.equal(r.status,0,r.stdout+'\n'+r.stderr);assert.match(r.stdout,/fail 0/);t.diagnostic(r.stdout);
 });

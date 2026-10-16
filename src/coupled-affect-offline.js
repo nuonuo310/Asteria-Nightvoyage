@@ -62,6 +62,7 @@ export class OfflineCoupledAffectProvider extends FakeProvider {
   }
 }
 export class CoupledAffectRehearsal extends Nightvoyage {
+  executionFamily(){return `specialized:${coupledAffectVersion}`;}
   constructor(directory,{model,maxOutputTokens=400,simulator,fault=()=>{}}={}) {
     super(directory,{provider:new OfflineCoupledAffectProvider({model,maxOutputTokens,simulator}),fault});
   }

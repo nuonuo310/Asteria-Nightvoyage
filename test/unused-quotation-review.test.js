@@ -43,7 +43,7 @@ test('literal support remains semantically unassessed even when a referenced quo
 test('review context rejects real/unmarked input and never enables the existing live protocol',()=>{
   const x=context(inserted());for(const patch of [{materialKind:'real'},{isRealityFact:true},{origin:'memory'},{before:{valence:2,arousal:0.2}}])assert.throws(()=>reviewUnusedQuotations({...x,...patch}),/fictional_review_context_required/);
   assert.throws(()=>normalizeCompactStage(x.raw,{stage:'scene',previousAffect:neutral()}),/compact_appraisal_invalid/);
-  const p=singleSceneProposal();assert.equal(p.paidEvaluationApproved,false);assert.equal(p.protocolVersion,'compact-appraisal-quotes-v1');assert.equal(p.maxAdditionalCalls,1);
+  assert.throws(()=>singleSceneProposal(),/compact_protocol_source_changed/);
 });
 test('offline command uses 15 independent scripted comparisons with no provider, user body or quality claim',()=>{
   const r=spawnSync(process.execPath,['scripts/check-unused-quotation-policy.mjs'],{cwd:new URL('..',import.meta.url),encoding:'utf8'});assert.equal(r.status,0,r.stderr);
