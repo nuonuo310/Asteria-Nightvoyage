@@ -1,0 +1,30 @@
+✔ candidate runtime persists distinct identity before calls and sends changed second prompt to simulator exactly once (19.181932ms)
+✔ duplicate request/session and completed replay across reopen consume no additional calls (13.675938ms)
+✔ request conflicts and changed saved prompt identity cannot be resumed or relabeled (2.84743ms)
+✔ live/credential/fetch overrides and absent simulator reject before creating Store (2.382044ms)
+✔ real or egress-enabled sources, incompatible scene/output settings and malformed checkpoints reject (17.107747ms)
+✔ queued cancellation spends no fake call and terminal replay cannot restart (4.848484ms)
+✔ in-flight cancellation reaches simulator and suppresses all late content (11.221357ms)
+✔ timeout aborts simulator, preserves consumed fake attempt and never implicitly repairs (14.020033ms)
+✔ fake call cap stops after saved prefix and cannot become an implicit fourth call (8.235537ms)
+✔ malformed scene or novel wake fails without repair, even after two valid saved scenes (60.183479ms)
+✔ completed source withdrawal clears body and cached recall through reopen (33.430039ms)
+✔ source withdrawal in-flight aborts and never saves late simulated body (12.327512ms)
+✔ actual child exit at dispatched requires explicit safe recovery and never regenerates saved scene (228.354568ms)
+✔ actual child exit at scene_saved requires explicit safe recovery and never regenerates saved scene (154.503153ms)
+✔ storage failure fails closed before simulator dispatch; unrelated old accounting remains unchanged (8.580525ms)
+✔ fake input/output reservations are bounded and remain explicitly byte estimates, not provider usage (7.273392ms)
+✔ oversized candidate request never reaches simulator or raises the 65536-byte ceiling (22.245834ms)
+✔ cancellation after durable scene prevents later stages and parent deletion cannot resurrect completed result (17.708348ms)
+✔ three full fabricated historical unknown holds survive separate fake run and source withdrawal (57.713409ms)
+✔ fixed runtime command completes scripted loop with no key/native fetch/paid ledger and honest fake units (184.265555ms)
+✔ actual exit on dispatch 2 preserves prior scenes but cannot retry the ambiguous stage (138.881078ms)
+✔ actual exit on dispatch 3 preserves prior scenes but cannot retry the ambiguous stage (215.531903ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1395.377159
