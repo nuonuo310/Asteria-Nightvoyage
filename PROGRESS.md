@@ -500,3 +500,12 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 旧coupled原profile未重签/延长：四个共享源pin变化令旧批准阻断新调用；当前源码能读取旧完成/失败记录。原23项入口测试迁入冻结源码临时副本；现有检查脚本如实报告pin不匹配。
 - 公开变更只有项目自有MIT源码、独立文档、虚构脚本和无正文汇总，未复制第三方实现、私有Continuity原文或用户梦簿。保证限于受管理单Store，不涵盖终端副本、备份或供应商留存。
 - 下一步：独立reviewed profile、依赖pins、既有Store/旧hold约束及credential-free preflight/Windows入口；完成后重核价格、模型与具体预算，再确认新费用和虚构外发。当前仍not_ready_for_paid_approval。见 docs/SCENE-CONTINUITY-BUDGET.md 与 validation/continuity-budget-validation.json。
+
+## 分幕候选独立有限试跑入口（待另行批准）
+
+- 新continuity-trial CLI/profile/config准备完成：新增3 CNY上限、1梦、最多两幕＋醒来3调用的独立提案；默认无网络。50个pin覆盖全部生产JS及旧coupled profile；固定虚构fixture、prompt/policy身份、下一请求字节检查、原Store/旧三hold与已完成coupled历史在Key前复核。
+- 真实live runtime/client需要已有精确本地批准，不能单靠任意approved对象派发；固定allowance/seed/request/session/阶段payload。独立content只读新批次，不覆盖原梦或评审。未知调用、终态、过期、撤回、变更均阻断，不自动重置/重试/续期。
+- 官方价格本轮2026-10-16T16:40Z复核，快照失效2026-10-17T16:40Z；Flash峰时输入2/输出8 CNY每百万，完整context1100000＋输出400保守预留2.2032 CNY/次，未知旧占额6.6096 CNY继续保留；这些不是已确认供应商账单。未取得新费用或虚构外发批准。
+- Linux全仓454/454；新增入口31/31；临时Linux CRLF入口/预算/历史60/60。冻结历史entry coupled23/23、pruned13/13另列。零真实模型请求、零真实Key读取、未开用户Store/新额度；仅独立虚构历史、dummy Key与进程内fetch simulator。没有新增Windows实机或真实费用/语义/质量验收。
+- 测试包含真正子进程在初始保存、派发1/2/3、场景原子提交时退出，明确恢复/unknown不补发、取消、撤回、旧账项不变、配置/素材/源代码/账项变更、source中途漂移阻断第二次HTTP、底层API替换拒绝和内容显示来源。原始日志/哈希见 docs/validation/continuity-entry-validation.json。
+- 公开内容仅项目自有MIT实现、独立表述和虚构脚本，旧profile/私有仓库/用户梦簿未改。完整Windows安全同步检查及仅获新批准后才执行的收费块见 docs/CONTINUITY-TRIAL-ENTRY.md。下一步只需确认这一次具体费用与虚构外发，再由用户电脑安全输入Key试跑；不自行访问私人材料或供应商账户。

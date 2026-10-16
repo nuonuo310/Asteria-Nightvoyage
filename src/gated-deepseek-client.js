@@ -1,3 +1,4 @@
+import {assertContinuityLiveStore} from './continuity-trial-config.js';
 import {continuityBudgetVersion,buildContinuityRequest,normalizeContinuityStage,normalizeContinuityScene,continuityDiagnostic} from './scene-continuity-protocol.js';
 import { coupledBudgetVersion, buildBudgetCoupledRequest, normalizeBudgetCoupledStage, normalizeBudgetCoupledScene, coupledBudgetDiagnostic } from './coupled-affect-protocol.js';
 import { buildDeepSeekRequest, parseDeepSeekResponse, normalizeDeepSeekStage, protocolVersion } from './deepseek-protocol.js';
@@ -24,7 +25,7 @@ async function boundedBody(response, signal) {
 export class GatedDeepSeekClient {
   constructor(store, { enabled = false, mode = 'disabled', fetchImpl, timeoutMs = 10000, fault = () => {}, protocol = 'grounded-wake-v2' } = {}) {
     if (!['grounded-wake-v2','compact-appraisal-v1','compact-appraisal-v2','coupled-affect-v1','scene-continuity-v1'].includes(protocol)) fail('unreviewed_transport_protocol');
-    if(protocol==='scene-continuity-v1'&&mode==='live')fail('continuity_live_entry_pending');
+    if(protocol==='scene-continuity-v1'&&mode==='live')assertContinuityLiveStore(store);
     if (!['disabled','stub','live'].includes(mode) || !Number.isSafeInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 60000) fail('invalid_transport_config');
     if (mode === 'stub' && typeof fetchImpl !== 'function') fail('stub_transport_required');
     if (mode === 'live' && fetchImpl !== undefined) fail('live_transport_override_forbidden');
@@ -39,6 +40,7 @@ export class GatedDeepSeekClient {
     if (input.sources.some(s => s.grant.modelEgress !== true || this.store.withdrawn.includes(s.id))) fail('source_egress_denied_or_withdrawn');
   }
   async send({ allowanceId, requestId, runId, payload, credential, signal, publish } = {}) {
+    if(this.protocol==='scene-continuity-v1'&&this.mode==='live')assertContinuityLiveStore(this.store,{allowanceId,requestId,runId,payload});
     if (this.closed || this.enabled !== true || this.mode === 'disabled') fail('transport_disabled');
     if (signal?.aborted) fail('cancelled');
     if (typeof credential !== 'string' || !credential.trim() || credential.length > 2000 || /[\r\n]/.test(credential)) fail('credential_required');

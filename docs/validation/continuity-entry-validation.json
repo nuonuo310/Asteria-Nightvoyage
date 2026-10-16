@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "stage": "independent_paid_entry_prepared_no_paid_approval",
+  "baseCommit": "e221e40bfb6173c1c39dc87ca38beb7d8a8840d8",
+  "protocolVersion": "scene-continuity-quotes-v1",
+  "pinCount": 50,
+  "checks": {
+    "linuxFullSuite": {
+      "tests": 454,
+      "pass": 454,
+      "fail": 0
+    },
+    "entryTargeted": {
+      "tests": 31,
+      "pass": 31,
+      "fail": 0
+    },
+    "linuxCRLFCopy": {
+      "tests": 60,
+      "pass": 60,
+      "fail": 0,
+      "isWindowsHost": false
+    },
+    "nestedHistoricalCoupledEntry": {
+      "tests": 23,
+      "pass": 23,
+      "exactFrozenSources": true
+    },
+    "nestedHistoricalPrunedEntry": {
+      "tests": 13,
+      "pass": 13,
+      "exactFrozenSources": true
+    }
+  },
+  "realModelRequests": 0,
+  "actualUserStoreOpened": false,
+  "actualUserAllowanceInitialized": false,
+  "actualCredentialsRead": false,
+  "cliCredentialPropertyTests": "dummy values from a guarded process.env Proxy",
+  "cliTransportTests": "in-process simulator replacing fetch; no external provider request",
+  "historicalProfileChanged": false,
+  "publicFixtureGrantsChanged": false,
+  "newLiveEntryRequiresIndependentLocalApproval": true,
+  "newFeeOrEgressApprovedByUser": false,
+  "proposedAdditionalBudgetCny": 3,
+  "maxRuns": 1,
+  "maxCalls": 3,
+  "preservedUnknownHoldMicroCny": "6609600",
+  "actualProviderInvoiceVerified": false,
+  "semanticSupport": "not_assessed",
+  "qualityAssessed": false,
+  "powershellBlockExecutedOnWindows": false,
+  "initialAdaptationFailures": {
+    "tests": 23,
+    "pass": 13,
+    "fail": 10,
+    "rawLogsRetained": false,
+    "reason": "Copied entry probes referenced nonexistent renamed fixture/property and old prerequisite/error names. Corrected test adaptation without relaxing validators; subsequent 23/23 and expanded 31/31."
+  },
+  "sourceHashes": {
+    "src/continuity-trial-cli.js": "50c5a2071534edef428175df6d6a8092c083dae3326f2665d4ba44c9687bbf96",
+    "src/continuity-trial-config.js": "3bac64d690ae6e42a0f06d8cff4ed33abf1e6d1483bb07a8a8ef591d9f408239",
+    "src/continuity-trial-profile.json": "baf8efa248959044e0a97f1a9b79de9bbf15dc943a90d23bf9f828d89cc1b413",
+    "src/budgeted-runtime.js": "d9534c36195383fa0b2b71c90960290bb567610b500c8dd743f123faa3c48a53",
+    "src/gated-deepseek-client.js": "626037d4f6db9c52767ec79d9b9117bceb73be1cfd688dd4d4589386722ccb46",
+    "test/continuity-trial.test.js": "2ac83ad7d943e7661e3238eb705625e57859b37133f84c5379ccabcd0bc23373",
+    "test-support/continuity-trial-fixtures.js": "ee7ccc8d0a4ace3384321fb763c4b1bd0eb3b5887d096d53a94e4161e7f625ac",
+    "test/continuity-budget.test.js": "ebc1721c10d2c2bfed3b67021c9fb645d0e1696b135fd57a7883fa6d10c593ff",
+    "scripts/check-continuity-budget.mjs": "e7f231e0536eb839bbe826e930ab8eb5d76f3e5c0fa78db6bbc100a8fc86ccec",
+    "docs/CONTINUITY-TRIAL-ENTRY.md": "14f2458d92f6fb6f2c456f997d728bd3aec3ab9efa3923f976d6b6c96c03a631",
+    "docs/validation/continuity-entry-full.txt": "550647987bc6d42b952da3e8f229b6da52743260e933366ec2410b97fc9f4989",
+    "docs/validation/continuity-entry-targeted.txt": "e4352e5469769e8cd855df07e109dc85cc484c0522046cede7d0836e4ac1b590",
+    "docs/validation/continuity-entry-crlf.txt": "24f41648a90e8425347f5bd78292f4e74a0cc6f736dac1ab278de5e6b3d7d954",
+    "docs/validation/continuity-entry-preflight.json": "8dac87349b796e52f7a4d8825d77272746dcc86cdb8079fc7f2e34d9398720d6",
+    "docs/validation/continuity-entry-pricing-review.json": "18855affd67c8e678f81123541470f3238c9439c317e9ca8c1b5b7cffa58961a"
+  }
+}

@@ -1,0 +1,39 @@
+✔ continuity proposal and missing-config preflight are unapproved and create no directory or credential access (130.419035ms)
+✔ continuity init requires exact case, budget, fictional egress and old-hold acknowledgement before creating data (190.536608ms)
+✔ continuity allowance is separate and immutable; all three history accounts/configs stay byte-identical across init (182.63588ms)
+✔ continuity init rejects altered old holds and unrelated unresolved attempts without a new config/account (320.925572ms)
+✔ continuity CLI rejects missing live flag, absent key, unknown/duplicate flags and overrides before dispatch (834.271281ms)
+✔ continuity CLI stub loop persists two declarations, typed view and three settlements; no-key replay cannot pay again (718.86059ms)
+✔ continuity invalid scene retains fourth unknown hold, reads old metadata and never repairs or resets (640.8263ms)
+✔ continuity wake rejection cannot publish a dream or invoke a fourth repair request (604.775415ms)
+✔ continuity actual exit after durable scene resumes explicitly and sends only remaining two stages (670.172845ms)
+✔ continuity actual process death after dispatch retains full hold and explicit resume never reads Key (462.228511ms)
+✔ continuity first durable start binds identity before dispatch; queued recovery sends no duplicate request (538.371631ms)
+✔ continuity cancellation consumes at most one call and blocks all later execution without Key (459.257493ms)
+✔ continuity withdrawal clears new bodies, views and recall while preserving historical billing and preventing reinit (527.256831ms)
+✔ continuity expiration blocks new init/Key access without refreshing approval and completed reads remain available (661.961017ms)
+✔ continuity config and actual ledger allowance tampering reject before Key/network (638.800339ms)
+✔ continuity pure request preflight rejects large fictional material without reserve, credentials or HTTP (3.32493ms)
+✔ continuity second Store owner blocks before dispatch (376.889616ms)
+✔ continuity queued cancellation consumes zero allowance and blocks before Key on replay (345.445381ms)
+✔ continuity current source drift blocks init/run before Key but old failed or completed records stay readable (2070.048963ms)
+✔ continuity edited fictional fixture fails closed before Key; historical inspection requires intact shipped fixtures (527.339475ms)
+✔ continuity CLI checks the next saved checkpoint before accessing Key on explicit resume (544.0457ms)
+✔ continuity storage admission failure creates no new approval or account and makes no request (162.912838ms)
+✔ continuity unrelated later unknown blocks new dispatch but leaves own and older historical reads accessible (488.48679ms)
+✔ review pins cover every production JS dependency plus the immutable prior profile and LF-normalized fixture (4.027586ms)
+✔ missing completed coupled history cannot initialize a new allowance or bypass old withdrawals with a new directory (187.287954ms)
+✔ candidate live runtime rejects a substituted allowance and unapproved seed/request before persistence (168.124782ms)
+✔ direct candidate live client cannot send a detached or substituted stage payload (219.731032ms)
+✔ candidate content command reads narrative before numbers without key, generation or review writes (522.905728ms)
+✔ candidate CLI process exit during dispatch 2 never repeats it on explicit resume (497.797635ms)
+✔ candidate CLI process exit during dispatch 3 never repeats it on explicit resume (539.791389ms)
+✔ source drift after a committed first scene blocks the second HTTP request without releasing historical holds (479.179124ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14880.551092

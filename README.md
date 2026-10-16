@@ -76,3 +76,5 @@ The user also reported Windows 127/127 tests and matching byte-audit outcomes, w
 [Offline continuity runtime](docs/SCENE-CONTINUITY-RUNTIME.md) now runs the candidate through the existing fake dream core with distinct saved identity, bounded fake calls, cancellation/recovery, deduplication and withdrawal tests. `node scripts/check-continuity-runtime.mjs` uses scripted local responses only. Fake byte estimates are not provider tokens or money; the [paid integration plan](docs/SCENE-CONTINUITY-PAID-PLAN.md) remains unimplemented and unapproved.
 
 候选协议与共享账本已完成 stub 接入，真实模式仍关闭；旧 coupled 批准因源代码变更阻断新派发，历史可读。见 [分幕候选账本接入](docs/SCENE-CONTINUITY-BUDGET.md)。
+
+分幕候选的[独立有限试跑入口](docs/CONTINUITY-TRIAL-ENTRY.md)已准备：新增3 CNY / 1梦 / 最多3调用的提案尚待单独批准；不继承旧授权。`node src/continuity-trial-cli.js preflight` 无需Key，缺批准不建目录。

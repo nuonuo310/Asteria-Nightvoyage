@@ -1,6 +1,6 @@
 # 分幕候选：协议与账本接入
 
-状态：**implemented_stub_only**。这次完成可执行协议、共享账本/运行器和读取适配；尚无候选的付费 CLI、reviewed profile、新价格或费用批准。候选 `mode: live` 在打开 Store 前被运行器拒绝，底层 client 也拒绝；不能用 `enabled: true` 越过此阶段限制。
+状态：**implemented_stub_only**（本页记录PR40阶段）。后续独立入口见 [有限试跑入口](CONTINUITY-TRIAL-ENTRY.md)，取代当时的候选live全局关闭，但仍须新批准；以下描述是该阶段边界。这次完成可执行协议、共享账本/运行器和读取适配；尚无候选的付费 CLI、reviewed profile、新价格或费用批准。候选 `mode: live` 在打开 Store 前被运行器拒绝，底层 client 也拒绝；不能用 `enabled: true` 越过此阶段限制。
 
 ## 身份与请求
 

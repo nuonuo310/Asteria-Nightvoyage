@@ -48,7 +48,7 @@ test('continuity budget without a matching immutable allowance binding is blocke
   const bound=allowance();bound.id='new-bound';l.approve(bound);const old=new GatedDeepSeekClient(s,{mode:'stub',enabled:true,protocol:'compact-appraisal-v1',fetchImpl:async()=>{calls++;}});
   await assert.rejects(old.send({...args,allowanceId:bound.id}),/allowance_protocol_mismatch/);assert.equal(calls,0);assert.equal(l.status(bound.id).calls,0);old.close();s.close();
 });
-test('continuity live transport is unavailable even with enabled and approved arguments',t=>{
+test('continuity live transport requires a matching local reviewed approval before opening a Store',t=>{
   assert.throws(()=>new GatedDeepSeekClient(null,{mode:'live',enabled:true,protocol:'scene-continuity-v1'}),/continuity_live_entry_pending/);
   const d=path.join(directory(t),'missing');assert.throws(()=>new BudgetedNightvoyage(d,{mode:'live',enabled:true,protocol:'scene-continuity-v1'}),/continuity_live_entry_pending/);assert.equal(fs.existsSync(d),false);
 });
@@ -191,5 +191,5 @@ for(const dispatched of [2,3])test(`actual exit on candidate dispatch ${dispatch
   }finally{e.close();}
 });
 test('fixed candidate budget command uses guarded stub transport and reports no provider billing or quality acceptance',()=>{
-  const r=spawnSync(process.execPath,['scripts/check-continuity-budget.mjs'],{cwd:new URL('..',import.meta.url),encoding:'utf8'});assert.equal(r.status,0,r.stderr);const v=JSON.parse(r.stdout);assert.equal(v.stubCalls,3);assert.equal(v.stubSettledCalls,3);assert.equal(v.verifiedTransportFingerprints,3);assert.equal(v.realModelRequests,0);assert.equal(v.credentialReads,0);assert.equal(v.actualProviderBillingValidated,false);assert.equal(v.liveEntryAvailable,false);assert.equal(v.historicalCoupledDispatchPinsMatch,false);assert.equal(v.withdrawalSurvivesReopen,true);assert.equal(v.qualityAssessed,false);
+  const r=spawnSync(process.execPath,['scripts/check-continuity-budget.mjs'],{cwd:new URL('..',import.meta.url),encoding:'utf8'});assert.equal(r.status,0,r.stderr);const v=JSON.parse(r.stdout);assert.equal(v.stubCalls,3);assert.equal(v.stubSettledCalls,3);assert.equal(v.verifiedTransportFingerprints,3);assert.equal(v.realModelRequests,0);assert.equal(v.credentialReads,0);assert.equal(v.actualProviderBillingValidated,false);assert.equal(v.liveEntryAvailable,true);assert.equal(v.liveEntryRequiresSeparateApproval,true);assert.equal(v.historicalCoupledDispatchPinsMatch,false);assert.equal(v.withdrawalSurvivesReopen,true);assert.equal(v.qualityAssessed,false);
 });
