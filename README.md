@@ -64,3 +64,5 @@ The user also reported Windows 127/127 tests and matching byte-audit outcomes, w
 [Independent appraisal-review record contract](docs/APPRAISAL-REVIEW-CONTRACT.md) is drafted with an explicitly illustrative fictional example. It keeps reviewer opinions separate from immutable dream estimates; persistence/API/runtime support is not implemented.
 
 [Appraisal-review stage A](docs/APPRAISAL-REVIEW-MEMORY.md) implements a bounded fictional in-memory draft builder/projection with tests. It is not integrated with the dream ledger or any paid entry; durable persistence, idempotency and revision/withdrawal recovery remain pending. Offline check: `node scripts/check-appraisal-review-memory.mjs`.
+
+[Appraisal-review stage B](docs/APPRAISAL-REVIEW-STORAGE.md) now persists independently typed reviews in the same managed Store with body-free request deduplication, immutable revisions and existing withdrawal/deletion journals. This supersedes the earlier “durable pending” status; explicit local adapter packaging remains stage C. Offline check: `node scripts/check-appraisal-review-store.mjs`.

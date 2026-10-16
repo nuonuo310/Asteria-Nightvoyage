@@ -1,0 +1,21 @@
+{
+  "command": "node scripts/check-appraisal-review-store.mjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "stage": "B_managed_storage",
+  "fakeGenerationCalls": 3,
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "managedRecords": 2,
+  "reopened": true,
+  "duplicateReviewWrites": 0,
+  "originalUnchanged": true,
+  "billingUnchanged": true,
+  "revisionPreservesOriginal": true,
+  "withdrawalAfterReopenNull": true,
+  "managedFilesContainNoReviewNotesAfterWithdrawal": true,
+  "liveSourcePinsUnchanged": true,
+  "engineAdapterMethodsAvailable": false,
+  "semanticSupport": "not_assessed",
+  "qualityAssessed": false
+}

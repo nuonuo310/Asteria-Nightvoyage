@@ -1,0 +1,37 @@
+✔ managed reviews atomically persist with same Store, typed provenance and no original/billing changes (46.299323ms)
+✔ same request across owners and reopen replays exactly once; changed payload conflicts (38.290247ms)
+✔ immutable revisions require same reviewer and exact parent version; parallel reviewers coexist (40.457345ms)
+✔ same managed ID cannot overwrite another review or an ordinary entry (21.949847ms)
+✔ caller and returned mutations cannot change provenance, reviewer, or original records (25.664908ms)
+✔ unknown fields, private/invalid shape and getters fail before any write (19.28131ms)
+✔ actual source withdrawal clears all revisions and notes through base Store and restart (22.400732ms)
+✔ parent dream deletion uses existing generic journal to remove reviews, revisions and notes (17.656184ms)
+✔ deleting one review preserves independent sibling revision but its old receipt cannot resurrect it (22.750637ms)
+✔ review text is neither cue content nor wake, original, residue, or policy state (15.709078ms)
+✔ durable deletion or withdrawal tombstones win over stale in-memory body before a purge (14.902517ms)
+✔ malformed canonical chain, mismatched parent/run/source and tampered records fail closed (14.929297ms)
+✔ invalid or body-carrying receipt metadata is rejected, never returned as review content (12.777621ms)
+✔ closed or poisoned Store and second owners cannot save or return review bodies (14.298174ms)
+✔ failed atomic write publishes no in-memory success/half-index; reopen has no review (15.108205ms)
+✔ ambiguous failure after atomic commit cannot duplicate saved review on reopen (16.481188ms)
+✔ actual process exit at before_review_commit reopens deterministically without another generation (165.682275ms)
+✔ actual process exit at after_review_commit reopens deterministically without another generation (174.852851ms)
+✔ actual crash after withdraw journal removes review bodies and abandoned temp on reopen (160.331909ms)
+✔ actual crash after delete journal removes review bodies and abandoned temp on reopen (129.681958ms)
+✔ new review layer preserves old completed engine history and all reviewed source pins (16.94555ms)
+✔ withdraw during before_review_commit cannot publish a stale review body (11.300805ms)
+✔ withdraw during after_review_commit cannot publish a stale review body (11.889449ms)
+✔ delete during before_review_commit cannot publish a stale review body (13.378921ms)
+✔ delete during after_review_commit cannot publish a stale review body (11.870107ms)
+✔ reentrant adapters cannot duplicate or overwrite a pending same-Store write (19.496693ms)
+✔ review receipts have an explicit bounded capacity and retain deletion identity (18.035374ms)
+✔ three independently fabricated unknown holds survive review save/replay/revision and withdrawal unchanged (63.084878ms)
+✔ fixed managed rehearsal uses only simulator calls and checks disk purge and immutable billing (227.263606ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 29
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1588.667877

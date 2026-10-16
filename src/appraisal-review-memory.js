@@ -124,3 +124,6 @@ export function projectAppraisalReviewDraft(context, draft) {
   if (!same(draft,expected)) reject();
   return structuredClone(expected);
 }
+
+// Shared input guard for the managed layer; this does not turn drafts into stored records.
+export function assertAppraisalReviewJsonData(value) { jsonData(value); }

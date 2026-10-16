@@ -1,0 +1,35 @@
+{
+  "stage": "B_managed_storage",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "fullSuite": {
+    "passed": 362,
+    "failed": 0,
+    "newBTestsAtTime": 28
+  },
+  "finalBTargeted": {
+    "passed": 29,
+    "failed": 0
+  },
+  "linuxCRLF_A_and_B": {
+    "passed": 45,
+    "failed": 0
+  },
+  "windowsRun": false,
+  "engineAdapterMethodsImplemented": false,
+  "liveSourcePinsUnchanged": true,
+  "realModelRequests": 0,
+  "userStoreAccess": false,
+  "qualityAssessed": false,
+  "sha256": {
+    "src/appraisal-review-memory.js": "5a250216463cbda3ae134da4976468d3441fb73bf62503ec2d48caa0ae6a6526",
+    "src/appraisal-review-store.js": "18e182f0431fe81a83b5f8848b057c7a5994214ac60c8c5cbc6dc0488eee1c7a",
+    "test-support/appraisal-review-fixtures.js": "a4a9bc19433557f95912b2fd2df24c4e3610d39609b38201d0318720e198c47a",
+    "test/appraisal-review-store.test.js": "967e39129e8b80b286ec0bd2039af579b9f6eae81f2dc7108cf6da76a0e30d94",
+    "scripts/check-appraisal-review-store.mjs": "2763f5911f7042971f00c09ddf73f62c4999261b4402cdd40731fc5f09d603b9",
+    "docs/validation/appraisal-review-store-linux.txt": "ea04b47e0143dd0327046ba592d042561310aebbef1a980dd4635d62e552f415",
+    "docs/validation/appraisal-review-store-targeted.txt": "d0dce7360843bbfb790ac8723b12f7d7549c2f0f656f7e87c91a01fc7e3ea09d",
+    "docs/validation/appraisal-review-store-crlf.txt": "42f82b2f56cd03e3924f8c42da7dbfbc35a05953f9c48e1f50908a22ad549368",
+    "docs/validation/appraisal-review-store-script.json": "f3b4ef04e43b54ba838f50116d9a843abe693d89da829e00869453a14f04e4db"
+  }
+}
