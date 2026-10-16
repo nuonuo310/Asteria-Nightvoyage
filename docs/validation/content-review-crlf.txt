@@ -1,0 +1,19 @@
+✔ content packet separates saved narrative, wake, simulated residue and typed appraisal without writes (38.539284ms)
+✔ human view shows narrative before numeric bases and preserves nonfact and uncertain assessments (35.157656ms)
+✔ read-only view includes independently attributed stored opinions without creating an evaluation (27.370623ms)
+✔ mismatched or novel wake fragment, basis, identity and run checkpoint refuse content delivery (28.601777ms)
+✔ withdrawal, deletion and restart suppress local content and original snippets (29.89603ms)
+✔ renderer rejects reality labels and escapes terminal controls rather than executing note commands (19.85668ms)
+✔ help and invalid/live/export/key arguments cannot create data or echo credential values (1065.551877ms)
+✔ CLI displays persisted dream without key use and preserves stable Store/billing bytes (141.454841ms)
+✔ default coupled lookup is independent of expiry/approval files and cannot initialize an account (138.009089ms)
+✔ missing parent is neutral/unavailable and locked Store cannot be bypassed by reader (133.972164ms)
+✔ fixed reader command checks actual CLI under rejecting key/network probes and prints no bodies (361.313767ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2242.940614

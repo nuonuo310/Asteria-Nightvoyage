@@ -1,0 +1,33 @@
+{
+  "kind": "local_content_reader_mechanism_validation",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "newTests": 11,
+  "linuxTargeted": {
+    "passed": 71,
+    "failed": 0
+  },
+  "linuxCRLF": {
+    "passed": 11,
+    "failed": 0
+  },
+  "fullSuiteRun": false,
+  "newReaderWindowsRun": false,
+  "previousAdapterWindowsEvidence": "user_reported_separate",
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "liveSourcePinsUnchanged": true,
+  "logicalReadOnly": true,
+  "zeroFilesystemWritesClaimed": false,
+  "qualityAssessed": false,
+  "sha256": {
+    "src/content-review.js": "12edd57af958241840266e7da48bdc778b844e718308da5f79870f6dacd2ef7b",
+    "src/content-review-cli.js": "baba43af7e4e5e71bc5d34c7eb0851d6cbb4392e7d7644d24687eda41f605589",
+    "test/content-review.test.js": "66079d5ed719ed630ddd7dd1822a86c653f80e0c5762ced26688b00d93dbeec9",
+    "scripts/check-content-review.mjs": "58cce2543f75c440b219713ae0771c09527e9cfbd7410c63b348008be671b1ec",
+    "docs/validation/content-review-targeted.txt": "586952ccf8240a92375f3bf29ddb5be659b0414ac019757765a3f485ac565afa",
+    "docs/validation/content-review-crlf.txt": "05b0b64b9cbda45c3ece489066c88e8046d81efa762c4236a0184adfe590488f",
+    "docs/validation/content-review-script.json": "93619f3b3a491f7af27ee8a78618568240ad018dbceb370f43a58d927ecb403b",
+    "docs/validation/user-local-review-adapter-windows.json": "2062fc9c772891ab04de219b3dc376ed0bb536e27c59dfb8b01ceb2302393e8f"
+  }
+}

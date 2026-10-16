@@ -1,0 +1,19 @@
+{
+  "command": "node scripts/check-content-review.mjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "viewVersion": "local-dream-content-review-v1",
+  "fakeGenerationCalls": 3,
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "narrativeBeforeNumbers": true,
+  "provenanceRetainedInText": true,
+  "viewDoesNotMutateState": true,
+  "stableStoreBytesUnchangedByCLI": true,
+  "filesystemZeroWritesClaimed": false,
+  "cliNarrativeAndWakeShown": true,
+  "withdrawalViewNull": true,
+  "liveSourcePinsUnchanged": true,
+  "qualityAssessed": false,
+  "semanticSupport": "not_assessed"
+}
