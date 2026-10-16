@@ -1,0 +1,23 @@
+{
+  "command": "node --experimental-vm-modules scripts/check-inline-entry-dependencies.mjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "staticGraphMatches": true,
+  "parsedModules": 29,
+  "staticEdges": 160,
+  "allowedBuiltins": 4,
+  "parseOnlyGraphEvaluated": false,
+  "reviewedModulesLoadedUnderHooks": true,
+  "unpinnedDynamicImportRejected": true,
+  "dataModuleRejected": true,
+  "unlistedBuiltinRejected": true,
+  "credentialReads": 0,
+  "nativeRequests": 0,
+  "scope": "fresh_process_esm_resolution_and_load_only",
+  "sandboxClaimed": false,
+  "fullDynamicClosureProved": false,
+  "liveEntryAvailable": false,
+  "dispatchAuthorized": false,
+  "semanticSupport": "not_assessed",
+  "qualityAssessed": false
+}

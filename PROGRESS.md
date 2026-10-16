@@ -585,3 +585,13 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 新25项；最终Linux全仓614/614，准备25＋生产37＋归属18＋旧读取2＋集成16＋inline评审17＝115/115；临时Linux CRLF同组115/115。五套嵌套历史测试另列；冻结临时项目仅移除新准备文件以继续旧合同，不回退生产执行。
 - 固定脚本只用自行构造的历史，现有文件字节不变，native fetch/Key读取/五类修改API调用0；无用户Store/Windows实机/真实生成/费用或质量验收。首次发现缺日志兼容问题已修复后重跑。
 - 所有preflight都ready=false；budget/pricing为null，无init/run/live/Key/预算入口参数，不自设新3元、不刷新旧批准或释放unknown。详见docs/INLINE-ENTRY-PREFLIGHT.md及validation/inline-entry-validation.json。下一步完整profile/admission/依赖约束及具体费用提案仍待准备；实际费用/外发必须另行确认。
+
+
+## 直接引文：锁内历史前置与ESM约束
+
+- 新InlineHistoryGuard只接受活跃Store并核对owner锁fd/路径dev/ino和PID；四份旧批准按原固定reader精确匹配，核对账户allowance/fingerprint、attempt键、runIds与四类run/diagnostic绑定；生命周期内逐项比较所有旧账户/绑定，不只比hold总额。只额外允许固定候选stub账户，不授权真实dispatch。
+- baseline目前仅内存，重开重新核验捕获；尚未实现持久授权baseline或接入每次真实派发/发布。Store生命周期可恢复/写盘，guard自身不写。撤回/poison/closed/换锁即关闭。没有访问或修复用户历史，也不推定丢弃响应的原指纹。
+- V8 parse-only静态图29模块/160边/4类内建，循环去重、非允许路径/模块形态关闭；新进程同步resolve/load hook核对图内URL、实际源码hash及ESM format，图外动态/data/未列builtin与解析后改写被拒。不是OS/JS沙箱或完整动态闭包，真实bootstrap尚未接入。当前全源码/样例清单68文件，旧收费profile不变。
+- 新24项；最终Linux全仓638/638，相关24＋准备25＋生产37＋归属18＋inline评审17＋旧读取2＋集成16＝139/139；临时Linux CRLF同组139/139。五套历史嵌套另列；测试子进程换行字符串错误修正后重跑。两固定脚本native fetch/Key读取0，无新增Windows实机/真实费用/语义或质量成绩。
+- 2026-10-16查阅DeepSeek官方价格与模型列表文档，独立非执行草案：Flash/虚构sparse-context/新增上限3 CNY/1梦/最多3调用，按高峰cache-miss 2/8 CNY每百万与项目保守1.1M输入预留2.2032 CNY/调用；不是实际消费估计，旧四unknown不清算。草案未授权、不创建账户、不把旧批准迁移；价格到期不自动刷新。
+- 见docs/INLINE-LOCKED-PREREQUISITES.md、docs/proposals/inline-single-dream.json及validation/inline-admission-validation.json。下一切片接持久批准、profile、bootstrap与逐阶段门禁；实际新费用和虚构外发仍需具体确认，当前不给Key指令。公开仅自有MIT实现/独立表述/虚构材料，无第三方实现复制或私有原文。
