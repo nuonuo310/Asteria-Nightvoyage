@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "source": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
+  "checkedAt": "2026-10-16T16:40:00Z",
+  "expiresAt": "2026-10-17T16:40:00Z",
+  "model": "deepseek-flash",
+  "currency": "CNY",
+  "officialContextLabel": "1M",
+  "peakCacheMissInputPerMillionCny": 2,
+  "peakOutputPerMillionCny": 8,
+  "reviewedConservativeContextBound": 1100000,
+  "maxOutputTokensPerCall": 400,
+  "fullContextReservationMicroCny": "2203200",
+  "proposedAdditionalCapMicroCny": "3000000",
+  "proposedRuns": 1,
+  "proposedCalls": 3,
+  "approvedByUser": false,
+  "realModelRequests": 0,
+  "providerInvoiceVerified": false,
+  "note": "Independent factual price summary; no provider implementation copied. Peak ceiling retained regardless of time/cache. New fees and fictional egress remain unapproved."
+}

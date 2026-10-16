@@ -1,16 +1,16 @@
 # 分幕候选真实试跑方案：实施前待办
 
-状态：**not_ready_for_paid_approval**。本页是进入付费前范围，不是付费入口或已批准额度。已完成 SCENE-CONTINUITY-RUNTIME.md 的 fake-only 机制及 SCENE-CONTINUITY-BUDGET.md 的候选协议/账本 stub 接入；真实请求为零。
+状态：**entry_prepared_awaiting_separate_approval**。本页是进入付费前范围，不是付费入口或已批准额度。已完成 SCENE-CONTINUITY-RUNTIME.md 的 fake-only 机制及 SCENE-CONTINUITY-BUDGET.md 的候选协议/账本 stub 接入；真实请求为零。后续已完成独立入口及模拟证据，见 CONTINUITY-TRIAL-ENTRY.md；旧的not_ready状态仅记录前阶段。
 
 ## 收窄目标
 
 仅检验一个候选是否能在保持安静/普通/确认自由的情况下，减少后幕仅换句复述的倾向。首个拟议范围为同一公开 sparse-context 虚构 fixture、一个新梦、最多两幕+醒来三次调用、每次最多400输出token；不自动补跑/修复，不提取真实私人材料。只作单例探索，不宣称随机对照实验或总体改善。
 
-DeepSeek 是既定提供商意向；真实 model、价格检查时间/有效期、context bound、保守预留和新预算上限需在真实入口完成时重核。**当前预算金额未提出、未批准，不能借用任何旧余额或旧批准自动开始。** 不把候选增加的483 bytes换算成token或费用承诺。
+DeepSeek 是既定提供商意向；真实 model、价格检查时间/有效期、context bound、保守预留和新预算上限需在真实入口完成时重核。**本次已提出独立3 CNY上限、1个新梦、最多3次调用，尚未批准，不能借用任何旧余额或旧批准自动开始。** 不把候选增加的483 bytes换算成token或费用承诺。
 
 ## 进入付费确认前必须完成
 
-本轮进展：第1、2项已通过模拟验证；第5项有当前源码及冻结历史测试；第6项有候选专项测试。第3、4、7项的独立付费入口/profile/实际批准与价格复核仍未完成，不能据此开始付费。以下保留完整要求。
+本轮进展：第1、2项已通过模拟验证；第5项有当前源码及冻结历史测试；第6项有候选专项测试。后续第3、4、7项的入口/profile、既有Store约束、价格复核和Windows块已准备；实际新费用/外发批准仍未获得，不能据此开始付费。以下保留完整要求。
 
 1. 为真实候选定义与旧 paid coupled 和本次 offline runtime 都不同的完整协议身份，持久绑定提示hash、normalization/affect/wake规则，首轮派发前保存；构造到实际 transport 的请求体与指纹必须一致，不能在预留之后替换 body。
 2. 集成现有 BudgetLedger 的协议绑定、全 context 预留、真实 usage 结算和账项/阶段原子提交；重验调用、运行、金额、输入/输出边界。对 unknown 保留全额 hold，拒绝隐式重试、自动退款、修复调用和额度重置。

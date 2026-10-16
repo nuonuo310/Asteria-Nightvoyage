@@ -1,6 +1,7 @@
+import {assertContinuityApprovalDirectory,continuityTrialId,continuityTrialInput} from './continuity-trial-config.js';
 import {continuityBudgetVersion,continuityIdentity,normalizeContinuityCheckpoint} from './scene-continuity-protocol.js';
 import { coupledBudgetVersion, normalizeBudgetCoupledCheckpoint } from './coupled-affect-protocol.js';
-import { neutral } from './contract.js';
+import { neutral,hash,snapshot } from './contract.js';
 import { Nightvoyage } from './engine.js';
 import { GatedDeepSeekClient } from './gated-deepseek-client.js';
 import { copy, fail } from './store.js';
@@ -9,7 +10,7 @@ import { protocolVersion } from './deepseek-protocol.js';
 // Same dream core and journal. Only stage dispatch/publication differs from fake mode.
 export class BudgetedNightvoyage extends Nightvoyage {
   constructor(directory, { allowance, credential, enabled = false, mode = 'disabled', fetchImpl, timeoutMs = 60000, fault = () => {}, protocol = 'grounded-wake-v2' } = {}) {
-    if(protocol==='scene-continuity-v1'&&mode==='live')fail('continuity_live_entry_pending');
+    if(protocol==='scene-continuity-v1'&&mode==='live'){const c=assertContinuityApprovalDirectory(directory);if(hash(allowance)!==hash(c.allowance))fail('continuity_allowance_mismatch');}
     super(directory,{fault});
     try {
       this.client = new GatedDeepSeekClient(this.store,{enabled,mode,fetchImpl,timeoutMs,fault,protocol});
@@ -25,6 +26,7 @@ export class BudgetedNightvoyage extends Nightvoyage {
       ...(this.client.protocol==='coupled-affect-v1'?{normalizationPolicyVersion:'validated-unused-quotation-pruning-v1',affectEncodingVersion:'explicit-affect-union-v1'}:{})};
   }
   start(requestId,sessionId,input,settings={}) {
+    if(this.client.protocol==='scene-continuity-v1'&&this.client.mode==='live'){const c=assertContinuityApprovalDirectory(this.store.directory);if(requestId!==continuityTrialId||sessionId!==continuityTrialId||hash(snapshot(input))!==hash(snapshot(continuityTrialInput(c))))fail('continuity_run_identity_mismatch');}
     if(this.client.protocol==='scene-continuity-v1'&&settings.scenes!==undefined&&settings.scenes!==2)fail('invalid_continuity_stage');
     const pricing = this.client.ledger.account(this.allowanceId).allowance.pricing;
     // Input is bounded by reviewed provider context; never use the fake byte estimate.
