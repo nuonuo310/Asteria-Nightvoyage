@@ -556,3 +556,12 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 最终Linux全仓535/535；当前归属18＋旧读取2＋inline预算33=53/53，临时Linux CRLF同组53/53；未新增Windows实机。初次回归发现并修复source-pin读取耦合及旧兼容后重跑，最终证据见docs/validation/execution-owner-validation.json。
 - 上轮反例在当前生产代码已拒绝，运行和合成unknown不变。固定脚本native fetch/Key为0；未打开用户Store、无真实调用/费用，四旧hold未释放；生产直接引文整体仍未ready，语义/梦质量未验收。详见docs/EXECUTION-OWNERSHIP.md。
 - 下一步新生产直接引文协议/预算/受限transport的默认关闭stub集成；不修改Asteria或其他仓库，不沿用旧授权开真实调用。
+
+## 直接引文：生产协议与预算核心，仅stub
+
+- inline-evidence-quotes-v1生产模块无test-support依赖，直接basis引文/显式affect/完整checkpoint及逐字醒来分别校验；inlineEvidenceAudit区分原字段引文数与程序intern唯一数，不修复旧索引或缺失依据。第二幕才加连续性提示，事件仍非事实。
+- 正式billing根的新账户须绑定协议，原子保存正文/committed/usage/settled，按实际body＋snapshot指纹去重；全局金额/运行/调用和单运行保守输入/输出限额生效。未知尝试保留全额，明确committed前缀才可恢复；取消、超时、写盘失败、撤回均关闭迟到正文路径。
+- 新live模式在Store/Key之前硬拒绝，live allowance不接受；send再次阻断篡改mode切native fetch。无新收费入口、profile、额度或真实权限。旧四unknown独立虚构8812800 micro-CNY逐项不变，不迁入原inlineStubBilling合成账项。
+- 新37项；最终Linux全仓572/572，当前协议37＋归属18＋旧读取2=57/57，临时Linux CRLF同组57/57。历史五入口套件另列且不冒充当前源码批准。固定脚本3次本地HTTP/3结算/3指纹、重放0追加，native fetch/Key读取0，无Windows实机或真实费用/质量验收。
+- 冻结历史依赖新增3个自有MIT原文件按旧pin校验；当前旧50pin继续漂移，profile未改，新生产模块不在旧批准闭包。公开仅独立代码/说明/虚构脚本，无私有原文或用户运行正文/配置/Key。
+- 见docs/INLINE-PRODUCTION-CORE.md及validation/inline-production-validation.json。生产appraisal view/review adapter对新协议仍unsupported_protocol，下一切片显式接只读与独立评审；Asteria仍pending，真实入口继续关闭。
