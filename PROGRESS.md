@@ -539,3 +539,11 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 新33项＋原模拟运行器25项＋当前入口31项=89/89，临时Linux CRLF新33/33；无新增Windows实机或全仓成绩。脚本3调用/3结算/3指纹匹配、重放0追加，撤回重开屏蔽梦/视图/召回。独立伪造四unknown共8812800 micro-CNY，原billing根JSON跨新stub/撤回/重开逐字不变。
 - 生产src、50pin、已批准profile不变，未打开用户Store/Key或发出真实请求。2203200预留/2520合成结算均仅算法参数与脚本usage，不是当前官方价格复核、实际费用或token证据，语义及梦质量未验收。
 - 公开仅自有MIT实现、独立说明与虚构测试，无第三方实现复制、私有原文或用户正文/运行编号/指纹/配置。见docs/INLINE-BUDGET-STUB.md及validation/inline-budget-validation.json。下一步先审查生产集成与历史保留方案，再考虑独立收费提案，不能直接启用本stub为live。
+
+## 直接引文：生产集成审查，先补执行归属
+
+- 当前49个顶层生产JS＋旧coupled profile共50pin匹配，生产无test-support导入。静态清单仅覆盖当前顶层，不冒充未来递归依赖闭包；共享核心修复必然导致旧pins漂移，旧profile不得跟着重写。
+- 仓外独立虚构反例确认通用Nightvoyage.resume可接手其他运行器failed记录并发布fake梦，同时原synthetic unknown不变；没有用户Store或真实调用。test-support候选owner守卫拒绝此路径且不改变运行/hold，普通fake仍可用。生产尚未修复，不能报告集成ready，暂勿用通用CLI恢复专用入口失败记录。
+- 候选检查11项＋预算33项＋当前入口31项=75/75，无新增全仓/CRLF/Windows成绩。固定脚本native fetch和Key读取均0；只输出无正文机制汇总，公开无私有原文/聊天/梦正文/配置/运行编号。
+- 集成顺序：明确执行family和专用合同guard＋历史测试冻结 → 新生产协议/预算stub默认关闭 → 显式只读/评审适配 → 独立profile/闭包/preflight/Windows入口 → 新具体费用/外发另行确认。正式billing用新协议绑定账户，不迁入inlineStubBilling的合成usage；旧四unknown逐项保留，不只比总额。
+- 见docs/INLINE-PRODUCTION-INTEGRATION.md及validation/inline-integration-validation.json。本轮是设计与独立反例验证，不是生产修复、真实费用或梦境质量验收；下一切片先修复执行归属，无须用户输Key。

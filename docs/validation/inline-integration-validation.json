@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "stage": "inline_production_integration_review",
+  "baseCommit": "9ad6ac55211742f5f063a594d7600642fe852d2d",
+  "checks": {
+    "ownerCandidate": 11,
+    "budgetStub": 33,
+    "currentPaidEntry": 31,
+    "tests": 75,
+    "pass": 75,
+    "fail": 0
+  },
+  "script": {
+    "command": "node scripts/check-inline-integration.mjs",
+    "node": "v24.19.0",
+    "platform": "linux",
+    "reviewVersion": "offline-execution-owner-review-v1",
+    "inventory": {
+      "currentProductionJs": 49,
+      "reviewedPins": 50,
+      "exactTopLevelCoverage": true,
+      "pinsMatch": true,
+      "productionImportsTestSupport": 0,
+      "inventoryScope": "current_top_level_js_and_reviewed_prior_profile_not_future_recursive_closure"
+    },
+    "probes": [
+      {
+        "guarded": false,
+        "rejected": false,
+        "runStateUnchanged": false,
+        "fakeDreamPublished": true,
+        "syntheticUnknownHoldUnchanged": true,
+        "stubRequests": 1
+      },
+      {
+        "guarded": true,
+        "rejected": true,
+        "runStateUnchanged": true,
+        "fakeDreamPublished": false,
+        "syntheticUnknownHoldUnchanged": true,
+        "stubRequests": 1
+      }
+    ],
+    "finding": "generic_fake_resume_accepts_failed_foreign_record",
+    "productionFixApplied": false,
+    "productionIntegrationReady": false,
+    "realModelRequests": 0,
+    "userStoreAccessed": false,
+    "paidProfileChanged": false,
+    "qualityAssessed": false,
+    "semanticSupport": "not_assessed",
+    "credentialReads": 0,
+    "nativeRequests": 0
+  },
+  "productionSourcesOrProfilesChanged": false,
+  "newFullSuiteCRLFOrWindowsResult": false,
+  "userStoreAccessed": false,
+  "generatedBodiesOrUserRunIdsIncluded": false,
+  "thirdPartyImplementationCopied": false,
+  "productionIntegrationReady": false,
+  "nextSlice": "explicit execution ownership and current-source historical read regression",
+  "sourceHashes": {
+    "test-support/inline-integration-review.js": "848259b235d5446860ec95b0c2ec53bda9ab86ddd0d7376e11b67d2bf40546af",
+    "test/inline-integration-review.test.js": "1e9b68c7e59d11a24706e6cbe195fbb15021891a1fde7f24f545e1c3cf5d581c",
+    "scripts/check-inline-integration.mjs": "403dfcedd4d4b5d8afbc2bc18e4066a113367860179d084afb11aa9234061c41",
+    "docs/INLINE-PRODUCTION-INTEGRATION.md": "52dd805376825ab55cad9b762394910b932ac76cc154bcab6cdb2e4a20e33c6d",
+    "docs/validation/inline-integration-targeted.txt": "48584a1b5b31a5c118f3e634beb23114895d5df34dce1dcddc068de6a7605534",
+    "docs/validation/inline-integration-script.json": "c3bd5baa93d1e68f64491fd043ea162c9d5988574737ac065e1dea054e87ac19"
+  }
+}
