@@ -1,5 +1,7 @@
 # Coupled 首次有限真实试跑：用户侧完成
 
+后续：[单例内容复核](COUPLED-QUALITY-REVIEW.md)已完成同作者定性阅读：分幕展开/情绪语义支持有concern，整体仍未接受。下文保留首次运行回执当时的评估状态。
+
 2026-10-16 用户在Windows同步已合并PR #29后，按单独批准的官方DeepSeek Flash、公开虚构sparse-context、最多一梦/三次调用/新3CNY上限及三笔旧unknown保留合同执行。提交的终端输出报告两幕＋醒来completed，三条committed attempt、三条settled billing，随后ready=false/call_limit_reached。输入虚构标记与输出dream/nonfact身份分别保留，typed appraisal view可用。此为用户侧真实试跑回执，助手没有读取用户Store、凭据、供应商控制台或追加模型调用。
 
 只发布独立聚合 `validation/user-local-coupled-live.json`，不提交附件原文、梦/醒来正文、引文字串、run/request fingerprint、用户路径、配置、Key或真实梦簿。下文不重建被丢弃的旧响应。
