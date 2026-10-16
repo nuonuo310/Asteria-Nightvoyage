@@ -1,0 +1,31 @@
+✔ coupled proposal and missing-config preflight are unapproved and create no directory or credential access (154.698889ms)
+✔ coupled init requires exact case, budget, fictional egress and old-hold acknowledgement before creating data (101.728418ms)
+✔ coupled allowance is separate and immutable; all three history accounts/configs stay byte-identical across init (65.235739ms)
+✔ coupled init rejects altered old holds and unrelated unresolved attempts without a new config/account (90.40438ms)
+✔ coupled CLI rejects missing live flag, absent key, unknown/duplicate flags and overrides before dispatch (1591.184551ms)
+✔ coupled CLI stub loop persists two declarations, typed view and three settlements; no-key replay cannot pay again (1305.162274ms)
+✔ coupled invalid scene retains fourth unknown hold, reads old metadata and never repairs or resets (744.424272ms)
+✔ coupled wake rejection cannot publish a dream or invoke a fourth repair request (810.525047ms)
+✔ coupled actual exit after durable scene resumes explicitly and sends only remaining two stages (1293.435017ms)
+✔ coupled actual process death after dispatch retains full hold and explicit resume never reads Key (721.746865ms)
+✔ coupled first durable start binds identity before dispatch; queued recovery sends no duplicate request (932.734646ms)
+✔ coupled cancellation consumes at most one call and blocks all later execution without Key (582.431286ms)
+✔ coupled withdrawal clears new bodies, views and recall while preserving historical billing and preventing reinit (600.585882ms)
+✔ coupled expiration blocks new init/Key access without refreshing approval and completed reads remain available (847.603575ms)
+✔ coupled config and actual ledger allowance tampering reject before Key/network (864.457056ms)
+✔ coupled pure request preflight rejects large fictional material without reserve, credentials or HTTP (5.033982ms)
+✔ coupled second Store owner blocks before dispatch (293.895353ms)
+✔ coupled queued cancellation consumes zero allowance and blocks before Key on replay (465.156452ms)
+✔ coupled current source drift blocks init/run before Key but old failed or completed records stay readable (1315.438683ms)
+✔ coupled edited fictional fixture fails closed before Key; historical inspection requires intact shipped fixtures (554.164811ms)
+✔ coupled CLI checks the next saved checkpoint before accessing Key on explicit resume (416.335968ms)
+✔ coupled storage admission failure creates no new approval or account and makes no request (37.150929ms)
+✔ coupled unrelated later unknown blocks new dispatch but leaves own and older historical reads accessible (355.531156ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14383.754309

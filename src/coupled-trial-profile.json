@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "batchId": "coupled-affect-dream-trial-20261016",
+  "protocolVersion": "coupled-affect-quotes-v1",
+  "protocolSourcePins": {
+    "appraisal-rehearsal.js": "361f2a81e4dc63ca7f6f138032fc65d649e53f1b3039cd0841f614396d1cc23f",
+    "appraisal-view.js": "bb09fa989f78227285f8d46e69a2287e2ef7796f4fbcf60594aa4400cfbc58f3",
+    "budget-ledger.js": "b01649e302f23cffbd581bc2337f12645019480cd818b67a9f14f4e16e62acc4",
+    "budgeted-runtime.js": "1c23e4d40d681e22f1bd11f16ceb34ace518206522d70a699725fe83b3eb9d3a",
+    "compact-appraisal-protocol.js": "935762c0e5961b0abcd38d0d5a959ff40ebd97e051a1236e57c7ab3fb8118e34",
+    "compact-trial-config.js": "517184495b3dc694c7197113a754f9a1f1883a5ee7af99216284ae7bd9759a03",
+    "compact-v2-offline.js": "097857494759b96d0a18338a0b071c3d3b8c6832441ec91a19b786b67b244c10",
+    "compact-v2-protocol.js": "a9e26e5ffe8dee7102e695af7dd9ee92f90426d7d94b126126f171be6a0a312b",
+    "contract.js": "850c99572c39930eac150588e379c9af90b5e792159ae46a04f9fad0f9d52ca7",
+    "coupled-affect-offline.js": "44108df3059b9173d1fd3f611456b666912ed144b6965d892a98586043e0a9c8",
+    "coupled-affect-protocol.js": "a29727739495a2fad672efd536105f36417c9607110c927beb41d0997f4173a6",
+    "coupled-affect-wire.js": "ea93558e31edecc2c8b55ea2ef0f08595e2299bf71ed0ae83c3cdd6a649be355",
+    "coupled-trial-cli.js": "8fd68036910400cba28764021d4165db9d825122c8a2f8c2b1b3b06051ed93e6",
+    "coupled-trial-config.js": "4d6facb774271e68397268e2fc965d792bd5f6b17e30b7ef382d9a23982129ea",
+    "deepseek-protocol.js": "0f8471c69f170ec74880ef0e7deef8889df8a3b12e6e86c0aea2b13fcefa681e",
+    "engine.js": "bf090f67204a82bbb26d08ff130c86da70ed79842adb204f9dfe18a51478e4c2",
+    "fake-provider.js": "9460fac1e2d936b5aacde19ec1c79a07b1d1db77987cc4b51e815acd913f6456",
+    "gated-deepseek-client.js": "61416d3355fe6387b0815474c7e87573a881aba3008bfeef86faa0f699c01a82",
+    "pruned-v2-reviewed-profile.js": "eea51f1ac5d283e7f13dfd8bd711ad9dc12ff5a62094e6b13205443f6cc8c35b",
+    "pruned-v2-trial-config.js": "f3394e9ac80c244801cd57b651b2954d44d42c34e65e8624a4e18b5eb7dbb49c",
+    "quality-config.js": "5218f5119b34071533e1a270227d3ee92a92e956b430acd4ed7607c779bf3f85",
+    "single-scene-diagnostic.js": "5bbc25ec7b9e8af872dcdb715019500a1db772cd741d07a135ce8b4fea6ee5e5",
+    "store.js": "07711405e41780805dbe23a3f993fdfb7a7d0b44a39d3dbd160374dafd1aaacb",
+    "trial-config.js": "32762a9fae9872e9533a292a40b729c55c4f1ce258b1f91a0d5d0f454c007d90",
+    "validation-diagnostic.js": "931a0bd25e03755570a8931fc5efa4d25a2c2548b164ede0051b005b17d9c0be"
+  },
+  "caseId": "sparse-context",
+  "fixtureSha256": "66a19f5968bc0bb60c8ff4918d6e57e223b008329c2a7028f3ac478cb6256d10",
+  "sourceRefs": [
+    {
+      "id": "q-sparse-memory",
+      "version": "1"
+    }
+  ],
+  "materialKind": "fictional",
+  "generatedEventOrigin": "dream",
+  "isRealityFact": false,
+  "model": "deepseek-flash",
+  "expiresAt": 1792246800000,
+  "additionalBudgetCny": 3,
+  "maxAdditionalRuns": 1,
+  "maxAdditionalCalls": 3,
+  "perCallOutputTokens": 400,
+  "preservedUnknownHoldMicroCny": "6609600",
+  "requiresPreservedHoldsAcknowledgement": true,
+  "persistsGeneratedBody": true,
+  "continuesPriorRun": false,
+  "fixtureEgressApproved": true,
+  "paidEvaluationApproved": true,
+  "qualityAssessed": false,
+  "allowance": {
+    "id": "coupled-affect-dream-trial-20261016",
+    "mode": "live",
+    "approved": true,
+    "expiresAt": 1792246800000,
+    "limits": {
+      "maxRuns": 1,
+      "maxCalls": 3,
+      "maxMicroCny": 3000000
+    },
+    "pricing": {
+      "model": "deepseek-flash",
+      "contextTokenLimit": 1100000,
+      "inputMicroCnyPerMillion": 2000000,
+      "outputMicroCnyPerMillion": 8000000,
+      "reference": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
+      "checkedAt": 1792160400000
+    },
+    "protocolVersion": "coupled-affect-quotes-v1"
+  }
+}

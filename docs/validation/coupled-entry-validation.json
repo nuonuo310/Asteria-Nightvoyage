@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "stage": "coupled_finite_entry_preparation",
+  "baseCommit": "f19928f719372d3412d85a2679ebab99bb14406d",
+  "protocolVersion": "coupled-affect-quotes-v1",
+  "batchId": "coupled-affect-dream-trial-20261016",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "fullOuterTests": {
+    "pass": 300,
+    "fail": 0,
+    "skip": 0
+  },
+  "targetedEntryTests": {
+    "pass": 23,
+    "fail": 0,
+    "skip": 0
+  },
+  "linuxCRLFTargetedOuterTests": {
+    "pass": 53,
+    "fail": 0,
+    "skip": 0
+  },
+  "historicalEntryChildTests": {
+    "pass": 13,
+    "fail": 0,
+    "scope": "one outer wrapper; separate nested count, not native Windows"
+  },
+  "pinnedTransitiveSourceFiles": 25,
+  "nativeWindowsEntryTestsRun": false,
+  "realModelRequests": 0,
+  "actualCredentialRead": false,
+  "userStoreOpened": false,
+  "actualNewAllowanceCreated": false,
+  "userUnknownHoldsChanged": false,
+  "feeApprovalReceived": false,
+  "fictionalEgressApprovalReceived": false,
+  "semanticSupport": "not_assessed",
+  "qualityAssessed": false,
+  "actualFees": "not_assessed",
+  "review": "same-author",
+  "sha256LF": {
+    "src/coupled-trial-cli.js": "8fd68036910400cba28764021d4165db9d825122c8a2f8c2b1b3b06051ed93e6",
+    "src/coupled-trial-config.js": "4d6facb774271e68397268e2fc965d792bd5f6b17e30b7ef382d9a23982129ea",
+    "src/coupled-trial-profile.json": "24c276ea8a340b8627809da780e853b8d02c45de0050e58970c70e35b8751f59",
+    "src/pruned-v2-trial-config.js": "f3394e9ac80c244801cd57b651b2954d44d42c34e65e8624a4e18b5eb7dbb49c",
+    "test-support/coupled-trial-fixtures.js": "72e3d1023593a9c00d61834a4af466fdfedc0b4fc5ca365c4bd9c9f67158951b",
+    "test/coupled-trial.test.js": "050acc7480fefe5d0545d1006a66f24d808edeb717c73712796a24854c3c3bdf",
+    "docs/validation/coupled-entry-linux.txt": "87b8c9ea1660bbad4d898b056e00f285c0a1b760356499238e78bcccde38d8fd",
+    "docs/validation/coupled-entry-crlf.txt": "a72ca906cbb3f403f9ef05b425e13eff2641fbae2bd16dae2e3c641f37b9da70",
+    "docs/validation/coupled-entry-targeted.txt": "0c601fa3198533971b606dfc750ce2a7ee1e4f65a6ae970b62e576ad2184114a",
+    "docs/validation/coupled-entry-pricing-review.json": "4389a3b3b2044f56caa924be7354eff6bf04f6914c2ffbaa726578580409932c"
+  }
+}
