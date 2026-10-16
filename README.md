@@ -1,5 +1,7 @@
 # Asteria-Nightvoyage · 夜航
 
+[Isolated direct-quotation budget stub](docs/INLINE-BUDGET-STUB.md) now tests full-context reservations, exact request fingerprints and atomic stage/usage settlement in a separate `inlineStubBilling` root. Run `node scripts/check-inline-budget.mjs` without a key. Synthetic amounts are algorithm probes, not provider bills or a current price review; no production selector or paid entry is added.
+
 [Direct-quotation offline runtime](docs/INLINE-RUNTIME.md) now rehearses two scenes, grounded wake, persistence/reopen, cue recall, cancellation and withdrawal using only supplied local simulators. Run `node scripts/check-inline-runtime.mjs` without a key. Its distinct offline identity is not a paid selector or production review-adapter compatibility claim; existing profiles and unknown holds remain unchanged. Real model compliance and dream quality are unassessed.
 
 Latest: the user-reported compact live trial stopped on its first validation failure, publishing no dream. [Body-free failure diagnostics and limits](docs/COMPACT-VALIDATION-DIAGNOSTICS.md) preserve the unknown budget hold; installing the change does not retry or recover the discarded response.
