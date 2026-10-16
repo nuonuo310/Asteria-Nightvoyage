@@ -6,7 +6,7 @@ const expected=JSON.parse(fs.readFileSync(new URL('../src/inline-entry-graph.jso
 const env=process.env,native=globalThis.fetch;let keys=0,requests=0,hook;
 process.env=new Proxy(env,{get(t,k){if(k==='NIGHTVOYAGE_DEEPSEEK_KEY'){keys++;throw Error('credential_forbidden');}return Reflect.get(t,k);}});globalThis.fetch=()=>{requests++;throw Error('network_forbidden');};
 try{
-  hook=constrainInlineModules(graph);const loaded=await import('../src/inline-entry-admission.js');assert.equal(typeof loaded.InlineHistoryGuard,'function');
+  hook=constrainInlineModules(graph);const loaded=await import('../src/inline-authorized-runtime.js');assert.equal(typeof loaded.InlineAuthorizedStubRuntime,'function');
   await assert.rejects(import('../test-support/inline-entry-fixtures.js'),/inline_dependency_constraint_failed/);
   await assert.rejects(import('data:text/javascript,globalThis.unreviewedModuleExecuted=true'),/inline_dependency_constraint_failed/);assert.equal(globalThis.unreviewedModuleExecuted,undefined);
   await assert.rejects(import('node:net'),/inline_dependency_constraint_failed/);assert.equal(keys,0);assert.equal(requests,0);

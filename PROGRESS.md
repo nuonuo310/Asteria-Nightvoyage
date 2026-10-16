@@ -595,3 +595,14 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 新24项；最终Linux全仓638/638，相关24＋准备25＋生产37＋归属18＋inline评审17＋旧读取2＋集成16＝139/139；临时Linux CRLF同组139/139。五套历史嵌套另列；测试子进程换行字符串错误修正后重跑。两固定脚本native fetch/Key读取0，无新增Windows实机/真实费用/语义或质量成绩。
 - 2026-10-16查阅DeepSeek官方价格与模型列表文档，独立非执行草案：Flash/虚构sparse-context/新增上限3 CNY/1梦/最多3调用，按高峰cache-miss 2/8 CNY每百万与项目保守1.1M输入预留2.2032 CNY/调用；不是实际消费估计，旧四unknown不清算。草案未授权、不创建账户、不把旧批准迁移；价格到期不自动刷新。
 - 见docs/INLINE-LOCKED-PREREQUISITES.md、docs/proposals/inline-single-dream.json及validation/inline-admission-validation.json。下一切片接持久批准、profile、bootstrap与逐阶段门禁；实际新费用和虚构外发仍需具体确认，当前不给Key指令。公开仅自有MIT实现/独立表述/虚构材料，无第三方实现复制或私有原文。
+
+
+## 直接引文：持久stub控制许可与逐阶段接线
+
+- inlineEntryAuthorization与固定候选stub账户同次Store.save原子提交，terms固定来源/协议/源码/静态图、历史基线、allowance、时间和run配置/请求。基线在重开时比较，不重新采集；重复init不延长/重置，active→revoked不可复活，无绑定账户不收编。仅显式合成stub，不是用户新付费批准。
+- 新InlineAuthorizedStubRuntime缺许可先于Store拒绝、持锁后先于client/ledger复核；provider与首存metadata绑定许可hash，通用运行器不能接手。固定虚构seed副本/请求/两幕醒来，不读Key、默认disabled、只接受显式本地transport；公开fixture原件仍no-egress。
+- 正式核心六处检查before_reservation/before_dispatch/before_http/response/before_settlement/publish；校验active/时间/基线/运行/完整payload。正文与usage/checkpoint原子规则保留；途中旧账户损坏则poison而不把篡改写盘。未决保留完整hold，不自动修复、重试或清算。
+- 新24项；Linux全仓662/662，当前24＋既有相关139＝163/163，临时Linux CRLF同组163/163。覆盖授权原子失败/真实提交前后退出、reserved/dispatched/scene_saved退出、许可持久化与不可重新采基线、取消/撤销/撤回/到期和迟到正文。首轮字段顺序问题改为闭合schema后规范化，数值/权限未放宽。
+- 固定脚本3次本地stub、3 settled、2520 micro-CNY合成usage，重放追加0；旧账户逐项不变，撤回重开后无managed正文，native fetch/Key读取0，无用户Store/Windows实机/真实费用或语义/梦质量验收。读梦/珍藏/余韵/评审既有合同保持独立，许可撤销不冒充来源删除。
+- 当前清单70文件，受限加载根改新运行器，静态图32模块/182边/4类内建；仍是新进程依赖演练，bootstrap/环境限制未接成真实入口。旧收费profile不变，前轮非执行费用草案保留旧hash，代码变化后失配，不静默重绑。后续正式profile/CLI/具体费用须单独完成再确认，当前不得用该stub许可开live。
+- 见docs/INLINE-DURABLE-AUTHORIZATION.md及validation/inline-authorization-validation.json。公开仅自有MIT代码/独立文档/虚构材料，无私有原文或用户运行/配置/Key。

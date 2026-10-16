@@ -41,10 +41,12 @@ export class GatedDeepSeekClient {
     this.store.assert();
     if (input.sources.some(s => s.grant.modelEgress !== true || this.store.withdrawn.includes(s.id))) fail('source_egress_denied_or_withdrawn');
   }
+  checkAdmission(_context,_phase) {}
   async send({ allowanceId, requestId, runId, payload, credential, signal, publish } = {}) {
     if(this.protocol==='scene-continuity-v1'&&this.mode==='live')assertContinuityLiveStore(this.store,{allowanceId,requestId,runId,payload});
     if (this.closed || this.enabled !== true || this.mode === 'disabled') fail('transport_disabled');
     if(this.protocol==='inline-evidence-v1'&&this.mode!=='stub')fail('inline_live_entry_pending');
+    const admission={allowanceId,requestId,runId,payload};this.checkAdmission(admission,'before_reservation');
     if (signal?.aborted) fail('cancelled');
     if (typeof credential !== 'string' || !credential.trim() || credential.length > 2000 || /[\r\n]/.test(credential)) fail('credential_required');
     if (!safeId(allowanceId) || !safeId(requestId) || !safeId(runId)) fail('invalid_transport_ids');
@@ -69,6 +71,7 @@ export class GatedDeepSeekClient {
     try {
       this.fault('reserved');
       if (signal?.aborted || this.closed) fail('cancelled');
+      this.checkAdmission(admission,'before_dispatch');
       this.checkSources(input);
       this.ledger.dispatch(allowanceId,requestId); this.fault('dispatched');
       const stopped = new Promise((_,reject)=>{
@@ -78,6 +81,7 @@ export class GatedDeepSeekClient {
       const operation = async () => {
         if (controller.signal.aborted) fail('cancelled');
         this.checkSources(input);
+        this.checkAdmission(admission,'before_http');
         // Native fetch is reached only for explicitly enabled, approved live mode.
         const transport = this.mode === 'stub' ? this.fetchImpl : globalThis.fetch;
         const response = await transport(request.endpoint,{ method:'POST',redirect:'error',signal:controller.signal,headers:{'Content-Type':'application/json',Authorization:`Bearer ${credential}`},body:JSON.stringify(request.body) });
@@ -88,6 +92,7 @@ export class GatedDeepSeekClient {
       };
       const result=await Promise.race([operation(),stopped]);
       if (controller.signal.aborted || this.closed) fail('cancelled'); this.checkSources(input);
+      this.checkAdmission(admission,'response');
       const normalize=this.protocol==='inline-evidence-v1'?normalizeInlineStage:this.protocol==='scene-continuity-v1'?normalizeContinuityStage:this.protocol==='coupled-affect-v1'?normalizeBudgetCoupledStage:this.protocol==='compact-appraisal-v2'?normalizePrunedV2Stage:this.protocol==='compact-appraisal-v1'?normalizeCompactStage:normalizeDeepSeekStage;
       let value;
       if (this.protocol!=='grounded-wake-v2' && material.stage==='scene') {
@@ -96,7 +101,8 @@ export class GatedDeepSeekClient {
         catch (error) {validationDiagnostic=this.protocol==='inline-evidence-v1'?inlineDiagnostic(error?.message):this.protocol==='scene-continuity-v1'?continuityDiagnostic(error?.message):this.protocol==='coupled-affect-v1'?coupledBudgetDiagnostic(error?.message):this.protocol==='compact-appraisal-v2'?prunedV2Diagnostic(error?.message):compactValidationDiagnostic(error?.message);fail('compact_appraisal_invalid');}
       } else value=normalize(result.data,material);
       if (publish !== undefined && typeof publish !== 'function') fail('invalid_publication');
-      const receipt=this.ledger.settle(allowanceId,requestId,result.receipt,publish ? accounting => publish(copy(value),accounting) : undefined);
+      this.checkAdmission(admission,'before_settlement');
+      const receipt=this.ledger.settle(allowanceId,requestId,result.receipt,publish ? accounting => {this.checkAdmission(admission,'publish');return publish(copy(value),accounting);} : undefined);
       return { replayed:false, receipt, generated:{schemaVersion:1,materialKind:'fictional',origin:material.stage==='wake'?'wake_note':'dream',isRealityFact:false,sourceRefs:copy(receipt.sourceRefs),derivedFrom:[input.id],value} };
     } catch (error) {
       controller.abort();
