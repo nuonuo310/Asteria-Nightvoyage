@@ -1,0 +1,37 @@
+✔ allowance binding is optional for legacy records, immutable when present and rejects unreviewed/offline versions (8.934719ms)
+✔ candidate and offline coupled checkpoints have distinct identities and preserve counts (6.481955ms)
+✔ continuity budget without a matching immutable allowance binding is blocked before reservation or dispatch (4.061019ms)
+✔ continuity live transport is unavailable even with enabled and approved arguments (1.431425ms)
+✔ integrated continuity commits audits, scenes and three settled rows atomically without touching an older hold (35.711976ms)
+✔ invalid continuity quotes and later affect rules retain typed body-free rejection and full unknown reservation (21.260579ms)
+✔ continuity budget diagnostic metadata strips arbitrary text and is accepted only by its bound account (3.061272ms)
+✔ continuity budget wake rejection cannot publish a dream or trigger a fourth repair call (16.689191ms)
+✔ continuity budget cancellation and withdrawal suppress late output and purge counts/view/recall (27.825959ms)
+✔ continuity budget run identity cannot switch allowance or protocol through execute/resume (3.949962ms)
+✔ continuity budget atomic settlement failure reopens with neither audit nor scene and retains unknown hold (6.261937ms)
+✔ actual exit after coupled atomic scene commit resumes only the remaining two paid-path simulator stages (244.225952ms)
+✔ actual exit after dispatch keeps unknown coupled hold and explicit resume cannot send again (254.862319ms)
+✔ continuity budget allowance call cap and missing egress block before any over-limit dispatch (12.265949ms)
+✔ continuity exact input/output byte ceilings reject before reserve or before publication without repair (23.757728ms)
+✔ continuity direct-store in-flight withdrawal suppresses late response and reopen cannot reveal body (7.828407ms)
+✔ continuity timeout and invalid usage each keep one unknown hold and no scene declaration (43.278623ms)
+✔ continuity declarations, audits and policy identity cannot be forged before dispatch or via read view (19.419146ms)
+✔ continuity diagnostic checks are bounded, version-bound and cannot alter settled billing (4.937002ms)
+✔ continuity duplicate starts and overlapping execute dispatch once and queued cancel consumes no allowance (20.793307ms)
+✔ new coupled stub account preserves all three independent synthetic historical full holds byte-for-byte (20.719691ms)
+✔ actual candidate body is fingerprinted before reservation and identity is durable before HTTP (15.685811ms)
+✔ candidate content reader and independent reviews retain identity and disappear after deletion/reopen (43.298729ms)
+✔ candidate defaults, money cap, run cap and expiry stop before dispatch without resetting allowance (45.127931ms)
+✔ actual exit on candidate dispatch 2 retains prior scenes and never repeats the unknown call (152.203237ms)
+✔ actual exit on candidate dispatch 3 retains prior scenes and never repeats the unknown call (178.304741ms)
+✔ fixed candidate budget command uses guarded stub transport and reports no provider billing or quality acceptance (185.181061ms)
+✔ current sources block historical dispatch but read completed coupled history without credentials (558.144215ms)
+✔ current sources block historical dispatch but read failed coupled history without credentials (395.774789ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 29
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1561.45304

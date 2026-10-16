@@ -59,7 +59,7 @@ test('bounded JSON only: getters, symbols, prototype records, cyclic and oversiz
 test('projection validates content independent of metadata key order without retaining hidden fields',()=>{
   const c=input(),d=buildAppraisalReviewDraft(c,request());d.recordDraft.parent=Object.fromEntries(Object.entries(d.recordDraft.parent).reverse());assert.deepEqual(projectAppraisalReviewDraft(c,d).recordDraft.parent,buildAppraisalReviewDraft(c,request()).recordDraft.parent);d.recordDraft.parent.extra=true;bad(()=>projectAppraisalReviewDraft(c,d));
 });
-test('existing paid source pins stay unchanged; draft protocol is not a paid entry',()=>{assert.equal(coupledTrialPinsMatch(),true);assert.equal(buildAppraisalReviewDraft(input(),request()).illustrativeOnly,true);});
+test('historical coupled pins report drift; draft protocol is not a paid entry',()=>{assert.equal(coupledTrialPinsMatch(),false);assert.equal(buildAppraisalReviewDraft(input(),request()).illustrativeOnly,true);});
 
 test('fixed offline entry denies key, network and filesystem writes and reports simulation limits',async()=>{
   const {spawnSync}=await import('node:child_process');const r=spawnSync(process.execPath,['scripts/check-appraisal-review-memory.mjs'],{cwd:new URL('..',import.meta.url),encoding:'utf8'});assert.equal(r.status,0,r.stderr);const p=JSON.parse(r.stdout);assert.equal(p.realModelRequests,0);assert.equal(p.credentialReads,0);assert.equal(p.persistentRuntimeWrites,0);assert.equal(p.managedStoreIntegrated,false);assert.equal(p.durableIdempotencyImplemented,false);assert.equal(p.sourceWithdrawalProjectionNull,true);

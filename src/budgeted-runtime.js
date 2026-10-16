@@ -1,3 +1,4 @@
+import {continuityBudgetVersion,continuityIdentity,normalizeContinuityCheckpoint} from './scene-continuity-protocol.js';
 import { coupledBudgetVersion, normalizeBudgetCoupledCheckpoint } from './coupled-affect-protocol.js';
 import { neutral } from './contract.js';
 import { Nightvoyage } from './engine.js';
@@ -8,6 +9,7 @@ import { protocolVersion } from './deepseek-protocol.js';
 // Same dream core and journal. Only stage dispatch/publication differs from fake mode.
 export class BudgetedNightvoyage extends Nightvoyage {
   constructor(directory, { allowance, credential, enabled = false, mode = 'disabled', fetchImpl, timeoutMs = 60000, fault = () => {}, protocol = 'grounded-wake-v2' } = {}) {
+    if(protocol==='scene-continuity-v1'&&mode==='live')fail('continuity_live_entry_pending');
     super(directory,{fault});
     try {
       this.client = new GatedDeepSeekClient(this.store,{enabled,mode,fetchImpl,timeoutMs,fault,protocol});
@@ -19,9 +21,11 @@ export class BudgetedNightvoyage extends Nightvoyage {
   initialRunMetadata() {
     return {billingAllowanceId:this.allowanceId,billingProtocolVersion:this.client.protocolVersion,
       ...(this.client.protocol!=='grounded-wake-v2'?{appraisalProtocolVersion:this.client.protocolVersion}:{}),
+      ...(this.client.protocol==='scene-continuity-v1'?continuityIdentity():{}),
       ...(this.client.protocol==='coupled-affect-v1'?{normalizationPolicyVersion:'validated-unused-quotation-pruning-v1',affectEncodingVersion:'explicit-affect-union-v1'}:{})};
   }
   start(requestId,sessionId,input,settings={}) {
+    if(this.client.protocol==='scene-continuity-v1'&&settings.scenes!==undefined&&settings.scenes!==2)fail('invalid_continuity_stage');
     const pricing = this.client.ledger.account(this.allowanceId).allowance.pricing;
     // Input is bounded by reviewed provider context; never use the fake byte estimate.
     if (settings.perCallOutput !== undefined && settings.perCallOutput !== 400) fail('unsupported_live_output_limit');
@@ -35,6 +39,10 @@ export class BudgetedNightvoyage extends Nightvoyage {
     const r=this.run(id),version=r.billingProtocolVersion??r.appraisalProtocolVersion??protocolVersion;
     if (r.billingAllowanceId!==this.allowanceId||version!==this.client.protocolVersion||
         (this.client.protocol!=='grounded-wake-v2'&&r.appraisalProtocolVersion!==this.client.protocolVersion)) fail('billing_run_identity_mismatch');
+    if(this.client.protocolVersion===continuityBudgetVersion){
+      if(Object.entries(continuityIdentity()).some(([k,v])=>r[k]!==v))fail('billing_run_identity_mismatch');
+      if(r.snapshot&&r.scenes){let before=r.snapshot.channels.affect.value??neutral();for(const scene of r.scenes)before=normalizeContinuityCheckpoint(scene,before).after;}
+    }
     if(this.client.protocolVersion===coupledBudgetVersion){
       if(r.normalizationPolicyVersion!=='validated-unused-quotation-pruning-v1'||r.affectEncodingVersion!=='explicit-affect-union-v1')fail('billing_run_identity_mismatch');
       if(r.snapshot&&r.scenes){let before=r.snapshot.channels.affect.value??neutral();for(const scene of r.scenes){before=normalizeBudgetCoupledCheckpoint(scene,before).after;}}

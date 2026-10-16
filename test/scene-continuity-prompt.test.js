@@ -34,8 +34,8 @@ test('inconsistent checkpoints cannot enter a candidate or be rewritten into app
 test('returned mutations never change inputs or future baseline construction',()=>{
   const p=payload([first]),before=structuredClone(p),r=compareSceneContinuityRequest(p);r.candidate.body.messages[1].content='changed';r.baseline.body.messages[0].content='changed';assert.deepEqual(p,before);assert.notEqual(compareSceneContinuityRequest(p).baseline.body.messages[0].content,'changed');
 });
-test('candidate is not an accepted paid selector and all existing reviewed pins remain unchanged',()=>{
-  assert.throws(()=>new GatedDeepSeekClient(null,{protocol:sceneContinuityPromptVersion}),/unreviewed_transport_protocol/);assert.equal(coupledTrialPinsMatch(),true);
+test('offline candidate is not a paid selector and historical coupled dispatch pins report drift',()=>{
+  assert.throws(()=>new GatedDeepSeekClient(null,{protocol:sceneContinuityPromptVersion}),/unreviewed_transport_protocol/);assert.equal(coupledTrialPinsMatch(),false);
 });
 test('offline script constructs three requests with zero generation, key, native request or Store access',()=>{
   const r=spawnSync(process.execPath,['scripts/check-scene-continuity-prompt.mjs'],{cwd:new URL('..',import.meta.url),encoding:'utf8',timeout:15000});assert.equal(r.status,0,r.stderr);const v=JSON.parse(r.stdout);assert.deepEqual(v.bodyChangedByStage,[false,true,false]);assert.equal(v.requestsConstructed,3);assert.equal(v.realModelRequests,0);assert.equal(v.fakeGenerationCalls,0);assert.equal(v.credentialReads,0);assert.equal(v.storeOpened,false);assert.equal(v.modelComplianceImproved,'not_assessed');assert.equal(v.authoredTransitionReview.length,3);

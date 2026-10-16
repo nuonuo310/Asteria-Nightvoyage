@@ -3,12 +3,8 @@ import {snapshot,hash} from './contract.js';
 import {copy,fail} from './store.js';
 import {buildBudgetCoupledRequest} from './coupled-affect-protocol.js';
 import {assertAppraisalReviewJsonData} from './appraisal-review-memory.js';
-export const sceneContinuityPromptVersion='offline-scene-continuity-prompt-v1';
-export const sceneContinuityPrompt=[
-  'Write the next moment being lived in this dream. An ordinary action, perception, or lingering attention may carry the scene.',
-  'A quiet return or confirmation is allowed. If a scene adds only a recap of what is already established, consider a lived moment within the same situation.',
-  'No quota for novelty, new objects, location changes, conflict, insight, emotional explanations, or positive endings. Keep all existing source, perspective, affect-evidence, schema, and output limits.'
-].join('\n');
+import {sceneContinuityPrompt,sceneContinuityPromptVersion} from './scene-continuity-prompt-text.js';
+export {sceneContinuityPrompt,sceneContinuityPromptVersion};
 export function compareSceneContinuityRequest(payload) {
   assertAppraisalReviewJsonData(payload);
   const names=['snapshot','scenes','stage','index'];

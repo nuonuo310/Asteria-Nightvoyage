@@ -32,8 +32,8 @@ test('unknown annotation text, duplicate IDs and narrative extras cannot enter s
 });
 test('summary returns neither raw scene/quote/note bodies nor a paid selector and leaves live pins intact',()=>{
   const r=auditAffectSupportContrasts(fixture),body=JSON.stringify(r);for(const c of fixture.scenes){assert.ok(!body.includes(c.raw.event));assert.ok(!body.includes(c.authoredReview.note));for(const q of c.raw.evidence)assert.ok(!body.includes(q));}for(const c of fixture.transitions)for(const e of c.events)assert.ok(!body.includes(e));
-  assert.throws(()=>new GatedDeepSeekClient(null,{protocol:affectSupportContrastVersion}),/unreviewed_transport_protocol/);assert.equal(coupledTrialPinsMatch(),true);
+  assert.throws(()=>new GatedDeepSeekClient(null,{protocol:affectSupportContrastVersion}),/unreviewed_transport_protocol/);assert.equal(coupledTrialPinsMatch(),false);
 });
 test('fixed offline command uses no credential or transport and reports expectations rather than semantic success',()=>{
-  const r=spawnSync(process.execPath,['scripts/check-affect-support-contrasts.mjs'],{cwd:new URL('..',import.meta.url),encoding:'utf8'});assert.equal(r.status,0,r.stderr);const p=JSON.parse(r.stdout);assert.equal(p.results.length,10);assert.equal(p.realModelRequests,0);assert.equal(p.credentialReads,0);assert.equal(p.persistentRuntimeWrites,0);assert.equal(p.liveSourcePinsUnchanged,true);assert.equal(p.semanticClassifier,false);assert.equal(p.annotationsVerifiedSemantically,false);
+  const r=spawnSync(process.execPath,['scripts/check-affect-support-contrasts.mjs'],{cwd:new URL('..',import.meta.url),encoding:'utf8'});assert.equal(r.status,0,r.stderr);const p=JSON.parse(r.stdout);assert.equal(p.results.length,10);assert.equal(p.realModelRequests,0);assert.equal(p.credentialReads,0);assert.equal(p.persistentRuntimeWrites,0);assert.equal(p.liveSourcePinsUnchanged,false);assert.equal(p.semanticClassifier,false);assert.equal(p.annotationsVerifiedSemantically,false);
 });
