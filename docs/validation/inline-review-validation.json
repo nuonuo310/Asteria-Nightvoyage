@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "stage": "inline_local_read_and_independent_review",
+  "baseCommit": "4780f69fd6b833764c790de4ad0cb05256aba86a",
+  "protocolVersion": "inline-evidence-quotes-v1",
+  "checks": {
+    "linuxFull": {
+      "tests": 589,
+      "pass": 589,
+      "fail": 0
+    },
+    "currentTargeted": {
+      "inlineReview": 17,
+      "inlineProduction": 37,
+      "managedReviews": 29,
+      "adapter": 8,
+      "content": 11,
+      "tests": 102,
+      "pass": 102,
+      "fail": 0
+    },
+    "linuxCRLF": {
+      "tests": 102,
+      "pass": 102,
+      "fail": 0,
+      "isWindowsHost": false
+    },
+    "nestedHistoricalSuites": {
+      "compact": 9,
+      "diagnostic": 13,
+      "continuity": 31,
+      "coupled": 23,
+      "pruned": 13,
+      "notAddedToTopLevelTotal": true
+    }
+  },
+  "script": {
+    "command": "node scripts/check-inline-review.mjs",
+    "node": "v24.19.0",
+    "platform": "linux",
+    "protocolVersion": "inline-evidence-quotes-v1",
+    "adapter": "local_file",
+    "asteriaAdapter": "pending",
+    "stubGenerationCalls": 3,
+    "reviewAdditionalCalls": 0,
+    "nativeRequests": 0,
+    "credentialReads": 0,
+    "typedOutputsSeparate": true,
+    "originalUnchanged": true,
+    "billingUnchanged": true,
+    "programAuditCopied": true,
+    "reopened": true,
+    "duplicateReviewWrites": 0,
+    "cliNarrativeAndWakeShown": true,
+    "stableStoreBytesUnchangedByCLI": true,
+    "filesystemZeroWritesClaimed": false,
+    "withdrawalSurvivesReopen": true,
+    "managedBodiesPurged": true,
+    "liveEntryAvailable": false,
+    "semanticSupport": "not_assessed",
+    "qualityAssessed": false
+  },
+  "fourSyntheticOldUnknowns": {
+    "count": 4,
+    "heldMicroCny": "8812800",
+    "preservedAcrossReviewRevisionWithdrawalReopen": true,
+    "userStore": false
+  },
+  "oldProfilesChanged": false,
+  "oldPinsIntentionallyDrifted": true,
+  "productionImportsTestSupport": false,
+  "newPaidProfileOrCli": false,
+  "userStoreAccessed": false,
+  "realModelRequests": 0,
+  "realCredentialReads": 0,
+  "newWindowsHostResult": false,
+  "semanticSupport": "not_assessed",
+  "qualityAssessed": false,
+  "thirdPartyImplementationCopied": false,
+  "sourceHashes": {
+    "src/appraisal-view.js": "569f435cc4d04b54430b8e9312cfbd8391cb2b5ac14ab7256a1c5e56e0f62df5",
+    "src/appraisal-review-memory.js": "8300817cdb3bad397b84b08059269d793b0c3b08d69b5ef870b533bc6aab8974",
+    "src/appraisal-review-store.js": "b9dc6ccead2fdba2680d1925c2b85c2719220459b690d496e3b63c95ece3d066",
+    "test-support/frozen-owner-project.js": "85f19c842b20fe37b21678cfc751c8fa75c8af71d4c6182afef5b7d26a5b5e5a",
+    "test-support/inline-review-fixtures.js": "1bccf25bb2ad52df8929ad965120ee87e733aa0f2c8354c71e6404a8cbb53faa",
+    "test-support/legacy-owner-core/appraisal-review-memory.js": "5ebd148a08d851a22edb3d65206beb1800d25677a0affd0d5dc3aacc754e7bd3",
+    "test-support/legacy-owner-core/appraisal-review-store.js": "c9df8e1f2eae40c1fb16d70174da2d56c8b9de46c25413c351fe3d605f492812",
+    "scripts/check-inline-review.mjs": "209311b5dcd5ecc5e2377e35455fb032189445ec50cf1c318d1de61a79d578cf",
+    "scripts/check-inline-production.mjs": "cac0b9865680427b66132fec904d55e93270cc2462ff65d225c2c6f69aed1204",
+    "test/inline-review.test.js": "89d4cc1449e5598e2e260a210c54549fc648e7abd488e2be7f04a15859d7478c",
+    "test/inline-production.test.js": "c9cf0710488dd0a82ff1c18f31361e53f756e49fac75dace2c654065e2707d55",
+    "docs/INLINE-REVIEW-ADAPTER.md": "361b8aa278219c7333e7f0ea6384bcdfa3c0b72d2d113381373cbbd7d5364bdf",
+    "docs/validation/inline-review-full.txt": "99df32d797d3f67d738573c45283be7df3729e0e0e27df8d0dc3f40c8a076c05",
+    "docs/validation/inline-review-targeted.txt": "3522c7c90d59c59fb251ad9127e06bd7222aa290ba741e668bdb2eed46f3a1c7",
+    "docs/validation/inline-review-crlf.txt": "1af544d5e78ec15500ef250f1f39d0196b82e137656473ac992879cb9ceca000",
+    "docs/validation/inline-review-script.json": "34ebe54308fc5728870d8f4e41fcd7d84b03b9440a510a666c72fc45889d677e"
+  }
+}

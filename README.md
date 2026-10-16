@@ -1,6 +1,8 @@
 # Asteria-Nightvoyage · 夜航
 
-[Direct-quotation production core](docs/INLINE-PRODUCTION-CORE.md) now binds its own protocol/allowance and atomically saves stages with usage settlement through supplied local HTTP simulators. Run `node scripts/check-inline-production.mjs` without a key. Live mode and live allowances are explicitly blocked; no paid profile or CLI is added. New-protocol production appraisal adapters still report unsupported, and dream quality remains unassessed.
+[Direct-quotation read and independent review](docs/INLINE-REVIEW-ADAPTER.md) now expose validated scene/audit views, attributed immutable reviews and separate dream/wake content through the existing local-file contract. Run `node scripts/check-inline-review.mjs` without a key. Withdrawal/deletion/reopen preserve suppression; reading or reviewing adds no model calls. Asteria remains pending and the real inline entry remains blocked.
+
+[Direct-quotation production core](docs/INLINE-PRODUCTION-CORE.md) now binds its own protocol/allowance and atomically saves stages with usage settlement through supplied local HTTP simulators. Run `node scripts/check-inline-production.mjs` without a key. Live mode and live allowances are explicitly blocked; no paid profile or CLI is added. New-protocol appraisal reading and independent reviews are now supported through the local adapter below; dream quality remains unassessed.
 
 [Execution ownership is now enforced in production](docs/EXECUTION-OWNERSHIP.md): generic fake execute/resume cannot adopt records owned by specialized runtimes. Ordinary reads and withdrawal remain available. The shared-source fix intentionally blocks old dispatch pins without changing their profiles or holds; frozen historical tests are separate from current-source checks. No new paid protocol or entry is enabled.
 

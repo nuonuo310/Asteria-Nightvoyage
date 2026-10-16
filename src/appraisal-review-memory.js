@@ -1,3 +1,4 @@
+import {inlineProtocolVersion,normalizeInlineCheckpoint} from './inline-evidence-protocol.js';
 import {continuityBudgetVersion,normalizeContinuityCheckpoint} from './scene-continuity-protocol.js';
 // Stage A: pure fictional design data only. No Store/API/transport integration.
 import { hash, safeId } from './contract.js';
@@ -47,7 +48,7 @@ function contextValue(context) {
   const p=context.parent;
   keys(p,['dreamId','runId','status','protocolVersion','origin','materialKind','isRealityFact','sourceRefs','initialAffect','scenes']);
   id(p.dreamId); id(p.runId);
-  if (p.origin !== 'dream' || p.materialKind !== 'fictional' || p.isRealityFact !== false || ![coupledBudgetVersion,continuityBudgetVersion].includes(p.protocolVersion)) reject();
+  if (p.origin !== 'dream' || p.materialKind !== 'fictional' || p.isRealityFact !== false || ![coupledBudgetVersion,continuityBudgetVersion,inlineProtocolVersion].includes(p.protocolVersion)) reject();
   if (!Array.isArray(p.sourceRefs) || !p.sourceRefs.length || p.sourceRefs.length > 100) reject();
   for (const s of p.sourceRefs) {
     keys(s,['id','version']); id(s.id);
@@ -63,7 +64,7 @@ function contextValue(context) {
   let before=p.initialAffect;
   try {
     for (const saved of p.scenes) {
-      const normalized=p.protocolVersion===continuityBudgetVersion?normalizeContinuityCheckpoint(saved,before):normalizeBudgetCoupledCheckpoint(saved,before);
+      const normalized=p.protocolVersion===inlineProtocolVersion?normalizeInlineCheckpoint(saved,before):p.protocolVersion===continuityBudgetVersion?normalizeContinuityCheckpoint(saved,before):normalizeBudgetCoupledCheckpoint(saved,before);
       if (hash(saved)!==hash(normalized)) reject();
       before=normalized.after;
     }
