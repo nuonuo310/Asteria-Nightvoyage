@@ -62,3 +62,5 @@ The user also reported Windows 127/127 tests and matching byte-audit outcomes, w
 [Independent offline affect-support contrasts](docs/AFFECT-SUPPORT-CONTRASTS.md) now separate literal-contract acceptance from authored qualitative observations, with no automatic semantic classifier or new generation protocol. Safe command: `node scripts/check-affect-support-contrasts.mjs`.
 
 [Independent appraisal-review record contract](docs/APPRAISAL-REVIEW-CONTRACT.md) is drafted with an explicitly illustrative fictional example. It keeps reviewer opinions separate from immutable dream estimates; persistence/API/runtime support is not implemented.
+
+[Appraisal-review stage A](docs/APPRAISAL-REVIEW-MEMORY.md) implements a bounded fictional in-memory draft builder/projection with tests. It is not integrated with the dream ledger or any paid entry; durable persistence, idempotency and revision/withdrawal recovery remain pending. Offline check: `node scripts/check-appraisal-review-memory.mjs`.

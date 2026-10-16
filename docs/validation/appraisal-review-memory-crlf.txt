@@ -1,0 +1,24 @@
+✔ draft exactly matches public illustrative record and never modifies parent or opinions (11.335979ms)
+✔ returned and projected data have no aliases to parent, request, or each other (4.001042ms)
+✔ program-owned provenance, actor and binding cannot be supplied as assessment/request overrides (6.025132ms)
+✔ projection rejects tampered provenance, scene hash, reviewer and validity labels (5.296623ms)
+✔ source version, parent identity, initial affect and complete scene chain bind old projections (4.834424ms)
+✔ second scene uses verified prior after; malformed later scene blocks a first-scene draft (1.451437ms)
+✔ unchanged is distinct from estimated zero and cannot inherit estimated observations (4.047631ms)
+✔ conflicting directions remain attributed opinions and never zero or repair original values (1.494424ms)
+✔ notes count Unicode code points, remain data, and never execute a command (2.200267ms)
+✔ withdrawal and parent deletion suppress a prior draft; build fails rather than publishing (2.700044ms)
+✔ recomputed changed request is pure data, not a durable idempotency claim; revisions deferred (1.936496ms)
+✔ invalid identity, enums, indices, protocol, real material and nonfinite clocks/numbers reject (3.521011ms)
+✔ bounded JSON only: getters, symbols, prototype records, cyclic and oversized input reject (3.037246ms)
+✔ projection validates content independent of metadata key order without retaining hidden fields (1.447029ms)
+✔ existing paid source pins stay unchanged; draft protocol is not a paid entry (4.020956ms)
+✔ fixed offline entry denies key, network and filesystem writes and reports simulation limits (136.68135ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 360.007415

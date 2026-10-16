@@ -1,0 +1,15 @@
+✔ read view presents missing appraisal as null rather than numeric placeholders (20.288238ms)
+✔ quoted estimates remain model claims, including an explicitly quoted midpoint (12.430924ms)
+✔ view is recomputed without persistence or calls; returned mutation cannot alter provenance (10.953036ms)
+✔ withdrawal blocks new views after restart and introduces no body cache (9.438437ms)
+✔ deletion removes view source; later recollections and legacy runs cannot masquerade as evidence (14.037075ms)
+✔ closed, forged and tampered records cannot produce an available view (7.048341ms)
+✔ byte audit admits short probes and exact boundary, rejects composite oversize without token estimates (92.551202ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 338.863114

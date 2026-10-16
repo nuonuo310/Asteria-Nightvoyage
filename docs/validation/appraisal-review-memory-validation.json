@@ -1,0 +1,31 @@
+{
+  "stage": "A_pure_memory",
+  "implemented": true,
+  "managedStoreIntegrated": false,
+  "linuxTargeted": {
+    "passed": 59,
+    "failed": 0
+  },
+  "appraisalViewRegression": {
+    "passed": 7,
+    "failed": 0
+  },
+  "linuxCRLF": {
+    "passed": 16,
+    "failed": 0
+  },
+  "newTests": 16,
+  "fullSuiteRun": false,
+  "windowsRun": false,
+  "realModelRequests": 0,
+  "qualityAssessed": false,
+  "sha256": {
+    "src/appraisal-review-memory.js": "92ffeb455af62439bca264861b4976f9a485e5630630c72bd25fc114e295b234",
+    "test/appraisal-review-memory.test.js": "5e1a290aac81b508b3b045f986b9ebf47b2876eb046e27ad915385b20dbbb9b1",
+    "scripts/check-appraisal-review-memory.mjs": "9acc2674d880e2d1fd3169e5a196b16afb4ac9f665d467c5bb3a90a68fcd3e64",
+    "docs/validation/appraisal-review-memory-targeted.txt": "2bcc3c1bba29ee1a7e327df0c031efeb11cb822fc52d85d48f39d0342280d7b7",
+    "docs/validation/appraisal-review-memory-view-regression.txt": "7a5025e404c7991c2c8f74b8983e3b5a5f3dafe9c50cb289a5fd5b0cecd70d18",
+    "docs/validation/appraisal-review-memory-crlf.txt": "a3a68891165e2031a5dd89c9362b1079898b4b790698e2f420edcab8d72c25c9",
+    "docs/validation/appraisal-review-memory-script.json": "b7a1f54443a4044a017bc4e4842e37d5301a4fc0452cc68a3d2ea1349bc44028"
+  }
+}
