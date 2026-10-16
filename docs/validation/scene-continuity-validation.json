@@ -1,0 +1,39 @@
+{
+  "stage": "offline_scene_continuity_prompt_comparison",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "initialNewTests": {
+    "passed": 9,
+    "failed": 1,
+    "reason": "test_assumed_body_authentication_beyond_standalone_normalizer",
+    "rawLogRetained": false
+  },
+  "finalNewTests": 12,
+  "linuxTargeted": {
+    "passed": 52,
+    "failed": 0
+  },
+  "linuxCRLF": {
+    "passed": 12,
+    "failed": 0
+  },
+  "fullSuiteRun": false,
+  "newWindowsRun": false,
+  "fakeGenerationCalls": 0,
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "storeOpened": false,
+  "paidEntryAvailable": false,
+  "liveSourcePinsUnchanged": true,
+  "modelComplianceImproved": "not_assessed",
+  "qualityAssessed": false,
+  "sha256": {
+    "src/scene-continuity-prompt.js": "8b3de82becb7e723a2f20a6b42e86ec229f8ac4d36238c751d47961602800a86",
+    "test/scene-continuity-prompt.test.js": "9f8618c4fd342aa16f888303e1afd97100ed5fd27d518f71cae96eadc79f9fdc",
+    "scripts/check-scene-continuity-prompt.mjs": "b949fbd1bd4dca52175ed16f5efe79a15562bd312cf088f424d5b2d5368b5c4d",
+    "docs/validation/scene-continuity-targeted.txt": "532c2183fd1afa99c2e99f78bc565dd18669d7ee432232cd9d730fd01689a594",
+    "docs/validation/scene-continuity-crlf.txt": "35acd6d572a17786d6e14025a96c74abf2d4ee49bd396b63d270e5c5895a1508",
+    "docs/validation/scene-continuity-script.json": "aa568603ad1c48d4dc8aea96605e4c207544160c01626ae057a539b5b104a499",
+    "docs/validation/user-local-content-reader-windows.json": "85fa9b94f4d236be8c915fc7fc0e20a77ba049d56c0b9ad6cb40e699c1c03bf4"
+  }
+}

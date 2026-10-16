@@ -1,0 +1,72 @@
+{
+  "command": "node scripts/check-scene-continuity-prompt.mjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "candidateVersion": "offline-scene-continuity-prompt-v1",
+  "addedSecondSceneSystemText": "Write the next moment being lived in this dream. An ordinary action, perception, or lingering attention may carry the scene.\nA quiet return or confirmation is allowed. If a scene adds only a recap of what is already established, consider a lived moment within the same situation.\nNo quota for novelty, new objects, location changes, conflict, insight, emotional explanations, or positive endings. Keep all existing source, perspective, affect-evidence, schema, and output limits.",
+  "requestsConstructed": 3,
+  "bodyChangedByStage": [
+    false,
+    true,
+    false
+  ],
+  "requestByteComparisons": [
+    {
+      "baseline": 4380,
+      "candidate": 4380,
+      "limit": 65536,
+      "baselineFits": true,
+      "candidateFits": true,
+      "units": "UTF-8 JSON bytes; not model tokens"
+    },
+    {
+      "baseline": 5240,
+      "candidate": 5723,
+      "limit": 65536,
+      "baselineFits": true,
+      "candidateFits": true,
+      "units": "UTF-8 JSON bytes; not model tokens"
+    },
+    {
+      "baseline": 4220,
+      "candidate": 4220,
+      "limit": 65536,
+      "baselineFits": true,
+      "candidateFits": true,
+      "units": "UTF-8 JSON bytes; not model tokens"
+    }
+  ],
+  "actualModelTokenCount": null,
+  "fakeGenerationCalls": 0,
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "storeOpened": false,
+  "paidEntryAvailable": false,
+  "liveSourcePinsUnchanged": true,
+  "authoredTransitionReview": [
+    {
+      "caseId": "confirm-only",
+      "origin": "fixture_author_annotation",
+      "observation": "limited_confirmation",
+      "isAutomaticJudgment": false,
+      "qualityRank": null
+    },
+    {
+      "caseId": "ordinary-subtle",
+      "origin": "fixture_author_annotation",
+      "observation": "ordinary_subtle_progress",
+      "isAutomaticJudgment": false,
+      "qualityRank": null
+    },
+    {
+      "caseId": "dream-transformation",
+      "origin": "fixture_author_annotation",
+      "observation": "transformed_with_link",
+      "isAutomaticJudgment": false,
+      "qualityRank": null
+    }
+  ],
+  "automaticSemanticRanking": false,
+  "modelComplianceImproved": "not_assessed",
+  "qualityAssessed": false
+}

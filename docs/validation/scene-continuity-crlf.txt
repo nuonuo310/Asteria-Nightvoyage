@@ -1,0 +1,20 @@
+✔ only second-scene system prose changes; body fields, saved scenes, schema and budgets remain exact (64.461811ms)
+✔ first scene preserves baseline body exactly, including original affect/excerpt instructions (0.766475ms)
+✔ wake preserves baseline body exactly, including original affect/excerpt instructions (3.063745ms)
+✔ literal normalization acceptance is independent of the candidate and authored transition labels (8.155424ms)
+✔ ordinary, quiet confirmation and transformed scripted transitions receive no automatic ranking (6.078225ms)
+✔ offline comparison requires explicit fictional no-egress input, valid stage/index and closed shape (3.394714ms)
+✔ inconsistent checkpoints cannot enter a candidate or be rewritten into apparent continuity (0.912685ms)
+✔ returned mutations never change inputs or future baseline construction (1.901451ms)
+✔ candidate is not an accepted paid selector and all existing reviewed pins remain unchanged (2.181585ms)
+✔ offline script constructs three requests with zero generation, key, native request or Store access (188.916941ms)
+✔ a self-consistent fictional event is not authenticated by a standalone request normalizer (3.698051ms)
+✔ request sizing counts serialized bytes and reports overflow without raising the transport ceiling (7.418161ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 559.674251
