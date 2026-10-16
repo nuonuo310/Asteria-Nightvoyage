@@ -1,5 +1,7 @@
 # Asteria-Nightvoyage · 夜航
 
+[Direct-quotation offline runtime](docs/INLINE-RUNTIME.md) now rehearses two scenes, grounded wake, persistence/reopen, cue recall, cancellation and withdrawal using only supplied local simulators. Run `node scripts/check-inline-runtime.mjs` without a key. Its distinct offline identity is not a paid selector or production review-adapter compatibility claim; existing profiles and unknown holds remain unchanged. Real model compliance and dream quality are unassessed.
+
 Latest: the user-reported compact live trial stopped on its first validation failure, publishing no dream. [Body-free failure diagnostics and limits](docs/COMPACT-VALIDATION-DIAGNOSTICS.md) preserve the unknown budget hold; installing the change does not retry or recover the discarded response.
 
 The user reports the [single-scene diagnostic](docs/SINGLE-SCENE-DIAGNOSTIC.md) is consumed and rejected for unused quote entries, with no generated body saved. [Result and isolated offline comparison](docs/UNUSED-QUOTATION-REVIEW.md) do not change the live validator or release either unknown hold. No further real call is approved.

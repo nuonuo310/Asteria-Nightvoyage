@@ -523,3 +523,11 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 8个现有自有虚构contrast保留事件、数值、分支和绑定依据，inline231–331 bytes，比canonical compact少14–16 bytes；1个共享64字符引文合成边界由603增加到1359 bytes，超过原1200上限仍拒绝。未测真实token或模型遵循，字面等价不证明语义/情绪幅度/梦质量。
 - 新增32项＋旧引用12项＋当前入口31项共75/75；临时Linux CRLF新增32/32。没有新全仓/Windows实机、真实调用/Key/Store访问/费用或hold清算。原先454/454不冒充本轮全仓。
 - 全部独立MIT实现及公开虚构反例，无第三方实现复制、私有原文或用户正文/运行ID/指纹。证据见docs/validation/inline-evidence-validation.json。下一步独立模拟运行器，不直接替换live格式或要求用户再次输Key。
+
+## 直接引文：独立模拟运行器
+
+- offline-inline-runtime-v1在test-support复用自有核心，显式simulator才可运行；新basis/affect格式保留依据/数值要求，不修复旧引用。两幕＋逐字醒来、保存重开、来源完整的召回、独立只读评价视图已完成代码与脚本验证；不声明生产评审适配器或Asteria兼容。
+- 首次派发前保存身份/版本/提示hash；逐幕验证完整checkpoint。仅无模糊尝试的已保存前缀可显式恢复；实际子进程派发1/2/3退出、取消/超时、写入失败、格式错误均无隐式补发。撤回、删除及重开屏蔽正文/召回/新视图，独立伪造四unknown共8812800 micro-CNY跨fake闭环保持原样，未访问用户Store。
+- 新生命周期25项＋格式32项＋当前入口31项=88/88；临时Linux CRLF新25/25，未新增Windows实机或全仓成绩。脚本3次fake、零真实请求/Key，当前50生产pin匹配；无生产src/profile/额度修改或费用清算。
+- fake payload字节估算不含system提示，不是token/费用证据；实际序列化请求另守65536-byte，响应1200 JSON bytes不放宽。语义、幅度、模型遵循与质量均未验收。详见docs/INLINE-RUNTIME.md及validation/inline-runtime-validation.json。
+- 公开仅独立MIT实现、虚构脚本和无正文汇总；无第三方实现复制、私有原文、用户梦簿、聊天、运行编号/指纹、配置或Key。下一步独立预算核心的stub验证，收费提案仍需另行准备与确认。

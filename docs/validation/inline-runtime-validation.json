@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "stage": "offline_inline_runtime",
+  "baseCommit": "f66bac13573c1f3121bbe5c987cf01b2c6ac7617",
+  "protocolVersion": "offline-inline-runtime-v1",
+  "checks": {
+    "targeted": {
+      "newRuntime": 25,
+      "inlineFormat": 32,
+      "currentPaidEntry": 31,
+      "tests": 88,
+      "pass": 88,
+      "fail": 0
+    },
+    "linuxCRLF": {
+      "tests": 25,
+      "pass": 25,
+      "fail": 0,
+      "isWindowsHost": false
+    }
+  },
+  "script": {
+    "command": "node scripts/check-inline-runtime.mjs",
+    "node": "v24.19.0",
+    "platform": "linux",
+    "protocolVersion": "offline-inline-runtime-v1",
+    "status": "completed_before_withdrawal",
+    "fakeStageCalls": 3,
+    "realModelRequests": 0,
+    "credentialReads": 0,
+    "identitySavedBeforeDispatch": true,
+    "secondScenePromptOnly": true,
+    "reopened": true,
+    "duplicateCalls": 0,
+    "typedOfflineViewAvailable": true,
+    "recallCandidates": 1,
+    "recallOrigin": "dream",
+    "recallIsRealityFact": false,
+    "withdrawalSuppressesViewAndRecall": true,
+    "withdrawalSurvivesReopen": true,
+    "originalSourceGrantsNoEgress": true,
+    "budgetKind": "fake_byte_estimate_only",
+    "inputBudgetScope": "core_payload_byte_estimate_excludes_system_prompt",
+    "actualProviderTokensOrCurrencyValidated": false,
+    "paidLedgerCreated": false,
+    "currentPaidSourcePinsMatch": true,
+    "liveProtocolEnabled": false,
+    "asteriaAdapter": "pending",
+    "semanticSupport": "not_assessed",
+    "qualityAssessed": false
+  },
+  "syntheticHistoricalUnknowns": {
+    "count": 4,
+    "heldMicroCny": "8812800",
+    "preservedAcrossFakeRunWithdrawalAndReopen": true,
+    "isUserStore": false
+  },
+  "productionSourcesChanged": false,
+  "approvedProfilesChanged": false,
+  "userStoreAccessed": false,
+  "newPaidAllowanceCreated": false,
+  "thirdPartyImplementationCopied": false,
+  "privateTextOrUserGeneratedBodiesIncluded": false,
+  "newFullSuiteOrWindowsHostResult": false,
+  "sourceHashes": {
+    "test-support/inline-evidence-runtime.js": "43e6d832013fce6f6569693459fa8dfbd5abd532215787ab7d4cbf40ff6d0bb1",
+    "test-support/inline-runtime-fixtures.js": "d50eeee7195aefdb9222cbf4252d73c86889c59f28dfa4dc7a1a6e11e5acc0a2",
+    "test/inline-runtime.test.js": "fc6a313a01e7d5a28bbcf74f9785ac0982be6788c1ad5abd43b42c71cf6461e4",
+    "scripts/check-inline-runtime.mjs": "558ec344a589ac383494ae19458a469b286a3525d214c33fe4688d3933b9cfd0",
+    "docs/INLINE-RUNTIME.md": "155019e8d41b82f973d15365dbff95253bc2f6119a8a5e46d3b9cfee4d5f63d6",
+    "docs/validation/inline-runtime-targeted.txt": "927df283c8859b7b04cf7135fe4ef6fbb1705f668ecab24ce97db517dd89b7d2",
+    "docs/validation/inline-runtime-crlf.txt": "f7533b3e5c4c0a21e948c6eceb7742a6b369185def792ebe6e60f5080973a133",
+    "docs/validation/inline-runtime-script.json": "def4df83b1005e0cb88b6af9266a6ea5c5942faa5e87659aa29855e1c3b90659"
+  }
+}
