@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "stage": "first_scene_reference_rejection_review",
+  "baseCommit": "ba9b097a3f7ee2da597d22a7fb9a3efc6b8d7309",
+  "userReportedLiveResult": {
+    "scopeApproved": true,
+    "materialKind": "fictional",
+    "protocolVersion": "scene-continuity-quotes-v1",
+    "calls": 1,
+    "stagesCommitted": 0,
+    "dreamPublished": false,
+    "status": "failed",
+    "validationCheck": "invalid_compact_reference",
+    "attemptAccounting": "unknown",
+    "newHoldMicroCny": "2203200",
+    "preservedPriorHoldMicroCny": "6609600",
+    "fourUnknownHoldsMicroCny": "8812800",
+    "aggregateRegisteredCalls": 28,
+    "aggregateRegisteredRuns": 12,
+    "aggregateHeldOrSpentMicroCny": "8858034",
+    "preflightReady": false,
+    "preflightReason": "unsettled_attempt_requires_review",
+    "sourcePinsMatch": true,
+    "fixtureMatchesReview": true,
+    "originalResponseAvailable": false,
+    "specificBadReference": "unknown",
+    "providerInvoiceVerified": false,
+    "userStoreOpenedByThisReview": false,
+    "hostNetworkAudit": false,
+    "rawTerminalOrGeneratedBodyPublished": false
+  },
+  "checks": {
+    "linuxTargeted": {
+      "newReferenceChecks": 12,
+      "candidateBudgetChecks": 27,
+      "tests": 39,
+      "pass": 39,
+      "fail": 0
+    },
+    "currentPaidSourcePinsMatch": true,
+    "realModelRequestsThisReview": 0,
+    "credentialReadsThisReview": 0,
+    "storeOpenedByOfflineScript": false,
+    "firstSceneBodyMatchesBaseline": true,
+    "secondScenePromptEvaluatedByLiveAttempt": false
+  },
+  "newFeeApprovalRequested": false,
+  "automaticRepairEnabled": false,
+  "semanticSupport": "not_assessed",
+  "qualityAssessed": false,
+  "sourceHashes": {
+    "scripts/check-continuity-references.mjs": "02968d84c8ce37f16346ac3ce58dfb222f708b6b0db20c5c1c72e31ac8d49414",
+    "test/continuity-reference-review.test.js": "d10aec44c659175706d62a58cd920e94af5ea1f784e693dfd9c0a6f733aa4b75",
+    "docs/CONTINUITY-LIVE-REVIEW.md": "cd3bade61fa96937bc606488a8850ea0c3f0115f2d9e9df6e359aaff5d9c153f",
+    "docs/validation/continuity-reference-targeted.txt": "9d4ae74d9159d0b367e403fa3140034819afb2e742b82e5f4436237f18c36594",
+    "docs/validation/continuity-reference-script.json": "74fc0f654cd91a9fb50139e6364a6a382966490d78f05415d7a2912b038d2d21"
+  }
+}

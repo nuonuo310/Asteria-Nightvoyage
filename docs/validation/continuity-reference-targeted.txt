@@ -1,0 +1,47 @@
+✔ allowance binding is optional for legacy records, immutable when present and rejects unreviewed/offline versions (5.975485ms)
+✔ candidate and offline coupled checkpoints have distinct identities and preserve counts (5.496263ms)
+✔ continuity budget without a matching immutable allowance binding is blocked before reservation or dispatch (3.920413ms)
+✔ continuity live transport requires a matching local reviewed approval before opening a Store (0.821482ms)
+✔ integrated continuity commits audits, scenes and three settled rows atomically without touching an older hold (31.840922ms)
+✔ invalid continuity quotes and later affect rules retain typed body-free rejection and full unknown reservation (18.796508ms)
+✔ continuity budget diagnostic metadata strips arbitrary text and is accepted only by its bound account (4.440299ms)
+✔ continuity budget wake rejection cannot publish a dream or trigger a fourth repair call (19.07099ms)
+✔ continuity budget cancellation and withdrawal suppress late output and purge counts/view/recall (31.85073ms)
+✔ continuity budget run identity cannot switch allowance or protocol through execute/resume (5.894475ms)
+✔ continuity budget atomic settlement failure reopens with neither audit nor scene and retains unknown hold (12.354553ms)
+✔ actual exit after coupled atomic scene commit resumes only the remaining two paid-path simulator stages (168.115283ms)
+✔ actual exit after dispatch keeps unknown coupled hold and explicit resume cannot send again (126.956485ms)
+✔ continuity budget allowance call cap and missing egress block before any over-limit dispatch (14.000693ms)
+✔ continuity exact input/output byte ceilings reject before reserve or before publication without repair (24.809245ms)
+✔ continuity direct-store in-flight withdrawal suppresses late response and reopen cannot reveal body (5.623222ms)
+✔ continuity timeout and invalid usage each keep one unknown hold and no scene declaration (34.939344ms)
+✔ continuity declarations, audits and policy identity cannot be forged before dispatch or via read view (13.293409ms)
+✔ continuity diagnostic checks are bounded, version-bound and cannot alter settled billing (2.503961ms)
+✔ continuity duplicate starts and overlapping execute dispatch once and queued cancel consumes no allowance (16.375396ms)
+✔ new coupled stub account preserves all three independent synthetic historical full holds byte-for-byte (13.881837ms)
+✔ actual candidate body is fingerprinted before reservation and identity is durable before HTTP (18.859895ms)
+✔ candidate content reader and independent reviews retain identity and disappear after deletion/reopen (38.538927ms)
+✔ candidate defaults, money cap, run cap and expiry stop before dispatch without resetting allowance (22.070616ms)
+✔ actual exit on candidate dispatch 2 retains prior scenes and never repeats the unknown call (138.777379ms)
+✔ actual exit on candidate dispatch 3 retains prior scenes and never repeats the unknown call (152.867479ms)
+✔ fixed candidate budget command uses guarded stub transport and reports no provider billing or quality acceptance (151.551252ms)
+✔ fictional reference counterexample: negative-control (15.23061ms)
+✔ fictional reference counterexample: text-control (2.391019ms)
+✔ fictional reference counterexample: fraction-control (6.670675ms)
+✔ fictional reference counterexample: out-of-range-uncertainty (4.634605ms)
+✔ fictional reference counterexample: one-index-goal (4.791391ms)
+✔ fictional reference counterexample: out-of-range-goal (4.254521ms)
+✔ fictional reference counterexample: text-goal (4.114284ms)
+✔ fictional reference counterexample: out-of-range-affect (3.226523ms)
+✔ fictional reference counterexample: negative-affect-declaration (2.582967ms)
+✔ fictional reference counterexample: valid-unused-quote (3.804668ms)
+✔ fictional reference counterexample: valid-zero-reference (4.034449ms)
+✔ reference command returns aggregate evidence only, no credentials, HTTP, Store or diagnosis of discarded body (146.673757ms)
+ℹ tests 39
+ℹ suites 0
+ℹ pass 39
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1293.333153

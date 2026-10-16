@@ -1,6 +1,6 @@
 # 分幕候选真实试跑方案：实施前待办
 
-状态：**entry_prepared_awaiting_separate_approval**。本页是进入付费前范围，不是付费入口或已批准额度。已完成 SCENE-CONTINUITY-RUNTIME.md 的 fake-only 机制及 SCENE-CONTINUITY-BUDGET.md 的候选协议/账本 stub 接入；真实请求为零。后续已完成独立入口及模拟证据，见 CONTINUITY-TRIAL-ENTRY.md；旧的not_ready状态仅记录前阶段。
+状态：**first_trial_failed_stopped**。后续一次具体批准已执行，第一幕引用校验拒绝；不重发、不新建额度，见 CONTINUITY-LIVE-REVIEW.md。以下保留进入试跑前的要求。本页是进入付费前范围，不是付费入口或已批准额度。已完成 SCENE-CONTINUITY-RUNTIME.md 的 fake-only 机制及 SCENE-CONTINUITY-BUDGET.md 的候选协议/账本 stub 接入；真实请求为零。后续已完成独立入口及模拟证据，见 CONTINUITY-TRIAL-ENTRY.md；旧的not_ready状态仅记录前阶段。
 
 ## 收窄目标
 

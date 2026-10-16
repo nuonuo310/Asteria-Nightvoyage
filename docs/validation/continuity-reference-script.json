@@ -1,0 +1,88 @@
+{
+  "command": "node scripts/check-continuity-references.mjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "schemaVersion": 1,
+  "kind": "fictional_reference_guard_review",
+  "scriptedCases": 11,
+  "results": [
+    {
+      "id": "negative-control",
+      "expected": "invalid_compact_reference",
+      "actual": "invalid_compact_reference",
+      "scriptedOnly": true
+    },
+    {
+      "id": "text-control",
+      "expected": "invalid_compact_reference",
+      "actual": "invalid_compact_reference",
+      "scriptedOnly": true
+    },
+    {
+      "id": "fraction-control",
+      "expected": "invalid_compact_reference",
+      "actual": "invalid_compact_reference",
+      "scriptedOnly": true
+    },
+    {
+      "id": "out-of-range-uncertainty",
+      "expected": "invalid_compact_reference",
+      "actual": "invalid_compact_reference",
+      "scriptedOnly": true
+    },
+    {
+      "id": "one-index-goal",
+      "expected": "invalid_compact_reference",
+      "actual": "invalid_compact_reference",
+      "scriptedOnly": true
+    },
+    {
+      "id": "out-of-range-goal",
+      "expected": "invalid_compact_reference",
+      "actual": "invalid_compact_reference",
+      "scriptedOnly": true
+    },
+    {
+      "id": "text-goal",
+      "expected": "invalid_compact_reference",
+      "actual": "invalid_compact_reference",
+      "scriptedOnly": true
+    },
+    {
+      "id": "out-of-range-affect",
+      "expected": "invalid_compact_reference",
+      "actual": "invalid_compact_reference",
+      "scriptedOnly": true
+    },
+    {
+      "id": "negative-affect-declaration",
+      "expected": "coupled_affect_shape_invalid",
+      "actual": "coupled_affect_shape_invalid",
+      "scriptedOnly": true
+    },
+    {
+      "id": "valid-unused-quote",
+      "expected": "accepted",
+      "actual": "accepted",
+      "scriptedOnly": true
+    },
+    {
+      "id": "valid-zero-reference",
+      "expected": "accepted",
+      "actual": "accepted",
+      "scriptedOnly": true
+    }
+  ],
+  "firstSceneBodyMatchesBaseline": true,
+  "secondSceneCandidatePromptAppliedToFirst": false,
+  "currentTrialPinsMatch": true,
+  "discardedLiveResponseAvailable": false,
+  "liveFailureSpecificReference": "unknown",
+  "automaticReferenceRepair": false,
+  "realModelRequests": 0,
+  "storeOpened": false,
+  "persistentRuntimeWrites": 0,
+  "semanticSupport": "not_assessed",
+  "qualityAssessed": false,
+  "credentialReads": 0
+}
