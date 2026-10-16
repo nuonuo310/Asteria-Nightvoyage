@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "kind": "non_executable_paid_trial_proposal",
+  "status": "draft_implementation_and_user_confirmation_pending",
+  "candidateId": "inline-evidence-single-dream-proposal-20261016",
+  "protocolVersion": "inline-evidence-quotes-v1",
+  "protocolIdentity": {
+    "promptCandidateHash": "c8e9bbd6963c89f5a3c90f0f411afc32d90a18961a9dca7a3a3a96b185da0043",
+    "evidenceEncodingVersion": "direct-quotation-interning-v1",
+    "affectEncodingVersion": "explicit-affect-union-v1",
+    "wakePolicyVersion": "saved-scene-excerpt-v1"
+  },
+  "sourceInventoryHash": "1b4c5d860e3b3fccc3dab4195cf7826a1d6725a587e6e7f1db6f6667fdee8cca",
+  "staticGraphHash": "56455b029002bd804dfbb10bdbb2e0d0a1dce520e9982bf6eee87ea33d2b6c22",
+  "provider": "DeepSeek",
+  "model": "deepseek-flash",
+  "materialKind": "fictional",
+  "generatedEventOrigin": "dream",
+  "isRealityFact": false,
+  "caseId": "sparse-context",
+  "sourceRefs": [
+    {
+      "id": "q-sparse-memory",
+      "version": "1"
+    }
+  ],
+  "proposedAdditionalBudgetCny": 3,
+  "maxAdditionalRuns": 1,
+  "maxAdditionalCalls": 3,
+  "perCallOutputTokens": 400,
+  "requestByteLimit": 65536,
+  "responseJsonByteLimit": 1200,
+  "pricingReview": {
+    "checkedOn": "2026-10-16",
+    "reviewExpiresAt": "2026-10-17T18:00:00Z",
+    "currency": "CNY",
+    "rateBasis": "peak_cache_miss_upper_bound",
+    "inputCnyPerMillion": 2,
+    "outputCnyPerMillion": 8,
+    "modelListContextExample": 1048576,
+    "conservativeInputReservationTokens": 1100000,
+    "fullPerCallReservationMicroCny": "2203200",
+    "fullPerCallReservationCny": 2.2032,
+    "references": [
+      "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
+      "https://api-docs.deepseek.com/api/list-models/"
+    ],
+    "actualModelsRequestMade": false,
+    "automaticPriceRenewal": false
+  },
+  "preservedUnknowns": {
+    "count": 4,
+    "heldMicroCny": "8812800",
+    "providerChargeKnown": false,
+    "releaseOrSettlementAuthorized": false
+  },
+  "automaticRetry": false,
+  "repairCalls": false,
+  "continuesPriorRun": false,
+  "fictionalEgressApproved": false,
+  "paidEvaluationApproved": false,
+  "persistsGeneratedBody": true,
+  "privateMaterialAllowed": false,
+  "liveEntryAvailable": false,
+  "implementationReady": false,
+  "qualityAssessed": false
+}

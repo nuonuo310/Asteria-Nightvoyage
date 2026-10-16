@@ -11,7 +11,7 @@ export function freezeOwnerCore(directory){
     const target=path.join(directory,'src',file);original.push([target,fs.readFileSync(target)]);fs.writeFileSync(target,body);
   }
   const extras=[];
-  for(const name of ['inline-evidence-protocol.js','inline-entry-preflight.js','inline-entry-review.json']){
+  for(const name of ['inline-evidence-protocol.js','inline-entry-preflight.js','inline-entry-review.json','inline-entry-admission.js','inline-entry-dependencies.js','inline-entry-graph.json']){
     const target=path.join(directory,'src',name);if(fs.existsSync(target)){extras.push([target,fs.readFileSync(target)]);fs.rmSync(target);}
   }
   return ()=>{for(const [file,body]of [...original,...extras])fs.writeFileSync(file,body);};

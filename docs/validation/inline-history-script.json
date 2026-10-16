@@ -1,0 +1,23 @@
+{
+  "command": "node scripts/check-inline-history-guard.mjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "preservedSyntheticUnknowns": 4,
+  "syntheticHeldMicroCny": "8812800",
+  "ownerLockChecked": true,
+  "guardStateBytesUnchanged": true,
+  "candidateAccountMode": "stub",
+  "oldAccountsUnchanged": true,
+  "reopened": true,
+  "baselineRecreatedAfterReopen": true,
+  "durableApprovalBaselineImplemented": false,
+  "withdrawalBlocksGuard": true,
+  "storeLifecycleMayWrite": true,
+  "credentialReads": 0,
+  "nativeRequests": 0,
+  "userStoreAccessed": false,
+  "dispatchAuthorized": false,
+  "liveEntryAvailable": false,
+  "semanticSupport": "not_assessed",
+  "qualityAssessed": false
+}

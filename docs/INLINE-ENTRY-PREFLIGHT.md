@@ -1,6 +1,6 @@
 # 直接引文入口准备：源码清单与只读历史预检
 
-状态：`readiness_observation_only / paid_entry_pending`。新增可运行的无凭据预检，不是正式收费 profile、授权 admission 或生成 CLI。任何结果均 `ready:false`；没有 init/run/live/Key/预算参数，不创建目录、账户、批准文件，不恢复旧运行，不释放 unknown。
+状态：`readiness_observation_only / paid_entry_pending`。本页65文件/测试数字保留本阶段历史；后续[锁内前置与ESM约束](INLINE-LOCKED-PREREQUISITES.md)将当前清单扩展为68文件，正式收费入口仍未接通。新增可运行的无凭据预检，不是正式收费 profile、授权 admission 或生成 CLI。任何结果均 `ready:false`；没有 init/run/live/Key/预算参数，不创建目录、账户、批准文件，不恢复旧运行，不释放 unknown。
 
 ## 本轮实现
 
