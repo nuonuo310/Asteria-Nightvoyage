@@ -516,3 +516,10 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 不是新提示的质量结论：新增提示仅第二幕，第一幕实际body离线核对与旧coupled一致，未到候选干预阶段。被拒正文已丢弃，只能列出错误码可能路径，不能诊断具体字段或倒填响应。
 - 11个独立虚构引用反例与12项新增检查，联合原候选预算27项合计39/39；脚本零真实请求/Key/Store，生产源代码与50pin未变，无新付费诊断。本轮无新增Windows全套、CRLF或真实质量验收，前阶段证据不重标。
 - 公开只保存独立机制摘要、固定诊断与合成测试，没有用户运行编号、指纹、响应正文、终端聊天、私有配置或密钥。下阶段仅做离线编码负担比较，不自动放宽引用、修复数值或再次花费。见 docs/CONTINUITY-LIVE-REVIEW.md。
+
+## 直接引文格式：离线比较，不改真实入口
+
+- 新offline-inline-evidence-review-v1仅在test-support和固定脚本中使用；basis直接写精确引文，estimated带原delta与excerpt，unchanged独立。程序只为新格式分配内部去重索引，不修复旧非法引用或缺失依据，不变更生产50pin/旧profile/账本。
+- 8个现有自有虚构contrast保留事件、数值、分支和绑定依据，inline231–331 bytes，比canonical compact少14–16 bytes；1个共享64字符引文合成边界由603增加到1359 bytes，超过原1200上限仍拒绝。未测真实token或模型遵循，字面等价不证明语义/情绪幅度/梦质量。
+- 新增32项＋旧引用12项＋当前入口31项共75/75；临时Linux CRLF新增32/32。没有新全仓/Windows实机、真实调用/Key/Store访问/费用或hold清算。原先454/454不冒充本轮全仓。
+- 全部独立MIT实现及公开虚构反例，无第三方实现复制、私有原文或用户正文/运行ID/指纹。证据见docs/validation/inline-evidence-validation.json。下一步独立模拟运行器，不直接替换live格式或要求用户再次输Key。

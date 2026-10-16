@@ -1,0 +1,381 @@
+{
+  "command": "node scripts/check-inline-evidence-review.mjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "protocolVersion": "offline-inline-evidence-review-v1",
+  "scriptedComparisons": 9,
+  "results": [
+    {
+      "id": "bell-positive",
+      "kind": "independent_public_scripted_example",
+      "schemaVersion": 1,
+      "protocolVersion": "offline-inline-evidence-review-v1",
+      "materialKind": "fictional",
+      "origin": "scripted_encoding_comparison",
+      "isRealityFact": false,
+      "scriptedOnly": true,
+      "sizes": {
+        "suppliedCompactJsonBytes": 298,
+        "canonicalCompactJsonBytes": 298,
+        "inlineJsonBytes": 282,
+        "inlineMinusCanonicalCompactBytes": -16,
+        "limit": 1200,
+        "units": "UTF-8 JSON bytes; not model tokens"
+      },
+      "candidateBoundedResult": "accepted",
+      "contentPreserved": true,
+      "sharedQuoteCount": 1,
+      "receivedOldQuoteCount": 1,
+      "oldAudit": {
+        "schemaVersion": 1,
+        "policyVersion": "validated-unused-quotation-pruning-v1",
+        "receivedQuoteCount": 1,
+        "keptQuoteCount": 1,
+        "discardedUnusedQuoteCount": 0
+      },
+      "inlineAudit": {
+        "schemaVersion": 1,
+        "policyVersion": "validated-unused-quotation-pruning-v1",
+        "receivedQuoteCount": 1,
+        "keptQuoteCount": 1,
+        "discardedUnusedQuoteCount": 0
+      },
+      "modelNumericReferencesRequired": 0,
+      "modelCompliance": "not_assessed",
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false
+    },
+    {
+      "id": "bell-negative",
+      "kind": "independent_public_scripted_example",
+      "schemaVersion": 1,
+      "protocolVersion": "offline-inline-evidence-review-v1",
+      "materialKind": "fictional",
+      "origin": "scripted_encoding_comparison",
+      "isRealityFact": false,
+      "scriptedOnly": true,
+      "sizes": {
+        "suppliedCompactJsonBytes": 299,
+        "canonicalCompactJsonBytes": 299,
+        "inlineJsonBytes": 283,
+        "inlineMinusCanonicalCompactBytes": -16,
+        "limit": 1200,
+        "units": "UTF-8 JSON bytes; not model tokens"
+      },
+      "candidateBoundedResult": "accepted",
+      "contentPreserved": true,
+      "sharedQuoteCount": 1,
+      "receivedOldQuoteCount": 1,
+      "oldAudit": {
+        "schemaVersion": 1,
+        "policyVersion": "validated-unused-quotation-pruning-v1",
+        "receivedQuoteCount": 1,
+        "keptQuoteCount": 1,
+        "discardedUnusedQuoteCount": 0
+      },
+      "inlineAudit": {
+        "schemaVersion": 1,
+        "policyVersion": "validated-unused-quotation-pruning-v1",
+        "receivedQuoteCount": 1,
+        "keptQuoteCount": 1,
+        "discardedUnusedQuoteCount": 0
+      },
+      "modelNumericReferencesRequired": 0,
+      "modelCompliance": "not_assessed",
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false
+    },
+    {
+      "id": "explicit-relief",
+      "kind": "independent_public_scripted_example",
+      "schemaVersion": 1,
+      "protocolVersion": "offline-inline-evidence-review-v1",
+      "materialKind": "fictional",
+      "origin": "scripted_encoding_comparison",
+      "isRealityFact": false,
+      "scriptedOnly": true,
+      "sizes": {
+        "suppliedCompactJsonBytes": 314,
+        "canonicalCompactJsonBytes": 314,
+        "inlineJsonBytes": 298,
+        "inlineMinusCanonicalCompactBytes": -16,
+        "limit": 1200,
+        "units": "UTF-8 JSON bytes; not model tokens"
+      },
+      "candidateBoundedResult": "accepted",
+      "contentPreserved": true,
+      "sharedQuoteCount": 1,
+      "receivedOldQuoteCount": 1,
+      "oldAudit": {
+        "schemaVersion": 1,
+        "policyVersion": "validated-unused-quotation-pruning-v1",
+        "receivedQuoteCount": 1,
+        "keptQuoteCount": 1,
+        "discardedUnusedQuoteCount": 0
+      },
+      "inlineAudit": {
+        "schemaVersion": 1,
+        "policyVersion": "validated-unused-quotation-pruning-v1",
+        "receivedQuoteCount": 1,
+        "keptQuoteCount": 1,
+        "discardedUnusedQuoteCount": 0
+      },
+      "modelNumericReferencesRequired": 0,
+      "modelCompliance": "not_assessed",
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false
+    },
+    {
+      "id": "explicit-alarm",
+      "kind": "independent_public_scripted_example",
+      "schemaVersion": 1,
+      "protocolVersion": "offline-inline-evidence-review-v1",
+      "materialKind": "fictional",
+      "origin": "scripted_encoding_comparison",
+      "isRealityFact": false,
+      "scriptedOnly": true,
+      "sizes": {
+        "suppliedCompactJsonBytes": 347,
+        "canonicalCompactJsonBytes": 347,
+        "inlineJsonBytes": 331,
+        "inlineMinusCanonicalCompactBytes": -16,
+        "limit": 1200,
+        "units": "UTF-8 JSON bytes; not model tokens"
+      },
+      "candidateBoundedResult": "accepted",
+      "contentPreserved": true,
+      "sharedQuoteCount": 1,
+      "receivedOldQuoteCount": 1,
+      "oldAudit": {
+        "schemaVersion": 1,
+        "policyVersion": "validated-unused-quotation-pruning-v1",
+        "receivedQuoteCount": 1,
+        "keptQuoteCount": 1,
+        "discardedUnusedQuoteCount": 0
+      },
+      "inlineAudit": {
+        "schemaVersion": 1,
+        "policyVersion": "validated-unused-quotation-pruning-v1",
+        "receivedQuoteCount": 1,
+        "keptQuoteCount": 1,
+        "discardedUnusedQuoteCount": 0
+      },
+      "modelNumericReferencesRequired": 0,
+      "modelCompliance": "not_assessed",
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false
+    },
+    {
+      "id": "bowl-unrelated-quote",
+      "kind": "independent_public_scripted_example",
+      "schemaVersion": 1,
+      "protocolVersion": "offline-inline-evidence-review-v1",
+      "materialKind": "fictional",
+      "origin": "scripted_encoding_comparison",
+      "isRealityFact": false,
+      "scriptedOnly": true,
+      "sizes": {
+        "suppliedCompactJsonBytes": 305,
+        "canonicalCompactJsonBytes": 305,
+        "inlineJsonBytes": 289,
+        "inlineMinusCanonicalCompactBytes": -16,
+        "limit": 1200,
+        "units": "UTF-8 JSON bytes; not model tokens"
+      },
+      "candidateBoundedResult": "accepted",
+      "contentPreserved": true,
+      "sharedQuoteCount": 1,
+      "receivedOldQuoteCount": 1,
+      "oldAudit": {
+        "schemaVersion": 1,
+        "policyVersion": "validated-unused-quotation-pruning-v1",
+        "receivedQuoteCount": 1,
+        "keptQuoteCount": 1,
+        "discardedUnusedQuoteCount": 0
+      },
+      "inlineAudit": {
+        "schemaVersion": 1,
+        "policyVersion": "validated-unused-quotation-pruning-v1",
+        "receivedQuoteCount": 1,
+        "keptQuoteCount": 1,
+        "discardedUnusedQuoteCount": 0
+      },
+      "modelNumericReferencesRequired": 0,
+      "modelCompliance": "not_assessed",
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false
+    },
+    {
+      "id": "blackout-linked-quote",
+      "kind": "independent_public_scripted_example",
+      "schemaVersion": 1,
+      "protocolVersion": "offline-inline-evidence-review-v1",
+      "materialKind": "fictional",
+      "origin": "scripted_encoding_comparison",
+      "isRealityFact": false,
+      "scriptedOnly": true,
+      "sizes": {
+        "suppliedCompactJsonBytes": 323,
+        "canonicalCompactJsonBytes": 323,
+        "inlineJsonBytes": 307,
+        "inlineMinusCanonicalCompactBytes": -16,
+        "limit": 1200,
+        "units": "UTF-8 JSON bytes; not model tokens"
+      },
+      "candidateBoundedResult": "accepted",
+      "contentPreserved": true,
+      "sharedQuoteCount": 1,
+      "receivedOldQuoteCount": 1,
+      "oldAudit": {
+        "schemaVersion": 1,
+        "policyVersion": "validated-unused-quotation-pruning-v1",
+        "receivedQuoteCount": 1,
+        "keptQuoteCount": 1,
+        "discardedUnusedQuoteCount": 0
+      },
+      "inlineAudit": {
+        "schemaVersion": 1,
+        "policyVersion": "validated-unused-quotation-pruning-v1",
+        "receivedQuoteCount": 1,
+        "keptQuoteCount": 1,
+        "discardedUnusedQuoteCount": 0
+      },
+      "modelNumericReferencesRequired": 0,
+      "modelCompliance": "not_assessed",
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false
+    },
+    {
+      "id": "direction-conflict",
+      "kind": "independent_public_scripted_example",
+      "schemaVersion": 1,
+      "protocolVersion": "offline-inline-evidence-review-v1",
+      "materialKind": "fictional",
+      "origin": "scripted_encoding_comparison",
+      "isRealityFact": false,
+      "scriptedOnly": true,
+      "sizes": {
+        "suppliedCompactJsonBytes": 320,
+        "canonicalCompactJsonBytes": 320,
+        "inlineJsonBytes": 304,
+        "inlineMinusCanonicalCompactBytes": -16,
+        "limit": 1200,
+        "units": "UTF-8 JSON bytes; not model tokens"
+      },
+      "candidateBoundedResult": "accepted",
+      "contentPreserved": true,
+      "sharedQuoteCount": 1,
+      "receivedOldQuoteCount": 1,
+      "oldAudit": {
+        "schemaVersion": 1,
+        "policyVersion": "validated-unused-quotation-pruning-v1",
+        "receivedQuoteCount": 1,
+        "keptQuoteCount": 1,
+        "discardedUnusedQuoteCount": 0
+      },
+      "inlineAudit": {
+        "schemaVersion": 1,
+        "policyVersion": "validated-unused-quotation-pruning-v1",
+        "receivedQuoteCount": 1,
+        "keptQuoteCount": 1,
+        "discardedUnusedQuoteCount": 0
+      },
+      "modelNumericReferencesRequired": 0,
+      "modelCompliance": "not_assessed",
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false
+    },
+    {
+      "id": "explicit-unchanged",
+      "kind": "independent_public_scripted_example",
+      "schemaVersion": 1,
+      "protocolVersion": "offline-inline-evidence-review-v1",
+      "materialKind": "fictional",
+      "origin": "scripted_encoding_comparison",
+      "isRealityFact": false,
+      "scriptedOnly": true,
+      "sizes": {
+        "suppliedCompactJsonBytes": 245,
+        "canonicalCompactJsonBytes": 245,
+        "inlineJsonBytes": 231,
+        "inlineMinusCanonicalCompactBytes": -14,
+        "limit": 1200,
+        "units": "UTF-8 JSON bytes; not model tokens"
+      },
+      "candidateBoundedResult": "accepted",
+      "contentPreserved": true,
+      "sharedQuoteCount": 0,
+      "receivedOldQuoteCount": 0,
+      "oldAudit": {
+        "schemaVersion": 1,
+        "policyVersion": "validated-unused-quotation-pruning-v1",
+        "receivedQuoteCount": 0,
+        "keptQuoteCount": 0,
+        "discardedUnusedQuoteCount": 0
+      },
+      "inlineAudit": {
+        "schemaVersion": 1,
+        "policyVersion": "validated-unused-quotation-pruning-v1",
+        "receivedQuoteCount": 0,
+        "keptQuoteCount": 0,
+        "discardedUnusedQuoteCount": 0
+      },
+      "modelNumericReferencesRequired": 0,
+      "modelCompliance": "not_assessed",
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false
+    },
+    {
+      "id": "shared-long-quotation-boundary",
+      "kind": "synthetic_byte_boundary_only",
+      "schemaVersion": 1,
+      "protocolVersion": "offline-inline-evidence-review-v1",
+      "materialKind": "fictional",
+      "origin": "scripted_encoding_comparison",
+      "isRealityFact": false,
+      "scriptedOnly": true,
+      "sizes": {
+        "suppliedCompactJsonBytes": 603,
+        "canonicalCompactJsonBytes": 603,
+        "inlineJsonBytes": 1359,
+        "inlineMinusCanonicalCompactBytes": 756,
+        "limit": 1200,
+        "units": "UTF-8 JSON bytes; not model tokens"
+      },
+      "candidateBoundedResult": "inline_output_too_large",
+      "contentPreserved": true,
+      "sharedQuoteCount": 1,
+      "receivedOldQuoteCount": 1,
+      "oldAudit": {
+        "schemaVersion": 1,
+        "policyVersion": "validated-unused-quotation-pruning-v1",
+        "receivedQuoteCount": 1,
+        "keptQuoteCount": 1,
+        "discardedUnusedQuoteCount": 0
+      },
+      "inlineAudit": {
+        "schemaVersion": 1,
+        "policyVersion": "validated-unused-quotation-pruning-v1",
+        "receivedQuoteCount": 1,
+        "keptQuoteCount": 1,
+        "discardedUnusedQuoteCount": 0
+      },
+      "modelNumericReferencesRequired": 0,
+      "modelCompliance": "not_assessed",
+      "semanticSupport": "not_assessed",
+      "qualityAssessed": false
+    }
+  ],
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "storeOpened": false,
+  "persistentRuntimeWrites": 0,
+  "existingPaidPinsMatch": true,
+  "liveSelectorAvailable": false,
+  "actualModelTokenCount": null,
+  "oldRejectedResponseAvailable": false,
+  "oldUnknownHoldsReconciled": false,
+  "modelComplianceImproved": "not_assessed",
+  "semanticSupport": "not_assessed",
+  "qualityAssessed": false
+}

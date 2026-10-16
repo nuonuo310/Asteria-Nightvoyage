@@ -1,0 +1,40 @@
+✔ independent fictional encoding comparison: bell-positive (3.605612ms)
+✔ independent fictional encoding comparison: bell-negative (1.012658ms)
+✔ independent fictional encoding comparison: explicit-relief (1.010663ms)
+✔ independent fictional encoding comparison: explicit-alarm (1.112284ms)
+✔ independent fictional encoding comparison: bowl-unrelated-quote (0.86725ms)
+✔ independent fictional encoding comparison: blackout-linked-quote (0.390652ms)
+✔ independent fictional encoding comparison: direction-conflict (0.791779ms)
+✔ independent fictional encoding comparison: explicit-unchanged (0.646564ms)
+✔ independent fictional encoding comparison: missing-reference (0.820451ms)
+✔ independent fictional encoding comparison: ungrounded-reference (0.401441ms)
+✔ inline estimates preserve event, exact quote, both numbers and explicit estimated-zero branch (1.547748ms)
+✔ unchanged is explicit and cannot carry hidden deltas or quotations (0.710054ms)
+✔ inline guard: missing-affect-excerpt (0.227803ms)
+✔ inline guard: null-affect-excerpt (0.263992ms)
+✔ inline guard: numeric-affect-reference (0.281935ms)
+✔ inline guard: ungrounded-affect (0.387852ms)
+✔ inline guard: out-of-range-delta (0.231417ms)
+✔ inline guard: unknown-not-midpoint (0.359888ms)
+✔ inline guard: neutral-goal-evidence (0.240408ms)
+✔ inline guard: nonzero-goal-without-evidence (0.162325ms)
+✔ inline guard: old-index-table-not-accepted (0.125667ms)
+✔ inline guard: goal-must-have-two-texts (0.183861ms)
+✔ inline guard: numeric-goal-is-not-repaired (0.139431ms)
+✔ inline guard: extra-numeric-field (0.108163ms)
+✔ short shared quotation is deduplicated by program without changing evidence or inferred meaning (0.262226ms)
+✔ shared long quotation remains valid in compact form but inline repetition exceeds the SAME byte ceiling (1.125367ms)
+✔ the independent inline decoder enforces exactly 1200 serialized bytes and never clips output (0.580522ms)
+✔ 64 Unicode codepoint quotation ceiling and JSON escaping remain bounded, never token estimates (1.084252ms)
+✔ fictional/no-egress markers and initial affect are mandatory (0.977038ms)
+✔ unsafe objects cannot invoke getters; returned mutation cannot alter future normalized evidence (0.903406ms)
+✔ new offline format cannot enter transport or an allowance, and does not disguise itself as old checkpoints (1.135349ms)
+✔ fixed comparison script prints aggregates, no scene, key, real call, Store or quality guarantee (224.750856ms)
+ℹ tests 32
+ℹ suites 0
+ℹ pass 32
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 505.035174

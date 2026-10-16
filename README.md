@@ -80,3 +80,5 @@ The user also reported Windows 127/127 tests and matching byte-audit outcomes, w
 分幕候选的[独立有限试跑入口](docs/CONTINUITY-TRIAL-ENTRY.md)已准备：新增3 CNY / 1梦 / 最多3调用的提案尚待单独批准；不继承旧授权。`node src/continuity-trial-cli.js preflight` 无需Key，缺批准不建目录。
 
 候选本次已单独批准并尝试：第一幕引用校验拒绝，1次调用、0幕保存，unknown全额保留，当前不重试。见[真实尝试复查](docs/CONTINUITY-LIVE-REVIEW.md)；离线反例和预算检查39/39不等于模型质量通过。
+
+直接引文格式的[独立离线比较](docs/INLINE-EVIDENCE-REVIEW.md)已完成：普通虚构样例可保留原字段并免填数字引用，但共享长引文可能超出原字节上限；没有上线新协议或追加调用。
