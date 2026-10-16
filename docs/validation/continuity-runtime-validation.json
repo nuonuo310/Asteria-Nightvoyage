@@ -1,0 +1,34 @@
+{
+  "stage": "offline_continuity_runtime",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "newTests": 22,
+  "linuxTargeted": {
+    "passed": 56,
+    "failed": 0
+  },
+  "linuxCRLF": {
+    "passed": 22,
+    "failed": 0
+  },
+  "fullSuiteRun": false,
+  "windowsRun": false,
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "liveSourcePinsUnchanged": true,
+  "budgetKind": "fake_byte_estimate_only",
+  "inputBudgetScope": "core_payload_byte_estimate_excludes_system_prompt",
+  "realMoneyOrTokenAccountingValidated": false,
+  "paidEntryImplemented": false,
+  "qualityAssessed": false,
+  "sha256": {
+    "src/scene-continuity-rehearsal.js": "385058f9d76f8856f9bf29560a0f75740ef9af3cb6924dca8c68ed8db6f232ef",
+    "test-support/continuity-runtime-fixtures.js": "d1897feeeb741d8e44a279532b3b657c6d426a1be80d60b08b46e7cbea17a0b4",
+    "test/scene-continuity-rehearsal.test.js": "efccceb0807574387bd7060ecf02670d09eceb4abc5068ae232bec1626dd38b8",
+    "scripts/check-continuity-runtime.mjs": "61a866c330972cca63a08fbe1257c71044f3736923d80ad100ba30af7e9a8234",
+    "docs/validation/continuity-runtime-targeted.txt": "ea7c1743bc42c00918a94f501f6819cbf99bfcb1cb002eedbae1df009e6613b8",
+    "docs/validation/continuity-runtime-crlf.txt": "6076f6de98106f76c35de647fabe5f06079d767d0dc92534ef554fa1367a36a8",
+    "docs/validation/continuity-runtime-script.json": "77464745cdc9b8eec81da1d1ff6d8664ee8fb64613a62a2ff28bf2ba8c78b211"
+  },
+  "scriptJsonParsedAndVerified": true
+}
