@@ -1,0 +1,16 @@
+✔ adapter returns explicitly typed separate dream, appraisal view and attributed reviews (47.833471ms)
+✔ common adapter contract replays across local instances without new calls or owner acquisition (32.304347ms)
+✔ adapter refuses unknown fields, invalid identifiers, model controls and in-band actor spoofing (18.030077ms)
+✔ deleting through adapter is narrowly scoped and cannot delete a supplied dream identifier (29.625408ms)
+✔ withdrawal and parent deletion suppress bundle, list, read and duplicate delivery after reopen (32.53793ms)
+✔ bundle and capability mutations do not affect cached-independent future reads or shared Store lifetime (18.29875ms)
+✔ Asteria remains pending and adapter has no generation, auto-judging or state-write capabilities (19.096298ms)
+✔ end-to-end fictional command follows the public contract without credential or native transport (391.113837ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 858.027118

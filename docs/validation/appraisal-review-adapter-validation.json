@@ -1,0 +1,29 @@
+{
+  "stage": "C_explicit_local_file_adapter",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "newTests": 8,
+  "linuxTargeted": {
+    "passed": 60,
+    "failed": 0
+  },
+  "linuxCRLF": {
+    "passed": 8,
+    "failed": 0
+  },
+  "fullSuiteRun": false,
+  "windowsRun": false,
+  "asteriaAdapter": "pending",
+  "liveSourcePinsUnchanged": true,
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "qualityAssessed": false,
+  "sha256": {
+    "src/appraisal-review-adapter.js": "0ed696c1207a682b91ea3ecc9661da7d2b5bbad4876c7267e17a4acba72ac812",
+    "test/appraisal-review-adapter.test.js": "aaad5f946a1ace70778a37ed9d58087c88d60ee009a502826f1c4b4be5f40cb2",
+    "scripts/check-appraisal-review-adapter.mjs": "163a6c759daee6090677411445bc85056cb37b1f8968fabc1888120819bac297",
+    "docs/validation/appraisal-review-adapter-targeted.txt": "111d748945742881b035eca5af7391706a1a207de99aa235009d9e62f9316ae9",
+    "docs/validation/appraisal-review-adapter-crlf.txt": "0a147fa4bad2a9dc776ba1859beaca137b2c3c6a0a55301321d80abff86aa68a",
+    "docs/validation/appraisal-review-adapter-script.json": "d582db84b2f28de6483cdb44ecfbf4b7b965bbd8d51602fca9adf6a9bec7d2bb"
+  }
+}

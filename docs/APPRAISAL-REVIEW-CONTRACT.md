@@ -87,3 +87,5 @@ unchanged声明的direction/magnitude/eventRelevance为not_applicable；这仅�
 合同首版的“未实现”描述保留为当时状态。[A 阶段纯内存实现](APPRAISAL-REVIEW-MEMORY.md)现已提供两个设计数据 helper，保持 illustrativeOnly/runtimeSupported=false；它不等于上述拟议受管理 create/read/list 接口。持久化、幂等冲突、修订和实际撤回清除仍属于 B/C 阶段，尚未实现。
 
 B 阶段现已实现[受管理存储与生命周期](APPRAISAL-REVIEW-STORAGE.md)：选择复用通用 entries 保存独立版本条目，增加无正文请求索引，而不是把示例包装直接写入旧结构。原梦删除/来源撤回清除所有意见；单条意见删除不删除直接依赖原梦的独立修订，supersedes 仅保留旧编号。C 的显式本地适配器封装仍待实现。
+
+C 阶段现已提供[显式本地适配器合同与端到端虚构样例](APPRAISAL-REVIEW-ADAPTER.md)。createReview/readReview/listReviews 等在新适配器上实现，既有 Nightvoyage 生成入口不变。Asteria 实现仍待对接；本地机制完成不代表语义、梦境质量或远端兼容性验收。
