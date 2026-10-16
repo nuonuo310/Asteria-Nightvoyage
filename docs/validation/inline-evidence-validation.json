@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "stage": "offline_inline_evidence_encoding_comparison",
+  "baseCommit": "f0120759599c8dd85c9aab81bfe111def47c9251",
+  "protocolVersion": "offline-inline-evidence-review-v1",
+  "checks": {
+    "targeted": {
+      "newInline": 32,
+      "referenceReview": 12,
+      "currentEntry": 31,
+      "tests": 75,
+      "pass": 75,
+      "fail": 0
+    },
+    "linuxCRLF": {
+      "tests": 32,
+      "pass": 32,
+      "fail": 0,
+      "isWindowsHost": false
+    }
+  },
+  "scriptedComparisons": 9,
+  "validExistingScriptedComparisons": 8,
+  "syntheticByteBoundaryComparisons": 1,
+  "allMeaningBearingFieldsPreserved": true,
+  "existingInlineJsonBytesRange": [
+    231,
+    331
+  ],
+  "existingByteReductionVersusCanonicalCompactRange": [
+    14,
+    16
+  ],
+  "sharedBoundary": {
+    "compactBytes": 603,
+    "inlineBytes": 1359,
+    "byteCeiling": 1200,
+    "inlineRejected": true,
+    "semanticSupport": "not_assessed"
+  },
+  "productionSourcePinsChanged": false,
+  "existingPaidPinsMatch": true,
+  "oldProfilesChanged": false,
+  "oldHoldsOrUserStoreAccessed": false,
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "actualModelTokenCount": null,
+  "liveSelectorAvailable": false,
+  "paidProtocolOrAllowanceAdded": false,
+  "oldInvalidResponsesRepaired": false,
+  "modelComplianceImproved": "not_assessed",
+  "semanticSupport": "not_assessed",
+  "qualityAssessed": false,
+  "sourceHashes": {
+    "test-support/inline-evidence-review.js": "d8f8283c4ae9d80141ded08a986385953c35dc99cf5d949744c38c4d00c2eaed",
+    "test/inline-evidence-review.test.js": "8c2632ce9ce33af21734c60d2d5224c3f04db810988561fdb58d5d02058badfa",
+    "scripts/check-inline-evidence-review.mjs": "9ccba90c79689a05c0e58366bd2fa119c4fd58ddc86c4fce36af0916b82d5287",
+    "docs/INLINE-EVIDENCE-REVIEW.md": "0bf6d157ce461bd709aebf0d9a0b5223b3130e60759657bd8727435f74525240",
+    "docs/validation/inline-evidence-targeted.txt": "64a61f4157dd409144e927fff33da8f1b12fc5964adc3900f98ee76ec20af2ce",
+    "docs/validation/inline-evidence-crlf.txt": "459f1b34fbe086568c3d82dfa88cce8c30eac145884827e06840e654e9e5d78b",
+    "docs/validation/inline-evidence-script.json": "f3bd76fc4f80b1488b2c63d73850267b87d73516b668551f4badb03bbf7b7d6a"
+  }
+}
