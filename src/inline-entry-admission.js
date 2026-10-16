@@ -46,6 +46,7 @@ function history(store,configs){
 }
 export class InlineHistoryGuard {
   #store;#baseline;
-  constructor(store){owner(store);this.#store=store;this.#baseline=history(store,approvals(store));}
+  constructor(store,{baseline}={}){owner(store);this.#store=store;const current=history(store,approvals(store));if(baseline!==undefined&&hash(baseline)!==hash(current))fail('preserved_history_changed');this.#baseline=structuredClone(baseline??current);}
+  capture(){this.assertPreserved();return structuredClone(this.#baseline);}
   assertPreserved(){owner(this.#store);if(hash(history(this.#store,approvals(this.#store)))!==hash(this.#baseline))fail('preserved_history_changed');return {historyPreserved:true,preservedUnknowns:4,heldMicroCny:'8812800',ownerLockChecked:true,liveEntryAvailable:false,dispatchAuthorized:false};}
 }

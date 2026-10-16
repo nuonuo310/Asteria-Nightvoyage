@@ -16,12 +16,15 @@ export class BudgetedNightvoyage extends Nightvoyage {
     if(protocol==='scene-continuity-v1'&&mode==='live'){const c=assertContinuityApprovalDirectory(directory);if(hash(allowance)!==hash(c.allowance))fail('continuity_allowance_mismatch');}
     super(directory,{fault});
     try {
-      this.client = new GatedDeepSeekClient(this.store,{enabled,mode,fetchImpl,timeoutMs,fault,protocol});
-      this.client.ledger.approve(allowance);
-      this.allowanceId = allowance.id; this.credential = credential;
-      this.provider.identity = `${this.client.protocolVersion}:${mode}:${allowance.id}:${allowance.pricing.model}`;
+      const checkedAllowance=this.beforeBudgetAccount({allowance,mode,protocol})??allowance;
+      this.client = this.createBudgetClient({enabled,mode,fetchImpl,timeoutMs,fault,protocol});
+      this.client.ledger.approve(checkedAllowance);
+      this.allowanceId = checkedAllowance.id; this.credential = credential;
+      this.provider.identity = `${this.client.protocolVersion}:${mode}:${checkedAllowance.id}:${checkedAllowance.pricing.model}`;
     } catch (e) { this.store.close(); throw e; }
   }
+  beforeBudgetAccount(_options) {}
+  createBudgetClient(options) {return new GatedDeepSeekClient(this.store,options);}
   legacyExecutionMetadata(r) {
     const expected=this.initialRunMetadata();
     if(this.client.protocol==='grounded-wake-v2'&&!Object.hasOwn(r,'billingProtocolVersion'))delete expected.billingProtocolVersion;

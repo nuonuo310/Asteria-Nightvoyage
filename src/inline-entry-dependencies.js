@@ -8,7 +8,7 @@ import {createHash} from 'node:crypto';
 const fail=()=>{throw Error('inline_dependency_constraint_failed');};
 const digest=text=>createHash('sha256').update(text).digest('hex');
 const canonical=p=>{let current=path.resolve(p);for(;;){if(fs.lstatSync(current).isSymbolicLink())fail();const parent=path.dirname(current);if(parent===current)break;current=parent;}return path.resolve(p);};
-export function inlineDependencyGraph(repositoryRoot=fileURLToPath(new URL('..',import.meta.url)),entry='src/inline-entry-admission.js'){
+export function inlineDependencyGraph(repositoryRoot=fileURLToPath(new URL('..',import.meta.url)),entry='src/inline-authorized-runtime.js'){
   if(typeof vm.SourceTextModule!=='function')throw Error('parse_only_vm_flag_required');
   const base=canonical(repositoryRoot),files={},builtins=new Set(),edges={};
   const visit=relative=>{

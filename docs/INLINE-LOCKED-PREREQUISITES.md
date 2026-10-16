@@ -1,6 +1,6 @@
 # 直接引文：锁内历史前置与 ESM 依赖约束
 
-状态：`prerequisites_rehearsed / durable_approval_and_live_entry_pending`。本轮增加生产模块和独立测试，未将它们接成真实调用入口。`dispatchAuthorized:false / liveEntryAvailable:false` 始终保留；原 inline client/runtime/live allowance 硬阻断不改。
+状态：`prerequisites_rehearsed / durable_approval_and_live_entry_pending`。本页保留该切片历史；后续[持久stub控制许可](INLINE-DURABLE-AUTHORIZATION.md)已接入本地逐阶段检查，真实付费入口仍未实现。本轮增加生产模块和独立测试，未将它们接成真实调用入口。`dispatchAuthorized:false / liveEntryAvailable:false` 始终保留；原 inline client/runtime/live allowance 硬阻断不改。
 
 ## 锁内历史检查
 
