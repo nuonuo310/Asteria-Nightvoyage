@@ -1,0 +1,19 @@
+{
+  "command": "node scripts/check-appraisal-review-memory.mjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "stage": "A_pure_memory_only",
+  "exampleMatches": true,
+  "originalParentUnchanged": true,
+  "sourceWithdrawalProjectionNull": true,
+  "withdrawalKind": "caller_supplied_fictional_simulation_only",
+  "liveSourcePinsUnchanged": true,
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "persistentRuntimeWrites": 0,
+  "managedStoreIntegrated": false,
+  "durableIdempotencyImplemented": false,
+  "revisionsImplemented": false,
+  "qualityAssessed": false,
+  "semanticSupport": "not_assessed"
+}

@@ -81,3 +81,7 @@ unchanged声明的direction/magnitude/eventRelevance为not_applicable；这仅�
 `examples/appraisal-review-draft.json` 是说明性包装，明确runtimeSupported=false/illustrativeOnly=true；它引用前轮自有离线fixture中的explicit-relief，checkpoint指纹由现有纯规范器计算。源id、actor和父id均是设计占位，**不是已登记授权来源或实际Store记录，不可用于现有生成/保存入口**。相容方向和not_established幅度并存，展示“不确定”不必删除原变化；没有复用用户梦簿正文。
 
 本合同是项目MIT独立设计，无第三方实现复制、私有研究原文、新依赖或跨仓库修改。单例原梦的质量仍未整体验收。
+
+## 后续实施状态（2026-10-16）
+
+合同首版的“未实现”描述保留为当时状态。[A 阶段纯内存实现](APPRAISAL-REVIEW-MEMORY.md)现已提供两个设计数据 helper，保持 illustrativeOnly/runtimeSupported=false；它不等于上述拟议受管理 create/read/list 接口。持久化、幂等冲突、修订和实际撤回清除仍属于 B/C 阶段，尚未实现。
