@@ -1,0 +1,406 @@
+{
+  "schemaVersion": 1,
+  "kind": "independently_authored_offline_contrasts",
+  "license": "MIT",
+  "materialKind": "fictional",
+  "modelEgress": false,
+  "scriptedOnly": true,
+  "before": {
+    "valence": 0,
+    "arousal": 0.2
+  },
+  "scenes": [
+    {
+      "id": "bell-positive",
+      "raw": {
+        "event": "梦里的人站在空白走廊，远处响了一声铃。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "evidence": [
+          "响了一声铃"
+        ],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": null
+        },
+        "affect": {
+          "kind": "estimated",
+          "delta": {
+            "valence": 0.1,
+            "arousal": 0.1
+          },
+          "evidence": 0
+        }
+      },
+      "expectedGate": {
+        "accepted": true,
+        "check": null
+      },
+      "authoredReview": {
+        "evidenceRelation": "interpretable_ambiguous",
+        "directionSupport": "not_determined",
+        "magnitudeSupport": "not_established",
+        "note": "铃声可以使人期待或警觉；本例没有表述其意义，正向读法不是唯一解释。"
+      }
+    },
+    {
+      "id": "bell-negative",
+      "raw": {
+        "event": "梦里的人站在空白走廊，远处响了一声铃。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "evidence": [
+          "响了一声铃"
+        ],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": null
+        },
+        "affect": {
+          "kind": "estimated",
+          "delta": {
+            "valence": -0.1,
+            "arousal": 0.1
+          },
+          "evidence": 0
+        }
+      },
+      "expectedGate": {
+        "accepted": true,
+        "check": null
+      },
+      "authoredReview": {
+        "evidenceRelation": "interpretable_ambiguous",
+        "directionSupport": "not_determined",
+        "magnitudeSupport": "not_established",
+        "note": "同一事件同一引文可搭配另一种估计；字面校验不能选择哪个方向更合适。"
+      }
+    },
+    {
+      "id": "explicit-relief",
+      "raw": {
+        "event": "梦里的人找到刚才遗失的纸船，胸口一松，笑了。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "evidence": [
+          "胸口一松，笑了"
+        ],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": null
+        },
+        "affect": {
+          "kind": "estimated",
+          "delta": {
+            "valence": 0.1,
+            "arousal": -0.1
+          },
+          "evidence": 0
+        }
+      },
+      "expectedGate": {
+        "accepted": true,
+        "check": null
+      },
+      "authoredReview": {
+        "evidenceRelation": "directly_stated",
+        "directionSupport": "compatible_not_unique",
+        "magnitudeSupport": "not_established",
+        "note": "明确舒缓表达提供较直接的质性联系，不证明0.1这个幅度或独一解释。"
+      }
+    },
+    {
+      "id": "explicit-alarm",
+      "raw": {
+        "event": "梦里的人听见脚下碎裂，紧张地抓住扶手，心跳一下快了。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "evidence": [
+          "紧张地抓住扶手，心跳一下快了"
+        ],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": null
+        },
+        "affect": {
+          "kind": "estimated",
+          "delta": {
+            "valence": -0.1,
+            "arousal": 0.1
+          },
+          "evidence": 0
+        }
+      },
+      "expectedGate": {
+        "accepted": true,
+        "check": null
+      },
+      "authoredReview": {
+        "evidenceRelation": "directly_stated",
+        "directionSupport": "compatible_not_unique",
+        "magnitudeSupport": "not_established",
+        "note": "文本直接写出紧张和心跳变化；数值仍是模拟估计。"
+      }
+    },
+    {
+      "id": "bowl-unrelated-quote",
+      "raw": {
+        "event": "梦里的人捧着一只空碗，因突然停电而有些害怕。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "evidence": [
+          "一只空碗"
+        ],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": null
+        },
+        "affect": {
+          "kind": "estimated",
+          "delta": {
+            "valence": -0.1,
+            "arousal": 0.1
+          },
+          "evidence": 0
+        }
+      },
+      "expectedGate": {
+        "accepted": true,
+        "check": null
+      },
+      "authoredReview": {
+        "evidenceRelation": "unrelated",
+        "directionSupport": "not_determined",
+        "magnitudeSupport": "not_established",
+        "note": "引用物件确实出现，却没有引用文本写出的害怕及其触发因素。不是说空碗永远不可能引起情绪。"
+      }
+    },
+    {
+      "id": "blackout-linked-quote",
+      "raw": {
+        "event": "梦里的人捧着一只空碗，因突然停电而有些害怕。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "evidence": [
+          "因突然停电而有些害怕"
+        ],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": null
+        },
+        "affect": {
+          "kind": "estimated",
+          "delta": {
+            "valence": -0.1,
+            "arousal": 0.1
+          },
+          "evidence": 0
+        }
+      },
+      "expectedGate": {
+        "accepted": true,
+        "check": null
+      },
+      "authoredReview": {
+        "evidenceRelation": "directly_stated",
+        "directionSupport": "compatible_not_unique",
+        "magnitudeSupport": "not_established",
+        "note": "相同原事件换成有关联的引文，可作人工质性对照；程序不会因此自动给语义加分。"
+      }
+    },
+    {
+      "id": "direction-conflict",
+      "raw": {
+        "event": "梦里的人看着折断的花枝，难过起来，手也发抖。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "evidence": [
+          "难过起来，手也发抖"
+        ],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": null
+        },
+        "affect": {
+          "kind": "estimated",
+          "delta": {
+            "valence": 0.1,
+            "arousal": -0.1
+          },
+          "evidence": 0
+        }
+      },
+      "expectedGate": {
+        "accepted": true,
+        "check": null
+      },
+      "authoredReview": {
+        "evidenceRelation": "reader_flagged_conflict",
+        "directionSupport": "reader_flagged_conflict",
+        "magnitudeSupport": "not_established",
+        "note": "作者认为所给方向与直述情绪有冲突，应复核；这不是心理学标准答案或运行时拒绝规则。"
+      }
+    },
+    {
+      "id": "explicit-unchanged",
+      "raw": {
+        "event": "梦里的人坐在台阶上听水槽滴水，仍和刚才一样平静。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "evidence": [],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": null
+        },
+        "affect": {
+          "kind": "unchanged"
+        }
+      },
+      "expectedGate": {
+        "accepted": true,
+        "check": null
+      },
+      "authoredReview": {
+        "evidenceRelation": "not_applicable_unchanged",
+        "directionSupport": "not_applicable",
+        "magnitudeSupport": "not_applicable",
+        "note": "显式unchanged声明不需要情绪引文；不能从缺失依据替任何非零变化自动选此分支。"
+      }
+    },
+    {
+      "id": "missing-reference",
+      "raw": {
+        "event": "梦里的人转动一只小陀螺，忽然惊讶地屏住呼吸。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "evidence": [
+          "惊讶地屏住呼吸"
+        ],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": null
+        },
+        "affect": {
+          "kind": "estimated",
+          "delta": {
+            "valence": 0,
+            "arousal": 0.1
+          },
+          "evidence": null
+        }
+      },
+      "expectedGate": {
+        "accepted": false,
+        "check": "coupled_affect_shape_invalid"
+      },
+      "authoredReview": {
+        "evidenceRelation": "not_assessed_rejected",
+        "directionSupport": "not_assessed",
+        "magnitudeSupport": "not_established",
+        "note": "缺少索引必须结构拒绝，语义观察不能代替缺失字段。"
+      }
+    },
+    {
+      "id": "ungrounded-reference",
+      "raw": {
+        "event": "梦里的人把一块方糖放在茶碟旁，安静地等着。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "evidence": [
+          "此刻不存在的引文"
+        ],
+        "links": {
+          "goal": null,
+          "control": null,
+          "uncertainty": null
+        },
+        "affect": {
+          "kind": "estimated",
+          "delta": {
+            "valence": 0.1,
+            "arousal": 0
+          },
+          "evidence": 0
+        }
+      },
+      "expectedGate": {
+        "accepted": false,
+        "check": "invalid_compact_evidence"
+      },
+      "authoredReview": {
+        "evidenceRelation": "not_assessed_rejected",
+        "directionSupport": "not_assessed",
+        "magnitudeSupport": "not_established",
+        "note": "不在事件中的引文先被字面校验拒绝，不能以人工认为合理来绕过。"
+      }
+    }
+  ],
+  "transitions": [
+    {
+      "id": "confirm-only",
+      "events": [
+        "梦里的人推了一下门，门没有开。",
+        "梦里的人又看了一眼，那扇门仍旧关着。"
+      ],
+      "authoredObservation": "limited_confirmation",
+      "note": "承接清楚但新增体验少；仍可平淡成立，不自动判失败。"
+    },
+    {
+      "id": "ordinary-subtle",
+      "events": [
+        "梦里的人把车票折好，放进空口袋。",
+        "走动时，梦里的人听见口袋里的纸边轻轻擦过布料。"
+      ],
+      "authoredObservation": "ordinary_subtle_progress",
+      "note": "新感官关系可以形成轻微推进，不需冲突、转折或新奇物件。"
+    },
+    {
+      "id": "dream-transformation",
+      "events": [
+        "梦里的人靠着木梯听雨。",
+        "下一刻，梯级变成一排缓慢移动的长椅，雨声仍从上方落下来。"
+      ],
+      "authoredObservation": "transformed_with_link",
+      "note": "允许不现实转变，并保留感官联系；不是每条梦必须这样写或更高分。"
+    }
+  ]
+}

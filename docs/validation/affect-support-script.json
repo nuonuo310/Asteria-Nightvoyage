@@ -1,0 +1,195 @@
+{
+  "command": "node scripts/check-affect-support-contrasts.mjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "schemaVersion": 1,
+  "reviewVersion": "offline-affect-support-contrast-v1",
+  "materialKind": "fictional",
+  "generatedEventOrigin": "dream",
+  "isRealityFact": false,
+  "realModelRequests": 0,
+  "generatedBodyReturned": false,
+  "semanticClassifier": false,
+  "semanticSupport": "not_automatically_assessed",
+  "annotationsVerifiedSemantically": false,
+  "qualityAccepted": false,
+  "modelComplianceImproved": "not_assessed",
+  "results": [
+    {
+      "caseId": "bell-positive",
+      "literalContract": {
+        "accepted": true,
+        "check": null
+      },
+      "matchesAuthoredGateExpectation": true,
+      "authoredReview": {
+        "origin": "fixture_author_annotation",
+        "isAutomaticJudgment": false,
+        "evidenceRelation": "interpretable_ambiguous",
+        "directionSupport": "not_determined",
+        "magnitudeSupport": "not_established"
+      }
+    },
+    {
+      "caseId": "bell-negative",
+      "literalContract": {
+        "accepted": true,
+        "check": null
+      },
+      "matchesAuthoredGateExpectation": true,
+      "authoredReview": {
+        "origin": "fixture_author_annotation",
+        "isAutomaticJudgment": false,
+        "evidenceRelation": "interpretable_ambiguous",
+        "directionSupport": "not_determined",
+        "magnitudeSupport": "not_established"
+      }
+    },
+    {
+      "caseId": "explicit-relief",
+      "literalContract": {
+        "accepted": true,
+        "check": null
+      },
+      "matchesAuthoredGateExpectation": true,
+      "authoredReview": {
+        "origin": "fixture_author_annotation",
+        "isAutomaticJudgment": false,
+        "evidenceRelation": "directly_stated",
+        "directionSupport": "compatible_not_unique",
+        "magnitudeSupport": "not_established"
+      }
+    },
+    {
+      "caseId": "explicit-alarm",
+      "literalContract": {
+        "accepted": true,
+        "check": null
+      },
+      "matchesAuthoredGateExpectation": true,
+      "authoredReview": {
+        "origin": "fixture_author_annotation",
+        "isAutomaticJudgment": false,
+        "evidenceRelation": "directly_stated",
+        "directionSupport": "compatible_not_unique",
+        "magnitudeSupport": "not_established"
+      }
+    },
+    {
+      "caseId": "bowl-unrelated-quote",
+      "literalContract": {
+        "accepted": true,
+        "check": null
+      },
+      "matchesAuthoredGateExpectation": true,
+      "authoredReview": {
+        "origin": "fixture_author_annotation",
+        "isAutomaticJudgment": false,
+        "evidenceRelation": "unrelated",
+        "directionSupport": "not_determined",
+        "magnitudeSupport": "not_established"
+      }
+    },
+    {
+      "caseId": "blackout-linked-quote",
+      "literalContract": {
+        "accepted": true,
+        "check": null
+      },
+      "matchesAuthoredGateExpectation": true,
+      "authoredReview": {
+        "origin": "fixture_author_annotation",
+        "isAutomaticJudgment": false,
+        "evidenceRelation": "directly_stated",
+        "directionSupport": "compatible_not_unique",
+        "magnitudeSupport": "not_established"
+      }
+    },
+    {
+      "caseId": "direction-conflict",
+      "literalContract": {
+        "accepted": true,
+        "check": null
+      },
+      "matchesAuthoredGateExpectation": true,
+      "authoredReview": {
+        "origin": "fixture_author_annotation",
+        "isAutomaticJudgment": false,
+        "evidenceRelation": "reader_flagged_conflict",
+        "directionSupport": "reader_flagged_conflict",
+        "magnitudeSupport": "not_established"
+      }
+    },
+    {
+      "caseId": "explicit-unchanged",
+      "literalContract": {
+        "accepted": true,
+        "check": null
+      },
+      "matchesAuthoredGateExpectation": true,
+      "authoredReview": {
+        "origin": "fixture_author_annotation",
+        "isAutomaticJudgment": false,
+        "evidenceRelation": "not_applicable_unchanged",
+        "directionSupport": "not_applicable",
+        "magnitudeSupport": "not_applicable"
+      }
+    },
+    {
+      "caseId": "missing-reference",
+      "literalContract": {
+        "accepted": false,
+        "check": "coupled_affect_shape_invalid"
+      },
+      "matchesAuthoredGateExpectation": true,
+      "authoredReview": {
+        "origin": "fixture_author_annotation",
+        "isAutomaticJudgment": false,
+        "evidenceRelation": "not_assessed_rejected",
+        "directionSupport": "not_assessed",
+        "magnitudeSupport": "not_established"
+      }
+    },
+    {
+      "caseId": "ungrounded-reference",
+      "literalContract": {
+        "accepted": false,
+        "check": "invalid_compact_evidence"
+      },
+      "matchesAuthoredGateExpectation": true,
+      "authoredReview": {
+        "origin": "fixture_author_annotation",
+        "isAutomaticJudgment": false,
+        "evidenceRelation": "not_assessed_rejected",
+        "directionSupport": "not_assessed",
+        "magnitudeSupport": "not_established"
+      }
+    }
+  ],
+  "transitionObservations": [
+    {
+      "caseId": "confirm-only",
+      "origin": "fixture_author_annotation",
+      "observation": "limited_confirmation",
+      "isAutomaticJudgment": false,
+      "qualityRank": null
+    },
+    {
+      "caseId": "ordinary-subtle",
+      "origin": "fixture_author_annotation",
+      "observation": "ordinary_subtle_progress",
+      "isAutomaticJudgment": false,
+      "qualityRank": null
+    },
+    {
+      "caseId": "dream-transformation",
+      "origin": "fixture_author_annotation",
+      "observation": "transformed_with_link",
+      "isAutomaticJudgment": false,
+      "qualityRank": null
+    }
+  ],
+  "credentialReads": 0,
+  "persistentRuntimeWrites": 0,
+  "liveSourcePinsUnchanged": true
+}
