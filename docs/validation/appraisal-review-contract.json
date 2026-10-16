@@ -1,0 +1,16 @@
+{
+  "kind": "documentation_example_consistency_check",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "fixtureCase": "explicit-relief",
+  "exampleJsonParsed": true,
+  "canonicalFingerprintMatches": true,
+  "illustrativeOnly": true,
+  "runtimeSupported": false,
+  "liveSourcePinsMatch": true,
+  "realModelRequests": 0,
+  "runtimeWrites": 0,
+  "implementationTestSuiteRun": false,
+  "semanticSupport": "not_assessed",
+  "qualityAccepted": false
+}

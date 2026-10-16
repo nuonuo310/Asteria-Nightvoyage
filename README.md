@@ -60,3 +60,5 @@ The user also reported Windows 127/127 tests and matching byte-audit outcomes, w
 [Compact shared-quotation protocol and single-run entry](docs/COMPACT-APPRAISAL-TRIAL.md) are now implemented with offline evidence. Default v2 behavior is retained; the new protocol requires explicit selection, pins the sparse-context fixture and protocol sources, preserves earlier accounting, and needs separate new egress/budget approval. Start without a key: `node src/compact-trial-cli.js preflight`. Simulated compatibility and smaller JSON bytes do not certify real token fit or dream quality.
 
 [Independent offline affect-support contrasts](docs/AFFECT-SUPPORT-CONTRASTS.md) now separate literal-contract acceptance from authored qualitative observations, with no automatic semantic classifier or new generation protocol. Safe command: `node scripts/check-affect-support-contrasts.mjs`.
+
+[Independent appraisal-review record contract](docs/APPRAISAL-REVIEW-CONTRACT.md) is drafted with an explicitly illustrative fictional example. It keeps reviewer opinions separate from immutable dream estimates; persistence/API/runtime support is not implemented.

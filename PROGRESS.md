@@ -411,3 +411,15 @@ Validation: Linux targeted59/59(new18+review19+budget22), temporary Linux CRLF n
 Public own MIT scripted fixtures, implementation and independent method docs/AFFECT-SUPPORT-CONTRASTS.md. No Key/model/provider/user Store/private material/third-party code/dependency/cross-repository action, existing protocol/prompt/profile/budget/expiry/data change. This does not verify annotation truth, actual model adherence, semantic support, feelings, quality improvement or real fees. Original sample remains not accepted; Asteria pending.
 
 Design decision: keep deterministic literal gate and separately attributed qualitative concerns; do not promote fixture comments to runtime semantic rejection, force zero, demand emotional explanatory prose, add scoring calls or resample. Next may draft a distinct contract for declared dream appraisal and uncertain semantic support before considering another implementation or fee proposal. Storage/withdrawal boundaries unchanged.
+
+## Independent appraisal review record contract drafted — 2026-10-16
+
+PR #32 merged as ed68a5672385375caeba1a0715b87264da2c8f33 (248 blobs verified). Following independent contrasts, narrowed the next design to separately attributed opinions rather than a new semantic generation gate. No current prompt/wire/delta/after/checkpoint/view/account/profile or runtime data change.
+
+Draft docs/APPRAISAL-REVIEW-CONTRACT.md separates program-owned parent/source/nonfact metadata and checkpoint binding from reviewer-supplied qualitative judgment. Valence/arousal direction statuses are independent; magnitude remains not_established; compatible is not uniquely correct and apparent_conflict cannot auto-zero or repair. unchanged versus estimated-zero remains distinct. Record opinion is not wake/recollection/continuation/reality, cannot write Asteria state or receive added source/egress permission.
+
+Specified proposed atomic idempotent create/read/revision behavior, same-parent/same-reviewer supersedes without overwriting originals, source withdrawal/parent deletion covering comments/descendants/replay/restart, and single managed Store boundaries. Current engine.append supports only two existing types; no pretend createReview API/Store compatibility. Future core-pin changes must block old dispatch without re-signing old approval, while retaining history reads.
+
+Example examples/appraisal-review-draft.json refers only to project-owned independently scripted explicit-relief, uses a computed canonical-scene hash, labels illustrativeOnly/runtimeSupported=false, and uses placeholder source/actor/parent IDs rather than actual authorization/runtime records. No user's dream/quote/body/configuration was copied.
+
+This phase is design only. A/B/C implementation plan separates pure in-memory schema/projection, then atomic managed storage/lifecycle fault tests, then local adapter method exposure. None implemented this phase. Validation limited to JSON/reference/hash/schema-field checks and unchanged 25 live pins; no test-suite rerun, model request, private Store, credentials, third-party code/dependency or cross-repository changes. Original quality/unknown holds remain; Asteria pending.

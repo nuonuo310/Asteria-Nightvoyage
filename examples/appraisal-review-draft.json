@@ -1,0 +1,54 @@
+{
+  "illustrativeOnly": true,
+  "runtimeSupported": false,
+  "fixtureReference": {
+    "file": "fixtures/affect-support-contrasts.json",
+    "caseId": "explicit-relief"
+  },
+  "recordDraft": {
+    "schemaVersion": 1,
+    "reviewVersion": "dream-appraisal-review-v1",
+    "id": "review-design-example-1",
+    "requestId": "review-request-design-example-1",
+    "origin": "dream_appraisal_review",
+    "materialKind": "fictional",
+    "isRealityFact": false,
+    "sourceRefs": [
+      {
+        "id": "fictional-design-source",
+        "version": "1"
+      }
+    ],
+    "derivedFrom": [
+      "dream-design-example"
+    ],
+    "parent": {
+      "dreamId": "dream-design-example",
+      "runId": "run-design-example",
+      "sceneIndex": 0,
+      "protocolVersion": "coupled-affect-quotes-v1",
+      "sceneFingerprint": "83c21294ea8305be106ce38a7efb6d733586b0941d285af5ddf21593c3e7f27d"
+    },
+    "checkpointCheck": {
+      "kind": "canonical_scene_chain",
+      "status": "validated_shape_only"
+    },
+    "reviewer": {
+      "actorId": "reviewer-design-example",
+      "kind": "assistant"
+    },
+    "assessment": {
+      "eventRelevance": "related",
+      "direction": {
+        "valence": "compatible",
+        "arousal": "compatible"
+      },
+      "magnitude": {
+        "valence": "not_established",
+        "arousal": "not_established"
+      },
+      "note": "独立虚构示意：文本提供质性联系，精确幅度并未得到验证。"
+    },
+    "supersedesReviewId": null
+  }
+}
