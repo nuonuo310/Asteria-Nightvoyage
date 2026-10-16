@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "stage": "candidate_protocol_and_ledger_stub_integration",
+  "protocolVersion": "scene-continuity-quotes-v1",
+  "baseCommit": "a4077486cc26a4edd5cb4d22a0939e0830ca3428",
+  "sourceHashes": {
+    "src/scene-continuity-protocol.js": "4ce09f583ad1d74451db4dc780208f3f29edeea8ca3de79e4ce5d2f1811e8366",
+    "src/scene-continuity-prompt-text.js": "da6a08803ebdc96b36d01ad2878281c06323bf67b58e70c67a5159c396154b6e",
+    "src/scene-continuity-prompt.js": "7ab8df8dc55885201d9f2327aa788eecbe75ff3a0e91cd3eaf1a973e8792bcc7",
+    "src/budget-ledger.js": "0efb3fa765f65acbfadc7a4188d99cc3fd484a582e87dee88497cd38b5926385",
+    "src/budgeted-runtime.js": "7985f863cd33a856bd4ecda2d148fa0c97247046867a7a7cad5b07a4db7a1873",
+    "src/gated-deepseek-client.js": "5cda420579f3be16c7336c643363a3b09f719c2883622d09f2c0c90604408310",
+    "src/appraisal-view.js": "6cc34aa8d3c8d521e59c2e948c579d0e9fb7a1fda22642a7dcb7af9c8400887b",
+    "src/appraisal-review-memory.js": "5ebd148a08d851a22edb3d65206beb1800d25677a0affd0d5dc3aacc754e7bd3",
+    "src/appraisal-review-store.js": "c9df8e1f2eae40c1fb16d70174da2d56c8b9de46c25413c351fe3d605f492812",
+    "test/continuity-budget.test.js": "51d5f332044abc1bdfd5b43bb1c17d0df366c1ec31082db7ec3dc8eb277c7b87",
+    "test/continuity-history.test.js": "32cd9524b96edbcad8aad78b4e7857ec80e80d0b929603e722595521f5911c9e",
+    "test-support/frozen-coupled-project.js": "63d5459f6bc2fe5e0889fe5c396e8c5a1278c258521f422836fa6833b43d0d25",
+    "test-support/coupled-trial-entry-legacy.js": "050acc7480fefe5d0545d1006a66f24d808edeb717c73712796a24854c3c3bdf",
+    "scripts/check-continuity-budget.mjs": "3e6882d57e2a7dfe5be7df2f047a8fa9f624729f9699ab261c2d612a72e23382",
+    "docs/validation/continuity-budget-full.txt": "22650b7c975103fb1f79c4c93cf64d76b07fd401e70e2ec4c4a6e839c138d264",
+    "docs/validation/continuity-budget-targeted.txt": "0f17e15bb2414915843b9024441cf94f23a2a47ab854164f8d36b993e11d1952",
+    "docs/validation/continuity-budget-crlf.txt": "0abe04fd71b7897a863b6e29df0ab789305590e58251464f580bf440cd3f26ad",
+    "docs/validation/continuity-budget-script.json": "3f2e9bb5a546847e0e2516ac27fdfdd7fe80c4cc3e90bdc4e002b8f9c2e382ed",
+    "test-support/legacy-coupled-core/budget-ledger.js": "b01649e302f23cffbd581bc2337f12645019480cd818b67a9f14f4e16e62acc4",
+    "test-support/legacy-coupled-core/budgeted-runtime.js": "1c23e4d40d681e22f1bd11f16ceb34ace518206522d70a699725fe83b3eb9d3a",
+    "test-support/legacy-coupled-core/gated-deepseek-client.js": "61416d3355fe6387b0815474c7e87573a881aba3008bfeef86faa0f699c01a82",
+    "test-support/legacy-coupled-core/appraisal-view.js": "bb09fa989f78227285f8d46e69a2287e2ef7796f4fbcf60594aa4400cfbc58f3",
+    "src/coupled-trial-profile.json": "24c276ea8a340b8627809da780e853b8d02c45de0050e58970c70e35b8751f59",
+    "src/pruned-v2-reviewed-profile.js": "eea51f1ac5d283e7f13dfd8bd711ad9dc12ff5a62094e6b13205443f6cc8c35b",
+    "fixtures/quality/sparse-context.json": "66a19f5968bc0bb60c8ff4918d6e57e223b008329c2a7028f3ac478cb6256d10"
+  },
+  "checks": {
+    "linuxFullSuite": {
+      "tests": 420,
+      "pass": 420,
+      "fail": 0,
+      "scope": "Full suite before three final additional process-exit/command probes; final new suite rerun separately."
+    },
+    "finalTargeted": {
+      "tests": 29,
+      "pass": 29,
+      "fail": 0
+    },
+    "linuxCRLFCopy": {
+      "tests": 29,
+      "pass": 29,
+      "fail": 0,
+      "isWindowsHost": false
+    },
+    "nestedHistoricalCoupledEntry": {
+      "tests": 23,
+      "pass": 23,
+      "frozenSources": true
+    },
+    "nestedHistoricalPrunedEntry": {
+      "tests": 13,
+      "pass": 13,
+      "frozenSources": true
+    }
+  },
+  "historicalProfileModified": false,
+  "currentHistoricalDispatchPinsMatch": false,
+  "newLiveModeAvailable": false,
+  "newPaidApproval": false,
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "testPricingAndUsage": "synthetic_only",
+  "actualProviderBillingValidated": false,
+  "semanticSupport": "not_assessed",
+  "qualityAssessed": false,
+  "initialAdaptationFailures": {
+    "rawLogsRetained": false,
+    "reason": "Reused tests initially expected old error names and one-scene counts; a new deletion probe used the wrong API name. Corrected expectations/API and stage counts, without relaxing production validation."
+  }
+}

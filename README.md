@@ -74,3 +74,5 @@ The user also reported Windows 127/127 tests and matching byte-audit outcomes, w
 [Scene continuity prompt candidate](docs/SCENE-CONTINUITY-PROMPT.md) is offline-only: changes second-scene system prose, preserves first-scene/wake bodies and all live pins, and makes no quality claim or model call. Inspect with `node scripts/check-scene-continuity-prompt.mjs`. The existing saved dream's user-reported Windows read is recorded separately; it is not another generated sample.
 
 [Offline continuity runtime](docs/SCENE-CONTINUITY-RUNTIME.md) now runs the candidate through the existing fake dream core with distinct saved identity, bounded fake calls, cancellation/recovery, deduplication and withdrawal tests. `node scripts/check-continuity-runtime.mjs` uses scripted local responses only. Fake byte estimates are not provider tokens or money; the [paid integration plan](docs/SCENE-CONTINUITY-PAID-PLAN.md) remains unimplemented and unapproved.
+
+候选协议与共享账本已完成 stub 接入，真实模式仍关闭；旧 coupled 批准因源代码变更阻断新派发，历史可读。见 [分幕候选账本接入](docs/SCENE-CONTINUITY-BUDGET.md)。

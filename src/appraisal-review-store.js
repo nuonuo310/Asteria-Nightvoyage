@@ -1,3 +1,4 @@
+import {continuityBudgetVersion} from './scene-continuity-protocol.js';
 // Managed record layer: same Store entries and deletion/withdrawal journals, no sidecar.
 import {Store,copy,fail} from './store.js';
 import {hash,own,safeId,neutral} from './contract.js';
@@ -35,7 +36,7 @@ export class AppraisalReviewStore {
     if(!e)return null;
     const view=readAppraisalView(this.store,dreamId);
     if(!view)return null;
-    if(view.status!=='available'||view.protocolVersion!==coupledBudgetVersion)fail('unsupported_review_parent');
+    if(view.status!=='available'||![coupledBudgetVersion,continuityBudgetVersion].includes(view.protocolVersion))fail('unsupported_review_parent');
     const run=own(this.store.state.runs,e.runId);
     if(e.id!==dreamId||run.entryId!==dreamId||run.id!==e.runId||run.status!=='completed'||e.sourceRefs.some(s=>!run.sourceIds.includes(s.id))||run.sourceIds.length!==e.sourceRefs.length)fail('invalid_review_parent');
     // Journal check even if an interrupted purge left bodies in memory.

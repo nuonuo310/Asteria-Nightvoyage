@@ -491,3 +491,12 @@ Budget limits are fake core payload byte estimates (excluding system prompt), no
 Validation: 22 new tests; Linux Node v24.19.0 runtime+prompt+existing coupled-budget targeted 56/56; Linux CRLF runtime 22/22. No full-suite rerun or new Windows run. Real child exits cover dispatch1/2/3 and durable scene, including no regeneration of committed prefix. Script executes two scripted scenes+wake, reopens/deduplicates/recalls/withdraws/reopens, 3 fake calls, 0 native requests/key reads, 25 live pins unchanged, no printed body. Evidence docs/validation/continuity-runtime-*. These scripted responses are not model outputs or candidate quality evidence.
 
 Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: separate paid identity/profile, protocol-bound money ledger/atomic settlement, history/withdrawal compatibility, fresh verified pricing, bounded proposal and explicit new fee/fictional egress approval before key/HTTP. No fee amount proposed or approved this phase. No old approval re-sign/expiry extension/hold release, user Store access, private actual generated material, third-party code/dependency or cross-repository change. Asteria pending; quality unassessed.
+
+## 候选协议与共享账本接入（stub only）
+
+- 新 `scene-continuity-quotes-v1` 支持最终请求体指纹、首轮前持久化提示/policy 身份、完整 context 预留、usage 算术和阶段/账项原子提交；真实模式显式拒绝。无新费用、外发、凭据读取或真实模型请求。
+- 26项候选预算检查、2项当前源码旧历史检查、1项固定命令检查合计29/29；Linux CRLF副本29/29。先前同阶段全仓420/420，随后增加的三项已纳入最终专项，未把它说成重跑全仓423。历史隔离entry另含旧coupled23/23、旧pruned13/13。无新增Windows实机证据。
+- 覆盖后续幕实际进程退出、不明占额不补发、旧三hold不变、取消、超界、写失败、并发/去重、撤回/删除重启、内容与独立评审读取。模拟价量不等于供应商真实结算，结构通过不等于语义或梦质量验收。
+- 旧coupled原profile未重签/延长：四个共享源pin变化令旧批准阻断新调用；当前源码能读取旧完成/失败记录。原23项入口测试迁入冻结源码临时副本；现有检查脚本如实报告pin不匹配。
+- 公开变更只有项目自有MIT源码、独立文档、虚构脚本和无正文汇总，未复制第三方实现、私有Continuity原文或用户梦簿。保证限于受管理单Store，不涵盖终端副本、备份或供应商留存。
+- 下一步：独立reviewed profile、依赖pins、既有Store/旧hold约束及credential-free preflight/Windows入口；完成后重核价格、模型与具体预算，再确认新费用和虚构外发。当前仍not_ready_for_paid_approval。见 docs/SCENE-CONTINUITY-BUDGET.md 与 validation/continuity-budget-validation.json。
