@@ -42,7 +42,7 @@ test('v2 never conceals malformed unused quotes and still enforces later missing
 test('v2 request stays bounded and validates distinct checkpoints without changing live source pins',()=>{
   const first=normalizeCompactV2Scene(wire(0),neutral()),request=buildCompactV2Request({stage:'scene',index:1,snapshot:seed,scenes:[first]},{model:'deepseek-flash'}),m=JSON.parse(request.body.messages[1].content);
   assert.equal(request.protocolVersion,compactV2Version);assert.equal(request.body.max_tokens,400);assert.equal(request.body.stream,false);assert.equal(request.body.thinking.type,'disabled');assert.equal(request.body.tools,undefined);assert.equal(request.headers,undefined);
-  assert.deepEqual(m.previousScenes[0].normalizationAudit,first.normalizationAudit);assert.equal(singleSceneProposal().protocolVersion,'compact-appraisal-quotes-v1');
+  assert.deepEqual(m.previousScenes[0].normalizationAudit,first.normalizationAudit);assert.throws(()=>singleSceneProposal(),/compact_protocol_source_changed/);
   first.normalizationAudit.discardedUnusedQuoteCount=99;assert.throws(()=>buildCompactV2Request({stage:'scene',index:1,snapshot:seed,scenes:[first]},{model:'deepseek-flash'}),/invalid_compact_v2/);
   assert.throws(()=>new GatedDeepSeekClient(null,{protocol:'compact-appraisal-v2-unreviewed'}),/unreviewed_transport_protocol/);
 });

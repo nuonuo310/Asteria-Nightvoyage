@@ -16,6 +16,7 @@ function ledgerFacade(store){
   return {state,get withdrawn(){return store.withdrawn;},get poisoned(){return store.poisoned;},set poisoned(v){store.poisoned=v;},assert:()=>store.assert(),save:()=>store.save()};
 }
 export class InlineBudgetRehearsal extends InlineRehearsal {
+  executionFamily(){return `specialized:${inlineStubVersion}`;}
   constructor(directory,options={}){
     if(!options||typeof options!=='object'||Object.keys(options).some(k=>!['allowance','simulator','enabled','fault'].includes(k)))fail('invalid_inline_stub_options');
     const allowance=validateAllowance(options.allowance);

@@ -1,0 +1,42 @@
+{
+  "command": "node scripts/check-inline-integration.mjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "reviewVersion": "offline-execution-owner-review-v1",
+  "inventory": {
+    "currentProductionJs": 49,
+    "reviewedPins": 50,
+    "exactTopLevelCoverage": true,
+    "pinsMatch": false,
+    "productionImportsTestSupport": 0,
+    "inventoryScope": "current_top_level_js_and_reviewed_prior_profile_not_future_recursive_closure"
+  },
+  "probes": [
+    {
+      "guarded": false,
+      "rejected": true,
+      "runStateUnchanged": true,
+      "fakeDreamPublished": false,
+      "syntheticUnknownHoldUnchanged": true,
+      "stubRequests": 1
+    },
+    {
+      "guarded": true,
+      "rejected": true,
+      "runStateUnchanged": true,
+      "fakeDreamPublished": false,
+      "syntheticUnknownHoldUnchanged": true,
+      "stubRequests": 1
+    }
+  ],
+  "finding": "generic_fake_resume_rejects_failed_foreign_record",
+  "productionFixApplied": true,
+  "productionIntegrationReady": false,
+  "realModelRequests": 0,
+  "userStoreAccessed": false,
+  "paidProfileChanged": false,
+  "qualityAssessed": false,
+  "semanticSupport": "not_assessed",
+  "credentialReads": 0,
+  "nativeRequests": 0
+}

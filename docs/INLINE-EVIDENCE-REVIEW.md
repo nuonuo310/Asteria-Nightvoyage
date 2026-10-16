@@ -1,5 +1,7 @@
 # 直接引文格式：独立离线比较
 
+后续说明：本页保留原离线阶段的结果；执行归属已由[后续生产修复](EXECUTION-OWNERSHIP.md)实现，当前旧收费source pins已漂移并阻断派发，旧profile不变。固定脚本现按当前源码如实报告该漂移，历史测试日志不重标。
+
 状态：**offline_comparison_only**。本轮只比较格式和校验机制，没有构造真实请求、模型生成、Store写入或新费用；不能把虚构脚本通过说成DeepSeek更遵守协议。现有50个生产pin保持匹配，旧失败、四笔unknown hold和任何已批准profile不变。
 
 ## 设计判断

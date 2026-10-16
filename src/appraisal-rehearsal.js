@@ -96,9 +96,11 @@ export class OfflineAppraisalProvider extends FakeProvider {
 // Isolated extension of the same local engine, using the same storage/withdrawal contract.
 // No live transport, allowance, credential lookup or automatic repair is added.
 export class AppraisalRehearsal extends Nightvoyage {
+  executionFamily(){return `specialized:${appraisalProtocolVersion}`;}
   constructor(directory,{model,simulator,maxOutputTokens=400,fault=()=>{}}={}) {
     super(directory,{provider:new OfflineAppraisalProvider({model,simulator,maxOutputTokens}),fault});
   }
+  initialRunMetadata(){return {appraisalProtocolVersion};}
   start(requestId,sessionId,input,settings) {
     if (settings?.perCallOutput!==undefined&&settings.perCallOutput!==this.provider.settings.maxOutputTokens) fail('appraisal_output_limit_mismatch');
     const id=super.start(requestId,sessionId,input,{inputTokens:12000,...settings,perCallOutput:this.provider.settings.maxOutputTokens});

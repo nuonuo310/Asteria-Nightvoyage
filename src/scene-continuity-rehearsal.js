@@ -33,6 +33,7 @@ export class OfflineContinuityProvider extends FakeProvider {
   }
 }
 export class ContinuityRehearsal extends Nightvoyage {
+  executionFamily(){return `specialized:${continuityRehearsalVersion}`;}
   constructor(directory,options={}) {
     if(!options||typeof options!=='object'||Object.keys(options).some(k=>!['simulator','fault'].includes(k)))fail('invalid_continuity_runtime_options');
     const provider=new OfflineContinuityProvider({simulator:options.simulator});

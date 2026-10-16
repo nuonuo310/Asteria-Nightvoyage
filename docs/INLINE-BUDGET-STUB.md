@@ -1,5 +1,7 @@
 # 直接引文：独立预算核心的stub验证
 
+后续说明：本页保留原离线阶段的结果；执行归属已由[后续生产修复](EXECUTION-OWNERSHIP.md)实现，当前旧收费source pins已漂移并阻断派发，旧profile不变。固定脚本现按当前源码如实报告该漂移，历史测试日志不重标。
+
 状态：**isolated_budget_stub_only**。代码已实现并用公开虚构脚本执行；未提供生产协议selector、真实HTTP入口、凭据加载或新收费额度。上阶段[独立模拟运行器](INLINE-RUNTIME.md)继续可用，现有50个生产pin仍匹配，已批准profile不变。
 
 ## 独立合同

@@ -61,7 +61,7 @@ test('integrated v2 commits audits, scenes and three settled rows atomically wit
   const id=e.start('v2-loop','v2-loop',seed());assert.equal(e.run(id).billingProtocolVersion,prunedCompactV2Version);assert.equal(e.run(id).appraisalProtocolVersion,prunedCompactV2Version);
   assert.equal((await e.execute(id)).status,'completed');const p=e.result(id),view=readAppraisalView(e.store,p.dream.id);assert.equal(counter.calls,3);assert.ok(p.receipt.billing.every(r=>r.status==='settled'));
   assert.ok(p.dream.scenes.every(s=>s.normalizationAudit.discardedUnusedQuoteCount===1));assert.equal(view.protocolVersion,prunedCompactV2Version);assert.equal(view.scenes[0].control.value,null);assert.equal(view.isRealityFact,false);assert.deepEqual(l.account(old.id),oldAccount);
-  await e.execute(id);assert.equal(counter.calls,3);assert.equal(singleSceneProposal().protocolVersion,'compact-appraisal-quotes-v1');
+  await e.execute(id);assert.equal(counter.calls,3);assert.throws(()=>singleSceneProposal(),/compact_protocol_source_changed/);
 });
 test('invalid v2 quotes and later affect rules retain typed body-free rejection and full unknown reservation',async t=>{
   for(const [mutate,check]of [[x=>x.evidence.push('not in event'),'invalid_compact_evidence'],[x=>x.delta.arousal=0.1,'affect_change_requires_evidence']]){

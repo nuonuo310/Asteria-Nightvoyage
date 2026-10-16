@@ -8,6 +8,19 @@ export class Nightvoyage {
     this.store = new Store(directory); this.provider = provider; this.fault = fault; this.active = new Map();
   }
   run(id) { this.store.assert(); return own(this.store.state.runs, id) ?? fail('unknown_run'); }
+  executionFamily() { return 'plain-fake-v1'; }
+  executionOwner() { return { schemaVersion: 1, family: this.executionFamily(), providerIdentity: this.provider.identity }; }
+  legacyExecutionMetadata(r) { return this.initialRunMetadata(); }
+  assertExecutionOwner(r) {
+    const markers=['billingAllowanceId','billingProtocolVersion','appraisalProtocolVersion','stubAccountingVersion','stubAllowanceId','stubAllowanceHash','accountingMode'];
+    const expected=Object.hasOwn(r,'executionOwner')?this.initialRunMetadata():this.legacyExecutionMetadata(r), owner=this.executionOwner();
+    if (Object.hasOwn(r,'executionOwner') && JSON.stringify(r.executionOwner)!==JSON.stringify(owner)) fail('foreign_execution_owner');
+    if (owner.family==='plain-fake-v1') {
+      if (markers.some(k=>Object.hasOwn(r,k))) fail('foreign_execution_owner');
+    } else {
+      if (markers.some(k=>Object.hasOwn(r,k)!==Object.hasOwn(expected,k)) || Object.entries(expected).some(([k,v])=>JSON.stringify(r[k])!==JSON.stringify(v))) fail('foreign_execution_owner');
+    }
+  }
   initialRunMetadata() { return {}; }
   start(requestId, sessionId, input, settings) {
     this.store.assert();
@@ -16,12 +29,13 @@ export class Nightvoyage {
     if (snap.sources.some(s => this.store.withdrawn.includes(s.id))) fail('source_withdrawn');
     const fingerprint = hash({ sessionId, snap, cfg, provider: this.provider.identity });
     const previous = own(this.store.state.requests, requestId);
-    if (previous) { if (previous.fingerprint !== fingerprint) fail('request_conflict'); return previous.runId; }
+    if (previous) { if (previous.fingerprint !== fingerprint) fail('request_conflict'); this.assertExecutionOwner(this.run(previous.runId)); return previous.runId; }
     const existing = own(this.store.state.sessions, fingerprint);
     const id = existing ?? randomUUID();
+    if (existing) this.assertExecutionOwner(this.run(existing));
     this.store.state.requests[requestId] = { fingerprint, runId: id };
     this.store.state.sessions[fingerprint] = id;
-    if (!existing) this.store.state.runs[id] = { id, status: snap.channels.memory.availability === 'present' ? 'queued' : 'skipped', snapshot: snap, config: cfg, sourceIds: snap.sources.map(s => s.id), scenes: [], attempts: [], budget: { calls: 0, input: 0, output: 0 }, ...this.initialRunMetadata() };
+    if (!existing) this.store.state.runs[id] = { id, status: snap.channels.memory.availability === 'present' ? 'queued' : 'skipped', snapshot: snap, config: cfg, sourceIds: snap.sources.map(s => s.id), scenes: [], attempts: [], budget: { calls: 0, input: 0, output: 0 }, ...this.initialRunMetadata(), executionOwner: this.executionOwner() };
     this.store.save(); return id;
   }
   status(id) {
@@ -42,6 +56,7 @@ export class Nightvoyage {
   }
   async resume(id, { retryUnknown = false } = {}) {
     const r = this.run(id);
+    this.assertExecutionOwner(r);
     if (!['failed','uncertain'].includes(r.status)) fail('not_resumable');
     if (r.status === 'uncertain' && !retryUnknown) fail('ambiguous_attempt');
     if (this.active.has(id)) fail('run_busy');
@@ -49,6 +64,7 @@ export class Nightvoyage {
   }
   async execute(id) {
     const r = this.run(id);
+    this.assertExecutionOwner(r);
     if (this.active.has(id)) fail('run_busy');
     if (r.status !== 'queued') return this.status(id);
     const controller = new AbortController(); this.active.set(id, controller);
@@ -80,6 +96,7 @@ export class Nightvoyage {
     r.entryId = entryId; r.status = 'completed';
   }
   async call(r, stage, signal) {
+    this.assertExecutionOwner(r);
     if (r.status !== 'running' || signal.aborted) fail('cancelled');
     const callController = new AbortController();
     const payload = { stage, index: r.scenes.length, snapshot: copy(r.snapshot), scenes: copy(r.scenes), signal: callController.signal };

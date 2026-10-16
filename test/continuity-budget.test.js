@@ -57,7 +57,7 @@ test('integrated continuity commits audits, scenes and three settled rows atomic
   const id=e.start('v2-loop','v2-loop',seed());assert.equal(e.run(id).billingProtocolVersion,continuityBudgetVersion);assert.equal(e.run(id).appraisalProtocolVersion,continuityBudgetVersion);
   assert.equal((await e.execute(id)).status,'completed');const p=e.result(id),view=readAppraisalView(e.store,p.dream.id);assert.equal(counter.calls,3);assert.ok(p.receipt.billing.every(r=>r.status==='settled'));
   assert.ok(p.dream.scenes.every(s=>s.normalizationAudit.discardedUnusedQuoteCount===1));assert.equal(view.protocolVersion,continuityBudgetVersion);assert.deepEqual(p.dream.scenes.map(s=>s.affectDeclaration.kind),['unchanged','estimated']);assert.equal(view.scenes[1].affectDeclaration.verification,'shape_only');assert.equal(view.scenes[0].control.value,null);assert.equal(view.isRealityFact,false);assert.deepEqual(l.account(old.id),oldAccount);
-  await e.execute(id);assert.equal(counter.calls,3);assert.equal(singleSceneProposal().protocolVersion,'compact-appraisal-quotes-v1');
+  await e.execute(id);assert.equal(counter.calls,3);assert.throws(()=>singleSceneProposal(),/compact_protocol_source_changed/);
 });
 test('invalid continuity quotes and later affect rules retain typed body-free rejection and full unknown reservation',async t=>{
   for(const [mutate,check]of [[x=>x.evidence.push('not in event'),'invalid_compact_evidence'],[x=>x.affect={kind:'estimated',delta:{valence:0,arousal:0.1},evidence:null},'coupled_affect_shape_invalid']]){

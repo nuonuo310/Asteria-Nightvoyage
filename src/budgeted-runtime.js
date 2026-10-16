@@ -9,6 +9,7 @@ import { protocolVersion } from './deepseek-protocol.js';
 
 // Same dream core and journal. Only stage dispatch/publication differs from fake mode.
 export class BudgetedNightvoyage extends Nightvoyage {
+  executionFamily(){return `specialized:${this.client.protocolVersion}`;}
   constructor(directory, { allowance, credential, enabled = false, mode = 'disabled', fetchImpl, timeoutMs = 60000, fault = () => {}, protocol = 'grounded-wake-v2' } = {}) {
     if(protocol==='scene-continuity-v1'&&mode==='live'){const c=assertContinuityApprovalDirectory(directory);if(hash(allowance)!==hash(c.allowance))fail('continuity_allowance_mismatch');}
     super(directory,{fault});
@@ -18,6 +19,11 @@ export class BudgetedNightvoyage extends Nightvoyage {
       this.allowanceId = allowance.id; this.credential = credential;
       this.provider.identity = `${this.client.protocolVersion}:${mode}:${allowance.id}:${allowance.pricing.model}`;
     } catch (e) { this.store.close(); throw e; }
+  }
+  legacyExecutionMetadata(r) {
+    const expected=this.initialRunMetadata();
+    if(this.client.protocol==='grounded-wake-v2'&&!Object.hasOwn(r,'billingProtocolVersion'))delete expected.billingProtocolVersion;
+    return expected;
   }
   initialRunMetadata() {
     return {billingAllowanceId:this.allowanceId,billingProtocolVersion:this.client.protocolVersion,
