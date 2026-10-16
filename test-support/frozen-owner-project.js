@@ -10,7 +10,9 @@ export function freezeOwnerCore(directory){
     if(createHash('sha256').update(body).digest('hex')!==profile.protocolSourcePins[file])throw Error('historical_owner_source_mismatch');
     const target=path.join(directory,'src',file);original.push([target,fs.readFileSync(target)]);fs.writeFileSync(target,body);
   }
-  const future=path.join(directory,'src','inline-evidence-protocol.js'),extra=fs.existsSync(future)?fs.readFileSync(future):null;
-  if(extra)fs.rmSync(future);
-  return ()=>{for(const [file,body]of original)fs.writeFileSync(file,body);if(extra)fs.writeFileSync(future,extra);};
+  const extras=[];
+  for(const name of ['inline-evidence-protocol.js','inline-entry-preflight.js','inline-entry-review.json']){
+    const target=path.join(directory,'src',name);if(fs.existsSync(target)){extras.push([target,fs.readFileSync(target)]);fs.rmSync(target);}
+  }
+  return ()=>{for(const [file,body]of [...original,...extras])fs.writeFileSync(file,body);};
 }

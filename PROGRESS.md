@@ -575,3 +575,13 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 固定脚本3次本地stub生成，读取/评审追加0调用，native fetch/Key读取0；显式id内容CLI稳定state内容不变，撤回后managed文件无原梦/评审正文。存储保证不覆盖终端/外部备份/文件历史/物理擦除/供应商或已返回副本。
 - 为隔离旧源码测试，按旧pin追加冻结两个项目自有MIT原文件；生产无test-support回退，旧profile保持漂移不改。真实inline入口仍硬阻断，没有新额度/价格复核/外发批准，也没有质量或语义验收。
 - 见docs/INLINE-REVIEW-ADAPTER.md及validation/inline-review-validation.json。下一步审查独立入口profile/依赖闭包/preflight和历史保留；实际费用/外发另行提案确认，当前无需用户输入Key。
+
+
+## 直接引文：入口准备与只读预检
+
+- 新增inline-entry-preflight与65文件递归src/fixtures/package快照，排除清单自身；LF规范化SHA-256、增删改/嵌套/符号链接/UTF-8保护。旧profile不改，新清单不充当授权或已证明的import闭包。
+- 实际builder检查固定no-egress虚构样例第一幕3337/65536 bytes；不把字节当token/费用。显式仓外历史只读，不创建目录/账户/owner锁、不恢复或删临时文件。缺撤回/删除日志按既有合同视空，不补写；现有锁、恢复残留、来源撤回、待恢复删除日志均阻断。
+- 固定四类别unknown逐项形状与完整hold校验，异类/少笔/改金额/请求身份不符关闭；前后内容复查，不把无锁观察当完整admission。hold合计8812800 micro-CNY不等于实际供应商账单，未来owner锁内还须核验完整身份与逐项保留。
+- 新25项；最终Linux全仓614/614，准备25＋生产37＋归属18＋旧读取2＋集成16＋inline评审17＝115/115；临时Linux CRLF同组115/115。五套嵌套历史测试另列；冻结临时项目仅移除新准备文件以继续旧合同，不回退生产执行。
+- 固定脚本只用自行构造的历史，现有文件字节不变，native fetch/Key读取/五类修改API调用0；无用户Store/Windows实机/真实生成/费用或质量验收。首次发现缺日志兼容问题已修复后重跑。
+- 所有preflight都ready=false；budget/pricing为null，无init/run/live/Key/预算入口参数，不自设新3元、不刷新旧批准或释放unknown。详见docs/INLINE-ENTRY-PREFLIGHT.md及validation/inline-entry-validation.json。下一步完整profile/admission/依赖约束及具体费用提案仍待准备；实际费用/外发必须另行确认。
