@@ -33,3 +33,5 @@ B 阶段需要由同一受管理 Store 提供可信 parent/reviewer/来源撤回
 C 阶段才暴露显式本地适配器方法；对接 Asteria 仍待对接。若将来 core pin 改动，不能重签旧批准或延长旧期限；旧历史可读性仍需验证。此次无现有 core/prompt/profile 变更、付费入口、新 allowance 或账项调整；三笔 unknown 原样保留。
 
 全部代码、文档与例子是项目自有 MIT 独立实现；只复用本项目的 canonical 规范器，未复制第三方或私有 Continuity 原文。机制测试不证明语义支持、真实情绪或梦境质量，未做新的真实模型试跑。
+
+后续状态：B 的[受管理持久化与清除机制](APPRAISAL-REVIEW-STORAGE.md)现已另行实现。上述 A helper 仍是 illustrative 设计数据；只有 B 从同一 Store 重建父内容、检查日志并原子保存的路径，才生成受管理复核条目。共享 JSON guard 增加显式导出供 B 使用，不改变 A 的草稿语义。
