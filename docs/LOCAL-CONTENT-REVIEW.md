@@ -39,3 +39,5 @@ Linux Node v24.19.0：11 项新增；与 A/B/C 和 appraisal view 定向共 71/7
 另登记用户 23:30 报告的 Windows 本地适配器脚本结果（validation/user-local-review-adapter-windows.json）：拉到 f0df5b9，Node v24.19.0/win32，假生成 3 次、真实请求/密钥读取 0，分离输出/原梦账项不变/重开去重/撤回屏蔽均为 true。这是上一阶段固定脚本在 Windows 的报告，不是全套 Windows 测试、用户实际梦簿正文读取或独立本机字节审计；不扩充为本 viewer 的实测。
 
 下一步用现有已保存梦作有限阅读，提出带评审者身份的观察；仍不改原梦，不自动另存评价、不发起新付费调用，不用机制测试替代质量验收。Asteria 待对接。自有 MIT 实现，无第三方代码/私有原文复制、新依赖或跨仓库改动。
+
+用户随后报告在 Windows 拉到 743ec23 后成功显示同一已保存梦的两幕、醒来摘录、来源与分离评价；汇总见 validation/user-local-content-reader-windows.json。新增的是本地读取证据，不是新生成样本、全套 Windows 测试、磁盘字节对照或网络/费用审计。内容结论保持初步可读/分幕展开疑问/情绪语义未建立；下一步仅准备[分幕承接离线提示候选](SCENE-CONTINUITY-PROMPT.md)。
