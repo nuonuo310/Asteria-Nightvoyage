@@ -1,0 +1,20 @@
+{
+  "command": "node scripts/check-appraisal-review-adapter.mjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "contractVersion": "dream-appraisal-review-adapter-v1",
+  "adapter": "local_file",
+  "asteriaAdapter": "pending",
+  "fakeGenerationCalls": 3,
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "typedOutputsSeparate": true,
+  "originalUnchanged": true,
+  "billingUnchanged": true,
+  "reopened": true,
+  "duplicateReviewWrites": 0,
+  "withdrawalSuppressesAllViews": true,
+  "liveSourcePinsUnchanged": true,
+  "qualityAssessed": false,
+  "semanticSupport": "not_assessed"
+}

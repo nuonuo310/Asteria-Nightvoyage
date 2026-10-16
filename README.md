@@ -66,3 +66,5 @@ The user also reported Windows 127/127 tests and matching byte-audit outcomes, w
 [Appraisal-review stage A](docs/APPRAISAL-REVIEW-MEMORY.md) implements a bounded fictional in-memory draft builder/projection with tests. It is not integrated with the dream ledger or any paid entry; durable persistence, idempotency and revision/withdrawal recovery remain pending. Offline check: `node scripts/check-appraisal-review-memory.mjs`.
 
 [Appraisal-review stage B](docs/APPRAISAL-REVIEW-STORAGE.md) now persists independently typed reviews in the same managed Store with body-free request deduplication, immutable revisions and existing withdrawal/deletion journals. This supersedes the earlier “durable pending” status; explicit local adapter packaging remains stage C. Offline check: `node scripts/check-appraisal-review-store.mjs`.
+
+[Appraisal-review stage C](docs/APPRAISAL-REVIEW-ADAPTER.md) exposes explicit local-file adapter methods and separates original dream, appraisal view and attributed opinions. Asteria remains pending; no automatic/model review. Complete fictional example: `node scripts/check-appraisal-review-adapter.mjs` (temporary Store, no key or real requests).

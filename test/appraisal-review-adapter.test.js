@@ -1,0 +1,35 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import {Store} from '../src/store.js';
+import {LocalFileAppraisalReviewAdapter,appraisalReviewAdapterVersion} from '../src/appraisal-review-adapter.js';
+import {prepareReviewDream,reviewActor,reviewRequest} from '../test-support/appraisal-review-fixtures.js';
+import {coupledTrialPinsMatch} from '../src/coupled-trial-config.js';
+async function setup(t){const directory=fs.mkdtempSync(path.join(os.tmpdir(),'nightvoyage-review-adapter-')),ready=await prepareReviewDream(directory);t.after(()=>{ready.engine.close();fs.rmSync(directory,{recursive:true,force:true});});return{directory,...ready,adapter:new LocalFileAppraisalReviewAdapter(ready.engine.store,reviewActor)};}
+
+test('adapter returns explicitly typed separate dream, appraisal view and attributed reviews',async t=>{
+  const {engine,adapter,dreamId,counter}=await setup(t),original=engine.read(dreamId),billing=structuredClone(engine.store.state.billing);const before=adapter.readDreamReviewBundle({dreamId});assert.deepEqual(before.reviews,[]);assert.equal(before.appraisalView.origin,'dream_appraisal_view');const made=adapter.createReview({dreamId,request:reviewRequest()}),bundle=adapter.readDreamReviewBundle({dreamId});assert.equal(made.contractVersion,appraisalReviewAdapterVersion);assert.deepEqual(bundle.reviews,[made.review]);assert.equal(bundle.dream.origin,'dream');assert.equal(bundle.reviews[0].origin,'dream_appraisal_review');assert.equal(bundle.isRealityFact,false);assert.deepEqual(bundle.sourceRefs,original.sourceRefs);assert.deepEqual(bundle.dream.scenes,original.scenes);assert.equal(Object.hasOwn(bundle.dream,'wake'),false);assert.equal(Object.hasOwn(bundle.dream,'residue'),false);assert.deepEqual(engine.read(dreamId),original);assert.deepEqual(engine.store.state.billing,billing);assert.equal(counter.calls,3);
+});
+test('common adapter contract replays across local instances without new calls or owner acquisition',async t=>{
+  const {engine,adapter,dreamId,directory,counter}=await setup(t),input={dreamId,request:reviewRequest()},first=adapter.createReview(input);assert.deepEqual(adapter.readReview({reviewId:first.review.id}),first);assert.deepEqual(adapter.listReviews({dreamId}).reviews,[first.review]);const second=new LocalFileAppraisalReviewAdapter(engine.store,reviewActor);assert.deepEqual(second.createReview(input),first);assert.equal(counter.calls,3);engine.close();const store=new Store(directory);try{assert.deepEqual(new LocalFileAppraisalReviewAdapter(store,reviewActor).createReview(input),first);}finally{store.close();}
+});
+test('adapter refuses unknown fields, invalid identifiers, model controls and in-band actor spoofing',async t=>{
+  const {adapter,dreamId}=await setup(t);for(const input of [{dreamId,request:reviewRequest(),reviewer:{actorId:'spoof',kind:'person'}},{dreamId,request:reviewRequest(),model:'other'},{dreamId:'../outside',request:reviewRequest()},{dreamId,request:{...reviewRequest(),tool:'execute'}}])assert.throws(()=>adapter.createReview(input));for(const [method,input] of [['readReview',{reviewId:'constructor'}],['listReviews',{dreamId,all:true}],['readDreamReviewBundle',{dreamId,restore:true}],['deleteReview',{reviewId:dreamId,wholeRun:true}]])assert.throws(()=>adapter[method](input));assert.deepEqual(adapter.listReviews({dreamId}).reviews,[]);
+});
+test('deleting through adapter is narrowly scoped and cannot delete a supplied dream identifier',async t=>{
+  const {engine,adapter,dreamId}=await setup(t),made=adapter.createReview({dreamId,request:reviewRequest()});assert.equal(adapter.deleteReview({reviewId:dreamId}).status,'unavailable');assert.ok(engine.read(dreamId));assert.equal(adapter.deleteReview({reviewId:made.review.id}).status,'deleted');assert.equal(adapter.readReview({reviewId:made.review.id}).review,null);assert.equal(adapter.createReview({dreamId,request:reviewRequest()}).review,null);assert.equal(adapter.deleteReview({reviewId:made.review.id}).status,'unavailable');assert.ok(engine.read(dreamId));
+});
+test('withdrawal and parent deletion suppress bundle, list, read and duplicate delivery after reopen',async t=>{
+  for(const operation of ['withdraw','delete']){const {engine,adapter,dreamId,sourceId,directory}=await setup(t),input={dreamId,request:reviewRequest()},made=adapter.createReview(input);if(operation==='withdraw')engine.store.withdraw(sourceId);else engine.deleteEntry(dreamId);assert.equal(adapter.readDreamReviewBundle({dreamId}),null);assert.deepEqual(adapter.listReviews({dreamId}).reviews,[]);assert.equal(adapter.readReview({reviewId:made.review.id}).review,null);assert.throws(()=>adapter.createReview(input),/review_parent_unavailable/);engine.close();const store=new Store(directory);try{const next=new LocalFileAppraisalReviewAdapter(store,reviewActor);assert.equal(next.readDreamReviewBundle({dreamId}),null);assert.equal(next.readReview({reviewId:made.review.id}).review,null);}finally{store.close();}}
+});
+test('bundle and capability mutations do not affect cached-independent future reads or shared Store lifetime',async t=>{
+  const {engine,adapter,dreamId}=await setup(t);adapter.createReview({dreamId,request:reviewRequest()});const bundle=adapter.readDreamReviewBundle({dreamId});bundle.sourceRefs=[];bundle.dream.scenes[0].event='mutated';bundle.reviews[0].isRealityFact=true;bundle.appraisalView.scenes=[];adapter.capabilities().operations.push('dispatch');const next=adapter.readDreamReviewBundle({dreamId});assert.ok(next.sourceRefs.length);assert.notEqual(next.dream.scenes[0].event,'mutated');assert.equal(next.reviews[0].isRealityFact,false);assert.equal(next.appraisalView.scenes.length,2);assert.equal(adapter.capabilities().operations.includes('dispatch'),false);engine.close();assert.throws(()=>adapter.listReviews({dreamId}),/store_unavailable/);
+});
+test('Asteria remains pending and adapter has no generation, auto-judging or state-write capabilities',async t=>{
+  const {adapter}=await setup(t),c=adapter.capabilities();assert.equal(c.asteriaAdapter,'pending');assert.equal(c.automaticReview,false);assert.equal(c.modelCalls,false);assert.equal(c.actorIdentity,'trusted_local_assertion');for(const name of ['start','execute','resume','setPersonality','writeMemory','completeTask','dispatch'])assert.equal(typeof adapter[name],'undefined');assert.equal(coupledTrialPinsMatch(),true);
+});
+test('end-to-end fictional command follows the public contract without credential or native transport',async()=>{
+  const {spawnSync}=await import('node:child_process');const run=spawnSync(process.execPath,['scripts/check-appraisal-review-adapter.mjs'],{cwd:new URL('..',import.meta.url),encoding:'utf8',timeout:15000});assert.equal(run.status,0,run.stderr);const result=JSON.parse(run.stdout);assert.equal(result.typedOutputsSeparate,true);assert.equal(result.realModelRequests,0);assert.equal(result.credentialReads,0);assert.equal(result.asteriaAdapter,'pending');assert.equal(result.withdrawalSuppressesAllViews,true);assert.equal(result.billingUnchanged,true);
+});
