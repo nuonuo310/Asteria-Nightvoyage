@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "evidenceKind": "user_reported_windows_live_trial_output",
+  "batchId": "coupled-affect-dream-trial-20261016",
+  "protocolVersion": "coupled-affect-quotes-v1",
+  "model": "deepseek-flash",
+  "fixtureCaseId": "sparse-context",
+  "sourceMaterialKind": "fictional",
+  "generatedEventOrigin": "dream",
+  "isRealityFact": false,
+  "status": "completed",
+  "stagesSaved": 2,
+  "calls": 3,
+  "settledRows": 3,
+  "inputTokensReported": 3075,
+  "outputTokensReported": 268,
+  "ledgerChargedMicroCny": "8294",
+  "ledgerChargedCny": "0.008294",
+  "amountKind": "program_ledger_at_reviewed_peak_rates_not_provider_invoice",
+  "preservedUnknowns": {
+    "calls": 3,
+    "runs": 3,
+    "heldOrSpentMicroCny": "6609600"
+  },
+  "allAllowances": {
+    "calls": 27,
+    "runs": 11,
+    "heldOrSpentMicroCny": "6654834"
+  },
+  "allSettledLedgerMicroCny": "45234",
+  "postflight": {
+    "ready": false,
+    "reason": "call_limit_reached",
+    "credentialRead": false,
+    "sourcePinsMatch": true,
+    "fixtureMatchesReview": true
+  },
+  "affectDeclarations": [
+    "estimated",
+    "estimated"
+  ],
+  "normalizationAudits": [
+    {
+      "schemaVersion": 1,
+      "policyVersion": "validated-unused-quotation-pruning-v1",
+      "receivedQuoteCount": 2,
+      "keptQuoteCount": 1,
+      "discardedUnusedQuoteCount": 1
+    },
+    {
+      "schemaVersion": 1,
+      "policyVersion": "validated-unused-quotation-pruning-v1",
+      "receivedQuoteCount": 2,
+      "keptQuoteCount": 1,
+      "discardedUnusedQuoteCount": 1
+    }
+  ],
+  "literalEvidenceMatchesSavedEvent": true,
+  "goalControlUncertaintyAbsentInBothScenes": true,
+  "typedViewKeepsAbsentValuesNull": true,
+  "wakeBasis": {
+    "kind": "scene_excerpt",
+    "sceneIndex": 0,
+    "literalFragmentMatchesScene": true
+  },
+  "wakeAssociationsCount": 0,
+  "wakeResidueStrengthReported": 0.2,
+  "semanticSupport": "not_assessed",
+  "realWorldAffect": "not_assessed",
+  "qualityAssessed": false,
+  "replayOrCueRecallVerifiedThisLiveRun": false,
+  "windowsFullSuiteClaimed": false,
+  "bodyOrUserLocalPathsPublished": false,
+  "assistantNewModelRequests": 0,
+  "source": "user-supplied terminal output; no user Store/provider console inspection"
+}
