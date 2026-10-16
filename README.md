@@ -1,5 +1,7 @@
 # Asteria-Nightvoyage · 夜航
 
+[Production integration review](docs/INLINE-PRODUCTION-INTEGRATION.md) found a generic fake-resume ownership gap in an independent temporary fixture. The offline candidate guard rejects it, but the production fix is still pending: do not use generic `src/cli.js resume` for failed records owned by other runtimes. Fixing execution ownership is required before a new paid integration; current profiles and holds are unchanged.
+
 [Isolated direct-quotation budget stub](docs/INLINE-BUDGET-STUB.md) now tests full-context reservations, exact request fingerprints and atomic stage/usage settlement in a separate `inlineStubBilling` root. Run `node scripts/check-inline-budget.mjs` without a key. Synthetic amounts are algorithm probes, not provider bills or a current price review; no production selector or paid entry is added.
 
 [Direct-quotation offline runtime](docs/INLINE-RUNTIME.md) now rehearses two scenes, grounded wake, persistence/reopen, cue recall, cancellation and withdrawal using only supplied local simulators. Run `node scripts/check-inline-runtime.mjs` without a key. Its distinct offline identity is not a paid selector or production review-adapter compatibility claim; existing profiles and unknown holds remain unchanged. Real model compliance and dream quality are unassessed.
