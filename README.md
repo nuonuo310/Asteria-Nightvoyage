@@ -1,5 +1,7 @@
 # Asteria-Nightvoyage · 夜航
 
+[Inline entry preparation](docs/INLINE-ENTRY-PREFLIGHT.md) adds a credential-free, read-only source/history observation. `node src/inline-entry-preflight.js preflight` checks the reviewed recursive source/fixture inventory and actual first-request bytes without choosing a user directory. `node scripts/check-inline-entry-preflight.mjs` rehearses four independently fabricated historical holds. Every result remains ready=false: no paid profile, price/budget selection, egress approval or live entry is added. This inventory is not a proven import closure or runtime admission.
+
 [Direct-quotation read and independent review](docs/INLINE-REVIEW-ADAPTER.md) now expose validated scene/audit views, attributed immutable reviews and separate dream/wake content through the existing local-file contract. Run `node scripts/check-inline-review.mjs` without a key. Withdrawal/deletion/reopen preserve suppression; reading or reviewing adds no model calls. Asteria remains pending and the real inline entry remains blocked.
 
 [Direct-quotation production core](docs/INLINE-PRODUCTION-CORE.md) now binds its own protocol/allowance and atomically saves stages with usage settlement through supplied local HTTP simulators. Run `node scripts/check-inline-production.mjs` without a key. Live mode and live allowances are explicitly blocked; no paid profile or CLI is added. New-protocol appraisal reading and independent reviews are now supported through the local adapter below; dream quality remains unassessed.
