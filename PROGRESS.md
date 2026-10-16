@@ -565,3 +565,13 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 新37项；最终Linux全仓572/572，当前协议37＋归属18＋旧读取2=57/57，临时Linux CRLF同组57/57。历史五入口套件另列且不冒充当前源码批准。固定脚本3次本地HTTP/3结算/3指纹、重放0追加，native fetch/Key读取0，无Windows实机或真实费用/质量验收。
 - 冻结历史依赖新增3个自有MIT原文件按旧pin校验；当前旧50pin继续漂移，profile未改，新生产模块不在旧批准闭包。公开仅独立代码/说明/虚构脚本，无私有原文或用户运行正文/配置/Key。
 - 见docs/INLINE-PRODUCTION-CORE.md及validation/inline-production-validation.json。生产appraisal view/review adapter对新协议仍unsupported_protocol，下一切片显式接只读与独立评审；Asteria仍pending，真实入口继续关闭。
+
+
+## 直接引文：只读与独立评审适配
+
+- 新生产inline协议显式进入appraisal view、纯draft校验与managed评审上下文；核验完整checkpoint、固定identity、执行family及来源，复制程序inlineEvidenceAudit。模型声明/模拟数值/未知值/字面依据保留区别，字面支持不冒充语义或幅度已验证。
+- 复用既有local_file合同，原梦、醒来摘录、评价、独立署名意见分别输出；修订另存、重复请求去重，不覆盖原梦或原意见，不变更账本。Asteria仍pending，不自动评审或改真实记忆/人格/任务。
+- 新17项；最终Linux全仓589/589，相关17＋生产37＋managed29＋adapter8＋content11＝102/102，临时Linux CRLF同组102/102；无新增Windows实机。原子失败关闭、实际子进程在撤回/删除日志后退出、重开清除、去重/修订/身份篡改等有证据。四笔独立虚构旧unknown合计8812800 micro-CNY逐项不变，无用户Store访问。
+- 固定脚本3次本地stub生成，读取/评审追加0调用，native fetch/Key读取0；显式id内容CLI稳定state内容不变，撤回后managed文件无原梦/评审正文。存储保证不覆盖终端/外部备份/文件历史/物理擦除/供应商或已返回副本。
+- 为隔离旧源码测试，按旧pin追加冻结两个项目自有MIT原文件；生产无test-support回退，旧profile保持漂移不改。真实inline入口仍硬阻断，没有新额度/价格复核/外发批准，也没有质量或语义验收。
+- 见docs/INLINE-REVIEW-ADAPTER.md及validation/inline-review-validation.json。下一步审查独立入口profile/依赖闭包/preflight和历史保留；实际费用/外发另行提案确认，当前无需用户输入Key。

@@ -38,7 +38,7 @@
 
 ## 读取边界与测试
 
-普通梦正文、receipt和cue recall可通过原通用合同读取；撤回/删除继续优先。**现有生产appraisal read/review adapter对新协议仍返回unsupported_protocol**，本轮不将未支持的视图标成available。下一切片才显式增加该协议的只读/独立评审合同。Asteria adapter仍pending，候选不能直接改真实记忆、人格或任务状态，也没有现实工具执行。
+普通梦正文、receipt和cue recall可通过原通用合同读取；撤回/删除继续优先。本阶段结束时，生产appraisal read/review adapter尚未支持新协议；后续[只读与独立评审切片](INLINE-REVIEW-ADAPTER.md)已显式增加支持，原始验证记录仍保留当时unsupported_protocol状态。Asteria adapter仍pending，候选不能直接改真实记忆、人格或任务状态，也没有现实工具执行。
 
 无需Key的固定命令：
 

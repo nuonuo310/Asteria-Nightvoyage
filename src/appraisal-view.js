@@ -1,3 +1,4 @@
+import {inlineProtocolVersion,normalizeInlineCheckpoint,inlineIdentity} from './inline-evidence-protocol.js';
 import {continuityBudgetVersion,normalizeContinuityCheckpoint,continuityIdentity} from './scene-continuity-protocol.js';
 import { coupledBudgetVersion, normalizeBudgetCoupledCheckpoint } from './coupled-affect-protocol.js';
 // Derived read view only; never rewrites an original or stores another body cache.
@@ -27,17 +28,19 @@ export function readAppraisalView(store,entryId) {
   // A derived read is stamped from the managed parent, not caller-provided metadata.
   const envelope={schemaVersion:1,viewVersion:appraisalViewVersion,origin:'dream_appraisal_view',materialKind:'fictional',isRealityFact:false,
     sourceRefs:copy(entry.sourceRefs),derivedFrom:[entry.id],semanticSupport:'not_assessed'};
-  if (![appraisalProtocolVersion,compactProtocolVersion,compactV2Version,prunedCompactV2Version,coupledAffectVersion,coupledBudgetVersion,continuityBudgetVersion].includes(run.appraisalProtocolVersion)) return {...envelope,status:'unsupported_protocol',scenes:[]};
+  if (![appraisalProtocolVersion,compactProtocolVersion,compactV2Version,prunedCompactV2Version,coupledAffectVersion,coupledBudgetVersion,continuityBudgetVersion,inlineProtocolVersion].includes(run.appraisalProtocolVersion)) return {...envelope,status:'unsupported_protocol',scenes:[]};
   if (run.status!=='completed'||!run.snapshot||!entry.scenes?.length||hash(run.scenes)!==hash(entry.scenes)||
       hash(entry.sourceRefs)!==hash(run.snapshot.sources.map(s=>({id:s.id,version:s.version})))) fail('invalid_appraisal_view_record');
   if(run.appraisalProtocolVersion===continuityBudgetVersion&&Object.entries(continuityIdentity()).some(([k,v])=>run[k]!==v))fail('invalid_appraisal_view_record');
+  if(run.appraisalProtocolVersion===inlineProtocolVersion&&(Object.entries(inlineIdentity()).some(([k,v])=>run[k]!==v)||run.billingProtocolVersion!==inlineProtocolVersion||run.executionOwner?.schemaVersion!==1||run.executionOwner.family!==`specialized:${inlineProtocolVersion}`))fail('invalid_appraisal_view_record');
   let before=run.snapshot.channels.affect.value??neutral();
   const scenes=entry.scenes.map((saved,sceneIndex)=>{
-    const normalized=run.appraisalProtocolVersion===continuityBudgetVersion?normalizeContinuityCheckpoint(saved,before):run.appraisalProtocolVersion===coupledBudgetVersion?normalizeBudgetCoupledCheckpoint(saved,before):run.appraisalProtocolVersion===coupledAffectVersion?normalizeCoupledCheckpoint(saved,before):run.appraisalProtocolVersion===prunedCompactV2Version?normalizePrunedV2Checkpoint(saved,before):run.appraisalProtocolVersion===compactV2Version?normalizeCompactV2Checkpoint(saved,before):run.appraisalProtocolVersion===compactProtocolVersion?normalizeCompactCheckpoint(saved,before):normalizeAppraisalScene({...saved,basis:saved.appraisalBasis?.evidence},before);
+    const normalized=run.appraisalProtocolVersion===inlineProtocolVersion?normalizeInlineCheckpoint(saved,before):run.appraisalProtocolVersion===continuityBudgetVersion?normalizeContinuityCheckpoint(saved,before):run.appraisalProtocolVersion===coupledBudgetVersion?normalizeBudgetCoupledCheckpoint(saved,before):run.appraisalProtocolVersion===coupledAffectVersion?normalizeCoupledCheckpoint(saved,before):run.appraisalProtocolVersion===prunedCompactV2Version?normalizePrunedV2Checkpoint(saved,before):run.appraisalProtocolVersion===compactV2Version?normalizeCompactV2Checkpoint(saved,before):run.appraisalProtocolVersion===compactProtocolVersion?normalizeCompactCheckpoint(saved,before):normalizeAppraisalScene({...saved,basis:saved.appraisalBasis?.evidence},before);
     if (hash(normalized)!==hash(saved)) fail('invalid_appraisal_view_record');
     before=normalized.after;
     const e=normalized.appraisalBasis.evidence;
     return {sceneIndex,event:normalized.event,...(normalized.affectDeclaration?{affectDeclaration:{...copy(normalized.affectDeclaration),origin:'model_declaration',isRealityFact:false,verification:'shape_only'}}:{}),...(normalized.normalizationAudit?{normalizationAudit:copy(normalized.normalizationAudit)}:{}),
+      ...(normalized.inlineEvidenceAudit?{inlineEvidenceAudit:copy(normalized.inlineEvidenceAudit)}:{}),
       goalEffect:e.goal===null?unknown():estimate(normalized.appraisal.goalEffect,e.goal),
       control:e.controlExcerpt===null?unknown():estimate(normalized.appraisal.control,e.controlExcerpt),
       uncertainty:e.uncertaintyExcerpt===null?unknown():estimate(normalized.appraisal.uncertainty,e.uncertaintyExcerpt),
