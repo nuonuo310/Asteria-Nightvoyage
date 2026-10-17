@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "evidenceKind": "user_reported_authorized_live_trial",
+  "protocolVersion": "inline-evidence-quotes-v1",
+  "contractPath": "docs/proposals/inline-paid-entry-windows-20261017.json",
+  "contractHash": "8c1d8a58070f5100de2714845754ceddac75f1de424656d52d26b59dcc1fcdef",
+  "sourceCommitReportedInExcerpt": null,
+  "platform": "win32",
+  "nodeVersionRepeatedInLiveExcerpt": false,
+  "materialKind": "fictional",
+  "generatedEventOrigin": "dream",
+  "isRealityFact": false,
+  "model": "deepseek-flash",
+  "actualProviderRevisionVerified": false,
+  "status": "completed",
+  "sceneCount": 2,
+  "wakeRecordPresent": true,
+  "committedStages": 3,
+  "settledRows": 3,
+  "currentAllowanceUnknownRows": 0,
+  "calls": 3,
+  "inputTokens": 2963,
+  "outputTokens": 304,
+  "ledgerMicroCny": "8358",
+  "ledgerCny": 0.008358,
+  "ledgerBasis": "reviewed_pricing_and_normalized_provider_usage_not_independent_provider_invoice",
+  "stageUsage": [
+    {
+      "stage": "scene",
+      "inputTokens": 716,
+      "outputTokens": 114,
+      "ledgerMicroCny": "2344"
+    },
+    {
+      "stage": "scene",
+      "inputTokens": 1111,
+      "outputTokens": 158,
+      "ledgerMicroCny": "3486"
+    },
+    {
+      "stage": "wake",
+      "inputTokens": 1136,
+      "outputTokens": 32,
+      "ledgerMicroCny": "2528"
+    }
+  ],
+  "appraisalViewAvailable": true,
+  "goalControlUncertaintyViewStatus": "not_stated",
+  "affectDeclarations": [
+    "estimated",
+    "estimated"
+  ],
+  "evidenceVerification": "literal_excerpt_only",
+  "wakeFragmentSceneIndex": 1,
+  "associationsCount": 0,
+  "credentialSupplierCalls": 1,
+  "finalPreflight": {
+    "ready": false,
+    "reason": "completed_replay_available",
+    "credentialRequested": false,
+    "credentialSupplierCalls": 0
+  },
+  "realSavedReadReopenVerified": false,
+  "realSavedRunReplayVerified": false,
+  "realSavedCueRecallVerified": false,
+  "oldHoldReleaseAuthorized": false,
+  "oldHoldSettlementAuthorized": false,
+  "oldAccountsNotReprintedInLiveExcerpt": true,
+  "furtherPaidCallsApproved": false,
+  "qualityAssessed": false,
+  "semanticSupport": "not_assessed",
+  "rawDreamBodyPublished": false,
+  "runIdsPublished": false,
+  "requestFingerprintsPublished": false,
+  "privatePathsPublished": false,
+  "rawTerminalTranscriptPublished": false
+}

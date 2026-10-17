@@ -662,3 +662,11 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 用户更新至634489e后，在Windows／Node24.19.0运行check-inline-paid-entry.mjs完成：3次内置模拟、3条settled、一次dummy私有管道；重开读取、原梦保持、零新增调用/零凭据重放、旧账户不变和撤回重开清除均通过。
 - 范围仅此独立虚构脚本，不是Windows816项全套测试，也不证明真实HTTPS/供应商、语义支持或梦境质量。真实模型请求、用户Store访问、真实批准登记均为0/false；fixture时钟不续期，当前合同与费用不自动获准。
 - 聚合记录见docs/validation/user-local-inline-paid-entry-windows.json。公开不保存原终端文本、私人路径/数据或密钥；本次仅文档记载，无源码/候选/profile/额度/占款变化，无跨仓库修改。下一步需具体确认当前合同、CNY账户、新费用上限与虚构外发后，才给真实执行块。
+
+
+## 直接引文：首次有界真实试跑用户回报
+
+- 用户明确同意当前Windows候选／CNY账户／虚构外发／新增3元、1梦、最多3调用／可变别名与保留旧占款后，本地专用入口完成：两幕和醒来3个committed阶段、3条settled、独立评价视图available，输入2963／输出304 token。
+- 项目按审定单价结算8358 micro-CNY（0.008358 CNY），仅供应商usage归一化后的项目账面，不冒充实际账单或固定模型修订。结束预检completed_replay_available，凭据supplier为0；实际run重放、重开读取与线索召回留待下一次无凭据检查，不先填通过。
+- 单样本后幕有新增动作与感官内容，醒来为第二幕字面摘录，联想为空合法；情绪estimated与字面引文仍不足以验收方向/幅度。qualityAssessed=false、semanticSupport=not_assessed。额度调用名额已用完，不因实际账面金额较低而扩额或追加新梦，不清算旧unknown。
+- 见docs/INLINE-LIVE-TRIAL-RESULT.md及validation/user-local-inline-live-trial.json。公开仅独立分析与聚合字段，不上传原梦/终端文本、私人路径、真实运行/请求编号或fingerprint；无源码/合同/profile/旧账改变，无本工作台新增模型请求或跨仓库修改。
