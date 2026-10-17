@@ -670,3 +670,11 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 项目按审定单价结算8358 micro-CNY（0.008358 CNY），仅供应商usage归一化后的项目账面，不冒充实际账单或固定模型修订。结束预检completed_replay_available，凭据supplier为0；实际run重放、重开读取与线索召回留待下一次无凭据检查，不先填通过。
 - 单样本后幕有新增动作与感官内容，醒来为第二幕字面摘录，联想为空合法；情绪estimated与字面引文仍不足以验收方向/幅度。qualityAssessed=false、semanticSupport=not_assessed。额度调用名额已用完，不因实际账面金额较低而扩额或追加新梦，不清算旧unknown。
 - 见docs/INLINE-LIVE-TRIAL-RESULT.md及validation/user-local-inline-live-trial.json。公开仅独立分析与聚合字段，不上传原梦/终端文本、私人路径、真实运行/请求编号或fingerprint；无源码/合同/profile/旧账改变，无本工作台新增模型请求或跨仓库修改。
+
+
+## 直接引文：保存后读取、重放与手动线索召回通过
+
+- 用户Windows回报status=passed：重开读到2幕／3 settled／8358 micro-CNY；完成run重放追加调用0、凭据请求0，原梦和醒来记录不变，账目不变；目标梦可由手动字面线索召回，dream/nonfact与来源身份保留。
+- 本个虚构样例的本地技术闭环已有实机回报：真实生成→保存→醒来→保存后读取／无凭据重放→手动线索召回。不扩大为长期白天自动浮现、语义检索、Windows全套测试、真实私人材料适用性或梦境质量通过；qualityAssessed=false、semanticSupport=not_assessed。
+- 聚合结果见docs/validation/user-local-inline-live-postcheck.json，正文说明见docs/INLINE-LIVE-TRIAL-RESULT.md。仅独立表述和聚合字段，无原梦、线索文本、终端原文、私人路径、编号或Key；源码／合同／profile／额度／旧账不变，本工作台未追加模型请求。
+- 当前技术切片收尾，下一步内容与情绪依据评审；维持已结束的调用范围，不因低账面金额自动追加生成，不删除或撤回现有梦簿来做重复验证。
