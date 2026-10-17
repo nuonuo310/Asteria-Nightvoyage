@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "stage": "contract_bound_dedicated_process_entry",
+  "baseCommit": "7599d42f04385f5e4f05f87a061e9f6543f934b3",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "checks": {
+    "full": {
+      "command": "node --test",
+      "tests": 798,
+      "pass": 798,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "targeted": {
+      "command": "node --test test/inline-credential-pipe.test.js test/inline-paid-runtime.test.js test/inline-paid-entry.test.js test/inline-trial-authorization.test.js test/inline-paid-contract.test.js test/inline-bootstrap.test.js test/inline-authorization.test.js test/inline-admission.test.js test/inline-dependencies.test.js test/inline-entry-preflight.test.js test/inline-production.test.js test/execution-owner.test.js test/inline-review.test.js test/inline-integration-review.test.js test/pruned-history-read.test.js",
+      "tests": 299,
+      "pass": 299,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "crlf": {
+      "command": "node --test test/inline-credential-pipe.test.js test/inline-paid-runtime.test.js test/inline-paid-entry.test.js test/inline-trial-authorization.test.js test/inline-paid-contract.test.js test/inline-bootstrap.test.js test/inline-authorization.test.js test/inline-admission.test.js test/inline-dependencies.test.js test/inline-entry-preflight.test.js test/inline-production.test.js test/execution-owner.test.js test/inline-review.test.js test/inline-integration-review.test.js test/pruned-history-read.test.js",
+      "tests": 299,
+      "pass": 299,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "convertedFiles": 334,
+      "extensions": [
+        ".js",
+        ".mjs",
+        ".json"
+      ],
+      "isWindowsHost": false
+    },
+    "script": {
+      "command": "node scripts/check-inline-paid-entry.mjs",
+      "node": "v24.19.0",
+      "platform": "linux",
+      "fixtureClock": "2026-10-17T15:00:00.000Z",
+      "fixtureClockAppliesOnlyToRehearsal": true,
+      "confirmationOrigin": "independent_synthetic_fixture_not_user_consent",
+      "dispatchKind": "rehearsal",
+      "cleanChild": true,
+      "constrainedPaidGraph": true,
+      "inheritedKeyAndNodeOptionsDropped": true,
+      "dummyCredentialSupplierCalls": 1,
+      "credentialChannel": "one_shot_private_stdin_pipe",
+      "stubCalls": 3,
+      "stubSettledRows": 3,
+      "replayAdditionalCalls": 0,
+      "replayCredentialSupplierCalls": 0,
+      "typedViewAvailable": true,
+      "readPreservesOriginal": true,
+      "oldAccountsUnchanged": true,
+      "withdrawalPurgedAfterReopen": true,
+      "realModelRequests": 0,
+      "userStoreAccessed": false,
+      "realUserApprovalRecorded": false,
+      "providerNetworkTested": false,
+      "qualityAssessed": false,
+      "semanticSupport": "not_assessed"
+    }
+  },
+  "newTests": 63,
+  "contractPath": "docs/proposals/inline-paid-entry-ready-20261017.json",
+  "contractHash": "af58c62055a175feb4c38e306b6e02086f323799e496c1172f2e7dce262a6ac1",
+  "sourceInventoryFiles": 85,
+  "graphs": {
+    "runtime": {
+      "modules": 33,
+      "staticEdges": 184,
+      "builtins": [
+        "node:crypto",
+        "node:fs",
+        "node:path",
+        "node:url"
+      ],
+      "dynamicImportClosureProved": false
+    },
+    "stubBootstrap": {
+      "modules": 34,
+      "staticEdges": 186,
+      "builtins": [
+        "node:crypto",
+        "node:fs",
+        "node:path",
+        "node:url"
+      ],
+      "dynamicImportClosureProved": false
+    },
+    "paid": {
+      "modules": 37,
+      "staticEdges": 221,
+      "builtins": [
+        "node:crypto",
+        "node:fs",
+        "node:https",
+        "node:path",
+        "node:url"
+      ],
+      "dynamicImportClosureProved": false
+    }
+  },
+  "oldDraftsChanged": false,
+  "oldPaidProfilesChanged": false,
+  "pricingReviewRenewed": false,
+  "realUserApprovalRecorded": false,
+  "userStoreAccessed": false,
+  "realCredentialUsed": false,
+  "realModelRequests": 0,
+  "providerNetworkTested": false,
+  "providerTransportTestMethod": "in_process_https_monkeypatch_never_a_runtime_option",
+  "rehearsalClockOnlyForRehearsalDispatch": true,
+  "newWindowsHostResult": false,
+  "thirdPartyImplementationCopied": false,
+  "qualityAssessed": false,
+  "semanticSupport": "not_assessed",
+  "correctedDuringReview": [
+    "fixture_confirmation_missing_currency_field",
+    "storage_failure_test_read_poisoned_store",
+    "incomplete_init_syntax_rejected_before_child",
+    "close_credential_input_on_cancel",
+    "scan_nested_json_decoded_secret_echo"
+  ],
+  "storageBoundary": "managed_store_journal_temp_logical_purge_not_exports_backups_terminal_physical_or_provider",
+  "sourceHashes": {
+    "docs/INLINE-PAID-CONTRACT.md": "1eec7b6492922270f62890aa5329686b5a17a01c087f8aaf980635792c5ab67c",
+    "docs/INLINE-PAID-PROCESS-ENTRY.md": "d0b8d33a96c356005efa1f7f2e52fa60ba5bc41998a8fdfc4f21ece5e3b2bf14",
+    "docs/INLINE-TRIAL-AUTHORIZATION.md": "a88f0d1ccdb7b1d1681962c20e859f0a2eaedfff60324f4e55b822ab5ca69987",
+    "docs/proposals/inline-paid-entry-ready-20261017.json": "aedd84ec58f1d554c6a348a475049caefdb77cc6cceca8eeb4cda44b2f153f0c",
+    "docs/validation/inline-paid-process-crlf.txt": "faee77c68216a2fd6ce06578fef77b9fa063bedebed0db36f6531f720d9624bd",
+    "docs/validation/inline-paid-process-full.txt": "ecc396d9a55c6590e93fdfadeae4bfd4336b1716508a7b6c204483a75c669d6d",
+    "docs/validation/inline-paid-process-script.json": "f83270bda669fb4a8290f64066cdf41cda1c9231d57d0682143e4f1ab024169b",
+    "docs/validation/inline-paid-process-targeted.txt": "d7b321e494ffb841bed7fc66e417eb5c4ca182b7292f9afbe5885614bfd6c937",
+    "scripts/check-inline-paid-contract.mjs": "504bb14f4f320867565801920715d6b6cb34f81ec04e8eea46eb31434946ada4",
+    "scripts/check-inline-paid-entry.mjs": "c848e9f525ad82aab754ac4ca0f05e19ff3d400268598872ff5fc1c76b153923",
+    "src/budgeted-runtime.js": "af3956636be707608c6559f51f45ecd508cde60074004d2573171949d080f451",
+    "src/gated-deepseek-client.js": "34ac1a488fb7d8085b18ec9afed89b3ae964ec8d3ed4713579b744828f3243ac",
+    "src/inline-bootstrap-graph.json": "532ebb89edbbf751484c7e6f65f40395379c24d9ea1ce56cae11367508b889f5",
+    "src/inline-credential-pipe.js": "611f6d39aba88422f81da0fd92e820f2393b97ef05f00e9f2dcf3741b404ee13",
+    "src/inline-entry-graph.json": "be407f30d0dde00b56bc2eef320996c9f12d8e802eb94406c74d5bb40a5f81a0",
+    "src/inline-entry-review.json": "de840ffa7ff75f78cbafd39827bce043c5583eeed9f5c68fb5622eea7296caf0",
+    "src/inline-paid-contract.js": "107d2e5b522c2783215b5b2918b7b5c9525b167423467b39aef928b164223728",
+    "src/inline-paid-entry.js": "706f64a4984c3fbb479c591240614ed3732552f14a728d3c1771432f1af986b2",
+    "src/inline-paid-graph.json": "316fe7a26019961673e2c94d278b0eb03ad371c36bab858e7238d5aebc125adc",
+    "src/inline-paid-runtime.js": "7f73fec5853db116252e0ca11a585286e28640ddad1fc11324c51df7267e2438",
+    "src/inline-paid-session.js": "8e6cc7e1c4a21fe4eea6133659551bed664266131280b627afdf38150ff0bd05",
+    "src/inline-paid-worker.js": "8d40f947f556c867e8fc78dcad9c6b60580cf6bd36e4542936cc233ffccd4249",
+    "src/inline-stub-worker.js": "3fb335c32b22ae5b5788fafa7658634d6d31d8055a6e966cbf311161444d99fa",
+    "src/inline-trial-authorization.js": "cbc291ba38adb26e395886f3ebfa2878d46ca04b89c440493ddb366019486cec",
+    "test-support/frozen-owner-project.js": "fddd61a24972d00114d2d3899fef9995c034ed9dc5603c16bdc78aa6900cc962",
+    "test-support/inline-paid-http-fixture.js": "9ff7b3028d3a1a0d62686aa137eb2c432d1ca592989b6ea08881ed8e8246b6b4",
+    "test-support/inline-trial-fixtures.js": "189e2c497ace43044fd99837ed40772af76a40eeb08f05dc7fdee3267a31ca35",
+    "test/inline-credential-pipe.test.js": "3f25692375c0b1c79941d5a6bff1fbd499a3a018f7741e4694149d17c9961a15",
+    "test/inline-integration-review.test.js": "51bd16ba7062a1de24024a71bef3b1818ddae7ea9e518178698dbace06dd8fe5",
+    "test/inline-paid-contract.test.js": "7a0bcec96e2cd3f644827ab013bbeb9d912a58d1bc537d4fd5c7eca0dd6e3338",
+    "test/inline-paid-entry.test.js": "99e9118a6ba42d4e714c294fe0ffa0a146eec346122744f51f0fd6597b7b1af4",
+    "test/inline-paid-runtime.test.js": "6e75021f558478123da7b4bee5166f48c8c9f039f004272b69ba4dee8220e93a",
+    "test/inline-trial-authorization.test.js": "5ccd8ef95dfa1d0b174c4fbc1d3bb76c31ec613dca8a18f059b8286789508057"
+  }
+}

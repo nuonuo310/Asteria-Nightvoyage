@@ -11,8 +11,8 @@ import {inlineEntryInventory,inlineEntryPreflight} from './inline-entry-prefligh
 import {InlineHistoryGuard} from './inline-entry-admission.js';
 import {assertAppraisalReviewJsonData} from './appraisal-review-memory.js';
 const root=fileURLToPath(new URL('..',import.meta.url));
-export const inlinePaidContractPath='docs/proposals/inline-paid-entry-atomic-20261017.json';
-export const inlinePaidContractId='inline-evidence-paid-entry-atomic-plan-20261017';
+export const inlinePaidContractPath='docs/proposals/inline-paid-entry-ready-20261017.json';
+export const inlinePaidContractId='inline-evidence-paid-entry-ready-plan-20261017';
 const checkedAt=Date.parse('2026-10-17T14:49:00Z'),expiresAt=Date.parse('2026-10-18T14:49:00Z');
 const ordered=v=>v===null||typeof v!=='object'?v:Array.isArray(v)?v.map(ordered):Object.fromEntries(Object.keys(v).sort().map(k=>[k,ordered(v[k])]));
 const canonical=v=>JSON.stringify(ordered(v));
@@ -30,19 +30,19 @@ export function draftInlinePaidContract({repositoryRoot=root}={}){
   const base=path.resolve(repositoryRoot),inventory=inlineEntryInventory(base),graph=file(base,'src/inline-bootstrap-graph.json'),input=snapshot(file(base,'fixtures/quality/sparse-context.json'));
   if(input.sources.some(s=>s.grant.modelEgress!==false))fail('paid_contract_fixture_egress_changed');
   return {
-    schemaVersion:1,kind:'non_executable_inline_paid_entry_contract',id:inlinePaidContractId,
+    schemaVersion:1,kind:'explicit_confirmation_required_inline_paid_entry_contract',id:inlinePaidContractId,
     protocolVersion:inlineProtocolVersion,protocolIdentity:inlineIdentity(),
     provider:{name:'DeepSeek',endpoint:'https://api.deepseek.com/chat/completions',model:'deepseek-flash',observedRevision:'DeepSeek-V4.1-Flash-1017',aliasRevisionPinned:false,actualModelsRequestMade:false},
     material:{caseId:'sparse-context',fixturePath:'fixtures/quality/sparse-context.json',fixtureHash:hash(input),materialKind:'fictional',generatedEventOrigin:'dream',isRealityFact:false,sourceRefs:input.sources.map(s=>({id:s.id,version:s.version})),privateMaterialAllowed:false},
-    source:{inventoryHash:hash(inventory),stubGraphHash:hash(graph),paidGraphAvailable:false},
+    source:{inventoryHash:hash(inventory),stubGraphHash:hash(graph),paidGraphHash:hash(file(base,'src/inline-paid-graph.json')),paidGraphAvailable:true},
     pricing:{currency:'CNY',checkedAt,expiresAt,rateBasis:'peak_cache_miss_upper_bound',inputMicroCnyPerMillion:2000000,outputMicroCnyPerMillion:8000000,contextTokenLimit:1100000,fullPerCallReservationMicroCny:'2203200',actualAccountCurrencyVerified:false,automaticRenewal:false,references:['https://api-docs.deepseek.com/zh-cn/quick_start/pricing/','https://api-docs.deepseek.com/zh-cn/updates/','https://api-docs.deepseek.com/api/list-models/']},
     limits:{additionalBudgetMicroCny:'3000000',maxRuns:1,maxCalls:3,scenes:2,wakeCalls:1,perCallOutputTokens:400,requestBytes:65536,responseJsonBytes:1200},
     history:{unknownCount:4,heldMicroCny:'8812800',providerChargeKnown:false,preserveEveryOldAccount:true,releaseOrSettlementAuthorized:false,captureBaseline:'under_owner_before_new_account',reopenPolicy:'compare_persisted_baseline_never_recapture'},
     control:{automaticRetry:false,repairCalls:false,continuesPriorRun:false,resume:'explicit_settled_committed_prefix_only',cancel:'suppress_late_body_and_keep_ambiguous_full_hold',sourceWithdrawal:'block_and_purge_managed_bodies',originalDream:'immutable_separate_from_recollection_and_continuation'},
-    credential:{channel:'one_shot_parent_to_child_private_pipe_pending',readOnlyAfter:['exact_contract_confirmation','source_and_loader_checks','owner_locked_history_and_budget','next_request_bytes'],inheritedEnvironment:false,persist:false,log:false,replayRequiresKey:false},
+    credential:{channel:'one_shot_parent_to_child_private_pipe',readOnlyAfter:['exact_contract_confirmation','source_and_loader_checks','owner_locked_history_and_budget','next_request_bytes'],inheritedEnvironment:false,persist:false,log:false,replayRequiresKey:false},
     atomicAuthorizationStoreAvailable:true,
-    blockers:['live_runtime_transport_pending','credential_pipe_pending','paid_loader_graph_pending'],
-    paidEvaluationApproved:false,fictionalEgressApproved:false,liveEntryAvailable:false,implementationReady:false,qualityAssessed:false,semanticSupport:'not_assessed'
+    blockers:['explicit_current_contract_confirmation_required','user_account_currency_confirmation_required'],
+    paidEvaluationApproved:false,fictionalEgressApproved:false,liveEntryAvailable:true,implementationReady:true,qualityAssessed:false,semanticSupport:'not_assessed'
   };
 }
 export function validateInlinePaidContract(value,{repositoryRoot=root,now=Date.now(),allowExpired=false}={}){
@@ -74,7 +74,7 @@ export function inspectInlinePaidAdmission(store,value,options={}){
 export function inspectInlinePaidAcknowledgement(value,acknowledgement,options={}){
   const checked=validateInlinePaidContract(value,options);
   try{assertAppraisalReviewJsonData(acknowledgement);}catch{fail('paid_acknowledgement_mismatch');}
-  const expected={contractHash:checked.contractHash,budgetCny:3,caseId:'sparse-context',allowFictionalEgress:true,acknowledgePreservedHolds:true,acknowledgeMutableModelAlias:true};
+  const expected={contractHash:checked.contractHash,budgetCny:3,caseId:'sparse-context',allowFictionalEgress:true,acknowledgePreservedHolds:true,acknowledgeMutableModelAlias:true,accountCurrency:'CNY'};
   if(canonical(acknowledgement)!==canonical(expected))fail('paid_acknowledgement_mismatch');
   return {contractHash:checked.contractHash,shapeMatches:true,createsAuthorization:false,createsAccount:false,credentialRead:false,liveEntryAvailable:false};
 }
@@ -82,5 +82,5 @@ export function inlinePaidContractPreflight({repositoryRoot=root,historyDirector
   const common={ready:false,credentialRead:false,realModelRequests:0,liveEntryAvailable:false,paidEvaluationApproved:false,qualityAssessed:false,semanticSupport:'not_assessed'};
   let checked;try{checked=readInlinePaidContract({repositoryRoot,now});}catch(error){return {...common,reason:error.message};}
   const observed=inlineEntryPreflight({repositoryRoot,historyDirectory});
-  return {...common,contractHash:checked.contractHash,caseId:'sparse-context',additionalBudgetCny:3,maxRuns:1,maxCalls:3,nextReservationCny:2.2032,blockers:copy(checked.contract.blockers),sourceInventoryMatches:observed.sourceInventoryMatches,requestBytes:observed.requestBytes??null,history:observed.history??{checked:false},historyIsDispatchAdmission:false,reason:observed.history?.checked?'implementation_and_explicit_paid_approval_pending':observed.reason};
+  return {...common,contractHash:checked.contractHash,caseId:'sparse-context',additionalBudgetCny:3,maxRuns:1,maxCalls:3,nextReservationCny:2.2032,blockers:copy(checked.contract.blockers),sourceInventoryMatches:observed.sourceInventoryMatches,requestBytes:observed.requestBytes??null,history:observed.history??{checked:false},historyIsDispatchAdmission:false,reason:observed.history?.checked?'explicit_current_paid_approval_required':observed.reason};
 }

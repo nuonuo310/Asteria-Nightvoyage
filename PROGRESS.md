@@ -636,3 +636,14 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 固定脚本3次模拟/3 settled/2520 micro-CNY合成量，重放0，评价可读/召回dream非事实，旧账户逐项不变、撤回重开清正文；Key/native请求0，无用户Store/真实模型或费用/语义/质量验收。脚本fixture时钟不续期，live意向fixture派发0。
 - 原两草案原样保留，新候选inline-paid-entry-atomic-20261017.json绑定当前源码，沿用原14:49复核/次日14:49到期，不刷新查价或旧批准。源码清单79文件；原运行器图33模块/184边、固定stub入口图34模块/186边，均4内建，不冒充付费session图。
 - 见docs/INLINE-TRIAL-AUTHORIZATION.md及validation/inline-trial-authorization-validation.json。剩余live运行器、私有凭据管道、付费session加载/入口三项；当前CLI无init/run/live且不给Key指令，真实费用/虚构外发另行确认。公开仅自有MIT代码/独立文字/虚构材料，无跨仓库修改或私有原文。
+
+## 直接引文：专用进程入口、HTTPS路径与私有凭据管道
+
+- 此前剩余三项已实现：InlinePaidRuntime固定provider路径、准入后一次性父→子stdin凭据、独立paid session加载图/入口。通用inline live client/runtime默认拒绝保留；无fetch/URL/Key/任意模型选项。CLI真实派发仍需精确当前合同确认，不把“继续”、测试确认或安装代码当新费用授权。
+- 父启动器不继承Key/Node预加载/模块路径/代理/execArgv；子进程先验源码与图，安装resolve/load约束后加载核心。owner内许可/旧账持久基线/运行归属/下一实际请求及预算通过才索取一次Key，收到后再检查；完成重放无Key。管道边界、超时与取消关闭输入已验证。宿主/前置可信，不是OS/JS沙箱或完整动态闭包。
+- 新terms保留精确确认与不可变provider/rehearsal分支，增加CNY用户声明但不伪称供应商核验。新ready候选独立编号/hash，三份旧草案与旧profile原样；原14:49价格复核/次日14:49期限不续期。四旧unknown逐项8812800 micro-CNY保留，不等于实际账单，不释放/重试/清算。
+- provider使用固定Node HTTPS POST、无重定向/自动重试/代理继承，包络65536字节、模型正文1200字节/400token，六处门禁和精确row状态/fingerprint继续核对。迟到/取消/撤销/撤回/超时/格式与存储失败关闭正文；usage与checkpoint同次原子提交；仅settled提交前缀显式恢复。精确Key回显在HTTP JSON及内部解码字符串检查，不声称检测任意变形秘密。
+- 新63项；最终Linux Node24.19.0全仓798/798，相关299/299，临时Linux CRLF同组299/299，334文件转换；无新增Windows实机。初轮仅旧演练确认缺CNY字段/错误断言读取已poison Store，均修正；复查补了取消时关闭stdin、内部JSON解码Key回显，再完成回归。
+- 独立固定脚本经新进程与受限加载完成3次内置模拟/3 settled、一次dummy私有凭据；重开读取/零调用零Key重放/撤回清除，旧账户逐项不变。rehearse独立fixture时钟且native HTTPS硬拒绝；真实provider动作坚持实际时钟和provider许可。provider路径仅进程内HTTPS stand-in测试，真实TCP/TLS/模型请求0，无用户Store/真实Key/真实批准或质量成绩。
+- 当前清单85文件；原运行器图33模块/184边/4内建，stub入口34/186/4，付费session新图37/221/5。见docs/INLINE-PAID-PROCESS-ENTRY.md与validation/inline-paid-process-validation.json。下一步先用户Windows无Key自检，再确认具体合同/费用/外发/CNY账户/别名及旧占款；本轮不给真实Key运行块，不执行实际收费。
+- 梦/醒来/余韵/联想/独立评价视图保持类型与dream/nonfact身份，原梦不被回想/续写覆盖；Asteria仍待对接。公开仅自有MIT代码、独立文字、虚构样例，提交前检查暂存；无私有原文、聊天/梦簿/配置/Key或跨仓修改。清除边界仍限受管理Store/日志/临时文件。

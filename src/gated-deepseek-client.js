@@ -26,7 +26,7 @@ async function boundedBody(response, signal) {
 export class GatedDeepSeekClient {
   constructor(store, { enabled = false, mode = 'disabled', fetchImpl, timeoutMs = 10000, fault = () => {}, protocol = 'grounded-wake-v2' } = {}) {
     if (!['grounded-wake-v2','compact-appraisal-v1','compact-appraisal-v2','coupled-affect-v1','scene-continuity-v1','inline-evidence-v1'].includes(protocol)) fail('unreviewed_transport_protocol');
-    if(protocol==='inline-evidence-v1'&&mode==='live')fail('inline_live_entry_pending');
+    if(protocol==='inline-evidence-v1'&&mode==='live')new.target.assertInlineLiveConstruction(store);
     if(protocol==='scene-continuity-v1'&&mode==='live')assertContinuityLiveStore(store);
     if (!['disabled','stub','live'].includes(mode) || !Number.isSafeInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 60000) fail('invalid_transport_config');
     if (mode === 'stub' && typeof fetchImpl !== 'function') fail('stub_transport_required');
@@ -42,10 +42,14 @@ export class GatedDeepSeekClient {
     if (input.sources.some(s => s.grant.modelEgress !== true || this.store.withdrawn.includes(s.id))) fail('source_egress_denied_or_withdrawn');
   }
   checkAdmission(_context,_phase) {}
+  static assertInlineLiveConstruction(){fail('inline_live_entry_pending');}
+  assertInlineLiveSend(){fail('inline_live_entry_pending');}
+  checkProviderBody(_body,_credential) {}
+  dispatchTransport(endpoint,request,_admission){return (this.mode==='stub'?this.fetchImpl:globalThis.fetch)(endpoint,request);}
   async send({ allowanceId, requestId, runId, payload, credential, signal, publish } = {}) {
     if(this.protocol==='scene-continuity-v1'&&this.mode==='live')assertContinuityLiveStore(this.store,{allowanceId,requestId,runId,payload});
     if (this.closed || this.enabled !== true || this.mode === 'disabled') fail('transport_disabled');
-    if(this.protocol==='inline-evidence-v1'&&this.mode!=='stub')fail('inline_live_entry_pending');
+    if(this.protocol==='inline-evidence-v1'&&this.mode!=='stub')this.assertInlineLiveSend();
     const admission={allowanceId,requestId,runId,payload};this.checkAdmission(admission,'before_reservation');
     if (signal?.aborted) fail('cancelled');
     if (typeof credential !== 'string' || !credential.trim() || credential.length > 2000 || /[\r\n]/.test(credential)) fail('credential_required');
@@ -83,12 +87,12 @@ export class GatedDeepSeekClient {
         if (controller.signal.aborted) fail('cancelled');
         this.checkSources(input);
         this.checkAdmission(admission,'before_http');
-        // Native fetch is reached only for explicitly enabled, approved live mode.
-        const transport = this.mode === 'stub' ? this.fetchImpl : globalThis.fetch;
-        const response = await transport(request.endpoint,{ method:'POST',redirect:'error',signal:controller.signal,headers:{'Content-Type':'application/json',Authorization:`Bearer ${credential}`},body:JSON.stringify(request.body) });
+        // Dedicated runtimes may select their separately checked fixed transport.
+        const response = await this.dispatchTransport(request.endpoint,{ method:'POST',redirect:'error',signal:controller.signal,headers:{'Content-Type':'application/json',Authorization:`Bearer ${credential}`},body:JSON.stringify(request.body) },admission);
         if (controller.signal.aborted) fail('cancelled');
         if (response.status !== 200) return parseDeepSeekResponse({ status:response.status },{model:allowance.pricing.model});
         const body=await boundedBody(response,controller.signal);
+        this.checkProviderBody(body,credential);
         return parseDeepSeekResponse({status:response.status,body},{model:allowance.pricing.model});
       };
       const result=await Promise.race([operation(),stopped]);
