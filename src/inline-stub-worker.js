@@ -11,7 +11,8 @@ function text(relative){
   for(;;){if(fs.lstatSync(p).isSymbolicLink())stop();const parent=path.dirname(p);if(parent===p)break;p=parent;}
   const stat=fs.statSync(filename);if(!stat.isFile()||stat.size>2097152)stop();const bytes=fs.readFileSync(filename),value=bytes.toString('utf8');if(!Buffer.from(value).equals(bytes))stop();return value.replaceAll('\r\n','\n');
 }
-export function verifyInlineBootstrap(){
+export function verifyInlineBootstrap({entry='src/inline-stub-session.js',graphPath='src/inline-bootstrap-graph.json'}={}){
+  if(![['src/inline-stub-session.js','src/inline-bootstrap-graph.json'],['src/inline-paid-session.js','src/inline-paid-graph.json']].some(pair=>pair[0]===entry&&pair[1]===graphPath))stop();
   const review=JSON.parse(text('src/inline-entry-review.json'));
   if(review.schemaVersion!==1||review.reviewVersion!=='inline-entry-readiness-v1'||review.protocolVersion!=='inline-evidence-quotes-v1'||review.paidEvaluationApproved!==false||review.fixtureEgressApproved!==false||review.liveEntryAvailable!==false||review.pricing!==null||review.budgetCny!==null||review.inventoryScope!=='all-src-and-fixtures-plus-package-excluding-self'||review.fixturePath!=='fixtures/quality/sparse-context.json')stop();
   const actual={};const add=p=>{actual[p]=createHash('sha256').update(text(p)).digest('hex');};
@@ -19,7 +20,7 @@ export function verifyInlineBootstrap(){
   walk('src');walk('fixtures');add('package.json');
   if(!review.files||Object.keys(actual).length!==Object.keys(review.files).length||Object.entries(actual).some(([p,h])=>review.files[p]!==h))stop();
   const pkg=JSON.parse(text('package.json'));if(Object.keys(pkg.dependencies??{}).length||Object.keys(pkg.optionalDependencies??{}).length)stop();
-  const expected=JSON.parse(text('src/inline-bootstrap-graph.json')),graph=inlineDependencyGraph(root,'src/inline-stub-session.js');
+  const expected=JSON.parse(text(graphPath)),graph=inlineDependencyGraph(root,entry);
   if(JSON.stringify(graph)!==JSON.stringify(expected))stop();return graph;
 }
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){

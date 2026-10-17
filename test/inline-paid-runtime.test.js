@@ -1,0 +1,38 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import {spawnSync} from 'node:child_process';
+import {InlinePaidRuntime} from '../src/inline-paid-runtime.js';
+import {Store} from '../src/store.js';
+import {readAppraisalView} from '../src/appraisal-view.js';
+import {revokeInlineTrialAuthorization,inlineTrialAllowanceId} from '../src/inline-trial-authorization.js';
+import {prepareTrialHistory,trialFixtureNow} from '../test-support/inline-trial-fixtures.js';
+import {mockPaidHttps,paidFixtureBody} from '../test-support/inline-paid-http-fixture.js';
+const dummy='DUMMY-PAID-PIPE-ONLY';
+function setup(t,handle,options={}){const h=prepareTrialHistory(t,{mode:'live'}),calls=mockPaidHttps(t,handle??(({body,respond})=>respond(paidFixtureBody(body)))),engine=new InlinePaidRuntime(h.directory,{enabled:true,...options});engine.credential=dummy;t.after(()=>engine.close());return {...h,engine,calls};}
+function olds(e,h){for(const [id,a]of Object.entries(h.oldAccounts))assert.deepEqual(e.store.state.billing.accounts[id],a);}
+function noSecret(directory){for(const name of fs.readdirSync(directory)){const p=path.join(directory,name);if(fs.statSync(p).isFile())assert.ok(!fs.readFileSync(p,'utf8').includes(dummy));}}
+test('dedicated provider path uses one fixed POST per stage, atomic settlement and credential-free replay',async t=>{
+  const h=setup(t),e=h.engine,gate=e.prepare({dispatchKind:'provider'}),id=gate.id;assert.ok(gate.nextRequestBytes<65536);assert.equal(gate.nextReservationMicroCny,'2203200');await e.execute(id);assert.equal(e.status(id).status,'completed');assert.equal(h.calls.length,3);assert.ok(e.status(id).billing.every(r=>r.status==='settled'));assert.equal(e.result(id).dream.origin,'dream');assert.equal(e.result(id).dream.isRealityFact,false);assert.equal(readAppraisalView(e.store,e.result(id).dream.id).status,'available');for(const c of h.calls){assert.equal(c.endpoint,'https://api.deepseek.com/chat/completions');assert.equal(c.options.method,'POST');assert.equal(c.options.agent,false);assert.equal(c.options.headers.Authorization,`Bearer ${dummy}`);assert.ok(Buffer.byteLength(c.body)<=65536);assert.ok(!c.body.includes(dummy));}olds(e,h);noSecret(h.directory);e.close();const next=new InlinePaidRuntime(h.directory,{enabled:true});try{assert.equal(next.prepare({dispatchKind:'provider'}).completed,true);await next.execute(next.start());assert.equal(h.calls.length,3);olds(next,h);}finally{next.close();}
+});
+test('no authority, wrong mode, override or wrong dispatch kind reaches transport or resets accounts',t=>{
+  const h=prepareTrialHistory(t,{mode:'live'});for(const option of [{credential:dummy},{fetchImpl:()=>{}},{mode:'stub'},{endpoint:'https://example.invalid'}])assert.throws(()=>new InlinePaidRuntime(h.directory,option),/paid_runtime_override_forbidden/);const e=new InlinePaidRuntime(h.directory);try{assert.throws(()=>e.prepare({dispatchKind:'rehearsal'}),/trial_dispatch_kind_mismatch/);assert.equal(e.client.ledger.status(inlineTrialAllowanceId).calls,0);}finally{e.close();}const stub=prepareTrialHistory(t);assert.throws(()=>new InlinePaidRuntime(stub.directory),/existing_matching_trial_authorization_required/);
+});
+for(const kind of ['disabled','missing-key','cancelled','withdrawn','expired','revoked','busy','bad-history'])test(`paid admission ${kind} blocks before HTTPS`,async t=>{
+  const h=setup(t),e=h.engine,id=e.start();if(kind==='disabled')e.client.enabled=false;if(kind==='missing-key')e.credential=undefined;if(kind==='cancelled')e.cancel(id);if(kind==='withdrawn')e.store.withdraw('q-sparse-memory');if(kind==='expired')Date.now=()=>h.record.terms.allowance.expiresAt;if(kind==='revoked')revokeInlineTrialAuthorization(e.store);if(kind==='busy'){assert.throws(()=>new InlinePaidRuntime(h.directory),/store_busy/);e.client.enabled=false;}if(kind==='bad-history'){e.store.state.billing.accounts['quality-screen-20261015'].fingerprint='a'.repeat(64);}try{await e.execute(id);}catch{}assert.equal(h.calls.length,0);noSecret(h.directory);
+});
+for(const kind of ['redirect','http','bad-json','too-large','invalid-scene','secret-echo','escaped-secret','timeout','withdraw','revoke','cancel','storage'])test(`provider stand-in ${kind} makes at most one ambiguous attempt and never publishes a body`,async t=>{
+  let h;h=setup(t,({body,req,response,respond,receive})=>{
+    if(kind==='redirect')return respond(null,302);if(kind==='http')return respond(null,401);if(kind==='bad-json')return respond('PRIVATE-SENTINEL');if(kind==='too-large')return respond('x'.repeat(65537));
+    if(kind==='timeout')return;
+    if(kind==='withdraw')h.engine.store.withdraw('q-sparse-memory');if(kind==='revoke')revokeInlineTrialAuthorization(h.engine.store);if(kind==='cancel')h.engine.cancel(h.engine.start());if(kind==='storage')fs.mkdirSync(path.join(h.directory,'snapshot.tmp'));
+    const value=paidFixtureBody(body);if(kind==='invalid-scene')value.choices[0].message.content='{}';if(kind==='secret-echo')value.choices[0].message.content=JSON.stringify({event:dummy});if(kind==='escaped-secret')value.choices[0].message.content='{"event":"'+dummy.replaceAll('D','\\u0044')+'"}';return respond(value);
+  },{timeoutMs:100});const e=h.engine,id=e.start();try{await e.execute(id);}catch{}assert.equal(h.calls.length,1);if(kind==='storage')assert.equal(e.store.poisoned,true);else assert.equal(e.result(id).dream,null);e.close();if(kind==='storage')fs.rmdirSync(path.join(h.directory,'snapshot.tmp'));const s=new Store(h.directory);try{const rows=Object.values(s.state.billing.accounts[inlineTrialAllowanceId].attempts);assert.equal(rows.length,1);assert.equal(rows[0].status,'unknown');assert.equal(rows[0].chargedMicroCny,'2203200');assert.equal(s.state.entries[`dream-${id}`],undefined);olds({store:s},h);noSecret(h.directory);}finally{s.close();}
+});
+test('pre-credential request gate rejects an ambiguous row, while committed-prefix resume saves remaining stages only',async t=>{
+  const h=setup(t);let once=true;h.engine.client.fault=p=>{if(p==='dispatched'&&once){once=false;throw Error('PRIVATE-SENTINEL');}};const id=h.engine.start();await h.engine.execute(id);assert.equal(h.calls.length,0);assert.throws(()=>h.engine.prepare({resume:true,dispatchKind:'provider'}),/inline_resume_requires_committed_prefix/);assert.equal(h.engine.status(id).billing[0].status,'unknown');
+});
+for(const point of ['reserved','dispatched','scene_saved'])test(`paid runtime actual ${point} process death never resends an ambiguous request`,async t=>{
+  const h=prepareTrialHistory(t,{mode:'live',dispatchKind:'rehearsal'});const code=`import {InlinePaidRuntime} from ${JSON.stringify(new URL('../src/inline-paid-runtime.js',import.meta.url).href)};Date.now=()=>${trialFixtureNow};const e=new InlinePaidRuntime(${JSON.stringify(h.directory)},{enabled:true,fault:p=>{if(p===${JSON.stringify(point)})process.exit(8);}});e.credential='DUMMY-CHILD';await e.execute(e.start());`;const dead=spawnSync(process.execPath,['--input-type=module','-e',code],{encoding:'utf8',timeout:15000});assert.equal(dead.status,8,dead.stderr);const e=new InlinePaidRuntime(h.directory,{enabled:true});e.credential=dummy;try{const id=e.start();if(point==='scene_saved'){assert.equal(e.prepare({resume:true,dispatchKind:'rehearsal'}).id,id);await e.resume(id,{retryUnknown:true});assert.equal(e.status(id).status,'completed');assert.equal(e.status(id).billing.length,3);}else{assert.throws(()=>e.prepare({resume:true,dispatchKind:'rehearsal'}),/inline_resume_requires_committed_prefix/);assert.equal(e.status(id).billing.length,1);assert.equal(e.status(id).billing[0].status,'unknown');}olds(e,h);}finally{e.close();}
+});

@@ -12,7 +12,7 @@ import { protocolVersion } from './deepseek-protocol.js';
 export class BudgetedNightvoyage extends Nightvoyage {
   executionFamily(){return `specialized:${this.client.protocolVersion}`;}
   constructor(directory, { allowance, credential, enabled = false, mode = 'disabled', fetchImpl, timeoutMs = 60000, fault = () => {}, protocol = 'grounded-wake-v2' } = {}) {
-    if(protocol==='inline-evidence-v1'&&(mode==='live'||allowance?.mode==='live'))fail('inline_live_entry_pending');
+    if(protocol==='inline-evidence-v1'&&(mode==='live'||allowance?.mode==='live'))new.target.assertInlineLiveConstruction(directory,allowance);
     if(protocol==='scene-continuity-v1'&&mode==='live'){const c=assertContinuityApprovalDirectory(directory);if(hash(allowance)!==hash(c.allowance))fail('continuity_allowance_mismatch');}
     super(directory,{fault});
     try {
@@ -24,6 +24,7 @@ export class BudgetedNightvoyage extends Nightvoyage {
     } catch (e) { this.store.close(); throw e; }
   }
   beforeBudgetAccount(_options) {}
+  static assertInlineLiveConstruction(){fail('inline_live_entry_pending');}
   createBudgetClient(options) {return new GatedDeepSeekClient(this.store,options);}
   legacyExecutionMetadata(r) {
     const expected=this.initialRunMetadata();
@@ -69,11 +70,12 @@ export class BudgetedNightvoyage extends Nightvoyage {
   execute(id) {this.assertRunIdentity(id);return super.execute(id);}
   resume(id,options) {
     this.assertRunIdentity(id);
-    if(this.client.protocol==='inline-evidence-v1'){
+    if(this.client.protocol==='inline-evidence-v1')this.assertInlineResumePrefix(id);
+    return super.resume(id,options);
+  }
+  assertInlineResumePrefix(id){
       const r=this.run(id),rows=this.client.ledger.status(this.allowanceId).attempts.filter(t=>t.runId===id);
       if(!r.scenes?.length||rows.length!==r.scenes.length||rows.some(t=>t.status!=='settled')||r.attempts.length!==r.scenes.length||r.attempts.some((a,i)=>a.stage!=='scene'||a.index!==i||a.state!=='committed'||!rows.some(t=>t.requestId===a.billingRequestId)))fail('inline_resume_requires_committed_prefix');
-    }
-    return super.resume(id,options);
   }
   async stage(r,stage,signal) {
     const rows = this.client.ledger.status(this.allowanceId).attempts.filter(t=>t.runId===r.id);

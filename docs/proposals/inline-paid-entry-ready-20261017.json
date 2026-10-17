@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "kind": "explicit_confirmation_required_inline_paid_entry_contract",
+  "id": "inline-evidence-paid-entry-ready-plan-20261017",
+  "protocolVersion": "inline-evidence-quotes-v1",
+  "protocolIdentity": {
+    "promptCandidateHash": "c8e9bbd6963c89f5a3c90f0f411afc32d90a18961a9dca7a3a3a96b185da0043",
+    "evidenceEncodingVersion": "direct-quotation-interning-v1",
+    "affectEncodingVersion": "explicit-affect-union-v1",
+    "wakePolicyVersion": "saved-scene-excerpt-v1"
+  },
+  "provider": {
+    "name": "DeepSeek",
+    "endpoint": "https://api.deepseek.com/chat/completions",
+    "model": "deepseek-flash",
+    "observedRevision": "DeepSeek-V4.1-Flash-1017",
+    "aliasRevisionPinned": false,
+    "actualModelsRequestMade": false
+  },
+  "material": {
+    "caseId": "sparse-context",
+    "fixturePath": "fixtures/quality/sparse-context.json",
+    "fixtureHash": "b581553d87de307d00c03244186ded3323097b2bd80641b3148cf6c90238d603",
+    "materialKind": "fictional",
+    "generatedEventOrigin": "dream",
+    "isRealityFact": false,
+    "sourceRefs": [
+      {
+        "id": "q-sparse-memory",
+        "version": "1"
+      }
+    ],
+    "privateMaterialAllowed": false
+  },
+  "source": {
+    "inventoryHash": "c68ee78782d513561ad59c679fef4cb5c58d30cb8cdee923e126d2ab07371391",
+    "stubGraphHash": "6329523e3a28fc02e3859c247f0ce3d5da78745d88cc4134c16c1aa657c26d9b",
+    "paidGraphHash": "59c5b925e8a524a5120efb9dbd7d441b84d28facc196c447e238b57715ad7d59",
+    "paidGraphAvailable": true
+  },
+  "pricing": {
+    "currency": "CNY",
+    "checkedAt": 1792248540000,
+    "expiresAt": 1792334940000,
+    "rateBasis": "peak_cache_miss_upper_bound",
+    "inputMicroCnyPerMillion": 2000000,
+    "outputMicroCnyPerMillion": 8000000,
+    "contextTokenLimit": 1100000,
+    "fullPerCallReservationMicroCny": "2203200",
+    "actualAccountCurrencyVerified": false,
+    "automaticRenewal": false,
+    "references": [
+      "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
+      "https://api-docs.deepseek.com/zh-cn/updates/",
+      "https://api-docs.deepseek.com/api/list-models/"
+    ]
+  },
+  "limits": {
+    "additionalBudgetMicroCny": "3000000",
+    "maxRuns": 1,
+    "maxCalls": 3,
+    "scenes": 2,
+    "wakeCalls": 1,
+    "perCallOutputTokens": 400,
+    "requestBytes": 65536,
+    "responseJsonBytes": 1200
+  },
+  "history": {
+    "unknownCount": 4,
+    "heldMicroCny": "8812800",
+    "providerChargeKnown": false,
+    "preserveEveryOldAccount": true,
+    "releaseOrSettlementAuthorized": false,
+    "captureBaseline": "under_owner_before_new_account",
+    "reopenPolicy": "compare_persisted_baseline_never_recapture"
+  },
+  "control": {
+    "automaticRetry": false,
+    "repairCalls": false,
+    "continuesPriorRun": false,
+    "resume": "explicit_settled_committed_prefix_only",
+    "cancel": "suppress_late_body_and_keep_ambiguous_full_hold",
+    "sourceWithdrawal": "block_and_purge_managed_bodies",
+    "originalDream": "immutable_separate_from_recollection_and_continuation"
+  },
+  "credential": {
+    "channel": "one_shot_parent_to_child_private_pipe",
+    "readOnlyAfter": [
+      "exact_contract_confirmation",
+      "source_and_loader_checks",
+      "owner_locked_history_and_budget",
+      "next_request_bytes"
+    ],
+    "inheritedEnvironment": false,
+    "persist": false,
+    "log": false,
+    "replayRequiresKey": false
+  },
+  "atomicAuthorizationStoreAvailable": true,
+  "blockers": [
+    "explicit_current_contract_confirmation_required",
+    "user_account_currency_confirmation_required"
+  ],
+  "paidEvaluationApproved": false,
+  "fictionalEgressApproved": false,
+  "liveEntryAvailable": true,
+  "implementationReady": true,
+  "qualityAssessed": false,
+  "semanticSupport": "not_assessed"
+}

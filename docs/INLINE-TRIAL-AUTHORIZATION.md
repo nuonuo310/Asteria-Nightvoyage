@@ -1,5 +1,8 @@
 # 直接引文：试跑意向与账户原子保存
 
+本页记录此前切片。当前专用运行器、私有凭据管道和付费加载入口见[专用进程入口](INLINE-PAID-PROCESS-ENTRY.md)；旧草案和旧验证结果保留原样，不把当时的 pending 状态或测试确认当作当前批准。
+
+
 状态：`contract_bound_authority_store_and_stub_stages_verified / live_dispatch_pending`。本轮实现独立的合同绑定授权数据与账户保存，以及生产核心中的逐阶段模拟验证。没有接通真实收费运行器、密钥管道或付费加载器，没有在用户梦簿登记新批准。
 
 ## 新候选与记录
