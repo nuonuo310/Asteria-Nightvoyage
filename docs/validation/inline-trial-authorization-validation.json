@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "stage": "contract_bound_atomic_authority_and_stage_rehearsal",
+  "baseCommit": "35715d58c0bea4765e94d5f7a29183f9c9c164db",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "checks": {
+    "newTests": 29,
+    "full": {
+      "command": "node --test",
+      "tests": 735,
+      "pass": 735,
+      "fail": 0
+    },
+    "targeted": {
+      "command": "node --test test/inline-trial-authorization.test.js test/inline-paid-contract.test.js test/inline-bootstrap.test.js test/inline-authorization.test.js test/inline-admission.test.js test/inline-dependencies.test.js test/inline-entry-preflight.test.js test/inline-production.test.js test/execution-owner.test.js test/inline-review.test.js test/inline-integration-review.test.js test/pruned-history-read.test.js",
+      "tests": 236,
+      "pass": 236,
+      "fail": 0
+    },
+    "linuxCRLF": {
+      "convertedExtensions": [
+        ".js",
+        ".mjs",
+        ".json"
+      ],
+      "tests": 236,
+      "pass": 236,
+      "fail": 0,
+      "isWindowsHost": false
+    },
+    "script": {
+      "command": "node scripts/check-inline-trial-authorization.mjs",
+      "node": "v24.19.0",
+      "platform": "linux",
+      "fixtureClock": "2026-10-17T15:00:00.000Z",
+      "confirmationOrigin": "independent_synthetic_fixture_not_user_consent",
+      "liveIntentFixtureSaved": true,
+      "liveIntentFixtureDispatches": 0,
+      "atomicGrantAndAccount": true,
+      "persistedBaselineCompared": true,
+      "stubCalls": 3,
+      "settledRows": 3,
+      "syntheticSettledMicroCny": "2520",
+      "replayAdditionalCalls": 0,
+      "appraisalViewAvailable": true,
+      "recallOrigin": "dream",
+      "oldAccountsUnchanged": true,
+      "withdrawalPurgedAfterReopen": true,
+      "credentialReads": 0,
+      "nativeRequests": 0,
+      "realModelRequests": 0,
+      "userStoreAccessed": false,
+      "realUserApprovalRecorded": false,
+      "liveEntryAvailable": false,
+      "qualityAssessed": false,
+      "semanticSupport": "not_assessed"
+    }
+  },
+  "sourceInventoryFiles": 79,
+  "graphs": {
+    "runtime": {
+      "modules": 33,
+      "staticEdges": 184,
+      "builtins": 4
+    },
+    "stubBootstrap": {
+      "modules": 34,
+      "staticEdges": 186,
+      "builtins": 4
+    },
+    "paidGraphAvailable": false
+  },
+  "oldDraftsChanged": false,
+  "oldPaidProfilesChanged": false,
+  "pricingReviewRenewed": false,
+  "remainingImplementation": [
+    "live_runtime_transport",
+    "private_credential_pipe",
+    "paid_session_loader_and_entry"
+  ],
+  "rehearsalInterpreter": "normal_test_process_not_new_bootstrap",
+  "realUserApprovalRecorded": false,
+  "userStoreAccessed": false,
+  "credentialReads": 0,
+  "realModelRequests": 0,
+  "newWindowsHostResult": false,
+  "thirdPartyImplementationCopied": false,
+  "qualityAssessed": false,
+  "semanticSupport": "not_assessed",
+  "correctedDuringReview": [
+    "sync_throw_assertion",
+    "rehearsal_execution_family_read_view_compatibility"
+  ],
+  "sourceHashes": {
+    "src/inline-trial-policy.js": "1cd0039ae3bb0edfcd6eb316c83cccc95787f085e35ce5de30a2595ba6a10caf",
+    "src/inline-trial-authorization.js": "dee8cc989cd4259237b2a35b3eb06a64e745b3c277b234f3024d6fb174e9549d",
+    "src/inline-trial-rehearsal-runtime.js": "eeb7badf785df4f987ba8acfadb5d4cabde080f09a15a849ea7dae1248c06980",
+    "src/budget-ledger.js": "3a5488a8af472c4063a15475538c0acf5841735b5431b58454aa06808e7627be",
+    "src/gated-deepseek-client.js": "618cac18f0043bb5d038d96594bed531be1b0c8be9f5c408640c861882c613c8",
+    "src/inline-entry-admission.js": "9d1b7e7dc4278a267c90bf35c089530d6e0680ca97f870ada0b3ecd1a5b9b095",
+    "src/inline-paid-contract.js": "8e156ddc8e4c8874b83fd77442eadc179c24d9e67159b021761d9d6075ba7e7e",
+    "src/inline-entry-graph.json": "57a31455f65b0c34eefd67f7efb802c28abc7031b2a68ecff3290986c3f26058",
+    "src/inline-bootstrap-graph.json": "3f6cb1cc7318feb34647e9d468538dd8d5ec72bf37b96d79fc5953395fbc7cc9",
+    "src/inline-entry-review.json": "c54997cf804f8399fcbb061dc4c2462cb947e8fd617b4295ee15d538474f5d9f",
+    "test-support/inline-trial-fixtures.js": "8cf0909f9f706fb45287f6fac508a90fbe90ba2bc5885aa095e3673005396e87",
+    "test-support/frozen-owner-project.js": "888a11979a38333d2ffc1d1380d26d078878ed4e4583b75fd7e34ff635a9c63a",
+    "test/inline-trial-authorization.test.js": "cf2444806434de47bca93cae754a4a9499c8724925423ad7f08e05fd8049c0f3",
+    "test/inline-integration-review.test.js": "0fd5f116603fd7b1f69344e0d9af78f18fbed2fb03e498a93bde27e1a1675065",
+    "test/inline-paid-contract.test.js": "534b131edf8a953d30a6ff1e8884b034ca1fff85b44101ae244de0ea2b81881c",
+    "scripts/check-inline-trial-authorization.mjs": "5374c2138d9340a570822f6c8fbd2cb06940829cafd94e63d4044da3c6ef91d5",
+    "docs/INLINE-TRIAL-AUTHORIZATION.md": "4b3bd5dc75cfb470f31daf9c0e1b183745845552c9d069c3c3a97ffb481c1052",
+    "docs/proposals/inline-paid-entry-atomic-20261017.json": "c74ddcdc2bb96c70a1714068801e8071af15e6dc5dc3b25a3cc4f9d3fe46ec45",
+    "docs/validation/inline-trial-authorization-full.txt": "c2d65184124970a95361577ccd75a646d69d2b6d2e6069767934dececc2b0fbf",
+    "docs/validation/inline-trial-authorization-targeted.txt": "c9384c9e00854b7c3fc107451ee74471b427131150ba7ca8d7a60203cc3af6f8",
+    "docs/validation/inline-trial-authorization-crlf.txt": "6121167174a41f4c4b60bb160a4bb6cead58e27adf7e74c4b46c4c979440deba",
+    "docs/validation/inline-trial-authorization-script.json": "31b13dd1a62d42c3b1d91765c81023ac8a5e1fa26f8c68a8691b4dd20d0110ae"
+  }
+}

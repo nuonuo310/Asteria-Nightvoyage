@@ -625,3 +625,14 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 新26项；Linux Node24.19.0全仓706/706、相关207/207、临时Linux CRLF同组207/207，无新增Windows实机。覆盖条款/源码/币种/日期/材料/权限/账项变化、访问器、文件缺失/无效/超大/链接、到期、确认字段、旧历史及CLI拒绝；时钟fixture明确标记，不续期。
 - 自检只用仓外独立虚构历史，state与旧账户字节不变，四unknown逐项保留8812800 micro-CNY；native请求/Key读取0，无用户Store/真实生成/费用/语义或质量验收。官方公开资料独立表述，未复制第三方实现或私有原文。
 - 见docs/INLINE-PAID-CONTRACT.md、docs/proposals/inline-paid-entry-20261017.json及validation/inline-paid-contract-validation.json。原子付费授权、live运行器、凭据私有管道、实际付费session加载图四项仍未实现；现有live硬阻断不改。下一切片实现这些门禁并用模拟验证，真正调用前再确认具体费用/虚构外发；当前不给Key指令，不改Asteria或其他仓库。
+
+
+## 直接引文：合同绑定意向与账户原子保存
+
+- 独立编号/版本的inlineTrialAuthorization与账户同次Store.save，保存合同/hash、allowance、原历史基线、创建时间和固定运行配置；精确确认及mode显式传入，不从聊天推断。重放不刷新、无绑定账户不收编，撤销不可复活。测试live意向仅自行构造于虚构Store，未登记用户新授权。
+- 账本仅对独立编号+固定entryAuthorizationVersion识别live数据，这不是网络能力；旧无版本live仍拒绝。Gated constructor/send和Budgeted inline live硬阻断不改，通用默认client不能拿新账户越过检查。新运行器只接匹配stub记录/显式本地transport，默认disabled。
+- 候选排除只允许两个精确编号/模式，锁内基线持久保存，重开逐项比较；六检查点复核记录/时钟/基线/协议/配置/payload，未知保留全额且不重发，只有settled非空前缀可显式恢复。原梦与账项原子结算，迟到响应/旧账漂移/协议漂移关闭。
+- 新29项；最终Linux Node24.19.0全仓735/735、相关236/236、临时Linux CRLF同组236/236。覆盖实际授权提交前后及reserved/dispatched/scene_saved退出、失败恢复、取消/超时、撤销/到期/撤回、去重/第二owner、结算写盘失败。初轮同步断言写法修正；复查发现新family拒绝评价视图，改回既有family并保留授权hash，补读视图断言后重跑全部回归。
+- 固定脚本3次模拟/3 settled/2520 micro-CNY合成量，重放0，评价可读/召回dream非事实，旧账户逐项不变、撤回重开清正文；Key/native请求0，无用户Store/真实模型或费用/语义/质量验收。脚本fixture时钟不续期，live意向fixture派发0。
+- 原两草案原样保留，新候选inline-paid-entry-atomic-20261017.json绑定当前源码，沿用原14:49复核/次日14:49到期，不刷新查价或旧批准。源码清单79文件；原运行器图33模块/184边、固定stub入口图34模块/186边，均4内建，不冒充付费session图。
+- 见docs/INLINE-TRIAL-AUTHORIZATION.md及validation/inline-trial-authorization-validation.json。剩余live运行器、私有凭据管道、付费session加载/入口三项；当前CLI无init/run/live且不给Key指令，真实费用/虚构外发另行确认。公开仅自有MIT代码/独立文字/虚构材料，无跨仓库修改或私有原文。

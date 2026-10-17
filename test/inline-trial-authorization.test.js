@@ -1,0 +1,96 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import {spawnSync} from 'node:child_process';
+import {Store} from '../src/store.js';
+import {hash} from '../src/contract.js';
+import {readAppraisalView} from '../src/appraisal-view.js';
+import {BudgetLedger,validateAllowance} from '../src/budget-ledger.js';
+import {BudgetedNightvoyage} from '../src/budgeted-runtime.js';
+import {GatedDeepSeekClient} from '../src/gated-deepseek-client.js';
+import {InlineHistoryGuard} from '../src/inline-entry-admission.js';
+import {readInlinePaidContract} from '../src/inline-paid-contract.js';
+import {InlineTrialRehearsalRuntime} from '../src/inline-trial-rehearsal-runtime.js';
+import {initInlineTrialAuthorization,readInlineTrialAuthorization,revokeInlineTrialAuthorization,inlineTrialAllowanceId} from '../src/inline-trial-authorization.js';
+import {prepareTrialHistory,trialTransport,trialFixtureNow} from '../test-support/inline-trial-fixtures.js';
+function oldUnchanged(store,old){for(const [id,a]of Object.entries(old))assert.deepEqual(store.state.billing.accounts[id],a);}
+function setup(t,options={}){const h=prepareTrialHistory(t),calls=[],engine=new InlineTrialRehearsalRuntime(h.directory,{enabled:true,fetchImpl:async(u,r)=>{calls.push(JSON.parse(r.body));return trialTransport(u,r);},...options});t.after(()=>engine.close());return {...h,engine,calls};}
+function child(directory,code){return spawnSync(process.execPath,['--input-type=module','-e',`import fs from 'node:fs';import {Store} from ${JSON.stringify(new URL('../src/store.js',import.meta.url).href)};import {InlineTrialRehearsalRuntime} from ${JSON.stringify(new URL('../src/inline-trial-rehearsal-runtime.js',import.meta.url).href)};import {initInlineTrialAuthorization} from ${JSON.stringify(new URL('../src/inline-trial-authorization.js',import.meta.url).href)};import {trialTransport,trialConfirmation} from ${JSON.stringify(new URL('../test-support/inline-trial-fixtures.js',import.meta.url).href)};Date.now=()=>${trialFixtureNow};const directory=${JSON.stringify(directory)};${code}`],{encoding:'utf8',timeout:15000});}
+test('missing exact confirmation or mode cannot create authority/account or consume a key',t=>{
+  const h=prepareTrialHistory(t,{authorize:false}),s=new Store(h.directory);try{const before=structuredClone(s.state);for(const o of [{mode:'live'},{confirmation:h.confirmation},{mode:'live',confirmation:{...h.confirmation,budgetCny:4}}])assert.throws(()=>initInlineTrialAuthorization(s,o));assert.deepEqual(s.state,before);}finally{s.close();}
+  const absent=path.join(h.directory,'absent');assert.throws(()=>new InlineTrialRehearsalRuntime(absent,{fetchImpl:trialTransport}),/existing_matching_trial_authorization_required/);assert.equal(fs.existsSync(absent),false);
+});
+test('explicit live intent atomically saves a separate authority/account but all live runtime paths remain blocked',t=>{
+  const h=prepareTrialHistory(t,{mode:'live'}),s=new Store(h.directory);try{const r=readInlineTrialAuthorization(s);assert.equal(r.mode,'live');assert.equal(r.terms.contract.liveEntryAvailable,false);assert.equal(r.terms.contract.blockers.length,3);assert.deepEqual(validateAllowance(r.terms.allowance),r.terms.allowance);oldUnchanged(s,h.oldAccounts);assert.throws(()=>new GatedDeepSeekClient(s,{mode:'live',protocol:'inline-evidence-v1',enabled:true}),/inline_live_entry_pending/);}finally{s.close();}
+  assert.throws(()=>new BudgetedNightvoyage(h.directory,{mode:'live',protocol:'inline-evidence-v1',allowance:h.record.terms.allowance}),/inline_live_entry_pending/);assert.throws(()=>new InlineTrialRehearsalRuntime(h.directory,{enabled:true,fetchImpl:trialTransport}),/existing_matching_trial_authorization_required/);
+});
+test('mode, dates and account identity cannot change on repeated initialization; revocation is irreversible',t=>{
+  const h=prepareTrialHistory(t),s=new Store(h.directory);try{assert.deepEqual(initInlineTrialAuthorization(s,{mode:'stub',confirmation:h.confirmation}),h.record);assert.throws(()=>initInlineTrialAuthorization(s,{mode:'live',confirmation:h.confirmation}),/trial_authorization_conflict/);revokeInlineTrialAuthorization(s);assert.throws(()=>initInlineTrialAuthorization(s,{mode:'stub',confirmation:h.confirmation}),/trial_authorization_revoked/);}finally{s.close();}
+});
+test('a preexisting account without its matching durable grant cannot be adopted',t=>{
+  const h=prepareTrialHistory(t),s=new Store(h.directory);try{delete s.state.inlineTrialAuthorization;s.save();assert.throws(()=>initInlineTrialAuthorization(s,{mode:'stub',confirmation:h.confirmation}),/unbound_trial_account/);}finally{s.close();}
+});
+test('failed atomic save poisons and rolls back both in-memory fields; reopening never sees a half grant',t=>{
+  const h=prepareTrialHistory(t,{authorize:false}),s=new Store(h.directory),rename=fs.renameSync;try{fs.renameSync=()=>{throw Error('DUMMY-STORAGE');};assert.throws(()=>initInlineTrialAuthorization(s,{mode:'live',confirmation:h.confirmation}),/storage_io_failure/);assert.equal(s.poisoned,true);assert.equal(s.state.inlineTrialAuthorization,undefined);assert.equal(s.state.billing.accounts[inlineTrialAllowanceId],undefined);}finally{fs.renameSync=rename;s.close();}const next=new Store(h.directory);try{assert.equal(next.state.inlineTrialAuthorization,undefined);assert.equal(next.state.billing.accounts[inlineTrialAllowanceId],undefined);oldUnchanged(next,h.oldAccounts);}finally{next.close();}
+});
+for(const point of ['before_trial_authorization_commit','after_trial_authorization_commit'])test(`actual ${point} exit recovers both live authority and account, or neither`,t=>{
+  const h=prepareTrialHistory(t,{authorize:false}),r=child(h.directory,`const s=new Store(directory);initInlineTrialAuthorization(s,{mode:'live',confirmation:trialConfirmation(),fault:p=>{if(p===${JSON.stringify(point)})process.exit(8);}});`);assert.equal(r.status,8,r.stderr);const s=new Store(h.directory);try{assert.equal(!!s.state.inlineTrialAuthorization,point.startsWith('after'));assert.equal(!!s.state.billing.accounts[inlineTrialAllowanceId],point.startsWith('after'));if(point.startsWith('after'))assert.equal(initInlineTrialAuthorization(s,{mode:'live',confirmation:h.confirmation}).termsHash,s.state.inlineTrialAuthorization.termsHash);oldUnchanged(s,h.oldAccounts);}finally{s.close();}
+});
+test('reopening compares the persisted old-account baseline rather than recapturing a changed settled account',t=>{
+  const h=prepareTrialHistory(t),s=new Store(h.directory);try{const a=s.state.billing.accounts['quality-screen-20261015'];Object.values(a.attempts)[0].fingerprint='a'.repeat(64);s.save();}finally{s.close();}const next=new Store(h.directory);try{assert.throws(()=>readInlineTrialAuthorization(next),/preserved_history_changed/);}finally{next.close();}
+});
+test('contract/hash, account and current mode tampering fail closed',t=>{
+  const h=prepareTrialHistory(t),s=new Store(h.directory);try{const before=structuredClone(s.state);for(const mutate of [()=>s.state.inlineTrialAuthorization.terms.contractHash='a'.repeat(64),()=>s.state.billing.accounts[inlineTrialAllowanceId].allowance.limits.maxCalls=4,()=>s.state.inlineTrialAuthorization.mode='live']){mutate();assert.throws(()=>readInlineTrialAuthorization(s));s.state=structuredClone(before);}}finally{s.close();}
+});
+test('three-stage rehearsal saves settlements atomically and reopens/replays without extra transport',async t=>{
+  const h=setup(t),e=h.engine,id=e.start();await e.execute(id);assert.equal(e.status(id).status,'completed');assert.equal(h.calls.length,3);assert.equal(e.status(id).billing.length,3);assert.ok(e.status(id).billing.every(r=>r.status==='settled'));assert.equal(e.result(id).dream.isRealityFact,false);assert.equal(readAppraisalView(e.store,e.result(id).dream.id).status,'available');oldUnchanged(e.store,h.oldAccounts);e.close();const n=new InlineTrialRehearsalRuntime(h.directory,{enabled:true,fetchImpl:()=>{throw Error('duplicate');}});try{assert.equal(n.start(),id);await n.execute(id);assert.equal(n.status(id).status,'completed');assert.equal(readInlineTrialAuthorization(n.store).termsHash,h.record.termsHash);}finally{n.close();}
+});
+test('generic client and runtime cannot reuse the new account as unguarded execution authority',async t=>{
+  const h=setup(t),e=h.engine,id=e.start(),args={allowanceId:inlineTrialAllowanceId,requestId:`stage-${id}-scene-0`,runId:id,payload:{stage:'scene',index:0,snapshot:e.run(id).snapshot,scenes:[]},credential:'DUMMY'};
+  const generic=new GatedDeepSeekClient(e.store,{enabled:true,mode:'stub',protocol:'inline-evidence-v1',fetchImpl:trialTransport});try{await assert.rejects(generic.send(args),/trial_managed_client_required/);assert.equal(e.status(id).budget.calls,0);}finally{generic.close();}e.close();
+  const other=new BudgetedNightvoyage(h.directory,{allowance:h.record.terms.allowance,mode:'stub',protocol:'inline-evidence-v1',enabled:true,fetchImpl:trialTransport,credential:'DUMMY'});try{await assert.rejects(async()=>other.execute(id),/foreign_execution_owner/);}finally{other.close();}
+});
+for(const kind of ['revoke','withdraw','expire'])test(`in-flight ${kind} suppresses delayed scene and holds the full ambiguous reservation`,async t=>{
+  let release,started;const gate=new Promise(r=>release=r),begun=new Promise(r=>started=r),h=setup(t,{fetchImpl:async(u,r)=>{started();await gate;return trialTransport(u,r);}}),e=h.engine,id=e.start(),pending=e.execute(id);await begun;
+  if(kind==='revoke')revokeInlineTrialAuthorization(e.store);if(kind==='withdraw')e.store.withdraw('q-sparse-memory');if(kind==='expire')Date.now=()=>h.record.terms.allowance.expiresAt+1;release();await pending;assert.equal(e.result(id).dream,null);assert.equal(e.status(id).budget.calls,1);assert.equal(e.status(id).billing[0].status,'unknown');assert.equal(e.status(id).billing[0].chargedMicroCny,'2203200');oldUnchanged(e.store,h.oldAccounts);
+});
+test('old-account mutation during a response poisons without persisting the altered account or dream',async t=>{
+  let release,started;const gate=new Promise(r=>release=r),begun=new Promise(r=>started=r),h=setup(t,{fetchImpl:async(u,r)=>{started();await gate;return trialTransport(u,r);}}),e=h.engine,id=e.start(),pending=e.execute(id);await begun;Object.values(e.store.state.billing.accounts['quality-screen-20261015'].attempts)[0].fingerprint='d'.repeat(64);release();await assert.rejects(pending);assert.equal(e.store.poisoned,true);e.close();const next=new Store(h.directory);try{oldUnchanged(next,h.oldAccounts);assert.equal(next.state.entries[`dream-${id}`],undefined);assert.equal(Object.values(next.state.billing.accounts[inlineTrialAllowanceId].attempts)[0].status,'unknown');}finally{next.close();}
+});
+for(const point of ['reserved','dispatched','scene_saved'])test(`actual ${point} death under contract authority never resends an ambiguous attempt`,async t=>{
+  const h=prepareTrialHistory(t),r=child(h.directory,`const e=new InlineTrialRehearsalRuntime(directory,{enabled:true,fetchImpl:trialTransport,fault:p=>{if(p===${JSON.stringify(point)})process.exit(8);}});await e.execute(e.start());`);assert.equal(r.status,8,r.stderr);let calls=0;const e=new InlineTrialRehearsalRuntime(h.directory,{enabled:true,fetchImpl:async(u,q)=>{calls++;return trialTransport(u,q);}});try{const id=e.start();if(point==='scene_saved'){await e.resume(id,{retryUnknown:true});assert.equal(e.status(id).status,'completed');assert.equal(calls,2);}else{await assert.rejects(async()=>e.resume(id,{retryUnknown:true}),/inline_resume_requires_committed_prefix/);assert.equal(calls,0);assert.equal(e.status(id).billing[0].status,'unknown');}oldUnchanged(e.store,h.oldAccounts);}finally{e.close();}
+});
+test('withdrawal and reopen remove dream/seed/review bodies without rebuilding them from authority metadata',async t=>{
+  const h=setup(t),e=h.engine,id=e.start();await e.execute(id);const text=e.result(id).dream.scenes[0].event;e.store.withdraw('q-sparse-memory');assert.equal(e.result(id).dream,null);e.close();const next=new Store(h.directory);try{assert.throws(()=>readInlineTrialAuthorization(next),/source_withdrawn/);for(const name of fs.readdirSync(h.directory)){const p=path.join(h.directory,name);if(fs.statSync(p).isFile())assert.ok(!fs.readFileSync(p,'utf8').includes(text));}oldUnchanged(next,h.oldAccounts);}finally{next.close();}
+});
+test('expired record can be revoked without renewing its dates or releasing any budget hold',t=>{
+  const h=prepareTrialHistory(t),s=new Store(h.directory);try{Date.now=()=>h.record.terms.allowance.expiresAt+1;assert.throws(()=>readInlineTrialAuthorization(s),/paid_contract_expired/);assert.equal(revokeInlineTrialAuthorization(s).status,'revoked');assert.equal(s.state.inlineTrialAuthorization.termsHash,h.record.termsHash);oldUnchanged(s,h.oldAccounts);}finally{s.close();}
+});
+test('candidate exclusions cannot hide an old account or a live mode under the old stub identity',t=>{
+  const h=prepareTrialHistory(t,{authorize:false}),s=new Store(h.directory);try{for(const candidateAccount of [{id:'quality-screen-20261015',mode:'stub'},{id:'inline-evidence-dream-trial-candidate',mode:'live'},{id:inlineTrialAllowanceId,mode:'live',extra:true}])assert.throws(()=>new InlineHistoryGuard(s,{candidateAccount}),/invalid_candidate_history_policy/);}finally{s.close();}
+});
+test('queued cancellation consumes no allowance and terminal resume cannot dispatch',async t=>{
+  const h=setup(t),e=h.engine,id=e.start();e.cancel(id);await e.execute(id);await assert.rejects(async()=>e.resume(id,{retryUnknown:true}),/inline_resume_requires_committed_prefix/);assert.equal(h.calls.length,0);assert.equal(e.status(id).budget.calls,0);
+});
+test('in-flight cancellation suppresses a noncooperative late response and all later stages',async t=>{
+  let release,started;const gate=new Promise(r=>release=r),begun=new Promise(r=>started=r),h=setup(t,{fetchImpl:async(u,r)=>{started();await gate;return trialTransport(u,r);}}),e=h.engine,id=e.start(),pending=e.execute(id);await begun;e.cancel(id);release();await pending;assert.equal(e.status(id).status,'cancelled');assert.equal(e.status(id).budget.calls,1);assert.equal(e.result(id).dream,null);
+});
+test('noncooperative timeout retains full unknown hold and does not dispatch wake',async t=>{
+  let release;const gate=new Promise(r=>release=r),h=setup(t,{timeoutMs:5,fetchImpl:async(u,r)=>{await gate;return trialTransport(u,r);}}),e=h.engine,id=e.start();await e.execute(id);release();assert.equal(e.status(id).budget.calls,1);assert.equal(e.status(id).billing[0].chargedMicroCny,'2203200');assert.equal(e.result(id).dream,null);
+});
+test('duplicate execution and a second owner cannot issue duplicate calls',async t=>{
+  let release,started;const gate=new Promise(r=>release=r),begun=new Promise(r=>started=r);let calls=0;const h=setup(t,{fetchImpl:async(u,r)=>{calls++;if(calls===1){started();await gate;}return trialTransport(u,r);}}),e=h.engine,id=e.start(),pending=e.execute(id);await begun;await assert.rejects(e.execute(id),/run_busy/);assert.throws(()=>new InlineTrialRehearsalRuntime(h.directory,{fetchImpl:trialTransport}),/store_busy/);release();await pending;assert.equal(calls,3);assert.equal(e.start(),id);await e.execute(id);assert.equal(calls,3);
+});
+test('settlement persistence failure commits neither dream nor stage and retains the complete unknown hold',async t=>{
+  const h=setup(t,{fault:p=>{if(p==='dispatched')fs.mkdirSync(path.join(h.directory,'snapshot.tmp'));}}),e=h.engine,id=e.start();await assert.rejects(e.execute(id),/storage_io_failure/);e.close();fs.rmdirSync(path.join(h.directory,'snapshot.tmp'));const next=new Store(h.directory);try{assert.equal(next.state.entries[`dream-${id}`],undefined);assert.equal(next.state.runs[id].scenes.length,0);const row=Object.values(next.state.billing.accounts[inlineTrialAllowanceId].attempts)[0];assert.equal(row.status,'unknown');assert.equal(row.chargedMicroCny,'2203200');oldUnchanged(next,h.oldAccounts);}finally{next.close();}
+});
+test('changed run protocol metadata during HTTP cannot be atomically published',async t=>{
+  const h=setup(t,{fetchImpl:async(u,r)=>{h.engine.run(id).appraisalProtocolVersion='changed';return trialTransport(u,r);}}),e=h.engine,id=e.start();await assert.rejects(e.execute(id));assert.equal(e.store.poisoned,true);e.close();const next=new Store(h.directory);try{assert.equal(next.state.entries[`dream-${id}`],undefined);assert.notEqual(next.state.runs[id].appraisalProtocolVersion,'changed');}finally{next.close();}
+});
+test('default disabled, missing managed publication and mode mutation cannot spend or reach native fetch',async t=>{
+  const h=prepareTrialHistory(t),native=globalThis.fetch;let calls=0;globalThis.fetch=()=>{calls++;throw Error('native_forbidden');};const e=new InlineTrialRehearsalRuntime(h.directory,{fetchImpl:trialTransport});try{const id=e.start();await e.execute(id);assert.equal(e.status(id).budget.calls,0);assert.throws(()=>e.client.send({}),/managed_publication_required/);e.client.enabled=true;e.client.mode='live';await assert.rejects(e.client.send({publish:()=>{}}),/inline_live_entry_pending/);assert.equal(calls,0);}finally{globalThis.fetch=native;e.close();}
+});
+test('fixed authority rehearsal distinguishes synthetic live intent from actual dispatch or user approval',()=>{
+  const r=spawnSync(process.execPath,['scripts/check-inline-trial-authorization.mjs'],{encoding:'utf8',timeout:15000});assert.equal(r.status,0,r.stderr);const v=JSON.parse(r.stdout);assert.equal(v.liveIntentFixtureSaved,true);assert.equal(v.liveIntentFixtureDispatches,0);assert.equal(v.stubCalls,3);assert.equal(v.replayAdditionalCalls,0);assert.equal(v.oldAccountsUnchanged,true);assert.equal(v.withdrawalPurgedAfterReopen,true);assert.equal(v.credentialReads,0);assert.equal(v.nativeRequests,0);assert.equal(v.realUserApprovalRecorded,false);assert.equal(v.liveEntryAvailable,false);assert.equal(v.qualityAssessed,false);
+});

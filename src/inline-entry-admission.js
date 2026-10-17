@@ -11,6 +11,7 @@ import {readCompactTrial} from './compact-trial-config.js';
 import {readSingleSceneConfig} from './single-scene-diagnostic.js';
 import {readPrunedV2Trial} from './pruned-v2-trial-config.js';
 import {readContinuityTrial} from './continuity-trial-config.js';
+import {inlineTrialAllowanceId,inlineTrialAuthorizationVersion} from './inline-trial-policy.js';
 const readers=[readCompactTrial,readSingleSceneConfig,readPrunedV2Trial,readContinuityTrial];
 export const inlineCandidateAllowanceId='inline-evidence-dream-trial-candidate';
 const amount=v=>typeof v==='string'&&/^(0|[1-9][0-9]{0,19})$/.test(v);
@@ -23,13 +24,13 @@ function owner(store){
   if(store.withdrawn.includes('q-sparse-memory'))fail('source_withdrawn');
 }
 function approvals(store){return readers.map((read,i)=>{try{const p=path.join(store.directory,preservedAccountIds[i]+'.json'),s=fs.lstatSync(p);if(!s.isFile()||s.isSymbolicLink()||s.size>262144)fail('unsafe_history_approval');return read(store.directory);}catch(error){if(error.message==='unsafe_history_approval')throw error;fail('invalid_history_approval');}});}
-function history(store,configs){
+function history(store,configs,candidate){
   const billing=store.state.billing;assertAppraisalReviewJsonData(billing);
   if(billing?.version!==1||!billing.accounts||Array.isArray(billing.accounts))fail('admission_history_invalid');
   const bindings=[];
   for(const [id,a]of Object.entries(billing.accounts)){
     if(!a||!a.allowance||hash(validateAllowance(a.allowance))!==hash(a.allowance)||a.fingerprint!==hash(a.allowance)||a.allowance.id!==id||!Array.isArray(a.runIds)||new Set(a.runIds).size!==a.runIds.length||!a.runIds.every(safeId)||!a.attempts||Array.isArray(a.attempts))fail('admission_history_invalid');
-    if(id===inlineCandidateAllowanceId){if(a.allowance.mode!=='stub'||a.allowance.protocolVersion!==inlineProtocolVersion)fail('inline_live_entry_pending');continue;}
+    if(id===candidate.id){if(a.allowance.mode!==candidate.mode||a.allowance.protocolVersion!==inlineProtocolVersion||(id===inlineTrialAllowanceId&&a.allowance.entryAuthorizationVersion!==inlineTrialAuthorizationVersion))fail('inline_live_entry_pending');continue;}
     const rowRuns=new Set();for(const [key,r]of Object.entries(a.attempts)){
       if(!r||r.requestId!==key||!safeId(key)||!safeId(r.runId)||!/^[a-f0-9]{64}$/.test(r.fingerprint)||!amount(r.chargedMicroCny)||!amount(r.reservedMicroCny)||r.maxOutputTokens!==400||r.reservedMicroCny!==maximumCost(a.allowance.pricing,400).toString()||BigInt(r.chargedMicroCny)>BigInt(r.reservedMicroCny)||!['unknown','settled'].includes(r.status))fail('admission_history_invalid');
       rowRuns.add(r.runId);if(r.status!=='settled'&&!preservedAccountIds.includes(id))fail('unrelated_unsettled_attempt');
@@ -42,11 +43,16 @@ function history(store,configs){
     if(i===1){const d=own(store.state.protocolDiagnostics??{},id);if(r.runId!==id||r.requestId!==id+'-scene-0'||d?.allowanceId!==id||d.protocolVersion!==config.protocolVersion||!['failed','revoked','deleted'].includes(d.status))fail('preserved_history_binding_mismatch');bindings.push(hash(d));}
     else{const request=own(store.state.requests,id),run=request&&own(store.state.runs,request.runId);if(!run||run.id!==r.runId||run.billingAllowanceId!==id||(run.billingProtocolVersion??run.appraisalProtocolVersion)!==config.protocolVersion||run.appraisalProtocolVersion!==config.protocolVersion||!['failed','revoked','deleted'].includes(run.status)||hash(run.sourceIds)!==hash(['q-sparse-memory'])||(run.scenes?.length??0)!==0||r.requestId!==`stage-${r.runId}-scene-0`)fail('preserved_history_binding_mismatch');bindings.push(hash({request,run}));}
   }
-  return {accounts:Object.fromEntries(Object.entries(billing.accounts).filter(([id])=>id!==inlineCandidateAllowanceId).map(([id,a])=>[id,hash(a)])),bindings,configs:configs.map(hash)};
+  return {accounts:Object.fromEntries(Object.entries(billing.accounts).filter(([id])=>id!==candidate.id).map(([id,a])=>[id,hash(a)])),bindings,configs:configs.map(hash)};
 }
 export class InlineHistoryGuard {
-  #store;#baseline;
-  constructor(store,{baseline}={}){owner(store);this.#store=store;const current=history(store,approvals(store));if(baseline!==undefined&&hash(baseline)!==hash(current))fail('preserved_history_changed');this.#baseline=structuredClone(baseline??current);}
+  #store;#baseline;#candidate;
+  constructor(store,{baseline,candidateAccount}={}){
+    const candidate=candidateAccount??{id:inlineCandidateAllowanceId,mode:'stub'};
+    assertAppraisalReviewJsonData(candidate);
+    if(Object.keys(candidate).length!==2||!Object.hasOwn(candidate,'id')||!Object.hasOwn(candidate,'mode')||!(candidate.id===inlineCandidateAllowanceId&&candidate.mode==='stub'||candidate.id===inlineTrialAllowanceId&&['stub','live'].includes(candidate.mode)))fail('invalid_candidate_history_policy');
+    owner(store);this.#store=store;this.#candidate=structuredClone(candidate);const current=history(store,approvals(store),this.#candidate);if(baseline!==undefined&&hash(baseline)!==hash(current))fail('preserved_history_changed');this.#baseline=structuredClone(baseline??current);
+  }
   capture(){this.assertPreserved();return structuredClone(this.#baseline);}
-  assertPreserved(){owner(this.#store);if(hash(history(this.#store,approvals(this.#store)))!==hash(this.#baseline))fail('preserved_history_changed');return {historyPreserved:true,preservedUnknowns:4,heldMicroCny:'8812800',ownerLockChecked:true,liveEntryAvailable:false,dispatchAuthorized:false};}
+  assertPreserved(){owner(this.#store);if(hash(history(this.#store,approvals(this.#store),this.#candidate))!==hash(this.#baseline))fail('preserved_history_changed');return {historyPreserved:true,preservedUnknowns:4,heldMicroCny:'8812800',ownerLockChecked:true,liveEntryAvailable:false,dispatchAuthorized:false};}
 }

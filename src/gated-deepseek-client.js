@@ -52,6 +52,7 @@ export class GatedDeepSeekClient {
     if (!safeId(allowanceId) || !safeId(requestId) || !safeId(runId)) fail('invalid_transport_ids');
     const input = snapshot(payload?.snapshot); this.checkSources(input);
     const allowance = this.ledger.account(allowanceId).allowance;
+    if(allowance.entryAuthorizationVersion!==undefined&&this.checkAdmission===GatedDeepSeekClient.prototype.checkAdmission)fail('trial_managed_client_required');
     if (allowance.mode !== this.mode) fail('allowance_mode_mismatch');
     if ((['compact-appraisal-v2','coupled-affect-v1','scene-continuity-v1','inline-evidence-v1'].includes(this.protocol)&&allowance.protocolVersion!==this.protocolVersion)||
         (allowance.protocolVersion!==undefined&&allowance.protocolVersion!==this.protocolVersion)) fail('allowance_protocol_mismatch');
