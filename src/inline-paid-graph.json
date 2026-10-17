@@ -26,7 +26,7 @@
     "src/inline-entry-admission.js": "9d1b7e7dc4278a267c90bf35c089530d6e0680ca97f870ada0b3ecd1a5b9b095",
     "src/inline-entry-preflight.js": "4ca39a54a743c461d6e998c2255e8bd118dc587bdd9ae3ce967ce27887c96765",
     "src/inline-evidence-protocol.js": "f2edd60a2fe6fd70f186a327187b2c8d40da699ba09017aa2a7f736d08ae737d",
-    "src/inline-paid-contract.js": "107d2e5b522c2783215b5b2918b7b5c9525b167423467b39aef928b164223728",
+    "src/inline-paid-contract.js": "8386a77baee096ca4df70c03bcf791d5d997c65aedd0445ed1001350d8857b01",
     "src/inline-paid-runtime.js": "7f73fec5853db116252e0ca11a585286e28640ddad1fc11324c51df7267e2438",
     "src/inline-paid-session.js": "8e6cc7e1c4a21fe4eea6133659551bed664266131280b627afdf38150ff0bd05",
     "src/inline-trial-authorization.js": "cbc291ba38adb26e395886f3ebfa2878d46ca04b89c440493ddb366019486cec",

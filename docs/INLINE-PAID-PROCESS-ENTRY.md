@@ -1,5 +1,8 @@
 # 直接引文：专用进程入口与凭据管道
 
+后续[Windows子环境修复](INLINE-WINDOWS-ENVIRONMENT.md)使用独立新候选，保留本页候选与验证身份；本页798/299等数字属于此前切片，不能作为Windows实机通过记录。
+
+
 状态：`dedicated_entry_implemented / independent_rehearsal_verified / live_trial_not_run`。此前剩余的专用运行器、准入后的凭据管道和付费 session 加载入口已接通。本轮只用独立虚构历史、固定模拟器和进程内 HTTPS stand-in 验证机制，没有访问用户梦簿、读取真实 Key、登记真实批准或调用模型。代码完成不代表真实模型遵守率、语义支持或梦境质量通过。
 
 ## 固定合同与许可

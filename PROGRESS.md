@@ -647,3 +647,11 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 独立固定脚本经新进程与受限加载完成3次内置模拟/3 settled、一次dummy私有凭据；重开读取/零调用零Key重放/撤回清除，旧账户逐项不变。rehearse独立fixture时钟且native HTTPS硬拒绝；真实provider动作坚持实际时钟和provider许可。provider路径仅进程内HTTPS stand-in测试，真实TCP/TLS/模型请求0，无用户Store/真实Key/真实批准或质量成绩。
 - 当前清单85文件；原运行器图33模块/184边/4内建，stub入口34/186/4，付费session新图37/221/5。见docs/INLINE-PAID-PROCESS-ENTRY.md与validation/inline-paid-process-validation.json。下一步先用户Windows无Key自检，再确认具体合同/费用/外发/CNY账户/别名及旧占款；本轮不给真实Key运行块，不执行实际收费。
 - 梦/醒来/余韵/联想/独立评价视图保持类型与dream/nonfact身份，原梦不被回想/续写覆盖；Asteria仍待对接。公开仅自有MIT代码、独立文字、虚构样例，提交前检查暂存；无私有原文、聊天/梦簿/配置/Key或跨仓修改。清除边界仍限受管理Store/日志/临时文件。
+
+## Windows 子进程环境兼容修复
+
+- 用户Windows Node24.19.0更新后，无Key独立自检报inline_paid_entry_refused，未把失败误记为Windows通过。只在公开记录保留平台/版本/固定失败码，不上传终端原文、私人路径或材料；自检没有真实模型请求。
+- 核对Node24.19.0内置libuv Windows启动源码，确认它会补齐缺省OS变量，原严格allowlist会将这些也拒绝。新增自有inline-child-environment统一父构造/两个worker检查；Windows对受抑制的用户资料/PATH字段显式传空，子进程只接受空占位并在核心加载前清掉。SYSTEMDRIVE只接受盘符或空，系统根/临时/语言设置保留；未知应用配置/Key/Node预加载/代理依然拒绝，不读取未知值。Linux规则不扩大。
+- 新18项；Linux全仓816/816、定向60/60、临时Linux CRLF扩展相关317/317，339文件转换。固定独立模拟脚本3阶段/3 settled、一次dummy管道、无Key零调用重放、旧账户不变、撤回重开清除。平台分支是Linux fixture，不是Windows实机；下一步让用户重新跑原无Key自检，实际恢复以输出为准。
+- 固定Windows候选另存inline-paid-entry-windows-20261017.json，四份旧草案/旧profile/旧unknown不变，不迁移批准或刷新价格期限。当前源码清单86文件，三图规模不变。真实费用、虚构外发和当前hash仍需具体确认；本轮真实Key/用户Store/模型请求均无，语义与质量未验收。
+- 见docs/INLINE-WINDOWS-ENVIRONMENT.md及validation/inline-windows-environment-validation.json。独立理解平台行为，没有复制第三方实现；公开只有自有MIT代码、独立文字、虚构测试与聚合故障记录，无跨仓库修改。

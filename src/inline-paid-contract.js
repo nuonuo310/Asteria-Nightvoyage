@@ -11,8 +11,8 @@ import {inlineEntryInventory,inlineEntryPreflight} from './inline-entry-prefligh
 import {InlineHistoryGuard} from './inline-entry-admission.js';
 import {assertAppraisalReviewJsonData} from './appraisal-review-memory.js';
 const root=fileURLToPath(new URL('..',import.meta.url));
-export const inlinePaidContractPath='docs/proposals/inline-paid-entry-ready-20261017.json';
-export const inlinePaidContractId='inline-evidence-paid-entry-ready-plan-20261017';
+export const inlinePaidContractPath='docs/proposals/inline-paid-entry-windows-20261017.json';
+export const inlinePaidContractId='inline-evidence-paid-entry-windows-plan-20261017';
 const checkedAt=Date.parse('2026-10-17T14:49:00Z'),expiresAt=Date.parse('2026-10-18T14:49:00Z');
 const ordered=v=>v===null||typeof v!=='object'?v:Array.isArray(v)?v.map(ordered):Object.fromEntries(Object.keys(v).sort().map(k=>[k,ordered(v[k])]));
 const canonical=v=>JSON.stringify(ordered(v));
