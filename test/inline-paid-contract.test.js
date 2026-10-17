@@ -1,0 +1,53 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {spawnSync} from 'node:child_process';
+import {Store} from '../src/store.js';
+import {inlineEntryInventory} from '../src/inline-entry-preflight.js';
+import {readInlinePaidContract,validateInlinePaidContract,inlinePaidContractPreflight,inspectInlinePaidAdmission,inspectInlinePaidAcknowledgement,inlinePaidContractPath} from '../src/inline-paid-contract.js';
+import {prepareInlineAdmissionHistory} from '../test-support/inline-admission-fixtures.js';
+const root=fileURLToPath(new URL('..',import.meta.url));
+const now=Date.parse('2026-10-17T14:49:01Z');
+const read=()=>readInlinePaidContract({now});
+const bytes=d=>Object.fromEntries(fs.readdirSync(d).filter(n=>fs.statSync(path.join(d,n)).isFile()).map(n=>[n,fs.readFileSync(path.join(d,n)).toString('base64')]));
+function project(t){const d=fs.mkdtempSync(path.join(os.tmpdir(),'nightvoyage-paid-contract-'));t.after(()=>fs.rmSync(d,{recursive:true,force:true}));for(const name of ['src','fixtures','package.json','docs/proposals'])fs.cpSync(path.join(root,name),path.join(d,name),{recursive:true});return d;}
+test('paid contract is separately identified, non-executable and explicit about mutable alias, material and output',()=>{
+  const {contract,contractHash}=read();assert.match(contractHash,/^[a-f0-9]{64}$/);assert.equal(contract.provider.model,'deepseek-flash');assert.equal(contract.provider.aliasRevisionPinned,false);assert.equal(contract.provider.observedRevision,'DeepSeek-V4.1-Flash-1017');assert.equal(contract.material.materialKind,'fictional');assert.equal(contract.material.generatedEventOrigin,'dream');assert.equal(contract.material.isRealityFact,false);assert.equal(contract.pricing.fullPerCallReservationMicroCny,'2203200');assert.equal(contract.history.heldMicroCny,'8812800');assert.equal(contract.paidEvaluationApproved,false);assert.equal(contract.liveEntryAvailable,false);assert.equal(contract.implementationReady,false);assert.equal(contract.qualityAssessed,false);assert.equal(contract.blockers.length,4);
+});
+for(const [field,change]of [
+  ['budget',v=>v.limits.additionalBudgetMicroCny='3000001'],['calls',v=>v.limits.maxCalls=4],['endpoint',v=>v.provider.endpoint='https://example.invalid'],['model',v=>v.provider.model='deepseek-v4-pro'],['currency',v=>v.pricing.currency='USD'],['price',v=>v.pricing.inputMicroCnyPerMillion=1],['clock',v=>v.pricing.expiresAt++],['material',v=>v.material.materialKind='real'],['egress',v=>v.fictionalEgressApproved=true],['implementation',v=>v.implementationReady=true],['unknowns',v=>v.history.heldMicroCny='0'],['extra',v=>v.unreviewed='PRIVATE-SENTINEL']
+])test(`closed contract rejects ${field} changes instead of adopting or normalizing them`,()=>{const v=read().contract;change(v);assert.throws(()=>validateInlinePaidContract(v,{now}),error=>error.message==='paid_contract_mismatch');});
+test('JSON property order is irrelevant but invalid values/accessors cannot be read as contract data',()=>{
+  const c=read().contract;assert.doesNotThrow(()=>validateInlinePaidContract(Object.fromEntries(Object.entries(c).reverse()),{now}));let reads=0;Object.defineProperty(c,'extra',{enumerable:true,get(){reads++;return 'PRIVATE';}});assert.throws(()=>validateInlinePaidContract(c,{now}),/paid_contract_mismatch/);assert.equal(reads,0);for(const v of [null,1,[],{}])assert.throws(()=>validateInlinePaidContract(v,{now}),/paid_contract_source_changed/);
+});
+test('review clock expires without refreshing price or rewriting the shipped proposal',()=>{
+  const p=path.join(root,inlinePaidContractPath),before=fs.readFileSync(p),c=read().contract;for(const time of [NaN,0,c.pricing.checkedAt-1,c.pricing.expiresAt])assert.equal(inlinePaidContractPreflight({now:time}).ready,false);assert.throws(()=>readInlinePaidContract({now:c.pricing.expiresAt}),/paid_contract_expired/);assert.deepEqual(fs.readFileSync(p),before);
+});
+test('new source snapshot requires a new concrete draft; inventory refresh alone cannot silently rebind this contract',t=>{
+  const d=project(t),f=path.join(d,'src/inline-stub-session.js');fs.appendFileSync(f,'\n// independently changed candidate\n');const review=path.join(d,'src/inline-entry-review.json'),v=JSON.parse(fs.readFileSync(review));v.files=inlineEntryInventory(d);fs.writeFileSync(review,JSON.stringify(v));const p=path.join(d,inlinePaidContractPath),before=fs.readFileSync(p);assert.equal(inlinePaidContractPreflight({repositoryRoot:d,now}).reason,'paid_contract_source_changed');assert.deepEqual(fs.readFileSync(p),before);
+});
+for(const kind of ['missing','malformed','oversized','symlink'])test(`unsafe ${kind} contract closes with fixed metadata`,t=>{
+  const d=project(t),p=path.join(d,inlinePaidContractPath);if(kind==='missing')fs.rmSync(p);if(kind==='malformed')fs.writeFileSync(p,'PRIVATE-JSON-SENTINEL');if(kind==='oversized')fs.writeFileSync(p,'x'.repeat(262145));if(kind==='symlink'){fs.renameSync(p,p+'.original');fs.symlinkSync(p+'.original',p);}const v=inlinePaidContractPreflight({repositoryRoot:d,now});assert.equal(v.ready,false);assert.equal(v.reason,'paid_contract_unavailable');assert.ok(!JSON.stringify(v).includes('SENTINEL'));
+});
+test('history preflight is credential-free observation, preserves bytes and never becomes dispatch admission',t=>{
+  const d=prepareInlineAdmissionHistory(t),before=bytes(d),v=inlinePaidContractPreflight({historyDirectory:d,now});assert.equal(v.reason,'implementation_and_explicit_paid_approval_pending');assert.equal(v.ready,false);assert.equal(v.history.checked,true);assert.equal(v.historyIsDispatchAdmission,false);assert.equal(v.credentialRead,false);assert.deepEqual(bytes(d),before);const absent=path.join(d,'absent');assert.equal(inlinePaidContractPreflight({historyDirectory:absent,now}).ready,false);assert.equal(fs.existsSync(absent),false);
+});
+test('owner-local inspection captures every old binding and request size without account or authorization writes',t=>{
+  const d=prepareInlineAdmissionHistory(t),s=new Store(d);try{const before=bytes(d),state=structuredClone(s.state),v=inspectInlinePaidAdmission(s,read().contract,{now});assert.match(v.contractHash,/^[a-f0-9]{64}$/);assert.ok(v.firstRequestBytes<65536);assert.equal(v.createsAuthorization,false);assert.equal(v.createsAccount,false);assert.equal(Object.keys(v.baseline.accounts).length,Object.keys(s.state.billing.accounts).length);assert.deepEqual(bytes(d),before);assert.deepEqual(s.state,state);assert.throws(()=>inspectInlinePaidAdmission(s,read().contract,{now,repositoryRoot:root}),/paid_admission_current_checkout_required/);s.withdraw('q-sparse-memory');assert.throws(()=>inspectInlinePaidAdmission(s,read().contract,{now}),/source_withdrawn/);}finally{s.close();}
+});
+test('owner-local contract inspection cannot accept a fake Store or changed old account metadata',t=>{
+  const d=prepareInlineAdmissionHistory(t),s=new Store(d);try{const a=s.state.billing.accounts['quality-screen-20261015'];a.fingerprint='a'.repeat(64);const before=structuredClone(s.state);assert.throws(()=>inspectInlinePaidAdmission(s,read().contract,{now}),/admission_history_invalid/);assert.deepEqual(s.state,before);assert.throws(()=>inspectInlinePaidAdmission({state:s.state},read().contract,{now}),/managed_store_required/);}finally{s.close();}
+});
+test('acknowledgement rehearsal needs exact hash, budget, case, egress, holds and mutable-alias acknowledgement but grants nothing',()=>{
+  const {contract,contractHash}=read(),a={contractHash,budgetCny:3,caseId:'sparse-context',allowFictionalEgress:true,acknowledgePreservedHolds:true,acknowledgeMutableModelAlias:true};assert.deepEqual(inspectInlinePaidAcknowledgement(contract,a,{now}),{contractHash,shapeMatches:true,createsAuthorization:false,createsAccount:false,credentialRead:false,liveEntryAvailable:false});for(const k of Object.keys(a)){const v={...a};delete v[k];assert.throws(()=>inspectInlinePaidAcknowledgement(contract,v,{now}),/paid_acknowledgement_mismatch/);}assert.throws(()=>inspectInlinePaidAcknowledgement(contract,{...a,budgetCny:4},{now}),/paid_acknowledgement_mismatch/);
+});
+test('CLI accepts only proposal and credential-free preflight; no action can grant budget or dispatch',()=>{
+  const cli=path.join(root,'src/inline-paid-contract-cli.js');const call=(args,env=process.env)=>spawnSync(process.execPath,['--input-type=module','-e',`Date.now=()=>${now};process.argv=[process.execPath,${JSON.stringify(cli)},...${JSON.stringify(args)}];await import(${JSON.stringify(new URL('../src/inline-paid-contract-cli.js',import.meta.url).href)});`],{encoding:'utf8',env,timeout:15000});for(const args of [['help'],['proposal'],['preflight'],['preflight','--data-dir',path.join(os.tmpdir(),'fictional-nonexistent-contract-store')]]){const r=call(args,{...process.env,NIGHTVOYAGE_DEEPSEEK_KEY:'DUMMY-ENV-SENTINEL'});assert.equal(r.status,0,r.stderr);assert.ok(!r.stdout.includes('SENTINEL'));}
+  for(const args of [['init'],['run','--live'],['proposal','--approve-budget-cny','3'],['preflight','--data-dir','relative'],['preflight','--key','PRIVATE-SENTINEL']]){const r=call(args);assert.equal(r.status,1);assert.equal(r.stdout,'');assert.equal(r.stderr.trim(),'inline_paid_contract_check_refused');}
+});
+test('fixed contract rehearsal leaves each synthetic old account untouched without key/network or paid permission',()=>{
+  const r=spawnSync(process.execPath,['scripts/check-inline-paid-contract.mjs'],{encoding:'utf8',timeout:15000});assert.equal(r.status,0,r.stderr);const v=JSON.parse(r.stdout);assert.equal(v.oldStateAndAccountBytesUnchanged,true);assert.equal(v.reviewClockIsFixture,true);assert.equal(v.createsAuthorization,false);assert.equal(v.createsAccount,false);assert.equal(v.credentialReads,0);assert.equal(v.nativeRequests,0);assert.equal(v.liveEntryAvailable,false);assert.equal(v.implementationReady,false);assert.equal(v.qualityAssessed,false);
+});

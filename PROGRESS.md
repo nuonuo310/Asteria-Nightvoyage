@@ -616,3 +616,12 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 固定脚本3次子进程模拟/3 settled/2520 micro-CNY合成量，重放0，native请求/Key读取0，旧账户逐项不变，撤回重开清正文；无用户Store、真实模型/费用或语义/质量验收。来源/梦身份及独立读评审合同保留。
 - 入口静态图33模块/184边/4内建、源码清单74文件；原运行器演练图不变。历史测试只在临时源码移除新入口文件，旧收费profile与未执行草案hash不更新，旧unknown不释放。
 - 见docs/INLINE-STUB-BOOTSTRAP.md及validation/inline-bootstrap-validation.json。下一步正式付费profile与凭据后置CLI/门禁合同，具体费用与虚构外发须另行确认；当前不需用户操作或Key，Asteria仍待对接。
+
+
+## 直接引文：正式试跑合同检查，尚无收费运行器
+
+- 独立10月17日候选绑定闭合条款、规范JSON hash、源码76文件/虚构seed/协议/stub图与固定有效期；旧草案不重绑。预算仅提案3 CNY/1梦/3调用，每次保守预留2203200 micro-CNY，不是实际消费估计或已批准额度。Flash当日官方更新修订已记录，别名仍可变，不把旧样例当新版质量证据。
+- 新合同检查模块及proposal/preflight CLI只读、不选默认用户目录、无init/run/live/Key/预算参数；所有preflight保持ready=false。无锁历史观察与持锁完整旧账户/绑定证据分开；确认字段检查仅格式演练，不落授权/账户、不读Key或发请求。preview首幕3337字节不替代未来精确外发副本/每幕请求检查。
+- 新26项；Linux Node24.19.0全仓706/706、相关207/207、临时Linux CRLF同组207/207，无新增Windows实机。覆盖条款/源码/币种/日期/材料/权限/账项变化、访问器、文件缺失/无效/超大/链接、到期、确认字段、旧历史及CLI拒绝；时钟fixture明确标记，不续期。
+- 自检只用仓外独立虚构历史，state与旧账户字节不变，四unknown逐项保留8812800 micro-CNY；native请求/Key读取0，无用户Store/真实生成/费用/语义或质量验收。官方公开资料独立表述，未复制第三方实现或私有原文。
+- 见docs/INLINE-PAID-CONTRACT.md、docs/proposals/inline-paid-entry-20261017.json及validation/inline-paid-contract-validation.json。原子付费授权、live运行器、凭据私有管道、实际付费session加载图四项仍未实现；现有live硬阻断不改。下一切片实现这些门禁并用模拟验证，真正调用前再确认具体费用/虚构外发；当前不给Key指令，不改Asteria或其他仓库。
