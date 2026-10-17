@@ -4,10 +4,12 @@ import {fileURLToPath} from 'node:url';
 import https from 'node:https';
 import {verifyInlineBootstrap} from './inline-stub-worker.js';
 import {constrainInlineModules} from './inline-entry-dependencies.js';
+import {assertInlineChildEnvironment} from './inline-child-environment.js';
 const actions=['proposal','preflight','init','read','revoke','run','resume','rehearse'];
 try{
   const [action,directory,confirmationText,...extra]=process.argv.slice(2);
-  if(extra.length||!actions.includes(action)||!directory||directory!=='-'&&!path.isAbsolute(directory)||Object.keys(process.env).some(k=>!['SystemRoot','SYSTEMROOT','WINDIR','TEMP','TMP','TMPDIR','LANG','LC_ALL'].includes(k)))throw Error();
+  if(extra.length||!actions.includes(action)||!directory||directory!=='-'&&!path.isAbsolute(directory))throw Error();
+  assertInlineChildEnvironment();
   if(typeof confirmationText!=='string'||confirmationText.length>4096)throw Error();const confirmation=JSON.parse(confirmationText);
   if(action!=='init'&&confirmation!==null)throw Error();
   // Simulator-only clock: a rehearsal grant can never use the provider path.

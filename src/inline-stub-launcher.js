@@ -4,12 +4,8 @@ import {fileURLToPath} from 'node:url';
 import {spawn} from 'node:child_process';
 export const inlineBootstrapVersion='inline-clean-stub-bootstrap-v1';
 const root=fileURLToPath(new URL('..',import.meta.url));
-const environmentNames=['SystemRoot','SYSTEMROOT','WINDIR','TEMP','TMP','TMPDIR','LANG','LC_ALL'];
-export function inlineChildEnvironment(environment=process.env){
-  const clean={};
-  for(const name of environmentNames){const value=environment[name];if(typeof value==='string'&&value.length<=4096&&!value.includes('\0'))clean[name]=value;}
-  return clean;
-}
+import {inlineChildEnvironment} from './inline-child-environment.js';
+export {inlineChildEnvironment};
 export function launchInlineStub(command,directory){
   if(!['run','resume'].includes(command)||typeof directory!=='string'||!path.isAbsolute(directory)||directory.includes('\0'))return Promise.reject(Error('invalid_stub_bootstrap_arguments'));
   return new Promise((resolve,reject)=>{

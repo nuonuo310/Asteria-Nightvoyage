@@ -4,6 +4,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {inlineDependencyGraph,constrainInlineModules} from './inline-entry-dependencies.js';
+import {assertInlineChildEnvironment} from './inline-child-environment.js';
 const root=fileURLToPath(new URL('..',import.meta.url));
 const stop=()=>{throw Error('stub_bootstrap_source_rejected');};
 function text(relative){
@@ -26,7 +27,8 @@ export function verifyInlineBootstrap({entry='src/inline-stub-session.js',graphP
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
   try{
     const [command,directory,...extra]=process.argv.slice(2);
-    if(extra.length||!['run','resume'].includes(command)||!directory||!path.isAbsolute(directory)||Object.keys(process.env).some(k=>!['SystemRoot','SYSTEMROOT','WINDIR','TEMP','TMP','TMPDIR','LANG','LC_ALL'].includes(k)))stop();
+    if(extra.length||!['run','resume'].includes(command)||!directory||!path.isAbsolute(directory))stop();
+    assertInlineChildEnvironment();
     let requests=0,keys=0;
     Object.defineProperty(globalThis,'fetch',{value:()=>{requests++;throw Error('native_network_forbidden');},writable:false,configurable:false});
     process.env=new Proxy(process.env,{get(target,key){if(key==='NIGHTVOYAGE_DEEPSEEK_KEY'){keys++;throw Error('credential_forbidden');}return Reflect.get(target,key);}});
