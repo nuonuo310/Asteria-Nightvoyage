@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "stage": "clean_process_fixed_stub_bootstrap",
+  "baseCommit": "148cd3a086445cf8e536c5f35cf6e64ebad68870",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "checks": {
+    "newTests": 18,
+    "full": {
+      "command": "node --test",
+      "tests": 680,
+      "pass": 680,
+      "fail": 0
+    },
+    "targeted": {
+      "command": "node --test test/inline-bootstrap.test.js test/inline-authorization.test.js test/inline-admission.test.js test/inline-dependencies.test.js test/inline-entry-preflight.test.js test/inline-production.test.js test/execution-owner.test.js test/inline-review.test.js test/inline-integration-review.test.js test/pruned-history-read.test.js",
+      "tests": 181,
+      "pass": 181,
+      "fail": 0
+    },
+    "linuxCRLF": {
+      "convertedExtensions": [
+        ".js",
+        ".mjs",
+        ".json"
+      ],
+      "tests": 181,
+      "pass": 181,
+      "fail": 0,
+      "isWindowsHost": false
+    },
+    "bootstrapScript": {
+      "command": "node scripts/check-inline-bootstrap.mjs",
+      "node": "v24.19.0",
+      "platform": "linux",
+      "status": "completed",
+      "stagesSaved": 2,
+      "stubCalls": 3,
+      "settledRows": 3,
+      "syntheticHeldOrSpentMicroCny": "2520",
+      "materialKind": "fictional",
+      "generatedEventOrigin": "dream",
+      "isRealityFact": false,
+      "persistsGeneratedBody": true,
+      "paidAuthorization": false,
+      "bootstrapVersion": "inline-clean-stub-bootstrap-v1",
+      "constrainedModules": 33,
+      "environmentAllowlisted": true,
+      "nativeRequests": 0,
+      "credentialReads": 0,
+      "liveEntryAvailable": false,
+      "qualityAssessed": false,
+      "semanticSupport": "not_assessed",
+      "replayAdditionalCalls": 0,
+      "oldAccountsUnchanged": true,
+      "withdrawalPurgedAfterReopen": true,
+      "userStoreAccessed": false,
+      "bootstrapScope": "fixed_simulator_only",
+      "paidEntryAvailable": false,
+      "sandboxClaimed": false
+    }
+  },
+  "dependencyGraph": {
+    "modules": 33,
+    "staticEdges": 184,
+    "allowedBuiltins": 4,
+    "inventoryFiles": 74,
+    "runtimeImportedAfterHooks": true,
+    "fullDynamicClosureProved": false,
+    "sandboxClaimed": false
+  },
+  "knownLimits": [
+    "trusted_launcher_and_worker_prelude",
+    "cannot_undo_host_preloads_before_launcher",
+    "not_all_development_apis_are_wrapped",
+    "forced_stop_may_leave_recoverable_lock_or_unknown",
+    "signal_forwarding_not_cross_platform_accepted",
+    "paid_profile_and_cli_pending",
+    "old_fee_proposal_intentionally_not_repinned",
+    "no_backup_terminal_export_or_physical_erasure_guarantee"
+  ],
+  "initialFailureCorrected": "explicit_resume_missing_base_engine_uncertain_acknowledgement",
+  "newWindowsHostResult": false,
+  "userStoreAccessed": false,
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "newFeesAuthorized": false,
+  "oldPaidProfilesChanged": false,
+  "thirdPartyImplementationCopied": false,
+  "qualityAssessed": false,
+  "semanticSupport": "not_assessed",
+  "sourceHashes": {
+    "src/inline-stub-launcher.js": "39c28479c0c2684924a7083df60a5dd4be76a1abafb046bdbeefba0144b7cd78",
+    "src/inline-stub-worker.js": "88007ac89499f0153662b00a9f03e0972ac6f42e0d536e59a69fe72b366f4f62",
+    "src/inline-stub-session.js": "058ffb793495e63cec580a3b6acfb5187fc55c553adc256f1181293e3b4a950c",
+    "src/inline-bootstrap-graph.json": "fc9a4754a339460dce408869aa750c9992cc7b6d95117667513073a7a8aad7db",
+    "src/inline-entry-review.json": "68a40e21f0ab570f3d7aa14122e5f70d077573b9c526fea42a8bb65816d9c012",
+    "scripts/check-inline-bootstrap.mjs": "f7d240d02379d3d6c3de15df9d82592cd4f37a5cf70d013e3e09231c1076e62d",
+    "test/inline-bootstrap.test.js": "aae2c8fdaf5e4e0788c088e74d775124d7527fb43d26412273ed61ed7fcb2275",
+    "test-support/frozen-owner-project.js": "65a6a615b785f4340ee656e34b1a9901d27262e97015ffdf55fd599fd32eba9f",
+    "test/inline-integration-review.test.js": "e530180859b96536c7f30ddcf8d480cffe8523c25becb11203ddbadcb9219bb5",
+    "docs/INLINE-STUB-BOOTSTRAP.md": "f25549b3ef48c12f493d56d09549d9d5b945d62a132fafaf5cac32bc8c7f4011",
+    "docs/validation/inline-bootstrap-full.txt": "d7c3ad2a0ded1309713290bdd026a42c2b678d5018d1ca30c5ee9786d7d08fa2",
+    "docs/validation/inline-bootstrap-targeted.txt": "af3f075a717623db9b4531621755603a6179f261f152a7d726498d1b82443df0",
+    "docs/validation/inline-bootstrap-crlf.txt": "dd2483766a81818af177cf301091bdb6e76f5fcc8d113c39c6b6538cc5837215",
+    "docs/validation/inline-bootstrap-script.json": "e5f90b32e7713bece690926abb40b95a1c97ffb0078ad2a970b6fbb38a078b34"
+  }
+}
