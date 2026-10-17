@@ -655,3 +655,10 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 新18项；Linux全仓816/816、定向60/60、临时Linux CRLF扩展相关317/317，339文件转换。固定独立模拟脚本3阶段/3 settled、一次dummy管道、无Key零调用重放、旧账户不变、撤回重开清除。平台分支是Linux fixture，不是Windows实机；下一步让用户重新跑原无Key自检，实际恢复以输出为准。
 - 固定Windows候选另存inline-paid-entry-windows-20261017.json，四份旧草案/旧profile/旧unknown不变，不迁移批准或刷新价格期限。当前源码清单86文件，三图规模不变。真实费用、虚构外发和当前hash仍需具体确认；本轮真实Key/用户Store/模型请求均无，语义与质量未验收。
 - 见docs/INLINE-WINDOWS-ENVIRONMENT.md及validation/inline-windows-environment-validation.json。独立理解平台行为，没有复制第三方实现；公开只有自有MIT代码、独立文字、虚构测试与聚合故障记录，无跨仓库修改。
+
+
+## Windows 独立入口自检：用户实机回报
+
+- 用户更新至634489e后，在Windows／Node24.19.0运行check-inline-paid-entry.mjs完成：3次内置模拟、3条settled、一次dummy私有管道；重开读取、原梦保持、零新增调用/零凭据重放、旧账户不变和撤回重开清除均通过。
+- 范围仅此独立虚构脚本，不是Windows816项全套测试，也不证明真实HTTPS/供应商、语义支持或梦境质量。真实模型请求、用户Store访问、真实批准登记均为0/false；fixture时钟不续期，当前合同与费用不自动获准。
+- 聚合记录见docs/validation/user-local-inline-paid-entry-windows.json。公开不保存原终端文本、私人路径/数据或密钥；本次仅文档记载，无源码/候选/profile/额度/占款变化，无跨仓库修改。下一步需具体确认当前合同、CNY账户、新费用上限与虚构外发后，才给真实执行块。

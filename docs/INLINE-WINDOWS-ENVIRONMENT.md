@@ -1,6 +1,6 @@
 # Windows 子进程环境兼容修复
 
-状态：`source_mismatch_reproduced_and_fixed / windows_retest_pending`。用户在Windows Node24.19.0更新源码后，无Key自检的子进程被拒绝。附件只能证明自检没有通过；本轮不把它登记为Windows全套测试或模型结果，也不上传原始终端内容、私人路径或数据。
+状态：`source_mismatch_fixed / user_reported_windows_script_passed`。用户在Windows Node24.19.0更新源码后，无Key自检的子进程被拒绝。附件只能证明自检没有通过；本轮不把它登记为Windows全套测试或模型结果，也不上传原始终端内容、私人路径或数据。
 
 核对[Node24.19.0内置libuv启动源码](https://github.com/nodejs/node/blob/v24.19.0/deps/uv/src/win/process.c)后确认一个可复现的策略不匹配：Windows的libuv会向缺省的子环境补入一组OS变量，原入口只允许父启动器显式选出的几个名字，因此合法Windows补入项也会被拒绝。此前Linux和Linux CRLF测试都没有模拟这项OS行为，不能代替Windows验证。此处借鉴的是平台行为知识；下述策略为项目独立实现，没有复制Node/libuv的C实现或其他第三方代码。
 
@@ -18,10 +18,12 @@
 
 新增18项验证显式占位、受抑制字段不读取、Windows大小写规则、非空私人字段/Key/预加载/代理/未知项拒绝、Linux规则和实际干净子进程。Windows策略分支在Linux通过显式平台fixture复现；这不是Windows实机。完整结果见[验证记录](validation/inline-windows-environment-validation.json)。源码清单86文件；核心静态图规模保持33/184/4、stub入口34/186/4、付费session37/221/5，不声称OS沙箱或完整动态闭包。
 
-下一步在用户Windows原仓库重新运行：
+用户已在Windows原仓库完成复测，复现命令：
 
 ```sh
 node scripts/check-inline-paid-entry.mjs
 ```
 
-脚本仍只创建和清理独立虚构临时历史，内置rehearsal模拟器、dummy凭据、零真实模型请求。Windows实际是否恢复，以用户这次输出为准；真实网络、语义支持和梦境质量仍未验收。Asteria未修改，公开仅独立表述、自有MIT实现和虚构测试。
+脚本仍只创建和清理独立虚构临时历史，内置rehearsal模拟器、dummy凭据、零真实模型请求。用户报告此脚本在win32／Node24.19.0完成：3次模拟调用和3条settled，读取/重放追加调用与凭据索取均为0，旧账户保持、撤回重开清除通过；仅这一条独立模拟路径有Windows实机证据，不是Windows全套测试。真实网络、语义支持和梦境质量仍未验收。Asteria未修改，公开仅独立表述、自有MIT实现和虚构测试。
+
+本次仅登记独立模拟自检的聚合技术结果，见[用户本地Windows自检记录](validation/user-local-inline-paid-entry-windows.json)。未上传终端原文、私人路径或内容；未把fixture时钟、dummy凭据或自检通过变成真实费用/外发授权。下一步可确认当前具体合同后再进行有界真实试跑。
