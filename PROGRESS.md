@@ -606,3 +606,13 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 固定脚本3次本地stub、3 settled、2520 micro-CNY合成usage，重放追加0；旧账户逐项不变，撤回重开后无managed正文，native fetch/Key读取0，无用户Store/Windows实机/真实费用或语义/梦质量验收。读梦/珍藏/余韵/评审既有合同保持独立，许可撤销不冒充来源删除。
 - 当前清单70文件，受限加载根改新运行器，静态图32模块/182边/4类内建；仍是新进程依赖演练，bootstrap/环境限制未接成真实入口。旧收费profile不变，前轮非执行费用草案保留旧hash，代码变化后失配，不静默重绑。后续正式profile/CLI/具体费用须单独完成再确认，当前不得用该stub许可开live。
 - 见docs/INLINE-DURABLE-AUTHORIZATION.md及validation/inline-authorization-validation.json。公开仅自有MIT代码/独立文档/虚构材料，无私有原文或用户运行/配置/Key。
+
+
+## 直接引文：干净子进程固定模拟入口
+
+- 新launcher使用绝对Node/固定worker/参数数组启动，清理继承环境、execArgv、NODE_OPTIONS/NODE_PATH/Key/代理；父进程有输出与15秒截止边界。worker只在源码清单及V8静态图核对后安装resolve/load约束，再导入session与生产运行器；前置无梦境核心预加载。不是OS沙箱或可抵御本机完整写权限者的签名根。
+- 唯一session为固定虚构本地函数；既有stub许可/持久历史基线及六阶段检查继续生效，无init/live/Key/预算/任意transport参数。完成重放0追加，显式resume只接逐幕已提交settled前缀，未知尝试仍拒绝并保留完整hold；初次恢复缺少通用引擎确认已修复后回归。
+- 新18项；Linux Node24.19.0全仓680/680、相关181/181、临时Linux CRLF同组181/181，无新增Windows实机。真实退出后恢复仅2剩余调用，dispatch退出保留unknown完整合成预留；缺许可、预加载注入、源码/图/权限标志/链接变更、撤销/到期/撤回、占锁/旧历史漂移有测试证据。
+- 固定脚本3次子进程模拟/3 settled/2520 micro-CNY合成量，重放0，native请求/Key读取0，旧账户逐项不变，撤回重开清正文；无用户Store、真实模型/费用或语义/质量验收。来源/梦身份及独立读评审合同保留。
+- 入口静态图33模块/184边/4内建、源码清单74文件；原运行器演练图不变。历史测试只在临时源码移除新入口文件，旧收费profile与未执行草案hash不更新，旧unknown不释放。
+- 见docs/INLINE-STUB-BOOTSTRAP.md及validation/inline-bootstrap-validation.json。下一步正式付费profile与凭据后置CLI/门禁合同，具体费用与虚构外发须另行确认；当前不需用户操作或Key，Asteria仍待对接。
