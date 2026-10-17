@@ -11,8 +11,8 @@ import {inlineEntryInventory,inlineEntryPreflight} from './inline-entry-prefligh
 import {InlineHistoryGuard} from './inline-entry-admission.js';
 import {assertAppraisalReviewJsonData} from './appraisal-review-memory.js';
 const root=fileURLToPath(new URL('..',import.meta.url));
-export const inlinePaidContractPath='docs/proposals/inline-paid-entry-20261017.json';
-export const inlinePaidContractId='inline-evidence-paid-entry-plan-20261017';
+export const inlinePaidContractPath='docs/proposals/inline-paid-entry-atomic-20261017.json';
+export const inlinePaidContractId='inline-evidence-paid-entry-atomic-plan-20261017';
 const checkedAt=Date.parse('2026-10-17T14:49:00Z'),expiresAt=Date.parse('2026-10-18T14:49:00Z');
 const ordered=v=>v===null||typeof v!=='object'?v:Array.isArray(v)?v.map(ordered):Object.fromEntries(Object.keys(v).sort().map(k=>[k,ordered(v[k])]));
 const canonical=v=>JSON.stringify(ordered(v));
@@ -40,17 +40,18 @@ export function draftInlinePaidContract({repositoryRoot=root}={}){
     history:{unknownCount:4,heldMicroCny:'8812800',providerChargeKnown:false,preserveEveryOldAccount:true,releaseOrSettlementAuthorized:false,captureBaseline:'under_owner_before_new_account',reopenPolicy:'compare_persisted_baseline_never_recapture'},
     control:{automaticRetry:false,repairCalls:false,continuesPriorRun:false,resume:'explicit_settled_committed_prefix_only',cancel:'suppress_late_body_and_keep_ambiguous_full_hold',sourceWithdrawal:'block_and_purge_managed_bodies',originalDream:'immutable_separate_from_recollection_and_continuation'},
     credential:{channel:'one_shot_parent_to_child_private_pipe_pending',readOnlyAfter:['exact_contract_confirmation','source_and_loader_checks','owner_locked_history_and_budget','next_request_bytes'],inheritedEnvironment:false,persist:false,log:false,replayRequiresKey:false},
-    blockers:['paid_authorization_atomic_commit_pending','live_runtime_transport_pending','credential_pipe_pending','paid_loader_graph_pending'],
+    atomicAuthorizationStoreAvailable:true,
+    blockers:['live_runtime_transport_pending','credential_pipe_pending','paid_loader_graph_pending'],
     paidEvaluationApproved:false,fictionalEgressApproved:false,liveEntryAvailable:false,implementationReady:false,qualityAssessed:false,semanticSupport:'not_assessed'
   };
 }
-export function validateInlinePaidContract(value,{repositoryRoot=root,now=Date.now()}={}){
+export function validateInlinePaidContract(value,{repositoryRoot=root,now=Date.now(),allowExpired=false}={}){
   try{assertAppraisalReviewJsonData(value);}catch{fail('paid_contract_mismatch');}
   let expected,shipped;try{expected=draftInlinePaidContract({repositoryRoot});shipped=file(path.resolve(repositoryRoot),inlinePaidContractPath);}catch{fail('paid_contract_unavailable');}
   if(inlineEntryPreflight({repositoryRoot}).sourceInventoryMatches!==true)fail('paid_contract_source_changed');
   if(canonical(value?.source)!==canonical(expected.source))fail('paid_contract_source_changed');
   if(canonical(value)!==canonical(expected)||canonical(value)!==canonical(shipped))fail('paid_contract_mismatch');
-  if(!Number.isSafeInteger(now)||now<checkedAt)fail('paid_contract_clock_invalid');if(now>=expiresAt)fail('paid_contract_expired');
+  if(!Number.isSafeInteger(now)||now<checkedAt)fail('paid_contract_clock_invalid');if(now>=expiresAt&&!allowExpired)fail('paid_contract_expired');
   const pricing={...expected.pricing,model:expected.provider.model};
   if(maximumCost(pricing,400).toString()!==expected.pricing.fullPerCallReservationMicroCny)fail('paid_contract_reservation_mismatch');
   return {contract:copy(expected),contractHash:digest(canonical(expected))};

@@ -1,4 +1,5 @@
 import {inlineProtocolVersion,reviewedInlineDiagnostic} from './inline-evidence-protocol.js';
+import {inlineTrialAllowanceId,inlineTrialAuthorizationVersion} from './inline-trial-policy.js';
 import {continuityBudgetVersion,reviewedContinuityDiagnostic} from './scene-continuity-protocol.js';
 import { coupledBudgetVersion, reviewedCoupledBudgetDiagnostic } from './coupled-affect-protocol.js';
 import { copy, fail } from './store.js';
@@ -12,8 +13,10 @@ export function validateAllowance(input) {
   if (!['deepseek-flash','deepseek-v4-pro'].includes(pricing?.model) || !positive(pricing.contextTokenLimit) || !positive(pricing.inputMicroCnyPerMillion) || !positive(pricing.outputMicroCnyPerMillion) || typeof pricing.reference !== 'string' || !pricing.reference.startsWith('https://api-docs.deepseek.com/') || !positive(pricing.checkedAt)) fail('invalid_pricing');
   if (input.approved !== true || pricing.checkedAt > expiresAt) fail('allowance_not_approved');
   if (input.protocolVersion!==undefined&&!['deepseek-chat-json-v2-grounded-wake','compact-appraisal-quotes-v1',prunedCompactV2Version,coupledBudgetVersion,continuityBudgetVersion,inlineProtocolVersion].includes(input.protocolVersion)) fail('invalid_allowance_protocol');
-  if(input.protocolVersion===inlineProtocolVersion&&mode!=='stub')fail('inline_live_allowance_pending');
-  return { id, mode, approved: true, expiresAt, limits: { maxRuns: limits.maxRuns, maxCalls: limits.maxCalls, maxMicroCny: limits.maxMicroCny }, pricing: { model: pricing.model, contextTokenLimit: pricing.contextTokenLimit, inputMicroCnyPerMillion: pricing.inputMicroCnyPerMillion, outputMicroCnyPerMillion: pricing.outputMicroCnyPerMillion, reference: pricing.reference, checkedAt: pricing.checkedAt },...(input.protocolVersion===undefined?{}:{protocolVersion:input.protocolVersion}) };
+  const trial=input.entryAuthorizationVersion===inlineTrialAuthorizationVersion&&id===inlineTrialAllowanceId&&input.protocolVersion===inlineProtocolVersion;
+  if(input.entryAuthorizationVersion!==undefined&&!trial)fail('invalid_entry_authorization_version');
+  if(input.protocolVersion===inlineProtocolVersion&&mode!=='stub'&&!trial)fail('inline_live_allowance_pending');
+  return { id, mode, approved: true, expiresAt, limits: { maxRuns: limits.maxRuns, maxCalls: limits.maxCalls, maxMicroCny: limits.maxMicroCny }, pricing: { model: pricing.model, contextTokenLimit: pricing.contextTokenLimit, inputMicroCnyPerMillion: pricing.inputMicroCnyPerMillion, outputMicroCnyPerMillion: pricing.outputMicroCnyPerMillion, reference: pricing.reference, checkedAt: pricing.checkedAt },...(input.protocolVersion===undefined?{}:{protocolVersion:input.protocolVersion}),...(trial?{entryAuthorizationVersion:inlineTrialAuthorizationVersion}:{}) };
 }
 const ceilMillion = (tokens, rate) => (BigInt(tokens) * BigInt(rate) + 999999n) / 1000000n;
 export function maximumCost(pricing, maxOutputTokens) {

@@ -11,7 +11,7 @@ export function freezeOwnerCore(directory){
     const target=path.join(directory,'src',file);original.push([target,fs.readFileSync(target)]);fs.writeFileSync(target,body);
   }
   const extras=[];
-  for(const name of ['inline-evidence-protocol.js','inline-entry-preflight.js','inline-entry-review.json','inline-entry-admission.js','inline-entry-dependencies.js','inline-entry-graph.json','inline-entry-authorization.js','inline-authorized-runtime.js','inline-stub-launcher.js','inline-stub-worker.js','inline-stub-session.js','inline-bootstrap-graph.json','inline-paid-contract.js','inline-paid-contract-cli.js']){
+  for(const name of ['inline-evidence-protocol.js','inline-entry-preflight.js','inline-entry-review.json','inline-entry-admission.js','inline-entry-dependencies.js','inline-entry-graph.json','inline-entry-authorization.js','inline-authorized-runtime.js','inline-stub-launcher.js','inline-stub-worker.js','inline-stub-session.js','inline-bootstrap-graph.json','inline-paid-contract.js','inline-paid-contract-cli.js','inline-trial-policy.js','inline-trial-authorization.js','inline-trial-rehearsal-runtime.js']){
     const target=path.join(directory,'src',name);if(fs.existsSync(target)){extras.push([target,fs.readFileSync(target)]);fs.rmSync(target);}
   }
   return ()=>{for(const [file,body]of [...original,...extras])fs.writeFileSync(file,body);};

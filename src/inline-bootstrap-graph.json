@@ -5,7 +5,7 @@
   "files": {
     "src/appraisal-rehearsal.js": "4dafa4205bd1594a2c0887191abbd95817b23ebcc4478b38a64fb978e36d7998",
     "src/appraisal-review-memory.js": "8300817cdb3bad397b84b08059269d793b0c3b08d69b5ef870b533bc6aab8974",
-    "src/budget-ledger.js": "160db3b1f652a01869eb865a487ee47e549587a065ed7ed17ccb86879176af22",
+    "src/budget-ledger.js": "3a5488a8af472c4063a15475538c0acf5841735b5431b58454aa06808e7627be",
     "src/budgeted-runtime.js": "aef802501f7cfdf0ed984968300577c604b87eaf4e32e99e4cb4dcd751a4c8ad",
     "src/compact-appraisal-protocol.js": "935762c0e5961b0abcd38d0d5a959ff40ebd97e051a1236e57c7ab3fb8118e34",
     "src/compact-trial-config.js": "161a8e313c93ac90084fcada85208f844ec8be58442544c08140603726f5fd15",
@@ -20,13 +20,14 @@
     "src/deepseek-protocol.js": "0f8471c69f170ec74880ef0e7deef8889df8a3b12e6e86c0aea2b13fcefa681e",
     "src/engine.js": "f1484c19d4df2879d0ae5e642c3957cd8e9ff5446a81b07cd541ac080afb4266",
     "src/fake-provider.js": "9460fac1e2d936b5aacde19ec1c79a07b1d1db77987cc4b51e815acd913f6456",
-    "src/gated-deepseek-client.js": "18b60e8c2744d59e2110d8c1e7ca93d26fa4c0c2e45ae20af8722554750e91f3",
+    "src/gated-deepseek-client.js": "618cac18f0043bb5d038d96594bed531be1b0c8be9f5c408640c861882c613c8",
     "src/inline-authorized-runtime.js": "06f62b9b23f2a63c54e47597e7c5ea95f680b7feae3b282436612a16d239770c",
-    "src/inline-entry-admission.js": "5497d2ab942f10183b0286650009ba16e0acf343d3a157733aa8ab7269935b42",
+    "src/inline-entry-admission.js": "9d1b7e7dc4278a267c90bf35c089530d6e0680ca97f870ada0b3ecd1a5b9b095",
     "src/inline-entry-authorization.js": "a50534095513a9bba41c3f1239ae217ef8f86ef2bde2e8962e6d92f368225918",
     "src/inline-entry-preflight.js": "4ca39a54a743c461d6e998c2255e8bd118dc587bdd9ae3ce967ce27887c96765",
     "src/inline-evidence-protocol.js": "f2edd60a2fe6fd70f186a327187b2c8d40da699ba09017aa2a7f736d08ae737d",
     "src/inline-stub-session.js": "058ffb793495e63cec580a3b6acfb5187fc55c553adc256f1181293e3b4a950c",
+    "src/inline-trial-policy.js": "1cd0039ae3bb0edfcd6eb316c83cccc95787f085e35ce5de30a2595ba6a10caf",
     "src/pruned-v2-reviewed-profile.js": "eea51f1ac5d283e7f13dfd8bd711ad9dc12ff5a62094e6b13205443f6cc8c35b",
     "src/pruned-v2-trial-config.js": "f3394e9ac80c244801cd57b651b2954d44d42c34e65e8624a4e18b5eb7dbb49c",
     "src/quality-config.js": "5218f5119b34071533e1a270227d3ee92a92e956b430acd4ed7607c779bf3f85",
@@ -53,6 +54,7 @@
     ],
     "src/budget-ledger.js": [
       "src/inline-evidence-protocol.js",
+      "src/inline-trial-policy.js",
       "src/scene-continuity-protocol.js",
       "src/coupled-affect-protocol.js",
       "src/store.js",
@@ -194,7 +196,8 @@
       "src/compact-trial-config.js",
       "src/single-scene-diagnostic.js",
       "src/pruned-v2-trial-config.js",
-      "src/continuity-trial-config.js"
+      "src/continuity-trial-config.js",
+      "src/inline-trial-policy.js"
     ],
     "src/inline-entry-authorization.js": [
       "node:fs",
@@ -228,6 +231,7 @@
       "src/inline-authorized-runtime.js",
       "src/inline-entry-authorization.js"
     ],
+    "src/inline-trial-policy.js": [],
     "src/pruned-v2-reviewed-profile.js": [],
     "src/pruned-v2-trial-config.js": [
       "node:fs",
