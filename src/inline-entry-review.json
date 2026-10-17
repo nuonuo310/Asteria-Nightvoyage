@@ -71,6 +71,8 @@
     "src/inline-entry-graph.json": "ae64a858d37ca1f4982bc2ac47b727bc4aacdce0ee2d1d31abc177a74345a45b",
     "src/inline-entry-preflight.js": "4ca39a54a743c461d6e998c2255e8bd118dc587bdd9ae3ce967ce27887c96765",
     "src/inline-evidence-protocol.js": "f2edd60a2fe6fd70f186a327187b2c8d40da699ba09017aa2a7f736d08ae737d",
+    "src/inline-paid-contract-cli.js": "ec0a6b385ef35419bc8fed27f6f8bb08a89ff2271010bea20959c1f6d93cd5b7",
+    "src/inline-paid-contract.js": "a812f7db5a0713e822462f451371887b5351863188d402763c57303ced22ea50",
     "src/inline-stub-launcher.js": "39c28479c0c2684924a7083df60a5dd4be76a1abafb046bdbeefba0144b7cd78",
     "src/inline-stub-session.js": "058ffb793495e63cec580a3b6acfb5187fc55c553adc256f1181293e3b4a950c",
     "src/inline-stub-worker.js": "88007ac89499f0153662b00a9f03e0972ac6f42e0d536e59a69fe72b366f4f62",

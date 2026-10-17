@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "stage": "non_executable_paid_contract_checks",
+  "baseCommit": "ab1005328ba60c5e1d60568233b8b0bcc89be4c0",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "checks": {
+    "newTests": 26,
+    "full": {
+      "command": "node --test",
+      "tests": 706,
+      "pass": 706,
+      "fail": 0
+    },
+    "targeted": {
+      "command": "node --test test/inline-paid-contract.test.js test/inline-bootstrap.test.js test/inline-authorization.test.js test/inline-admission.test.js test/inline-dependencies.test.js test/inline-entry-preflight.test.js test/inline-production.test.js test/execution-owner.test.js test/inline-review.test.js test/inline-integration-review.test.js test/pruned-history-read.test.js",
+      "tests": 207,
+      "pass": 207,
+      "fail": 0
+    },
+    "linuxCRLF": {
+      "convertedExtensions": [
+        ".js",
+        ".mjs",
+        ".json"
+      ],
+      "tests": 207,
+      "pass": 207,
+      "fail": 0,
+      "isWindowsHost": false
+    },
+    "script": {
+      "command": "node scripts/check-inline-paid-contract.mjs",
+      "node": "v24.19.0",
+      "platform": "linux",
+      "reviewClock": "2026-10-17T14:49:01.000Z",
+      "reviewClockIsFixture": true,
+      "contractHash": "8bf6c6f1e5c404d2b072a87433e5210a31e2f8e6d91cfe77b0a81ee2f6257e93",
+      "firstRequestBytes": 3337,
+      "requestByteLimit": 65536,
+      "nextReservationMicroCny": "2203200",
+      "preservedUnknowns": 4,
+      "preservedUnknownMicroCny": "8812800",
+      "oldStateAndAccountBytesUnchanged": true,
+      "acknowledgementShapeChecked": true,
+      "createsAuthorization": false,
+      "createsAccount": false,
+      "credentialReads": 0,
+      "nativeRequests": 0,
+      "realModelRequests": 0,
+      "userStoreAccessed": false,
+      "sourcePinsAutomaticallyRefreshed": false,
+      "liveEntryAvailable": false,
+      "implementationReady": false,
+      "qualityAssessed": false,
+      "semanticSupport": "not_assessed"
+    }
+  },
+  "sourceInventoryFiles": 76,
+  "paidGraphAvailable": false,
+  "oldFeeDraftChanged": false,
+  "oldPaidProfilesChanged": false,
+  "liveHardBlocksChanged": false,
+  "createsAuthorization": false,
+  "createsAccount": false,
+  "modelAliasImmutable": false,
+  "pricingReview": {
+    "checkedAt": "2026-10-17T14:49:00Z",
+    "expiresAt": "2026-10-18T14:49:00Z",
+    "actualAccountCurrencyVerified": false,
+    "actualModelsRequestMade": false,
+    "references": [
+      "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
+      "https://api-docs.deepseek.com/quick_start/pricing/",
+      "https://api-docs.deepseek.com/zh-cn/updates/",
+      "https://api-docs.deepseek.com/api/list-models/"
+    ]
+  },
+  "remainingImplementation": [
+    "paid_authorization_atomic_commit",
+    "live_runtime_transport",
+    "private_credential_pipe",
+    "paid_session_loader_graph"
+  ],
+  "newWindowsHostResult": false,
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "userStoreAccessed": false,
+  "thirdPartyImplementationCopied": false,
+  "qualityAssessed": false,
+  "semanticSupport": "not_assessed",
+  "sourceHashes": {
+    "src/inline-paid-contract.js": "a812f7db5a0713e822462f451371887b5351863188d402763c57303ced22ea50",
+    "src/inline-paid-contract-cli.js": "ec0a6b385ef35419bc8fed27f6f8bb08a89ff2271010bea20959c1f6d93cd5b7",
+    "src/inline-entry-review.json": "e958b03c0411d75a256edfde60263c4aee044b553dcd023a1c4139a67198e44d",
+    "test-support/frozen-owner-project.js": "ff059f8d932480f2bd9dd8b3c7782e405d1ecc2cbd621b27ae1bb3184a75f60a",
+    "test/inline-integration-review.test.js": "b18654d589fd7751e263285cbc140694b4e6dda42b47bfda630fbadacbb59bbe",
+    "test/inline-paid-contract.test.js": "445f0f5de7a7408b716ad8a8a019297732718e03436522abf93c0c9180be3a40",
+    "scripts/check-inline-paid-contract.mjs": "5af27abcde16c2a450823660f0a3eb1156199002df1e4b5e9813a2c008e1d976",
+    "docs/INLINE-PAID-CONTRACT.md": "4338188ac3e8c1a75852c5179b179ec4196eeab973db55b04321b281c668b6d8",
+    "docs/proposals/inline-paid-entry-20261017.json": "ddd9f1de4b2a58f45a1154575b734f9b1d0ac1552afc20eba1cdaa8bb6b300c8",
+    "docs/validation/inline-paid-contract-full.txt": "7f1ff623adc4770514e02d4b1b33fb46ea50792a29fe0aa613608618a10b8d34",
+    "docs/validation/inline-paid-contract-targeted.txt": "bc33914d611b8cc11cbbb5a40d20ea6107f4f35eec68516c8483d6c2313c210e",
+    "docs/validation/inline-paid-contract-crlf.txt": "ff169b444703f3fc5e2262bed56a5a2dc34222b0b0876f71b1dcae8a0710037e",
+    "docs/validation/inline-paid-contract-script.json": "4012e9fedc48f191adb23e4f7f5835a0683d00bc48546d5be88c522bea637765"
+  }
+}
