@@ -696,3 +696,10 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 独立无Key自检经真实CLI子进程创建/重放/重读/修订/撤回重开，3次假生成，评审追加0；Key与native HTTP/fetch守卫、来源/非事实身份、评审者/父指纹、原梦/醒来与账本不变、受管理正文清除分别验证。测试使用独立虚构数据，不访问用户Store，没有真实模型、凭据读取、人工或质量验收。
 - 见docs/LOCAL-APPRAISAL-REVIEW-CLI.md及validation/local-appraisal-review-cli-validation.json；完整相关/CRLF输出与全仓汇总尾部独立保存。清除范围沿用managed Store/日志/临时文件，不包括终端、调用者输入副本或外部备份。公开仅自有MIT代码、独立表述与虚构样例，无私有原文/聊天/梦簿/配置/Key/实际编号，无跨仓库修改。
 - 本切片已实现并验证；下一步用户Windows运行同一无Key虚构自检，然后再准备实际本地意见的显式保存指令。本轮没有把公开摘要写入用户梦簿，不续开模型额度，Asteria仍待对接。
+
+
+## 本地独立评审命令：Windows 实机回报
+
+- 用户更新至c84efe3后，Windows／Node24.19.0自检完成：3次假生成，评审追加/真实模型/凭据读取均0；无正文回执、父指纹、重读/去重/独立修订、原梦/醒来/账本保持、撤回重开/旧请求屏蔽及受管理正文清除均通过。
+- 证据仅此独立虚构脚本，不扩大为Windows全仓825项测试、用户梦簿已写正式意见、人工验收或语义/质量通过。userStoreAccessed=false、qualityAssessed=false、semanticSupport=not_assessed，Asteria仍待对接。
+- 聚合回报见docs/validation/user-local-appraisal-review-cli-windows.json。仅文档记录，不重复测试、改代码/合同/额度/占款/期限或新增模型请求；公开无终端原文、私人路径、梦/评审正文、实际编号或Key。下一步准备明确标识助手身份的实际本地意见保存与重读指令，不把虚构自检冒充实际保存。
