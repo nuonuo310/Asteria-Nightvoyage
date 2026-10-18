@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-18",
+  "kind": "user_reported_windows_readable_reviews",
+  "repositoryCommit": "4aab6c575ef27cc60645f71e208532bbd3cefffe",
+  "evidenceOrigin": "user_terminal_report",
+  "independentlyExecutedByWorkbench": false,
+  "node": "v24.19.0",
+  "platform": "win32",
+  "targetedTests": {
+    "command": "node --test test/dreambook-review-text.test.js test/dreambook-reader.test.js",
+    "passed": 11,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  "actualLocalRead": {
+    "command": "node scripts/dreambook.mjs read --latest",
+    "displayObserved": true,
+    "savedScenes": 2,
+    "separateAssistantReviews": 2,
+    "chineseStatusLabelsDisplayed": true,
+    "reviewerAttributionDisplayed": true,
+    "originalNotesDisplayed": true,
+    "revisionRelationshipDisplayed": true,
+    "newOriginalOrBillingInvarianceMeasurement": false
+  },
+  "privacy": {
+    "rawDreambookBodiesIncluded": false,
+    "actualIdentifiersIncluded": false,
+    "privatePathsIncluded": false
+  },
+  "limits": {
+    "windowsFullSuiteExecuted": false,
+    "humanAcceptanceRecorded": false,
+    "overallQualityAccepted": false,
+    "asteriaAdapter": "pending"
+  }
+}
