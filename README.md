@@ -16,6 +16,8 @@
 
 同一 run 在 start 时固定 adapter/model/protocol；fallback 仅在零外部调用的 preflight 按明确策略选择 GPT → Codex，不能在首幕后换入口或拼接结果。DeepSeek/API 历史能力保留在显式 legacy 边界，不静默默认、不新增费用许可。Asteria 两座桥仍待对接，不在夜航实现。
 
+[整流事件预算离线候选](docs/OFFLINE-AGGREGATE-ENVELOPE.md)已用独立虚构流覆盖两层计数问题：统一有限事件预算，保留 64 KiB 整流与 1,200 字节最终 JSON 上限，完整结束后才返回答案。仅接假模型闭环，未替换真实入口、消费新许可或证明 GPT 梦境质量。
+
 `node scripts/check-dream-model-port.mjs` 只运行独立虚构临时样例，不登录、不读取凭据、用户梦簿或请求真实模型。
 
 ## 日常查看已有梦簿

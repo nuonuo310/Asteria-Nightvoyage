@@ -1,0 +1,29 @@
+{
+  "scope": "offline aggregate-envelope decoder and simulator lifecycle; no native entry or grant",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "targeted": {
+    "command": "node --test test/offline-aggregate-envelope.test.js test/offline-aggregate-runtime.test.js test/envelope-event-budget.test.js test/validated-envelope-diagnostic.test.js test/envelope-native-components.test.js",
+    "tests": 70,
+    "pass": 70,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "duration_ms": 725.70886
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 1211,
+    "pass": 1211,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "duration_ms": 44876.246547
+  },
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "userStoreAccessed": false,
+  "existingLiveProposalPinsMatch": true,
+  "liveLimitsChanged": false,
+  "qualityAssessed": false
+}
