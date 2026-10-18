@@ -678,3 +678,11 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 本个虚构样例的本地技术闭环已有实机回报：真实生成→保存→醒来→保存后读取／无凭据重放→手动线索召回。不扩大为长期白天自动浮现、语义检索、Windows全套测试、真实私人材料适用性或梦境质量通过；qualityAssessed=false、semanticSupport=not_assessed。
 - 聚合结果见docs/validation/user-local-inline-live-postcheck.json，正文说明见docs/INLINE-LIVE-TRIAL-RESULT.md。仅独立表述和聚合字段，无原梦、线索文本、终端原文、私人路径、编号或Key；源码／合同／profile／额度／旧账不变，本工作台未追加模型请求。
 - 当前技术切片收尾，下一步内容与情绪依据评审；维持已结束的调用范围，不因低账面金额自动追加生成，不删除或撤回现有梦簿来做重复验证。
+
+
+## 单样本内容与情绪依据：有限助手复核
+
+- 依据此前独立记录的内容观察完成有限助手复核：后幕有动作/感官推进，醒来可保留单一细节；安静、无启示和空联想不自动扣分。两幕情绪依据与事件相关，但 valence/arousal 方向均 underdetermined，精确幅度均 not_established，不把字面匹配升级为语义通过。
+- 原梦、醒来、数值、协议和提示词不改；不新增裁判/修复/生成调用。公开摘要明确助手身份与有限证据，不冒充糯糯验收或在用户 Store 创建了绑定场景指纹的正式 review。
+- 见 docs/INLINE-CONTENT-ASSISTANT-REVIEW.md 及 validation/inline-content-assistant-review.json。核对评审合同/字段并审查新增内容，无代码修改、不重跑机制测试；Key/模型请求/用户 Store 访问为零，旧账/额度/期限不变。公开无原梦/引文/终端文本/私人路径/实际编号或指纹。
+- 本切片完成，整体梦境质量仍未验收。后续可准备既有适配器上的显式本地意见保存与重读流程，先用独立虚构测试；Asteria仍待对接，无新增费用或外发许可。
