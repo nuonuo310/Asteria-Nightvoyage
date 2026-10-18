@@ -779,3 +779,10 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - examples/adapter-boundary.snapshot.json 为独立虚构五通道材料且全部禁止外发；adapter-boundary-flow.json 明确 executableContract=false。脚本只调用现有 plain-fake 本地 API，不新增桥、付费或授权实现。
 - node scripts/check-adapter-boundary.mjs 在 Linux／Node v24.19.0 完成：文件/直接规范化相同、缺失通道筛除、缺记忆0调用跳过、3次假生成、独立 result/候选、重复0追加、重开原梦不变、临时源撤回重开后读/召回为空；真实请求/凭据读取0。脚本拒绝参数、不访问用户 Store，执行汇总已保存。本轮未重跑全套，也未新测 Windows 或未实现的跨系统确认。
 - 文档/示例/演练仅位于付费清单之外；src/fixtures/package、旧记录/批准/源码清单/预算/期限/占款不改。无第三方依赖或实现复制，无私有原文。设计完成不等于 Asteria 运行成功，质量仍未验收。
+
+## 2026-10-18 · 固定假模型本地端口适配器
+
+- scripts/local-dream-ports.mjs 的 LocalDreamPorts 为现有 plain-fake 引擎提供 local-dream-ports-v1：显式输入/控制/分类型结果、独立候选、保存读取/派生/策略/撤回/删除。无 provider/Key/URL/fetch 注入；不接管专用 Store，不提供 retryUnknown 或任何远端写能力。
+- 此为本地封装实现，不把上一设计的认证、时效、delivery ack、外部副本撤回或 Asteria endpoint 说成完成。Store 启动恢复可能写入，constructor 拒绝专用 owner 不声称零文件变化；readEntry 是保存条目，分类型交付使用 result。
+- 新增8项测试；Node v24.19.0／Linux 针对51/51、完整855/855；独立临时样例通过，3次假生成、重放追加0、凭据/传输/真实请求0，未访问用户 Store。撤回/删除重开、取消、checkpoint 恢复、模糊尝试阻断及保存失败不发成功回执均有测试；Windows 新入口尚待实机。
+- docs/LOCAL-DREAM-PORTS.md、validation/local-dream-ports.json 记录合同、证据和限制；README/差异设计更新入口。src/fixtures/package/付费源码清单/批准/额度/期限/占款规则保持，不复制第三方实现，不收录私有梦簿。下一步仅用户独立虚构 Windows 自检，无新费用或私人数据。

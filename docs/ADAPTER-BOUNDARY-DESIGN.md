@@ -1,6 +1,8 @@
 # 未来适配器接入差异设计
 
-状态：`design_only / local_api_walkthrough_available / asteria_pending`。
+状态：`future_connection_design_only / local_api_walkthrough_available / asteria_pending`。
+
+后续本地切片已提供 [固定假模型端口封装](LOCAL-DREAM-PORTS.md)；本文关于远端认证、实际时效、接收确认与外部副本撤回仍为设计，未实现。下文“本轮”指该设计初次交付，不取消后续本地封装。
 核对基线：main 2f2384ee419166c2ed7bb3b3b1556e5b8c2696a8。本设计不读取 Asteria 或私有仓库，没有核验其接口，不能声称字段已经兼容。核心合同沿用 [CONTRACT.md](CONTRACT.md)，不另造人格、真实记忆或任务系统。
 
 本文的“拟议”约束供后续双方合同审查，不是已安装 API。本轮只增加独立设计、虚构样例和调用现有假模型 API 的演练脚本；不新增生成适配器、远端 endpoint、授权系统、投递器或付费批准。
