@@ -6,7 +6,8 @@ import {fileURLToPath} from 'node:url';
 import {Store,copy,fail} from '../src/store.js';
 import {own,safeId} from '../src/contract.js';
 import {assertAppraisalReviewJsonData} from '../src/appraisal-review-memory.js';
-import {readContentReview,renderContentReview} from '../src/content-review.js';
+import {readContentReview} from '../src/content-review.js';
+import {renderDreambookReview} from './dreambook-review-text.mjs';
 export const dreambookReaderVersion='local-dreambook-reader-v1';
 const supported=new Set(['coupled-affect-quotes-v1','scene-continuity-quotes-v1','inline-evidence-quotes-v1']);
 function parse(args){
@@ -14,11 +15,11 @@ function parse(args){
   if(!['help','list','read'].includes(action))fail('invalid_dreambook_arguments');
   while(rest.length){
     const key=rest.shift();
-    if(!['--data-dir','--dream-id','--latest'].includes(key)||flags.has(key))fail('invalid_dreambook_arguments');
-    const value=key==='--latest'?true:rest.shift();
+    if(!['--data-dir','--dream-id','--latest','--review-json'].includes(key)||flags.has(key))fail('invalid_dreambook_arguments');
+    const value=['--latest','--review-json'].includes(key)?true:rest.shift();
     if(!value||typeof value==='string'&&value.startsWith('--'))fail('invalid_dreambook_arguments');flags.set(key,value);
   }
-  if(action==='help'&&flags.size||action==='list'&&(flags.has('--dream-id')||flags.has('--latest'))||action==='read'&&(Number(flags.has('--dream-id'))+Number(flags.has('--latest'))!==1))fail('invalid_dreambook_arguments');
+  if(action==='help'&&flags.size||action==='list'&&(flags.has('--dream-id')||flags.has('--latest')||flags.has('--review-json'))||action==='read'&&(Number(flags.has('--dream-id'))+Number(flags.has('--latest'))!==1))fail('invalid_dreambook_arguments');
   if(flags.has('--dream-id')&&!safeId(flags.get('--dream-id')))fail('invalid_dreambook_arguments');
   if(flags.has('--data-dir')&&!path.isAbsolute(flags.get('--data-dir')))fail('absolute_dreambook_store_required');
   return {action,flags};
@@ -39,7 +40,7 @@ export function dreambookCatalog(store){
 }
 export function runDreambook(args){
   const {action,flags}=parse(args);
-  if(action==='help')return 'Nightvoyage local dreambook: list [--data-dir <absolute existing Store>] | read (--latest | --dream-id <id>) [--data-dir <absolute existing Store>]. Help opens no Store. List is metadata only; read displays private saved content locally. No model, key, generation, review write, deletion or export. Latest means last visible dream in persisted insertion order, not a timestamp.';
+  if(action==='help')return 'Nightvoyage local dreambook: list [--data-dir <absolute existing Store>] | read (--latest | --dream-id <id>) [--data-dir <absolute existing Store>] [--review-json]. Default read shows Chinese review labels; --review-json displays complete saved review records. Help opens no Store. List is metadata only; read displays private saved content locally. No model, key, generation, review write, deletion or export. Latest means last visible dream in persisted insertion order, not a timestamp.';
   const directory=flags.get('--data-dir')??path.join(process.env.LOCALAPPDATA??path.join(os.homedir(),'.local','share'),'Nightvoyage','first-fictional-trial');
   if(!path.isAbsolute(directory))fail('absolute_dreambook_store_required');
   if(!fs.existsSync(path.join(directory,'state.json')))fail('existing_dreambook_store_required');
@@ -51,7 +52,7 @@ export function runDreambook(args){
     if(!id||!catalog.dreams.some(d=>d.id===id))return '当前没有可查看的已保存梦境。';
     // Unsupported/corrupt selected dreams fail closed; never silently substitute an older one.
     const view=readContentReview(store,id);
-    return renderContentReview(view);
+    return renderDreambookReview(view,{reviewJson:flags.has('--review-json')});
   }finally{store.close();}
 }
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
