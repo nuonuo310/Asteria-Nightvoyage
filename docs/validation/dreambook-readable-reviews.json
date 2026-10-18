@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-18",
+  "baseCommit": "767fc4621bcc7173de521739d476ca754c087409",
+  "kind": "dreambook_readable_review_presentation",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "tests": {
+    "targeted": {
+      "command": "node --test test/dreambook-review-text.test.js test/dreambook-reader.test.js",
+      "passed": 11,
+      "failed": 0
+    },
+    "full": {
+      "command": "npm test",
+      "passed": 847,
+      "failed": 0
+    },
+    "newTests": 3
+  },
+  "readerSelfcheck": {
+    "command": "node scripts/check-dreambook-reader.mjs",
+    "node": "v24.19.0",
+    "platform": "linux",
+    "fakeGenerationCalls": 3,
+    "readerModelCalls": 0,
+    "realModelRequests": 0,
+    "credentialReads": 0,
+    "catalogBodyFree": true,
+    "latestExcludesReviewEntries": true,
+    "explicitIdAndLatestRead": true,
+    "narrativeWakeAndReviewsSeparate": true,
+    "originalDreamAndWakeUnchanged": true,
+    "billingUnchanged": true,
+    "reviewCountUnchanged": true,
+    "stableStateBytesUnchanged": true,
+    "filesystemZeroWritesClaimed": false,
+    "withdrawalSuppressesReopenedListAndRead": true,
+    "userStoreAccessed": false,
+    "asteriaAdapter": "pending",
+    "qualityAssessed": false
+  },
+  "checks": {
+    "fixedChineseStatusLabels": true,
+    "originalNotePreserved": true,
+    "attributedSeparateRevisions": true,
+    "completeJsonMatchesExistingRenderer": true,
+    "quietStoreBytesUnchanged": true,
+    "inputViewUnchanged": true,
+    "reviewFlagReadOnly": true,
+    "srcAndPaidInventoryUnchanged": true
+  },
+  "limits": {
+    "windowsDisplayValidated": false,
+    "humanAcceptanceRecorded": false,
+    "qualityAssessed": false,
+    "userStoreAccessed": false,
+    "asteriaAdapter": "pending"
+  }
+}
