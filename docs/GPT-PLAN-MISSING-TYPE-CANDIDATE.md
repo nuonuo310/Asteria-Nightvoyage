@@ -22,11 +22,11 @@ Admission is only to the **unchanged** `ChatgptPlanStream` decoder and model-por
 
 ## Real execution remains blocked
 
-This slice does **not** modify the current live transport, model port, trial entry, proposal source pins or consumed approvals. No live option is added. The policy is exercised only in explicit protocol simulators whose receipts retain `provider_kind:openai_protocol_simulator`, `auth_mode:synthetic_stub` and zero external calls. It cannot be supplied to the existing live entry to bypass its type check.
+This offline slice did **not** modify the original live transport, model port, trial entry, proposal source pins or consumed approvals. The subsequent [versioned gated trial entry](GPT-PLAN-MISSING-TYPE-ENTRY.md) now implements a separate candidate path while preserving those originals. No live option is added. The policy is exercised only in explicit protocol simulators whose receipts retain `provider_kind:openai_protocol_simulator`, `auth_mode:synthetic_stub` and zero external calls. It cannot be supplied to the existing live entry to bypass its type check.
 
 A future integration must use a separately identified, immutable policy, preserve the provider-neutral port, pin one adapter per dream from its first external intent, and preserve old records. Existing historical preflights verify their full original import closures; modifying the common model-port/transport modules directly would invalidate those source checks. A migration must provide a verified read path for old receipts while leaving old dispatch grants consumed/blocked. It must not substitute a permissive simulator for an authenticated live transport or mislabel a compatibility path as the original protocol.
 
-The next engineering slice is that integration/history boundary. This candidate alone does not justify another real request. No new browser login or real subscription inference is approved or attempted by this slice. No API fallback, paid API call, private material or Asteria bridge is introduced. Native Codex transport remains pending.
+The subsequent entry implements that versioned integration/history boundary; real-account validation remains pending. This candidate alone does not justify another real request. No new browser login or real subscription inference is approved or attempted by this slice. No API fallback, paid API call, private material or Asteria bridge is introduced. Native Codex transport remains pending.
 
 ## Verification
 
