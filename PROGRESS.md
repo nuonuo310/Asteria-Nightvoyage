@@ -759,3 +759,9 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 仅展示层 scripts 变更，不改 src、付费源码清单、合同、批准、额度、期限或原梦/醒来/评审/账本。无新依赖或第三方复制，公开测试使用项目自有虚构素材。
 - Node v24.19.0 / Linux：新增3项测试，针对11/11、完整847/847；独立梦簿自检通过，真实请求和凭据读取为0。两种展示与原有完整渲染对照、静止 Store 字节不变、修订和空意见均有证据。详见 docs/validation/dreambook-readable-reviews.json。
 - Windows 显示仍待用户自检与查看；当前结果不代表语义支持、人工验收、总体梦境质量或 Asteria 接入。下一步仅同步并本地阅读，不新增生成调用。
+
+## 2026-10-18 · 中文评审排版 Windows 验证
+
+- 用户同步至 main 4aab6c5 后，Node v24.19.0 / win32 的 dreambook-review-text 与 dreambook-reader 两组针对测试11/11通过（用户终端回报，工作台未独立执行 Windows）。这是针对测试，不是 Windows 全套847项。
+- 随后显式 read --latest 的实际本地结果显示两幕、醒来残片及两条分开的中文助手评审；固定判断状态、助手署名、原始备注及修订说明正确显示。仅记录显示观察，不新增一次实际原梦/账本不变性测量，不转成人工验收或总体质量通过。
+- 本次只补文档汇总，不复制梦簿正文、实际编号、指纹、备注或私人路径；不重跑测试，不调用模型，不修改代码、付费批准、额度或占款。聚合记录见 docs/validation/user-local-readable-reviews-windows.json。阅读排版切片完成，下一步回到首阶段范围与剩余验收项的梳理。

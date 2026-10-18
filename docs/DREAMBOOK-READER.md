@@ -60,3 +60,5 @@ node scripts/dreambook.mjs read --latest --review-json
 此选项沿用原有完整 JSON 评审显示，仅允许 read 使用；目录仍不含正文。两种显示读取同一份经过既有适配器校验的记录，不新建评审、不改变梦/醒来/账本，也不建立缓存。原始备注继续 JSON 引用，换行和终端控制字符保持转义。既有 Store 启动恢复边界不变。
 
 实现为 scripts/dreambook-review-text.mjs 的展示层，不修改 src 或付费合同源码清单。测试覆盖中文状态、原始备注、空意见、独立修订、完整 JSON 对照、参数门禁和静止 Store 字节不变；完整结果见 validation/dreambook-readable-reviews.json。真实用户 Store 未在工作台访问，Windows 显示待用户确认。
+
+2026-10-18 Windows 实机回报：同步 main 4aab6c5 后，针对测试11/11通过，实际最近一梦的两条助手意见按中文状态逐条显示；原始备注和修订说明分别保留。详见 validation/user-local-readable-reviews-windows.json。此回报闭合 Windows 显示检查，不代表 Windows 完整套件或梦境质量验收；不需要重复生成或再运行本轮检查。
