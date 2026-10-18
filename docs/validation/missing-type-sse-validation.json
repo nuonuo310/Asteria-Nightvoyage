@@ -1,0 +1,43 @@
+{
+  "slice": "offline-missing-content-type-sse-candidate-v1",
+  "date": "2026-10-18",
+  "platform": "linux",
+  "node": "v24.19.0",
+  "targeted": {
+    "command": "node --test test/plan-missing-type-policy.test.js",
+    "tests": 10,
+    "pass": 10,
+    "fail": 0,
+    "durationMs": 183.764495
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 1041,
+    "pass": 1041,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "durationMs": 36670.598076
+  },
+  "reportedEvidenceOrigin": "user_receipt_not_maintainer_live_execution",
+  "reportedSseLikePrefixOnly": true,
+  "fullRealStreamKnown": false,
+  "originalTrialPinsMatch": true,
+  "envelopePinsMatch": true,
+  "prefixPinsMatch": true,
+  "nativeTransportModified": false,
+  "candidateLiveOptionAvailable": false,
+  "userStoreAccessed": false,
+  "realCredentialReads": 0,
+  "realLoginAttempts": 0,
+  "realModelRequests": 0,
+  "newRealRequestApproved": false,
+  "windowsVerified": false,
+  "realInferenceQualified": false,
+  "qualityAssessed": false,
+  "semanticSupport": "not_assessed",
+  "thirdPartyCodeCopied": false,
+  "dependenciesAdded": false,
+  "otherRepositoriesModified": false
+}
