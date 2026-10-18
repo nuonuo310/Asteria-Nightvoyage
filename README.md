@@ -22,6 +22,8 @@
 
 `node scripts/check-dream-model-port.mjs` 只运行独立虚构临时样例，不登录、不读取凭据、用户梦簿或请求真实模型。
 
+最新用户回报触发了[目录外事件兼容停止](docs/GPT-SUBSCRIPTION-COMPATIBILITY-STOP.md)，该诊断已消耗；直接 GPT 仍是目标首选，但暂停新的真实试跑。Codex 备用现已有[完整 RPC 顺序的离线演练](docs/CODEX-RPC-REHEARSAL.md)，可运行 `node scripts/check-codex-rpc-rehearsal.mjs`。它仍不启动 Codex 进程、不登录、不证明工具禁用或订阅可用，也不接续旧失败梦。
+
 ## 日常查看已有梦簿
 
 在仓库目录执行：

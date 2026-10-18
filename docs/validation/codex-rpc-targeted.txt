@@ -1,0 +1,32 @@
+✔ RPC emits ordered initialize/initialized/thread/start/turn/start proposals with no dispatch authority (4.803039ms)
+✔ notifications arriving before turn/start response bind only after authoritative response (4.149276ms)
+✔ unsent, reordered, duplicate, string-id, error and server-request frames reject with fixed body-free error (2.929774ms)
+✔ wrong effective model, malformed thread, completed turn response and hidden initial items reject (2.449782ms)
+✔ one-byte Chinese CRLF, truncation, invalid UTF-8, byte/frame bounds and trailing frame remain guarded (3.913261ms)
+✔ cancellation at every handshake/stream phase clears proposals and rejects late replies (1.606013ms)
+✔ tools, approvals, reroutes, failed/interrupted completion still fail; proposals never grant tools (2.136611ms)
+✔ full synthetic RPC loop persists three stages, replays without another handshake, withdraws across reopen (35.412955ms)
+✔ mutating a drained request cannot rewrite model binding or later input; no result before completion (0.835205ms)
+✔ second-stage RPC rejection retains the first checkpoint and cannot retry or change adapter on reopen (18.770451ms)
+✔ GPT explicit simulator uses same persistent engine, separate identity, usage, dedup and withdrawal (33.628022ms)
+✔ Codex explicit simulator uses same persistent engine, separate identity, usage, dedup and withdrawal (34.690959ms)
+✔ explicit preflight GPT-to-Codex simulated fallback is recorded and never occurs after first dispatch (17.770688ms)
+✔ GPT second stage rejection retains first checkpoint and never switches or repairs (12.730674ms)
+✔ Codex second stage rejection retains first checkpoint and never switches or repairs (12.223311ms)
+✔ GPT noncooperative simulator cancellation suppresses completed late stream (9.904305ms)
+✔ Codex noncooperative simulator cancellation suppresses completed late stream (5.936973ms)
+✔ production defaults have no simulator, no model inference, no login or process fallback (0.622015ms)
+✔ GPT preparation remains store false, no tool authority, explicit model and non-dispatchable (0.55904ms)
+✔ Codex terminal status, tools, reroutes, wrong identity, extra final message and malformed data fail closed (3.281031ms)
+✔ Codex UTF-8/CRLF byte splitting returns only authoritative final item and never delta text (2.06636ms)
+✔ Codex bounds, truncation and JSON nonobject response cannot release a body (0.636977ms)
+✔ ready GPT rehearsal failure never dispatches declared Codex fallback after scene zero (8.964493ms)
+✔ Codex rejects hidden final-turn tools and a conflicting final item even without tool notifications (0.827113ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 266.633493

@@ -1,0 +1,38 @@
+{
+  "baseCommit": "87831c9fd76840af18e2304816e22ff70382f763",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "baseline": {
+    "tests": 1329,
+    "pass": 1329,
+    "fail": 0,
+    "durationMs": 96216.141637
+  },
+  "targeted": {
+    "command": "node --test test/codex-rpc-rehearsal.test.js test/subscription-model-port.test.js",
+    "tests": 24,
+    "pass": 24,
+    "fail": 0,
+    "durationMs": 266.633493
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 1339,
+    "pass": 1339,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "durationMs": 90199.625107
+  },
+  "realModelRequests": 0,
+  "nativeCodexProcessStarted": false,
+  "credentialReads": 0,
+  "userStoreAccessed": false,
+  "qualityAssessed": false,
+  "sourceSha256": {
+    "scripts/codex-rpc-rehearsal.mjs": "5c9d90ad3ce59420caccd50d402e3a76bd9b28cef2b1cdbd9fae323da41d212e",
+    "scripts/check-codex-rpc-rehearsal.mjs": "96a18ff7d338e4219c0db43ef196ba192aaf66eb306f9b21a3b6b77c758f5e0f",
+    "test-support/codex-rpc-fixtures.js": "e4a16995f2d055496964e14d1f14bf1350358bef0a5e2d9f4e79e7c43afa23ca",
+    "test/codex-rpc-rehearsal.test.js": "712655c1807339eb70fa213460dc52246557af6e5e3797e77df1ad43b4fe3afb"
+  }
+}
