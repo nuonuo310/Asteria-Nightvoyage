@@ -84,7 +84,7 @@ test('checkpoint save failure retains unknown usage and exposes no uncommitted s
  await assert.rejects(e.execute(id),/storage_io_failure/);assert.equal(env.calls(),1);e.close();fs.rmdirSync(path.join(env.directory,'snapshot.tmp'));e=env.open();assert.equal(e.status(id).status,'uncertain');assert.equal(e.status(id).stagesSaved,0);assert.equal(e.status(id).usage[0].usage,'unknown');assert.equal(e.result(id).dream,null);await assert.rejects(e.resume(id),/ambiguous_attempt/);
 });
 test('wrapper preserves existing runtime algorithm and current real trial source closure',()=>{
- const read=p=>fs.readFileSync(new URL(`../scripts/${p}`,import.meta.url),'utf8');
+ const read=p=>fs.readFileSync(new URL(`../scripts/${p}`,import.meta.url),'utf8').replaceAll('\r\n','\n');
  const expected=read('dream-model-runtime.mjs').replace("from './dream-model-port.mjs'","from './offline-aggregate-model-port.mjs'").replace("import {planResponseDiagnostic,reviewedPlanResponseDiagnostic} from './plan-response-diagnostic.mjs';","import {envelopeDiagnostic as planResponseDiagnostic,reviewedEnvelopeDiagnostic as reviewedPlanResponseDiagnostic} from './envelope-diagnostic.mjs';");
  assert.equal(read('offline-aggregate-model-runtime.mjs'),expected);assert.equal(envelopeTrialProposal().protocol_version,'chatgpt-plan-reasoning-envelope-http-v1');
 });

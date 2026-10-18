@@ -1,0 +1,39 @@
+{
+  "scope": "test-only CRLF source-comparison correction",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "targeted": {
+    "command": "node --test test/aggregate-source-newlines.test.js test/offline-aggregate-envelope.test.js test/offline-aggregate-runtime.test.js",
+    "tests": 41,
+    "pass": 41,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "duration_ms": 1123.773824
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 1246,
+    "pass": 1246,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "duration_ms": 60079.847589
+  },
+  "actualCopiedProjectRuns": {
+    "lfPassed": true,
+    "crlfPassed": true,
+    "editedLfRejected": true,
+    "editedCrlfRejected": true
+  },
+  "currentProposalPinsMatch": true,
+  "historicalProposalPinsMatch": true,
+  "runtimeChanged": false,
+  "realModelRequests": 0,
+  "realLoginAttempts": 0,
+  "credentialReads": 0,
+  "userStoreAccessed": false,
+  "windowsMaintainerExecution": false,
+  "newPermissionConsumedByReportedOfflineGate": false,
+  "qualityAssessed": false
+}

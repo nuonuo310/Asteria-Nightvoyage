@@ -79,7 +79,7 @@ test('malformed UTF-8/JSON/name, oversized and truncated streams release no answ
 test('candidate bound changes no output indices, old live parser, limits or final validator',()=>{
  assert.equal(chatgptPlanLimits.events,128);assert.equal(aggregateEnvelopeLimits.events,1024);assert.equal(aggregateEnvelopeLimits.indexLimit,128);assert.ok(Object.isFrozen(aggregateEnvelopeLimits));
  for(const key of ['requestBytes','streamBytes','contentBytes','serverOutputTokenCap'])assert.equal(aggregateEnvelopeLimits[key],chatgptPlanLimits[key]);
- const read=p=>fs.readFileSync(new URL(`../scripts/${p}`,import.meta.url),'utf8');
+ const read=p=>fs.readFileSync(new URL(`../scripts/${p}`,import.meta.url),'utf8').replaceAll('\r\n','\n');
  let expected=read('validated-envelope-stream.mjs')
   .replace('// Offline-only candidate. No transport, credentials, Store, provider selection or grant.','// Independently versioned offline aggregate-budget candidate; no live adapter or grant.')
   .replace("export const offlineEnvelopeVersion='validated-reasoning-envelope-v1';", "export const offlineEnvelopeVersion='offline-aggregate-envelope-v1';\n// An explicit candidate processing bound, not provider entitlement or model-token math.\nexport const aggregateEnvelopeLimits=Object.freeze({...chatgptPlanLimits,events:1024,indexLimit:128,reasoningItems:16});")

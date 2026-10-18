@@ -60,4 +60,6 @@ Tests cover new opt-in and transport-brand refusal, 1,025-event stop, missing/in
 
 Linux Node.js v24.19.0 targeted checks: 97/97. Full regression: 1245/1245, no failed/cancelled/skipped tests. The Windows runtime has not been executed by the maintainer for this entry; CRLF fixtures and copied source checks are not Windows qualification. Detailed bounded evidence is in [the script receipt](validation/aggregate-plan-entry-script.json) and [validation record](validation/aggregate-plan-entry-validation.json).
 
+Subsequent Windows offline-gate report: [source-comparison newline correction](AGGREGATE-SOURCE-NEWLINES.md). This test-only correction preserves the native proposal and unconsumed permission scope; the earlier validation counts above remain historical evidence for their slice.
+
 At this delivery, no new real login/inference permission is recorded or exercised by the maintainer. No validated GPT subscription dream has been established by the available real receipts. The next action is fresh permission for this exact scope, followed by a user-run local trial; inference qualification requires a successful real response and dream quality remains a separate review. Codex's native entry and both formal Asteria bridges remain pending. Independent MIT project reuse only, with no copied private/third-party implementation, dependency or other repository write.

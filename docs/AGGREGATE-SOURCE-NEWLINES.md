@@ -1,0 +1,9 @@
+# Aggregate source-comparison newline correction
+
+The user reported that the Windows offline gate failed with a whole-file comparison showing CRLF source. The supplied command stops before trial initialization, authorization or generation when this test fails; this stop did not consume the newly approved real trial. No user runtime record or rejected provider response is copied here.
+
+The parser transformation test inserted LF-separated code into the expected text while reading CRLF files unchanged. This produced a mixed-line-ending expected string. Normalize CRLF to LF on both source-comparison inputs before applying the exact transformation. The associated offline runtime and new trial source comparisons now use the same convention. No other whitespace is normalized. Persisted state/body byte comparisons, request/stream/content/event bounds, provider sources, approval records and reviewed proposal pins are unchanged.
+
+The regression test creates real LF and CRLF copies of the project source closure, launches the parser suite as an independent Node test runner, and requires both to pass. Appending an unrelated code comment must make each copy fail its exact-source guard. The child runner drops only the inherited Node test IPC-context marker, so a failing nested test has a meaningful nonzero process status. It does not alter the parent environment or expose environment values.
+
+Run `node --test test/aggregate-source-newlines.test.js test/offline-aggregate-envelope.test.js test/offline-aggregate-runtime.test.js`. This is a synthetic local test and does not open a real account or user Store. LF/CRLF copies on Linux are not an independent Windows qualification. The user can synchronize the correction and resume the same unconsumed permission scope; no allowance reset, new grant scope, automatic retry or provider switch is introduced.
