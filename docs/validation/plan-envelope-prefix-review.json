@@ -1,0 +1,48 @@
+{
+  "slice": "offline-plan-envelope-prefix-v1",
+  "date": "2026-10-18",
+  "platform": "linux",
+  "node": "v24.19.0",
+  "targeted": {
+    "command": "node --test test/plan-envelope-prefix-review.test.js test/plan-envelope-review.test.js",
+    "tests": 9,
+    "pass": 9,
+    "fail": 0,
+    "durationMs": 129.48862
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 1009,
+    "pass": 1009,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "durationMs": 35988.97107
+  },
+  "reportedObservation": {
+    "origin": "user_supplied_receipt_not_maintainer_live_execution",
+    "additionalRequestIntents": 1,
+    "httpStatus": 200,
+    "mediaClass": "missing",
+    "readOutcome": "byte_limit",
+    "bodyShape": "over_limit",
+    "errorCode": null,
+    "remoteRevocationConfirmed": true,
+    "actualBodyFormatKnown": false,
+    "rootCauseKnown": false
+  },
+  "newSliceRealModelRequests": 0,
+  "credentialReads": 0,
+  "userStoreAccessed": false,
+  "liveEntryModified": false,
+  "liveSourcePinsModified": false,
+  "helperWiredToLiveEntry": false,
+  "newRealRequestApproved": false,
+  "bodyReturned": false,
+  "inferenceAccepted": false,
+  "qualityAssessed": false,
+  "windowsVerified": false,
+  "dependencyAdded": false,
+  "thirdPartyCodeCopied": false
+}

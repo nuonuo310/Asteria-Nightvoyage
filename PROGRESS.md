@@ -912,3 +912,11 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - Targeted synthetic checks: 21/21. Full Linux Node.js regression: 1005/1005, no failed/cancelled/skipped tests. No user Store, real model request, real login or API key accessed. Windows and actual response metadata remain unverified.
 - [Contract and limits](docs/GPT-PLAN-ENVELOPE-PROBE.md); [verification](docs/validation/plan-envelope-probe.json). Independent MIT implementation, no dependencies or copied private/third-party implementation; no other repository modified.
 - Next: obtain explicit permission for one additional real subscription metadata request, then supply a complete Windows command block. The preceding permission remains consumed; usage, money, inference eligibility and quality remain unknown/unassessed.
+
+## 2026-10-18 — User-reported metadata limit and offline prefix review
+
+- User-reported metadata observation: one additional request intent, HTTP 200, missing-or-empty Content-Type, body inspection exceeded 8192 bytes; no body/usage retained, revocation confirmed. This is user-supplied evidence, not a maintainer-side live run. Prior consumed records remain unchanged. Actual body format, root cause and inference eligibility remain unknown; null error code means no code established, not absence of a provider error.
+- Added an isolated offline prefix classifier and four independent synthetic tests. Bounded SSE-like/HTML-like/JSON-like prefix labels never establish completeness, billing or inference acceptance; split UTF-8 at the ceiling is distinguished from malformed inspected bytes.
+- The helper is not imported by a live entry. Production acceptance, existing diagnostic source pins, byte caps and consumed permissions are unchanged. No new login, user Store access, credential read or real request was performed.
+- Targeted checks 9/9; full Linux regression 1009/1009. Windows validation and a future live prefix observer remain unverified/unimplemented. No new request is authorized by this slice.
+- [Evidence, limits and next decision](docs/PLAN-HTTP-MISSING-TYPE-REVIEW.md). No third-party code copied, dependency added or other repository changed. Next: design any further bounded observation against the missing-type evidence before requesting another real call; do not raise the cap or accept sniffed output as a dream.
