@@ -1,0 +1,53 @@
+{
+  "baseCommit": "303db6c73622cd96c0b1fd0236c028c6b150c918",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "targeted": {
+    "command": "node --test test/codex-pipe-rehearsal.test.js test/codex-rpc-rehearsal.test.js test/subscription-model-port.test.js",
+    "tests": 36,
+    "pass": 36,
+    "fail": 0,
+    "durationMs": 722.64738
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 1351,
+    "pass": 1351,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "durationMs": 91043.734416
+  },
+  "rehearsalScope": {
+    "realModelRequests": 0,
+    "nativeCodexAppServerStarted": false,
+    "credentialReads": 0,
+    "userStoreAccessed": false,
+    "qualityAssessed": false,
+    "toolDisableVerified": false,
+    "subscriptionEligibilityVerified": false
+  },
+  "staticCliInspection": {
+    "version": "codex-cli 0.159.2",
+    "commands": [
+      "--version",
+      "app-server generate-json-schema --help",
+      "app-server generate-json-schema"
+    ],
+    "authCommandsInvoked": 0,
+    "appServerListenerStarted": false,
+    "modelTurnRequested": false,
+    "schemaBundlePublished": false,
+    "userWindowsVersionVerified": false
+  },
+  "sourceSha256": {
+    "scripts/codex-pipe-rehearsal.mjs": "2d2c45bd43c11d6486753435635279963dc2d1ad34d463949de17da70487f905",
+    "scripts/check-codex-pipe-rehearsal.mjs": "ad897030f417dd411b7ae9219f4efc1e68500b654c1f548f23215f18418c8ca3",
+    "test-support/codex-rpc-peer-child.mjs": "2768a48644777127cebde62f718e55d377618abc43277b9180363714f0a1bb58",
+    "test/codex-pipe-rehearsal.test.js": "c346a3fb8c2e847c3efed4c8622d80ce677862adbf32fdd99a1e20cf28a77510",
+    "scripts/codex-rpc-rehearsal.mjs": "5c9d90ad3ce59420caccd50d402e3a76bd9b28cef2b1cdbd9fae323da41d212e",
+    "scripts/dream-model-port.mjs": "5eca916e142aeba14fdc651905bff9e175874dfa8d0ff975da7c90c5c5dddd68",
+    "scripts/dream-model-runtime.mjs": "8a4e5e00ff43d3e12d5d7538ce0c07f4510a0e572e708590eae61ddce3ad34a2",
+    "scripts/codex-dream-protocol.mjs": "f66d0a54f2c6e6e21822325f3dbb54d1b741d6a49e68d213d0d21a4925eccc5e"
+  }
+}

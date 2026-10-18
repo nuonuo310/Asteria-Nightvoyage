@@ -1,0 +1,44 @@
+✔ fixed independent Node peer completes actual stdio handshake and exits before returning validated data (62.890441ms)
+✔ synthetic child exit_after_initialize fails closed with no provider text or repair (41.341048ms)
+✔ synthetic child exit_after_turn fails closed with no provider text or repair (35.232788ms)
+✔ synthetic child stderr fails closed with no provider text or repair (33.091274ms)
+✔ synthetic child trailing fails closed with no provider text or repair (33.365867ms)
+✔ synthetic child invalid fails closed with no provider text or repair (33.366863ms)
+✔ local timeout and cancellation terminate the synthetic child, suppress output and never claim remote cancellation (107.383019ms)
+✔ no executable, cwd, env, provider or live switch can enter the fixed peer runner; getters stay inert (2.879417ms)
+✔ child does not inherit Node preload or credential sentinel environment (36.687889ms)
+✔ actual synthetic child pipes feed two scenes and wake; persistent replay never spawns another peer (141.834929ms)
+✔ second child process death keeps saved scene and cannot be retried on reopen (83.261295ms)
+✔ withdrawal while a real synthetic child is pending suppresses the run across reopen (10.128351ms)
+✔ RPC emits ordered initialize/initialized/thread/start/turn/start proposals with no dispatch authority (5.876801ms)
+✔ notifications arriving before turn/start response bind only after authoritative response (5.355498ms)
+✔ unsent, reordered, duplicate, string-id, error and server-request frames reject with fixed body-free error (3.772469ms)
+✔ wrong effective model, malformed thread, completed turn response and hidden initial items reject (3.195832ms)
+✔ one-byte Chinese CRLF, truncation, invalid UTF-8, byte/frame bounds and trailing frame remain guarded (4.768727ms)
+✔ cancellation at every handshake/stream phase clears proposals and rejects late replies (2.179175ms)
+✔ tools, approvals, reroutes, failed/interrupted completion still fail; proposals never grant tools (3.063984ms)
+✔ full synthetic RPC loop persists three stages, replays without another handshake, withdraws across reopen (39.361422ms)
+✔ mutating a drained request cannot rewrite model binding or later input; no result before completion (0.7054ms)
+✔ second-stage RPC rejection retains the first checkpoint and cannot retry or change adapter on reopen (12.951013ms)
+✔ GPT explicit simulator uses same persistent engine, separate identity, usage, dedup and withdrawal (35.855408ms)
+✔ Codex explicit simulator uses same persistent engine, separate identity, usage, dedup and withdrawal (27.97441ms)
+✔ explicit preflight GPT-to-Codex simulated fallback is recorded and never occurs after first dispatch (17.050737ms)
+✔ GPT second stage rejection retains first checkpoint and never switches or repairs (16.901359ms)
+✔ Codex second stage rejection retains first checkpoint and never switches or repairs (11.311989ms)
+✔ GPT noncooperative simulator cancellation suppresses completed late stream (9.819316ms)
+✔ Codex noncooperative simulator cancellation suppresses completed late stream (7.662434ms)
+✔ production defaults have no simulator, no model inference, no login or process fallback (0.83832ms)
+✔ GPT preparation remains store false, no tool authority, explicit model and non-dispatchable (0.573822ms)
+✔ Codex terminal status, tools, reroutes, wrong identity, extra final message and malformed data fail closed (3.450881ms)
+✔ Codex UTF-8/CRLF byte splitting returns only authoritative final item and never delta text (1.993015ms)
+✔ Codex bounds, truncation and JSON nonobject response cannot release a body (0.87873ms)
+✔ ready GPT rehearsal failure never dispatches declared Codex fallback after scene zero (9.347898ms)
+✔ Codex rejects hidden final-turn tools and a conflicting final item even without tool notifications (0.749186ms)
+ℹ tests 36
+ℹ suites 0
+ℹ pass 36
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 722.64738

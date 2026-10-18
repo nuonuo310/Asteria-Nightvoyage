@@ -18,11 +18,13 @@
 
 [整流事件预算离线候选](docs/OFFLINE-AGGREGATE-ENVELOPE.md)已用独立虚构流覆盖两层计数问题：统一有限事件预算，保留 64 KiB 整流与 1,200 字节最终 JSON 上限，完整结束后才返回答案。仅接假模型闭环，未替换真实入口、消费新许可或证明 GPT 梦境质量。
 
-[独立整流预算试跑入口](docs/GPT-PLAN-AGGREGATE-ENTRY.md)使用新协议和新许可，最多一场虚构梦、三次 GPT-5.6-Sol 订阅请求；每条流最多 1,024 个事件，字节上限不变。已有模拟登录/HTTP/持久化演练；随后用户实测 1 次请求、零保存，遇到 `unknown_event` 后停止，该许可已消耗。旧记录保持原样；[独立单次拒绝事件诊断](docs/PLAN-REJECTED-EVENT-DIAGNOSTIC.md)已有本地模拟登录与 HTTP 核验，最多一次请求、只留固定类别、不保存梦境正文。用户随后实测一次，结果为 `unreviewed_event`，该诊断许可也已消耗，未保存梦。[覆盖审计](docs/UNREVIEWED-EVENT-COVERAGE.md)已离线复现其歧义；新的[事件定位合同与独立单次入口](docs/EVENT-WITNESS-DIAGNOSTIC.md)已实现目录内固定编号和目录外明确停止，只用虚构流与模拟 HTTP 核验；真实登录与一次新请求仍须另行批准，不自动重试或改走 API。
+[独立整流预算试跑入口](docs/GPT-PLAN-AGGREGATE-ENTRY.md)使用新协议和新许可，最多一场虚构梦、三次 GPT-5.6-Sol 订阅请求；每条流最多 1,024 个事件，字节上限不变。已有模拟登录/HTTP/持久化演练；随后用户实测 1 次请求、零保存，遇到 `unknown_event` 后停止，该许可已消耗。旧记录保持原样；[独立单次拒绝事件诊断](docs/PLAN-REJECTED-EVENT-DIAGNOSTIC.md)已有本地模拟登录与 HTTP 核验，最多一次请求、只留固定类别、不保存梦境正文。用户随后实测一次，结果为 `unreviewed_event`，该诊断许可也已消耗，未保存梦。[覆盖审计](docs/UNREVIEWED-EVENT-COVERAGE.md)已离线复现其歧义；新的[事件定位合同与独立单次入口](docs/EVENT-WITNESS-DIAGNOSTIC.md)已实现目录内固定编号和目录外明确停止；用户随后实测一次，遇到目录外事件后停止，该许可已消耗。详见兼容停止记录；不自动重试或改走 API。
 
 `node scripts/check-dream-model-port.mjs` 只运行独立虚构临时样例，不登录、不读取凭据、用户梦簿或请求真实模型。
 
 最新用户回报触发了[目录外事件兼容停止](docs/GPT-SUBSCRIPTION-COMPATIBILITY-STOP.md)，该诊断已消耗；直接 GPT 仍是目标首选，但暂停新的真实试跑。Codex 备用现已有[完整 RPC 顺序的离线演练](docs/CODEX-RPC-REHEARSAL.md)，可运行 `node scripts/check-codex-rpc-rehearsal.mjs`。它仍不启动 Codex 进程、不登录、不证明工具禁用或订阅可用，也不接续旧失败梦。
+
+随后已加入[独立 Node 子进程管道演练](docs/CODEX-PIPE-REHEARSAL.md)，运行 `node scripts/check-codex-pipe-rehearsal.mjs` 可验证真实本地 stdin/stdout、退出与持久重放；子进程是假服务，仍未启动 Codex 或调用真实模型。下一步需核对本机 Codex 安装版本，再审查原生配置与工具排除，不能把管道通过说成订阅接通。
 
 ## 日常查看已有梦簿
 
