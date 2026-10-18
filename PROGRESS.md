@@ -799,3 +799,10 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 核对既有 inline-child-environment 实现，先在 Linux 强制 win32 分支复现旧预期差异；仅修改 test/inline-bootstrap.test.js 原测试，分别写死 Linux/Windows 精确预期并检查本机默认分支。没有删除断言、放过多余键、跳过 Windows 或更改生产清理规则。
 - Linux／Node v24.19.0 针对36/36、完整855/855通过；强制参数分支不等于 Windows 实机。修正后 Windows 全套仍待用户回报，README/阶段状态明确记录阻断。详见 docs/WINDOWS-BOOTSTRAP-ASSERTION.md 与 validation/windows-bootstrap-assertion-fix.json。
 - src/fixtures/package、付费源码清单/合同/批准/额度/期限/占款规则不变；无真实调用、用户 Store/凭据访问或第三方复制。本轮仅测试预期与公开汇总文档，下一步同步并 Windows 完整回归，不新增生成。
+
+## 2026-10-18 · 用户 Windows 完整回归855/855
+
+- bootstrap 旧断言修正交付后，用户回报 npm.cmd test 完整统计855/855通过，失败/取消/跳过/todo均0，耗时80994.6301 ms。回报范围为用户 Windows 终端完整统计，不是工作台独立 Windows 执行。
+- 本次所贴尾段没有 commit/Node 版本；请求重跑的候选为277b137，但不将要求打印的身份当作实测已回报。聚合文件 user-local-windows-full-pass.json 明确区分 requestedCandidate 与实际未提供的身份；不要求为补身份重复测试。
+- 原854/855失败及修正路径继续保留；新结果不覆盖旧失败。README/阶段状态与修正说明更新为用户回报全过，精确候选身份绑定仍有限。本轮仅文档，不重跑测试、不改代码或许可/占款，不读取私人梦簿或凭据。
+- 当前本地工程回归收尾；不把测试全过升级为梦境质量、人类验收、Asteria 已接入或新费用许可，无需重复运行同一验证。
