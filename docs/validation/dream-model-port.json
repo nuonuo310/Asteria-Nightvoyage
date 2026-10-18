@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "baseCommit": "0bd58cdbcfe43cb38bc3afc558781a3a4df9a24f",
+  "contractVersion": "dream-model-port-v1",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "baseline": {
+    "command": "node --test",
+    "tests": 879,
+    "pass": 879,
+    "fail": 0,
+    "durationMs": 30330.409849
+  },
+  "targeted": {
+    "command": "node --test test/dream-model-port.test.js test/legacy-api-model-port.test.js",
+    "tests": 22,
+    "pass": 22,
+    "fail": 0,
+    "durationMs": 446.901976
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 901,
+    "pass": 901,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "durationMs": 33509.703591
+  },
+  "evidence": {
+    "twoSceneWakePersistence": true,
+    "preflightExplicitFallback": true,
+    "adapterAndModelPinned": true,
+    "unknownAttemptResumeBlocked": true,
+    "actualChildDeathAtIntent": true,
+    "actualChildDeathAfterCommittedScene": true,
+    "sameAdapterCheckpointResume": true,
+    "requestAndSessionDeduplication": true,
+    "callAndByteBudgets": true,
+    "cancelAndLateBodySuppression": true,
+    "withdrawalSurvivesReopen": true,
+    "storageFailureBeforeDispatch": true,
+    "legacyGroundedAndInlineStubLoops": true,
+    "legacyAtomicLedgerPreserved": true,
+    "legacyUnknownFullHoldPreserved": true,
+    "legacyLiveConstructorBlocked": true
+  },
+  "coreAndHistoricalPaidInventoryUnchanged": true,
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "userStoreAccessed": false,
+  "newPaidApiEntryEnabled": false,
+  "allHistoricalLiveEntriesMigrated": false,
+  "subscriptionExecutorsEnabled": false,
+  "codexProcessLaunched": false,
+  "asteriaAdapter": "pending",
+  "windowsValidated": false,
+  "qualityAssessed": false,
+  "semanticSupport": "not_assessed",
+  "thirdPartyImplementationCopied": false,
+  "releaseTargeted": {
+    "command": "node --test test/dream-model-port.test.js test/legacy-api-model-port.test.js",
+    "tests": 22,
+    "pass": 22,
+    "fail": 0
+  }
+}

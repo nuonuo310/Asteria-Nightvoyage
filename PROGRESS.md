@@ -837,3 +837,11 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 新增17项测试，Linux／Node v24.19.0 针对17/17、最终完整879/879通过；真实本机回环HTTP但官方服务使用独立合成响应与RSA/EC密钥，覆盖取消/超时、签名/权限拒绝、保存失败、凭据不落盘与固定诊断。最终回调响应写完再关闭listener；无真实账号/官方网络/生成、Windows浏览器或总体质量验证。汇总见validation/chatgpt-plan-login.json。
 - docs/CHATGPT-PLAN-LOGIN.md记录命令、保存/撤销与信任边界；README与前切片入口更新。下一步用户在本机执行login，回报无凭据的型号/固定状态；据实际可用通路再绑定材料、型号和官方用量设置，接持久分幕执行器。登录不等于梦已生成，不用目录请求探测真实推理。
 - 只改scripts/test/docs及README；src/fixtures/package、旧付费清单/许可/预算/期限/unknown占款和用户梦簿不改。标准协议独立实现，无第三方代码复制、SDK依赖、私有原文或跨仓库修改。
+
+## 2026-10-18 · DreamModelPort 合同与离线适配切片
+
+- 重新固定 main 0bd58cd，读取现有调用链、测试、回执与规则输入；独立 worktree 保留原 checkout 的历史暂存内容。Linux／Node v24.19.0 基线完整879/879。盘点与能力分类见 docs/DREAM-MODEL-PORT-INVENTORY.md，不把历史 API 实机或 GPT 目录核对称为订阅生成成功。
+- 新增 dream-model-port-v1：封闭阶段请求、canonical scene/grounded wake、usage unknown/整数、固定错误、明确 Fake/目标 GPT/备用 Codex 身份与签发的 preflight 选择。正式订阅类仍关闭；不是可运行的订阅执行器。
+- ModelPortNightvoyage 复用原生命周期和 Store；start 固定 adapter/model/protocol/选择身份，保存阶段意图与原子检查点，固定诊断不包含任意异常正文。模糊尝试不自动重试；取消/迟到/撤回/恢复、独立梦簿类型与原梦不可覆盖均有新增探针。
+- LegacyDeepSeekAdapter / PortBackedApiRehearsal 对基础及 inline 协议做现有客户端/账本的兼容接入；仅 stub，保留原 reservation、unknown 和原子 settlement/publish，不接管旧 run。不是所有历史正式入口已迁移；旧 API、固定候选/批准/额度/期限/占款保持。
+- 没有读取凭据/用户 Store、登录、真实生成、费用、私有原文复制、第三方实现复制或跨仓库修改。Linux／Node v24.19.0 新增针对22/22、完整901/901通过；独立临时自检3次假调用，重放追加0，撤回重开屏蔽。详细验证汇总见 validation/dream-model-port.json。下一切片仍可离线补订阅协议演练；实际登录/授权/真实订阅推理前必须暂停，不把 Asteria 两座桥说成已连通。
