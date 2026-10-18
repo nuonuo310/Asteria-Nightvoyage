@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-18",
+  "kind": "user_reported_windows_full_suite_failure",
+  "evidenceOrigin": "user_terminal_excerpt",
+  "repositoryCommitReported": null,
+  "nodeVersionReportedInThisExcerpt": null,
+  "requestedMainBaseline": "780adc77bb990e09c90acdb05c259b156f1b8100",
+  "platformInferredFromTerminal": "win32",
+  "commandRequested": "npm.cmd test",
+  "tests": 855,
+  "passed": 854,
+  "failed": 1,
+  "cancelled": 0,
+  "skipped": 0,
+  "todo": 0,
+  "durationMs": 80668.4423,
+  "failingTest": {
+    "file": "test/inline-bootstrap.test.js",
+    "line": 18,
+    "name": "child environment drops keys, Node flags, proxy, module lookup and arbitrary app configuration",
+    "errorCode": "ERR_ASSERTION",
+    "difference": "actual includes nine empty Windows placeholder fields absent from old expected object"
+  },
+  "outcome": "failed_preserved",
+  "fixedWindowsRerunReported": false,
+  "rawTerminalTranscriptIncluded": false
+}

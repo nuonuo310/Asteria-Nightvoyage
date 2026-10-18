@@ -792,3 +792,10 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 用户同步 main ca70563 后，在 Node v24.19.0／win32 运行新增端口测试8/8通过；独立 check-local-dream-ports.mjs 也通过。仅此针对测试与脚本，不是 Windows 全套855项。
 - 汇总确认 local-dream-ports-v1：3次假生成、完成重放追加0、result/候选分开、回想续写不改原梦、重开、撤回后原梦/派生/召回屏蔽；凭据读取/传输尝试/真实请求0，未访问用户 Store。付费、自动投递、远端认证和接收确认均未支持，Asteria 待对接，质量未验收。
 - 本次只记用户回报的聚合结果，不重跑、不新增代码/模型/许可或占款变化；无用户梦簿正文、实际编号或私人路径。详见 docs/validation/user-local-dream-ports-windows.json。本地端口切片完成，无需重复运行同一检查。
+
+## 2026-10-18 · Windows 全套854/855与 bootstrap 旧断言修正
+
+- 用户完整回归回报855项：854通过、1失败，bootstrap 环境精确预期漏计九个 Windows 空占位；该次 commit/Node 未在尾段重报，不补造。原始失败以独立聚合文件 user-local-windows-full-failure.json 保留，不覆盖成通过。
+- 核对既有 inline-child-environment 实现，先在 Linux 强制 win32 分支复现旧预期差异；仅修改 test/inline-bootstrap.test.js 原测试，分别写死 Linux/Windows 精确预期并检查本机默认分支。没有删除断言、放过多余键、跳过 Windows 或更改生产清理规则。
+- Linux／Node v24.19.0 针对36/36、完整855/855通过；强制参数分支不等于 Windows 实机。修正后 Windows 全套仍待用户回报，README/阶段状态明确记录阻断。详见 docs/WINDOWS-BOOTSTRAP-ASSERTION.md 与 validation/windows-bootstrap-assertion-fix.json。
+- src/fixtures/package、付费源码清单/合同/批准/额度/期限/占款规则不变；无真实调用、用户 Store/凭据访问或第三方复制。本轮仅测试预期与公开汇总文档，下一步同步并 Windows 完整回归，不新增生成。

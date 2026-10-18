@@ -16,7 +16,13 @@ function run(directory,command='run',project=root,environment={}){
 }
 function project(t){const d=fs.mkdtempSync(path.join(os.tmpdir(),'nightvoyage-bootstrap-project-'));t.after(()=>fs.rmSync(d,{recursive:true,force:true}));for(const p of ['src','fixtures','package.json'])fs.cpSync(path.join(root,p),path.join(d,p),{recursive:true});return d;}
 test('child environment drops keys, Node flags, proxy, module lookup and arbitrary app configuration',()=>{
-  assert.deepEqual(inlineChildEnvironment({SystemRoot:'C:\\Windows',TEMP:'C:\\Temp',LANG:'en_US.UTF-8',NODE_OPTIONS:'--import=private',NODE_PATH:'private',NIGHTVOYAGE_DEEPSEEK_KEY:'DUMMY-SENTINEL',HTTPS_PROXY:'private',HOME:'private',TMP:'bad\0path'}),{SystemRoot:'C:\\Windows',TEMP:'C:\\Temp',LANG:'en_US.UTF-8'});
+  const input={SystemRoot:'C:\\Windows',TEMP:'C:\\Temp',LANG:'en_US.UTF-8',NODE_OPTIONS:'--import=private',NODE_PATH:'private',NIGHTVOYAGE_DEEPSEEK_KEY:'DUMMY-SENTINEL',HTTPS_PROXY:'private',HOME:'private',TMP:'bad\0path'};
+  const portable={SystemRoot:'C:\\Windows',TEMP:'C:\\Temp',LANG:'en_US.UTF-8'};
+  // Literal policy expectations: do not derive the expected result from the implementation.
+  const windows={...portable,HOMEDRIVE:'',HOMEPATH:'',LOGONSERVER:'',PATH:'',USERDOMAIN:'',USERNAME:'',USERPROFILE:'',SYSTEMDRIVE:'',WINDIR:''};
+  assert.deepEqual(inlineChildEnvironment(input,{platform:'linux'}),portable);
+  assert.deepEqual(inlineChildEnvironment(input,{platform:'win32'}),windows);
+  assert.deepEqual(inlineChildEnvironment(input),process.platform==='win32'?windows:portable);
 });
 test('clean child loads constrained runtime, persists three synthetic stages and replays with zero new calls',t=>{
   const {directory,oldAccounts}=prepareAuthorizedHistory(t);const first=run(directory);assert.equal(first.status,0,first.stderr);const value=JSON.parse(first.stdout);assert.equal(value.status,'completed');assert.equal(value.stubCalls,3);assert.equal(value.settledRows,3);assert.equal(value.nativeRequests,0);assert.equal(value.credentialReads,0);assert.equal(value.environmentAllowlisted,true);assert.equal(value.isRealityFact,false);assert.equal(value.qualityAssessed,false);
