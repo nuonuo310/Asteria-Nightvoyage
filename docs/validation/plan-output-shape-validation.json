@@ -1,0 +1,26 @@
+{
+  "targeted": {
+    "command": "node --test test/plan-output-shape-ambiguity.test.js test/chatgpt-plan-protocol.test.js",
+    "tests": 21,
+    "pass": 21,
+    "fail": 0,
+    "durationMs": 145.640741
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 1083,
+    "pass": 1083,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "durationMs": 43400.85476
+  },
+  "platform": "linux",
+  "node": "v24.19.0",
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "userStoreAccessed": false,
+  "productionParserChanged": false,
+  "historicalCauseRecoverable": false,
+  "qualityAssessed": false
+}

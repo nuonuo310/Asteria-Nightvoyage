@@ -1,0 +1,96 @@
+{
+  "command": "node scripts/check-plan-output-shape.mjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "kind": "independent_synthetic_counterexamples",
+  "cases": 13,
+  "distinctCodeBranches": 5,
+  "results": [
+    {
+      "caseId": "completed_output_missing",
+      "syntheticBranch": "completed_output_cardinality",
+      "check": "plan_output_shape",
+      "bodyReleased": false
+    },
+    {
+      "caseId": "completed_output_empty",
+      "syntheticBranch": "completed_output_cardinality",
+      "check": "plan_output_shape",
+      "bodyReleased": false
+    },
+    {
+      "caseId": "completed_reasoning_and_message",
+      "syntheticBranch": "completed_output_cardinality",
+      "check": "plan_output_shape",
+      "bodyReleased": false
+    },
+    {
+      "caseId": "completed_nonmessage",
+      "syntheticBranch": "completed_message_or_content",
+      "check": "plan_output_shape",
+      "bodyReleased": false
+    },
+    {
+      "caseId": "completed_wrong_role",
+      "syntheticBranch": "completed_message_or_content",
+      "check": "plan_output_shape",
+      "bodyReleased": false
+    },
+    {
+      "caseId": "completed_unfinished_message",
+      "syntheticBranch": "completed_message_or_content",
+      "check": "plan_output_shape",
+      "bodyReleased": false
+    },
+    {
+      "caseId": "completed_multiple_text_parts",
+      "syntheticBranch": "completed_message_or_content",
+      "check": "plan_output_shape",
+      "bodyReleased": false
+    },
+    {
+      "caseId": "completed_refusal",
+      "syntheticBranch": "completed_message_or_content",
+      "check": "plan_output_shape",
+      "bodyReleased": false
+    },
+    {
+      "caseId": "stream_reasoning_item",
+      "syntheticBranch": "stream_output_item",
+      "check": "plan_output_shape",
+      "bodyReleased": false
+    },
+    {
+      "caseId": "stream_tool_item",
+      "syntheticBranch": "stream_output_item",
+      "check": "plan_output_shape",
+      "bodyReleased": false
+    },
+    {
+      "caseId": "stream_reasoning_part",
+      "syntheticBranch": "stream_content_part",
+      "check": "plan_output_shape",
+      "bodyReleased": false
+    },
+    {
+      "caseId": "stream_reasoning_summary_event",
+      "syntheticBranch": "stream_event_allowlist",
+      "check": "plan_output_shape",
+      "bodyReleased": false
+    },
+    {
+      "caseId": "stream_unknown_event",
+      "syntheticBranch": "stream_event_allowlist",
+      "check": "plan_output_shape",
+      "bodyReleased": false
+    }
+  ],
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "userStoreAccessed": false,
+  "productionParserChanged": false,
+  "historicalCauseRecoverable": false,
+  "reasoningIsConfirmedCause": false,
+  "inferenceQualified": false,
+  "qualityAssessed": false
+}
