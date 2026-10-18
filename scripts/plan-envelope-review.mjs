@@ -26,3 +26,14 @@ export function planEnvelopeReview({httpStatus,contentType,body}={}){
  else out.bodyShape='json_other';
  return out;
 }
+// Rebuild persisted metadata from closed enumerations, never from a provider body.
+export function reviewedPlanEnvelopeReview(value){
+ if(!value||typeof value!=='object'||Array.isArray(value))return null;
+ const keys=['reviewVersion','httpStatus','mediaClass','bodyShape','errorCode','errorParam','bodyReturned','inferenceAccepted','dispatchEnabled','usage','qualityAssessed'],d=Object.getOwnPropertyDescriptors(value);
+ if(Object.keys(d).length!==keys.length||keys.some(k=>!d[k]||!('value' in d[k])))return null;
+ const v=Object.fromEntries(keys.map(k=>[k,d[k].value]));
+ if(v.reviewVersion!=='offline-plan-envelope-review-v1'||(v.httpStatus!==null&&(!Number.isInteger(v.httpStatus)||v.httpStatus<100||v.httpStatus>599))||!['event_stream','json','problem_json','html','plain','missing','other'].includes(v.mediaClass)||!['not_read','invalid_input','over_limit','invalid_utf8','empty','html_like','sse_like','unparsed_text','json_nonobject','json_error','json_detail','json_response','json_other'].includes(v.bodyShape)||v.bodyReturned!==false||v.inferenceAccepted!==false||v.dispatchEnabled!==false||v.usage!=='unknown'||v.qualityAssessed!==false)return null;
+ if(v.bodyShape==='json_error'){if(!codes.has(v.errorCode)&&v.errorCode!=='unknown')return null;if(v.errorParam!==null&&!params.has(v.errorParam)&&v.errorParam!=='unknown')return null;}
+ else if(v.errorCode!==null||v.errorParam!==null)return null;
+ return v;
+}

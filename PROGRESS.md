@@ -903,3 +903,12 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 用户回报接续诊断登记1次意图、http_content_type拒绝、usage unknown、撤销true。该版检查顺序支持HTTP 200但Content-Type不符，尚未读取正文；实际MIME/结构/错误码未保存，不能复原或断言根因。重读官方订阅流、预览限制及错误文档，保留SSE与completed要求。
 
 新增纯离线、有界、无分发的返回类型分类器，输出固定媒体/结构和错误白名单，不返回正文、任意头或自由文本，不接受推理、不接入正式传输。5项定点及全量989/989通过；未改变旧源码候选或已消耗授权，没有真实调用。详见[复核说明](docs/PLAN-HTTP-ENVELOPE-REVIEW.md)与[验证](docs/validation/plan-envelope-review.json)。本切片不是实际格式问题修复；后续真实类型证据须来自独立审查批准的诊断，不能重放或猜测旧响应。
+
+## 2026-10-18 — Separately approved HTTP metadata observer
+
+- Added a dedicated one-additional-request diagnostic for the consumed subscription reconnect's Content-Type rejection. This is not DreamModelPort inference and does not continue the old dream or loosen SSE acceptance.
+- New immutable approval binds the fictional fixture, model, source closure and body-free prior receipt. Durable authorization/request intent, terminal replay, expiry, cancellation, withdrawal and storage failures cannot silently dispatch another request.
+- SSE stops at headers; non-SSE inspection retains at most 8 KiB transiently. Only normalized status/media/shape and fixed official code/parameter vocabulary persist. No generated body, arbitrary detail, credential or request identifier is retained. Cleanup uncertainty carries a Settings-disconnection notice.
+- Targeted synthetic checks: 21/21. Full Linux Node.js regression: 1005/1005, no failed/cancelled/skipped tests. No user Store, real model request, real login or API key accessed. Windows and actual response metadata remain unverified.
+- [Contract and limits](docs/GPT-PLAN-ENVELOPE-PROBE.md); [verification](docs/validation/plan-envelope-probe.json). Independent MIT implementation, no dependencies or copied private/third-party implementation; no other repository modified.
+- Next: obtain explicit permission for one additional real subscription metadata request, then supply a complete Windows command block. The preceding permission remains consumed; usage, money, inference eligibility and quality remain unknown/unassessed.
