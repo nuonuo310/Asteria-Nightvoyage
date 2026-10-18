@@ -1,0 +1,22 @@
+{
+  "command": "node scripts/check-event-class-probe.mjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "contractVersion": "plan-rejected-event-probe-v1",
+  "protocolVersion": "plan-rejected-event-probe-http-v1",
+  "confirmationOrigin": "independent_synthetic_fixture_not_user_consent",
+  "mockedRequestIntents": 1,
+  "classification": "upstream_failed_event",
+  "classificationScope": "rejected_type_only",
+  "replayAdditionalCalls": 0,
+  "replayAdditionalLogins": 0,
+  "ancestorStatesUnchanged": true,
+  "dreamEntriesSaved": 0,
+  "persistedGeneratedBody": false,
+  "withdrawalBlocksReopen": true,
+  "realModelRequests": 0,
+  "userStoreAccessed": false,
+  "realUserApprovalRecorded": false,
+  "providerNetworkTested": false,
+  "qualityAssessed": false
+}
