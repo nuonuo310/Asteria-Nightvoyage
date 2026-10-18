@@ -745,3 +745,10 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 新8项；最终Linux Node24.19.0全仓844/844、相关36/36、临时Linux CRLF同组36/36（366文件转换）。覆盖默认/指定路径、目录无正文、显式读/最近梦不选评审、原梦/账目/意见数/稳定state字节保持、撤回重开/删除、不支持末梦、异常来源/醒来、owner竞争、错误不回显以及Key/native HTTP守卫。
 - 独立脚本3次假生成，阅读追加模型/真实请求/Key读取均0，不访问用户Store或输出梦/意见正文。见docs/DREAMBOOK-READER.md及validation/dreambook-reader-validation.json；本轮无Windows实机/语义支持/质量验收。
 - 全部新入口位于scripts，src/fixtures/package及付费源码清单/图/合同/profile/批准/额度/期限/占款不改；公开自有MIT代码/独立文字/虚构测试，无私人梦簿/聊天/配置/Key或第三方复制，无跨仓库修改。下一步用户先跑同一无Key虚构自检，再明确在本地显示已保存的最近梦；正文不要求回传，Asteria仍待对接。
+
+## 2026-10-18 · 梦簿阅读器 Windows 回报
+
+- 用户在 main 37e958c、Node v24.19.0 / win32 运行 check-dreambook-reader.mjs：独立虚构 Store 的3次假生成后，目录、分离阅读、静止状态不变性与撤回重开屏蔽检查通过；真实模型请求/凭据读取均为0，没有访问用户 Store。
+- 随后用户显式读取已有最近一梦：两幕、醒来残片、模拟评价及两条已保存助手意见分别显示，梦境/非事实、来源版本与评审署名保留。实际读出仅证明显示，不声称本次重新核验账本/原文哈希、人工验收或总体梦境质量。
+- 本次仅独立表述并记录聚合证据，不保存梦簿正文、实际编号、指纹或私人路径；无代码、付费合同、批准、额度、占款或期限修改。详见 docs/validation/user-local-dreambook-reader-windows.json；文档记录不重跑测试。
+- 本地阅读入口可日常使用；Asteria 适配仍待对接。后续工作另行按计划推进，不因查看结果启动新的付费生成。
