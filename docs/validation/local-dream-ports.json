@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-18",
+  "baseCommit": "aaebc3da43f0c71fb185ffc766c7f4241cd109ca",
+  "kind": "local_plain_fake_port_adapter",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "contractVersion": "local-dream-ports-v1",
+  "tests": {
+    "newTests": 8,
+    "targeted": {
+      "command": "node --test test/local-dream-ports.test.js test/lifecycle.test.js test/execution-owner.test.js",
+      "passed": 51,
+      "failed": 0
+    },
+    "full": {
+      "command": "npm test",
+      "passed": 855,
+      "failed": 0
+    }
+  },
+  "selfcheck": {
+    "command": "node scripts/check-local-dream-ports.mjs",
+    "node": "v24.19.0",
+    "platform": "linux",
+    "contractVersion": "local-dream-ports-v1",
+    "adapter": "local_file",
+    "executionFamily": "plain-fake-v1",
+    "asteriaAdapter": "pending",
+    "fakeStageCalls": 3,
+    "completedReplayAdditionalCalls": 0,
+    "separateResultAndRecall": true,
+    "originalNotOverwrittenByAppends": true,
+    "reopened": true,
+    "withdrawalSuppressesReadRecallAndDescendants": true,
+    "credentialReads": 0,
+    "transportAttempts": 0,
+    "realModelRequests": 0,
+    "userStoreAccessed": false,
+    "paidExecutionSupported": false,
+    "automaticDelivery": false,
+    "remoteAuthentication": false,
+    "deliveryAcknowledgement": false,
+    "qualityAssessed": false
+  },
+  "limits": {
+    "windowsValidated": false,
+    "remoteAdapterImplemented": false,
+    "paidRuntimeSupported": false,
+    "newRealDataPermission": false,
+    "qualityAssessed": false,
+    "storeStartupMayRecoverBeforeForeignOwnerRefusal": true,
+    "explicitUnknownRetryNotExposed": true,
+    "clockMonotonicityAdded": false
+  }
+}

@@ -8,6 +8,8 @@
 
 [未来适配器差异设计](docs/ADAPTER-BOUNDARY-DESIGN.md)区分现有本地合同与未接通的权限、版本、接收确认和外部撤回；附独立虚构快照与现有 API 演练。不是 Asteria 兼容声明，也不启用新生成许可。
 
+[本地端口适配器](docs/LOCAL-DREAM-PORTS.md)提供版本化的固定假模型入口，统一显式输入、控制、保存和候选 API；专用付费 Store 不接管。运行 `node scripts/check-local-dream-ports.mjs` 可做独立临时虚构演练；Asteria 仍待对接。
+
 ## 日常查看已有梦簿
 
 在仓库目录执行：
