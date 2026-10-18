@@ -1,0 +1,40 @@
+{
+  "command": "node scripts/check-aggregate-plan-entry.mjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "kind": "synthetic_end_to_end_entry_not_user_consent",
+  "syntheticHistoricalSetupPerformed": true,
+  "protocolVersion": "chatgpt-plan-aggregate-envelope-http-v1",
+  "decoderVersion": "offline-aggregate-envelope-v1",
+  "aggregateEventLimit": 1024,
+  "syntheticEventsPerStage": [
+    159,
+    159,
+    159
+  ],
+  "syntheticStreamBytes": [
+    30508,
+    30571,
+    30181
+  ],
+  "status": "completed",
+  "candidateSyntheticHttpRequests": 3,
+  "externalRequestIntents": 3,
+  "savedScenes": 2,
+  "wakeSaved": true,
+  "usageRows": 3,
+  "replayAdditionalHttpRequests": 0,
+  "oldStateBytesUnchanged": true,
+  "originalAndWakeUnchanged": true,
+  "genericReaderSupported": true,
+  "withdrawalSuppressesReopenedRead": true,
+  "syntheticRevocationConfirmed": true,
+  "realModelRequests": 0,
+  "realLoginAttempts": 0,
+  "realCredentialReads": 0,
+  "userStoreAccessed": false,
+  "realUserApprovalRecorded": false,
+  "extraCreditsApproved": false,
+  "realInferenceQualified": false,
+  "qualityAssessed": false
+}

@@ -2,6 +2,8 @@
 
 This implements an independently versioned repair candidate for the [event-budget counterexamples](ENVELOPE-EVENT-BUDGET-REVIEW.md). It is not wired into a live adapter, user grant, historical trial or the generic dreambook reader. No new real request is authorized or performed.
 
+This document records the offline slice. A later, separately gated [native aggregate entry](GPT-PLAN-AGGREGATE-ENTRY.md) now reuses this decoder and extends the generic reader; it does not enable real inference without fresh permission or alter historical grants.
+
 ## Ownership of bounds
 
 `OfflineAggregateEnvelopeStream` owns aggregate UTF-8 decoding, SSE framing, total bytes, event count, item lifecycle and completion. The original strict decoder checks each allowed transient event separately without accumulating it. Only the sanitized `response.completed` frame enters a persistent strict decoder, which continues to validate the exact model, completed assistant message, final JSON object, content size and integer usage. This removes the nested cumulative 128-event bottleneck without editing the pinned original decoder.

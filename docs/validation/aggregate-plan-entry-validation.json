@@ -1,0 +1,35 @@
+{
+  "scope": "separately gated native aggregate-envelope entry, synthetic OAuth/HTTP and full regression",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "targeted": {
+    "command": "node --test test/aggregate-plan-trial.test.js test/offline-aggregate-envelope.test.js test/offline-aggregate-runtime.test.js test/envelope-native-components.test.js test/dreambook-reader.test.js test/model-port-dreambook.test.js",
+    "tests": 97,
+    "pass": 97,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "duration_ms": 42300.18306
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 1245,
+    "pass": 1245,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "duration_ms": 55352.351613
+  },
+  "syntheticCliProcessExecuted": true,
+  "syntheticHistoricalSetupPerformed": true,
+  "oldStateBytesUnchanged": true,
+  "realModelRequests": 0,
+  "realLoginAttempts": 0,
+  "realCredentialReads": 0,
+  "userStoreAccessed": false,
+  "realUserApprovalRecorded": false,
+  "windowsMaintainerExecution": false,
+  "realInferenceQualified": false,
+  "qualityAssessed": false,
+  "remainingBoundary": "fresh explicit permission before real login or subscription inference"
+}
