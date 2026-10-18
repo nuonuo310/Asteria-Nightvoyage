@@ -91,3 +91,5 @@ GPT订阅首次试跑的用户回执为首幕校验失败、未发布梦境；�
 用户随后批准并执行该兼容入口：一次请求后返回 `plan_output_shape`，未保存第一幕，授权撤销已确认，许可已消耗。该错误涉及多个拒绝分支，不能据此确认历史根因。[离线封装候选](docs/OFFLINE-PLAN-ENVELOPE.md)可在结构校验后丢弃推理内容，并继续要求唯一完整文本、模型、用量及梦境阶段校验；尚未接入真实 adapter 或持久化生命周期，不请求再次登录，也不复用旧许可。以上旧条目是各阶段历史状态，以本段与顶部当前状态为准。
 
 随后已补[模拟适配器与持久化生命周期](docs/OFFLINE-ENVELOPE-LIFECYCLE.md)：两幕加醒来、检查点恢复、去重、预算、取消、来源撤回与梦簿读取均有独立虚构测试。运行 `node scripts/check-offline-envelope-runtime.mjs` 可复核仓外临时闭环；默认仍是假模型，无真实 transport 或新许可，不登录、不读取用户梦簿，也不证明生成质量。上一段“未接入持久化”是该协议切片当时状态。
+
+[原生封装组件](docs/ENVELOPE-NATIVE-COMPONENTS.md)随后已用合成 OAuth／HTTP 跑通两幕与醒来，复用固定公共 HTTP transport；`node scripts/check-envelope-native-components.mjs` 仍仅用虚构响应，不访问真实账户。独立持久授权入口、精确诊断、通用阅读器接入及 CLI 整体核验仍待完成，当前没有新试跑许可或可执行真实试跑命令。GPT-5.6-Sol 的真实请求发起过，但尚无通过校验并保存的梦。

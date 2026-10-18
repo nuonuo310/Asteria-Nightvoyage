@@ -1,0 +1,30 @@
+{
+  "targeted": {
+    "command": "node --test test/envelope-native-components.test.js test/offline-envelope-runtime.test.js test/offline-plan-envelope.test.js",
+    "tests": 37,
+    "pass": 37,
+    "fail": 0,
+    "durationMs": 620.833006
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 1120,
+    "pass": 1120,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "durationMs": 44306.566882
+  },
+  "node": "v24.19.0",
+  "platform": "linux",
+  "candidateTests": 10,
+  "realModelRequests": 0,
+  "realLoginAttempts": 0,
+  "realCredentialReads": 0,
+  "userStoreAccessed": false,
+  "userApprovalRecorded": false,
+  "realTrialEntryAvailable": false,
+  "genericNativeReaderAdmission": false,
+  "windowsValidated": false,
+  "qualityAssessed": false
+}
