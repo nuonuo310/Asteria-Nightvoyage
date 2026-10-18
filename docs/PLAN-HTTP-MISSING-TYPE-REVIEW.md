@@ -25,12 +25,12 @@ The response might have contained a stream, HTML, JSON or something else. Neithe
 
 Prefix labels intentionally do not parse JSON error codes, prove a completed SSE response, infer use of a model, estimate billing, recover old output or accept a dream. A fake SSE-looking prefix followed by arbitrary content still produces only a prefix label. No bytes or text are returned.
 
-**The helper is not wired to any live observer or adapter.** Existing diagnostic and inference source closures, permissions, caps and acceptance rules are unchanged. The consumed diagnostic cannot execute another request. No new login or real subscription call occurred in this slice.
+**In the offline slice recorded here, the helper was not wired to any live observer or adapter.** A subsequent [separately approved prefix diagnostic entry](GPT-PLAN-PREFIX-PROBE.md) now uses it behind a fresh approval gate; it still does not change production inference acceptance. Existing diagnostic and inference source closures, permissions, caps and acceptance rules are unchanged. The consumed diagnostic cannot execute another request. No new login or real subscription call occurred in this slice.
 
 ## Verification and next step
 
 Four new independent synthetic tests plus five existing classifier tests pass 9/9; the full Linux Node.js suite passes 1009/1009. Tests cover oversized inputs, misleading markers, incomplete JSON, SSE completion text without acceptance, ignored bytes beyond the ceiling, UTF-8 boundaries, detached output and absence of network/storage/authorization dependencies. See [validation](validation/plan-envelope-prefix-review.json). This does not validate Windows or a live prefix reader.
 
-The next engineering decision is how a separately scoped observer could preserve bounded prefix labels while leaving inference acceptance strict. Such an observer is not implemented by this helper, would require its own lifecycle and storage tests, and would still require a fresh explicit real-request permission. Do not rerun the consumed entry or change to API automatically. Direct GPT eligibility, native Codex transport, Asteria bridges and dream quality retain their previous unverified/pending state.
+The next engineering decision is how a separately scoped observer could preserve bounded prefix labels while leaving inference acceptance strict. Such an observer is not implemented by the helper itself. The subsequent entry has its own lifecycle/storage tests and still requires a fresh explicit real-request permission. Do not rerun the consumed entry or change to API automatically. Direct GPT eligibility, native Codex transport, Asteria bridges and dream quality retain their previous unverified/pending state.
 
 Independent MIT implementation, no third-party code copied or dependency added. No private source material or real dream body is included.
