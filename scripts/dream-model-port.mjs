@@ -4,6 +4,7 @@ import {assertAppraisalReviewJsonData} from '../src/appraisal-review-memory.js';
 import {normalizeInlineScene,normalizeInlineCheckpoint,normalizeInlineStage} from '../src/inline-evidence-protocol.js';
 import {prepareCodexDream,CodexDreamStream,codexDreamProtocolVersion} from './codex-dream-protocol.mjs';
 import {prepareChatgptPlanRequest,ChatgptPlanStream} from './chatgpt-plan-protocol.mjs';
+import {markPlanResponseFailure} from './plan-response-diagnostic.mjs';
 import {isPlanHttpTransport,planHttpProtocolVersion} from './chatgpt-plan-http.mjs';
 export const dreamModelPortVersion='dream-model-port-v1';
 export const targetDefaultAdapter='ChatGPTPlanAdapter';
@@ -85,10 +86,12 @@ export class ChatGPTPlanAdapter extends Adapter {
   prepare(input){if(this.identity.model_id==='unknown')fail('explicit_model_required');const r=stageRequest(input);return prepareChatgptPlanRequest({snapshot:r.snapshot,scenes:r.scenes,stage:r.stage,index:r.index},{model:this.identity.model_id});}
   async generate(input,{signal}={}){
     if(!this.preflight().ready)fail('authorization_required');const request=stageRequest(input);if(signal?.aborted)fail('cancelled');
+    try {
     const draft=this.prepare(request),chunks=this.#http?this.#http.stream(draft,request,{signal}):await this.#simulator(structuredClone(draft),{signal}),stream=new ChatgptPlanStream(this.identity.model_id);
     for await(const chunk of chunks){if(signal?.aborted)fail('cancelled');stream.push(chunk);}
     if(signal?.aborted)fail('cancelled');const {data,usage}=stream.finish();
     return stageResponse({value:data,usage:{input_tokens:usage.inputTokens,output_tokens:usage.outputTokens,total_tokens:usage.totalTokens}},request);
+    }catch(error){throw markPlanResponseFailure(error);}
   }
 }
 export class CodexAdapter extends Adapter {

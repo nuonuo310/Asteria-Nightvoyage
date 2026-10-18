@@ -1,5 +1,6 @@
 // Reuses the existing Store and dream lifecycle; the model boundary is replaceable.
 // Ready adapters share this lifecycle. Subscription adapters currently remain gated.
+import {planResponseDiagnostic,reviewedPlanResponseDiagnostic} from './plan-response-diagnostic.mjs';
 import {Nightvoyage} from '../src/engine.js';
 import {hash,snapshot} from '../src/contract.js';
 import {dreamModelPortVersion,selectAdapter,stageRequest,validateStageResponse,jsonFields,portError,isModelSelection} from './dream-model-port.mjs';
@@ -31,6 +32,7 @@ export class ModelPortNightvoyage extends Nightvoyage {
   status(id){
     const r=this.run(id);this.assertExecutionOwner(r);const receipt=super.status(id),attempts=r.attempts??[];
     return {...receipt,...structuredClone(r.modelSelection),contract_version:dreamModelPortVersion,error_category:['failed','uncertain'].includes(r.status)?(r.modelPortError??(r.status==='uncertain'?'ambiguous_attempt':portError({message:receipt.error}))):null,external_calls_started:attempts.filter(a=>a.external_call_intent).length,stage_dispatches_started:attempts.length,
+      validation_diagnostic:reviewedPlanResponseDiagnostic(r.modelPortDiagnostic),
       checkpoint:{saved_scenes:r.scenes?.length??0,wake_saved:r.status==='completed',last_committed:attempts.filter(a=>a.state==='committed').at(-1)?.request_id??null},
       usage:attempts.map(a=>({request_id:a.request_id,usage:a.usage??'unknown'})),cancellation:{local_suppressed:['cancelled','revoked'].includes(r.status),remote_confirmed:'unknown'},
       budget:{...receipt.budget,kind:'local_json_byte_guards',units:'UTF-8 JSON bytes; not model tokens',money:this.#selection.adapter.capabilities.external_generation?'unknown':'not_applicable_fake'}};
@@ -39,7 +41,7 @@ export class ModelPortNightvoyage extends Nightvoyage {
     jsonFields(options,[]);const r=this.run(id);this.assertExecutionOwner(r);
     if(!['failed','uncertain'].includes(r.status))fail('not_resumable');
     if(!r.scenes?.length||r.attempts.length!==r.scenes.length||r.attempts.some((a,i)=>a.state!=='committed'||a.stage!=='scene'||a.index!==i))fail('ambiguous_attempt');
-    delete r.modelPortError;return super.resume(id,{retryUnknown:true});
+    delete r.modelPortError;delete r.modelPortDiagnostic;return super.resume(id,{retryUnknown:true});
   }
   async stage(r,stage,signal){
     this.assertExecutionOwner(r);if(this.#selection.adapter.capabilities.external_generation&&r.snapshot.sources.some(s=>s.grant.modelEgress!==true))fail('source_egress_denied_or_withdrawn');
@@ -67,7 +69,7 @@ export class ModelPortNightvoyage extends Nightvoyage {
       attempt.state='committed';attempt.usage=result.usage;
       // Checkpoint and usage commit together, never store an unvalidated provider body.
       this.store.save();this.fault(stage==='scene'?'port_scene_saved':'port_wake_saved');
-    }catch(error){controller.abort();if(!this.store.poisoned&&r.status==='running'){r.modelPortError=portError(error);}throw error;}
+    }catch(error){controller.abort();if(!this.store.poisoned&&r.status==='running'){r.modelPortError=portError(error);const diagnostic=planResponseDiagnostic(error);if(diagnostic)r.modelPortDiagnostic=diagnostic;}throw error;}
     finally{clearTimeout(timer);signal.removeEventListener('abort',onAbort);}
   }
   sceneStep(r,signal){return this.stage(r,'scene',signal);}

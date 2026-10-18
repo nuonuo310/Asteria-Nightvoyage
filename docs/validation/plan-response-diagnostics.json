@@ -1,0 +1,55 @@
+{
+  "date": "2026-10-18",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "scope": "Fixed body-free GPT response diagnostics and non-dispatchable historical status",
+  "targeted": {
+    "command": "node --test test/plan-response-diagnostic.test.js test/chatgpt-plan-trial.test.js test/subscription-model-port.test.js",
+    "tests": 39,
+    "pass": 39,
+    "fail": 0,
+    "durationMs": 1805.268561
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 956,
+    "pass": 956,
+    "fail": 0,
+    "durationMs": 33342.406721
+  },
+  "syntheticRehearsal": {
+    "command": "node scripts/check-chatgpt-plan-trial.mjs",
+    "passed": true,
+    "syntheticStageCalls": 3,
+    "replayAdditionalCalls": 0
+  },
+  "newTests": 5,
+  "realModelRequests": 0,
+  "userStoreAccessed": false,
+  "credentialsRead": false,
+  "previousUserAttempt": {
+    "evidence": "user_report_only_independently_paraphrased",
+    "status": "failed",
+    "externalCallIntents": 1,
+    "savedScenes": 0,
+    "errorCategory": "invalid_model_response",
+    "specificValidationDiagnostic": null,
+    "usage": "unknown",
+    "revocationReported": true
+  },
+  "originalReviewedProposalSha256": "703e7cec3818a3e1949df3213607d73ef06d826f2c490b76e2ab7d789d0807af",
+  "oldApprovalMigrated": false,
+  "automaticRetry": false,
+  "acceptanceRulesRelaxed": false,
+  "thirdPartyCodeCopied": false,
+  "newDependencies": 0,
+  "limitations": [
+    "The discarded old response cannot be recovered or specifically diagnosed.",
+    "Linux validation does not establish native Windows execution.",
+    "No new real subscription request was performed or approved by these synthetic tests.",
+    "Local timeout, byte guards and revocation do not establish remote cancellation or usage.",
+    "Store opening can perform lock/journal recovery writes."
+  ],
+  "qualityAssessed": false,
+  "asteriaAdapter": "pending"
+}

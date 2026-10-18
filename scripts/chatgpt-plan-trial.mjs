@@ -8,6 +8,7 @@ import {withCheckedPlanSession,planSessionBinding} from './chatgpt-plan-login.mj
 import {createPlanHttpTransport,planHttpProtocolVersion} from './chatgpt-plan-http.mjs';
 import {ChatGPTPlanAdapter,selectAdapter,jsonFields} from './dream-model-port.mjs';
 import {ModelPortNightvoyage} from './dream-model-runtime.mjs';
+import {reviewedPlanResponseDiagnostic} from './plan-response-diagnostic.mjs';
 import {readModelPortContent} from './model-port-content-view.mjs';
 const fail=code=>{throw Error(code);};
 const root=new URL('../',import.meta.url),fixturePath=new URL('../examples/gpt-plan-trial.snapshot.json',import.meta.url);
@@ -64,6 +65,7 @@ function receipt(store,t){
   if(t.runId&&!r)fail('trial_record_invalid');
   return {contract_version:planTrialVersion,status:r?.status??t.status,runId:t.runId,adapter_kind:t.proposal.adapter_kind,provider_kind:t.proposal.provider_kind,model_id:t.proposal.model_id,auth_mode:t.proposal.auth_mode,protocol_version:t.proposal.protocol_version,fallback_from:null,fallback_reason:null,
     external_calls_started:r?.attempts.filter(a=>a.external_call_intent).length??0,checkpoint:{saved_scenes:r?.scenes?.length??0,wake_saved:r?.status==='completed'},usage:r?.attempts.map(a=>({request_id:a.request_id,usage:a.usage??'unknown'}))??[],error_category:r?.modelPortError??null,
+    validation_diagnostic:reviewedPlanResponseDiagnostic(r?.modelPortDiagnostic),
     money:'unknown',remoteRevocationConfirmed:t.remoteRevocationConfirmed,remoteCleanupMayBeRequired:[false,'unknown'].includes(t.remoteRevocationConfirmed),serverOutputTokenCap:null,extraCreditsApproved:false,usageSettingsVerification:'user_assertion_only',remoteCancellationConfirmed:'unknown',qualityAssessed:false};
 }
 function result(store,t){

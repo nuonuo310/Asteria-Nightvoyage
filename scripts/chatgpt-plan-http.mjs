@@ -1,6 +1,7 @@
 // Fixed official HTTP/SSE transport. A checked, active OAuth capability is required.
 // No environment credentials, API keys, endpoint overrides, tools, retries or refresh.
 import {planSessionAvailable,planSessionCredential} from './chatgpt-plan-login.mjs';
+import {markPlanHttpFailure} from './plan-response-diagnostic.mjs';
 import {chatgptPlanLimits} from './chatgpt-plan-protocol.mjs';
 const transports=new WeakSet();
 export const planHttpProtocolVersion='chatgpt-plan-inline-http-v1';
@@ -31,17 +32,20 @@ export function createPlanHttpTransport({session,model,authorize}){
         const response=await Promise.race([fetch('https://api.openai.com/v1/responses',{method:'POST',redirect:'error',headers:{Authorization:`Bearer ${credential}`,'Content-Type':'application/json',Accept:'text/event-stream'},body,signal:controller.signal}),stopped]);
         active();
         if(response.status!==200)fail(response.status===401||response.status===403?'authorization_required':'adapter_unavailable');
-        if(!/^text\/event-stream(?:\s*;|$)/i.test(response.headers.get('content-type')??''))fail('invalid_model_response');
-        reader=response.body?.getReader();if(!reader)fail('invalid_model_response');
+        if(!/^text\/event-stream(?:\s*;|$)/i.test(response.headers.get('content-type')??''))throw markPlanHttpFailure(Error('invalid_model_response'),'http_content_type');
+        reader=response.body?.getReader();if(!reader)throw markPlanHttpFailure(Error('invalid_model_response'),'http_body_missing');
         let bytes=0;
         for(;;){
           const {done,value}=await Promise.race([reader.read(),stopped]);active();if(done)break;
-          if(!(value instanceof Uint8Array)||(bytes+=value.byteLength)>chatgptPlanLimits.streamBytes)fail('invalid_model_response');
+          if(!(value instanceof Uint8Array))throw markPlanHttpFailure(Error('invalid_model_response'),'http_stream_chunk_invalid');
+          if((bytes+=value.byteLength)>chatgptPlanLimits.streamBytes)throw markPlanHttpFailure(Error('invalid_model_response'),'http_stream_limit');
           yield value;
         }
       }catch(error){
         const known=['cancelled','timeout','authorization_required','adapter_unavailable','budget_exhausted','source_withdrawn','storage_io_failure','ambiguous_attempt'];
-        fail(known.includes(error?.message)?error.message:'invalid_model_response');
+        if(error?.message==='invalid_model_response')throw error;
+        if(known.includes(error?.message))throw error;
+        throw markPlanHttpFailure(Error('invalid_model_response'),'http_transport_failure');
       }finally{
         clearTimeout(timer);signal?.removeEventListener('abort',onAbort);controller.abort();
         if(reader){try{const cancellation=reader.cancel();Promise.resolve(cancellation).catch(()=>{});}catch{}try{reader.releaseLock();}catch{}}

@@ -10,7 +10,7 @@
 
 本机批准有效24小时；绑定公开候选中的运行设置、归一化LF的素材哈希、相对静态 import 闭包与 package.json 哈希。当前代码必须与已提交候选一致。重跑 init 不刷新期限、清除失败、重置次数、释放旧 API 占款或换目录继续尝试。可信本机源码/Node运行环境是前提；这些绑定不是对抗恶意同权限进程或篡改本机授权文件的安全沙箱。
 
-在运行 init 之前，用户必须明确同意本次三次真实订阅调用、虚构外发及没有服务端 token 硬上限，并到 **ChatGPT 设置 → 用量** 确认该应用不使用额外积分。如果页面没有可确认的相应设置，停止并核对，不以本地参数替代真实设置。程序只记录用户声明 `usageSettingsVerification:user_assertion_only`，不声称远程核验或免费。
+在运行 init 之前，用户必须明确同意本次三次真实订阅调用、虚构外发及没有服务端 token 硬上限，并确认本次不购买或使用额外积分。用户补充说明其账号只有周额度、没有额外充值积分，并明确批准本次调用；据此记录其限制，不要求寻找不存在的开关，也不以本地参数声称已经核验远端设置。程序只记录用户声明 `usageSettingsVerification:user_assertion_only`，不声称远程核验或免费。
 
 普通 preflight 无批准时不创建目录、不读凭据、不登录、不生成：
 
@@ -76,3 +76,5 @@ node scripts/check-chatgpt-plan-trial.mjs
 - [Models and inference](https://developers.openai.com/siwc/token-sharing-open-source/models-and-inference)：公开模型目录、固定Responses地址及completed完成语义。
 - [Preview limitations](https://developers.openai.com/siwc/token-sharing-open-source/preview-limitations)：store/stream/input要求与不支持的token上限等字段。
 - [Accounts and sessions](https://developers.openai.com/siwc/token-sharing-open-source/profiles-and-sessions)：临时凭据保护、撤销和ChatGPT用量设置。
+
+后续：[响应诊断及失败历史](GPT-PLAN-RESPONSE-DIAGNOSTICS.md)。用户回报首次真实试跑失败、零幕保存；具体旧响应原因无法恢复。新的源码哈希不接管该已消耗批准。

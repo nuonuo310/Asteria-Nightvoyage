@@ -877,3 +877,11 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 新增20项回归，定点83/83、Linux／Node v24.19.0完整951/951。独立合成OAuth/HTTP三阶段演练通过，重放追加请求/登录0；真实子进程在第二次合成HTTP退出后保留一幕与两次意图，重开不再登录/生成。覆盖来源撤回中晚到正文、取消/超时、超限、无权限/缺型号、初始/检查点保存失败、错误与unknown撤销、凭据不落盘、CRLF与源码变化拒绝。
 - 没有真实官方外网/模型调用、用户凭据/梦簿读取、额外人民币预算、第三方复制、新依赖或跨仓库写入。DeepSeek/API、旧付费图/许可/期限/unknown占款保持；Codex原生执行器、Asteria两座桥待对接。详细合同及公开官方来源见docs/CHATGPT-PLAN-FIRST-DREAM.md，验证见validation/chatgpt-plan-first-dream.json。
 - 已准备代码和可复核候选，但真实订阅试跑仍未批准/执行，Windows新入口待核验。下一步按用户边界暂停：先确认ChatGPT设置→用量中该应用不使用额外积分，再单独同意本次三次真实调用及无服务端token硬上限；本地只记录声明，money仍unknown，不假称免费/远端已取消或质量通过。
+
+## 2026-10-18 · GPT响应诊断与失败历史
+
+用户回报首次GPT订阅试跑在首幕失败、保存0幕、1个外部调用意图、usage unknown、撤销true。被拒正文未保存，旧原因不可恢复；未将授权action结束当成推理或质量通过。
+
+补入固定白名单诊断，分HTTP、Responses协议、梦境阶段；运行状态/回执重新校验输出，不记录正文、异常自由文本或凭据。只读历史入口支持原公开候选，始终禁止分发；原清单保留，当前源码哈希更新不迁移或重置旧批准。未放宽接受条件、重试、换provider或执行真实调用。
+
+新增5项测试；定点39/39，最终全量956/956，现有三阶段合成演练通过。诊断保存失败仍保留unknown意图、不倒填原因；撤回及重开不曝光正文。详见[诊断说明](docs/GPT-PLAN-RESPONSE-DIAGNOSTICS.md)与[核验汇总](docs/validation/plan-response-diagnostics.json)。Linux核验不能代替Windows实跑；真实首幕问题仍未定位。下一步先核验Windows诊断/历史入口，再准备单独的新诊断候选，真实调用需另行明确批准。
