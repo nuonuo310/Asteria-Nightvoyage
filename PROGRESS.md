@@ -885,3 +885,9 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 补入固定白名单诊断，分HTTP、Responses协议、梦境阶段；运行状态/回执重新校验输出，不记录正文、异常自由文本或凭据。只读历史入口支持原公开候选，始终禁止分发；原清单保留，当前源码哈希更新不迁移或重置旧批准。未放宽接受条件、重试、换provider或执行真实调用。
 
 新增5项测试；定点39/39，最终全量956/956，现有三阶段合成演练通过。诊断保存失败仍保留unknown意图、不倒填原因；撤回及重开不曝光正文。详见[诊断说明](docs/GPT-PLAN-RESPONSE-DIAGNOSTICS.md)与[核验汇总](docs/validation/plan-response-diagnostics.json)。Linux核验不能代替Windows实跑；真实首幕问题仍未定位。下一步先核验Windows诊断/历史入口，再准备单独的新诊断候选，真实调用需另行明确批准。
+
+## 2026-10-18 · 单次GPT订阅响应诊断候选
+
+用户回报Windows历史读取已保留首次失败与unknown用量，原具体诊断null；没有补造原因。已完成另行批准的单次首幕响应诊断入口，绑定旧失败摘要、固定虚构素材、GPT-5.6-Sol和源码闭包，最多一次新调用，不继续旧梦、不生成醒来、不保存或显示生成正文。未变更接受规则、旧批准或梦境核心，也未执行真实订阅调用。
+
+定点14/14；最终全量970/970。核验覆盖父记录不变、一次调用、无登录重放、无正文、取消、实际进程退出、超时、来源撤回、初始/意图/结算写失败、重复/过期批准、闭合CLI和CRLF源码。accepted只表示新单幕响应通过协议，不是完整梦或质量验收。详见[合同与入口](docs/GPT-PLAN-SINGLE-RESPONSE-PROBE.md)及[验证汇总](docs/validation/plan-single-response-probe.json)。下一步暂停在新的一次真实订阅调用之前，请用户明确批准；旧已消耗授权不能替代。

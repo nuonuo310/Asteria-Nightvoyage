@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-18",
+  "platform": "linux",
+  "node": "v24.19.0",
+  "scope": "Separately approved one-scene subscription response protocol diagnostic",
+  "targeted": {
+    "command": "node --test test/plan-response-probe.test.js",
+    "tests": 14,
+    "pass": 14,
+    "fail": 0,
+    "durationMs": 2985.649744
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 970,
+    "pass": 970,
+    "fail": 0,
+    "durationMs": 33277.640855
+  },
+  "realModelRequests": 0,
+  "userStoreAccessed": false,
+  "userCredentialsRead": false,
+  "realUserApprovalRecorded": false,
+  "simulation": "independent_synthetic_oauth_and_http_with_loopback_callback",
+  "maxAdditionalCalls": 1,
+  "persistsGeneratedBody": false,
+  "oldTrialContinued": false,
+  "oldTrialBytesUnchanged": true,
+  "automaticRetry": false,
+  "sourceGrantsInRepositoryStillNoEgress": true,
+  "acceptanceRulesChanged": false,
+  "apiFallback": false,
+  "extraCreditsApproved": false,
+  "serverOutputTokenCap": null,
+  "checks": [
+    "Exact separate five-part approval and original failed-parent receipt binding",
+    "One accepted stage, normalized usage only and no dream/body persisted",
+    "Rejected stream metadata and replay with zero additional authentication/dispatch",
+    "Initial, durable intent and accepted metadata persistence failures",
+    "Actual process death after durable dispatch, unknown revocation and no retry",
+    "Queued and in-flight cancellation, noncooperative timeout and stream byte ceiling",
+    "Source withdrawal suppresses late output and reopened replay",
+    "Parent changes, expiry, phase/count mismatch and second owner block execution",
+    "Closed CLI arguments and LF/CRLF source manifest checks"
+  ],
+  "thirdPartyCodeCopied": false,
+  "newDependencies": 0,
+  "asteriaAdapter": "pending",
+  "limitations": [
+    "No real subscription inference executed; current proposal awaits separate user approval.",
+    "New response cannot reconstruct or necessarily reproduce discarded historical response.",
+    "Linux checks do not establish native Windows execution.",
+    "Local guards do not establish remote cancellation or token limits.",
+    "Metadata Store startup can write locks or journal recovery."
+  ],
+  "qualityAssessed": false,
+  "semanticSupport": "not_assessed"
+}

@@ -71,3 +71,5 @@ Windows PowerShell 若阻止 npm.ps1，使用 npm.cmd test。上述 check 脚本
 公开仓库只包含独立表述、代码和虚构样例。不得提交真实聊天、私人记忆、梦簿/state.json、私有仓库原文、私人配置或密钥。尚无前端、Asteria 实时接入、真实素材支持或自动日间投递。
 
 GPT订阅首次试跑的用户回执为首幕校验失败、未发布梦境；已补充[固定响应诊断与只读历史入口](docs/GPT-PLAN-RESPONSE-DIAGNOSTICS.md)，旧响应原因仍未知，未安排重试。
+
+已准备[GPT订阅单次响应诊断](docs/GPT-PLAN-SINGLE-RESPONSE-PROBE.md)：独立批准、最多一次调用、不保存生成正文；真实执行尚未批准或核验。
