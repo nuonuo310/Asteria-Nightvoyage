@@ -1,0 +1,44 @@
+✔ content packet separates saved narrative, wake, simulated residue and typed appraisal without writes (30.013138ms)
+✔ human view shows narrative before numeric bases and preserves nonfact and uncertain assessments (20.398492ms)
+✔ read-only view includes independently attributed stored opinions without creating an evaluation (23.062013ms)
+✔ mismatched or novel wake fragment, basis, identity and run checkpoint refuse content delivery (23.438319ms)
+✔ withdrawal, deletion and restart suppress local content and original snippets (36.608549ms)
+✔ renderer rejects reality labels and escapes terminal controls rather than executing note commands (15.235964ms)
+✔ help and invalid/live/export/key arguments cannot create data or echo credential values (487.125191ms)
+✔ CLI displays persisted dream without key use and preserves stable Store/billing bytes (94.606117ms)
+✔ default coupled lookup is independent of expiry/approval files and cannot initialize an account (93.195692ms)
+✔ missing parent is neutral/unavailable and locked Store cannot be bypassed by reader (100.628686ms)
+✔ fixed reader command checks actual CLI under rejecting key/network probes and prints no bodies (184.699854ms)
+✔ dreambook command lists metadata, reads separated original/wake/reviews, and suppresses withdrawn content after reopen (451.026798ms)
+✔ help, missing defaults and absent explicit storage never create a new book (306.990825ms)
+✔ default directory resolves the existing local book without using old trial selectors (179.373765ms)
+✔ unknown/generation/fee flags, duplicate selectors and relative paths fail before opening an owned Store (577.876251ms)
+✔ newest unsupported dream is not silently replaced by an older readable dream (250.2422ms)
+✔ catalog rejects malformed provenance instead of leaking arbitrary body fields (16.631361ms)
+✔ active Store owner blocks reading; corrupt content is sanitized and never emitted (156.550715ms)
+✔ parent deletion leaves no fallback body or independent review entry to select as a dream (159.263697ms)
+✔ inline view exposes copied program audit, distinct declarations and unknown appraisal without changing originals (32.791132ms)
+✔ inline pure draft binds complete canonical chain and cannot certify a numeric magnitude (24.164299ms)
+✔ inline managed adapter separates attributed reviews, immutable revisions and content; replay adds no generation or billing (43.147484ms)
+✔ inline review rejects tampered promptCandidateHash instead of relabeling it (20.006863ms)
+✔ inline review rejects tampered billingProtocolVersion instead of relabeling it (18.316302ms)
+✔ inline review rejects tampered executionOwner instead of relabeling it (27.916868ms)
+✔ inline review rejects tampered inlineEvidenceAudit instead of relabeling it (27.739471ms)
+✔ inline review rejects tampered sceneChain instead of relabeling it (25.580508ms)
+✔ inline reviews reject caller provenance and same request conflict before writing (28.697201ms)
+✔ deleting only an inline review preserves original and sibling revision across restart (30.27381ms)
+✔ inline withdraw removes originals, review descendants and cue cache after restart (23.081543ms)
+✔ inline delete removes originals, review descendants and cue cache after restart (24.215136ms)
+✔ inline withdraw journal wins after actual process death with stale review body (108.143949ms)
+✔ inline delete journal wins after actual process death with stale review body (101.278062ms)
+✔ inline review failed atomic save returns no success and no half-index on reopen (22.724166ms)
+✔ four independently fabricated old unknown holds survive inline review, revision, withdrawal and reopen unchanged (191.22953ms)
+✔ inline fixed rehearsal reports mechanism only, no key reads or native requests (239.757143ms)
+ℹ tests 36
+ℹ suites 0
+ℹ pass 36
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2209.312739

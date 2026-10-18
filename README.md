@@ -1,5 +1,7 @@
 # Asteria-Nightvoyage · 夜航
 
+[Local dreambook reader](docs/DREAMBOOK-READER.md): `node scripts/dreambook.mjs list` shows a body-free catalog; `node scripts/dreambook.mjs read --latest` explicitly displays the last visible saved dream, its wake fragment and attributed independent reviews locally. No generation, model/key calls or review writes. `--latest` follows persisted insertion order, not an invented creation timestamp. Run `node scripts/check-dreambook-reader.mjs` for the independent fictional selfcheck.
+
 [Explicit virtual-day cue simulation](docs/DAYTIME-CUE-SIMULATION.md) now advances bounded fictional cue events through literal recall, persisted replay expiry, monotonic virtual time and withdrawal checks. Run `node scripts/check-daytime-cues.mjs` without a key; it uses only its own temporary fictional Store. This is not a background scheduler, semantic retrieval, automatic delivery or Asteria integration.
 
 [Local independent review commands](docs/LOCAL-APPRAISAL-REVIEW-CLI.md) now save and reread explicitly submitted opinions through the existing adapter, preserving original dreams and billing. Run `node scripts/check-local-appraisal-review.mjs` for an independent fictional rehearsal without a key or provider requests. Asteria remains pending; this does not save a review to the user’s Store or establish content quality.

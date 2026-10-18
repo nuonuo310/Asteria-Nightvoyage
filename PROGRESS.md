@@ -736,3 +736,12 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 用户更新至84c4313，Windows／Node24.19.0固定脚本回报完成：命中/不命中、重开重放不续期、到期为空、新事件再次命中、防时钟倒退、原梦/醒来/账本保持、撤回重开及受管理正文清除均通过。3次假生成，召回追加模型/真实请求0，用户Store未访问。
 - 仅此独立虚构脚本的Windows证据，不扩大为全仓836测试、真实白天长期监听、语义检索、后台自动浮现或质量通过；automaticDelivery=false，Asteria仍pending。
 - 聚合回报见docs/validation/user-local-daytime-cues-windows.json。仅文档记载，公开无终端原文、线索/梦正文、实际编号/私人路径/Key；源码/合同/额度/期限/旧占款不改，不重复测试或新增调用。当前虚拟白天演练切片收尾。
+
+
+## 梦簿：简单日常查看入口
+
+- 新增scripts/dreambook.mjs：list仅返回无正文目录；read必须明确--latest或--dream-id，复用既有内容显示按原梦/醒来/模拟评价/独立评审分开读取。--latest是持久插入顺序的最后可见dream，不把评审/回想/续写当新梦，不编造创建时间；固定身份继续使用实际id。
+- 缺省仅打开已有本地first-fictional-trial，支持显式绝对仓外目录；无state.json不创建，不提供生成/召回/Key/费用/删除/导出/评审写入。未支持或损坏的被选梦失败关闭，不悄悄替换更早梦；来源异常不泄露额外正文。Store启动锁/恢复/保存仍可能写文件，不宣称零文件写入或任意中断账项始终不变。
+- 新8项；最终Linux Node24.19.0全仓844/844、相关36/36、临时Linux CRLF同组36/36（366文件转换）。覆盖默认/指定路径、目录无正文、显式读/最近梦不选评审、原梦/账目/意见数/稳定state字节保持、撤回重开/删除、不支持末梦、异常来源/醒来、owner竞争、错误不回显以及Key/native HTTP守卫。
+- 独立脚本3次假生成，阅读追加模型/真实请求/Key读取均0，不访问用户Store或输出梦/意见正文。见docs/DREAMBOOK-READER.md及validation/dreambook-reader-validation.json；本轮无Windows实机/语义支持/质量验收。
+- 全部新入口位于scripts，src/fixtures/package及付费源码清单/图/合同/profile/批准/额度/期限/占款不改；公开自有MIT代码/独立文字/虚构测试，无私人梦簿/聊天/配置/Key或第三方复制，无跨仓库修改。下一步用户先跑同一无Key虚构自检，再明确在本地显示已保存的最近梦；正文不要求回传，Asteria仍待对接。

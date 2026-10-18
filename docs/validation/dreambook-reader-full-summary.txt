@@ -1,0 +1,12 @@
+Command: node --test
+Node: v24.19.0
+Platform: linux
+Scope: final aggregate tail; individual full-suite lines omitted
+ℹ tests 844
+ℹ suites 0
+ℹ pass 844
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 30240.736858
