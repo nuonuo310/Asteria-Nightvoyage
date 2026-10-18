@@ -828,3 +828,12 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 新增7项测试，Linux／Node v24.19.0 针对7/7、完整862/862；三阶段脚本响应复用项目自有引文/醒来摘录校验，含中文逐字节与CRLF边界。无真实模型/凭据/用户Store；不是GPT质量、网络、Windows或新协议持久闭环证明。汇总见 validation/chatgpt-plan-protocol.json。
 - docs/CHATGPT-PLAN-ENTRY.md 给出首轮具体拟议约定：仅公开虚构样例，一梦最多3请求，每次60秒、请求/流65536字节、JSON1200字节；这些不是服务端token/额度保证。真实生成前须确认此重大上限变化，并在官方设置核对套餐/积分边界，再进入本地OAuth与执行器实现。API不自动回退，不启用付费或新调用。
 - 只改scripts/test/docs及README；src/fixtures/package、旧付费源码清单/批准/期限/预算/unknown占款和已保存梦簿不改。无第三方实现复制、SDK依赖或私有原文；官方资料仅作协议参考。
+
+
+## 2026-10-18 · 本机 ChatGPT 登录与型号核对实现
+
+- 用户接受订阅路线的替代限制并授权继续接入。新增本机OAuth入口：稳定host ID、issued client在code交换前落盘、state/nonce/PKCE、官方JWKS的RS256/ES256签名及issuer/audience/azp/时间/身份核对、plan scope和型号目录检查。单连接、不按邮箱自动换身份；无Responses调用、API Key、额外积分批准或后台续期。
+- 连接目录独立于梦簿，只保存host/client/opaque subject；凭据只在本进程内存使用，成功/失败结束均在可行时尝试撤销此次refresh会话。失败未确认明确返回，不冒充清理成功；强杀/断电和响应丢失不能保证远端撤销。身份持久化失败仍清理并释放owner。
+- 新增17项测试，Linux／Node v24.19.0 针对17/17、最终完整879/879通过；真实本机回环HTTP但官方服务使用独立合成响应与RSA/EC密钥，覆盖取消/超时、签名/权限拒绝、保存失败、凭据不落盘与固定诊断。最终回调响应写完再关闭listener；无真实账号/官方网络/生成、Windows浏览器或总体质量验证。汇总见validation/chatgpt-plan-login.json。
+- docs/CHATGPT-PLAN-LOGIN.md记录命令、保存/撤销与信任边界；README与前切片入口更新。下一步用户在本机执行login，回报无凭据的型号/固定状态；据实际可用通路再绑定材料、型号和官方用量设置，接持久分幕执行器。登录不等于梦已生成，不用目录请求探测真实推理。
+- 只改scripts/test/docs及README；src/fixtures/package、旧付费清单/许可/预算/期限/unknown占款和用户梦簿不改。标准协议独立实现，无第三方代码复制、SDK依赖、私有原文或跨仓库修改。
