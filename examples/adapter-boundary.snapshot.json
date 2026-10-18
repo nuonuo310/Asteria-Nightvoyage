@@ -1,0 +1,88 @@
+{
+  "id": "fictional-adapter-terrace",
+  "version": "1",
+  "materialKind": "fictional",
+  "sources": [
+    {
+      "id": "fiction-adapter-memory",
+      "version": "1",
+      "text": "完全虚构：一位未命名人物在午后把一只木碗放到露台上，听见远处风铃响了一下。",
+      "grant": {
+        "dream": true,
+        "modelEgress": false
+      }
+    },
+    {
+      "id": "fiction-adapter-background",
+      "version": "1",
+      "text": "完全虚构的叙事背景：此人物习惯慢慢观察，不指定真实身份、关系或经历。",
+      "grant": {
+        "dream": true,
+        "modelEgress": false
+      }
+    },
+    {
+      "id": "fiction-adapter-affect",
+      "version": "1",
+      "text": "完全虚构的初始情绪说明：平静，略有好奇；数值由测试调用者提供。",
+      "grant": {
+        "dream": true,
+        "modelEgress": false
+      }
+    },
+    {
+      "id": "fiction-adapter-mind",
+      "version": "1",
+      "text": "完全虚构的当前关切：想知道露台上声音为何比室内清楚，不要求梦给答案。",
+      "grant": {
+        "dream": true,
+        "modelEgress": false
+      }
+    },
+    {
+      "id": "fiction-adapter-intents",
+      "version": "1",
+      "text": "完全虚构的未完成意图：以后换个位置听一次风铃；只作素材，不授权创建或完成现实任务。",
+      "grant": {
+        "dream": true,
+        "modelEgress": false
+      }
+    }
+  ],
+  "channels": {
+    "memory": {
+      "availability": "present",
+      "sourceIds": [
+        "fiction-adapter-memory"
+      ]
+    },
+    "background": {
+      "availability": "present",
+      "sourceIds": [
+        "fiction-adapter-background"
+      ]
+    },
+    "affect": {
+      "availability": "present",
+      "sourceIds": [
+        "fiction-adapter-affect"
+      ],
+      "value": {
+        "valence": 0.1,
+        "arousal": 0.2
+      }
+    },
+    "mind": {
+      "availability": "present",
+      "sourceIds": [
+        "fiction-adapter-mind"
+      ]
+    },
+    "intents": {
+      "availability": "present",
+      "sourceIds": [
+        "fiction-adapter-intents"
+      ]
+    }
+  }
+}
