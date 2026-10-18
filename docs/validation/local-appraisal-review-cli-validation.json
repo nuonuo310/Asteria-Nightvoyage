@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-18",
+  "baseCommit": "8138925e80985c8df172a69c9a6f8da8f0167677",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "newTests": 9,
+  "fullSuite": {
+    "tests": 825,
+    "pass": 825,
+    "fail": 0,
+    "skipped": 0
+  },
+  "targeted": {
+    "tests": 63,
+    "pass": 63,
+    "fail": 0
+  },
+  "crlf": {
+    "kind": "temporary_linux_copy_not_windows",
+    "convertedFiles": 350,
+    "tests": 63,
+    "pass": 63,
+    "fail": 0
+  },
+  "initialFullRun": {
+    "tests": 824,
+    "pass": 823,
+    "fail": 1,
+    "nestedHistoricalFailures": 3,
+    "reason": "three historical direct-constructor probes used wall clock beyond the old pricing window",
+    "fix": "per-test automatically restored Date.now mock in these three simulator-only probes",
+    "productionClockOrDeadlineChanged": false,
+    "frozenSourceSnapshotsChanged": false
+  },
+  "mechanism": {
+    "command": "node scripts/check-local-appraisal-review.mjs",
+    "node": "v24.19.0",
+    "platform": "linux",
+    "adapter": "local_file",
+    "asteriaAdapter": "pending",
+    "fakeGenerationCalls": 3,
+    "reviewAdditionalCalls": 0,
+    "realModelRequests": 0,
+    "credentialReads": 0,
+    "createReceiptBodyFree": true,
+    "storedReviewFingerprintBound": true,
+    "reviewerKind": "assistant",
+    "reopened": true,
+    "duplicateReviewWrites": 0,
+    "revisionPreservesOriginalOpinion": true,
+    "originalDreamAndWakeUnchanged": true,
+    "billingUnchanged": true,
+    "withdrawalSurvivesReopen": true,
+    "withdrawnReplaySuppressed": true,
+    "managedBodiesPurged": true,
+    "userStoreAccessed": false,
+    "humanAcceptanceRecorded": false,
+    "qualityAssessed": false,
+    "semanticSupport": "not_assessed"
+  },
+  "paidSourceInventoryChanged": false,
+  "existingSourceOrFixturesOrPackageChanged": false,
+  "oldAllowancesOrHoldsChanged": false,
+  "userStoreAccessed": false,
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "humanAcceptanceRecorded": false,
+  "qualityAssessed": false,
+  "semanticSupport": "not_assessed",
+  "hashes": {
+    "scripts/local-appraisal-review.mjs": "512dfb48cf4c64600c4dacb34950298f3766f499ca1c1879f609a50b61dde5d3",
+    "scripts/check-local-appraisal-review.mjs": "34a9ff429359f8672849b80dfb3402cd8ab1c1b8772834cc75fa764391c11c25",
+    "test-support/local-review-cli-check.js": "f981a363e787ccd00ba2d4af21de688ff8d9a0e19907d96b672b121359c3feb8",
+    "test/local-appraisal-review-cli.test.js": "21006b9f302c200dab888eb18f2c50f3bdae4e56d1f214cef49e1abb49ca4c84",
+    "test-support/continuity-trial-entry-legacy.js": "ae50e1df991ebdcfc4816a1f01811563be9abfcde4c58aa7bf07a6dc9b7a4dc7"
+  }
+}

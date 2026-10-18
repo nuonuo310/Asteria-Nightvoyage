@@ -102,6 +102,8 @@ test('continuity second Store owner blocks before dispatch',t=>{
 });
 
 test('continuity queued cancellation consumes zero allowance and blocks before Key on replay',t=>{
+  // Historical simulator only: direct constructors need the same fixture clock as cli().
+  t.mock.method(Date,'now',()=>now);
   const d=prepareContinuityHistory(t),config=approve(d),e=new BudgetedNightvoyage(d,{allowance:config.allowance,mode:'live',protocol:'scene-continuity-v1'}),id=e.start(continuityTrialId,continuityTrialId,continuityTrialInput(config));e.cancel(id);e.close();
   const r=cli(d,['run','--live'],{behavior:'forbid'});assert.equal(r.status,1);assert.equal(r.keyRead,false);assert.equal(r.calls,0);assert.equal(continuityTrialPreflight(d,now).continuityTrial.calls,0);
 });
@@ -148,6 +150,7 @@ test('missing completed coupled history cannot initialize a new allowance or byp
   assert.throws(()=>approve(actual),/source_withdrawn/);assert.deepEqual(disk(actual).billing.accounts,before);assert.equal(fs.existsSync(path.join(actual,`${continuityTrialId}.json`)),false);
 });
 test('candidate live runtime rejects a substituted allowance and unapproved seed/request before persistence',t=>{
+  t.mock.method(Date,'now',()=>now);
   const d=prepareContinuityHistory(t),config=approve(d),before=disk(d).billing.accounts;
   assert.throws(()=>new BudgetedNightvoyage(d,{allowance:{...config.allowance,id:'other-live'},mode:'live',protocol:'scene-continuity-v1'}),/continuity_allowance_mismatch/);assert.deepEqual(disk(d).billing.accounts,before);
   const e=new BudgetedNightvoyage(d,{allowance:config.allowance,mode:'live',protocol:'scene-continuity-v1'});try{
@@ -156,6 +159,7 @@ test('candidate live runtime rejects a substituted allowance and unapproved seed
   }finally{e.close();}
 });
 test('direct candidate live client cannot send a detached or substituted stage payload',async t=>{
+  t.mock.method(Date,'now',()=>now);
   const d=prepareContinuityHistory(t),config=approve(d),e=new BudgetedNightvoyage(d,{allowance:config.allowance,mode:'live',protocol:'scene-continuity-v1'}),native=globalThis.fetch;let calls=0;globalThis.fetch=()=>{calls++;assert.fail('HTTP forbidden');};try{
     const id=e.start(continuityTrialId,continuityTrialId,continuityTrialInput(config)),run=e.run(id);run.status='running';e.store.save();e.client.enabled=true;
     const args={allowanceId:continuityTrialId,runId:id,requestId:`stage-${id}-scene-0`,credential:'DUMMY-DIRECT',payload:{stage:'scene',index:0,snapshot:structuredClone(run.snapshot),scenes:[]}};
