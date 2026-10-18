@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-18",
+  "kind": "temporary_fictional_rehearsal_of_explicit_local_save_instruction",
+  "baseCommit": "65daf9d64e28d9459eeb13a617b82401c10a68b9",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "delivery": "conversation_copy_block_not_new_runtime_entry",
+  "instructionBodySha256": "d849b1a4f7b7c1557e427e97910fc4fce3d9da163568c298c82e19fdc1a35778",
+  "testScope": "exact stdin JavaScript body; private target supplied separately, never published",
+  "result": {
+    "copyCommandMechanism": "passed",
+    "fakeGenerationCalls": 3,
+    "realModelRequests": 0,
+    "credentialReads": 0,
+    "wrongTargetBlocked": true,
+    "savedAssistantReviews": 2,
+    "repeatAdditionalWrites": 0,
+    "reopened": true,
+    "originalDreamAndWakeUnchanged": true,
+    "billingUnchanged": true,
+    "withdrawnReplayBlocked": true,
+    "userStoreAccessed": false,
+    "qualityAssessed": false
+  },
+  "reviewerKind": "assistant",
+  "assessment": {
+    "eventRelevance": "related",
+    "direction": {
+      "valence": "underdetermined",
+      "arousal": "underdetermined"
+    },
+    "magnitude": {
+      "valence": "not_established",
+      "arousal": "not_established"
+    }
+  },
+  "limits": [
+    "Linux temporary simulation, not this copy block executed on Windows",
+    "each review commits separately; interruption may leave a committed prefix; identical requests deduplicate",
+    "does not prove new content interpretations, human acceptance or exact affect magnitude"
+  ],
+  "actualUserDreamReviewsSaved": false,
+  "sourceOrPaidContractChanged": false
+}

@@ -703,3 +703,10 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 用户更新至c84efe3后，Windows／Node24.19.0自检完成：3次假生成，评审追加/真实模型/凭据读取均0；无正文回执、父指纹、重读/去重/独立修订、原梦/醒来/账本保持、撤回重开/旧请求屏蔽及受管理正文清除均通过。
 - 证据仅此独立虚构脚本，不扩大为Windows全仓825项测试、用户梦簿已写正式意见、人工验收或语义/质量通过。userStoreAccessed=false、qualityAssessed=false、semanticSupport=not_assessed，Asteria仍待对接。
 - 聚合回报见docs/validation/user-local-appraisal-review-cli-windows.json。仅文档记录，不重复测试、改代码/合同/额度/占款/期限或新增模型请求；公开无终端原文、私人路径、梦/评审正文、实际编号或Key。下一步准备明确标识助手身份的实际本地意见保存与重读指令，不把虚构自检冒充实际保存。
+
+
+## 已读梦的助手意见：复制指令准备
+
+- 为此前有限助手复核准备单次本地保存指令：显式指定已读目标运行，确认fictional/dream/nonfact、inline协议、两幕estimated和3条settled；只写两条独立助手意见（方向underdetermined、幅度not_established），原梦/醒来/账本保持。公开不保存实际目标编号或正文，不将意见标成人工验收。
+- 临时Linux虚构Store演练相同stdin JavaScript正文：3次假生成、首次2条意见、重复新增0条、重开逐项重读；错目标/撤回后阻断，账本和原梦保持，Key/native请求守卫为0。汇总见docs/validation/local-review-save-instruction-rehearsal.json，不扩大为该复制块Windows实测或用户梦簿已保存成功。
+- 复用已有适配器，无新源码/运行时入口/模型请求/费用或全仓重跑。每条意见独立原子提交，中断可能保留已提交前缀；相同请求幂等，失败停止、不自动重试或覆盖。下一步由用户执行明确的本地保存块并回报聚合结果，再补实际完成证据；Asteria和整体质量仍未验收。
