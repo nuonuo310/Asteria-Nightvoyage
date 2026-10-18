@@ -686,3 +686,13 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 原梦、醒来、数值、协议和提示词不改；不新增裁判/修复/生成调用。公开摘要明确助手身份与有限证据，不冒充糯糯验收或在用户 Store 创建了绑定场景指纹的正式 review。
 - 见 docs/INLINE-CONTENT-ASSISTANT-REVIEW.md 及 validation/inline-content-assistant-review.json。核对评审合同/字段并审查新增内容，无代码修改、不重跑机制测试；Key/模型请求/用户 Store 访问为零，旧账/额度/期限不变。公开无原梦/引文/终端文本/私人路径/实际编号或指纹。
 - 本切片完成，整体梦境质量仍未验收。后续可准备既有适配器上的显式本地意见保存与重读流程，先用独立虚构测试；Asteria仍待对接，无新增费用或外发许可。
+
+
+## 独立评审：本地命令保存与重读
+
+- 新增 scripts/local-appraisal-review.mjs，复用已有 local_file 适配器；create 从有界 UTF-8 stdin 接收明确的本地 reviewer 和意见，父来源/协议/场景指纹由适配器绑定。回执不含 assessment/note，read/list 才显式读正文；同请求重放、变化冲突、修订另存、删除/撤回不可复活，原梦/醒来/数值/账本不改。
+- 强制显式绝对已有仓外 Store，无默认用户目录/init/run/live/Key/费用选项。输入最多16384字节、5秒完成，支持UTF-8 BOM/CRLF；未知字段、来源覆盖、语义幅度“validated”、数值改写和无效字节拒绝，错误不回显正文。脚本在付费源码清单外，所有src/fixtures/package、清单/图/合同/profile/批准/期限/占款不变。
+- 新9项；最终Linux Node24.19.0全仓825/825、相关63/63、临时Linux CRLF同组63/63（350文件转换）。初轮全仓823/824，唯一失败为旧连续性套件内部3个直接构造探针用了真实时钟，触及旧期限；仅给这3个历史模拟测试加自动恢复的fixture时钟，既有过期反例继续通过，生产时钟/期限和冻结源码不改。
+- 独立无Key自检经真实CLI子进程创建/重放/重读/修订/撤回重开，3次假生成，评审追加0；Key与native HTTP/fetch守卫、来源/非事实身份、评审者/父指纹、原梦/醒来与账本不变、受管理正文清除分别验证。测试使用独立虚构数据，不访问用户Store，没有真实模型、凭据读取、人工或质量验收。
+- 见docs/LOCAL-APPRAISAL-REVIEW-CLI.md及validation/local-appraisal-review-cli-validation.json；完整相关/CRLF输出与全仓汇总尾部独立保存。清除范围沿用managed Store/日志/临时文件，不包括终端、调用者输入副本或外部备份。公开仅自有MIT代码、独立表述与虚构样例，无私有原文/聊天/梦簿/配置/Key/实际编号，无跨仓库修改。
+- 本切片已实现并验证；下一步用户Windows运行同一无Key虚构自检，然后再准备实际本地意见的显式保存指令。本轮没有把公开摘要写入用户梦簿，不续开模型额度，Asteria仍待对接。
