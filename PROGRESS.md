@@ -819,3 +819,12 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 用户明确夜航最终优先走 GPT 订阅通路，记录为接入优先级；具体获准入口、认证、运行模式、限制、费用归属和可用性仍待核验，不预设型号，不声称已有适配器。
 - 既有 DeepSeek 试跑仍作历史机制验证，不自动续开；订阅不能被当成默认 API 凭据/余额。首选通路不可用时暂停说明，不自动回退到新增 API/DeepSeek 计费请求。
 - 本轮仅 README/未来适配器设计/进度说明，未接入订阅、读取登录态/凭据、调用模型、修改核心或既有付费候选/批准/占款，也未重跑测试。下一次实际接入先核验所选订阅通路与授权边界。
+
+
+## 2026-10-18 · GPT 订阅正式路线核对与离线协议准备
+
+- 核对官方开源 Sign in with ChatGPT plan usage、公开 Responses 推理、OAuth 与应用用量管理。账户资格仍未核实；不能把文档可用说成本机已连通。官方 preview 不支持 max_output_tokens，旧400 token/CNY预留合同不可直接搬用。
+- 新增 scripts/chatgpt-plan-protocol.mjs：只构造显式型号、无工具的白名单请求草稿，dispatchAuthorized=false；增量 UTF-8/SSE 解码只在 completed 后返回单个JSON及规范化供应方usage，拒绝工具/拒绝/推理/未知/失败/畸形与超限响应，不返回部分正文。没有HTTP、登录、凭据或持久执行器。
+- 新增7项测试，Linux／Node v24.19.0 针对7/7、完整862/862；三阶段脚本响应复用项目自有引文/醒来摘录校验，含中文逐字节与CRLF边界。无真实模型/凭据/用户Store；不是GPT质量、网络、Windows或新协议持久闭环证明。汇总见 validation/chatgpt-plan-protocol.json。
+- docs/CHATGPT-PLAN-ENTRY.md 给出首轮具体拟议约定：仅公开虚构样例，一梦最多3请求，每次60秒、请求/流65536字节、JSON1200字节；这些不是服务端token/额度保证。真实生成前须确认此重大上限变化，并在官方设置核对套餐/积分边界，再进入本地OAuth与执行器实现。API不自动回退，不启用付费或新调用。
+- 只改scripts/test/docs及README；src/fixtures/package、旧付费源码清单/批准/期限/预算/unknown占款和已保存梦簿不改。无第三方实现复制、SDK依赖或私有原文；官方资料仅作协议参考。

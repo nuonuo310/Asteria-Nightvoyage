@@ -11,3 +11,8 @@ No third-party implementation, prompt template, brand asset or private research 
 | [sleep-and-dream](https://github.com/lesterppo/sleep-and-dream/tree/c8848060297d42fde7eed45c43f42a0d0f17b8e4) | MIT | source adapter separation |
 
 Further reading: [Sleep-time Compute](https://arxiv.org/abs/2504.13171), [Generative Agents](https://arxiv.org/abs/2304.03442). These do not establish human-like dreaming or emotional experience in this implementation. Any future code reuse needs file-level license review and explicit approval first.
+
+
+## ChatGPT plan usage public protocol (2026-10-18)
+
+[Official overview](https://developers.openai.com/siwc/token-sharing-open-source), [registration](https://developers.openai.com/siwc/token-sharing-open-source/sign-in), [inference](https://developers.openai.com/siwc/token-sharing-open-source/models-and-inference), [limitations](https://developers.openai.com/siwc/token-sharing-open-source/preview-limitations) and [account usage controls](https://developers.openai.com/siwc/token-sharing-open-source/profiles-and-sessions) inform the independent request/decoder preparation. No SDK, sample code or third-party implementation is incorporated; no new package is installed. Referencing documentation does not assume a license to copy its code. A future dependency requires version-specific license review; copying implementation still requires confirmation. See [entry scope and pending limits](CHATGPT-PLAN-ENTRY.md).
