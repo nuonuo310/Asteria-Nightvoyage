@@ -1,5 +1,7 @@
 # Asteria-Nightvoyage · 夜航
 
+[Explicit virtual-day cue simulation](docs/DAYTIME-CUE-SIMULATION.md) now advances bounded fictional cue events through literal recall, persisted replay expiry, monotonic virtual time and withdrawal checks. Run `node scripts/check-daytime-cues.mjs` without a key; it uses only its own temporary fictional Store. This is not a background scheduler, semantic retrieval, automatic delivery or Asteria integration.
+
 [Local independent review commands](docs/LOCAL-APPRAISAL-REVIEW-CLI.md) now save and reread explicitly submitted opinions through the existing adapter, preserving original dreams and billing. Run `node scripts/check-local-appraisal-review.mjs` for an independent fictional rehearsal without a key or provider requests. Asteria remains pending; this does not save a review to the user’s Store or establish content quality.
 
 [Limited assistant content review](docs/INLINE-CONTENT-ASSISTANT-REVIEW.md) records single-sample scene/wake observations separately from underdetermined affect directions and unestablished magnitudes. It preserves the original, adds no paid calls, and is neither human acceptance nor a managed local review record.

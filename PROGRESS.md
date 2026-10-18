@@ -718,3 +718,14 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 实际路径为既有本地适配器，不冒充新CLI stdin实测；这次只证明同次去重与重开读回，没有另启命令重放、用户梦撤回/删除或Windows全套测试。方向underdetermined、幅度not_established，来源和父场景身份保留，原情绪估计不改。
 - 见docs/validation/user-local-assistant-review-save.json及LOCAL-APPRAISAL-REVIEW-CLI.md。仅聚合回报和独立表述，无梦/意见正文、实际编号、终端原文/私人路径/Key；不补造本次未重印的Git/Node版本。源码/合同/额度/期限/旧占款不变，不重复已通过的测试或追加调用。
 - 当前本地单样本与独立评审保存切片收尾，无需用户重复运行；整体质量、语义支持、长期白天浮现及Asteria仍未验收，不自动追加付费范围。
+
+
+## 虚拟白天：显式线索序列演练
+
+- 新增scripts/daytime-cue-simulation.mjs，在既有Nightvoyage.recall上接受封闭fictional/virtual计划；每批最多10事件，持久最多100身份，无后台采集、模型、自动交付或Asteria写入。许可拒绝时只能空计划，输出梦候选独立保留来源/版本/非事实身份，不将字面匹配升级为语义支持。
+- 同Store持久化无正文事件hash与lastAt，沿用day-前缀core回执；同id线索冲突拒绝、命名空间占用拒绝、重开不能倒退时钟或续期。原梦保留后新的线索事件仍可再次命中，珍藏/余韵/日常可访问开关独立。批次返回前复查全部候选，过期/撤回/删除或manual时不交付已失效正文。
+- 新11项；Linux Node24.19.0全仓836/836、相关39/39、临时Linux CRLF同组39/39（359文件转换）。覆盖预检/容量、重开/过期/倒退、权限/策略、取消、提交后失败恢复、整批末尾撤回抑制前序正文、副本突变、索引异常和Key/native HTTP守卫。无Windows实机新结论。
+- 固定脚本3次独立假生成，召回追加模型/真实请求均0，原梦/醒来/账本保持、无关线索为空、撤回重开与受管理正文清除通过。driver不保存线索/候选正文；hash不等于加密，已返回调用者副本和外部备份不能远程清除。
+- 每事件独立提交，可能留下已完成前缀；signal只取消本次同步调用并抑制尚未交付正文，不是持久后台任务。100身份满后停止，不自动清空/淘汰。虚拟时钟仅演练，不冒充真实白天监听/长期浮现验收。
+- 见docs/DAYTIME-CUE-SIMULATION.md及validation/daytime-cue-simulation-validation.json。src/fixtures/package、付费源码清单/图/合同/profile/期限/批准/占款均不改；不访问用户Store、不新增费用或真实私料外发。公开仅自有MIT实现、独立表述和虚构测试，无第三方复制或跨仓库修改。
+- 本切片实现及离线验证完成，下一步用户Windows运行同一无Key虚构脚本；实际白天接收口和Asteria仍待对接，不用测试通过替代梦境质量验收。

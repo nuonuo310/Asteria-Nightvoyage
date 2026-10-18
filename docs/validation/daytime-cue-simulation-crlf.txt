@@ -1,0 +1,47 @@
+✔ virtual day follows literal cues through misses, reopen, expiry, a fresh event and withdrawal (61.115034ms)
+✔ all events are prevalidated, bounded and permission-denied plans cannot smuggle cues (32.643039ms)
+✔ cue identity conflicts and persisted clock rewind refuse before new receipts after reopen (49.281593ms)
+✔ cherishing, simulated residue and cue accessibility remain separate controls (57.497698ms)
+✔ batch publication suppresses earlier bodies if a later event expires them or withdraws their source (39.111523ms)
+✔ an already aborted invocation writes nothing; cancellation after a commit suppresses bodies and later events (33.262865ms)
+✔ save failure returns no candidates and persisted receipt/clock reopen without refreshing expiry (27.803874ms)
+✔ controller namespace and metadata corruption cannot adopt receipts or change simulation state (23.545867ms)
+✔ candidate mutation cannot change future provenance and source withdrawal removes original and future replay (30.800747ms)
+✔ one hundred durable event identities bound metadata growth and overflow creates no partial batch (369.640067ms)
+✔ standalone fictional command cannot read provider credentials or enter native transport (191.741402ms)
+✔ duplicate requests and sessions do not repeat calls; changed request conflicts (28.130951ms)
+✔ overlapping execute is refused; cancelling in flight suppresses late body and wake (18.446189ms)
+✔ queued cancellation consumes no budget (6.795084ms)
+✔ call timeout aborts cooperative provider and does not save delayed response (25.688136ms)
+✔ budgets bound calls, cumulative input and cumulative output reservations (26.878974ms)
+✔ failed scene validation retains completed checkpoint and retry respects remaining budget (24.214401ms)
+✔ process death after dispatch reopens uncertain, never automatically calls again (105.977802ms)
+✔ persisted scene checkpoint resumes without regenerating that scene (22.626361ms)
+✔ withdrawal purges source text, dream, descendants and cached recalls across restart (32.902234ms)
+✔ withdrawal during generation aborts and discards late provider output (18.719555ms)
+✔ withdrawal journal survives crash before body purge and startup removes abandoned temp (15.119496ms)
+✔ storage failure fails closed; reopening enforces durable withdrawal (12.073229ms)
+✔ deletion removes dream descendants, run bodies and stale recall delivery (14.89596ms)
+✔ second store owner and checkout or symlink storage paths are rejected (4.424688ms)
+✔ special object keys cannot act as request, recall or entry records (2.538234ms)
+✔ initial affect is supplied explicitly or neutral; model cannot override origin/appraisal fields (11.741601ms)
+✔ cue replay expires and policy changes cannot re-expose old candidate (20.677257ms)
+✔ dream-like commands are data and never execute a tool or create tasks (15.438831ms)
+✔ deletion journal reapplies after interruption before managed body purge (11.86732ms)
+✔ cancel after a durable scene prevents subsequent dispatch and resume (5.805272ms)
+✔ oversized and malformed outputs cannot publish a dream (10.780428ms)
+✔ stale inputs and withdrawn source identities never enter a new run (3.977326ms)
+✔ withdrawal before tombstone persistence fails closed and must be retried after repair (21.231199ms)
+✔ initial persistence failure does not leave an active execution that prevents close (4.230336ms)
+✔ file adapter uses the same normalized contract as direct snapshot input (17.489477ms)
+✔ mutating a returned recall cannot erase provenance and bypass withdrawal (28.428783ms)
+✔ accepted source IDs always fit the withdrawal contract (3.848662ms)
+✔ residue rejects invalid clocks rather than returning nonfinite affect (18.342189ms)
+ℹ tests 39
+ℹ suites 0
+ℹ pass 39
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1101.973498

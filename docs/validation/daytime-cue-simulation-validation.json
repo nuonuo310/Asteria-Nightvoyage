@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-18",
+  "baseCommit": "20bae0dc931ae2b7b31d142a642f0d38ad84a76b",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "newTests": 11,
+  "fullSuite": {
+    "tests": 836,
+    "pass": 836,
+    "fail": 0,
+    "skipped": 0
+  },
+  "targeted": {
+    "tests": 39,
+    "pass": 39,
+    "fail": 0
+  },
+  "crlf": {
+    "kind": "temporary_linux_copy_not_windows",
+    "convertedFiles": 359,
+    "tests": 39,
+    "pass": 39,
+    "fail": 0
+  },
+  "checks": {
+    "command": "node scripts/check-daytime-cues.mjs",
+    "node": "v24.19.0",
+    "platform": "linux",
+    "kind": "fictional_virtual_day",
+    "fakeGenerationCalls": 3,
+    "recallAdditionalModelCalls": 0,
+    "realModelRequests": 0,
+    "firstLiteralCandidate": true,
+    "unmatchedCueEmpty": true,
+    "reopenedReplayPreservesExpiry": true,
+    "expiredReplayEmpty": true,
+    "newEventCanMatchRetainedDream": true,
+    "clockRewindBlocked": true,
+    "originalDreamAndWakeUnchanged": true,
+    "billingUnchanged": true,
+    "withdrawnReplayEmptyAfterReopen": true,
+    "managedBodiesPurged": true,
+    "persistedCueText": false,
+    "automaticDelivery": false,
+    "asteriaAdapter": "pending",
+    "semanticRetrievalValidated": false,
+    "qualityAssessed": false,
+    "userStoreAccessed": false
+  },
+  "limits": {
+    "eventsPerBatch": 10,
+    "durableEventIdentities": 100,
+    "clock": "explicit_monotonic_virtual_only",
+    "matching": "existing_literal_match_only",
+    "cancellation": "this_invocation_not_durable_background_job",
+    "persistence": "per_event_committed_prefix_not_whole_batch_transaction"
+  },
+  "receiptBodiesPersistedByDriver": false,
+  "paidSourceInventoryChanged": false,
+  "productionSrcFixturesPackageChanged": false,
+  "oldAllowancesOrHoldsChanged": false,
+  "userStoreAccessed": false,
+  "realModelRequests": 0,
+  "qualityAssessed": false,
+  "asteriaAdapter": "pending",
+  "hashes": {
+    "scripts/daytime-cue-simulation.mjs": "80484568ebcce1467adaa011dc1fcdecc8e74c29126da2cfbd86500de1db32fe",
+    "scripts/check-daytime-cues.mjs": "3f212466e3c185bf83f9cd7949c40554b3a3c3a4f31474945f051654d0155913",
+    "test-support/daytime-cue-fixtures.js": "bd85ea845922df80430ea34f0c9a610430e6a44ce402b516573fad317d0a3828",
+    "test/daytime-cue-simulation.test.js": "270fbd65b5406f9c5db3492c79185e24929903d2100b36118115e7aed68b3848"
+  }
+}
