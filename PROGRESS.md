@@ -772,3 +772,10 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - README 改为当前使用入口，清除早期“没有真实入口”“Windows 未验证”等混杂状态；历史过程留在 Git 历史与各切片文档。PLAN/CONTRACT 加范围说明，保留原始 B/C 合同，不迁移旧批准/记录或放宽重试。
 - 沿用已有 Linux847/847、Windows针对11/11、用户单样本真实闭环与虚拟白天脚本证据；本轮仅文档核对，不重跑测试，不访问用户 Store/凭据或新增模型请求。公开内容不含私有梦簿正文/编号/指纹。
 - 下一步技术方向为夜航仓库内的离线接入差异设计；无跨仓库修改、真实材料、后台监听、语义检索、前端或新付费运行授权。
+
+## 2026-10-18 · 未来适配器接入差异设计与虚构样例
+
+- 新增 docs/ADAPTER-BOUNDARY-DESIGN.md，逐项映射现有五通道、独立输出、控制与保存 API，明确拟议接收边界；Asteria 权限/时效、协议协商、实际线索、delivery ack 和外部缓存撤回均待对接，没有猜测 endpoint 或兼容性。
+- examples/adapter-boundary.snapshot.json 为独立虚构五通道材料且全部禁止外发；adapter-boundary-flow.json 明确 executableContract=false。脚本只调用现有 plain-fake 本地 API，不新增桥、付费或授权实现。
+- node scripts/check-adapter-boundary.mjs 在 Linux／Node v24.19.0 完成：文件/直接规范化相同、缺失通道筛除、缺记忆0调用跳过、3次假生成、独立 result/候选、重复0追加、重开原梦不变、临时源撤回重开后读/召回为空；真实请求/凭据读取0。脚本拒绝参数、不访问用户 Store，执行汇总已保存。本轮未重跑全套，也未新测 Windows 或未实现的跨系统确认。
+- 文档/示例/演练仅位于付费清单之外；src/fixtures/package、旧记录/批准/源码清单/预算/期限/占款不改。无第三方依赖或实现复制，无私有原文。设计完成不等于 Asteria 运行成功，质量仍未验收。

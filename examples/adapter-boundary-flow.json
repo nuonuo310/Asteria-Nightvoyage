@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "kind": "illustrative_adapter_boundary_flow",
+  "executableContract": false,
+  "asteriaAdapter": "pending",
+  "scope": "existing_plain_fake_local_api_only",
+  "snapshotFile": "examples/adapter-boundary.snapshot.json",
+  "steps": [
+    {
+      "port": "input",
+      "currentCall": "FileSnapshotAdapter.read(file)",
+      "expect": "normalized_fictional_snapshot_no_egress"
+    },
+    {
+      "port": "control",
+      "currentCall": "Nightvoyage.start(requestId,sessionId,snapshot)",
+      "requestId": "fictional-adapter-request",
+      "sessionId": "fictional-adapter-session",
+      "expect": "durable_run_id"
+    },
+    {
+      "port": "control",
+      "currentCall": "Nightvoyage.execute(runId)",
+      "expect": "completed_at_most_two_scenes_and_one_wake"
+    },
+    {
+      "port": "output",
+      "currentCall": "Nightvoyage.result(runId)",
+      "separateFields": [
+        "dream",
+        "wake",
+        "residue",
+        "associations",
+        "receipt"
+      ],
+      "expect": "generated_content_nonfact_with_program_owned_provenance"
+    },
+    {
+      "port": "recall",
+      "currentCall": "Nightvoyage.recall(cue,eventId,now)",
+      "expect": "separate_zero_or_one_literal_candidate_not_automatic_delivery"
+    },
+    {
+      "port": "storage",
+      "currentCall": "close_then_new_Nightvoyage_same_directory_read(dreamId)",
+      "expect": "saved_original_available_without_regeneration"
+    },
+    {
+      "port": "withdrawal",
+      "currentCall": "Nightvoyage.withdraw(sourceId)",
+      "expect": "reopened_read_and_replayed_recall_no_dependent_body"
+    }
+  ],
+  "futureReceiver": {
+    "status": "design_only_not_implemented",
+    "capabilitiesNegotiated": false,
+    "deliveryAcknowledgement": false,
+    "automaticMemoryWrites": false,
+    "personalityWrites": false,
+    "taskWrites": false
+  }
+}
