@@ -16,3 +16,6 @@ Further reading: [Sleep-time Compute](https://arxiv.org/abs/2504.13171), [Genera
 ## ChatGPT plan usage public protocol (2026-10-18)
 
 [Official overview](https://developers.openai.com/siwc/token-sharing-open-source), [registration](https://developers.openai.com/siwc/token-sharing-open-source/sign-in), [inference](https://developers.openai.com/siwc/token-sharing-open-source/models-and-inference), [limitations](https://developers.openai.com/siwc/token-sharing-open-source/preview-limitations) and [account usage controls](https://developers.openai.com/siwc/token-sharing-open-source/profiles-and-sessions) inform the independent request/decoder preparation. No SDK, sample code or third-party implementation is incorporated; no new package is installed. Referencing documentation does not assume a license to copy its code. A future dependency requires version-specific license review; copying implementation still requires confirmation. See [entry scope and pending limits](CHATGPT-PLAN-ENTRY.md).
+
+
+The subsequent [native login check](CHATGPT-PLAN-LOGIN.md) independently implements PKCE/OIDC validation with Node built-ins and the public OAuth/JWKS requirements. It adds no copied implementation or package dependency. Its RSA/EC signature tests are synthetic; they are not a third-party security audit or confirmation of a real user's account.
