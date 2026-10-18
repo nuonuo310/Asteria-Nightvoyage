@@ -75,3 +75,5 @@ GPT订阅首次试跑的用户回执为首幕校验失败、未发布梦境；�
 已准备[GPT订阅单次响应诊断](docs/GPT-PLAN-SINGLE-RESPONSE-PROBE.md)：独立批准、最多一次调用、不保存生成正文；真实执行尚未批准或核验。
 
 零生成调用的网络失败可使用[一次显式接续](docs/GPT-PLAN-ZERO-CALL-RECONNECT.md)：原失败对象与期限保持不变，先公开网络预检，原诊断及接续累计最多一次生成；无自动重试。
+
+用户回报订阅接续在HTTP 200的Content-Type检查处拒绝；[官方约定复核与离线返回类型分类](docs/PLAN-HTTP-ENVELOPE-REVIEW.md)已完成，实际类型和根因仍未知，未放宽正式接受规则或追加真实调用。

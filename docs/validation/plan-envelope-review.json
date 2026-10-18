@@ -1,0 +1,50 @@
+{
+  "date": "2026-10-18",
+  "platform": "linux",
+  "node": "v24.19.0",
+  "scope": "Non-dispatchable bounded HTTP envelope review only",
+  "targeted": {
+    "command": "node --test test/plan-envelope-review.test.js",
+    "tests": 5,
+    "pass": 5,
+    "fail": 0,
+    "durationMs": 120.024298
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 989,
+    "pass": 989,
+    "fail": 0,
+    "durationMs": 32299.523556
+  },
+  "realModelRequests": 0,
+  "userStoreAccessed": false,
+  "userCredentialsRead": false,
+  "productionTransportChanged": false,
+  "sourcePinsChanged": false,
+  "oldApprovalsReset": false,
+  "acceptanceRulesRelaxed": false,
+  "liveEntryAdded": false,
+  "boundedClassificationBytes": 8192,
+  "inferenceAcceptedByClassifier": false,
+  "bodyReturnedByClassifier": false,
+  "recordedUserEvidence": {
+    "evidenceKind": "user_report_independently_paraphrased",
+    "diagnostic": "http_content_type",
+    "httpStatusFromPinnedControlFlow": 200,
+    "exactMediaType": "unknown",
+    "bodyShape": "unknown",
+    "usage": "unknown",
+    "remoteRevocationReported": true
+  },
+  "thirdPartyCodeCopied": false,
+  "newDependencies": 0,
+  "limits": [
+    "Actual old response media/header/body cannot be reconstructed",
+    "Classifier is offline and not wired into the production transport",
+    "Synthetic classification does not establish real routing, eligibility or quality",
+    "No fresh subscription request approved or sent by this slice"
+  ],
+  "qualityAssessed": false,
+  "semanticSupport": "not_assessed"
+}
