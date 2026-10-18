@@ -40,3 +40,9 @@ node scripts/check-dreambook-reader.mjs
 测试另覆盖缺省目录与显式路径、无数据不创建、非法选项、owner 竞争、来源/醒来异常、未支持的最后一梦不替换、删除和错误信息不回显正文。验证记录见 validation/dreambook-reader-validation.json。Linux 的 CRLF 副本不是 Windows 实机；下一步用户先运行同一独立自检，再显式读取自己已有的最近一梦，不为验证而删除或撤回用户梦簿。
 
 项目自有 MIT 独立实现，无新依赖、第三方复制或私有 Continuity 原文。
+
+## Windows 用户实机回报
+
+2026-10-18，用户在 main 37e958c 上运行独立自检，Node v24.19.0 / win32；3次假生成，阅读器调用、真实请求和凭据读取均为0。目录无正文、独立显示、静止测试 Store 不变性与撤回重开屏蔽检查通过；这组自检没有访问用户 Store。
+
+用户随后显式读取自己已有的最近一梦，显示两幕、独立醒来残片、模拟评价及两条带助手署名的独立意见，保留梦境/非事实与来源版本身份。这是实际显示证据，不新增一次原文或账本哈希核验，也不转成人工验收或总体质量通过。独立聚合记录见 validation/user-local-dreambook-reader-windows.json；不收录梦簿正文、实际编号、指纹或终端路径。当前日常使用可直接 read --latest，无须为查看重复生成。

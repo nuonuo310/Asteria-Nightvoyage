@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "kind": "user_reported_windows_dreambook_reader",
+  "reportedDate": "2026-10-18",
+  "repositoryCommit": "37e958c997473eb1b340cd9a5e338d23417fbac5",
+  "evidenceOrigin": "user_pasted_terminal_summary_and_explicit_local_read",
+  "independentlyExecutedByWorkbench": false,
+  "selfcheck": {
+    "command": "node scripts/check-dreambook-reader.mjs",
+    "node": "v24.19.0",
+    "platform": "win32",
+    "fakeGenerationCalls": 3,
+    "readerModelCalls": 0,
+    "realModelRequests": 0,
+    "credentialReads": 0,
+    "catalogBodyFree": true,
+    "latestExcludesReviewEntries": true,
+    "explicitIdAndLatestRead": true,
+    "narrativeWakeAndReviewsSeparate": true,
+    "originalDreamAndWakeUnchanged": true,
+    "billingUnchanged": true,
+    "reviewCountUnchanged": true,
+    "stableStateBytesUnchanged": true,
+    "filesystemZeroWritesClaimed": false,
+    "withdrawalSuppressesReopenedListAndRead": true,
+    "userStoreAccessed": false,
+    "asteriaAdapter": "pending",
+    "qualityAssessed": false
+  },
+  "actualLocalRead": {
+    "displayObserved": true,
+    "savedScenes": 2,
+    "wakeExcerptDisplayedSeparately": true,
+    "simulatedAffectDisplayedSeparately": true,
+    "independentAssistantReviewsDisplayed": 2,
+    "reviewerAttributionPreserved": true,
+    "dreamAndNonfactIdentityDisplayed": true,
+    "sourceVersionIdentityDisplayed": true,
+    "newInvarianceMeasurement": false,
+    "rawBodiesOrActualIdentifiersIncluded": false
+  },
+  "limits": {
+    "selfcheckUsesIndependentFictionalStore": true,
+    "actualReadIsDisplayEvidenceOnly": true,
+    "humanAcceptanceRecorded": false,
+    "overallQualityAccepted": false,
+    "asteriaAdapter": "pending"
+  }
+}
