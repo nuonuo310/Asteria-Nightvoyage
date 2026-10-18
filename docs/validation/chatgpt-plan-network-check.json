@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "baseCommit": "f5e049ccd8dcfbf96216ad266239787ab7b88a80",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "targeted": {
+    "command": "node --test test/chatgpt-plan-auth.test.js test/chatgpt-plan-login.test.js test/chatgpt-plan-network-check.test.js",
+    "tests": 23,
+    "pass": 23,
+    "fail": 0,
+    "durationMs": 559.573036
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 926,
+    "pass": 926,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "durationMs": 30584.56492
+  },
+  "fixedPhaseDiagnostics": true,
+  "httpStatusMetadataBounded": true,
+  "networkCauseCodesWhitelisted": true,
+  "arbitraryExceptionAndResponseTextSuppressed": true,
+  "discoveryCheckHasNoBrowserStoreOrAccount": true,
+  "noLoginRetry": true,
+  "nativeOfficialNetworkTested": false,
+  "realModelRequests": 0,
+  "userCredentialsRead": false,
+  "userStoreAccessed": false,
+  "windowsNetworkCauseKnown": false,
+  "coreAndHistoricalPaidInventoryUnchanged": true,
+  "tlsAndRedirectRulesUnchanged": true,
+  "qualityAssessed": false
+}

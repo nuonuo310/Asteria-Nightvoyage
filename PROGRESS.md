@@ -853,3 +853,10 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 三种 adapter 在相同 ModelPortNightvoyage 下分别完成虚构闭环、持久化、完成去重、撤回；中立执行器源码未改。GPT预检显式选择Codex的演练可用，首幕后失败不会分发备用；取消压制迟到协议正文。
 - 复查补齐新 owner 的梦簿读取投影，严格校验来源/选择身份/scene chain/wake，拒绝篡改和未支持评审；不冒充旧 API 元数据。Linux／Node v24.19.0 针对52/52，完整920/920；独立三入口自检分别3次本地模拟阶段，完成重放追加0，原梦不变，撤回重开屏蔽。无真实请求、凭据/用户Store访问或Codex进程。详细范围见 docs/SUBSCRIPTION-MODEL-PORT-REHEARSAL.md 及聚合验证文件。
 - 真实订阅执行器仍未完成；decoder拒绝工具事件不证明真实进程没有执行工具，因此未启用原生app-server。下一步实际绑定账号、登录/授权或真实推理之前暂停；不消耗新人民币预算，不修改Asteria/其他仓库或旧付费清单/批准/额度/期限/占款。源于公开协议的独立实现，无第三方复制、私有原文或质量验收声明。
+
+## 2026-10-18 · 登录前失败的无正文诊断
+
+- 用户本次登录核对回报 plan_http_failed、remoteRevocationConfirmed=null，未出现本机登录入口；源码确认当前失败位于浏览器前的公开discovery HTTP阶段。既有输出无法区分HTTP状态和DNS/TLS/连接异常，不猜测原因或账号资格，不重试登录。
+- 在HTTP边界新增WeakMap绑定的固定诊断，只含状态整数/null与白名单网络码/unknown；登录失败回执增加固定阶段。无URL、原始异常、headers、响应正文、回调或凭据；不改变签名/权限校验、client绑定、TLS/重定向、超时、大小与撤销边界。
+- 新增独立 chatgpt-plan-network-check.mjs：只请求并校验固定公开discovery配置，不打开浏览器/Store、不读凭据、连接配置或用户梦簿，不登录、不请求目录/生成、不自动重试。帮助和错误参数不联网。用户只需一次本机公开配置检查，不需再次授权账号。
+- 新增6项测试，合并既有登录/签名针对23/23，Linux完整926/926；完整验证汇总见 validation/chatgpt-plan-network-check.json。均为独立模拟官方HTTP和临时数据，无真实官方网络/模型、用户材料、费用、第三方实现复制或其他仓库修改。Windows实际网络尚待输出，不把错误日志改进称为网络已修复。

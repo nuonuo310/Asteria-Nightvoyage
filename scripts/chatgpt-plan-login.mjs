@@ -9,13 +9,17 @@ import {PlanConnections} from './chatgpt-plan-connections.mjs';
 import {PlanAuthorizationAttempt,validatePlanTokens,planModelChoices,planIssuer,planResource,planToken,planJwks,planDiscovery,authFail} from './chatgpt-plan-auth.mjs';
 const knownErrors=new Set(['plan_absolute_connection_directory_required','plan_connection_store_required','plan_connection_invalid','plan_registration_mismatch','plan_invalid_registration','plan_invalid_callback','plan_callback_consumed','plan_callback_rejected','plan_login_denied','plan_identity_invalid','plan_permission_missing','plan_model_catalog_invalid','plan_cancelled','plan_login_timeout','plan_http_failed','plan_http_timeout','plan_http_oversized','plan_http_invalid','plan_discovery_invalid','plan_browser_open_failed','plan_loopback_failed','plan_login_busy']);
 export const loginDiagnostic=error=>knownErrors.has(error?.message)?error.message:'plan_login_failed';
+// Body-free metadata belongs only to errors created by this HTTP boundary.
+const httpDiagnostics=new WeakMap();
+const networkCodes=new Set(['ENOTFOUND','EAI_AGAIN','ECONNREFUSED','ECONNRESET','ETIMEDOUT','UND_ERR_CONNECT_TIMEOUT','UND_ERR_SOCKET','CERT_HAS_EXPIRED','DEPTH_ZERO_SELF_SIGNED_CERT','UNABLE_TO_VERIFY_LEAF_SIGNATURE','ERR_TLS_CERT_ALTNAME_INVALID']);
+export const planHttpDiagnostic=error=>httpDiagnostics.has(error)?{...httpDiagnostics.get(error)}:null;
 // Auth token JSON and model list are bounded in time and bytes, with redirects disabled.
 // No external response/error body is logged. Revocation is a separate bounded attempt.
 export async function planHttpJson(url,options={},signal,purpose='standard'){
   if(signal?.aborted)authFail('plan_cancelled');
   let u;try{u=new URL(url);}catch{authFail('plan_http_failed');}
   if(![planDiscovery,planJwks,`${planResource}/models`,planToken].includes(u.href)&&!(purpose==='revoke'&&safeRevocationEndpoint(u.href)))authFail('plan_http_failed');
-  const controller=new AbortController();let timer,onAbort;
+  const controller=new AbortController();let timer,onAbort,httpStatus=null;
   const abort=new Promise((_,reject)=>{
     onAbort=()=>{controller.abort();reject(Error('plan_cancelled'));};
     if(signal?.aborted)onAbort();else signal?.addEventListener('abort',onAbort,{once:true});
@@ -24,6 +28,7 @@ export async function planHttpJson(url,options={},signal,purpose='standard'){
   // Fixed endpoints, except the same-issuer revocation URL from validated discovery.
   const operation=(async()=>{
     const response=await fetch(u,{...options,redirect:'error',signal:controller.signal});
+    if(Number.isInteger(response.status)&&response.status>=100&&response.status<=599)httpStatus=response.status;
     if(response.status!==200){controller.abort();authFail('plan_http_failed');}
     if(purpose==='revoke'&&response.body===null)return null;
     const reader=response.body?.getReader();if(!reader)authFail('plan_http_invalid');let size=0;const chunks=[];
@@ -34,7 +39,11 @@ export async function planHttpJson(url,options={},signal,purpose='standard'){
     try{return JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(Buffer.concat(chunks)));}catch{authFail('plan_http_invalid');}
   })();
   try{return await Promise.race([operation,abort]);}
-  catch(error){authFail(['plan_cancelled','plan_http_timeout','plan_http_failed','plan_http_invalid','plan_http_oversized'].includes(error.message)?error.message:'plan_http_failed');}
+  catch(error){
+    const reason=['plan_cancelled','plan_http_timeout','plan_http_failed','plan_http_invalid','plan_http_oversized'].includes(error?.message)?error.message:'plan_http_failed';
+    const code=error?.cause?.code??error?.code;const failure=Error(reason);
+    httpDiagnostics.set(failure,{http_status:httpStatus,network_code:networkCodes.has(code)?code:'unknown'});throw failure;
+  }
   finally{clearTimeout(timer);signal?.removeEventListener('abort',onAbort);controller.abort();}
 }
 export function validatePlanDiscovery(d){
@@ -92,23 +101,26 @@ function openWindowsBrowser(url){
 }
 export async function checkPlanLogin({directory,signal,onReady}){
   if(signal?.aborted)authFail('plan_cancelled');
-  const connections=new PlanConnections(directory);let tokens=null,session=null,revocation=null,remoteRevocationConfirmed=false,receipt=null,error=null,client=null,exchangeStarted=false;
+  const connections=new PlanConnections(directory);let tokens=null,session=null,revocation=null,remoteRevocationConfirmed=false,receipt=null,error=null,client=null,exchangeStarted=false,phase='discovery_http',failureHttp=null;
   try{
-    revocation=validatePlanDiscovery(await planHttpJson(planDiscovery,{},signal)).revocationEndpoint;
+    const discovery=await planHttpJson(planDiscovery,{},signal);phase='discovery_validation';
+    revocation=validatePlanDiscovery(discovery).revocationEndpoint;
     const saved=connections.read();
-    const callback=await planLoopback({hostId:saved.hostId,clientId:saved.clientId,signal,onReady});
+    phase='browser_callback';const callback=await planLoopback({hostId:saved.hostId,clientId:saved.clientId,signal,onReady});
     client=callback.clientId;
     // Retain issued ID before token exchange; failed exchange cannot create a new client silently.
-    connections.retainIssuedClient(callback.clientId);
+    phase='registration_save';connections.retainIssuedClient(callback.clientId);
     if(signal?.aborted)authFail('plan_cancelled');exchangeStarted=true;
-    tokens=await planHttpJson(planToken,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:callback.form},signal);
-    session=validatePlanTokens(tokens,await planHttpJson(planJwks,{},signal),{clientId:callback.clientId,nonce:callback.nonce,subject:saved.subject});
-    connections.bindIdentity(session.clientId,session.subject);
+    phase='token_http';tokens=await planHttpJson(planToken,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:callback.form},signal);
+    phase='jwks_http';const jwks=await planHttpJson(planJwks,{},signal);phase='identity_validation';
+    session=validatePlanTokens(tokens,jwks,{clientId:callback.clientId,nonce:callback.nonce,subject:saved.subject});
+    phase='identity_save';connections.bindIdentity(session.clientId,session.subject);
     if(signal?.aborted)authFail('plan_cancelled');
-    const models=planModelChoices(await planHttpJson(`${planResource}/models`,{headers:{Authorization:`Bearer ${session.accessToken}`}},signal));
+    phase='catalog_http';const catalog=await planHttpJson(`${planResource}/models`,{headers:{Authorization:`Bearer ${session.accessToken}`}},signal);
+    phase='catalog_validation';const models=planModelChoices(catalog);
     if(signal?.aborted)authFail('plan_cancelled');
     receipt={status:'signed_in_models_checked',identityValidated:true,planScopeGranted:true,modelChoices:models,catalogIsInferenceEntitlementProof:false,generationEnabled:false,realModelRequests:0,apiKeyReads:0,credentialsPersisted:false,usageSettingsVerified:false,extraCreditsApproved:false};
-  }catch(e){error=loginDiagnostic(e);}
+  }catch(e){error=loginDiagnostic(e);failureHttp=planHttpDiagnostic(e);}
   finally{
     // Even failed identity/scope validation may have issued a refresh token: revoke it.
     const refresh=session?.refreshToken??tokens?.refresh_token;
@@ -117,7 +129,7 @@ export async function checkPlanLogin({directory,signal,onReady}){
     }
     session=null;tokens=null;connections.close();
   }
-  return {...(receipt??{status:'login_not_completed',reason:error,generationEnabled:false,realModelRequests:0,credentialsPersisted:false}),remoteRevocationConfirmed:exchangeStarted?remoteRevocationConfirmed:null,...(exchangeStarted&&!remoteRevocationConfirmed?{cleanupNotice:'Remote session revocation was not confirmed. Disconnect the app in ChatGPT Settings if authorization completed.'}:{})};
+  return {...(receipt??{status:'login_not_completed',reason:error,failureStage:phase,httpDiagnostic:failureHttp,generationEnabled:false,realModelRequests:0,credentialsPersisted:false}),remoteRevocationConfirmed:exchangeStarted?remoteRevocationConfirmed:null,...(exchangeStarted&&!remoteRevocationConfirmed?{cleanupNotice:'Remote session revocation was not confirmed. Disconnect the app in ChatGPT Settings if authorization completed.'}:{})};
 }
 export async function planLoginMain(args){
   if(args.length!==1||args[0]!=='login'){
