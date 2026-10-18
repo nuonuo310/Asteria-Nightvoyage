@@ -48,3 +48,12 @@ node scripts/check-daytime-cues.mjs
 额外测试覆盖整批预检、每批/持久容量、输入身份、拒绝许可、命名空间冲突、访问策略与珍藏/余韵独立、整批交付时抑制、取消、保存失败、候选副本突变、索引异常和 Key/native transport 守卫。证据见 validation/daytime-cue-simulation-validation.json。
 
 本切片是可运行的虚拟昼间演练，不把它写成真实长期白天自动浮现已经实现。下一步先验证 Windows 相同虚构脚本，再评估是否有必要设计实际白天接收口；不为此自动新增付费样本、接入私人数据或改 Asteria。自有 MIT 独立实现，无新依赖或第三方代码复制，无私有研究原文。
+
+
+## Windows 实机回报（2026-10-18）
+
+用户同步至84c4313后，Windows／Node v24.19.0运行固定虚构脚本并回报完成：首次字面命中、无关线索为空、重开重放保留原到期、过期为空、新事件可命中仍保留的梦、防时钟倒退、原梦/醒来与账本保持、撤回重开后为空及受管理正文清除均通过。3次假生成，召回追加模型和真实请求均0，userStoreAccessed=false。
+
+[公开聚合回报](validation/user-local-daytime-cues-windows.json)不含原终端文本、线索/梦正文、实际编号、私人路径或凭据。范围仅此独立虚构脚本，不扩大为Windows全仓836项测试、真实白天长期监听、后台自动浮现或语义检索。automaticDelivery=false，Asteria仍待对接，梦境质量仍未验收。
+
+本切片已有Linux机制回归、临时CRLF检查和用户Windows脚本回报，当前演练收尾，无需为同一结果重复运行。本次仅补记文档，不改源码/合同/额度/期限/占款，也不新增测试或真实调用。
