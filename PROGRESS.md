@@ -765,3 +765,10 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 用户同步至 main 4aab6c5 后，Node v24.19.0 / win32 的 dreambook-review-text 与 dreambook-reader 两组针对测试11/11通过（用户终端回报，工作台未独立执行 Windows）。这是针对测试，不是 Windows 全套847项。
 - 随后显式 read --latest 的实际本地结果显示两幕、醒来残片及两条分开的中文助手评审；固定判断状态、助手署名、原始备注及修订说明正确显示。仅记录显示观察，不新增一次实际原梦/账本不变性测量，不转成人工验收或总体质量通过。
 - 本次只补文档汇总，不复制梦簿正文、实际编号、指纹、备注或私人路径；不重跑测试，不调用模型，不修改代码、付费批准、额度或占款。聚合记录见 docs/validation/user-local-readable-reviews-windows.json。阅读排版切片完成，下一步回到首阶段范围与剩余验收项的梳理。
+
+## 2026-10-18 · 第一阶段本地工程收口核对
+
+- 对照原始 A/B/C 目标、CONTRACT、文件适配器、引擎与 basic/lifecycle 等既有测试，整理 docs/PHASE-ONE-STATUS.md：工程机制已有实现及限定证据；总体质量未验收，Asteria 待对接，不宣称生产可用。
+- README 改为当前使用入口，清除早期“没有真实入口”“Windows 未验证”等混杂状态；历史过程留在 Git 历史与各切片文档。PLAN/CONTRACT 加范围说明，保留原始 B/C 合同，不迁移旧批准/记录或放宽重试。
+- 沿用已有 Linux847/847、Windows针对11/11、用户单样本真实闭环与虚拟白天脚本证据；本轮仅文档核对，不重跑测试，不访问用户 Store/凭据或新增模型请求。公开内容不含私有梦簿正文/编号/指纹。
+- 下一步技术方向为夜航仓库内的离线接入差异设计；无跨仓库修改、真实材料、后台监听、语义检索、前端或新付费运行授权。
