@@ -73,3 +73,5 @@ Windows PowerShell 若阻止 npm.ps1，使用 npm.cmd test。上述 check 脚本
 GPT订阅首次试跑的用户回执为首幕校验失败、未发布梦境；已补充[固定响应诊断与只读历史入口](docs/GPT-PLAN-RESPONSE-DIAGNOSTICS.md)，旧响应原因仍未知，未安排重试。
 
 已准备[GPT订阅单次响应诊断](docs/GPT-PLAN-SINGLE-RESPONSE-PROBE.md)：独立批准、最多一次调用、不保存生成正文；真实执行尚未批准或核验。
+
+零生成调用的网络失败可使用[一次显式接续](docs/GPT-PLAN-ZERO-CALL-RECONNECT.md)：原失败对象与期限保持不变，先公开网络预检，原诊断及接续累计最多一次生成；无自动重试。

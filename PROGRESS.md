@@ -891,3 +891,9 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 用户回报Windows历史读取已保留首次失败与unknown用量，原具体诊断null；没有补造原因。已完成另行批准的单次首幕响应诊断入口，绑定旧失败摘要、固定虚构素材、GPT-5.6-Sol和源码闭包，最多一次新调用，不继续旧梦、不生成醒来、不保存或显示生成正文。未变更接受规则、旧批准或梦境核心，也未执行真实订阅调用。
 
 定点14/14；最终全量970/970。核验覆盖父记录不变、一次调用、无登录重放、无正文、取消、实际进程退出、超时、来源撤回、初始/意图/结算写失败、重复/过期批准、闭合CLI和CRLF源码。accepted只表示新单幕响应通过协议，不是完整梦或质量验收。详见[合同与入口](docs/GPT-PLAN-SINGLE-RESPONSE-PROBE.md)及[验证汇总](docs/validation/plan-single-response-probe.json)。下一步暂停在新的一次真实订阅调用之前，请用户明确批准；旧已消耗授权不能替代。
+
+## 2026-10-18 · 零生成失败的显式接续
+
+用户回报单次诊断在discovery连接超时、0生成意图，随后公开检查200，并要求继续。旧授权失败阶段未持久保存，不补造机器诊断；新增一次显式接续，保留原失败对象与父梦、绑定摘要和原到期时间，不新增原诊断家庭的一次生成上限。先公开网络预检，失败不启动OAuth或消耗接续；之后登录/生成失败、中断或取消均停止，无自动重试或API兜底。新授权摘要采用白名单持久化。
+
+定点14/14，全量984/984；合成核验覆盖旧记录不变、时限不延长、累计一次、前置及二次discovery失败、取消、来源撤回、存储故障、真实子进程退出、过期/变更/owner、CLI与CRLF。没有真实调用或用户Store访问。详见[接续合同](docs/GPT-PLAN-ZERO-CALL-RECONNECT.md)与[验证汇总](docs/validation/probe-zero-call-reconnect.json)。下一步由用户显式启动本机接续和登录；Windows与真实协议结果仍待回执，不宣称完整梦或质量成功。

@@ -1,0 +1,61 @@
+{
+  "date": "2026-10-18",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "scope": "One explicit reconnect for an observed zero-generation failed diagnostic",
+  "targeted": {
+    "command": "node --test test/probe-reconnect.test.js",
+    "tests": 14,
+    "pass": 14,
+    "fail": 0,
+    "durationMs": 2482.357401
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 984,
+    "pass": 984,
+    "fail": 0,
+    "durationMs": 31717.914002
+  },
+  "realModelRequests": 0,
+  "userCredentialsRead": false,
+  "userStoreAccessed": false,
+  "realUserApprovalRecordedByTests": false,
+  "maxDiagnosticFamilyExternalCalls": 1,
+  "originalProbeObjectUnchanged": true,
+  "parentDreamBytesUnchanged": true,
+  "originalExpiryExtended": false,
+  "publicDiscoveryFailureConsumesOAuth": false,
+  "automaticRetry": false,
+  "persistsGeneratedBody": false,
+  "priorFailurePhaseInferredFromMetadata": false,
+  "authorizationDiagnosticPersistedForNewReconnect": true,
+  "apiFallback": false,
+  "extraCreditsApproved": false,
+  "serverOutputTokenCap": null,
+  "newTests": 14,
+  "newDependencies": 0,
+  "thirdPartyCodeCopied": false,
+  "sourceMaterial": "independent fictional fixture, repository grants unchanged",
+  "evidence": [
+    "Synthetic public discovery failure returns a fixed timeout diagnostic with identical persisted state",
+    "Synthetic successful reconnect settles one stage usage without body and terminal replay has no login",
+    "Second discovery failure persists sanitized authorization summary and consumes reconnect",
+    "Original zero-intent failure/approval and parent bytes retained across execution",
+    "Any prior intent, uncertain phase or bound action refuses reconnect",
+    "Actual process death after durable dispatch retains uncertain intent and unknown revocation",
+    "Cancel before/during precheck and in-flight, timeout and source withdrawal",
+    "Authorizing, dispatch and accepted metadata persistence failures",
+    "Expiry, original-record mutation, owner lock, CLI closed arguments and CRLF source hashes"
+  ],
+  "limitations": [
+    "No native Windows execution or real subscription inference verified in this slice",
+    "Public 200 does not ensure subsequent OAuth or inference network stability",
+    "Original discarded response and unpersisted authorization stage remain unrecoverable",
+    "No service token hard cap or guaranteed remote cancellation/refund",
+    "Store startup may perform lock/journal recovery writes"
+  ],
+  "qualityAssessed": false,
+  "semanticSupport": "not_assessed",
+  "asteriaAdapter": "pending"
+}
