@@ -19,6 +19,9 @@ export async function planHttpJson(url,options={},signal,purpose='standard'){
   if(signal?.aborted)authFail('plan_cancelled');
   let u;try{u=new URL(url);}catch{authFail('plan_http_failed');}
   if(![planDiscovery,planJwks,`${planResource}/models`,planToken].includes(u.href)&&!(purpose==='revoke'&&safeRevocationEndpoint(u.href)))authFail('plan_http_failed');
+  // Only the fixed GET catalog needs a larger envelope for provider metadata.
+  // Authentication/revocation keep their original cap; callers cannot supply a limit.
+  const byteLimit=u.href===`${planResource}/models`&&(options.method??'GET')==='GET'&&purpose==='standard'?1048576:131072;
   const controller=new AbortController();let timer,onAbort,httpStatus=null;
   const abort=new Promise((_,reject)=>{
     onAbort=()=>{controller.abort();reject(Error('plan_cancelled'));};
@@ -33,7 +36,7 @@ export async function planHttpJson(url,options={},signal,purpose='standard'){
     if(purpose==='revoke'&&response.body===null)return null;
     const reader=response.body?.getReader();if(!reader)authFail('plan_http_invalid');let size=0;const chunks=[];
     try{
-      for(;;){const {done,value}=await reader.read();if(done)break;size+=value.byteLength;if(size>131072){controller.abort();authFail('plan_http_oversized');}chunks.push(value);}
+      for(;;){const {done,value}=await reader.read();if(done)break;size+=value.byteLength;if(size>byteLimit){controller.abort();authFail('plan_http_oversized');}chunks.push(value);}
     }finally{reader.releaseLock();}
     if(!size&&options.method==='POST'&&u.href!==planToken)return null;
     try{return JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(Buffer.concat(chunks)));}catch{authFail('plan_http_invalid');}

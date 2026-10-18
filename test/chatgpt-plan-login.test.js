@@ -8,7 +8,7 @@ import {spawnSync} from 'node:child_process';
 import {generateKeyPairSync,sign} from 'node:crypto';
 import {Store} from '../src/store.js';
 import {PlanConnections} from '../scripts/chatgpt-plan-connections.mjs';
-import {planLoopback,planHttpJson,checkPlanLogin,validatePlanDiscovery,loginDiagnostic} from '../scripts/chatgpt-plan-login.mjs';
+import {planLoopback,planHttpJson,checkPlanLogin,validatePlanDiscovery,loginDiagnostic,planHttpDiagnostic} from '../scripts/chatgpt-plan-login.mjs';
 import {planIssuer,planResource,planAuthorize,planToken,planJwks,planDiscovery} from '../scripts/chatgpt-plan-auth.mjs';
 const hostId='urn:uuid:11111111-1111-4111-8111-111111111111',clientId='oaiapp_synthetic',nativeFetch=globalThis.fetch;
 const discovery=()=>({issuer:planIssuer,authorization_endpoint:planAuthorize,token_endpoint:planToken,jwks_uri:planJwks,revocation_endpoint:`${planIssuer}/oauth/synthetic-revoke`});
@@ -61,14 +61,14 @@ async function simulatedCheck(t,changes={}){
     if(href===planDiscovery)return Response.json(discovery());
     if(href===planToken){const body=new URLSearchParams(options.body),saved=JSON.parse(fs.readFileSync(path.join(directory,'state.json')));seenClient=saved.planConnection.clientId;assert.equal(seenClient,body.get('client_id'));assert.equal(body.get('resource'),planResource);return Response.json({access_token:'SYNTHETIC-ACCESS',refresh_token:'SYNTHETIC-REFRESH',id_token:jwt(authNonce),token_type:'Bearer',expires_in:3600,scope:changes.denied?'openid':'openid resource.invoke chatgpt.tokens.use.direct'});}
     if(href===planJwks)return Response.json({keys:[{...rsa.publicKey.export({format:'jwk'}),kid:changes.badSignature?'other':'synthetic',alg:'RS256'}]});
-    if(href===`${planResource}/models`){assert.equal(options.headers.Authorization,'Bearer SYNTHETIC-ACCESS');if(changes.modelsFail)return new Response('PRIVATE-PROVIDER-ERROR',{status:500});return Response.json({models:[{slug:'synthetic-plan-model',display_name:'Synthetic Model',visibility:'list'}]});}
+    if(href===`${planResource}/models`){assert.equal(options.headers.Authorization,'Bearer SYNTHETIC-ACCESS');if(changes.modelsFail)return new Response('PRIVATE-PROVIDER-ERROR',{status:500});return Response.json({models:[{slug:'synthetic-plan-model',display_name:'Synthetic Model',visibility:'list'}],...(changes.catalogPadding?{metadata:'SYNTHETIC-CATALOG-EXTRA'+'x'.repeat(changes.catalogPadding)}:{})});}
     if(href===discovery().revocation_endpoint){const body=new URLSearchParams(options.body);assert.equal(body.get('token'),'SYNTHETIC-REFRESH');assert.equal(body.get('client_id'),clientId);return new Response(null,{status:changes.revocationFail?500:200});}
     assert.fail('unexpected network endpoint');
   };
   let result;
   try{result=await checkPlanLogin({directory,onReady:async start=>{const {p,callback}=await callbackFor(start);authNonce=p.get('nonce');await nativeFetch(callback);}});}finally{globalThis.fetch=nativeFetch;}
   const files=fs.readdirSync(directory).map(n=>fs.readFileSync(path.join(directory,n),'utf8')).join('\n');
-  for(const secret of ['SYNTHETIC-ACCESS','SYNTHETIC-REFRESH','SYNTHETIC-CODE','PRIVATE-PROVIDER-ERROR']){assert.ok(!files.includes(secret));assert.ok(!JSON.stringify(result).includes(secret));}
+  for(const secret of ['SYNTHETIC-ACCESS','SYNTHETIC-REFRESH','SYNTHETIC-CODE','PRIVATE-PROVIDER-ERROR','SYNTHETIC-CATALOG-EXTRA']){assert.ok(!files.includes(secret));assert.ok(!JSON.stringify(result).includes(secret));}
   return {result,calls,directory,seenClient};
 }
 
@@ -135,4 +135,63 @@ test('CLI help and invalid flags never echo inherited API credentials',()=>{
   for(const args of [[],['help'],['login','--api-key','SYNTHETIC-SENTINEL'],['run','--live']]){
     const r=spawnSync(process.execPath,[script,...args],{encoding:'utf8',env:{...process.env,NIGHTVOYAGE_DEEPSEEK_KEY:'SYNTHETIC-SENTINEL',OPENAI_API_KEY:'SYNTHETIC-SENTINEL'}});assert.ok(!(r.stdout+r.stderr).includes('SYNTHETIC-SENTINEL'));assert.equal(r.status,args.length>1?1:0);
   }
+});
+
+test('catalog over old cap completes synthetic login, projects choices and revokes without persisting provider metadata',async t=>{
+  const {result,calls}=await simulatedCheck(t,{catalogPadding:150000});
+  assert.equal(result.status,'signed_in_models_checked');assert.equal(result.remoteRevocationConfirmed,true);
+  assert.equal(result.realModelRequests,0);assert.equal(result.generationEnabled,false);
+  assert.equal(result.catalogIsInferenceEntitlementProof,false);
+  assert.deepEqual(result.modelChoices,[{model:'synthetic-plan-model',name:'Synthetic Model'}]);
+  assert.equal(calls.filter(c=>c.href===`${planResource}/models`).length,1);
+});
+
+test('catalog over new cap fails closed, revokes once, and neither retries nor persists catalog or tokens',async t=>{
+  const {result,calls}=await simulatedCheck(t,{catalogPadding:1048576});
+  assert.equal(result.status,'login_not_completed');assert.equal(result.reason,'plan_http_oversized');
+  assert.equal(result.failureStage,'catalog_http');assert.deepEqual(result.httpDiagnostic,{http_status:200,network_code:'unknown'});
+  assert.equal(result.remoteRevocationConfirmed,true);assert.equal(result.realModelRequests,0);
+  assert.equal(calls.filter(c=>c.href===`${planResource}/models`).length,1);
+  assert.equal(calls.filter(c=>c.href===discovery().revocation_endpoint).length,1);
+});
+
+test('catalog cap counts streamed UTF-8 bytes at exact boundary, independent of content-length',async()=>{
+  const payload=JSON.stringify({models:[],metadata:'虚构'}),base=Buffer.byteLength(payload);
+  try{for(const extra of [0,1]){
+    const bytes=Buffer.from(payload+' '.repeat(1048576-base+extra));let aborted=false;
+    globalThis.fetch=async(url,options)=>{
+      assert.equal(String(url),`${planResource}/models`);options.signal.addEventListener('abort',()=>aborted=true,{once:true});
+      return new Response(new ReadableStream({start(c){for(let i=0;i<bytes.length;i+=4093)c.enqueue(bytes.subarray(i,i+4093));c.close();}}),{headers:{'content-length':'1'}});
+    };
+    if(extra)await assert.rejects(planHttpJson(`${planResource}/models`),error=>{assert.equal(error.message,'plan_http_oversized');assert.deepEqual(planHttpDiagnostic(error),{http_status:200,network_code:'unknown'});return true;});
+    else assert.deepEqual(await planHttpJson(`${planResource}/models`),{models:[],metadata:'虚构'});
+    assert.equal(aborted,true);
+  }}finally{globalThis.fetch=nativeFetch;}
+});
+
+test('larger catalog allowance does not widen discovery, token, JWKS, revocation or non-GET bounds',async()=>{
+  let calls=0;
+  globalThis.fetch=async()=>{calls++;return new Response(' '.repeat(131073));};
+  try{
+    for(const url of [planDiscovery,planToken,planJwks])await assert.rejects(planHttpJson(url),/plan_http_oversized/);
+    await assert.rejects(planHttpJson(discovery().revocation_endpoint,{method:'POST'},undefined,'revoke'),/plan_http_oversized/);
+    await assert.rejects(planHttpJson(`${planResource}/models`,{method:'POST'}),/plan_http_oversized/);
+    await assert.rejects(planHttpJson('https://untrusted.invalid/models'),/plan_http_failed/);
+    assert.equal(calls,5);
+  }finally{globalThis.fetch=nativeFetch;}
+});
+
+test('larger catalog reader rejects malformed UTF-8 and suppresses cancelled late chunks without a second request',async()=>{
+  let calls=0,streamController;
+  try{
+    globalThis.fetch=async()=>{calls++;return new Response(new Uint8Array([0xff]));};
+    await assert.rejects(planHttpJson(`${planResource}/models`),/plan_http_invalid/);
+    const active=new AbortController();
+    globalThis.fetch=async()=>{calls++;return new Response(new ReadableStream({start(c){streamController=c;c.enqueue(new TextEncoder().encode(' '.repeat(150000)));}}));};
+    const request=planHttpJson(`${planResource}/models`,{},active.signal);
+    await new Promise(resolve=>setImmediate(resolve));active.abort();
+    await assert.rejects(request,/plan_cancelled/);
+    streamController.enqueue(new TextEncoder().encode('{"models":[]}'));streamController.close();
+    await new Promise(resolve=>setImmediate(resolve));assert.equal(calls,2);
+  }finally{globalThis.fetch=nativeFetch;}
 });

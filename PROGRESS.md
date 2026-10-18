@@ -860,3 +860,10 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 在HTTP边界新增WeakMap绑定的固定诊断，只含状态整数/null与白名单网络码/unknown；登录失败回执增加固定阶段。无URL、原始异常、headers、响应正文、回调或凭据；不改变签名/权限校验、client绑定、TLS/重定向、超时、大小与撤销边界。
 - 新增独立 chatgpt-plan-network-check.mjs：只请求并校验固定公开discovery配置，不打开浏览器/Store、不读凭据、连接配置或用户梦簿，不登录、不请求目录/生成、不自动重试。帮助和错误参数不联网。用户只需一次本机公开配置检查，不需再次授权账号。
 - 新增6项测试，合并既有登录/签名针对23/23，Linux完整926/926；完整验证汇总见 validation/chatgpt-plan-network-check.json。均为独立模拟官方HTTP和临时数据，无真实官方网络/模型、用户材料、费用、第三方实现复制或其他仓库修改。Windows实际网络尚待输出，不把错误日志改进称为网络已修复。
+
+## 2026-10-18 · 模型目录单独的有界读取修复
+
+- 用户本机登录核对推进至 catalog_http，HTTP200 后因旧131072字节上限拒绝；本次临时会话撤销已确认，无生成。此前公开探针的成功和超时均只证明各次请求，不认定网络稳定、超时根因或账号推理资格。未复制授权链接、回调、目录、账号或用户正文。
+- 只为固定模型目录 GET 提高到1048576字节；discovery/token/JWKS/revoke和非GET仍131072。按流中实际UTF-8字节累计，不信Content-Length、不截断JSON、不提供任意额度开关或自动重试；20秒、TLS、固定endpoint、签名/scope/client绑定和撤销保持。目录原有1000条/可见性/格式校验及仅型号/名称投影保持。
+- 新增5项有意义回归：超过旧上限的完整合成登录/撤销；超过新上限的拒绝与撤销；分块多字节JSON恰好上限/多1字节；认证/撤销与非GET上限不扩大；坏UTF-8、取消和迟到正文压制。所有响应/签名/临时数据独立合成。定点28/28、Linux／Node v24.19.0完整931/931，见validation/chatgpt-plan-catalog-limit.json。
+- 仅scripts/test/docs和本进度变化，src/fixtures/package及既有付费图、批准、额度、unknown占款、用户梦簿不改。无实际登录、官方网络请求、凭据读取、真实生成、费用、第三方复制或跨仓库写入。下一步需用户同步、跑定点检查后执行先前批准的本机登录/目录核对；真实订阅生成仍关闭，Windows修复后目录尚未验证，不把测试全绿当成梦境质量验收。

@@ -12,7 +12,7 @@ node scripts/chatgpt-plan-network-check.mjs
 
 HTTP 诊断只返回100–599的状态整数或null，网络码只允许固定的 DNS/连接/超时/TLS 常量，其余unknown。没有原始异常 message、URL、headers、响应正文、代理配置、账号资料或token。诊断由HTTP边界用WeakMap绑定到自身异常；不能从任意异常属性直接拼出回执。
 
-原 `chatgpt-plan-login.mjs login` 的失败回执也增加 failureStage 与 httpDiagnostic，区分 discovery_http、discovery_validation、browser_callback、registration_save、token_http、jwks_http、identity_validation、identity_save、catalog_http、catalog_validation。不改变OAuth地址/签名/scope校验、持久client/subject绑定、重定向禁令、20秒/131072字节边界或撤销处理。
+原 `chatgpt-plan-login.mjs login` 的失败回执也增加 failureStage 与 httpDiagnostic，区分 discovery_http、discovery_validation、browser_callback、registration_save、token_http、jwks_http、identity_validation、identity_save、catalog_http、catalog_validation。不改变OAuth地址/签名/scope校验、持久client/subject绑定、重定向禁令、20秒/131072字节边界或撤销处理（本段描述该切片当时行为；后续仅模型目录 GET 单独调整为1 MiB，见[登录说明](CHATGPT-PLAN-LOGIN.md)）。
 
 本机abort不是已确认远端取消。remoteRevocationConfirmed=null只表示本次未进入code交换，不撤销或确认任何更早的未知会话。未知错误仍固定编号；不放宽TLS、不跟随重定向、不偷偷配置代理，不用另一个账户或新目录绕过失败。
 

@@ -23,7 +23,7 @@ Windows 会用系统浏览器打开本机一次性入口，转到 OpenAI 官方�
 - 动态注册使用官方公开client入口，先持久保存每安装实例的UUID host ID。已返回issued client ID会在交换code前落盘；交换失败也保留它，下一次复用，不自动另注册。
 - 127.0.0.1随机端口与固定/auth/callback，精确state、nonce、PKCE；回调一次性消费、5分钟到期、Host/Origin/方法检查，无CORS、脚本或远端监听。不打印原始回调/供应方错误。
 - ID token用官方JWKS、Node内置crypto独立验证。首版仅支持RS256（RSA至少2048位）及ES256/P-256，检查签名、kid、issuer、audience/azp、expiry/iat/nbf、nonce、已绑定subject和token响应的plan scope；未知算法/密钥/字段失败关闭，不自动放宽或信任JWT解码结果。无第三方JWT实现复制或新依赖，尚未完成第三方安全审核。
-- 公开discovery的issuer、authorize/token/JWKS地址精确核对；撤销地址从该文档发现，只接受同一HTTPS issuer、无用户信息/查询/fragment的URL，不猜路径。HTTP禁止重定向，无自动重试，单请求20秒、JSON响应131072字节；取消后晚到内容不作为成功结果。
+- 公开discovery的issuer、authorize/token/JWKS地址精确核对；撤销地址从该文档发现，只接受同一HTTPS issuer、无用户信息/查询/fragment的URL，不猜路径。HTTP禁止重定向，无自动重试，单请求20秒；固定模型目录 GET 的 JSON 响应最多1048576字节，其他认证/撤销响应仍最多131072字节，按实际读取的UTF-8字节累计；取消后晚到内容不作为成功结果。
 - 首版只核对一个连接。Windows连接元数据位于LOCALAPPDATA/Nightvoyage/chatgpt-plan-connection，其他平台在用户.local/share/Nightvoyage下。只保存host ID、issued client ID、验证过的opaque subject及结构版本；**不保存邮箱、access/refresh/ID token、PKCE、授权code或型号目录**。此连接目录不是新梦簿或预算账户，不改变/接管旧梦簿与历史占款。
 - 复用单owner受管理Store的原子持久化和锁。拒绝非空梦簿/计费Store，但Store启动恢复可能先写入；不是对任意第三方目录零写入探测。身份绑定保存失败仍尝试撤销当次会话并释放owner。
 - 所有凭据仅在当前进程内存使用；结束时尝试撤销此次refresh会话，清掉程序引用，不宣称物理内存擦除或对进程转储/操作系统的控制。不会注销用户浏览器里的ChatGPT登录，也不删除已注册client。正常退出可撤销；进程被强杀、断电或token响应丢失时可能无法确认远端撤销，须在官方设置断开应用。无自动token续期、后台驻留或跨进程续跑，下一次需重新浏览器登录并复用issued client ID。
@@ -40,3 +40,17 @@ Windows 会用系统浏览器打开本机一次性入口，转到 OpenAI 官方�
 `node --test test/chatgpt-plan-auth.test.js test/chatgpt-plan-login.test.js`：独立RSA/EC签名与反例、PKCE、回调、回调取消/超时、真实本机HTTP回环但模拟官方服务、issued client先落盘、scope/签名失败抑制目录、凭据不落盘、保存失败后的撤销与释放、未确认撤销及CLI参数拒绝。模拟凭据不是用户凭据，模拟目录型号不存在。Windows浏览器启动与官方网络/账号行为仍待实机核对。
 
 实现为独立表述和代码，只依据公开协议要求；无复制官方示例或第三方实现。继续使用[官方注册/登录](https://developers.openai.com/siwc/token-sharing-open-source/sign-in)、[身份签名验证说明](https://developers.openai.com/siwc/website)、[模型目录](https://developers.openai.com/siwc/token-sharing-open-source/models-and-inference)、[账户/会话撤销](https://developers.openai.com/siwc/token-sharing-open-source/profiles-and-sessions)、[token字段](https://developers.openai.com/siwc/token-sharing-open-source/token-reference)。
+
+## 模型目录大小与网络检查
+
+模型目录包含服务端元数据，不能用 token/JWKS 的小响应假定其大小。当前只为固定 `/v1/models` GET 设置1 MiB上限；不允许调用方任意提高上限，不根据 Content-Length 放行，不截断 JSON，也不自动重新请求。目录仍执行既有最多1000条、可见性、型号/名称格式及重复项校验，输出只投影型号和名称；完整目录不保存。超限返回 `catalog_http / plan_http_oversized`，随后仍尝试撤销本次临时会话。1 MiB为本项目本地资源上限，不是官方目录大小保证；真实目录能否读取仍需本机验证。
+
+有些网络环境中，可在单次 Node 启动时先检查以下组合，不修改系统网络、VPN或持久环境变量：
+
+```sh
+node --dns-result-order=ipv4first --no-network-family-autoselection scripts/chatgpt-plan-network-check.mjs
+```
+
+只有公开检查通过、且用户已批准登录核对后，才以同样的两个参数运行 `scripts/chatgpt-plan-login.mjs login`。不要通过重复登录、改VPN全局设置或禁用TLS校验来绕过失败。参数组合曾在用户本机使请求推进到HTTP200的目录读取，但不足以证明所有超时根因或未来网络稳定。登录/目录通过也不证明真实订阅推理可用，更不批准生成或额外积分。
+
+此修复的独立模拟验证见 [validation/chatgpt-plan-catalog-limit.json](validation/chatgpt-plan-catalog-limit.json)。不含用户回调、授权链接、凭据、账号或原始目录。
