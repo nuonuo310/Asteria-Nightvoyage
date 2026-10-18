@@ -1,0 +1,41 @@
+{
+  "command": "node scripts/check-envelope-event-budget.mjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "kind": "independent_synthetic_event_budget_review",
+  "eventCeiling": 128,
+  "streamByteCeiling": 65536,
+  "results": [
+    {
+      "syntheticKind": "reasoning",
+      "eventCount": 128,
+      "utf8Bytes": 24556,
+      "accepted": true,
+      "check": null
+    },
+    {
+      "syntheticKind": "reasoning",
+      "eventCount": 129,
+      "utf8Bytes": 24743,
+      "accepted": false,
+      "check": "event_limit"
+    },
+    {
+      "syntheticKind": "answer",
+      "eventCount": 138,
+      "utf8Bytes": 22140,
+      "accepted": false,
+      "check": "event_limit"
+    }
+  ],
+  "independentStrictCounterReproduced": true,
+  "liveProposalPinsUnchanged": true,
+  "liveLimitsChanged": false,
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "userStoreAccessed": false,
+  "historicalEventKindsKnown": false,
+  "historicalFinalEnvelopeKnown": false,
+  "historicalCauseBeyondLimitConfirmed": false,
+  "qualityAssessed": false
+}

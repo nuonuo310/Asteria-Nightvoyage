@@ -12,7 +12,7 @@
 
 ## 模型入口与当前施工
 
-正式目标默认 **ChatGPTPlanAdapter**，订阅备用 **CodexAdapter**；开发和自动测试默认 **FakeAdapter**。新的 [DreamModelPort](docs/DREAM-MODEL-PORT.md) 已有持久 Fake 闭环和显式 API 兼容演练；无显式会话时两种订阅 adapter 均关闭。用户已执行受限 GPT 订阅请求，最新试跑在第一幕响应结构校验处停止，未保存梦；成功推理资格和梦境质量仍未确立。见[最新失败证据与离线对照](docs/PLAN-OUTPUT-SHAPE-REVIEW.md)。Codex 原生入口仍待对接。[显式模拟协议演练](docs/SUBSCRIPTION-MODEL-PORT-REHEARSAL.md)不代表真实推理成功。[只读盘点](docs/DREAM-MODEL-PORT-INVENTORY.md)保留当时基线与调用链。
+正式目标默认 **ChatGPTPlanAdapter**，订阅备用 **CodexAdapter**；开发和自动测试默认 **FakeAdapter**。新的 [DreamModelPort](docs/DREAM-MODEL-PORT.md) 已有持久 Fake 闭环和显式 API 兼容演练；无显式会话时两种订阅 adapter 均关闭。用户已执行受限 GPT 订阅请求，最新完整封装试跑在第一幕流的事件数量上限处停止，未保存梦；成功推理资格和梦境质量仍未确立。见[事件上限证据与离线复现](docs/ENVELOPE-EVENT-BUDGET-REVIEW.md)及[较早的输出结构对照](docs/PLAN-OUTPUT-SHAPE-REVIEW.md)。Codex 原生入口仍待对接。[显式模拟协议演练](docs/SUBSCRIPTION-MODEL-PORT-REHEARSAL.md)不代表真实推理成功。[只读盘点](docs/DREAM-MODEL-PORT-INVENTORY.md)保留当时基线与调用链。
 
 同一 run 在 start 时固定 adapter/model/protocol；fallback 仅在零外部调用的 preflight 按明确策略选择 GPT → Codex，不能在首幕后换入口或拼接结果。DeepSeek/API 历史能力保留在显式 legacy 边界，不静默默认、不新增费用许可。Asteria 两座桥仍待对接，不在夜航实现。
 
