@@ -867,3 +867,13 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 只为固定模型目录 GET 提高到1048576字节；discovery/token/JWKS/revoke和非GET仍131072。按流中实际UTF-8字节累计，不信Content-Length、不截断JSON、不提供任意额度开关或自动重试；20秒、TLS、固定endpoint、签名/scope/client绑定和撤销保持。目录原有1000条/可见性/格式校验及仅型号/名称投影保持。
 - 新增5项有意义回归：超过旧上限的完整合成登录/撤销；超过新上限的拒绝与撤销；分块多字节JSON恰好上限/多1字节；认证/撤销与非GET上限不扩大；坏UTF-8、取消和迟到正文压制。所有响应/签名/临时数据独立合成。定点28/28、Linux／Node v24.19.0完整931/931，见validation/chatgpt-plan-catalog-limit.json。
 - 仅scripts/test/docs和本进度变化，src/fixtures/package及既有付费图、批准、额度、unknown占款、用户梦簿不改。无实际登录、官方网络请求、凭据读取、真实生成、费用、第三方复制或跨仓库写入。下一步需用户同步、跑定点检查后执行先前批准的本机登录/目录核对；真实订阅生成仍关闭，Windows修复后目录尚未验证，不把测试全绿当成梦境质量验收。
+
+## 2026-10-18 · GPT订阅端口与首次虚构梦受限入口
+
+- 用户已回报Windows官方登录身份/scope/目录核对成功、临时会话撤销；只接受其支持的登录/目录结论，不宣称推理或用量设置已核实。未复制原始回执、授权链接、回调、账号或其他私有内容。
+- 新增固定官方HTTP/SSE传输，由已校验且仍有效的不透明内存会话能力驱动；ChatGPTPlanAdapter显式连接统一端口，无会话默认仍失败关闭。普通login命令无action、仍零生成。会话结束能力失效并尝试撤销，异常不虚报zero调用或已确认远端取消。
+- 首次候选固定gpt-5.6-sol、独立虚构窗台/陶碗素材、一个run/最多三次调用、24小时批准与已提交源码清单；源码LF归一化闭包和package.json、素材、配置都检查。未批准不创建数据/登录；原素材外发权限保持false，本机明确批准才产生专用快照。init不可扩额/续期/清空失败，不接管旧API/身份Store。
+- 既有ModelPortNightvoyage与src核心未改：durable意图、canonical阶段验证、checkpoint/usage原子保存、梦/醒来/余韵分型、梦非事实、梦簿读取、撤回保持。首幕失败停止，不换Codex/API；本次入口不开放恢复或自动重试，中断/失败只保留检查点供复查。
+- 新增20项回归，定点83/83、Linux／Node v24.19.0完整951/951。独立合成OAuth/HTTP三阶段演练通过，重放追加请求/登录0；真实子进程在第二次合成HTTP退出后保留一幕与两次意图，重开不再登录/生成。覆盖来源撤回中晚到正文、取消/超时、超限、无权限/缺型号、初始/检查点保存失败、错误与unknown撤销、凭据不落盘、CRLF与源码变化拒绝。
+- 没有真实官方外网/模型调用、用户凭据/梦簿读取、额外人民币预算、第三方复制、新依赖或跨仓库写入。DeepSeek/API、旧付费图/许可/期限/unknown占款保持；Codex原生执行器、Asteria两座桥待对接。详细合同及公开官方来源见docs/CHATGPT-PLAN-FIRST-DREAM.md，验证见validation/chatgpt-plan-first-dream.json。
+- 已准备代码和可复核候选，但真实订阅试跑仍未批准/执行，Windows新入口待核验。下一步按用户边界暂停：先确认ChatGPT设置→用量中该应用不使用额外积分，再单独同意本次三次真实调用及无服务端token硬上限；本地只记录声明，money仍unknown，不假称免费/远端已取消或质量通过。

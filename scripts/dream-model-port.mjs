@@ -4,6 +4,7 @@ import {assertAppraisalReviewJsonData} from '../src/appraisal-review-memory.js';
 import {normalizeInlineScene,normalizeInlineCheckpoint,normalizeInlineStage} from '../src/inline-evidence-protocol.js';
 import {prepareCodexDream,CodexDreamStream,codexDreamProtocolVersion} from './codex-dream-protocol.mjs';
 import {prepareChatgptPlanRequest,ChatgptPlanStream} from './chatgpt-plan-protocol.mjs';
+import {isPlanHttpTransport,planHttpProtocolVersion} from './chatgpt-plan-http.mjs';
 export const dreamModelPortVersion='dream-model-port-v1';
 export const targetDefaultAdapter='ChatGPTPlanAdapter';
 const selections=new WeakSet();
@@ -74,16 +75,17 @@ export class FakeAdapter extends Adapter {
 }
 // A simulator is an explicit trusted offline callback, never a fetch/process fallback.
 export class ChatGPTPlanAdapter extends Adapter {
-  #simulator;
-  constructor({model_id='unknown',simulator}={}){
+  #simulator;#http;
+  constructor({model_id='unknown',simulator,httpTransport}={}){
     if(simulator!==undefined&&typeof simulator!=='function')fail('invalid_protocol_simulator');
-    super('ChatGPTPlanAdapter',simulator?'openai_protocol_simulator':'openai',model_id,simulator?'synthetic_stub':'chatgpt_plan',simulator?'offline-chatgpt-plan-inline-v1':'chatgpt-plan-inline-preparation-v1',!simulator);this.#simulator=simulator;
+    if(httpTransport!==undefined&&(!isPlanHttpTransport(httpTransport)||httpTransport.model!==model_id||simulator))fail('unreviewed_model_adapter');
+    super('ChatGPTPlanAdapter',simulator?'openai_protocol_simulator':'openai',model_id,simulator?'synthetic_stub':'chatgpt_plan',simulator?'offline-chatgpt-plan-inline-v1':httpTransport?planHttpProtocolVersion:'chatgpt-plan-inline-preparation-v1',!simulator);this.#simulator=simulator;this.#http=httpTransport;
   }
-  preflight(){return {ready:!!this.#simulator&&this.identity.model_id!=='unknown',reason:this.#simulator&&this.identity.model_id!=='unknown'?'ready':'authorization_required'};}
+  preflight(){const ready=(!!this.#simulator||this.#http?.ready()===true)&&this.identity.model_id!=='unknown';return {ready,reason:ready?'ready':'authorization_required'};}
   prepare(input){if(this.identity.model_id==='unknown')fail('explicit_model_required');const r=stageRequest(input);return prepareChatgptPlanRequest({snapshot:r.snapshot,scenes:r.scenes,stage:r.stage,index:r.index},{model:this.identity.model_id});}
   async generate(input,{signal}={}){
-    if(!this.#simulator)fail('authorization_required');const request=stageRequest(input);if(signal?.aborted)fail('cancelled');
-    const draft=this.prepare(request),chunks=await this.#simulator(structuredClone(draft),{signal}),stream=new ChatgptPlanStream(this.identity.model_id);
+    if(!this.preflight().ready)fail('authorization_required');const request=stageRequest(input);if(signal?.aborted)fail('cancelled');
+    const draft=this.prepare(request),chunks=this.#http?this.#http.stream(draft,request,{signal}):await this.#simulator(structuredClone(draft),{signal}),stream=new ChatgptPlanStream(this.identity.model_id);
     for await(const chunk of chunks){if(signal?.aborted)fail('cancelled');stream.push(chunk);}
     if(signal?.aborted)fail('cancelled');const {data,usage}=stream.finish();
     return stageResponse({value:data,usage:{input_tokens:usage.inputTokens,output_tokens:usage.outputTokens,total_tokens:usage.totalTokens}},request);

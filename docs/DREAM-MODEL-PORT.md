@@ -80,3 +80,6 @@ node --test
 ```
 
 只用独立虚构样例与临时 Store。进程真实退出探针覆盖 dispatch 意图与已提交首幕；另覆盖固定入口、明确 fallback、第二次尝试失败、重复、预算、取消/晚到、撤回、存储失败、API 原子账本及 unknown 保留。后续新 owner 的梦簿只读接入及订阅协议演练见 [SUBSCRIPTION-MODEL-PORT-REHEARSAL.md](SUBSCRIPTION-MODEL-PORT-REHEARSAL.md)。详细汇总见 [validation/dream-model-port.json](validation/dream-model-port.json)。这些是机制证据，不是订阅可用、Windows 实机、梦境语义或总体质量验收。
+
+
+后续状态：GPT端口新增只接受已校验内存会话和显式本机批准的固定HTTP传输，见[首次虚构订阅试跑](CHATGPT-PLAN-FIRST-DREAM.md)。普通无会话adapter仍失败关闭，离线simulator与Fake身份不变；本轮没有真实推理，Codex原生入口与Asteria桥仍待对接。

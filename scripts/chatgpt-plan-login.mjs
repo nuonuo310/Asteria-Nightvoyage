@@ -11,6 +11,20 @@ const knownErrors=new Set(['plan_absolute_connection_directory_required','plan_c
 export const loginDiagnostic=error=>knownErrors.has(error?.message)?error.message:'plan_login_failed';
 // Body-free metadata belongs only to errors created by this HTTP boundary.
 const httpDiagnostics=new WeakMap();
+// Opaque, memory-only capability. Only a checked OAuth session can mint one.
+const activeSessions=new WeakMap();
+export function planSessionAvailable(handle,model){
+  const value=activeSessions.get(handle);
+  return !!value&&Date.now()<value.expiresAt&&value.models.includes(model);
+}
+export function planSessionCredential(handle,model){
+  if(!planSessionAvailable(handle,model))authFail('authorization_required');
+  return activeSessions.get(handle).accessToken;
+}
+export function planSessionBinding(handle){
+  const value=activeSessions.get(handle);if(!value||Date.now()>=value.expiresAt)authFail('authorization_required');
+  return {clientId:value.clientId,subject:value.subject};
+}
 const networkCodes=new Set(['ENOTFOUND','EAI_AGAIN','ECONNREFUSED','ECONNRESET','ETIMEDOUT','UND_ERR_CONNECT_TIMEOUT','UND_ERR_SOCKET','CERT_HAS_EXPIRED','DEPTH_ZERO_SELF_SIGNED_CERT','UNABLE_TO_VERIFY_LEAF_SIGNATURE','ERR_TLS_CERT_ALTNAME_INVALID']);
 export const planHttpDiagnostic=error=>httpDiagnostics.has(error)?{...httpDiagnostics.get(error)}:null;
 // Auth token JSON and model list are bounded in time and bytes, with redirects disabled.
@@ -102,9 +116,9 @@ function openWindowsBrowser(url){
     child.once('error',()=>reject(Error('plan_browser_open_failed')));child.once('exit',code=>code===0?resolve():reject(Error('plan_browser_open_failed')));
   });
 }
-export async function checkPlanLogin({directory,signal,onReady}){
+async function checkedPlanAction({directory,signal,onReady},action){
   if(signal?.aborted)authFail('plan_cancelled');
-  const connections=new PlanConnections(directory);let tokens=null,session=null,revocation=null,remoteRevocationConfirmed=false,receipt=null,error=null,client=null,exchangeStarted=false,phase='discovery_http',failureHttp=null;
+  const connections=new PlanConnections(directory);let tokens=null,session=null,handle=null,revocation=null,remoteRevocationConfirmed=false,receipt=null,error=null,client=null,exchangeStarted=false,phase='discovery_http',failureHttp=null;
   try{
     const discovery=await planHttpJson(planDiscovery,{},signal);phase='discovery_validation';
     revocation=validatePlanDiscovery(discovery).revocationEndpoint;
@@ -123,8 +137,16 @@ export async function checkPlanLogin({directory,signal,onReady}){
     phase='catalog_validation';const models=planModelChoices(catalog);
     if(signal?.aborted)authFail('plan_cancelled');
     receipt={status:'signed_in_models_checked',identityValidated:true,planScopeGranted:true,modelChoices:models,catalogIsInferenceEntitlementProof:false,generationEnabled:false,realModelRequests:0,apiKeyReads:0,credentialsPersisted:false,usageSettingsVerified:false,extraCreditsApproved:false};
-  }catch(e){error=loginDiagnostic(e);failureHttp=planHttpDiagnostic(e);}
+    if(action){
+      phase='authorized_action';handle=Object.freeze({});
+      activeSessions.set(handle,{accessToken:session.accessToken,expiresAt:session.expiresAt,models:models.map(m=>m.model),clientId:session.clientId,subject:session.subject});
+      // Trusted local entry only; the ordinary login command never supplies this action.
+      const actionResult=await action(handle);
+      receipt={status:'plan_action_finished',actionResult,credentialsPersisted:false};
+    }
+  }catch(e){receipt=null;error=loginDiagnostic(e);failureHttp=planHttpDiagnostic(e);}
   finally{
+    if(handle)activeSessions.delete(handle);
     // Even failed identity/scope validation may have issued a refresh token: revoke it.
     const refresh=session?.refreshToken??tokens?.refresh_token;
     if(revocation&&typeof refresh==='string'&&refresh.length>0&&refresh.length<=32768&&client){
@@ -132,7 +154,12 @@ export async function checkPlanLogin({directory,signal,onReady}){
     }
     session=null;tokens=null;connections.close();
   }
-  return {...(receipt??{status:'login_not_completed',reason:error,failureStage:phase,httpDiagnostic:failureHttp,generationEnabled:false,realModelRequests:0,credentialsPersisted:false}),remoteRevocationConfirmed:exchangeStarted?remoteRevocationConfirmed:null,...(exchangeStarted&&!remoteRevocationConfirmed?{cleanupNotice:'Remote session revocation was not confirmed. Disconnect the app in ChatGPT Settings if authorization completed.'}:{})};
+  return {...(receipt??(phase==='authorized_action'?{status:'plan_action_failed',reason:'plan_action_failed',externalCallsStarted:'unknown',credentialsPersisted:false}:{status:'login_not_completed',reason:error,failureStage:phase,httpDiagnostic:failureHttp,generationEnabled:false,realModelRequests:0,credentialsPersisted:false})),remoteRevocationConfirmed:exchangeStarted?remoteRevocationConfirmed:null,...(exchangeStarted&&!remoteRevocationConfirmed?{cleanupNotice:'Remote session revocation was not confirmed. Disconnect the app in ChatGPT Settings if authorization completed.'}:{})};
+}
+export const checkPlanLogin=options=>checkedPlanAction(options,null);
+export function withCheckedPlanSession(options,action){
+  if(typeof action!=='function')authFail('authorization_required');
+  return checkedPlanAction(options,action);
 }
 export async function planLoginMain(args){
   if(args.length!==1||args[0]!=='login'){

@@ -54,3 +54,6 @@ node --dns-result-order=ipv4first --no-network-family-autoselection scripts/chat
 只有公开检查通过、且用户已批准登录核对后，才以同样的两个参数运行 `scripts/chatgpt-plan-login.mjs login`。不要通过重复登录、改VPN全局设置或禁用TLS校验来绕过失败。参数组合曾在用户本机使请求推进到HTTP200的目录读取，但不足以证明所有超时根因或未来网络稳定。登录/目录通过也不证明真实订阅推理可用，更不批准生成或额外积分。
 
 此修复的独立模拟验证见 [validation/chatgpt-plan-catalog-limit.json](validation/chatgpt-plan-catalog-limit.json)。不含用户回调、授权链接、凭据、账号或原始目录。
+
+
+后续新增 `withCheckedPlanSession` 供可信本机试跑入口使用；只有该入口的明确批准生效后，才在目录核对后把不透明内存能力交给受限action，结束即失效并撤销。普通 `login` 命令不传action，仍只核对身份/目录、零生成。真实推理的权限边界见[首次试跑](CHATGPT-PLAN-FIRST-DREAM.md)。

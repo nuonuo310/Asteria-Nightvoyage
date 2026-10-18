@@ -12,7 +12,7 @@
 
 ## 模型入口与当前施工
 
-正式目标默认 **ChatGPTPlanAdapter**，订阅备用 **CodexAdapter**；开发和自动测试默认 **FakeAdapter**。新的 [DreamModelPort](docs/DREAM-MODEL-PORT.md) 已有持久 Fake 闭环和显式 API 兼容演练；两种订阅 adapter 默认正式模式均关闭；已补[显式模拟协议演练](docs/SUBSCRIPTION-MODEL-PORT-REHEARSAL.md)，不能据此生成真实梦。 [只读盘点](docs/DREAM-MODEL-PORT-INVENTORY.md) 固定基线与真实调用链。
+正式目标默认 **ChatGPTPlanAdapter**，订阅备用 **CodexAdapter**；开发和自动测试默认 **FakeAdapter**。新的 [DreamModelPort](docs/DREAM-MODEL-PORT.md) 已有持久 Fake 闭环和显式 API 兼容演练；无显式会话时两种订阅 adapter 均关闭；GPT新增[受限首次虚构试跑入口](docs/CHATGPT-PLAN-FIRST-DREAM.md)，尚未真实推理；Codex原生入口仍待对接。已补[显式模拟协议演练](docs/SUBSCRIPTION-MODEL-PORT-REHEARSAL.md)，不能据此生成真实梦。 [只读盘点](docs/DREAM-MODEL-PORT-INVENTORY.md) 固定基线与真实调用链。
 
 同一 run 在 start 时固定 adapter/model/protocol；fallback 仅在零外部调用的 preflight 按明确策略选择 GPT → Codex，不能在首幕后换入口或拼接结果。DeepSeek/API 历史能力保留在显式 legacy 边界，不静默默认、不新增费用许可。Asteria 两座桥仍待对接，不在夜航实现。
 
@@ -35,6 +35,7 @@ list 只显示无正文目录；read 显式在本地终端显示最后一条可�
 
 ```sh
 npm test
+node scripts/check-chatgpt-plan-trial.mjs
 node scripts/check-dreambook-reader.mjs
 node scripts/check-daytime-cues.mjs
 node scripts/check-local-appraisal-review.mjs
@@ -42,13 +43,13 @@ node scripts/check-local-appraisal-review.mjs
 
 Windows PowerShell 若阻止 npm.ps1，使用 npm.cmd test。上述 check 脚本仅使用自己的临时虚构 Store，不读取用户梦簿，不读取凭据或请求真实模型。虚拟白天演练是显式线索和虚拟时间，不是后台监听、语义检索或自动投递。
 
-最新已有证据：Linux／Node v24.19.0 模型端口与订阅模拟协议切片完整测试920/920（登录切片历史879/879）；用户 Windows 阅读器针对测试11/11，另有独立脚本回报。用户随后 Windows 完整回归先为854/855，修正旧 bootstrap 测试预期后新回报855/855；[修正与历史记录](docs/WINDOWS-BOOTSTRAP-ASSERTION.md)分别保留失败和通过。新尾段未重报 commit/Node，故属于用户完整统计回报，不声称工作台独立验证或精确候选身份已绑定。假模型测试也不是生成质量验收。证据与精确范围见[第一阶段状态](docs/PHASE-ONE-STATUS.md)。
+最新已有证据：Linux／Node v24.19.0首次订阅入口的合成OAuth/HTTP切片完整951/951、定点83/83；真实订阅推理仍未执行。此前模型端口模拟协议920/920、登录历史879/879；用户 Windows 阅读器针对测试11/11，另有独立脚本回报。用户随后 Windows 完整回归先为854/855，修正旧 bootstrap 测试预期后新回报855/855；[修正与历史记录](docs/WINDOWS-BOOTSTRAP-ASSERTION.md)分别保留失败和通过。新尾段未重报 commit/Node，故属于用户完整统计回报，不声称工作台独立验证或精确候选身份已绑定。假模型测试也不是生成质量验收。证据与精确范围见[第一阶段状态](docs/PHASE-ONE-STATUS.md)。
 
 需要学习最初假模型接口，可看[虚构流程](docs/WALKTHROUGH.md)及 src/cli.js。创建实验数据必须使用源码仓库之外的绝对目录；不要为绕过历史额度、unknown 占款或去重状态而新建账户/目录。
 
 ## 真实模型与批准边界
 
-**最终接入优先级（用户决定，2026-10-18）：优先使用 GPT 订阅通路。** 已核对官方 Sign in with ChatGPT 开源 plan usage 路线，并实现[离线请求与流式协议准备](docs/CHATGPT-PLAN-ENTRY.md)；[本机登录核对](docs/CHATGPT-PLAN-LOGIN.md)已实现，账户实机资格与用量设置尚未核实，真实订阅执行器仍待实现。该路线不支持原400 token服务端上限，替代限制已获用户确认，实际生成仍须核对官方应用用量/积分设置。不将订阅自动视为 API 凭据/余额，也不预设某个 GPT 型号；不能接通时暂停说明，不自动回退至新增 API 或 DeepSeek 计费调用。现有 DeepSeek 试跑保留为机制验证与历史记录，不构成最终首选或新额度。
+**最终接入优先级（用户决定，2026-10-18）：优先使用 GPT 订阅通路。** 已核对官方 Sign in with ChatGPT 开源 plan usage 路线，并实现[离线请求与流式协议准备](docs/CHATGPT-PLAN-ENTRY.md)；[本机登录核对](docs/CHATGPT-PLAN-LOGIN.md)已实现，用户已回报Windows身份/scope/目录核对成功并撤销本次会话；真实推理资格与用量设置仍未核实。新的[首次订阅虚构梦入口](docs/CHATGPT-PLAN-FIRST-DREAM.md)已有合成HTTP闭环，真实运行待明确批准。该路线不支持原400 token服务端上限，替代限制已获用户确认，实际生成仍须核对官方应用用量/积分设置。不将订阅自动视为 API 凭据/余额，首次候选显式固定gpt-5.6-sol；不能接通时暂停说明，不自动回退至新增 API 或 DeepSeek 计费调用。现有 DeepSeek 试跑保留为机制验证与历史记录，不构成最终首选或新额度。
 
 已存在专用、合同绑定的 DeepSeek 付费入口。用户此前明确批准的一次 inline 虚构运行完成两幕与醒来，后续读取、无凭据重放和手动字面召回有用户实机回报；[单样本结果及限制](docs/INLINE-LIVE-TRIAL-RESULT.md)单独记录。不能把早期“尚无真实入口”的切片说明当作当前事实。
 

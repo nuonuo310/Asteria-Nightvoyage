@@ -1,0 +1,18 @@
+{
+  "id": "fictional-plan-window",
+  "version": "1",
+  "materialKind": "fictional",
+  "sources": [{
+    "id": "fictional-plan-window-memory",
+    "version": "1",
+    "text": "完全虚构的测试素材：一位没有真实身份的人把一只浅蓝色陶碗放在窗台。碗中放着一枚木制小圆片。远处有风铃声，窗外是一面空白的墙。没有指定目标、关系或工作，也不要求梦给出解释。",
+    "grant": {"dream": true, "modelEgress": false}
+  }],
+  "channels": {
+    "memory": {"availability": "present", "sourceIds": ["fictional-plan-window-memory"]},
+    "background": {"availability": "absent", "sourceIds": []},
+    "affect": {"availability": "absent", "sourceIds": []},
+    "mind": {"availability": "absent", "sourceIds": []},
+    "intents": {"availability": "absent", "sourceIds": []}
+  }
+}

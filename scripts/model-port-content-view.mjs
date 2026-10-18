@@ -15,7 +15,8 @@ export function readModelPortContent(store,dreamId){
  if(run.modelPortVersion!==dreamModelPortVersion||run.status!=='completed'||run.entryId!==dreamId||dreamId!==`dream-${run.id}`||entry.runId!==run.id)fail();
  const s=run.modelSelection;jsonFields(s,['adapter_kind','provider_kind','model_id','auth_mode','protocol_version','fallback_from','fallback_reason','selection_id']);
  const identities={FakeAdapter:['local_fake','none','inline-evidence-quotes-v1'],ChatGPTPlanAdapter:['openai_protocol_simulator','synthetic_stub','offline-chatgpt-plan-inline-v1'],CodexAdapter:['openai_protocol_simulator','synthetic_stub','codex-dream-transcript-rehearsal-v1']};
- if(!Object.hasOwn(identities,s.adapter_kind)||identities[s.adapter_kind].some((v,i)=>v!==[s.provider_kind,s.auth_mode,s.protocol_version][i]))fail();
+ const livePlan=s.adapter_kind==='ChatGPTPlanAdapter'&&s.provider_kind==='openai'&&s.auth_mode==='chatgpt_plan'&&s.protocol_version==='chatgpt-plan-inline-http-v1';
+ if(!livePlan&&(!Object.hasOwn(identities,s.adapter_kind)||identities[s.adapter_kind].some((v,i)=>v!==[s.provider_kind,s.auth_mode,s.protocol_version][i])))fail();
  if(typeof s.model_id!=='string'||!/^[A-Za-z0-9][A-Za-z0-9._-]{0,99}$/.test(s.model_id)||typeof entry.cherished!=='boolean'||!['manual','cue'].includes(entry.recallAccess))fail();
  const identity={adapter_kind:s.adapter_kind,provider_kind:s.provider_kind,model_id:s.model_id,auth_mode:s.auth_mode,protocol_version:s.protocol_version};
  if(s.selection_id!==hash({identity,fallback_from:s.fallback_from,fallback_reason:s.fallback_reason})||hash(run.executionOwner)!==hash({schemaVersion:1,family:dreamModelPortVersion,providerIdentity:hash({port:dreamModelPortVersion,identity,selection:s.selection_id})}))fail();
