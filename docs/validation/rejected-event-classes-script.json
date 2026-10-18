@@ -1,0 +1,64 @@
+{
+  "command": "node scripts/check-rejected-event-classes.mjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "kind": "independent_synthetic_rejection_classification",
+  "protocolVersion": "offline-rejected-event-classification-v1",
+  "results": [
+    {
+      "syntheticClass": "upstream_failed_event",
+      "currentNativeCheck": "unknown_event",
+      "candidateRejected": true,
+      "bodyReturned": false
+    },
+    {
+      "syntheticClass": "upstream_incomplete_event",
+      "currentNativeCheck": "unknown_event",
+      "candidateRejected": true,
+      "bodyReturned": false
+    },
+    {
+      "syntheticClass": "upstream_error_event",
+      "currentNativeCheck": "unknown_event",
+      "candidateRejected": true,
+      "bodyReturned": false
+    },
+    {
+      "syntheticClass": "unsupported_queue_event",
+      "currentNativeCheck": "unknown_event",
+      "candidateRejected": true,
+      "bodyReturned": false
+    },
+    {
+      "syntheticClass": "unsupported_annotation_event",
+      "currentNativeCheck": "unknown_event",
+      "candidateRejected": true,
+      "bodyReturned": false
+    },
+    {
+      "syntheticClass": "unsupported_compaction_event",
+      "currentNativeCheck": "unknown_event",
+      "candidateRejected": true,
+      "bodyReturned": false
+    },
+    {
+      "syntheticClass": "unreviewed_event",
+      "currentNativeCheck": "unknown_event",
+      "candidateRejected": true,
+      "bodyReturned": false
+    }
+  ],
+  "typeClassificationOnly": true,
+  "payloadSchemaValidated": false,
+  "newlyAcceptedEvents": 0,
+  "liveSourcePinsUnchanged": true,
+  "liveDiagnosticChanged": false,
+  "realModelRequests": 0,
+  "loginAttempts": 0,
+  "credentialReads": 0,
+  "userStoreAccessed": false,
+  "historicalEventNameKnown": false,
+  "historicalCauseRecoverable": false,
+  "historicalQuotaFailureConfirmed": false,
+  "qualityAssessed": false
+}

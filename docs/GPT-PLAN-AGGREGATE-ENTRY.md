@@ -2,6 +2,8 @@
 
 This entry integrates the [offline aggregate-budget candidate](OFFLINE-AGGREGATE-ENVELOPE.md) under a distinct native adapter and one-run permission owner. It does not replace or resume any earlier failed trial. Source integration and synthetic checks are separate from real inference qualification and dream-quality acceptance.
 
+Subsequent user-reported Windows result: one external intent, no saved scenes/wake, `responses_envelope / unknown_event`, revocation confirmed. This entry's grant is now consumed; do not repeat the initialization/run instructions as a new attempt. See [rejected-event classification and remaining uncertainty](REJECTED-RESPONSE-EVENTS.md). The original delivery and synthetic evidence below remain historical.
+
 ## Fixed scope and limits
 
 | Item | Fixed value |

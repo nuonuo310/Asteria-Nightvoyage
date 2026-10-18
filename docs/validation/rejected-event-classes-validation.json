@@ -1,0 +1,33 @@
+{
+  "scope": "offline closed rejection-event classes; no live diagnostic entry or acceptance changes",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "targeted": {
+    "command": "node --test test/rejected-event-class.test.js test/offline-aggregate-envelope.test.js test/offline-aggregate-runtime.test.js test/aggregate-source-newlines.test.js",
+    "tests": 53,
+    "pass": 53,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "duration_ms": 1269.667653
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 1258,
+    "pass": 1258,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "duration_ms": 56769.139221
+  },
+  "liveSourcePinsUnchanged": true,
+  "liveDiagnosticChanged": false,
+  "newlyAcceptedEvents": 0,
+  "realModelRequests": 0,
+  "loginAttempts": 0,
+  "credentialReads": 0,
+  "userStoreAccessed": false,
+  "historicalEventNameKnown": false,
+  "historicalQuotaFailureConfirmed": false,
+  "qualityAssessed": false
+}

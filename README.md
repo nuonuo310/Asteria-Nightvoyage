@@ -12,13 +12,13 @@
 
 ## 模型入口与当前施工
 
-正式目标默认 **ChatGPTPlanAdapter**，订阅备用 **CodexAdapter**；开发和自动测试默认 **FakeAdapter**。新的 [DreamModelPort](docs/DREAM-MODEL-PORT.md) 已有持久 Fake 闭环和显式 API 兼容演练；无显式会话时两种订阅 adapter 均关闭。用户已执行受限 GPT 订阅请求，最新完整封装试跑在第一幕流的事件数量上限处停止，未保存梦；成功推理资格和梦境质量仍未确立。见[事件上限证据与离线复现](docs/ENVELOPE-EVENT-BUDGET-REVIEW.md)及[较早的输出结构对照](docs/PLAN-OUTPUT-SHAPE-REVIEW.md)。Codex 原生入口仍待对接。[显式模拟协议演练](docs/SUBSCRIPTION-MODEL-PORT-REHEARSAL.md)不代表真实推理成功。[只读盘点](docs/DREAM-MODEL-PORT-INVENTORY.md)保留当时基线与调用链。
+正式目标默认 **ChatGPTPlanAdapter**，订阅备用 **CodexAdapter**；开发和自动测试默认 **FakeAdapter**。新的 [DreamModelPort](docs/DREAM-MODEL-PORT.md) 已有持久 Fake 闭环和显式 API 兼容演练；无显式会话时两种订阅 adapter 均关闭。用户已执行受限 GPT 订阅请求，最新整流预算试跑在第一幕遇到未支持事件后停止，未保存梦；成功推理资格和梦境质量仍未确立。见[最新拒绝事件分类与不确定性](docs/REJECTED-RESPONSE-EVENTS.md)、[此前事件上限复现](docs/ENVELOPE-EVENT-BUDGET-REVIEW.md)及[较早的输出结构对照](docs/PLAN-OUTPUT-SHAPE-REVIEW.md)。Codex 原生入口仍待对接。[显式模拟协议演练](docs/SUBSCRIPTION-MODEL-PORT-REHEARSAL.md)不代表真实推理成功。[只读盘点](docs/DREAM-MODEL-PORT-INVENTORY.md)保留当时基线与调用链。
 
 同一 run 在 start 时固定 adapter/model/protocol；fallback 仅在零外部调用的 preflight 按明确策略选择 GPT → Codex，不能在首幕后换入口或拼接结果。DeepSeek/API 历史能力保留在显式 legacy 边界，不静默默认、不新增费用许可。Asteria 两座桥仍待对接，不在夜航实现。
 
 [整流事件预算离线候选](docs/OFFLINE-AGGREGATE-ENVELOPE.md)已用独立虚构流覆盖两层计数问题：统一有限事件预算，保留 64 KiB 整流与 1,200 字节最终 JSON 上限，完整结束后才返回答案。仅接假模型闭环，未替换真实入口、消费新许可或证明 GPT 梦境质量。
 
-[独立整流预算试跑入口](docs/GPT-PLAN-AGGREGATE-ENTRY.md)使用新协议和新许可，最多一场虚构梦、三次 GPT-5.6-Sol 订阅请求；每条流最多 1,024 个事件，字节上限不变。已有模拟登录/HTTP/持久化演练，旧失败记录与许可保留；真实登录与推理仍需重新明确批准，不自动重试或改走 API。
+[独立整流预算试跑入口](docs/GPT-PLAN-AGGREGATE-ENTRY.md)使用新协议和新许可，最多一场虚构梦、三次 GPT-5.6-Sol 订阅请求；每条流最多 1,024 个事件，字节上限不变。已有模拟登录/HTTP/持久化演练；随后用户实测 1 次请求、零保存，遇到 `unknown_event` 后停止，该许可已消耗。旧记录保持原样；当前新增拒绝事件分类仅供离线核验，不自动重试或改走 API。
 
 `node scripts/check-dream-model-port.mjs` 只运行独立虚构临时样例，不登录、不读取凭据、用户梦簿或请求真实模型。
 
