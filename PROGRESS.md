@@ -710,3 +710,11 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 为此前有限助手复核准备单次本地保存指令：显式指定已读目标运行，确认fictional/dream/nonfact、inline协议、两幕estimated和3条settled；只写两条独立助手意见（方向underdetermined、幅度not_established），原梦/醒来/账本保持。公开不保存实际目标编号或正文，不将意见标成人工验收。
 - 临时Linux虚构Store演练相同stdin JavaScript正文：3次假生成、首次2条意见、重复新增0条、重开逐项重读；错目标/撤回后阻断，账本和原梦保持，Key/native请求守卫为0。汇总见docs/validation/local-review-save-instruction-rehearsal.json，不扩大为该复制块Windows实测或用户梦簿已保存成功。
 - 复用已有适配器，无新源码/运行时入口/模型请求/费用或全仓重跑。每条意见独立原子提交，中断可能保留已提交前缀；相同请求幂等，失败停止、不自动重试或覆盖。下一步由用户执行明确的本地保存块并回报聚合结果，再补实际完成证据；Asteria和整体质量仍未验收。
+
+
+## 实际梦簿：两条独立助手意见保存并重读
+
+- 用户本地复制指令回报passed：新增2条dream_appraisal_review，同次重复提交新增0，关闭重开后逐项读回一致；原梦/醒来与账目不变，真实模型请求/凭据读取均0。意见为assistant，isRealityFact=false，humanAcceptanceRecorded=false、overallQualityAccepted=false。
+- 实际路径为既有本地适配器，不冒充新CLI stdin实测；这次只证明同次去重与重开读回，没有另启命令重放、用户梦撤回/删除或Windows全套测试。方向underdetermined、幅度not_established，来源和父场景身份保留，原情绪估计不改。
+- 见docs/validation/user-local-assistant-review-save.json及LOCAL-APPRAISAL-REVIEW-CLI.md。仅聚合回报和独立表述，无梦/意见正文、实际编号、终端原文/私人路径/Key；不补造本次未重印的Git/Node版本。源码/合同/额度/期限/旧占款不变，不重复已通过的测试或追加调用。
+- 当前本地单样本与独立评审保存切片收尾，无需用户重复运行；整体质量、语义支持、长期白天浮现及Asteria仍未验收，不自动追加付费范围。

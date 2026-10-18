@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "evidenceOrigin": "user_reported_local_save_and_reopen_result",
+  "reportedOn": "2026-10-18",
+  "platform": "win32",
+  "entry": "explicit_local_adapter_via_supplied_copy_block",
+  "runtimeSourceBaseline": "c84efe331aafee665b3b77a3148d34e81550337b",
+  "exactCheckoutRepeatedInSaveOutput": false,
+  "nodeVersionRepeatedInSaveOutput": false,
+  "result": {
+    "status": "passed",
+    "savedAssistantReviews": 2,
+    "newReviewWrites": 2,
+    "replayAdditionalWrites": 0,
+    "reopened": true,
+    "originalDreamAndWakeUnchanged": true,
+    "billingUnchanged": true,
+    "reviewOrigin": "dream_appraisal_review",
+    "isRealityFact": false,
+    "realModelRequests": 0,
+    "credentialReads": 0,
+    "humanAcceptanceRecorded": false,
+    "overallQualityAccepted": false
+  },
+  "scope": {
+    "actualSavedDreamReviewed": true,
+    "reviewerKind": "assistant",
+    "sameInvocationDuplicateCreateVerified": true,
+    "readAfterStoreReopenVerified": true,
+    "separateProcessCommandReplayVerified": false,
+    "sourceWithdrawalTestedOnUserDream": false,
+    "windowsFullSuiteVerified": false
+  },
+  "interpretation": {
+    "direction": "underdetermined",
+    "magnitude": "not_established",
+    "originalEstimatesRewritten": false,
+    "reviewCountsAsHumanAcceptance": false,
+    "semanticSupportAccepted": false,
+    "additionalPaidCallsApproved": false
+  },
+  "privacy": {
+    "rawDreamOrReviewBodiesIncluded": false,
+    "actualDreamOrReviewIdsIncluded": false,
+    "rawTerminalTextIncluded": false,
+    "privatePathsOrKeysIncluded": false
+  }
+}
