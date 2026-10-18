@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-18",
+  "baseCommit": "780adc77bb990e09c90acdb05c259b156f1b8100",
+  "kind": "windows_bootstrap_expectation_fix",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "oldAssertionForcedWindowsMismatchReproduced": true,
+  "counterexampleIsWindowsHostEvidence": false,
+  "change": "literal_linux_windows_and_host_default_expectations_in_existing_test",
+  "tests": {
+    "targeted": {
+      "command": "node --test test/inline-bootstrap.test.js test/inline-child-environment.test.js",
+      "passed": 36,
+      "failed": 0
+    },
+    "full": {
+      "command": "npm test",
+      "passed": 855,
+      "failed": 0
+    }
+  },
+  "productionCodeChanged": false,
+  "paidSourcePinsChanged": false,
+  "priorWindowsFailurePreserved": true,
+  "fixedWindowsFullSuiteValidated": false,
+  "qualityAssessed": false,
+  "asteriaAdapter": "pending"
+}

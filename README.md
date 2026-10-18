@@ -34,7 +34,7 @@ node scripts/check-local-appraisal-review.mjs
 
 Windows PowerShell 若阻止 npm.ps1，使用 npm.cmd test。上述 check 脚本仅使用自己的临时虚构 Store，不读取用户梦簿，不读取凭据或请求真实模型。虚拟白天演练是显式线索和虚拟时间，不是后台监听、语义检索或自动投递。
 
-最新已有证据：Linux／Node v24.19.0 完整测试847/847；用户 Windows 阅读器针对测试11/11，另有独立脚本回报。二者不是 Windows 完整套件验收，假模型测试也不是生成质量验收。证据与精确范围见[第一阶段状态](docs/PHASE-ONE-STATUS.md)。
+最新已有证据：Linux／Node v24.19.0 完整测试847/847；用户 Windows 阅读器针对测试11/11，另有独立脚本回报。随后用户 Windows 完整回报为854/855，唯一失败是旧 bootstrap 环境预期；[断言修正与原失败记录](docs/WINDOWS-BOOTSTRAP-ASSERTION.md)保留这一失败，修正后的 Windows 全套待重跑。假模型测试也不是生成质量验收。证据与精确范围见[第一阶段状态](docs/PHASE-ONE-STATUS.md)。
 
 需要学习最初假模型接口，可看[虚构流程](docs/WALKTHROUGH.md)及 src/cli.js。创建实验数据必须使用源码仓库之外的绝对目录；不要为绕过历史额度、unknown 占款或去重状态而新建账户/目录。
 
