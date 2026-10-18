@@ -1,0 +1,34 @@
+{
+  "targeted": {
+    "command": "node --test test/offline-envelope-runtime.test.js test/offline-plan-envelope.test.js test/dreambook-reader.test.js test/model-port-dreambook.test.js",
+    "tests": 40,
+    "pass": 40,
+    "fail": 0,
+    "durationMs": 2467.259824
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 1110,
+    "pass": 1110,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "durationMs": 40590.63881
+  },
+  "node": "v24.19.0",
+  "platform": "linux",
+  "candidateTests": 18,
+  "actualChildDeathPoints": [
+    "port_dispatched",
+    "port_scene_saved"
+  ],
+  "runtimeDelta": "one import only, checked by whole-file equality",
+  "readerDelta": "one simulator protocol identity only, checked by whole-file equality",
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "userStoreAccessed": false,
+  "liveAdapterAvailable": false,
+  "windowsValidated": false,
+  "historicalCauseConfirmed": false,
+  "qualityAssessed": false
+}

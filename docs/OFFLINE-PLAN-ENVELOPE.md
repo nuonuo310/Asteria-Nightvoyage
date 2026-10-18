@@ -20,4 +20,4 @@ The final result still cannot be released before `finish()`. No reasoning output
 
 The official references and historical evidence are in [output-shape review](PLAN-OUTPUT-SHAPE-REVIEW.md). Implementation and fixtures are independently authored MIT project code, with reuse of the project's validator; no third-party/private implementation is copied.
 
-Next: integrate this exact candidate with a separately identified simulator adapter and the existing local lifecycle, then verify checkpoint, replay, cancellation, withdrawal and read behavior before proposing any new real trial. Preserve all consumed records, original source closures and real-entry behavior. No further login is requested by this offline slice.
+Subsequent work has added a separately identified [simulator lifecycle integration](OFFLINE-ENVELOPE-LIFECYCLE.md), with persistence, recovery, cancellation, withdrawal and reader tests. The protocol-only results above retain their original scope; the later integration adds its own evidence. Native transport/approval integration remains pending. No further login is requested by either offline slice.
