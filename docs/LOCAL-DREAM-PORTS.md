@@ -53,3 +53,5 @@ Linux Node v24.19.0 结果见 [local-dream-ports.json](validation/local-dream-po
 ## Windows 实机回报 · 2026-10-18
 
 用户在 main ca70563、Node v24.19.0／win32 运行 test/local-dream-ports.test.js，8/8通过，并回报独立临时自检通过：3次假生成、重放追加0，原梦/派生分离、重开及撤回屏蔽成立，凭据/传输尝试/真实请求0，未访问用户 Store。范围仅针对8项与此脚本，不是 Windows 完整855项或 Asteria/质量验收。详见 [聚合回报](validation/user-local-dream-ports-windows.json)。当前切片验证收尾，不要求重复运行。
+
+接手后的源码复查见 [LOCAL-DREAM-PORTS-REVIEW.md](LOCAL-DREAM-PORTS-REVIEW.md)：限可信本地调用范围，沿用已有动态证据，不重跑或宣称第三方独立审核。
