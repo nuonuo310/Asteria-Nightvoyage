@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-18",
+  "baseCommit": "38fc0e4e86a14a530e9327109b234bf718432500",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "newTests": 8,
+  "fullSuite": {
+    "tests": 844,
+    "pass": 844,
+    "fail": 0,
+    "skipped": 0
+  },
+  "targeted": {
+    "tests": 36,
+    "pass": 36,
+    "fail": 0
+  },
+  "crlf": {
+    "kind": "temporary_linux_copy_not_windows",
+    "convertedFiles": 366,
+    "tests": 36,
+    "pass": 36,
+    "fail": 0
+  },
+  "checks": {
+    "command": "node scripts/check-dreambook-reader.mjs",
+    "node": "v24.19.0",
+    "platform": "linux",
+    "fakeGenerationCalls": 3,
+    "readerModelCalls": 0,
+    "realModelRequests": 0,
+    "credentialReads": 0,
+    "catalogBodyFree": true,
+    "latestExcludesReviewEntries": true,
+    "explicitIdAndLatestRead": true,
+    "narrativeWakeAndReviewsSeparate": true,
+    "originalDreamAndWakeUnchanged": true,
+    "billingUnchanged": true,
+    "reviewCountUnchanged": true,
+    "stableStateBytesUnchanged": true,
+    "filesystemZeroWritesClaimed": false,
+    "withdrawalSuppressesReopenedListAndRead": true,
+    "userStoreAccessed": false,
+    "asteriaAdapter": "pending",
+    "qualityAssessed": false
+  },
+  "latestMeaning": "last_currently_visible_dream_in_persisted_insertion_order_not_timestamp",
+  "readSupportedProtocols": [
+    "coupled-affect-quotes-v1",
+    "scene-continuity-quotes-v1",
+    "inline-evidence-quotes-v1"
+  ],
+  "sourceOrPaidInventoryChanged": false,
+  "oldAllowancesOrHoldsChanged": false,
+  "userStoreAccessed": false,
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "qualityAssessed": false,
+  "hashes": {
+    "scripts/dreambook.mjs": "e2b4a622e175069ff19cb238591a616cae3f1085154ca3d3ed382746601bf846",
+    "scripts/check-dreambook-reader.mjs": "0448bb3182026f8c81ecd603423c2a3e1508523b2dbd21793e63a8d17cc525df",
+    "test-support/dreambook-reader-check.js": "16fb530ec8a9ca79c4016f8fb3976c02f6100a344b27b4b42582ee8379a05e14",
+    "test/dreambook-reader.test.js": "b14d58d9464e9099689b53a506e770f4a5dee6f01d2a5cc8d02cd25aeaf46fdc"
+  }
+}

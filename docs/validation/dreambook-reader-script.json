@@ -1,0 +1,22 @@
+{
+  "command": "node scripts/check-dreambook-reader.mjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "fakeGenerationCalls": 3,
+  "readerModelCalls": 0,
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "catalogBodyFree": true,
+  "latestExcludesReviewEntries": true,
+  "explicitIdAndLatestRead": true,
+  "narrativeWakeAndReviewsSeparate": true,
+  "originalDreamAndWakeUnchanged": true,
+  "billingUnchanged": true,
+  "reviewCountUnchanged": true,
+  "stableStateBytesUnchanged": true,
+  "filesystemZeroWritesClaimed": false,
+  "withdrawalSuppressesReopenedListAndRead": true,
+  "userStoreAccessed": false,
+  "asteriaAdapter": "pending",
+  "qualityAssessed": false
+}
