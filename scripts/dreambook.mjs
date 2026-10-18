@@ -7,6 +7,7 @@ import {Store,copy,fail} from '../src/store.js';
 import {own,safeId} from '../src/contract.js';
 import {assertAppraisalReviewJsonData} from '../src/appraisal-review-memory.js';
 import {readContentReview} from '../src/content-review.js';
+import {readModelPortContent} from './model-port-content-view.mjs';
 import {renderDreambookReview} from './dreambook-review-text.mjs';
 export const dreambookReaderVersion='local-dreambook-reader-v1';
 const supported=new Set(['coupled-affect-quotes-v1','scene-continuity-quotes-v1','inline-evidence-quotes-v1']);
@@ -34,7 +35,7 @@ export function dreambookCatalog(store){
     if(!safeId(id)||entry.id!==id||!safeId(entry.runId)||entry.materialKind!=='fictional'||entry.isRealityFact!==false||!run||run.id!==entry.runId||run.status!=='completed'||run.entryId!==id||!Array.isArray(entry.sourceRefs)||!entry.sourceRefs.length||!Array.isArray(entry.scenes)||entry.scenes.length<1||entry.scenes.length>2)fail('invalid_dreambook_entry');
     for(const ref of entry.sourceRefs)if(!ref||Object.keys(ref).length!==2||!Object.hasOwn(ref,'id')||!Object.hasOwn(ref,'version')||typeof ref.id!=='string'||!ref.id||ref.id.length>200||typeof ref.version!=='string'||!ref.version||ref.version.length>20000)fail('invalid_dreambook_entry');
     if(entry.sourceRefs.some(s=>store.withdrawn.includes(s.id))||store.deletions.some(d=>d.entryId===id||d.wholeRun&&d.runId===entry.runId))continue;
-    dreams.push({id,origin:'dream',materialKind:entry.materialKind,isRealityFact:false,sourceRefs:copy(entry.sourceRefs),sceneCount:entry.scenes.length,cherished:entry.cherished,recallAccess:entry.recallAccess,protocolVersion:run.appraisalProtocolVersion??null,protocolSupported:supported.has(run.appraisalProtocolVersion)});
+    dreams.push({id,origin:'dream',materialKind:entry.materialKind,isRealityFact:false,sourceRefs:copy(entry.sourceRefs),sceneCount:entry.scenes.length,cherished:entry.cherished,recallAccess:entry.recallAccess,protocolVersion:run.modelPortVersion??run.appraisalProtocolVersion??null,protocolSupported:run.modelPortVersion==='dream-model-port-v1'||supported.has(run.appraisalProtocolVersion)});
   }
   return {schemaVersion:1,readerVersion:dreambookReaderVersion,origin:'dreambook_catalog',isRealityFact:false,ordering:'persisted_visible_dream_insertion_order_not_creation_time',dreams};
 }
@@ -51,7 +52,8 @@ export function runDreambook(args){
     const id=flags.has('--latest')?catalog.dreams.at(-1)?.id:flags.get('--dream-id');
     if(!id||!catalog.dreams.some(d=>d.id===id))return '当前没有可查看的已保存梦境。';
     // Unsupported/corrupt selected dreams fail closed; never silently substitute an older one.
-    const view=readContentReview(store,id);
+    const run=store.state.runs[store.state.entries[id].runId];
+    const view=run.modelPortVersion==='dream-model-port-v1'?readModelPortContent(store,id):readContentReview(store,id);
     return renderDreambookReview(view,{reviewJson:flags.has('--review-json')});
   }finally{store.close();}
 }

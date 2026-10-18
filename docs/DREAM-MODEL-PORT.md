@@ -1,6 +1,6 @@
 # DreamModelPort v1
 
-本轮交付中立阶段合同、复用既有生命周期的持久 Fake 执行器，以及旧 API 客户端的显式兼容适配演练。正式目标默认 **ChatGPTPlanAdapter**，订阅备用 **CodexAdapter**，自动测试默认 **FakeAdapter**。前两者目前是明确关闭的适配器边界，**没有可用的真实生成执行器**。
+本轮交付中立阶段合同、复用既有生命周期的持久 Fake 执行器，以及旧 API 客户端的显式兼容适配演练。正式目标默认 **ChatGPTPlanAdapter**，订阅备用 **CodexAdapter**，自动测试默认 **FakeAdapter**。前两者默认正式模式仍关闭，**没有可用的真实生成执行器**。后来切片已补显式独立 simulator 的[协议演练](SUBSCRIPTION-MODEL-PORT-REHEARSAL.md)，其身份是 synthetic_stub，不是订阅可用。
 
 ## 最小合同
 
@@ -65,7 +65,7 @@ fallback 必须显式给出 `fallback_on`。正式路由仅允许 GPT → Codex�
 
 ## 订阅与 Asteria 尚未完成的部分
 
-ChatGPTPlanAdapter 现在只复用已有的无工具 Responses 请求准备，要求显式型号；无网络 generate、无 token 加载，preflight=authorization_required。CodexAdapter 是单独的关闭边界，preflight=adapter_unavailable；尚无 app-server 启动、授权模式核对、工具禁用证明或真实 turn。
+两种 adapter 现已支持显式 simulator 的离线 generate；默认不提供 simulator 时，ChatGPTPlanAdapter 的 preflight=authorization_required，CodexAdapter 的 preflight=adapter_unavailable，均无真实 generate、网络或 token 加载。GPT 复用无工具 Responses 准备/流解析，Codex 仅有非可分发提案和模拟通知解析；尚无 app-server 启动、授权模式核对、工具禁用证明或真实 turn。
 
 只依据官方 [Sign in with ChatGPT](https://developers.openai.com/siwc/token-sharing-open-source/sign-in)、[Models and inference](https://developers.openai.com/siwc/token-sharing-open-source/models-and-inference)、[Codex app-server plan 配置](https://developers.openai.com/siwc/token-sharing-open-source/codex-app-server)与[app-server 协议](https://learn.chatgpt.com/docs/app-server)继续施工。plan OAuth 转发到 app-server 的路线与 Codex 自己的 ChatGPT 登录不能混称；型号目录不是资格证明，只有真实完成推理才证明当次可用。当前未选择或证明其中的备用认证路线。订阅不保证无积分/额外费用；不能静默使用 API Key。
 
@@ -79,4 +79,4 @@ node scripts/check-dream-model-port.mjs
 node --test
 ```
 
-只用独立虚构样例与临时 Store。进程真实退出探针覆盖 dispatch 意图与已提交首幕；另覆盖固定入口、明确 fallback、第二次尝试失败、重复、预算、取消/晚到、撤回、存储失败、API 原子账本及 unknown 保留。详细汇总见 [validation/dream-model-port.json](validation/dream-model-port.json)。这些是机制证据，不是订阅可用、Windows 实机、梦境语义或总体质量验收。
+只用独立虚构样例与临时 Store。进程真实退出探针覆盖 dispatch 意图与已提交首幕；另覆盖固定入口、明确 fallback、第二次尝试失败、重复、预算、取消/晚到、撤回、存储失败、API 原子账本及 unknown 保留。后续新 owner 的梦簿只读接入及订阅协议演练见 [SUBSCRIPTION-MODEL-PORT-REHEARSAL.md](SUBSCRIPTION-MODEL-PORT-REHEARSAL.md)。详细汇总见 [validation/dream-model-port.json](validation/dream-model-port.json)。这些是机制证据，不是订阅可用、Windows 实机、梦境语义或总体质量验收。

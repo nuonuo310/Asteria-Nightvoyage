@@ -2,7 +2,8 @@
 import {snapshot,neutral,hash,safeId,scene} from '../src/contract.js';
 import {assertAppraisalReviewJsonData} from '../src/appraisal-review-memory.js';
 import {normalizeInlineScene,normalizeInlineCheckpoint,normalizeInlineStage} from '../src/inline-evidence-protocol.js';
-import {prepareChatgptPlanRequest} from './chatgpt-plan-protocol.mjs';
+import {prepareCodexDream,CodexDreamStream,codexDreamProtocolVersion} from './codex-dream-protocol.mjs';
+import {prepareChatgptPlanRequest,ChatgptPlanStream} from './chatgpt-plan-protocol.mjs';
 export const dreamModelPortVersion='dream-model-port-v1';
 export const targetDefaultAdapter='ChatGPTPlanAdapter';
 const selections=new WeakSet();
@@ -47,9 +48,9 @@ export function validateStageResponse(response,request){
 }
 
 class Adapter {
-  constructor(kind,provider,model,auth,protocol){
+  constructor(kind,provider,model,auth,protocol,external=provider!=='local_fake'){
     if(!modelId(model)&&model!=='unknown')fail('explicit_model_required');
-    Object.defineProperties(this,{identity:{value:Object.freeze({adapter_kind:kind,provider_kind:provider,model_id:model,auth_mode:auth,protocol_version:protocol}),enumerable:true},capabilities:{value:Object.freeze({external_generation:provider!=='local_fake',stage_schema:'inline-evidence-v1'}),enumerable:true}});
+    Object.defineProperties(this,{identity:{value:Object.freeze({adapter_kind:kind,provider_kind:provider,model_id:model,auth_mode:auth,protocol_version:protocol}),enumerable:true},capabilities:{value:Object.freeze({external_generation:external,stage_schema:'inline-evidence-v1'}),enumerable:true}});
   }
   preflight(){return {ready:false,reason:'authorization_required'};}
   async generate(){fail('authorization_required');}
@@ -71,13 +72,39 @@ export class FakeAdapter extends Adapter {
     return stageResponse({value,usage:'unknown'},request);
   }
 }
+// A simulator is an explicit trusted offline callback, never a fetch/process fallback.
 export class ChatGPTPlanAdapter extends Adapter {
-  constructor({model_id='unknown'}={}){super('ChatGPTPlanAdapter','openai',model_id,'chatgpt_plan','chatgpt-plan-inline-preparation-v1');}
+  #simulator;
+  constructor({model_id='unknown',simulator}={}){
+    if(simulator!==undefined&&typeof simulator!=='function')fail('invalid_protocol_simulator');
+    super('ChatGPTPlanAdapter',simulator?'openai_protocol_simulator':'openai',model_id,simulator?'synthetic_stub':'chatgpt_plan',simulator?'offline-chatgpt-plan-inline-v1':'chatgpt-plan-inline-preparation-v1',!simulator);this.#simulator=simulator;
+  }
+  preflight(){return {ready:!!this.#simulator&&this.identity.model_id!=='unknown',reason:this.#simulator&&this.identity.model_id!=='unknown'?'ready':'authorization_required'};}
   prepare(input){if(this.identity.model_id==='unknown')fail('explicit_model_required');const r=stageRequest(input);return prepareChatgptPlanRequest({snapshot:r.snapshot,scenes:r.scenes,stage:r.stage,index:r.index},{model:this.identity.model_id});}
+  async generate(input,{signal}={}){
+    if(!this.#simulator)fail('authorization_required');const request=stageRequest(input);if(signal?.aborted)fail('cancelled');
+    const draft=this.prepare(request),chunks=await this.#simulator(structuredClone(draft),{signal}),stream=new ChatgptPlanStream(this.identity.model_id);
+    for await(const chunk of chunks){if(signal?.aborted)fail('cancelled');stream.push(chunk);}
+    if(signal?.aborted)fail('cancelled');const {data,usage}=stream.finish();
+    return stageResponse({value:data,usage:{input_tokens:usage.inputTokens,output_tokens:usage.outputTokens,total_tokens:usage.totalTokens}},request);
+  }
 }
 export class CodexAdapter extends Adapter {
-  constructor({model_id='unknown'}={}){super('CodexAdapter','openai',model_id,'codex_chatgpt_subscription','codex-app-server-pending');}
-  preflight(){return {ready:false,reason:'adapter_unavailable'};}
+  #simulator;
+  constructor({model_id='unknown',simulator}={}){
+    if(simulator!==undefined&&typeof simulator!=='function')fail('invalid_protocol_simulator');
+    super('CodexAdapter',simulator?'openai_protocol_simulator':'openai',model_id,simulator?'synthetic_stub':'codex_chatgpt_subscription',simulator?codexDreamProtocolVersion:'codex-app-server-pending',!simulator);this.#simulator=simulator;
+  }
+  preflight(){return {ready:!!this.#simulator&&this.identity.model_id!=='unknown',reason:this.#simulator&&this.identity.model_id!=='unknown'?'ready':'adapter_unavailable'};}
+  prepare(input){if(this.identity.model_id==='unknown')fail('explicit_model_required');const r=stageRequest(input);return prepareCodexDream({snapshot:r.snapshot,scenes:r.scenes,stage:r.stage,index:r.index},this.identity.model_id);}
+  async generate(input,{signal}={}){
+    if(!this.#simulator)fail('authorization_required');const request=stageRequest(input);if(signal?.aborted)fail('cancelled');
+    const draft=this.prepare(request),result=await this.#simulator(structuredClone(draft),{signal});
+    // Provider thread IDs live only in this stage's transient decoder, never the book.
+    const stream=new CodexDreamStream(result.thread_id,result.turn_id);
+    for await(const chunk of result.chunks){if(signal?.aborted)fail('cancelled');stream.push(chunk);}
+    if(signal?.aborted)fail('cancelled');const {data,usage}=stream.finish();return stageResponse({value:data,usage},request);
+  }
 }
 export function assertAdapter(adapter){
   if(!(adapter instanceof FakeAdapter||adapter instanceof ChatGPTPlanAdapter||adapter instanceof CodexAdapter))fail('unreviewed_model_adapter');

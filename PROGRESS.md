@@ -845,3 +845,11 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - ModelPortNightvoyage 复用原生命周期和 Store；start 固定 adapter/model/protocol/选择身份，保存阶段意图与原子检查点，固定诊断不包含任意异常正文。模糊尝试不自动重试；取消/迟到/撤回/恢复、独立梦簿类型与原梦不可覆盖均有新增探针。
 - LegacyDeepSeekAdapter / PortBackedApiRehearsal 对基础及 inline 协议做现有客户端/账本的兼容接入；仅 stub，保留原 reservation、unknown 和原子 settlement/publish，不接管旧 run。不是所有历史正式入口已迁移；旧 API、固定候选/批准/额度/期限/占款保持。
 - 没有读取凭据/用户 Store、登录、真实生成、费用、私有原文复制、第三方实现复制或跨仓库修改。Linux／Node v24.19.0 新增针对22/22、完整901/901通过；独立临时自检3次假调用，重放追加0，撤回重开屏蔽。详细验证汇总见 validation/dream-model-port.json。下一切片仍可离线补订阅协议演练；实际登录/授权/真实订阅推理前必须暂停，不把 Asteria 两座桥说成已连通。
+
+## 2026-10-18 · GPT/Codex 协议响应接入同一模型端口（离线）
+
+- 基于32b8fde继续：ChatGPTPlanAdapter 和 CodexAdapter 仅在显式提供可信独立 simulator 时可运行；身份标明 openai_protocol_simulator / synthetic_stub / offline protocol，不冒充真实订阅。正式默认仍失败关闭，Fake 保持默认。
+- GPT 复用项目已有无工具请求准备和 completed SSE 解析；新增 Codex 非可分发提案与有界 NDJSON 通知解析，检查 thread/turn、权威 final item、completed 状态，拒绝工具/未知事件、模型reroute、隐藏工具与冲突final。thread/turn不保存为记忆；Codex未规范化的usage明确unknown。
+- 三种 adapter 在相同 ModelPortNightvoyage 下分别完成虚构闭环、持久化、完成去重、撤回；中立执行器源码未改。GPT预检显式选择Codex的演练可用，首幕后失败不会分发备用；取消压制迟到协议正文。
+- 复查补齐新 owner 的梦簿读取投影，严格校验来源/选择身份/scene chain/wake，拒绝篡改和未支持评审；不冒充旧 API 元数据。Linux／Node v24.19.0 针对52/52，完整920/920；独立三入口自检分别3次本地模拟阶段，完成重放追加0，原梦不变，撤回重开屏蔽。无真实请求、凭据/用户Store访问或Codex进程。详细范围见 docs/SUBSCRIPTION-MODEL-PORT-REHEARSAL.md 及聚合验证文件。
+- 真实订阅执行器仍未完成；decoder拒绝工具事件不证明真实进程没有执行工具，因此未启用原生app-server。下一步实际绑定账号、登录/授权或真实推理之前暂停；不消耗新人民币预算，不修改Asteria/其他仓库或旧付费清单/批准/额度/期限/占款。源于公开协议的独立实现，无第三方复制、私有原文或质量验收声明。

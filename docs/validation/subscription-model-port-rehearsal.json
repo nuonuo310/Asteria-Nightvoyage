@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "baseCommit": "32b8fded75491330496e23604f5f5893d29735af",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "targeted": {
+    "command": "node --test test/model-port-dreambook.test.js test/subscription-model-port.test.js test/dreambook-reader.test.js test/dreambook-review-text.test.js test/dream-model-port.test.js test/legacy-api-model-port.test.js",
+    "tests": 52,
+    "pass": 52,
+    "fail": 0,
+    "durationMs": 2451.871173
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 920,
+    "pass": 920,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "durationMs": 30566.788217
+  },
+  "selfcheck": {
+    "command": "node scripts/check-subscription-model-ports.mjs",
+    "node": "v24.19.0",
+    "platform": "linux",
+    "results": [
+      {
+        "adapter_kind": "FakeAdapter",
+        "auth_mode": "none",
+        "stagesSaved": 2,
+        "stageDispatches": 3,
+        "externalCallsStarted": 0,
+        "replayAdditionalCalls": 0,
+        "originalUnchanged": true,
+        "withdrawalSuppressedAfterReopen": true,
+        "usageAvailable": false
+      },
+      {
+        "adapter_kind": "ChatGPTPlanAdapter",
+        "auth_mode": "synthetic_stub",
+        "stagesSaved": 2,
+        "stageDispatches": 3,
+        "externalCallsStarted": 0,
+        "replayAdditionalCalls": 0,
+        "originalUnchanged": true,
+        "withdrawalSuppressedAfterReopen": true,
+        "usageAvailable": true
+      },
+      {
+        "adapter_kind": "CodexAdapter",
+        "auth_mode": "synthetic_stub",
+        "stagesSaved": 2,
+        "stageDispatches": 3,
+        "externalCallsStarted": 0,
+        "replayAdditionalCalls": 0,
+        "originalUnchanged": true,
+        "withdrawalSuppressedAfterReopen": true,
+        "usageAvailable": false
+      }
+    ],
+    "liveDefaultReady": false,
+    "realModelRequests": 0,
+    "credentialReads": 0,
+    "userStoreAccessed": false,
+    "nativeCodexProcessStarted": false,
+    "providerNetworkTested": false,
+    "accountEligibilityVerified": false,
+    "qualityAssessed": false,
+    "asteriaAdapter": "pending"
+  },
+  "coreAndHistoricalPaidInventoryUnchanged": true,
+  "neutralRuntimeUnchanged": true,
+  "actualAccountAuthorizationRecorded": false,
+  "realSubscriptionExecutorsEnabled": false,
+  "codexNativeToolDisableVerified": false,
+  "codexUsageNormalized": false,
+  "nativeIpcHandshakeVerified": false,
+  "windowsValidated": false,
+  "qualityAssessed": false,
+  "thirdPartyImplementationCopied": false,
+  "readerWhitelistPostcheck": {
+    "command": "node --test test/model-port-dreambook.test.js",
+    "tests": 5,
+    "pass": 5,
+    "fail": 0,
+    "durationMs": 363.832772
+  },
+  "newOwnerBookReaderIntegrated": true,
+  "legacyReaderTargetedRegressionPassed": true,
+  "newOwnerReviewWriterImplemented": false
+}

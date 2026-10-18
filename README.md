@@ -12,7 +12,7 @@
 
 ## 模型入口与当前施工
 
-正式目标默认 **ChatGPTPlanAdapter**，订阅备用 **CodexAdapter**；开发和自动测试默认 **FakeAdapter**。新的 [DreamModelPort](docs/DREAM-MODEL-PORT.md) 已有持久 Fake 闭环和显式 API 兼容演练；两种订阅 adapter 目前均关闭，不能生成真实梦。 [只读盘点](docs/DREAM-MODEL-PORT-INVENTORY.md) 固定基线与真实调用链。
+正式目标默认 **ChatGPTPlanAdapter**，订阅备用 **CodexAdapter**；开发和自动测试默认 **FakeAdapter**。新的 [DreamModelPort](docs/DREAM-MODEL-PORT.md) 已有持久 Fake 闭环和显式 API 兼容演练；两种订阅 adapter 默认正式模式均关闭；已补[显式模拟协议演练](docs/SUBSCRIPTION-MODEL-PORT-REHEARSAL.md)，不能据此生成真实梦。 [只读盘点](docs/DREAM-MODEL-PORT-INVENTORY.md) 固定基线与真实调用链。
 
 同一 run 在 start 时固定 adapter/model/protocol；fallback 仅在零外部调用的 preflight 按明确策略选择 GPT → Codex，不能在首幕后换入口或拼接结果。DeepSeek/API 历史能力保留在显式 legacy 边界，不静默默认、不新增费用许可。Asteria 两座桥仍待对接，不在夜航实现。
 
@@ -42,7 +42,7 @@ node scripts/check-local-appraisal-review.mjs
 
 Windows PowerShell 若阻止 npm.ps1，使用 npm.cmd test。上述 check 脚本仅使用自己的临时虚构 Store，不读取用户梦簿，不读取凭据或请求真实模型。虚拟白天演练是显式线索和虚拟时间，不是后台监听、语义检索或自动投递。
 
-最新已有证据：Linux／Node v24.19.0 登录切片完整测试879/879；用户 Windows 阅读器针对测试11/11，另有独立脚本回报。用户随后 Windows 完整回归先为854/855，修正旧 bootstrap 测试预期后新回报855/855；[修正与历史记录](docs/WINDOWS-BOOTSTRAP-ASSERTION.md)分别保留失败和通过。新尾段未重报 commit/Node，故属于用户完整统计回报，不声称工作台独立验证或精确候选身份已绑定。假模型测试也不是生成质量验收。证据与精确范围见[第一阶段状态](docs/PHASE-ONE-STATUS.md)。
+最新已有证据：Linux／Node v24.19.0 模型端口与订阅模拟协议切片完整测试920/920（登录切片历史879/879）；用户 Windows 阅读器针对测试11/11，另有独立脚本回报。用户随后 Windows 完整回归先为854/855，修正旧 bootstrap 测试预期后新回报855/855；[修正与历史记录](docs/WINDOWS-BOOTSTRAP-ASSERTION.md)分别保留失败和通过。新尾段未重报 commit/Node，故属于用户完整统计回报，不声称工作台独立验证或精确候选身份已绑定。假模型测试也不是生成质量验收。证据与精确范围见[第一阶段状态](docs/PHASE-ONE-STATUS.md)。
 
 需要学习最初假模型接口，可看[虚构流程](docs/WALKTHROUGH.md)及 src/cli.js。创建实验数据必须使用源码仓库之外的绝对目录；不要为绕过历史额度、unknown 占款或去重状态而新建账户/目录。
 
