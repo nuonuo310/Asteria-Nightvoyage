@@ -729,3 +729,10 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 每事件独立提交，可能留下已完成前缀；signal只取消本次同步调用并抑制尚未交付正文，不是持久后台任务。100身份满后停止，不自动清空/淘汰。虚拟时钟仅演练，不冒充真实白天监听/长期浮现验收。
 - 见docs/DAYTIME-CUE-SIMULATION.md及validation/daytime-cue-simulation-validation.json。src/fixtures/package、付费源码清单/图/合同/profile/期限/批准/占款均不改；不访问用户Store、不新增费用或真实私料外发。公开仅自有MIT实现、独立表述和虚构测试，无第三方复制或跨仓库修改。
 - 本切片实现及离线验证完成，下一步用户Windows运行同一无Key虚构脚本；实际白天接收口和Asteria仍待对接，不用测试通过替代梦境质量验收。
+
+
+## 虚拟白天线索：Windows 实机回报
+
+- 用户更新至84c4313，Windows／Node24.19.0固定脚本回报完成：命中/不命中、重开重放不续期、到期为空、新事件再次命中、防时钟倒退、原梦/醒来/账本保持、撤回重开及受管理正文清除均通过。3次假生成，召回追加模型/真实请求0，用户Store未访问。
+- 仅此独立虚构脚本的Windows证据，不扩大为全仓836测试、真实白天长期监听、语义检索、后台自动浮现或质量通过；automaticDelivery=false，Asteria仍pending。
+- 聚合回报见docs/validation/user-local-daytime-cues-windows.json。仅文档记载，公开无终端原文、线索/梦正文、实际编号/私人路径/Key；源码/合同/额度/期限/旧占款不改，不重复测试或新增调用。当前虚拟白天演练切片收尾。
