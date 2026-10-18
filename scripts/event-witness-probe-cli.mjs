@@ -1,0 +1,21 @@
+import path from 'node:path';
+import os from 'node:os';
+import {fileURLToPath} from 'node:url';
+import {initEventWitnessProbe,preflightEventWitnessProbe,executeEventWitnessProbe} from './event-witness-probe.mjs';
+export async function eventWitnessProbeMain(args){
+ const [command='help',...flags]=args;
+ if(command==='help'&&!flags.length){console.log('GPT closed event witness diagnostic: preflight | init --approve-one-subscription-call --allow-fictional-egress --acknowledge-prior-failed-trial --confirm-no-extra-credits --acknowledge-no-server-token-cap --approve-missing-content-type-compatibility --approve-reasoning-discard --approve-aggregate-event-budget --approve-closed-event-witness | run --live. Requires separate explicit user approval. One new scene call only; no bodies saved, wake, retry, provider switch, API key or extra credits.');return;}
+ const expected=command==='init'?['--approve-one-subscription-call','--allow-fictional-egress','--acknowledge-prior-failed-trial','--confirm-no-extra-credits','--acknowledge-no-server-token-cap','--approve-missing-content-type-compatibility','--approve-reasoning-discard','--approve-aggregate-event-budget','--approve-closed-event-witness']:command==='run'?['--live']:[];
+ if(!['init','preflight','run'].includes(command)||flags.length!==expected.length||new Set(flags).size!==flags.length||flags.some(f=>!expected.includes(f)))throw Error('probe_arguments_invalid');
+ const base=process.platform==='win32'?process.env.LOCALAPPDATA:path.join(os.homedir(),'.local','share');if(!base||!path.isAbsolute(base))throw Error('probe_absolute_directory_required');
+const history={failedEnvelopeTrialDirectory:path.join(base,'Nightvoyage','gpt-subscription-validated-envelope-dream-v1'),failedTrialDirectory:path.join(base,'Nightvoyage','gpt-subscription-missing-type-dream-v1'),prefixDirectory:path.join(base,'Nightvoyage','gpt-subscription-prefix-diagnostic-v1'),envelopeDirectory:path.join(base,'Nightvoyage','gpt-subscription-envelope-diagnostic-v1'),priorDirectory:path.join(base,'Nightvoyage','gpt-subscription-response-diagnostic-v1'),parentDirectory:path.join(base,'Nightvoyage','gpt-subscription-first-dream')};
+ history.consumedDiagnosticDirectory=path.join(base,'Nightvoyage','gpt-subscription-rejected-event-diagnostic-v1');
+ history.failedAggregateTrialDirectory=path.join(base,'Nightvoyage','gpt-subscription-aggregate-envelope-dream-v1');
+ const directory=path.join(base,'Nightvoyage','gpt-subscription-event-witness-diagnostic-v1'),connectionDirectory=path.join(base,'Nightvoyage','chatgpt-plan-connection');
+ if(command==='preflight'){console.log(JSON.stringify(preflightEventWitnessProbe(directory,history),null,2));return;}
+ if(command==='init'){console.log(JSON.stringify(initEventWitnessProbe(directory,history,{approveOneSubscriptionCall:true,allowFictionalEgress:true,acknowledgePriorFailedTrial:true,confirmNoExtraCredits:true,acknowledgeNoServerTokenCap:true,approveMissingContentTypeCompatibility:true,approveReasoningDiscard:true,approveAggregateEventBudget:true,approveClosedEventWitness:true}),null,2));return;}
+ const controller=new AbortController(),cancel=()=>controller.abort();process.once('SIGINT',cancel);process.once('SIGTERM',cancel);
+ try{console.log('夜航 · 单次GPT订阅事件定位诊断。需要新的批准和登录；最多一次请求，保留已核对事件编号与有界位置，不保存目录外名称或正文。目录外结果必须停止；不继续旧梦、不重试、不批准额外积分。');const out=await executeEventWitnessProbe({directory,history,connectionDirectory,signal:controller.signal,onReady:url=>console.log(`请打开本次本机授权链接；不要分享链接或回调：\n${url}`)});console.log(JSON.stringify(out,null,2));if(!['accepted','rejected'].includes(out.status))process.exitCode=1;}
+ finally{process.removeListener('SIGINT',cancel);process.removeListener('SIGTERM',cancel);}
+}
+if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url))eventWitnessProbeMain(process.argv.slice(2)).catch(error=>{const codes=['probe_arguments_invalid','probe_absolute_directory_required','probe_approval_required','probe_source_changed','probe_fixture_changed','probe_record_invalid','probe_prior_failed_trial_required','probe_parent_changed','probe_expired','source_withdrawn','foreign_execution_owner','store_busy','store_unavailable'];console.error(JSON.stringify({status:'probe_stopped',reason:codes.includes(error?.message)?error.message:'local_or_protocol_failure',automaticRetry:false}));process.exitCode=1;});
