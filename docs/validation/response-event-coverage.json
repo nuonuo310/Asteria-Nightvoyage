@@ -1,0 +1,50 @@
+{
+  "date": "2026-10-18",
+  "baseCommit": "8e832f5b2f4f76cd78ba511b13ea6f0a53cbec34",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "reviewVersion": "offline-response-event-coverage-v1",
+  "source": "https://developers.openai.com/api/reference/resources/responses/streaming-events",
+  "reviewedReferenceNames": 59,
+  "catalogClaimsAllPossibleEvents": false,
+  "scriptedAmbiguousRejections": 36,
+  "targeted": {
+    "command": "node --test test/response-event-coverage.test.js test/rejected-event-class.test.js",
+    "tests": 18,
+    "pass": 18,
+    "fail": 0,
+    "durationMs": 283.203405,
+    "evidence": "response-event-coverage-targeted.txt"
+  },
+  "full": {
+    "command": "npm test",
+    "tests": 1287,
+    "pass": 1287,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "durationMs": 68688.539546,
+    "evidence": "response-event-coverage-full-summary.txt"
+  },
+  "initialFullAttempt": {
+    "tests": 1287,
+    "pass": 1124,
+    "fail": 163,
+    "cause": "new_catalog_in_historical_all_fixtures_inventory",
+    "fix": "move_independent_catalog_to_test_support_without_renewing_old_contracts"
+  },
+  "script": "response-event-coverage-script.json",
+  "existingApiAndSubscriptionManifestsMatch": true,
+  "nativeAcceptanceChanged": false,
+  "nativeDispatchEnabledByAudit": false,
+  "historicalTypeRecoverable": false,
+  "realModelRequests": 0,
+  "realLoginAttempted": false,
+  "credentialsRead": false,
+  "userStoreAccessed": false,
+  "providerNetworkTested": false,
+  "qualityAssessed": false,
+  "semanticSupport": "not_assessed",
+  "userReportedDiagnostic": "consumed_unreviewed_event_not_independently_reexecuted",
+  "nextBoundary": "no_new_real_trial_before_reviewed_diagnostic_contract_and_fresh_permission"
+}

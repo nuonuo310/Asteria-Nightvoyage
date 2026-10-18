@@ -1,6 +1,8 @@
 # One-request rejected-event diagnostic
 
-## Implemented, awaiting fresh real permission
+## Implemented, real permission now consumed
+
+Latest user report: one request was rejected as `unreviewed_event`, no body was saved, and revocation was confirmed. Its permission is now consumed. See the [coverage audit and engineering stop](UNREVIEWED-EVENT-COVERAGE.md); do not rerun this entry.
 
 This is a separate native HTTP diagnostic owner, not a repaired dream or a successful subscription inference claim. Its private local metadata is `planEventClassProbe`; its contract is `plan-rejected-event-probe-v1`, with transport protocol `plan-rejected-event-probe-http-v1`. It preserves the consumed aggregate-envelope failure and every preceding approval. It cannot recover the discarded event from that historical request.
 
@@ -55,4 +57,4 @@ These use fabricated predecessor books, synthetic OAuth/provider HTTP and real l
 
 ## Next boundary
 
-A real attempt needs fresh user permission for one new subscription request plus browser login. Do not repeat the consumed aggregate trial or any earlier diagnostic. The next step after a real category is obtained is to review that evidence; no supported-event acceptance change or new generation follows automatically. A valid saved GPT subscription dream is still unconfirmed.
+This entry has already consumed its real permission. A different future diagnostic needs a reviewed contract, fresh user permission and browser login. Do not repeat the consumed aggregate trial or any earlier diagnostic. The next step after a real category is obtained is to review that evidence; no supported-event acceptance change or new generation follows automatically. A valid saved GPT subscription dream is still unconfirmed.

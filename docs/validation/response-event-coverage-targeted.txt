@@ -1,0 +1,26 @@
+✔ rejected upstream_failed_event stays rejected, emits only fixed type metadata and does not identify the historical cause (4.325944ms)
+✔ rejected upstream_incomplete_event stays rejected, emits only fixed type metadata and does not identify the historical cause (0.524348ms)
+✔ rejected upstream_error_event stays rejected, emits only fixed type metadata and does not identify the historical cause (0.368063ms)
+✔ rejected unsupported_queue_event stays rejected, emits only fixed type metadata and does not identify the historical cause (0.401814ms)
+✔ rejected unsupported_annotation_event stays rejected, emits only fixed type metadata and does not identify the historical cause (0.344638ms)
+✔ rejected unsupported_compaction_event stays rejected, emits only fixed type metadata and does not identify the historical cause (0.37896ms)
+✔ rejected unreviewed_event stays rejected, emits only fixed type metadata and does not identify the historical cause (0.338369ms)
+✔ valid stream still needs complete final validation, discards reasoning and changes no usage (1.883522ms)
+✔ raw names, getters, arbitrary codes, extra keys and forged errors cannot enter the closed diagnostic (0.438829ms)
+✔ existing terminal/shape/byte checks keep precedence; event classes never authorize an unsupported stream (0.928235ms)
+✔ simulator persists body-free rejected-event metadata across reopen/replay/withdrawal with one failed stage (23.055149ms)
+✔ versioned offline copy changes only classification metadata; current native grant source pins stay exact (21.382774ms)
+✔ static reference audit distinguishes routing from event acceptance and discloses incomplete service coverage (1.594988ms)
+✔ every documented tool/audio counterexample still collapses to the old unreviewed label with no body (2.087117ms)
+✔ arbitrary names, near matches, nonstrings and dangerous keys cannot be inferred as documented event types (0.176115ms)
+✔ the recorded label does not distinguish supported-reference tools, arbitrary protocol names or an empty type (0.329435ms)
+✔ audit does not replace native source pins or weaken complete-stream/stage validation (48.675896ms)
+✔ standalone audit forbids any fetch and reports only aggregate synthetic counts (92.748505ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 283.203405

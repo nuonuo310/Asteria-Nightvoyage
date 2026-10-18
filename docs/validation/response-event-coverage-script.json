@@ -1,0 +1,25 @@
+{
+  "command": "node scripts/check-response-event-coverage.mjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "reviewVersion": "offline-response-event-coverage-v1",
+  "reviewedReferenceNames": 59,
+  "routes": {
+    "classified_rejection_route": 6,
+    "unreviewed_documented_audio": 4,
+    "unreviewed_documented_tool": 32,
+    "core_validation_route": 9,
+    "reasoning_validation_route": 6,
+    "refusal_rejection_route": 2
+  },
+  "acceptanceChanged": false,
+  "liveEnabled": false,
+  "historicalTypeRecoverable": false,
+  "providerSchemaCompatibilityValidated": false,
+  "realModelRequests": 0,
+  "qualityAssessed": false,
+  "scriptedAmbiguousRejections": 36,
+  "userStoreAccessed": false,
+  "credentialsRead": false,
+  "dispatchAttempts": 0
+}
