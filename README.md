@@ -12,7 +12,7 @@
 
 ## 模型入口与当前施工
 
-正式目标默认 **ChatGPTPlanAdapter**，订阅备用 **CodexAdapter**；开发和自动测试默认 **FakeAdapter**。新的 [DreamModelPort](docs/DREAM-MODEL-PORT.md) 已有持久 Fake 闭环和显式 API 兼容演练；无显式会话时两种订阅 adapter 均关闭；GPT新增[受限首次虚构试跑入口](docs/CHATGPT-PLAN-FIRST-DREAM.md)，尚未真实推理；Codex原生入口仍待对接。已补[显式模拟协议演练](docs/SUBSCRIPTION-MODEL-PORT-REHEARSAL.md)，不能据此生成真实梦。 [只读盘点](docs/DREAM-MODEL-PORT-INVENTORY.md) 固定基线与真实调用链。
+正式目标默认 **ChatGPTPlanAdapter**，订阅备用 **CodexAdapter**；开发和自动测试默认 **FakeAdapter**。新的 [DreamModelPort](docs/DREAM-MODEL-PORT.md) 已有持久 Fake 闭环和显式 API 兼容演练；无显式会话时两种订阅 adapter 均关闭。用户已执行受限 GPT 订阅请求，最新试跑在第一幕响应结构校验处停止，未保存梦；成功推理资格和梦境质量仍未确立。见[最新失败证据与离线对照](docs/PLAN-OUTPUT-SHAPE-REVIEW.md)。Codex 原生入口仍待对接。[显式模拟协议演练](docs/SUBSCRIPTION-MODEL-PORT-REHEARSAL.md)不代表真实推理成功。[只读盘点](docs/DREAM-MODEL-PORT-INVENTORY.md)保留当时基线与调用链。
 
 同一 run 在 start 时固定 adapter/model/protocol；fallback 仅在零外部调用的 preflight 按明确策略选择 GPT → Codex，不能在首幕后换入口或拼接结果。DeepSeek/API 历史能力保留在显式 legacy 边界，不静默默认、不新增费用许可。Asteria 两座桥仍待对接，不在夜航实现。
 
@@ -43,7 +43,7 @@ node scripts/check-local-appraisal-review.mjs
 
 Windows PowerShell 若阻止 npm.ps1，使用 npm.cmd test。上述 check 脚本仅使用自己的临时虚构 Store，不读取用户梦簿，不读取凭据或请求真实模型。虚拟白天演练是显式线索和虚拟时间，不是后台监听、语义检索或自动投递。
 
-最新已有证据：Linux／Node v24.19.0首次订阅入口的合成OAuth/HTTP切片完整951/951、定点83/83；真实订阅推理仍未执行。此前模型端口模拟协议920/920、登录历史879/879；用户 Windows 阅读器针对测试11/11，另有独立脚本回报。用户随后 Windows 完整回归先为854/855，修正旧 bootstrap 测试预期后新回报855/855；[修正与历史记录](docs/WINDOWS-BOOTSTRAP-ASSERTION.md)分别保留失败和通过。新尾段未重报 commit/Node，故属于用户完整统计回报，不声称工作台独立验证或精确候选身份已绑定。假模型测试也不是生成质量验收。证据与精确范围见[第一阶段状态](docs/PHASE-ONE-STATUS.md)。
+验证按切片保留在 PROGRESS.md 与 docs/validation；最新协议候选见[离线响应封装验证](docs/OFFLINE-PLAN-ENVELOPE.md)。以下为历史证据：首次订阅入口合成 OAuth/HTTP 完整951/951、定点83/83，当时尚未发起真实订阅请求；此前模型端口模拟协议920/920、登录历史879/879。用户 Windows 阅读器针对测试11/11；Windows 完整回归先为854/855，修正旧 bootstrap 测试预期后回报855/855，见[修正与历史记录](docs/WINDOWS-BOOTSTRAP-ASSERTION.md)。这些用户统计不声称工作台独立验证。假模型或协议测试不是生成质量验收。最初阶段范围见[第一阶段状态](docs/PHASE-ONE-STATUS.md)。
 
 需要学习最初假模型接口，可看[虚构流程](docs/WALKTHROUGH.md)及 src/cli.js。创建实验数据必须使用源码仓库之外的绝对目录；不要为绕过历史额度、unknown 占款或去重状态而新建账户/目录。
 
@@ -87,3 +87,5 @@ GPT订阅首次试跑的用户回执为首幕校验失败、未发布梦境；�
 用户随后报告缺失类型头的响应具有 SSE-like 前缀；仍未验证完整流。[缺类型头的完整流兼容候选](docs/GPT-PLAN-MISSING-TYPE-CANDIDATE.md)已用独立虚构数据跑通两幕与醒来，保留全部完整解码和梦境校验；当前仅离线模拟，尚未接入真实 transport，没有新增真实请求。
 
 后续已完成[独立版本的兼容试跑入口](docs/GPT-PLAN-MISSING-TYPE-ENTRY.md)：原有 transport、许可和回执保持不变，新入口用虚构授权／HTTP 跑通持久化闭环，梦簿支持新协议。真实账户尚未核验；一场新梦（最多三次订阅调用）须另行批准，不自动重试、切换或使用付费 API。
+
+用户随后批准并执行该兼容入口：一次请求后返回 `plan_output_shape`，未保存第一幕，授权撤销已确认，许可已消耗。该错误涉及多个拒绝分支，不能据此确认历史根因。[离线封装候选](docs/OFFLINE-PLAN-ENVELOPE.md)可在结构校验后丢弃推理内容，并继续要求唯一完整文本、模型、用量及梦境阶段校验；尚未接入真实 adapter 或持久化生命周期，不请求再次登录，也不复用旧许可。以上旧条目是各阶段历史状态，以本段与顶部当前状态为准。

@@ -1,0 +1,27 @@
+{
+  "targeted": {
+    "command": "node --test test/offline-plan-envelope.test.js test/chatgpt-plan-protocol.test.js test/plan-output-shape-ambiguity.test.js",
+    "tests": 30,
+    "pass": 30,
+    "fail": 0,
+    "durationMs": 134.636486
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 1092,
+    "pass": 1092,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "durationMs": 44353.73043
+  },
+  "node": "v24.19.0",
+  "platform": "linux",
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "userStoreAccessed": false,
+  "liveAdapterAvailable": false,
+  "persistenceIntegrationTested": false,
+  "historicalFailureCauseConfirmed": false,
+  "qualityAssessed": false
+}

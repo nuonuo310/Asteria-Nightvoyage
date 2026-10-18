@@ -1,0 +1,44 @@
+{
+  "command": "node scripts/check-offline-plan-envelope.mjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "protocolVersion": "offline-plan-reasoning-envelope-v1",
+  "kind": "offline_protocol_only",
+  "syntheticStages": 3,
+  "normalizedScenes": 2,
+  "extractiveWakeValidated": true,
+  "reasoningReturned": false,
+  "audits": [
+    {
+      "protocolVersion": "offline-plan-reasoning-envelope-v1",
+      "discardedReasoningItems": 1,
+      "discardedReasoningEvents": 6,
+      "reasoningReturned": false,
+      "liveEnabled": false
+    },
+    {
+      "protocolVersion": "offline-plan-reasoning-envelope-v1",
+      "discardedReasoningItems": 1,
+      "discardedReasoningEvents": 6,
+      "reasoningReturned": false,
+      "liveEnabled": false
+    },
+    {
+      "protocolVersion": "offline-plan-reasoning-envelope-v1",
+      "discardedReasoningItems": 1,
+      "discardedReasoningEvents": 6,
+      "reasoningReturned": false,
+      "liveEnabled": false
+    }
+  ],
+  "originalStrictParserStillRejectsReasoning": true,
+  "existingProposalPinsMatch": true,
+  "originalSourcesNoEgress": true,
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "userStoreAccessed": false,
+  "liveAdapterAvailable": false,
+  "persistenceIntegrationTested": false,
+  "historicalFailureCauseConfirmed": false,
+  "qualityAssessed": false
+}
