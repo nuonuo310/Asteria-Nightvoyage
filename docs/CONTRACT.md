@@ -1,5 +1,7 @@
 # Nightvoyage local contract v1
 
+Scope note (2026-10-18): the original B/C base contract below describes the fake engine. Later version-bound provider protocols and dedicated paid authority are separate extensions; see [current phase-one status](PHASE-ONE-STATUS.md) and [dedicated paid entry](INLINE-PAID-PROCESS-ENTRY.md). Historical statements that B/C includes no real provider do not mean the repository has no real entry today. Old approval identities, retry restrictions and stored records are not migrated by this clarification.
+
 Status: implementation contract; no Asteria compatibility claim. The local file adapter and a future Asteria adapter must provide the same validated snapshot. Asteria endpoints remain pending integration and are not implemented here.
 
 ## Inputs and authority

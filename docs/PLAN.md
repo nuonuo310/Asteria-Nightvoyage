@@ -1,5 +1,7 @@
 # Delivery plan
 
+Original A–D plan. Current scoped closure: see [PHASE-ONE-STATUS.md](PHASE-ONE-STATUS.md). A/B/C have implementation and bounded evidence; the separately approved real trials have occurred, but no new paid run is approved. The original D stop below is the entry boundary before each separately authorized real stage, not a claim that real execution has never happened. Repository merge authorization was subsequently granted by the user; no cross-repository authorization is implied.
+
 A: publish contract, plan, reference ledger and fictional walkthrough. No runtime claim.
 
 B: Node.js (>=24), no runtime dependencies; local snapshot adapter, fake provider, sequential scenes, dream journal, wake simulation, cue recall and CLI. Test fiction/origin separation, scene continuity, immutable originals, empty associations, persistence and recall isolation.
