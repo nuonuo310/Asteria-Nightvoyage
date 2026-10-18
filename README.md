@@ -1,5 +1,7 @@
 # Asteria-Nightvoyage · 夜航
 
+[Limited assistant content review](docs/INLINE-CONTENT-ASSISTANT-REVIEW.md) records single-sample scene/wake observations separately from underdetermined affect directions and unestablished magnitudes. It preserves the original, adds no paid calls, and is neither human acceptance nor a managed local review record.
+
 [First bounded live inline result](docs/INLINE-LIVE-TRIAL-RESULT.md): the user reports two scenes and wake committed with three settled calls. The project ledger totals 0.008358 CNY under the reviewed pricing, not an independently checked provider bill. The user subsequently reports saved-result read, completed-run replay and manual literal cue recall passed on Windows, with zero added calls or credential requests and unchanged originals/accounting. This closes the local loop for that single fictional sample; it does not validate longitudinal daytime triggers or semantic retrieval, and adds no generation or paid allowance. This is one protocol sample, not semantic-support or dream-quality acceptance.
 
 

@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "kind": "public_assistant_review_summary",
+  "reviewDate": "2026-10-18",
+  "reviewer": {
+    "kind": "assistant",
+    "role": "project_maintainer"
+  },
+  "origin": "dream_review_summary",
+  "materialKind": "fictional",
+  "isRealityFact": false,
+  "evidence": {
+    "kind": "previously_documented_single_sample_observations",
+    "repositoryBase": "526c25cd3df02a5bd24d65a2815797524323478b",
+    "references": [
+      "docs/INLINE-LIVE-TRIAL-RESULT.md",
+      "docs/validation/user-local-inline-live-postcheck.json"
+    ],
+    "freshUserStoreRead": false,
+    "rawDreamIncluded": false
+  },
+  "scope": {
+    "limitedAssistantReviewPerformed": true,
+    "humanAcceptanceRecorded": false,
+    "managedReviewCreated": false,
+    "sceneFingerprintBindingPerformed": false,
+    "overallQualityAccepted": false,
+    "automatedSemanticValidation": false
+  },
+  "observations": [
+    {
+      "dimension": "scene_progression",
+      "judgment": "limited_positive_observation",
+      "reason": "Previously recorded later-scene actions and sensory detail provide continuity; quietness alone is not a defect."
+    },
+    {
+      "dimension": "wake_excerpt",
+      "judgment": "limited_positive_observation",
+      "reason": "Previously recorded selection retains one sensory detail from the second scene; full-dream coverage or an insight is not required.",
+      "representativeness": "not_established"
+    },
+    {
+      "dimension": "affect",
+      "sceneIndex": 0,
+      "eventRelevance": "related",
+      "direction": {
+        "valence": "underdetermined",
+        "arousal": "underdetermined"
+      },
+      "magnitude": {
+        "valence": "not_established",
+        "arousal": "not_established"
+      }
+    },
+    {
+      "dimension": "affect",
+      "sceneIndex": 1,
+      "eventRelevance": "related",
+      "direction": {
+        "valence": "underdetermined",
+        "arousal": "underdetermined"
+      },
+      "magnitude": {
+        "valence": "not_established",
+        "arousal": "not_established"
+      }
+    }
+  ],
+  "decision": {
+    "preserveOriginal": true,
+    "changeProtocol": false,
+    "changePrompt": false,
+    "automaticCorrection": false,
+    "additionalPaidCallsApproved": false,
+    "asteriaAdapter": "pending"
+  },
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "userStoreAccessed": false
+}
