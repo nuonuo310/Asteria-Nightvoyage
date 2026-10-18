@@ -786,3 +786,9 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - 此为本地封装实现，不把上一设计的认证、时效、delivery ack、外部副本撤回或 Asteria endpoint 说成完成。Store 启动恢复可能写入，constructor 拒绝专用 owner 不声称零文件变化；readEntry 是保存条目，分类型交付使用 result。
 - 新增8项测试；Node v24.19.0／Linux 针对51/51、完整855/855；独立临时样例通过，3次假生成、重放追加0、凭据/传输/真实请求0，未访问用户 Store。撤回/删除重开、取消、checkpoint 恢复、模糊尝试阻断及保存失败不发成功回执均有测试；Windows 新入口尚待实机。
 - docs/LOCAL-DREAM-PORTS.md、validation/local-dream-ports.json 记录合同、证据和限制；README/差异设计更新入口。src/fixtures/package/付费源码清单/批准/额度/期限/占款规则保持，不复制第三方实现，不收录私有梦簿。下一步仅用户独立虚构 Windows 自检，无新费用或私人数据。
+
+## 2026-10-18 · 本地端口 Windows 实机回报
+
+- 用户同步 main ca70563 后，在 Node v24.19.0／win32 运行新增端口测试8/8通过；独立 check-local-dream-ports.mjs 也通过。仅此针对测试与脚本，不是 Windows 全套855项。
+- 汇总确认 local-dream-ports-v1：3次假生成、完成重放追加0、result/候选分开、回想续写不改原梦、重开、撤回后原梦/派生/召回屏蔽；凭据读取/传输尝试/真实请求0，未访问用户 Store。付费、自动投递、远端认证和接收确认均未支持，Asteria 待对接，质量未验收。
+- 本次只记用户回报的聚合结果，不重跑、不新增代码/模型/许可或占款变化；无用户梦簿正文、实际编号或私人路径。详见 docs/validation/user-local-dream-ports-windows.json。本地端口切片完成，无需重复运行同一检查。

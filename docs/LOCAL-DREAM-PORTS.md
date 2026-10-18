@@ -49,3 +49,7 @@ node scripts/check-local-dream-ports.mjs
 新增8项测试覆盖端口参数/身份、文件输入与返回副本、原梦不覆盖、策略/余韵分离、持久重放/取消、已有幕恢复、模糊尝试阻断、专用 owner 拒绝且释放锁、删除/撤回重开和保存失败不发成功回执。底层进程崩溃/预算/日志恢复反例仍由既有 lifecycle/execution-owner 等回归覆盖，不把这个薄封装说成重做了可靠性系统。
 
 Linux Node v24.19.0 结果见 [local-dream-ports.json](validation/local-dream-ports.json)。Windows 新入口尚未实机验证；已有别的脚本回报不能替代此项。实现/样例/测试位于付费源码清单之外，不修改 src/fixtures/package；无第三方依赖/代码复制，不包含用户梦簿、私有原文或凭据。
+
+## Windows 实机回报 · 2026-10-18
+
+用户在 main ca70563、Node v24.19.0／win32 运行 test/local-dream-ports.test.js，8/8通过，并回报独立临时自检通过：3次假生成、重放追加0，原梦/派生分离、重开及撤回屏蔽成立，凭据/传输尝试/真实请求0，未访问用户 Store。范围仅针对8项与此脚本，不是 Windows 完整855项或 Asteria/质量验收。详见 [聚合回报](validation/user-local-dream-ports-windows.json)。当前切片验证收尾，不要求重复运行。

@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-18",
+  "kind": "user_reported_windows_local_dream_ports",
+  "repositoryCommit": "ca705636651baaff273d9ce7e8619c67ba4136a3",
+  "evidenceOrigin": "user_terminal_report",
+  "independentlyExecutedByWorkbench": false,
+  "targetedTests": {
+    "command": "node --test test/local-dream-ports.test.js",
+    "passed": 8,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  "selfcheck": {
+    "command": "node scripts/check-local-dream-ports.mjs",
+    "node": "v24.19.0",
+    "platform": "win32",
+    "contractVersion": "local-dream-ports-v1",
+    "adapter": "local_file",
+    "executionFamily": "plain-fake-v1",
+    "asteriaAdapter": "pending",
+    "fakeStageCalls": 3,
+    "completedReplayAdditionalCalls": 0,
+    "separateResultAndRecall": true,
+    "originalNotOverwrittenByAppends": true,
+    "reopened": true,
+    "withdrawalSuppressesReadRecallAndDescendants": true,
+    "credentialReads": 0,
+    "transportAttempts": 0,
+    "realModelRequests": 0,
+    "userStoreAccessed": false,
+    "paidExecutionSupported": false,
+    "automaticDelivery": false,
+    "remoteAuthentication": false,
+    "deliveryAcknowledgement": false,
+    "qualityAssessed": false
+  },
+  "limits": {
+    "windowsFullSuiteExecuted": false,
+    "humanAcceptanceRecorded": false,
+    "overallQualityAccepted": false,
+    "newModelPermission": false
+  }
+}
