@@ -1,5 +1,7 @@
 # Versioned native envelope components: entry still pending
 
+Historical component-slice status. A subsequent [separately gated entry](GPT-PLAN-ENVELOPE-ENTRY.md) adds the trial owner, diagnostics and generic reader with its own evidence. The source inventory snapshot from this slice remains historical and is not a current grant or certification.
+
 The user has previously completed authorization and started real GPT-5.6-Sol request intents, but no GPT dream has passed validation and been saved. The most recent reported failure saved zero scenes and stopped at `plan_output_shape`; the old discarded response cannot identify the cause. Synthetic success below is not that failed run succeeding.
 
 ## What is implemented

@@ -73,7 +73,7 @@ test('withdrawal before a late native response suppresses bodies, projection and
 });
 test('native runtime and reader are guarded exact deltas; no existing provider source is overwritten',()=>{
  const read=p=>fs.readFileSync(new URL(`../scripts/${p}`,import.meta.url),'utf8');
- assert.equal(read('envelope-plan-model-runtime.mjs'),read('dream-model-runtime.mjs').replace("from './dream-model-port.mjs'","from './envelope-plan-model-port.mjs'"));
+ assert.equal(read('envelope-plan-model-runtime.mjs'),read('dream-model-runtime.mjs').replace("from './dream-model-port.mjs'","from './envelope-plan-model-port.mjs'").replace("import {planResponseDiagnostic,reviewedPlanResponseDiagnostic} from './plan-response-diagnostic.mjs';","import {envelopeDiagnostic as planResponseDiagnostic,reviewedEnvelopeDiagnostic as reviewedPlanResponseDiagnostic} from './envelope-diagnostic.mjs';"));
  assert.equal(read('envelope-plan-content-view.mjs'),read('offline-envelope-content-view.mjs').replace("['chatgpt-plan-inline-http-v1','chatgpt-plan-inline-missing-type-v1']","['chatgpt-plan-inline-http-v1','chatgpt-plan-inline-missing-type-v1','chatgpt-plan-reasoning-envelope-http-v1']"));
 });
 test('read-only source inventory is deterministic and cannot be mistaken for a runnable grant',()=>{

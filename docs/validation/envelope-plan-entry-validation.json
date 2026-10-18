@@ -1,0 +1,40 @@
+{
+  "targeted": {
+    "command": "node --test test/envelope-plan-trial.test.js test/envelope-native-components.test.js test/validated-envelope-diagnostic.test.js test/dreambook-reader.test.js test/model-port-dreambook.test.js",
+    "tests": 69,
+    "pass": 69,
+    "fail": 0,
+    "durationMs": 45008.506971
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 1166,
+    "pass": 1166,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "durationMs": 47387.140948
+  },
+  "node": "v24.19.0",
+  "platform": "linux",
+  "newTrialTests": 31,
+  "closedDiagnosticTests": 15,
+  "actualCliSequence": [
+    "preflight_without_grant",
+    "init_six_exact_flags",
+    "run_live_with_synthetic_http",
+    "run_live_replay_zero_http",
+    "preflight_consumed"
+  ],
+  "runtimeDelta": "two imports only: port and diagnostic module",
+  "sourcePinsVerified": true,
+  "oldStateBytesPreserved": true,
+  "realModelRequests": 0,
+  "realLoginAttempts": 0,
+  "realCredentialReads": 0,
+  "userStoreAccessed": false,
+  "realUserApprovalRecorded": false,
+  "windowsValidated": false,
+  "realInferenceQualified": false,
+  "qualityAssessed": false
+}

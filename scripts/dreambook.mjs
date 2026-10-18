@@ -7,7 +7,7 @@ import {Store,copy,fail} from '../src/store.js';
 import {own,safeId} from '../src/contract.js';
 import {assertAppraisalReviewJsonData} from '../src/appraisal-review-memory.js';
 import {readContentReview} from '../src/content-review.js';
-import {readModelPortContent} from './offline-envelope-content-view.mjs';
+import {readModelPortContent} from './envelope-plan-content-view.mjs';
 import {renderDreambookReview} from './dreambook-review-text.mjs';
 export const dreambookReaderVersion='local-dreambook-reader-v1';
 const supported=new Set(['coupled-affect-quotes-v1','scene-continuity-quotes-v1','inline-evidence-quotes-v1']);

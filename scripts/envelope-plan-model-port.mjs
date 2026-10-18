@@ -2,9 +2,9 @@
 export * from './offline-envelope-model-port.mjs';
 import {selectAdapter as selectOffline,stageRequest,stageResponse} from './offline-envelope-model-port.mjs';
 import {prepareChatgptPlanRequest} from './chatgpt-plan-protocol.mjs';
-import {OfflinePlanEnvelopeStream} from './offline-plan-envelope.mjs';
+import {ValidatedEnvelopeStream} from './validated-envelope-stream.mjs';
 import {isEnvelopeHttpTransport,envelopeHttpProtocolVersion} from './envelope-plan-http.mjs';
-import {markPlanResponseFailure} from './plan-response-diagnostic.mjs';
+import {markEnvelopeFailure as markPlanResponseFailure} from './envelope-diagnostic.mjs';
 import {hash} from '../src/contract.js';
 const fail=code=>{throw Error(code);},selections=new WeakSet();
 export const isModelSelection=value=>selections.has(value);
@@ -26,7 +26,7 @@ export class EnvelopePlanAdapter{
   if(!this.preflight().ready)fail('authorization_required');if(signal?.aborted)fail('cancelled');
   const request=stageRequest(input);
   try{
-   const draft=this.prepare(request),decoder=new OfflinePlanEnvelopeStream(this.identity.model_id);
+   const draft=this.prepare(request),decoder=new ValidatedEnvelopeStream(this.identity.model_id);
    for await(const chunk of this.#http.stream(draft,request,{signal})){if(signal?.aborted)fail('cancelled');decoder.push(chunk);}
    if(signal?.aborted)fail('cancelled');const {data,usage}=decoder.finish();
    return stageResponse({value:data,usage:{input_tokens:usage.inputTokens,output_tokens:usage.outputTokens,total_tokens:usage.totalTokens}},request);

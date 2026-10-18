@@ -1,6 +1,6 @@
 // Reuses the existing Store and dream lifecycle; the model boundary is replaceable.
 // Ready adapters share this lifecycle. Subscription adapters currently remain gated.
-import {planResponseDiagnostic,reviewedPlanResponseDiagnostic} from './plan-response-diagnostic.mjs';
+import {envelopeDiagnostic as planResponseDiagnostic,reviewedEnvelopeDiagnostic as reviewedPlanResponseDiagnostic} from './envelope-diagnostic.mjs';
 import {Nightvoyage} from '../src/engine.js';
 import {hash,snapshot} from '../src/contract.js';
 import {dreamModelPortVersion,selectAdapter,stageRequest,validateStageResponse,jsonFields,portError,isModelSelection} from './envelope-plan-model-port.mjs';
