@@ -1,0 +1,62 @@
+{
+  "recordVersion": "user-reported-windows-request-observer-v1",
+  "evidenceOrigin": "user_pasted_sanitized_receipt",
+  "reviewedCodeCommit": "a2a5b76546502230e765bbd04e07eb9396ebc3d1",
+  "codexVersion": "0.160.0",
+  "platform": "win32",
+  "result": {
+    "contractVersion": "codex-local-request-observer-v1",
+    "kind": "native",
+    "status": "blocked",
+    "reason": "unexpected_notification",
+    "requestedModel": "gpt-5.6-sol",
+    "initializeChecked": true,
+    "configurationChecked": true,
+    "threadPrepared": true,
+    "threadEphemeralVerified": true,
+    "processStarted": true,
+    "ownedProcessClosed": true,
+    "temporaryCleanupComplete": true,
+    "temporaryCleanupFailureCode": null,
+    "configWarnings": 0,
+    "fixtureCatalogGets": 0,
+    "fixtureModelPosts": 0,
+    "unexpectedHttpRequests": 0,
+    "methodsQueued": [
+      "initialize",
+      "initialized",
+      "config/read",
+      "thread/start",
+      "turn/start"
+    ],
+    "startupDiagnostics": {
+      "diagnosticVersion": "codex-startup-stderr-v1",
+      "labels": [
+        "unclassified_stderr"
+      ],
+      "observedBytes": 334,
+      "observedLines": 1,
+      "rawStderrReturned": false,
+      "dispatchEnabled": false,
+      "toolExclusionVerified": false,
+      "emptyStreamProvesHealthyStartup": false
+    },
+    "requestObservation": null,
+    "requestBodyRetained": false,
+    "generatedResponseSupplied": false,
+    "accountAuthorizationRequested": false,
+    "appServerTurnsRequested": 1,
+    "credentialEnvironmentSupplied": false,
+    "dispatchEnabled": false,
+    "toolExclusionVerified": false,
+    "modelEntitlementVerified": false,
+    "backgroundNetworkInstrumented": false,
+    "descendantTerminationConfirmed": "unknown",
+    "qualityAssessed": false
+  },
+  "notificationIdentityRecorded": false,
+  "historicalNotificationCauseRecoverable": false,
+  "maintainerWindowsRun": false,
+  "nativeToolInventoryObserved": false,
+  "qualityAssessed": false
+}

@@ -45,9 +45,11 @@ lines.on('line',async line=>{
   if(scenario==='tool_notification'){output({method:'item/started',params:{item:{type:'commandExecution',command:'fictional-private-command'}}});return;}
   output({id:4,result:{turn:{id:'fictional-observer-turn',status:'inProgress'}}});
   output({method:'turn/started',params:{threadId:'fictional-metadata-thread',turn:{id:'fictional-observer-turn'}}});
-  if(['lifecycle','foreign_turn','altered_user_item','approval_status'].includes(scenario)){
+  if(scenario==='warning_notification'){output({method:'windows/worldWritableWarning',params:{fictional:'fictional-private-path'}});return;}
+  if(scenario==='outside_notification'){output({method:'fictional/private_sensitive_method',params:{fictional:'fictional-private-path'}});return;}
+  if(['lifecycle','foreign_turn','altered_user_item','approval_status','invalid_item_id'].includes(scenario)){
    output({method:'thread/status/changed',params:{threadId:'fictional-metadata-thread',status:{type:'active',activeFlags:scenario==='approval_status'?['waitingOnApproval']:[]}}});
-   const params={threadId:'fictional-metadata-thread',turnId:scenario==='foreign_turn'?'fictional-other-turn':'fictional-observer-turn',item:{id:'fictional-user-item',type:'userMessage',content:[{type:'text',text:scenario==='altered_user_item'?'fictional-private-altered-prompt':message.params.input[0].text,text_elements:[]}]}};
+   const params={threadId:'fictional-metadata-thread',turnId:scenario==='foreign_turn'?'fictional-other-turn':'fictional-observer-turn',item:{id:scenario==='invalid_item_id'?'fictional/private-path':'fictional-user-item',type:'userMessage',content:[{type:'text',text:scenario==='altered_user_item'?'fictional-private-altered-prompt':message.params.input[0].text,text_elements:[]}]}};
    output({method:'item/started',params});output({method:'item/completed',params});
   }
   const tool={type:'function',name:scenario==='unknown_tools'?'fictional_private_tool_name':'view_image',parameters:{type:'object'},description:'fictional-private-description'};

@@ -6,11 +6,12 @@ import path from 'node:path';
 import http from 'node:http';
 import {fileURLToPath} from 'node:url';
 import {codexIsolationOverrides,reviewCodexConfigReply} from './codex-isolation-review.mjs';
+import {observerNotificationWitness} from './codex-observer-notification-witness.mjs';
 import {reviewCodexLocalRequest} from './codex-request-tool-review.mjs';
 import {CodexStartupDiagnostics} from './codex-startup-diagnostics.mjs';
 const model='gpt-5.6-sol',provider='nightvoyage_metadata_fixture';
 const probeText='Independent fictional transport probe. No person or memory is represented.';
-const scenarios=['empty_tools','known_tools','unknown_tools','missing_tools','malformed_body','oversized_body','stalled_body','wrong_model','wrong_provider','not_ephemeral','stall_thread','server_request','config_auth_required','early_post','duplicate_post','wrong_path','auth_header','encoded_body','rpc_error','tool_notification','lifecycle','foreign_turn','altered_user_item','approval_status'];
+const scenarios=['empty_tools','known_tools','unknown_tools','missing_tools','malformed_body','oversized_body','stalled_body','wrong_model','wrong_provider','not_ephemeral','stall_thread','server_request','config_auth_required','early_post','duplicate_post','wrong_path','auth_header','encoded_body','rpc_error','tool_notification','lifecycle','foreign_turn','altered_user_item','approval_status','warning_notification','outside_notification','invalid_item_id'];
 const object=value=>value!==null&&typeof value==='object'&&!Array.isArray(value);
 function options(value){
  if(!value||Object.getPrototypeOf(value)!==Object.prototype||Reflect.ownKeys(value).some(key=>!['signal','timeoutMs'].includes(key)||!Object.hasOwn(Object.getOwnPropertyDescriptor(value,key),'value')))throw Error('metadata_options_invalid');
@@ -45,7 +46,7 @@ async function run(launch,{signal,timeoutMs}){
   requestedModel:model,initializeChecked:false,configurationChecked:false,threadPrepared:false,threadEphemeralVerified:false,
   processStarted:false,ownedProcessClosed:false,temporaryCleanupComplete:false,temporaryCleanupFailureCode:null,configWarnings:0,
   fixtureCatalogGets:0,fixtureModelPosts:0,unexpectedHttpRequests:0,methodsQueued:[],startupDiagnostics:null,
-  requestObservation:null,requestBodyRetained:false,generatedResponseSupplied:false,
+  requestObservation:null,notificationRejection:null,requestBodyRetained:false,generatedResponseSupplied:false,
   accountAuthorizationRequested:false,appServerTurnsRequested:0,credentialEnvironmentSupplied:false,
   dispatchEnabled:false,toolExclusionVerified:false,modelEntitlementVerified:false,
   backgroundNetworkInstrumented:false,descendantTerminationConfirmed:'unknown',qualityAssessed:false};
@@ -116,6 +117,7 @@ async function run(launch,{signal,timeoutMs}){
    const send=frame=>{report.methodsQueued.push(frame.method);child.stdin.write(JSON.stringify(frame)+'\n',error=>{if(error&&!closing)stop('stdin_failed');});};
    const frame=message=>{
     if(!object(message))throw Error('rpc_shape_invalid');
+    const rejectNotification=(check,reason='unexpected_notification')=>{report.notificationRejection??=observerNotificationWitness(message.method,check,phase,message.params?.item?.type);throw Error(reason);};
     if(Object.hasOwn(message,'id')){
      if(Object.hasOwn(message,'method'))throw Error('unexpected_server_request');
      if(message.id!==expected||message.error||!object(message.result))throw Error('rpc_rejected');
@@ -146,17 +148,24 @@ async function run(launch,{signal,timeoutMs}){
      threadNotificationSeen=true;earlyThreadId=id;
     }else if(message.method==='turn/started'&&['turn','observing'].includes(phase)){
      const id=message.params?.turn?.id;
-     if(turnStarted||message.params?.threadId!==threadId||typeof id!=='string'||!/^[A-Za-z0-9_-]{1,200}$/.test(id)||turnId!==null&&turnId!==id)throw Error('turn_mismatch');
+     if(turnStarted||message.params?.threadId!==threadId||typeof id!=='string'||!/^[A-Za-z0-9_-]{1,200}$/.test(id)||turnId!==null&&turnId!==id)rejectNotification('turn_started_mismatch','turn_mismatch');
      turnStarted=true;earlyTurnId=id;
     }else if(message.method==='thread/status/changed'&&['turn','observing'].includes(phase)){
      const p=message.params;
-     if(p?.threadId!==threadId||!['idle','active'].includes(p.status?.type)||p.status.type==='active'&&(!Array.isArray(p.status.activeFlags)||p.status.activeFlags.length!==0))throw Error('turn_mismatch');
+     if(p?.threadId!==threadId)rejectNotification('notification_thread_mismatch','turn_mismatch');
+     if(!['idle','active'].includes(p.status?.type)||p.status.type==='active'&&(!Array.isArray(p.status.activeFlags)||p.status.activeFlags.length!==0))rejectNotification('thread_status_rejected','turn_mismatch');
     }else if(['item/started','item/completed'].includes(message.method)&&['turn','observing'].includes(phase)){
      const p=message.params,item=p?.item,id=turnId??earlyTurnId;
-     if(id===null||p?.threadId!==threadId||p.turnId!==id||item?.type!=='userMessage'||typeof item.id!=='string'||!/^[A-Za-z0-9_-]{1,200}$/.test(item.id)||!Array.isArray(item.content)||item.content.length!==1||item.content[0]?.type!=='text'||item.content[0].text!==probeText)throw Error('unexpected_notification');
-     if(message.method==='item/started'){if(userItemId!==null)throw Error('unexpected_notification');userItemId=item.id;}
-     else {if(userItemId!==item.id||userItemDone)throw Error('unexpected_notification');userItemDone=true;}
-    }else throw Error('unexpected_notification');
+     if(id===null)rejectNotification('user_item_before_turn_identity');
+     if(p?.threadId!==threadId)rejectNotification('notification_thread_mismatch');
+     if(p.turnId!==id)rejectNotification('notification_turn_mismatch');
+     if(item?.type!=='userMessage')rejectNotification('non_user_item');
+     if(typeof item.id!=='string'||!/^[A-Za-z0-9_-]{1,200}$/.test(item.id))rejectNotification('user_item_id_shape');
+     if(!Array.isArray(item.content)||item.content.length!==1||item.content[0]?.type!=='text')rejectNotification('user_item_content_shape');
+     if(item.content[0].text!==probeText)rejectNotification('user_item_text_mismatch');
+     if(message.method==='item/started'){if(userItemId!==null)rejectNotification('user_item_duplicate_start');userItemId=item.id;}
+     else {if(userItemId!==item.id||userItemDone)rejectNotification('user_item_completion_mismatch');userItemDone=true;}
+    }else rejectNotification('notification_not_reviewed');
    };
    child=spawn(executable,childArgs,{cwd,env,shell:false,windowsHide:true,detached:process.platform!=='win32',stdio:['pipe','pipe','pipe']});
    child.once('spawn',()=>{report.processStarted=true;});
