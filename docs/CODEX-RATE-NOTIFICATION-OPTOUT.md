@@ -16,7 +16,7 @@ Receipts record notificationOptOutRequested, notificationOptOutVerified=false, a
 
 Independent peer tests validate the exact singleton list at initialization and simulate a background rate update that is omitted only when requested. Separate cases deliberately ignore the setting or emit another account/unknown notification: the owner still blocks and returns no account data or refusal result. Original entry behavior and caller override rejection are covered. Synthetic payload markers are independent fixtures, not actual account data.
 
-Actual maintainer native CLI 0.159.2 still times out before thread preparation, local turn or HTTP POST, with current owned cleanup complete. It reports the requested method, not a verified suppression. Windows 0.160.0 opt-out behavior and the bound refusal continuation are pending. [Validation and final source hashes](validation/codex-refusal-notification-optout.json).
+Actual maintainer native CLI 0.159.2 still times out before thread preparation, local turn or HTTP POST, with current owned cleanup complete. It reports the requested method, not a verified suppression. The subsequent user-reported Windows run obtains a selected unsupported-call result with matching call identity in its second local POST. The opted-out notification was not observed; actual suppression remains unverified. This is a single fixed interaction-call observation, not general handler denial or real inference. [Windows selected-refusal receipt](validation/user-local-codex-selected-refusal-windows.json). [Validation and final source hashes](validation/codex-refusal-notification-optout.json).
 
 Use the existing explicit local continuation command after syncing:
 
