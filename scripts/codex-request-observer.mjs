@@ -45,6 +45,18 @@ export function rehearseCodexRequestWithFictionalCatalog(scenario='known_tools',
  return run({kind:'independent_node_peer',scenario,fictionalCatalog:true},settings);
 }
 
+export function observeNativeCodexWithoutEnvironment(executable,value={}){
+ const settings=options(value);
+ if(typeof executable!=='string'||!path.isAbsolute(executable)||!/^codex(?:\.exe)?$/i.test(path.basename(executable)))throw Error('metadata_executable_invalid');
+ let binary;try{binary=fs.realpathSync(executable);if(!fs.statSync(binary).isFile())throw Error();}catch{throw Error('metadata_executable_invalid');}
+ return run({kind:'native',binary,fictionalCatalog:true,environmentless:true},settings);
+}
+export function rehearseCodexWithoutEnvironment(scenario='environmentless_tools',value={}){
+ const settings=options(value);
+ if(!['environmentless_tools','known_tools','unknown_tools','missing_tools','model_metadata_warning','environment_controls_changed','environment_controls_omitted','stall_thread','stalled_body','catalog_body_changed'].includes(scenario))throw Error('metadata_scenario_invalid');
+ return run({kind:'independent_node_peer',scenario,fictionalCatalog:true,environmentless:true},settings);
+}
+
 function temporaryParent(){
  try{
   const parent=fs.realpathSync(os.tmpdir()),source=fs.realpathSync(fileURLToPath(new URL('../',import.meta.url)));
@@ -58,7 +70,7 @@ function temporaryParent(){
  }catch{throw Error('metadata_workspace_unavailable');}
 }
 async function run(launch,{signal,timeoutMs}){
- const report={contractVersion:launch.fictionalCatalog?'codex-local-fictional-catalog-observer-v1':'codex-local-request-observer-v1',kind:launch.kind,status:'not_started',reason:null,
+ const report={contractVersion:launch.environmentless?'codex-local-environmentless-observer-v1':launch.fictionalCatalog?'codex-local-fictional-catalog-observer-v1':'codex-local-request-observer-v1',kind:launch.kind,status:'not_started',reason:null,
   requestedModel:model,initializeChecked:false,configurationChecked:false,threadPrepared:false,threadEphemeralVerified:false,
   processStarted:false,ownedProcessClosed:false,temporaryCleanupComplete:false,temporaryCleanupFailureCode:null,configWarnings:0,
   fixtureCatalogGets:0,fixtureModelPosts:0,unexpectedHttpRequests:0,methodsQueued:[],startupDiagnostics:null,
@@ -67,6 +79,8 @@ async function run(launch,{signal,timeoutMs}){
   fictionalCatalogVersion:launch.fictionalCatalog?fictionalCodexCatalogVersion:null,
   fictionalCatalogSha256:null,fictionalCatalogConfigured:false,fictionalCatalogBytesChecked:false,
   catalogRepresentsRealModel:false,catalogControlsToolExposure:true,subscriptionCapabilityInferred:false,
+  experimentalApiRequested:launch.environmentless===true,environmentMode:launch.environmentless?'explicit_empty_turn_environments':'default_thread_environment',
+  additionalToolControlsRequested:launch.environmentless===true,additionalToolControlsConfigured:false,additionalToolControlsStatus:'not_requested',emptyEnvironmentsSent:false,environmentHandlerDenialVerified:false,
   accountAuthorizationRequested:false,appServerTurnsRequested:0,credentialEnvironmentSupplied:false,
   dispatchEnabled:false,toolExclusionVerified:false,modelEntitlementVerified:false,
   backgroundNetworkInstrumented:false,descendantTerminationConfirmed:'unknown',qualityAssessed:false};
@@ -117,6 +131,7 @@ async function run(launch,{signal,timeoutMs}){
    `model_providers.${provider}.requires_openai_auth=false`,`model_providers.${provider}.supports_websockets=false`,
    `model_providers.${provider}.request_max_retries=0`,`model_providers.${provider}.stream_max_retries=0`];
   if(catalogBytes)overrides.push('model_catalog_json='+JSON.stringify(catalogPath));
+  if(launch.environmentless)overrides.push('tools.experimental_request_user_input.enabled=false','tools.update_plan.enabled=false');
   const args=['app-server','--listen','stdio://',...overrides.flatMap(value=>['-c',value])];
   const dirs=[path.dirname(process.execPath),...(launch.binary?[path.dirname(launch.binary)]:[])];
   const env={CODEX_HOME:state,HOME:home,USERPROFILE:home,XDG_CONFIG_HOME:home,APPDATA:home,LOCALAPPDATA:home,TEMP:root,TMP:root};
@@ -167,6 +182,12 @@ async function run(launch,{signal,timeoutMs}){
        if(!samePath(config.model_catalog_json,catalogPath))throw Error('configuration_mismatch');
        report.fictionalCatalogConfigured=true;
       }
+      if(launch.environmentless){
+       const values=[config.tools?.experimental_request_user_input?.enabled,config.tools?.update_plan?.enabled];
+       if(values.some(value=>value!==undefined&&value!==false))throw Error('configuration_mismatch');
+       report.additionalToolControlsConfigured=values.every(value=>value===false);
+       report.additionalToolControlsStatus=report.additionalToolControlsConfigured?'matched':'not_reported';
+      }
       report.configurationChecked=true;phase='thread';expected=3;
       send({id:3,method:'thread/start',params:{model,modelProvider:provider,ephemeral:true,approvalPolicy:'never',sandbox:'read-only',cwd}});
      }else if(phase==='thread'){
@@ -178,7 +199,8 @@ async function run(launch,{signal,timeoutMs}){
        report.fictionalCatalogBytesChecked=true;
       }
       report.appServerTurnsRequested=1;
-      send({id:4,method:'turn/start',params:{threadId,input:[{type:'text',text:probeText,text_elements:[]}]}});
+      if(launch.environmentless)report.emptyEnvironmentsSent=true;
+      send({id:4,method:'turn/start',params:{threadId,input:[{type:'text',text:probeText,text_elements:[]}],...(launch.environmentless?{environments:[]}: {})}});
      }else if(phase==='turn'){
       if(typeof result.turn?.id!=='string'||!/^[A-Za-z0-9_-]{1,200}$/.test(result.turn.id)||earlyTurnId!==null&&earlyTurnId!==result.turn.id)throw Error('turn_mismatch');
       turnId=result.turn.id;phase='observing';expected=null;
@@ -234,7 +256,7 @@ async function run(launch,{signal,timeoutMs}){
    });
    timer=setTimeout(()=>stop('preparation_timeout'),timeoutMs);
    signal?.addEventListener('abort',abort,{once:true});
-   if(signal?.aborted)abort();else send({id:1,method:'initialize',params:{clientInfo:{name:'asteria-nightvoyage',title:'Asteria-Nightvoyage',version:'0.1.0'}}});
+   if(signal?.aborted)abort();else send({id:1,method:'initialize',params:{clientInfo:{name:'asteria-nightvoyage',title:'Asteria-Nightvoyage',version:'0.1.0'},...(launch.environmentless?{capabilities:{experimentalApi:true}}:{})}});
   });
  }catch{failure??='metadata_owner_failed';}
  finally{

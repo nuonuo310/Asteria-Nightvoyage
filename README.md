@@ -113,3 +113,5 @@ GPT订阅首次试跑的用户回执为首幕校验失败、未发布梦境；�
 已实现 [Codex 本地请求工具观察器](docs/CODEX-LOCAL-REQUEST-OBSERVER.md)：默认只跑独立虚构进程；原生观察须显式指定程序，只连接无认证的本地虚构服务，不授予订阅推理权限。实际原生工具列表尚未取得。
 
 本地 Codex 观察新增[显式虚构型号目录模式](docs/CODEX-FICTIONAL-CATALOG-OBSERVER.md)：用于比较元数据回退警告；自动测试通过，Windows 原生比较待运行，订阅生成仍未开放。
+
+[空环境回合观察](docs/CODEX-ENVIRONMENTLESS-OBSERVER.md)单独比较工具声明：Windows 上一轮已观察到三类工具；新模式仍只连接本地虚构服务，不开放订阅推理。

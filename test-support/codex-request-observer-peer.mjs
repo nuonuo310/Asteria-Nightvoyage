@@ -15,6 +15,7 @@ lines.on('line',async line=>{
  const message=JSON.parse(line);
  if(message.method.startsWith('account/'))process.exit(32);
  if(message.method==='initialize'&&phase==='initialize'){
+  if(config.tools?.experimental_request_user_input?.enabled===false&&message.params.capabilities?.experimentalApi!==true)process.exit(43);
   if(scenario==='early_exit')process.exit(21);
   if(scenario==='invalid_stdout'){process.stdout.write('fictional bad frame\n');return;}
   if(scenario==='lookup_error')process.stderr.write('ERROR Codex could not find bubblewrap on PATH. Fictional fixture.\n');
@@ -30,6 +31,8 @@ lines.on('line',async line=>{
   }
   if(scenario==='config_wrong_endpoint')config.model_providers.nightvoyage_metadata_fixture.base_url='http://127.0.0.1:1/v1';
   if(scenario==='early_post'){try{await fetch(config.model_providers.nightvoyage_metadata_fixture.base_url+'/responses',{method:'POST',body:'fictional'});}catch{}return;}
+  if(scenario==='environment_controls_omitted')config.tools={};
+  if(scenario==='environment_controls_changed')config.tools.experimental_request_user_input.enabled=true;
   if(scenario==='config_auth_required')config.model_providers.nightvoyage_metadata_fixture.requires_openai_auth=true;
   if(scenario==='config_warning')output({method:'configWarning',params:{summary:'fictional-private-warning'}});
   output({id:2,result:{config,origins:{fictional:'not persisted'}}});phase='thread';
@@ -48,6 +51,9 @@ lines.on('line',async line=>{
    approvalPolicy:'never',sandbox:{type:'readOnly'},thread:{id:'fictional-metadata-thread',ephemeral:scenario!=='not_ephemeral'}}};
   output(response);phase='complete';
  }else if(message.method==='turn/start'&&phase==='complete'){
+  if(config.tools?.experimental_request_user_input?.enabled===false||scenario==='environment_controls_omitted'){
+   if((scenario!=='environment_controls_omitted'&&config.tools?.update_plan?.enabled!==false)||!Array.isArray(message.params.environments)||message.params.environments.length!==0)process.exit(42);
+  }
   if(scenario==='server_request'){output({id:12,method:'item/commandExecution/requestApproval',params:{command:'fictional-private-command'}});return;}
   if(scenario==='rpc_error'){output({id:4,error:{message:'fictional-private-error'}});return;}
   if(scenario==='tool_notification'){output({method:'item/started',params:{item:{type:'commandExecution',command:'fictional-private-command'}}});return;}
@@ -66,7 +72,7 @@ lines.on('line',async line=>{
    output({method:'item/started',params});output({method:'item/completed',params});
   }
   const tool={type:'function',name:scenario==='unknown_tools'?'fictional_private_tool_name':'view_image',parameters:{type:'object'},description:'fictional-private-description'};
-  let body={model:scenario==='wrong_model'?'other':config.model,input:'fictional-private-prompt',tools:scenario==='empty_tools'?[]:[tool]};
+  let body={model:scenario==='wrong_model'?'other':config.model,input:'fictional-private-prompt',tools:['empty_tools','environmentless_tools','environment_controls_omitted'].includes(scenario)?[]:[tool]};
   if(scenario==='missing_tools')delete body.tools;
   const base=config.model_providers.nightvoyage_metadata_fixture.base_url;
   const url=base+(scenario==='wrong_path'?'/other':'/responses');
