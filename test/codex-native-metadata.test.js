@@ -84,3 +84,33 @@ test('a temporary directory inside a Git checkout is rejected before creating ow
   assert.deepEqual(fs.readdirSync(root),['.git']);
  }finally{fs.rmSync(root,{recursive:true,force:true});}
 });
+
+for(const code of ['EBUSY','EACCES','fictional-private-error']){
+ test(`cleanup failure ${code} blocks prepared metadata and returns only a closed error code`,async t=>{
+  let retainedRoot;
+  const mock=t.mock.method(fs.promises,'rm',async root=>{
+   retainedRoot=root;
+   throw Object.assign(Error('fictional-private-path-and-error-body'),{code,path:'fictional-private-path'});
+  });
+  try{
+   const report=await rehearseCodexNativeMetadata();
+   assert.equal(report.threadPrepared,true);assert.equal(report.ownedProcessClosed,true);
+   assert.equal(report.status,'blocked');assert.equal(report.reason,'temporary_cleanup_failed');
+   assert.equal(report.temporaryCleanupComplete,false);
+   assert.equal(report.temporaryCleanupFailureCode,code==='fictional-private-error'?'unknown':code);
+   assert.equal(report.appServerTurnsRequested,0);assert.equal(report.dispatchEnabled,false);
+   assert.equal(fs.existsSync(retainedRoot),true);
+   assert.ok(!JSON.stringify(report).includes('fictional-private'));
+   assert.ok(!JSON.stringify(report).includes(retainedRoot));
+  }finally{mock.mock.restore();if(retainedRoot)await fs.promises.rm(retainedRoot,{recursive:true,force:true});}
+ });
+}
+test('a metadata receipt waits for asynchronous workspace removal before reporting success',async t=>{
+ const remove=fs.promises.rm.bind(fs.promises);let removed=false,workspace;
+ t.mock.method(fs.promises,'rm',async (root,options)=>{
+  workspace=root;await new Promise(resolve=>setTimeout(resolve,25));await remove(root,options);removed=true;
+ });
+ const report=await rehearseCodexNativeMetadata();boundary(report);
+ assert.equal(removed,true);assert.equal(fs.existsSync(workspace),false);
+ assert.equal(report.status,'metadata_prepared');assert.equal(report.temporaryCleanupFailureCode,null);
+});

@@ -41,7 +41,7 @@ function temporaryParent(){
 async function run(launch,{signal,timeoutMs}){
  const report={contractVersion:'codex-native-metadata-only-v1',kind:launch.kind,status:'not_started',reason:null,
   requestedModel:model,initializeChecked:false,configurationChecked:false,threadPrepared:false,threadEphemeralVerified:false,
-  processStarted:false,ownedProcessClosed:false,temporaryCleanupComplete:false,configWarnings:0,
+  processStarted:false,ownedProcessClosed:false,temporaryCleanupComplete:false,temporaryCleanupFailureCode:null,configWarnings:0,
   fixtureCatalogGets:0,fixtureModelPosts:0,unexpectedHttpRequests:0,methodsQueued:[],startupDiagnostics:null,
   accountAuthorizationRequested:false,appServerTurnsRequested:0,credentialEnvironmentSupplied:false,
   dispatchEnabled:false,toolExclusionVerified:false,modelEntitlementVerified:false,
@@ -147,7 +147,9 @@ async function run(launch,{signal,timeoutMs}){
  }catch{failure??='metadata_owner_failed';}
  finally{
   if(server){server.closeAllConnections();await new Promise(resolve=>server.close(()=>resolve()));}
-  try{fs.rmSync(root,{recursive:true,force:true});report.temporaryCleanupComplete=true;}catch{failure??='temporary_cleanup_failed';}
+  // Retry only removal of this invocation's private workspace; never restart Codex.
+  try{await fs.promises.rm(root,{recursive:true,force:true,maxRetries:5,retryDelay:100});report.temporaryCleanupComplete=true;}
+  catch(error){report.temporaryCleanupFailureCode=['EBUSY','EPERM','EACCES','ENOTEMPTY','EMFILE','ENFILE'].includes(error?.code)?error.code:'unknown';failure??='temporary_cleanup_failed';}
  }
  report.status=failure==='cancelled'?'cancelled':failure?'blocked':'metadata_prepared';report.reason=failure;
  return report;

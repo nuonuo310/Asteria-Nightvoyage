@@ -1,0 +1,34 @@
+✔ metadata owner verifies a fixed fictional provider and ephemeral thread, then closes without a turn (51.478184ms)
+✔ metadata owner rejects wrong_model without emitting private replies or any model turn (38.285342ms)
+✔ metadata owner rejects wrong_provider without emitting private replies or any model turn (34.688833ms)
+✔ metadata owner rejects not_ephemeral without emitting private replies or any model turn (34.591667ms)
+✔ metadata owner rejects rpc_error without emitting private replies or any model turn (32.368839ms)
+✔ metadata owner rejects server_request without emitting private replies or any model turn (38.316368ms)
+✔ metadata owner rejects invalid_stdout without emitting private replies or any model turn (42.597557ms)
+✔ metadata owner rejects early_exit without emitting private replies or any model turn (33.947226ms)
+✔ metadata owner rejects early_thread_mismatch without emitting private replies or any model turn (37.013666ms)
+✔ metadata owner rejects config_warning without emitting private replies or any model turn (34.410615ms)
+✔ a short stderr error remains visible but never proves tool absence or subscription entitlement (35.483611ms)
+✔ an unexpected local fixture POST is stopped and counted, never accepted as a dream or another turn (73.566913ms)
+✔ thread preparation timeout closes its peer and temporary workspace without retry (309.993466ms)
+✔ queued cancellation starts no process; in-flight cancellation closes the metadata peer (107.876154ms)
+✔ closed arguments reject getters, provider/login authority, unknown scenarios and non-native executable paths (0.959004ms)
+✔ parent credentials, Node options and proxy configuration are not inherited by the independent peer (34.289521ms)
+✔ CLI defaults to the independent peer, and rejects inference flags without starting native software (199.188974ms)
+✔ fixture catalog access stays local, is counted, and cannot authorize a model turn (79.473725ms)
+✔ altered config_wrong_endpoint blocks before any thread is requested (43.020595ms)
+✔ altered config_auth_required blocks before any thread is requested (47.580012ms)
+✔ altered initialize_wrong_home blocks before any thread is requested (41.240878ms)
+✔ a temporary directory inside a Git checkout is rejected before creating owner state (73.175147ms)
+✔ cleanup failure EBUSY blocks prepared metadata and returns only a closed error code (34.21186ms)
+✔ cleanup failure EACCES blocks prepared metadata and returns only a closed error code (39.787148ms)
+✔ cleanup failure fictional-private-error blocks prepared metadata and returns only a closed error code (36.817741ms)
+✔ a metadata receipt waits for asynchronous workspace removal before reporting success (65.461218ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1701.676676
