@@ -109,3 +109,5 @@ GPT订阅首次试跑的用户回执为首幕校验失败、未发布梦境；�
 [原生封装组件](docs/ENVELOPE-NATIVE-COMPONENTS.md)随后已用合成 OAuth／HTTP 跑通两幕与醒来，复用固定公共 HTTP transport；`node scripts/check-envelope-native-components.mjs` 仍仅用虚构响应，不访问真实账户。独立持久授权入口、精确诊断、通用阅读器接入及 CLI 整体核验仍待完成，当前没有新试跑许可或可执行真实试跑命令。GPT-5.6-Sol 的真实请求发起过，但尚无通过校验并保存的梦。
 
 后续已实现[独立完整封装试跑入口](docs/GPT-PLAN-ENVELOPE-ENTRY.md)，补齐新许可、失败前序绑定、固定错误标签、终态重放和通用阅读器核验。`node scripts/check-envelope-plan-entry.mjs` 只跑独立虚构授权／HTTP 演练；真实账户尚未验证，也没有新的真实用户许可。旧失败梦保持停止，固定 GPT-5.6-Sol 的新梦（最多三次订阅调用）必须另行明确批准，不能靠重复旧指令启动。上一段为原生组件切片当时状态。
+
+已实现 [Codex 本地请求工具观察器](docs/CODEX-LOCAL-REQUEST-OBSERVER.md)：默认只跑独立虚构进程；原生观察须显式指定程序，只连接无认证的本地虚构服务，不授予订阅推理权限。实际原生工具列表尚未取得。

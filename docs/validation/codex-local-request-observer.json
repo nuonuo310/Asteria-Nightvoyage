@@ -1,0 +1,179 @@
+{
+  "recordVersion": "codex-local-request-observer-validation-v1",
+  "recordedAtUtc": "2026-10-19T16:51:01.572211+00:00",
+  "baseCommit": "a56d2291c0fbb6f1a0b1b9dd405341db37303cce",
+  "automatic": {
+    "platform": "linux",
+    "node": "v24.19.0",
+    "fixtures": "independent_fictional_node_peers_local_http_and_filesystem_faults",
+    "nativeCodexInvoked": false,
+    "realModelRequests": 0,
+    "targeted": {
+      "command": "node --test test/codex-request-tool-review.test.js test/codex-request-observer.test.js test/codex-native-metadata.test.js",
+      "tests": 55,
+      "pass": 55,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "duration_ms": 5885.35637
+    },
+    "full": {
+      "command": "node --test",
+      "tests": 1421,
+      "pass": 1421,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "duration_ms": 106451.558042
+    }
+  },
+  "defaultRehearsal": {
+    "contractVersion": "codex-local-request-observer-v1",
+    "kind": "independent_node_peer",
+    "status": "request_observed",
+    "reason": null,
+    "requestedModel": "gpt-5.6-sol",
+    "initializeChecked": true,
+    "configurationChecked": true,
+    "threadPrepared": true,
+    "threadEphemeralVerified": true,
+    "processStarted": true,
+    "ownedProcessClosed": true,
+    "temporaryCleanupComplete": true,
+    "temporaryCleanupFailureCode": null,
+    "configWarnings": 0,
+    "fixtureCatalogGets": 0,
+    "fixtureModelPosts": 1,
+    "unexpectedHttpRequests": 0,
+    "methodsQueued": [
+      "initialize",
+      "initialized",
+      "config/read",
+      "thread/start",
+      "turn/start"
+    ],
+    "startupDiagnostics": {
+      "diagnosticVersion": "codex-startup-stderr-v1",
+      "labels": [],
+      "observedBytes": 0,
+      "observedLines": 0,
+      "rawStderrReturned": false,
+      "dispatchEnabled": false,
+      "toolExclusionVerified": false,
+      "emptyStreamProvesHealthyStartup": false
+    },
+    "requestObservation": {
+      "reviewVersion": "codex-local-request-tools-v1",
+      "modelChecked": true,
+      "toolsFieldPresent": true,
+      "toolCount": 0,
+      "namespaceCount": 0,
+      "unknownNamespaceCount": 0,
+      "unknownToolCount": 0,
+      "toolClasses": [],
+      "toolInventoryReviewed": true,
+      "toolExposureStatus": "no_tools_declared",
+      "toolChoice": "unknown",
+      "requestBodyReturned": false,
+      "toolSchemasReturned": false,
+      "dispatchEnabled": false,
+      "toolExclusionVerified": false,
+      "handlerDenialVerified": false,
+      "modelEntitlementVerified": false,
+      "qualityAssessed": false
+    },
+    "requestBodyRetained": false,
+    "generatedResponseSupplied": false,
+    "accountAuthorizationRequested": false,
+    "appServerTurnsRequested": 1,
+    "credentialEnvironmentSupplied": false,
+    "dispatchEnabled": false,
+    "toolExclusionVerified": false,
+    "modelEntitlementVerified": false,
+    "backgroundNetworkInstrumented": false,
+    "descendantTerminationConfirmed": "unknown",
+    "qualityAssessed": false
+  },
+  "nativeObservation": {
+    "platform": "linux",
+    "codexVersion": "0.159.2",
+    "versionSource": "previous_separate_version_observation_not_binary_attestation",
+    "cliExitCode": 1,
+    "result": {
+      "contractVersion": "codex-local-request-observer-v1",
+      "kind": "native",
+      "status": "blocked",
+      "reason": "preparation_timeout",
+      "requestedModel": "gpt-5.6-sol",
+      "initializeChecked": true,
+      "configurationChecked": true,
+      "threadPrepared": false,
+      "threadEphemeralVerified": false,
+      "processStarted": true,
+      "ownedProcessClosed": true,
+      "temporaryCleanupComplete": true,
+      "temporaryCleanupFailureCode": null,
+      "configWarnings": 0,
+      "fixtureCatalogGets": 0,
+      "fixtureModelPosts": 0,
+      "unexpectedHttpRequests": 0,
+      "methodsQueued": [
+        "initialize",
+        "initialized",
+        "config/read",
+        "thread/start"
+      ],
+      "startupDiagnostics": {
+        "diagnosticVersion": "codex-startup-stderr-v1",
+        "labels": [
+          "unclassified_stderr"
+        ],
+        "observedBytes": 209,
+        "observedLines": 1,
+        "rawStderrReturned": false,
+        "dispatchEnabled": false,
+        "toolExclusionVerified": false,
+        "emptyStreamProvesHealthyStartup": false
+      },
+      "requestObservation": null,
+      "requestBodyRetained": false,
+      "generatedResponseSupplied": false,
+      "accountAuthorizationRequested": false,
+      "appServerTurnsRequested": 0,
+      "credentialEnvironmentSupplied": false,
+      "dispatchEnabled": false,
+      "toolExclusionVerified": false,
+      "modelEntitlementVerified": false,
+      "backgroundNetworkInstrumented": false,
+      "descendantTerminationConfirmed": "unknown",
+      "qualityAssessed": false
+    }
+  },
+  "sourceSha256": {
+    "scripts/check-codex-request-observer.mjs": "55283d288b1d82b31f07aa598cfe16282431ae23effdc792479b155177e354f2",
+    "scripts/codex-request-observer.mjs": "4a555523e915b6a53debbf2460f8aa137b4e5692a960c62d8b50786c3ce65568",
+    "scripts/codex-request-tool-review.mjs": "f0b3f12e4bf09a25d1922ff5e6f3334f2de89595dc6f4d3dfa66c0ae6500c3d2",
+    "test-support/codex-request-observer-peer.mjs": "fffe4e1697270b8e87efa79d5ca078a7c2688f542d764306ed7ff118c0b84840",
+    "test/codex-request-observer.test.js": "f9e95dbb6d3bac5cf4622e6df15292b773a68803a1349ffd55e65bf61f46faf4",
+    "test/codex-request-tool-review.test.js": "7486853ede179c0fde7f3d486cfade2b35ab164950444fc7898b371ab0216f20"
+  },
+  "sourceReview": {
+    "upstreamTag": "rust-v0.160.0",
+    "copiedThirdPartyImplementation": false,
+    "sourceReviewProvesInstalledBinaryToolSet": false,
+    "gitBlobs": {
+      "thread.rs": "2e166d5506b10996e2da286feb6082d6b8711340",
+      "turn.rs": "f938d179e697fa116666d6673ec249805f6f614e",
+      "item.rs": "04f68a3351c765d6c2be8d492b1a3cded43a22bb"
+    }
+  },
+  "limitations": {
+    "maintainerWindowsRun": false,
+    "nativeRequestFormatVerified": false,
+    "nativeToolInventoryObserved": false,
+    "handlerDenialVerified": false,
+    "descendantTerminationConfirmed": "unknown",
+    "subscriptionInferenceAdmitted": false,
+    "qualityAssessed": false
+  }
+}
