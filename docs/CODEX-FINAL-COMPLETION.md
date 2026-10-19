@@ -28,16 +28,16 @@ Commands:
 | Native startup/config/thread | User Windows metadata receipts | Preserve checks for the eventual real provider launch |
 | Empty declared inventory | User Windows fixed fictional catalogue request | Does not prove a real catalogue or every future request is tool-free |
 | One selected unsupported call | User Windows bound local result | Does not qualify all handlers or environment denial |
-| Ordinary final answer | Independent Node peer in this slice | Native Windows completion remains pending |
+| Ordinary final answer | Independent Node peer and subsequent user Windows bound fixed-answer completion | Still a scripted transport fixture, not a native model-generated dream stage |
 | OAuth ownership and native auth supply | Official documented route; existing app-owned login code is separate | No native credential owner is connected to CodexAdapter |
 | Real model entitlement | Not established by a catalogue or this fixture | Fresh user-approved successful inference required after other gates |
 | Child lifetime, cancellation, containment | Owned child closure and workspace cleanup | Descendants, OS constraints and network containment remain unqualified |
 
 CodexAdapter without its explicitly supplied synthetic simulator still returns adapter_unavailable; it does not discover this probe, consume receipts, spawn a native process or acquire authorization. Neither a pasted result nor a local completion sets dispatchEnabled. ChatGPTPlanAdapter remains the target primary, CodexAdapter the explicit subscription backup, Fake the test default, and API legacy explicit. Failed GPT dreams remain terminal; no model is changed after external generation begins. Asteria bridges and canonical state are not implemented here.
 
-The actual maintainer Linux native 0.159.2 attempt still stops at preparation_timeout before thread preparation, turn or HTTP POST, with owned closure and temporary cleanup complete. It is not native final-answer evidence. Windows 0.160.0 remains the next comparison.
+The actual maintainer Linux native 0.159.2 attempt still stops at preparation_timeout before thread preparation, turn or HTTP POST, with owned closure and temporary cleanup complete. It is not native final-answer evidence. The subsequent user Windows receipt for reviewed code 334a35e reports fixed_final_completion_observed: one loopback POST, fixed text and item identity matched, completed turn, owned closure and temporary cleanup. It has no startup error line and no rejected notification. Utility switches remain not_reported and opt-out enforcement remains unverified. [Sanitized Windows receipt](validation/user-local-codex-final-completion-windows.json). This is user-reported native evidence, not maintainer reproduction or real inference.
 
-Next minimum native observation is this fixed final-answer mode, not another interaction refusal. After that, implement and verify a distinct bounded native transport owner before connecting it to DreamModelPort. Native authentication and real subscription calls require separate user confirmation; old approvals are not reusable.
+The fixed final-answer Windows comparison is complete; do not repeat it automatically. Next implement and verify a distinct bounded stage transport owner against an independent local provider, then connect that separately identified transport to DreamModelPort. The fixed observer itself is not a reusable inference transport. Native authentication and real subscription calls require separate user confirmation; old approvals are not reusable.
 
 ## Official documentation reviewed
 

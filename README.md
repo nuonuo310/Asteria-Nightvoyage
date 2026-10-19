@@ -126,4 +126,4 @@ Windows 原生空环境观察已收到：本地请求工具声明为 0；[实测
 
 受限观察入口现请求[仅退订额度更新通知](docs/CODEX-RATE-NOTIFICATION-OPTOUT.md)；收到该通知仍阻断，不读取账户额度。Windows 原生退订效果和拒绝回包待核验。
 
-- Codex next transport boundary: [fixed local final-answer completion and current adapter admission review](docs/CODEX-FINAL-COMPLETION.md). Independent peer only verified here; native Windows completion and subscription inference remain pending.
+- Codex next transport boundary: [fixed local final-answer completion and current adapter admission review](docs/CODEX-FINAL-COMPLETION.md). Independent peer and user-reported Windows fixed-answer completion are recorded; native stage transport and real subscription inference remain pending.
