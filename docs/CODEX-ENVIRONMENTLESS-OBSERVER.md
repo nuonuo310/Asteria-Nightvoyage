@@ -21,7 +21,7 @@ Default command runs an independent Node peer: `node scripts/check-codex-environ
 
 Explicit native command: `node scripts/check-codex-environmentless.mjs --native-executable ABSOLUTE_NATIVE_CODEX_PATH`.
 
-Both are local error-only observations; no live/login/fee/model override is accepted. Do not automatically repeat native runs. Native Windows comparison is pending. [Validation and source hashes](validation/codex-environmentless-observer.json).
+Both are local error-only observations; no live/login/fee/model override is accepted. Do not automatically repeat native runs. Native Windows comparison now observes an explicit empty tools array; see the user result below. Native handler-denial and real-provider qualification remain pending. [Validation and source hashes](validation/codex-environmentless-observer.json).
 
 ## Reviewed first-party source, rust-v0.160.0
 
@@ -33,3 +33,23 @@ Both are local error-only observations; no live/login/fee/model override is acce
 - [Initialize protocol](https://github.com/openai/codex/blob/rust-v0.160.0/codex-rs/app-server-protocol/src/protocol/v1.rs), blob 7d05fb1bd4d62bc79954bdd929a7f9f69936ccf3: experimentalApi opt-in is explicit only in the new mode.
 
 Public fields informed independent code. No upstream implementation or catalogue was copied. No real inference, other repository change or Asteria bridge implementation is part of this slice.
+
+## User Windows native result
+
+The new user receipt reports request_observed with one fixture POST, zero unexpected requests, an ephemeral thread, checked catalogue path/bytes and complete current owned cleanup. Its tools array is present and empty; tool_choice is auto. There is no generated response, account authorization, credential environment or real model call. Utility-switch echo remains not_reported, so configured controls must not be promoted to true. [Sanitized native record](validation/user-local-codex-environmentless-windows.json).
+
+The previous native mode observed three declared tool classes, while this separate mode observed zero, with the exact same fictional catalogue hash. This is a paired observation under bundled startup/turn changes, not an experiment isolating one switch or proving the prior warning cause. It neither reconstructs a registry nor qualifies another catalogue/provider/account.
+
+## Next boundary: native refusal
+
+Official versioned [router](https://github.com/openai/codex/blob/rust-v0.160.0/codex-rs/core/src/tools/router.rs), Git blob d9f1f63eed9cd28b40ac69820e82d6f796ad1dea, stores model-visible specs separately from a tool registry and routes tool invocations into registry dispatch. Versioned [registry](https://github.com/openai/codex/blob/rust-v0.160.0/codex-rs/core/src/tools/registry.rs), Git blob 7d88650f59d9bf3cabbabfd346bbf8d9f0ca8495, checks for a registered tool before invoking it and has a distinct unsupported-call error path. These are static source observations, not proof that every handler is absent in this user's process. No upstream implementation is copied.
+
+The next implementation must therefore be a separate local refusal probe, not a change to the existing error-only observers:
+
+1. First validate independently authored bounded provider-response fixtures offline, covering function/custom tool items, malformed/truncated output and exact one-response ownership. Never replay private or historical provider bodies.
+2. Only then add a native owner with fresh disposable state, the same pinned fictional catalogue and empty environment request, no credentials, fixed loopback provider and explicit finite local exchange limits. Require the actual emitted tool inventory to be present and empty before supplying any scripted response.
+3. Supply only a fixed pre-reviewed local test call. The output classifier must distinguish explicit unsupported/denied results from handler execution, argument validation failure, missing-file errors, timeout, notification-only suppression and cleanup failure. No case may be relabeled as general handler denial or subscription readiness.
+4. Keep observations body-free; no real user paths, raw tool arguments, model reasoning, arbitrary error bodies, recovered historical material or API credentials. Do not run shell commands or access real user files. Any filesystem canary, if necessary, belongs only to the owned temporary test directory and must be reviewed before such a probe is enabled.
+5. Preserve the original observers, old failed grants and receipts. No account login, real subscription call, API charge, automatic retry, model switch, dream publication or production adapter admission follows from an empty tools array. Process descendants and uninstrumented background network remain unknown.
+
+A separate [interaction-only refusal owner](CODEX-INTERACTION-REFUSAL.md) now implements a narrower fixed local comparison. Its independent peer is tested; native Windows refusal is pending. File/shell handler tests and general handler-denial qualification are not implemented or established. The existing dream transcript parser rejecting tool notifications is a separate application boundary; it cannot establish that a native handler had not already started before emitting a notification. A new native test must address this timing explicitly rather than kill on notification and call that successful denial.
