@@ -1,0 +1,16 @@
+✔ matching configuration is metadata only and cannot admit inference or prove tool exclusion (1.594882ms)
+✔ read-only sandbox and never approval do not stand in for explicit feature observations (0.194182ms)
+✔ each enabled configured capability invalidates the matching-control observation (0.382196ms)
+✔ per-app overrides and even disabled MCP records are not treated as an empty integration configuration (0.275495ms)
+✔ raw config, origins, arbitrary values, identities and authority claims never escape review (0.459482ms)
+✔ malformed envelopes, unexpected IDs, RPC errors and oversized input reject with fixed messages (0.967807ms)
+✔ objects are never coerced, inherited keys never provide missing controls, and results are detached (0.259551ms)
+✔ override list is a detached launch candidate without command, endpoint, credentials or authority switches (0.330138ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 104.173332

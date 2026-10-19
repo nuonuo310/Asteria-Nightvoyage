@@ -1,0 +1,51 @@
+{
+  "recordVersion": "codex-isolation-config-validation-v1",
+  "date": "2026-10-19",
+  "baseCommit": "ece542c0839e7859aed57e9ae64052a67e8805eb",
+  "nativeObservation": {
+    "platform": "linux",
+    "codexVersion": "0.159.2",
+    "scope": "one_recorded_configuration_only_invocation",
+    "freshTemporaryState": true,
+    "freshEmptyWorkingDirectory": true,
+    "inheritedCredentialEnvironment": false,
+    "rpcMethods": [
+      "initialize",
+      "initialized",
+      "config/read"
+    ],
+    "selectedControlsMatched": 13,
+    "toolExclusionVerified": false,
+    "dispatchEnabled": false,
+    "loginRequested": false,
+    "threadRequested": false,
+    "turnRequested": false,
+    "rawMetadataPersisted": false,
+    "ownedProcessClosed": true,
+    "temporaryDirectoriesRemoved": true,
+    "backgroundNetworkInstrumented": false
+  },
+  "automatedTests": {
+    "fixtureKind": "independent_fictional",
+    "nativeCodexInvoked": false,
+    "realModelRequests": 0,
+    "targeted": {
+      "command": "node --test test/codex-isolation-review.test.js",
+      "pass": 8,
+      "fail": 0
+    },
+    "full": {
+      "command": "node --test",
+      "pass": 1359,
+      "fail": 0,
+      "durationMs": 102767.122358
+    }
+  },
+  "sourceSha256": {
+    "scripts/codex-isolation-review.mjs": "1100405dcb11cd6501fd43f61a741e33af1fa58c467ac68ed4123f1edd13d419",
+    "test-support/codex-isolation-fixtures.mjs": "9fd287219578e09692de8bfb0110c3096166dc974e81ffba19104bdd62ba8589",
+    "test/codex-isolation-review.test.js": "d63e4346a3af466b1e025bd55cef460d33687bfe84c3426d5cf0bfcefd48f091"
+  },
+  "qualityAssessed": false,
+  "productionNativeAdapterEnabled": false
+}

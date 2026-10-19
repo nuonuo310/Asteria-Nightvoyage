@@ -26,6 +26,8 @@
 
 随后已加入[独立 Node 子进程管道演练](docs/CODEX-PIPE-REHEARSAL.md)，运行 `node scripts/check-codex-pipe-rehearsal.mjs` 可验证真实本地 stdin/stdout、退出与持久重放；子进程是假服务，仍未启动 Codex 或调用真实模型。下一步需核对本机 Codex 安装版本，再审查原生配置与工具排除，不能把管道通过说成订阅接通。
 
+已补上[原生隔离配置观察](docs/CODEX-ISOLATION-CONFIG-REVIEW.md)：Linux 原生进程回显了显式关闭值，检查器只输出固定标签。配置匹配仍不等于实际工具排除，Codex 真实推理继续关闭；本次不需要用户登录或粘贴凭据。
+
 ## 日常查看已有梦簿
 
 在仓库目录执行：
