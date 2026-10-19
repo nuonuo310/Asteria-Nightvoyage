@@ -1,0 +1,139 @@
+{
+  "recordVersion": "codex-native-metadata-owner-validation-v1",
+  "recordedAtUtc": "2026-10-19T16:24:58.348915+00:00",
+  "recordedLocalDate": "2026-10-20",
+  "timezone": "Asia/Shanghai",
+  "baseCommit": "be6aca160797a2067124f5d2f3c76ea367f285d5",
+  "automatic": {
+    "platform": "linux",
+    "node": "v24.19.0",
+    "fixtures": "independent_fictional_node_peers",
+    "nativeCodexInvoked": false,
+    "realModelRequests": 0,
+    "targeted": {
+      "command": "node --test test/codex-native-metadata.test.js",
+      "pass": 22,
+      "fail": 0,
+      "durationMs": 1475.57237
+    },
+    "full": {
+      "command": "node --test",
+      "pass": 1388,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "durationMs": 99423.401432
+    }
+  },
+  "defaultRehearsal": {
+    "contractVersion": "codex-native-metadata-only-v1",
+    "kind": "independent_node_peer",
+    "status": "metadata_prepared",
+    "reason": null,
+    "requestedModel": "gpt-5.6-sol",
+    "initializeChecked": true,
+    "configurationChecked": true,
+    "threadPrepared": true,
+    "threadEphemeralVerified": true,
+    "processStarted": true,
+    "ownedProcessClosed": true,
+    "temporaryCleanupComplete": true,
+    "configWarnings": 0,
+    "fixtureCatalogGets": 0,
+    "fixtureModelPosts": 0,
+    "unexpectedHttpRequests": 0,
+    "methodsQueued": [
+      "initialize",
+      "initialized",
+      "config/read",
+      "thread/start"
+    ],
+    "startupDiagnostics": {
+      "diagnosticVersion": "codex-startup-stderr-v1",
+      "labels": [],
+      "observedBytes": 0,
+      "observedLines": 0,
+      "rawStderrReturned": false,
+      "dispatchEnabled": false,
+      "toolExclusionVerified": false,
+      "emptyStreamProvesHealthyStartup": false
+    },
+    "accountAuthorizationRequested": false,
+    "appServerTurnsRequested": 0,
+    "credentialEnvironmentSupplied": false,
+    "dispatchEnabled": false,
+    "toolExclusionVerified": false,
+    "modelEntitlementVerified": false,
+    "backgroundNetworkInstrumented": false,
+    "descendantTerminationConfirmed": "unknown",
+    "qualityAssessed": false
+  },
+  "nativeObservation": {
+    "platform": "linux",
+    "codexVersion": "0.159.2",
+    "versionSource": "separate_local_cli_version_observation_not_owner_attestation",
+    "cliExitCode": 1,
+    "result": {
+      "contractVersion": "codex-native-metadata-only-v1",
+      "kind": "native",
+      "status": "blocked",
+      "reason": "preparation_timeout",
+      "requestedModel": "gpt-5.6-sol",
+      "initializeChecked": true,
+      "configurationChecked": true,
+      "threadPrepared": false,
+      "threadEphemeralVerified": false,
+      "processStarted": true,
+      "ownedProcessClosed": true,
+      "temporaryCleanupComplete": true,
+      "configWarnings": 0,
+      "fixtureCatalogGets": 0,
+      "fixtureModelPosts": 0,
+      "unexpectedHttpRequests": 0,
+      "methodsQueued": [
+        "initialize",
+        "initialized",
+        "config/read",
+        "thread/start"
+      ],
+      "startupDiagnostics": {
+        "diagnosticVersion": "codex-startup-stderr-v1",
+        "labels": [
+          "unclassified_stderr"
+        ],
+        "observedBytes": 206,
+        "observedLines": 1,
+        "rawStderrReturned": false,
+        "dispatchEnabled": false,
+        "toolExclusionVerified": false,
+        "emptyStreamProvesHealthyStartup": false
+      },
+      "accountAuthorizationRequested": false,
+      "appServerTurnsRequested": 0,
+      "credentialEnvironmentSupplied": false,
+      "dispatchEnabled": false,
+      "toolExclusionVerified": false,
+      "modelEntitlementVerified": false,
+      "backgroundNetworkInstrumented": false,
+      "descendantTerminationConfirmed": "unknown",
+      "qualityAssessed": false
+    }
+  },
+  "environmentChecks": {
+    "nestedBubblewrapUserNamespace": "operation_not_permitted",
+    "ptraceVersionChild": "operation_not_permitted",
+    "elevationAttempted": false,
+    "sandboxBypassed": false,
+    "threadTimeoutCauseEstablished": false,
+    "previousVisibleZeroCountsEstablishDescendantAbsence": false
+  },
+  "sourceSha256": {
+    "scripts/codex-native-metadata.mjs": "7f9ff7a4d019b649e011548fb2144be990f9f9e36a9f8962ed523c7985fc0338",
+    "scripts/check-codex-native-metadata.mjs": "86820a0fe162f6a5650b94a0b6b9a7e07df5b8881e12d2f18610d2ddc9f3e2f8",
+    "test-support/codex-native-metadata-peer.mjs": "4cd970d2cae096934da4b7e50e23815a970570b8b0b69a4ff8c60e004d62067e",
+    "test/codex-native-metadata.test.js": "a8dd19548b07fbcfabaaf57356f6f65bd9864b9acee2fd259c99388ca8124fb4"
+  },
+  "maintainerWindowsNativeRun": false,
+  "productionNativeAdapterEnabled": false,
+  "qualityAssessed": false
+}

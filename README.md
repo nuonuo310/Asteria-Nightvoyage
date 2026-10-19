@@ -30,6 +30,8 @@
 
 [启动错误流诊断](docs/CODEX-STARTUP-DIAGNOSTICS.md)已支持在进程退出前识别短错误，只保留固定标签。原生对照暴露并消除了特定 PATH/废弃设置告警，但线程准备超时仍未解决；这不是订阅推理通过。
 
+现有[仅元数据进程核验入口](docs/CODEX-NATIVE-METADATA-OWNER.md)：`node scripts/check-codex-native-metadata.mjs` 默认启动独立假进程；只有显式提供原生可执行文件才核对本地 Codex。入口不包含登录和生成回合。Linux 原生对照仍停在线程准备超时，Windows 结果待本机核验；`metadata_prepared` 也不表示订阅推理可用。
+
 ## 日常查看已有梦簿
 
 在仓库目录执行：
