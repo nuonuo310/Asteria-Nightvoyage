@@ -10,12 +10,14 @@ for(let i=0;i<args.length;i++)if(args[i]==='-c'){
 }
 if(['OPENAI_API_KEY','ACCESS_TOKEN','NODE_OPTIONS','NODE_PATH','NIGHTVOYAGE_DEEPSEEK_KEY','HTTPS_PROXY'].some(key=>process.env[key]))process.exit(31);
 const output=message=>process.stdout.write(JSON.stringify(message)+'\n');
-const lines=readline.createInterface({input:process.stdin});let phase='initialize';
+const lines=readline.createInterface({input:process.stdin});let phase='initialize',rateLimitOptOut=false;
 lines.on('line',async line=>{
  const message=JSON.parse(line);
  if(message.method.startsWith('account/'))process.exit(32);
  if(message.method==='initialize'&&phase==='initialize'){
   if(config.tools?.experimental_request_user_input?.enabled===false&&message.params.capabilities?.experimentalApi!==true)process.exit(43);
+  const optOut=message.params.capabilities?.optOutNotificationMethods;
+  if(optOut!==undefined){if(!Array.isArray(optOut)||optOut.length!==1||optOut[0]!=='account/rateLimits/updated')process.exit(45);rateLimitOptOut=true;}
   if(scenario==='early_exit')process.exit(21);
   if(scenario==='invalid_stdout'){process.stdout.write('fictional bad frame\n');return;}
   if(scenario==='lookup_error')process.stderr.write('ERROR Codex could not find bubblewrap on PATH. Fictional fixture.\n');
@@ -99,6 +101,9 @@ lines.on('line',async line=>{
      if(scenario==='refusal_trace_unknown_after'){process.stderr.write('ERROR fictional-private-later-error\n');return;}
      if(['refusal_trace_wrong_tool','refusal_trace_no_continuation'].includes(scenario))return;
      await new Promise(resolve=>setTimeout(resolve,30));
+     if(!rateLimitOptOut||scenario==='refusal_trace_optout_ignored'){output({method:'account/rateLimits/updated',params:{rateLimits:{fictionalPrivateIdentity:'fictional-private-account-value'}}});return;}
+     if(scenario==='refusal_trace_other_account'){output({method:'account/updated',params:{fictionalPrivateIdentity:'fictional-private-account-value'}});return;}
+     if(scenario==='refusal_trace_unknown_notification'){output({method:'fictional/privateMethod',params:{fictionalPrivateIdentity:'fictional-private-account-value'}});return;}
     }
     if(scenario==='refusal_stderr_unsupported'){process.stderr.write('ERROR codex_core::tools::router: error=unsupported call: request_user_input\n');return;}
     if(scenario==='refusal_stderr_other'){process.stderr.write('ERROR fictional-private-stderr-token\n');return;}

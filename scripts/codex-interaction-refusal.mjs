@@ -44,7 +44,7 @@ export function observeNativeCodexRefusalContinuation(executable,value={}){
 }
 export function rehearseCodexRefusalContinuation(scenario='refusal_trace_then_unsupported',value={}){
  const settings=options(value);
- if(!['refusal_trace_then_unsupported','refusal_trace_then_other','refusal_trace_unknown_after','refusal_trace_double','refusal_trace_wrong_tool','refusal_trace_early','refusal_trace_no_continuation','refusal_trace_no_linebreak','refusal_trace_late_body','refusal_late_body','refusal_nonempty_tools'].includes(scenario))throw Error('metadata_scenario_invalid');
+ if(!['refusal_trace_then_unsupported','refusal_trace_then_other','refusal_trace_unknown_after','refusal_trace_double','refusal_trace_wrong_tool','refusal_trace_early','refusal_trace_no_continuation','refusal_trace_no_linebreak','refusal_trace_late_body','refusal_trace_optout_ignored','refusal_trace_other_account','refusal_trace_unknown_notification','refusal_late_body','refusal_nonempty_tools'].includes(scenario))throw Error('metadata_scenario_invalid');
  return run({kind:'independent_node_peer',scenario,environmentless:true,fictionalCatalog:true,continueExpectedTrace:true},settings);
 }
 
@@ -65,6 +65,8 @@ async function run(launch,{signal,timeoutMs}){
   requestedModel:model,initializeChecked:false,configurationChecked:false,threadPrepared:false,threadEphemeralVerified:false,
   processStarted:false,ownedProcessClosed:false,temporaryCleanupComplete:false,temporaryCleanupFailureCode:null,configWarnings:0,
   fixtureCatalogGets:0,fixtureModelPosts:0,unexpectedHttpRequests:0,methodsQueued:[],startupDiagnostics:null,refusalStderrWitness:null,expectedTraceContinuationRequested:launch.continueExpectedTrace===true,refusalTracePolicy:null,
+  notificationOptOutRequested:launch.continueExpectedTrace?['account/rateLimits/updated']:[],notificationOptOutVerified:false,
+  accountRateLimitPayloadInterpreted:false,accountRateLimitDataReturned:false,
   requestObservation:null,refusalObservation:null,scriptedResponseSupplied:false,localRequestLimit:2,notificationRejection:null,requestBodyRetained:false,generatedResponseSupplied:false,
   catalogMode:launch.fictionalCatalog?'fixed_fictional_startup_catalog':'original_empty_fixture_catalog',
   fictionalCatalogVersion:launch.fictionalCatalog?fictionalCodexCatalogVersion:null,
@@ -259,7 +261,7 @@ async function run(launch,{signal,timeoutMs}){
    });
    timer=setTimeout(()=>stop('preparation_timeout'),timeoutMs);
    signal?.addEventListener('abort',abort,{once:true});
-   if(signal?.aborted)abort();else send({id:1,method:'initialize',params:{clientInfo:{name:'asteria-nightvoyage',title:'Asteria-Nightvoyage',version:'0.1.0'},...(launch.environmentless?{capabilities:{experimentalApi:true}}:{})}});
+   if(signal?.aborted)abort();else send({id:1,method:'initialize',params:{clientInfo:{name:'asteria-nightvoyage',title:'Asteria-Nightvoyage',version:'0.1.0'},...(launch.environmentless?{capabilities:{experimentalApi:true,...(launch.continueExpectedTrace?{optOutNotificationMethods:['account/rateLimits/updated']}: {})}}:{})}});
   });
  }catch{failure??='metadata_owner_failed';}
  finally{

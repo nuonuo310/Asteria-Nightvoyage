@@ -41,3 +41,5 @@ Use the checked installed native 0.160.0 executable for the Windows comparison. 
 - [Parallel runtime](https://github.com/openai/codex/blob/rust-v0.160.0/codex-rs/core/src/tools/parallel.rs), blob 0a7afc54cc2844d2fd51810bc813661e7af185d3: nonfatal errors are converted into response items.
 
 These explain why logging and a subsequent tool-output continuation can coexist. They do not certify the user's runtime cause, eliminate the need for a bound continuation or authorize real inference. No upstream implementation copied.
+
+The next user native attempt passed the scoped trace but stopped at account/rateLimits/updated before its continuation. An [exact initialization opt-out](CODEX-RATE-NOTIFICATION-OPTOUT.md) is now requested for this local entry only; received notification validation remains unchanged. Windows suppression/continuation is pending, not inferred from source or fixtures.
