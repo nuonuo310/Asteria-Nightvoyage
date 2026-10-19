@@ -1,5 +1,6 @@
 // Separate fixed interaction refusal probe. Local fictional server only; never a model adapter.
 import {fixedInteractionRefusalSse,reviewInteractionRefusalContinuation} from './codex-refusal-fixture.mjs';
+import {CodexRefusalStderrWitness} from './codex-refusal-stderr-witness.mjs';
 import {spawn} from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
@@ -30,7 +31,7 @@ export function observeNativeCodexInteractionRefusal(executable,value={}){
 }
 export function rehearseCodexInteractionRefusal(scenario='refusal_unsupported',value={}){
  const settings=options(value);
- if(!['refusal_unsupported','refusal_other_output','refusal_wrong_call','refusal_nonempty_tools','refusal_server_request','refusal_stall','refusal_duplicate_output','refusal_late_body','refusal_controls_changed'].includes(scenario))throw Error('metadata_scenario_invalid');
+ if(!['refusal_unsupported','refusal_other_output','refusal_wrong_call','refusal_nonempty_tools','refusal_server_request','refusal_stall','refusal_duplicate_output','refusal_late_body','refusal_controls_changed','refusal_stderr_unsupported','refusal_stderr_other','refusal_stderr_before','refusal_stderr_no_newline'].includes(scenario))throw Error('metadata_scenario_invalid');
  return run({kind:'independent_node_peer',scenario,environmentless:true,fictionalCatalog:true},settings);
 }
 
@@ -50,7 +51,7 @@ async function run(launch,{signal,timeoutMs}){
  const report={contractVersion:'codex-local-interaction-refusal-v1',kind:launch.kind,status:'not_started',reason:null,
   requestedModel:model,initializeChecked:false,configurationChecked:false,threadPrepared:false,threadEphemeralVerified:false,
   processStarted:false,ownedProcessClosed:false,temporaryCleanupComplete:false,temporaryCleanupFailureCode:null,configWarnings:0,
-  fixtureCatalogGets:0,fixtureModelPosts:0,unexpectedHttpRequests:0,methodsQueued:[],startupDiagnostics:null,
+  fixtureCatalogGets:0,fixtureModelPosts:0,unexpectedHttpRequests:0,methodsQueued:[],startupDiagnostics:null,refusalStderrWitness:null,
   requestObservation:null,refusalObservation:null,scriptedResponseSupplied:false,localRequestLimit:2,notificationRejection:null,requestBodyRetained:false,generatedResponseSupplied:false,
   catalogMode:launch.fictionalCatalog?'fixed_fictional_startup_catalog':'original_empty_fixture_catalog',
   fictionalCatalogVersion:launch.fictionalCatalog?fictionalCodexCatalogVersion:null,
@@ -129,7 +130,8 @@ async function run(launch,{signal,timeoutMs}){
   env.PATH=[...new Set(dirs)].join(path.delimiter);
   const executable=launch.kind==='native'?launch.binary:process.execPath;
   const childArgs=launch.kind==='native'?args:[fileURLToPath(new URL('../test-support/codex-request-observer-peer.mjs',import.meta.url)),launch.scenario,...args];
-  const decoder=new TextDecoder('utf-8',{fatal:true}),diagnostics=new CodexStartupDiagnostics();
+  const decoder=new TextDecoder('utf-8',{fatal:true}),diagnostics=new CodexStartupDiagnostics(),stderrWitness=new CodexRefusalStderrWitness();
+  const stderrPhase=()=>report.refusalObservation?'after_continuation_observed':report.scriptedResponseSupplied?'after_response_queued':'before_response_queued';
   let pending='',bytes=0,frames=0,phase='initialize',expected=1,threadId=null,earlyThreadId=null,threadNotificationSeen=false,closing=false,turnId=null,earlyTurnId=null,turnStarted=false,userItemId=null,userItemDone=false;
   const samePath=(a,b)=>typeof a==='string'&&(process.platform==='win32'?path.resolve(a).toLowerCase()===path.resolve(b).toLowerCase():path.resolve(a)===path.resolve(b));
   await new Promise(resolve=>{
@@ -232,13 +234,13 @@ async function run(launch,{signal,timeoutMs}){
      if(Buffer.byteLength(pending)>65536)throw Error('stdout_limit');
     }catch(error){stop(['rpc_shape_invalid','unexpected_server_request','rpc_rejected','initialize_mismatch','configuration_mismatch','thread_mismatch','unexpected_rpc_reply','unexpected_notification','stdout_limit','configuration_warning_observed','turn_mismatch','fictional_catalog_changed'].includes(error.message)?error.message:'stdout_invalid');}
    });
-   child.stderr.on('data',chunk=>{try{const labels=diagnostics.push(chunk);if(labels.some(label=>['sandbox_executable_lookup_failed','unrecognized_configuration','unclassified_startup_error'].includes(label)))stop('startup_error_observed');}catch{stop('stderr_invalid');}});
+   child.stderr.on('data',chunk=>{try{stderrWitness.push(chunk,stderrPhase());const labels=diagnostics.push(chunk);if(labels.some(label=>['sandbox_executable_lookup_failed','unrecognized_configuration','unclassified_startup_error'].includes(label)))stop('startup_error_observed');}catch{stop('stderr_invalid');}});
    // An escaped descendant may keep inherited pipe descriptors open after its owner exits.
    // Close only our pipe handles; do not claim descendant termination.
    child.once('exit',()=>{child.stdin.destroy();child.stdout.destroy();child.stderr.destroy();});
    child.once('close',()=>{
     clearTimeout(timer);signal?.removeEventListener('abort',abort);report.ownedProcessClosed=report.processStarted;
-    try{pending+=decoder.decode();if(pending.trim())failure??='stdout_incomplete';report.startupDiagnostics=diagnostics.finish();if(report.startupDiagnostics.labels.some(label=>['sandbox_executable_lookup_failed','unrecognized_configuration','unclassified_startup_error'].includes(label)))failure??='startup_error_observed';}catch{failure??='diagnostic_incomplete';}
+    try{pending+=decoder.decode();if(pending.trim())failure??='stdout_incomplete';report.refusalStderrWitness=stderrWitness.finish(stderrPhase());report.startupDiagnostics=diagnostics.finish();if(report.startupDiagnostics.labels.some(label=>['sandbox_executable_lookup_failed','unrecognized_configuration','unclassified_startup_error'].includes(label)))failure??='startup_error_observed';}catch{failure??='diagnostic_incomplete';}
     if(!observed)failure??=prepared?'process_exited_before_refusal_observation':'process_exited_before_thread';resolve();
    });
    timer=setTimeout(()=>stop('preparation_timeout'),timeoutMs);

@@ -29,6 +29,7 @@ lines.on('line',async line=>{
    if(scenario==='catalog_missing')fs.unlinkSync(config.model_catalog_json);
    if(scenario==='catalog_path_mismatch')config.model_catalog_json='fictional-other-catalog.json';
   }
+  if(scenario==='refusal_stderr_before'){process.stderr.write('ERROR codex_core::tools::router: error=unsupported call: request_user_input\n');return;}
   if(scenario==='config_wrong_endpoint')config.model_providers.nightvoyage_metadata_fixture.base_url='http://127.0.0.1:1/v1';
   if(scenario==='early_post'){try{await fetch(config.model_providers.nightvoyage_metadata_fixture.base_url+'/responses',{method:'POST',body:'fictional'});}catch{}return;}
   if(scenario==='environment_controls_omitted')config.tools={};
@@ -90,6 +91,9 @@ lines.on('line',async line=>{
    else if(scenario.startsWith('refusal_')){
     const first=await fetch(url,{method:'POST',headers,body:serialized});const text=await first.text();
     if(!text.includes('request_user_input')||!text.includes('nightvoyage-fictional-refusal-call'))process.exit(44);
+    if(scenario==='refusal_stderr_unsupported'){process.stderr.write('ERROR codex_core::tools::router: error=unsupported call: request_user_input\n');return;}
+    if(scenario==='refusal_stderr_other'){process.stderr.write('ERROR fictional-private-stderr-token\n');return;}
+    if(scenario==='refusal_stderr_no_newline'){process.stderr.write('ERROR codex_core::tools::router: error=unsupported call: request_user_input',()=>process.exit(29));return;}
     if(scenario==='refusal_stall')return;
     if(scenario==='refusal_late_body')await new Promise(resolve=>setTimeout(resolve,600));
     const item={type:'function_call_output',call_id:scenario==='refusal_wrong_call'?'fictional-wrong-call':'nightvoyage-fictional-refusal-call',output:scenario==='refusal_other_output'?'fictional-private-tool-output':'unsupported call: request_user_input'};

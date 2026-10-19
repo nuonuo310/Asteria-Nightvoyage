@@ -1,0 +1,9 @@
+✔ diagnostic save failure fails closed and reopening preserves full reservation without body (9.970624ms)
+ℹ tests 1480
+ℹ suites 0
+ℹ pass 1480
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 103951.882391

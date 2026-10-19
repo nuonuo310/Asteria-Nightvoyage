@@ -119,3 +119,5 @@ GPT订阅首次试跑的用户回执为首幕校验失败、未发布梦境；�
 Windows 原生空环境观察已收到：本地请求工具声明为 0；[实测与下一步拒绝验证边界](docs/CODEX-ENVIRONMENTLESS-OBSERVER.md)。原生处理器拒绝和真实订阅生成仍未验证。
 
 [固定交互调用拒绝测试](docs/CODEX-INTERACTION-REFUSAL.md)已具备独立本地入口；假响应机制已核验，Windows 原生拒绝结果待取得，不开放真实推理。
+
+交互拒绝原生测试目前阻断于未分类错误；已补充[有界阶段诊断](docs/CODEX-INTERACTION-REFUSAL.md)，保留中止规则，尚未取得原生拒绝回包。
