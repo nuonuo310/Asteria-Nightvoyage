@@ -1,5 +1,6 @@
 // Independent fictional peer. It has no provider credentials or model generation.
 import readline from 'node:readline';
+import fs from 'node:fs';
 import {fictionalConfigReply} from './codex-isolation-fixtures.mjs';
 const scenario=process.argv[2],args=process.argv.slice(3),config=fictionalConfigReply().result.config;
 for(let i=0;i<args.length;i++)if(args[i]==='-c'){
@@ -20,6 +21,13 @@ lines.on('line',async line=>{
   output({id:1,result:{codexHome:scenario==='initialize_wrong_home'?'fictional-other-state':process.env.CODEX_HOME,platformFamily:'fictional',platformOs:'fictional',userAgent:'independent-fictional-peer'}});phase='initialized';
  }else if(message.method==='initialized'&&phase==='initialized')phase='config';
  else if(message.method==='config/read'&&phase==='config'){
+  if(config.model_catalog_json){
+   const catalog=JSON.parse(fs.readFileSync(config.model_catalog_json,'utf8'));
+   if(catalog.models?.length!==1||catalog.models[0].slug!=='gpt-5.6-sol'||!catalog.models[0].display_name.includes('fictional')||catalog.models[0].shell_type!=='unified_exec'||catalog.models[0].apply_patch_tool_type!=='freeform')process.exit(41);
+   if(scenario==='catalog_body_changed')fs.writeFileSync(config.model_catalog_json,'fictional-changed-catalog');
+   if(scenario==='catalog_missing')fs.unlinkSync(config.model_catalog_json);
+   if(scenario==='catalog_path_mismatch')config.model_catalog_json='fictional-other-catalog.json';
+  }
   if(scenario==='config_wrong_endpoint')config.model_providers.nightvoyage_metadata_fixture.base_url='http://127.0.0.1:1/v1';
   if(scenario==='early_post'){try{await fetch(config.model_providers.nightvoyage_metadata_fixture.base_url+'/responses',{method:'POST',body:'fictional'});}catch{}return;}
   if(scenario==='config_auth_required')config.model_providers.nightvoyage_metadata_fixture.requires_openai_auth=true;

@@ -4,6 +4,8 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import http from 'node:http';
+import {createHash} from 'node:crypto';
+import {fictionalCodexCatalog,fictionalCodexCatalogVersion} from './codex-fictional-catalog.mjs';
 import {fileURLToPath} from 'node:url';
 import {codexIsolationOverrides,reviewCodexConfigReply} from './codex-isolation-review.mjs';
 import {reviewObserverWarning} from './codex-observer-warning-review.mjs';
@@ -30,6 +32,19 @@ export function rehearseCodexRequestObserver(scenario='empty_tools',value={}){
  const settings=options(value);if(!scenarios.includes(scenario))throw Error('metadata_scenario_invalid');
  return run({kind:'independent_node_peer',scenario},settings);
 }
+export function observeNativeCodexRequestWithFictionalCatalog(executable,value={}){
+ const settings=options(value);
+ if(typeof executable!=='string'||!path.isAbsolute(executable)||!/^codex(?:\.exe)?$/i.test(path.basename(executable)))throw Error('metadata_executable_invalid');
+ let binary;try{binary=fs.realpathSync(executable);if(!fs.statSync(binary).isFile())throw Error();}catch{throw Error('metadata_executable_invalid');}
+ return run({kind:'native',binary,fictionalCatalog:true},settings);
+}
+export function rehearseCodexRequestWithFictionalCatalog(scenario='known_tools',value={}){
+ const settings=options(value);
+ const allowed=['known_tools','empty_tools','model_metadata_warning','unknown_tools','missing_tools','stall_thread','stalled_body','catalog_path_mismatch','catalog_body_changed','catalog_missing'];
+ if(!allowed.includes(scenario))throw Error('metadata_scenario_invalid');
+ return run({kind:'independent_node_peer',scenario,fictionalCatalog:true},settings);
+}
+
 function temporaryParent(){
  try{
   const parent=fs.realpathSync(os.tmpdir()),source=fs.realpathSync(fileURLToPath(new URL('../',import.meta.url)));
@@ -43,11 +58,15 @@ function temporaryParent(){
  }catch{throw Error('metadata_workspace_unavailable');}
 }
 async function run(launch,{signal,timeoutMs}){
- const report={contractVersion:'codex-local-request-observer-v1',kind:launch.kind,status:'not_started',reason:null,
+ const report={contractVersion:launch.fictionalCatalog?'codex-local-fictional-catalog-observer-v1':'codex-local-request-observer-v1',kind:launch.kind,status:'not_started',reason:null,
   requestedModel:model,initializeChecked:false,configurationChecked:false,threadPrepared:false,threadEphemeralVerified:false,
   processStarted:false,ownedProcessClosed:false,temporaryCleanupComplete:false,temporaryCleanupFailureCode:null,configWarnings:0,
   fixtureCatalogGets:0,fixtureModelPosts:0,unexpectedHttpRequests:0,methodsQueued:[],startupDiagnostics:null,
   requestObservation:null,notificationRejection:null,requestBodyRetained:false,generatedResponseSupplied:false,
+  catalogMode:launch.fictionalCatalog?'fixed_fictional_startup_catalog':'original_empty_fixture_catalog',
+  fictionalCatalogVersion:launch.fictionalCatalog?fictionalCodexCatalogVersion:null,
+  fictionalCatalogSha256:null,fictionalCatalogConfigured:false,fictionalCatalogBytesChecked:false,
+  catalogRepresentsRealModel:false,catalogControlsToolExposure:true,subscriptionCapabilityInferred:false,
   accountAuthorizationRequested:false,appServerTurnsRequested:0,credentialEnvironmentSupplied:false,
   dispatchEnabled:false,toolExclusionVerified:false,modelEntitlementVerified:false,
   backgroundNetworkInstrumented:false,descendantTerminationConfirmed:'unknown',qualityAssessed:false};
@@ -55,8 +74,11 @@ async function run(launch,{signal,timeoutMs}){
  const root=fs.mkdtempSync(path.join(temporaryParent(),'nightvoyage-request-observer-'));
  const state=path.join(root,'state'),cwd=path.join(root,'cwd'),home=path.join(root,'profile');
  let server,child,stop=()=>{},failure=null,prepared=false,observed=false;
+ const catalogPath=path.join(root,'fictional-model-catalog.json');
+ const catalogBytes=launch.fictionalCatalog?Buffer.from(JSON.stringify(fictionalCodexCatalog())):null;
  try{
   for(const dir of [state,cwd,home])fs.mkdirSync(dir);
+  if(catalogBytes){fs.writeFileSync(catalogPath,catalogBytes,{flag:'wx',mode:0o600});report.fictionalCatalogSha256=createHash('sha256').update(catalogBytes).digest('hex');}
   server=http.createServer((req,res)=>{
    const reject=reason=>{stop(reason);req.destroy();};
    if(req.headers.authorization){report.unexpectedHttpRequests++;reject('unexpected_authorization_header');return;}
@@ -94,6 +116,7 @@ async function run(launch,{signal,timeoutMs}){
    `model_providers.${provider}.model_catalog_url="${catalog}"`,`model_providers.${provider}.wire_api="responses"`,
    `model_providers.${provider}.requires_openai_auth=false`,`model_providers.${provider}.supports_websockets=false`,
    `model_providers.${provider}.request_max_retries=0`,`model_providers.${provider}.stream_max_retries=0`];
+  if(catalogBytes)overrides.push('model_catalog_json='+JSON.stringify(catalogPath));
   const args=['app-server','--listen','stdio://',...overrides.flatMap(value=>['-c',value])];
   const dirs=[path.dirname(process.execPath),...(launch.binary?[path.dirname(launch.binary)]:[])];
   const env={CODEX_HOME:state,HOME:home,USERPROFILE:home,XDG_CONFIG_HOME:home,APPDATA:home,LOCALAPPDATA:home,TEMP:root,TMP:root};
@@ -140,11 +163,20 @@ async function run(launch,{signal,timeoutMs}){
      }else if(phase==='config'){
       const review=reviewCodexConfigReply(JSON.stringify(message)),config=result.config,p=config?.model_providers?.[provider];
       if(!review.configuredControlsMatched||config?.model!==model||config?.model_provider!==provider||config?.cli_auth_credentials_store!=='file'||p?.base_url!==base||p?.model_catalog_url!==catalog||p?.requires_openai_auth!==false||p?.supports_websockets!==false||p?.request_max_retries!==0||p?.stream_max_retries!==0)throw Error('configuration_mismatch');
+      if(catalogBytes){
+       if(!samePath(config.model_catalog_json,catalogPath))throw Error('configuration_mismatch');
+       report.fictionalCatalogConfigured=true;
+      }
       report.configurationChecked=true;phase='thread';expected=3;
       send({id:3,method:'thread/start',params:{model,modelProvider:provider,ephemeral:true,approvalPolicy:'never',sandbox:'read-only',cwd}});
      }else if(phase==='thread'){
       if(result.model!==model||result.modelProvider!==provider||result.approvalPolicy!=='never'||result.sandbox?.type!=='readOnly'||result.thread?.ephemeral!==true||(earlyThreadId!==null&&earlyThreadId!==result.thread.id)||typeof result.thread.id!=='string'||!/^[A-Za-z0-9_-]{1,200}$/.test(result.thread.id))throw Error('thread_mismatch');
       threadId=result.thread.id;report.threadPrepared=true;report.threadEphemeralVerified=true;prepared=true;phase='turn';expected=4;
+      if(catalogBytes){
+       let current;try{const stat=fs.lstatSync(catalogPath);if(!stat.isFile()||stat.isSymbolicLink()||stat.size!==catalogBytes.length)throw Error();current=fs.readFileSync(catalogPath);}catch{throw Error('fictional_catalog_changed');}
+       if(!current.equals(catalogBytes))throw Error('fictional_catalog_changed');
+       report.fictionalCatalogBytesChecked=true;
+      }
       report.appServerTurnsRequested=1;
       send({id:4,method:'turn/start',params:{threadId,input:[{type:'text',text:probeText,text_elements:[]}]}});
      }else if(phase==='turn'){
@@ -189,7 +221,7 @@ async function run(launch,{signal,timeoutMs}){
      pending+=decoder.decode(chunk,{stream:true});let end;
      while((end=pending.indexOf('\n'))>=0){const line=pending.slice(0,end);pending=pending.slice(end+1);if(!line.trim())continue;if(++frames>64||Buffer.byteLength(line)>65536)throw Error('stdout_limit');frame(JSON.parse(line));}
      if(Buffer.byteLength(pending)>65536)throw Error('stdout_limit');
-    }catch(error){stop(['rpc_shape_invalid','unexpected_server_request','rpc_rejected','initialize_mismatch','configuration_mismatch','thread_mismatch','unexpected_rpc_reply','unexpected_notification','stdout_limit','configuration_warning_observed','turn_mismatch'].includes(error.message)?error.message:'stdout_invalid');}
+    }catch(error){stop(['rpc_shape_invalid','unexpected_server_request','rpc_rejected','initialize_mismatch','configuration_mismatch','thread_mismatch','unexpected_rpc_reply','unexpected_notification','stdout_limit','configuration_warning_observed','turn_mismatch','fictional_catalog_changed'].includes(error.message)?error.message:'stdout_invalid');}
    });
    child.stderr.on('data',chunk=>{try{const labels=diagnostics.push(chunk);if(labels.some(label=>['sandbox_executable_lookup_failed','unrecognized_configuration','unclassified_startup_error'].includes(label)))stop('startup_error_observed');}catch{stop('stderr_invalid');}});
    // An escaped descendant may keep inherited pipe descriptors open after its owner exits.
