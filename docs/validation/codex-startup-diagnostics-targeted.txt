@@ -1,0 +1,23 @@
+✔ matching configuration is metadata only and cannot admit inference or prove tool exclusion (1.408431ms)
+✔ read-only sandbox and never approval do not stand in for explicit feature observations (0.249696ms)
+✔ each enabled configured capability invalidates the matching-control observation (0.467985ms)
+✔ per-app overrides and even disabled MCP records are not treated as an empty integration configuration (0.279751ms)
+✔ raw config, origins, arbitrary values, identities and authority claims never escape review (0.385911ms)
+✔ malformed envelopes, unexpected IDs, RPC errors and oversized input reject with fixed messages (1.024542ms)
+✔ objects are never coerced, inherited keys never provide missing controls, and results are detached (0.307083ms)
+✔ override list is a detached launch candidate without command, endpoint, credentials or authority switches (0.381735ms)
+✔ short startup error is observable before a still-open independent child exits (42.715695ms)
+✔ split UTF-8, ANSI color and CRLF preserve a fixed label without leaking text (1.491316ms)
+✔ unknown error text and arbitrary locations are never returned or interpreted as successful startup (0.639763ms)
+✔ empty stderr is not proof of healthy startup, authorization or tool absence (0.190948ms)
+✔ duplicate labels stay bounded and final unterminated lines are classified only at EOF (0.559663ms)
+✔ byte, line and frame-count limits are terminal and never echo content (0.36537ms)
+✔ malformed UTF-8, incomplete UTF-8 and caller objects reject without coercion (0.334133ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 159.220942

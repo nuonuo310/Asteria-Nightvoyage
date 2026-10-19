@@ -1,0 +1,10 @@
+Command: node --test
+Platform: Linux; Node v24.19.0
+ℹ tests 1366
+ℹ suites 0
+ℹ pass 1366
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 100563.860651

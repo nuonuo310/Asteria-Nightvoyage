@@ -1,0 +1,103 @@
+{
+  "recordVersion": "codex-startup-diagnostics-validation-v1",
+  "recordedAtUtc": "2026-10-19T16:02:47.438768+00:00",
+  "baseCommit": "3a521ce574e9af1648d17586581f85f69d8c9964",
+  "automated": {
+    "platform": "linux",
+    "node": "v24.19.0",
+    "fixtures": "independent_fictional",
+    "nativeCodexInvoked": false,
+    "realModelRequests": 0,
+    "targeted": {
+      "command": "node --test test/codex-startup-diagnostics.test.js test/codex-isolation-review.test.js",
+      "pass": 15,
+      "fail": 0,
+      "durationMs": 159.220942
+    },
+    "full": {
+      "command": "node --test",
+      "pass": 1366,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "durationMs": 100563.860651
+    }
+  },
+  "nativeMetadataObservation": {
+    "results": [
+        {
+            "scenario": "known_bad_lookup",
+            "nativeStillRunningAtObservation": true,
+            "report": {
+                "diagnosticVersion": "codex-startup-stderr-v1",
+                "labels": [
+                    "unclassified_stderr",
+                    "unrecognized_configuration",
+                    "sandbox_executable_lookup_failed"
+                ],
+                "observedBytes": 775,
+                "observedLines": 4,
+                "rawStderrReturned": false,
+                "dispatchEnabled": false,
+                "toolExclusionVerified": false,
+                "emptyStreamProvesHealthyStartup": false
+            },
+            "loginRequested": false,
+            "threadRequested": false,
+            "turnRequested": false,
+            "rawStderrPersisted": false
+        },
+        {
+            "scenario": "reviewed_lookup",
+            "nativeStillRunningAtObservation": true,
+            "report": {
+                "diagnosticVersion": "codex-startup-stderr-v1",
+                "labels": [
+                    "unclassified_stderr"
+                ],
+                "observedBytes": 214,
+                "observedLines": 1,
+                "rawStderrReturned": false,
+                "dispatchEnabled": false,
+                "toolExclusionVerified": false,
+                "emptyStreamProvesHealthyStartup": false
+            },
+            "loginRequested": false,
+            "threadRequested": false,
+            "turnRequested": false,
+            "rawStderrPersisted": false
+        }
+    ],
+    "platform": "linux",
+    "codexVersion": "0.159.2",
+    "count": 2,
+    "nativeProcessesStillRunningWhenStderrWasReviewed": true,
+    "freshTemporaryStateAndCwd": true,
+    "inheritedCredentialEnvironmentSupplied": false,
+    "loginThreadOrTurnRequested": false,
+    "ownedProcessesClosed": true,
+    "temporaryDirectoriesRemoved": true,
+    "rawStderrPersisted": false,
+    "backgroundNetworkInstrumented": false
+  },
+  "preparationDifferentials": {
+    "scope": "unsuccessful_separate_native_local_fixture_experiments",
+    "fictionalProviderConfigMatched": true,
+    "fictionalEndpointConfigMatched": true,
+    "providerRequiresAuthentication": false,
+    "fixtureGetsObserved": 0,
+    "fixturePostsObserved": 0,
+    "appServerThreadReplyReceived": false,
+    "appServerTurnRequested": false,
+    "execComparisonReachedFixture": false,
+    "timeoutCauseEstablished": false,
+    "toolExclusionVerified": false,
+    "productionDispatchEnabled": false
+  },
+  "sourceSha256": {
+    "scripts/codex-startup-diagnostics.mjs": "c6a27ae72abbda752be4fe6be67ed35d5345106b6b835f722ba94bfc02eea8fe",
+    "test-support/codex-startup-peer.mjs": "b6dc0587b4be7895c7b47e909a264794eb109d89c2cfeb064d76220f9d18843b",
+    "test/codex-startup-diagnostics.test.js": "9dd937190f2750b4e92dfc5d23afb6246e32334e3a773ad4da42cf5e7c31e800"
+  },
+  "qualityAssessed": false
+}
