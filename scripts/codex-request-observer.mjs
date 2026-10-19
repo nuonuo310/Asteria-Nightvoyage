@@ -6,12 +6,13 @@ import path from 'node:path';
 import http from 'node:http';
 import {fileURLToPath} from 'node:url';
 import {codexIsolationOverrides,reviewCodexConfigReply} from './codex-isolation-review.mjs';
+import {reviewObserverWarning} from './codex-observer-warning-review.mjs';
 import {observerNotificationWitness} from './codex-observer-notification-witness.mjs';
 import {reviewCodexLocalRequest} from './codex-request-tool-review.mjs';
 import {CodexStartupDiagnostics} from './codex-startup-diagnostics.mjs';
 const model='gpt-5.6-sol',provider='nightvoyage_metadata_fixture';
 const probeText='Independent fictional transport probe. No person or memory is represented.';
-const scenarios=['empty_tools','known_tools','unknown_tools','missing_tools','malformed_body','oversized_body','stalled_body','wrong_model','wrong_provider','not_ephemeral','stall_thread','server_request','config_auth_required','early_post','duplicate_post','wrong_path','auth_header','encoded_body','rpc_error','tool_notification','lifecycle','foreign_turn','altered_user_item','approval_status','warning_notification','outside_notification','invalid_item_id'];
+const scenarios=['empty_tools','known_tools','unknown_tools','missing_tools','malformed_body','oversized_body','stalled_body','wrong_model','wrong_provider','not_ephemeral','stall_thread','server_request','config_auth_required','early_post','duplicate_post','wrong_path','auth_header','encoded_body','rpc_error','tool_notification','lifecycle','foreign_turn','altered_user_item','approval_status','warning_notification','outside_notification','invalid_item_id','model_metadata_warning','unclassified_warning','foreign_warning','oversized_warning','missing_warning_message'];
 const object=value=>value!==null&&typeof value==='object'&&!Array.isArray(value);
 function options(value){
  if(!value||Object.getPrototypeOf(value)!==Object.prototype||Reflect.ownKeys(value).some(key=>!['signal','timeoutMs'].includes(key)||!Object.hasOwn(Object.getOwnPropertyDescriptor(value,key),'value')))throw Error('metadata_options_invalid');
@@ -117,7 +118,17 @@ async function run(launch,{signal,timeoutMs}){
    const send=frame=>{report.methodsQueued.push(frame.method);child.stdin.write(JSON.stringify(frame)+'\n',error=>{if(error&&!closing)stop('stdin_failed');});};
    const frame=message=>{
     if(!object(message))throw Error('rpc_shape_invalid');
-    const rejectNotification=(check,reason='unexpected_notification')=>{report.notificationRejection??=observerNotificationWitness(message.method,check,phase,message.params?.item?.type);throw Error(reason);};
+    const rejectNotification=(check,reason='unexpected_notification')=>{
+     if(report.notificationRejection===null){
+      report.notificationRejection=observerNotificationWitness(message.method,check,phase,message.params?.item?.type);
+      if(message.method==='warning'){
+       const id=message.params?.threadId;
+       const binding=id===undefined?'missing':id===null?'global':threadId!==null&&id===threadId?'matches':'different';
+       report.notificationRejection.warningDiagnostic=reviewObserverWarning(message.params?.message,binding);
+      }
+     }
+     throw Error(reason);
+    };
     if(Object.hasOwn(message,'id')){
      if(Object.hasOwn(message,'method'))throw Error('unexpected_server_request');
      if(message.id!==expected||message.error||!object(message.result))throw Error('rpc_rejected');

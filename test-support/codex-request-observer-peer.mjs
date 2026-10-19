@@ -45,6 +45,11 @@ lines.on('line',async line=>{
   if(scenario==='tool_notification'){output({method:'item/started',params:{item:{type:'commandExecution',command:'fictional-private-command'}}});return;}
   output({id:4,result:{turn:{id:'fictional-observer-turn',status:'inProgress'}}});
   output({method:'turn/started',params:{threadId:'fictional-metadata-thread',turn:{id:'fictional-observer-turn'}}});
+  if(['model_metadata_warning','unclassified_warning','foreign_warning','oversized_warning','missing_warning_message'].includes(scenario)){
+   const params={threadId:scenario==='foreign_warning'?'fictional-other-thread':'fictional-metadata-thread',message:scenario==='model_metadata_warning'?'Model metadata for `gpt-5.6-sol` not found. Fictional fallback metadata warning.':scenario==='oversized_warning'?'x'.repeat(4097):'fictional-private-warning'};
+   if(scenario==='missing_warning_message')delete params.message;
+   output({method:'warning',params});return;
+  }
   if(scenario==='warning_notification'){output({method:'windows/worldWritableWarning',params:{fictional:'fictional-private-path'}});return;}
   if(scenario==='outside_notification'){output({method:'fictional/private_sensitive_method',params:{fictional:'fictional-private-path'}});return;}
   if(['lifecycle','foreign_turn','altered_user_item','approval_status','invalid_item_id'].includes(scenario)){
