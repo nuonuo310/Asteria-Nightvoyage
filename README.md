@@ -125,3 +125,5 @@ Windows 原生空环境观察已收到：本地请求工具声明为 0；[实测
 新增[指定拒绝日志后的受限观察入口](docs/CODEX-REFUSAL-CONTINUATION.md)：只允许一条已审查日志后继续等待绑定回包，原入口不变；Windows 原生回包与真实订阅资格仍待验证。
 
 受限观察入口现请求[仅退订额度更新通知](docs/CODEX-RATE-NOTIFICATION-OPTOUT.md)；收到该通知仍阻断，不读取账户额度。Windows 原生退订效果和拒绝回包待核验。
+
+- Codex next transport boundary: [fixed local final-answer completion and current adapter admission review](docs/CODEX-FINAL-COMPLETION.md). Independent peer only verified here; native Windows completion and subscription inference remain pending.

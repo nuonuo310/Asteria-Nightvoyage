@@ -83,3 +83,8 @@ node --test
 
 
 后续状态：GPT端口新增只接受已校验内存会话和显式本机批准的固定HTTP传输，见[首次虚构订阅试跑](CHATGPT-PLAN-FIRST-DREAM.md)。普通无会话adapter仍失败关闭，离线simulator与Fake身份不变；本轮没有真实推理，Codex原生入口与Asteria桥仍待对接。
+
+
+## 2026-10-20 Codex native boundary status
+
+The earlier statements that no app-server has been started describe the initial adapter slice, not the subsequent separate local probes. User Windows receipts now establish native metadata preparation, an empty declared inventory under the fixed fictional catalogue and one bound selected unsupported interaction call. These probes do not connect to CodexAdapter or qualify real subscription inference. The adapter without an explicit synthetic simulator remains unavailable. The [current admission review and fixed final-answer comparison](CODEX-FINAL-COMPLETION.md) distinguishes those observations from the remaining native transport/authentication, real-catalogue tool controls, process containment and entitlement work. No Asteria bridge or real model turn is claimed.

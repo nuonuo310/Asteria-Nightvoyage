@@ -78,7 +78,7 @@ lines.on('line',async line=>{
    output({method:'item/started',params});output({method:'item/completed',params});
   }
   const tool={type:'function',name:scenario==='unknown_tools'?'fictional_private_tool_name':'view_image',parameters:{type:'object'},description:'fictional-private-description'};
-  let body={model:scenario==='wrong_model'?'other':config.model,input:'fictional-private-prompt',tools:(['empty_tools','environmentless_tools','environment_controls_omitted'].includes(scenario)||(scenario.startsWith('refusal_')&&scenario!=='refusal_nonempty_tools'))?[]:[tool]};
+  let body={model:scenario==='wrong_model'?'other':config.model,input:'fictional-private-prompt',tools:(['empty_tools','environmentless_tools','environment_controls_omitted'].includes(scenario)||(scenario.startsWith('refusal_')&&scenario!=='refusal_nonempty_tools')||(scenario.startsWith('final_')&&scenario!=='final_nonempty_tools'))?[]:[tool]};
   if(scenario==='missing_tools')delete body.tools;
   const base=config.model_providers.nightvoyage_metadata_fixture.base_url;
   const url=base+(scenario==='wrong_path'?'/other':'/responses');
@@ -91,7 +91,25 @@ lines.on('line',async line=>{
   const serialized=scenario==='malformed_body'?'{':scenario==='oversized_body'?'x'.repeat(262145):JSON.stringify(body);
   try{
    if(scenario==='duplicate_post')await Promise.all([fetch(url,{method:'POST',headers,body:serialized}),fetch(url,{method:'POST',headers,body:serialized})]);
-   else if(scenario.startsWith('refusal_')){
+   else if(scenario.startsWith('final_')){
+    const response=await fetch(url,{method:'POST',headers,body:serialized});
+    const body=await response.text();
+    const fixtureText='{"event":"A fictional blue cup rests on a quiet sill."}';
+    if(!body.includes('output_item.done')||!body.includes('fictional-final-message'))process.exit(46);
+    if(scenario==='final_stderr'){process.stderr.write('ERROR fictional-private-final-error\n');return;}
+    if(scenario==='final_late')await new Promise(resolve=>setTimeout(resolve,600));
+    if(scenario==='final_tool_request'){output({id:77,method:'item/tool/requestUserInput',params:{fictional:'fictional-private-tool-value'}});return;}
+    const item={id:'fictional-final-message',type:'agentMessage',phase:'final_answer',text:''};
+    const params={threadId:'fictional-metadata-thread',turnId:scenario==='final_wrong_turn'?'fictional-other-turn':'fictional-observer-turn',item};
+    output({method:'item/started',params});
+    output({method:'item/agentMessage/delta',params:{threadId:params.threadId,turnId:params.turnId,itemId:item.id,delta:'fictional-private-partial-text'}});
+    item.text=scenario==='final_wrong_text'?'fictional-private-wrong-answer':fixtureText;
+    if(scenario==='final_wrong_item')item.id='fictional-other-item';
+    output({method:'item/completed',params});
+    if(scenario==='final_duplicate_item')output({method:'item/completed',params});
+    if(scenario==='final_no_complete')return;
+    output({method:'turn/completed',params:{threadId:params.threadId,turn:{id:params.turnId,status:scenario==='final_failed'?'failed':'completed',items:scenario==='final_hidden_tool'?[{id:'fictional-tool',type:'commandExecution'}]:[item]}}});
+   }else if(scenario.startsWith('refusal_')){
     const first=await fetch(url,{method:'POST',headers,body:serialized});const text=await first.text();
     if(!text.includes('request_user_input')||!text.includes('nightvoyage-fictional-refusal-call'))process.exit(44);
     if(scenario.startsWith('refusal_trace_')){
