@@ -121,3 +121,5 @@ Windows 原生空环境观察已收到：本地请求工具声明为 0；[实测
 [固定交互调用拒绝测试](docs/CODEX-INTERACTION-REFUSAL.md)已具备独立本地入口；假响应机制已核验，Windows 原生拒绝结果待取得，不开放真实推理。
 
 交互拒绝原生测试目前阻断于未分类错误；已补充[有界阶段诊断](docs/CODEX-INTERACTION-REFUSAL.md)，保留中止规则，尚未取得原生拒绝回包。
+
+新增[指定拒绝日志后的受限观察入口](docs/CODEX-REFUSAL-CONTINUATION.md)：只允许一条已审查日志后继续等待绑定回包，原入口不变；Windows 原生回包与真实订阅资格仍待验证。

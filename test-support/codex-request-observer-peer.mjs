@@ -29,6 +29,7 @@ lines.on('line',async line=>{
    if(scenario==='catalog_missing')fs.unlinkSync(config.model_catalog_json);
    if(scenario==='catalog_path_mismatch')config.model_catalog_json='fictional-other-catalog.json';
   }
+  if(scenario==='refusal_trace_early'){process.stderr.write('ERROR codex_core::tools::router: error=unsupported call: request_user_input\n');return;}
   if(scenario==='refusal_stderr_before'){process.stderr.write('ERROR codex_core::tools::router: error=unsupported call: request_user_input\n');return;}
   if(scenario==='config_wrong_endpoint')config.model_providers.nightvoyage_metadata_fixture.base_url='http://127.0.0.1:1/v1';
   if(scenario==='early_post'){try{await fetch(config.model_providers.nightvoyage_metadata_fixture.base_url+'/responses',{method:'POST',body:'fictional'});}catch{}return;}
@@ -91,12 +92,20 @@ lines.on('line',async line=>{
    else if(scenario.startsWith('refusal_')){
     const first=await fetch(url,{method:'POST',headers,body:serialized});const text=await first.text();
     if(!text.includes('request_user_input')||!text.includes('nightvoyage-fictional-refusal-call'))process.exit(44);
+    if(scenario.startsWith('refusal_trace_')){
+     const trace='ERROR codex_core::tools::router: error=unsupported call: '+(scenario==='refusal_trace_wrong_tool'?'view_image':'request_user_input');
+     process.stderr.write(trace+(scenario==='refusal_trace_no_linebreak'?'':'\n'));
+     if(scenario==='refusal_trace_double'){process.stderr.write(trace+'\n');return;}
+     if(scenario==='refusal_trace_unknown_after'){process.stderr.write('ERROR fictional-private-later-error\n');return;}
+     if(['refusal_trace_wrong_tool','refusal_trace_no_continuation'].includes(scenario))return;
+     await new Promise(resolve=>setTimeout(resolve,30));
+    }
     if(scenario==='refusal_stderr_unsupported'){process.stderr.write('ERROR codex_core::tools::router: error=unsupported call: request_user_input\n');return;}
     if(scenario==='refusal_stderr_other'){process.stderr.write('ERROR fictional-private-stderr-token\n');return;}
     if(scenario==='refusal_stderr_no_newline'){process.stderr.write('ERROR codex_core::tools::router: error=unsupported call: request_user_input',()=>process.exit(29));return;}
     if(scenario==='refusal_stall')return;
-    if(scenario==='refusal_late_body')await new Promise(resolve=>setTimeout(resolve,600));
-    const item={type:'function_call_output',call_id:scenario==='refusal_wrong_call'?'fictional-wrong-call':'nightvoyage-fictional-refusal-call',output:scenario==='refusal_other_output'?'fictional-private-tool-output':'unsupported call: request_user_input'};
+    if(['refusal_late_body','refusal_trace_late_body'].includes(scenario))await new Promise(resolve=>setTimeout(resolve,600));
+    const item={type:'function_call_output',call_id:scenario==='refusal_wrong_call'?'fictional-wrong-call':'nightvoyage-fictional-refusal-call',output:['refusal_other_output','refusal_trace_then_other'].includes(scenario)?'fictional-private-tool-output':'unsupported call: request_user_input'};
     const input=scenario==='refusal_duplicate_output'?[item,item]:[item];
     await fetch(url,{method:'POST',headers,body:JSON.stringify({model:config.model,input})});
    }else await fetch(url,{method:'POST',headers,body:serialized});
