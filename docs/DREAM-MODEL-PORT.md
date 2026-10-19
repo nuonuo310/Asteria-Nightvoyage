@@ -88,3 +88,10 @@ node --test
 ## 2026-10-20 Codex native boundary status
 
 The earlier statements that no app-server has been started describe the initial adapter slice, not the subsequent separate local probes. User Windows receipts now establish native metadata preparation, an empty declared inventory under the fixed fictional catalogue and one bound selected unsupported interaction call. These probes do not connect to CodexAdapter or qualify real subscription inference. The adapter without an explicit synthetic simulator remains unavailable. The [current admission review and fixed final-answer comparison](CODEX-FINAL-COMPLETION.md) distinguishes those observations from the remaining native transport/authentication, real-catalogue tool controls, process containment and entitlement work. No Asteria bridge or real model turn is claimed.
+
+
+## Explicit synthetic process transport
+
+The explicitly versioned CodexAdapter in scripts/codex-local-model-port.mjs, paired with scripts/codex-local-model-runtime.mjs, accepts a module-issued stageTransport from [createCodexLocalStageTransport](CODEX-LOCAL-STAGE-TRANSPORT.md), pinned to the same model and mutually exclusive with simulator. This concrete transport uses only independent Node peers and records its own offline protocol identity with synthetic_stub authentication. It does not accept a native executable or connect the separate native observation receipts to inference. Native default readiness remains false.
+
+The original source-pinned dream-model-port.mjs and dream-model-runtime.mjs are unchanged; existing trial grants are neither re-pinned nor extended.
