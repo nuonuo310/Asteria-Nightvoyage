@@ -1,0 +1,68 @@
+{
+  "recordVersion": "user-reported-windows-native-metadata-v1",
+  "recordedAtUtc": "2026-10-19T16:41:23.169118+00:00",
+  "evidenceOrigin": "user_pasted_sanitized_receipt",
+  "reviewedCodeCommit": "80de81d051b88f9afca605459b6fc0a5dd67ee79",
+  "platform": "win32",
+  "codexVersion": "0.160.0",
+  "nativeResult": {
+    "contractVersion": "codex-native-metadata-only-v1",
+    "kind": "native",
+    "status": "metadata_prepared",
+    "reason": null,
+    "requestedModel": "gpt-5.6-sol",
+    "initializeChecked": true,
+    "configurationChecked": true,
+    "threadPrepared": true,
+    "threadEphemeralVerified": true,
+    "processStarted": true,
+    "ownedProcessClosed": true,
+    "temporaryCleanupComplete": true,
+    "temporaryCleanupFailureCode": null,
+    "configWarnings": 0,
+    "fixtureCatalogGets": 0,
+    "fixtureModelPosts": 0,
+    "unexpectedHttpRequests": 0,
+    "methodsQueued": [
+      "initialize",
+      "initialized",
+      "config/read",
+      "thread/start"
+    ],
+    "startupDiagnostics": {
+      "diagnosticVersion": "codex-startup-stderr-v1",
+      "labels": [
+        "unclassified_stderr"
+      ],
+      "observedBytes": 328,
+      "observedLines": 1,
+      "rawStderrReturned": false,
+      "dispatchEnabled": false,
+      "toolExclusionVerified": false,
+      "emptyStreamProvesHealthyStartup": false
+    },
+    "accountAuthorizationRequested": false,
+    "appServerTurnsRequested": 0,
+    "credentialEnvironmentSupplied": false,
+    "dispatchEnabled": false,
+    "toolExclusionVerified": false,
+    "modelEntitlementVerified": false,
+    "backgroundNetworkInstrumented": false,
+    "descendantTerminationConfirmed": "unknown",
+    "qualityAssessed": false
+  },
+  "visibleTestTail": {
+    "durationMs": 1700.9031,
+    "skipped": 0,
+    "todo": 0,
+    "testCountInThisPastedTail": null
+  },
+  "limits": {
+    "maintainerWindowsRun": false,
+    "cleanupFailureRootCauseEstablished": false,
+    "previousLeftoverWorkspaceRemoved": false,
+    "subscriptionInferenceVerified": false,
+    "toolExclusionVerified": false,
+    "qualityAssessed": false
+  }
+}
