@@ -131,3 +131,5 @@ Windows 原生空环境观察已收到：本地请求工具声明为 0；[实测
 - Explicit test process transport at DreamModelPort: [Codex local stage transport](docs/CODEX-LOCAL-STAGE-TRANSPORT.md). Two scenes and wake use independent Node peers; native subscription transport remains unavailable.
 
 - [Native harness fixture stages](docs/CODEX-FIXTURE-STAGES.md): explicit installed Codex to an owned local fictional provider, through the versioned port. Independent peer loop verified; user-reported Windows native fixture loop completed two scenes and wake, replay and withdrawal. This remains local scripted data, with no real subscription generation.
+
+- [Codex 订阅凭据边界与接入顺序](docs/CODEX-PLAN-TRANSPORT-DESIGN.md)：独立 Node 子进程已演练虚构令牌的环境传递、应用归属、关闭后释放、超时/取消及错误输出抑制。`node scripts/check-codex-plan-credential-owner.mjs` 只跑固定虚构场景，不登录、不读取真实凭据、不启动原生 Codex；真实订阅 transport 尚未实现。
