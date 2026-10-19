@@ -1102,3 +1102,11 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - Independent fictional targeted tests: 8/8. Full regression: 1359/1359, zero failures/cancellations/skips, 102767.122358 ms, Node v24.19.0 Linux. Detailed evidence and source hashes: docs/validation/codex-isolation-config.json.
 - Config matching does not prove the actual model tool set, account access, Windows conformance, remote cancellation or dream quality. Native subscription dispatch remains blocked, and consumed GPT authorizations remain unchanged.
 - Next dependency: effective tool/thread qualification against a local fictional provider, followed by a separately approved native subscription trial only when admission is actually established. No Asteria bridge or legacy API behavior changed.
+
+
+## 2026-10-19 — Native local-provider preparation remains unresolved
+
+- After the verified configuration slice, a separate real native process was pointed at an independent fictional loopback error fixture with fresh state/cwd and no account or required authentication. Initialization completed, but thread/start timed out before any turn/start. The final recorded fixture saw zero catalog GETs and zero model POSTs.
+- A native configWarning classified the additional tools.view_image=false candidate as deprecated/ignored; it is not in the implemented override list. Another warning mentioned sandboxing without an established cause. Minimal Node PATH and disabled shell-snapshot comparisons did not resolve the thread preparation timeout. Raw warning bodies were not retained.
+- The final bounded probe closed its owned process, removed temporary state, and left no process carrying that isolated probe state setting. There is no claim of audited background-network isolation, tool absence, subscription entitlement or generation success.
+- Evidence: docs/validation/codex-local-provider-preparation.json. No runtime code changed after the 1359/1359 regression; this follow-up records an unsuccessful preparation experiment, not a passed adapter test. Native dispatch remains blocked. Next work is native thread preparation/tool-set qualification, without new login or real subscription calls.

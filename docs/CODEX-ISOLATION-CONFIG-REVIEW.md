@@ -30,3 +30,14 @@ The implementation and synthetic fixtures are original project code. No third-pa
 - [Official app-server protocol](https://learn.chatgpt.com/docs/app-server): initialization and config/read.
 
 Disabling unified_exec is deliberately not used as a shell exclusion claim: the documented user opt-out behavior can leave one-shot execution available. App defaults may also be overridden per app, hence the separate empty-override observation.
+
+
+## Subsequent local-provider preparation did not reach a model request
+
+A separate isolated native probe attempted thread/start with an explicit fictional loopback provider, fresh state/cwd, disabled OpenAI authentication, zero HTTP/stream retry settings and independent fictional input. The loopback fixture would return an immediate fixed HTTP error rather than generate or execute a tool. It did not use a user account, API key or real provider endpoint. This probe is separate from the successful config/read observation above.
+
+Initialization succeeded, but no thread/start reply arrived within the bounded wait. Consequently no turn/start was sent, and the local fixture observed neither a catalog GET nor a model POST. The process emitted configWarning and remoteControl/status/changed notifications. A fixed warning classification found that the additional experimental `tools.view_image=false` candidate was marked deprecated/ignored. This override is **not** in the implemented candidate list. The other warning mentioned sandboxing; its specific meaning and the thread-start timeout cause remain unestablished. Neither warning proves whether a particular tool was actually advertised.
+
+A minimal Node-directory PATH comparison and a shell-snapshot-disabled comparison did not resolve the timeout. The final recorded invocation used both, still stopped before a turn, closed its owned process, removed its temporary directories, and left no process carrying its isolated probe state setting. No raw notification body, header, config, credential or local path is retained. This is a bounded unsuccessful preparation experiment, not an authenticated subscription attempt or a successful native adapter integration. No general zero-background-network or account-revocation claim is made.
+
+Tool-set qualification therefore remains blocked at native thread preparation. Keep this as an unresolved dependency; do not work around it by inheriting the user's existing account/configuration, treating ignored settings as effective, or running a real subscription trial to obtain missing local evidence.

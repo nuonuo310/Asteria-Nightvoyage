@@ -1,0 +1,39 @@
+{
+  "recordVersion": "codex-local-provider-preparation-v1",
+  "date": "2026-10-19",
+  "implementationBase": "ede6768fe4d43eeef67a18a7999912037778d99b",
+  "platform": "linux",
+  "codexVersion": "0.159.2",
+  "scope": "final_recorded_isolated_loopback_preparation_invocation",
+  "initializeReplyReceived": true,
+  "threadStartRequested": true,
+  "threadStartReplyReceived": false,
+  "waitLimitMs": 20000,
+  "status": "thread_preparation_timeout",
+  "turnStartRequested": false,
+  "fixtureCatalogGets": 0,
+  "fixtureModelPosts": 0,
+  "fixtureWouldGenerate": false,
+  "fixtureWouldExecuteTools": false,
+  "realProviderEndpointConfigured": false,
+  "openaiAuthenticationRequired": false,
+  "loginRequested": false,
+  "userStoreAccessed": false,
+  "existingAccountStateIntentionallySupplied": false,
+  "childEnvironmentKinds": [
+    "fresh_CODEX_HOME",
+    "minimal_node_directory_PATH"
+  ],
+  "rawNotificationsPersisted": false,
+  "configWarningClassification": {
+    "viewImageCandidate": "deprecated_ignored",
+    "sandboxWarning": "meaning_not_established"
+  },
+  "productionDispatchEnabled": false,
+  "toolExclusionVerified": false,
+  "ownedProcessClosed": true,
+  "temporaryDirectoriesRemoved": true,
+  "isolatedProbeProcessesRemaining": 0,
+  "backgroundNetworkInstrumented": false,
+  "qualityAssessed": false
+}
