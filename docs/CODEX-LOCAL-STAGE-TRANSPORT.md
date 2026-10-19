@@ -23,3 +23,7 @@ Run `node scripts/check-codex-local-stage-transport.mjs` or `node --test test/co
 The user Windows fixed-answer and selected-refusal observations remain separate evidence for the installed native harness. They do not authorize native stageTransport registration. A distinct native owner must still integrate per-stage input/output and identity checks, real-provider configuration, bounded lifetime/containment, credential ownership and cancellation before any production adapter can use it. Real catalogue tool exposure cannot be inferred from the fixed fictional catalogue. Login and real subscription inference require fresh user confirmation; no old failed dream is continued or switched to another model.
 
 ChatGPTPlanAdapter remains the formal target primary, CodexAdapter the explicit subscription backup, Fake the automatic-test default and API legacy explicit. No AsteriaModelGateway, Context Bridge, canonical state, user memory or other repository is implemented or modified by this slice. Native subscription generation and dream quality remain unverified.
+
+## Subsequent native harness fixture boundary
+
+The versioned local adapter additionally recognizes the separately issued [fixture-stage transport](CODEX-FIXTURE-STAGES.md), with distinct peer/native fixture protocol identities. This concrete native option still talks only to the owned loopback provider and retains synthetic_stub identity. It does not replace the default independent pipe, accept real-provider credentials or unlock subscription inference.
