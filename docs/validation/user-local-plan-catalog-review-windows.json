@@ -1,0 +1,80 @@
+{
+  "recordVersion": "user-local-plan-catalog-review-windows-v1",
+  "reportedAt": "2026-10-20",
+  "evidenceOrigin": "user_reported_terminal_json",
+  "maintainerReproduction": false,
+  "implementationCommit": "9825500a340079f6bba807fb26fbb7c2a4a3dcf4",
+  "platform": "win32",
+  "receipt": {
+    "contractVersion": "plan-catalog-review-v1",
+    "status": "observed",
+    "ready": false,
+    "model_id": "gpt-5.6-sol",
+    "authorizationAttempts": 1,
+    "additionalCatalogGetIntents": 1,
+    "maxTotalAuthenticatedCatalogGets": 2,
+    "external_calls_started": 0,
+    "realModelRequests": 0,
+    "nativeChildrenStarted": 0,
+    "credentialsPersisted": false,
+    "apiKeyReads": 0,
+    "rawMetadataPersisted": false,
+    "review": {
+      "reviewVersion": "selected-plan-catalog-shape-v1",
+      "model_id": "gpt-5.6-sol",
+      "selectedModelPresent": true,
+      "visibility": "list",
+      "shellType": "unreviewed",
+      "patchType": "freeform",
+      "toolMode": "unreviewed",
+      "inputModalities": "text_and_image",
+      "experimentalTools": "empty",
+      "instructions": "text_present",
+      "rawMetadataReturned": false,
+      "inferenceEntitlementVerified": false,
+      "nativeCompatibilityVerified": false,
+      "productionAdmission": false
+    },
+    "error": null,
+    "authorization": {
+      "status": "plan_action_finished",
+      "reason": null,
+      "failureStage": null,
+      "httpDiagnostic": null
+    },
+    "remoteRevocationConfirmed": true,
+    "remoteCleanupMayBeRequired": false,
+    "cleanupNotice": null,
+    "automaticRetry": false,
+    "productionAdmission": false,
+    "generationEnabled": false,
+    "expiresAt": 1792590291017,
+    "credentialRead": false,
+    "reason": "catalog_review_consumed"
+  },
+  "interpretation": [
+    "The action and following preflight describe one observation, not two authorization attempts.",
+    "The selected model was listed and remote revocation was confirmed by the user-reported entry.",
+    "unreviewed preserves a mismatch with the closed projection vocabulary; raw values and raw types were discarded and cannot be reconstructed.",
+    "No native Codex child or model generation request was started; catalogue membership is not inference entitlement, native compatibility or production admission.",
+    "The consumed allowance remains terminal; this archive authorizes no login, retry, inference or API spend."
+  ],
+  "verification": {
+    "command": "node --test test/plan-catalog-review.test.js",
+    "platform": "linux",
+    "tests": 11,
+    "passCount": 11,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "durationMs": 1527.012298,
+    "implementationAndProposalHashesUnchanged": true,
+    "priorFullRegression": {
+      "tests": 1565,
+      "passCount": 1565,
+      "scope": "unchanged implementation; prior validation only"
+    },
+    "realModelRequests": 0,
+    "userStoreAccessed": false
+  }
+}

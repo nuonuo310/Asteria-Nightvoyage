@@ -63,3 +63,7 @@ The next local slice is [catalogue/configuration comparison](CODEX-CATALOG-COMPA
 ## Next account-metadata prerequisite
 
 The separate [catalogue-only review entry](PLAN-CATALOG-REVIEW.md) now prepares the first actual-account metadata inspection, requiring new login consent but no inference approval. It must not pass a token or fictional/projected metadata to Codex. Missing/unreviewed fields remain unresolved. The earlier one-inference diagnostic design is not enabled by preparing or completing this directory review.
+
+### Catalogue-only user observation received
+
+The [Windows account-catalogue receipt](validation/user-local-plan-catalog-review-windows.json) reports the selected model present and revocation confirmed, with no model request or native child. shellType and toolMode remain unreviewed under the pinned closed vocabulary; discarded raw types/values cannot be inferred from that label. This closes the question of whether this catalogue action produced an observation, not native compatibility or inference entitlement. Preserve the consumed allowance and review field contracts offline before any separately proposed authenticated/native diagnostic.

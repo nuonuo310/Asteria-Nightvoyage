@@ -1,6 +1,6 @@
 # Selected ChatGPT-plan catalogue shape review
 
-This is a separately approved, catalogue-only login entry. It resolves a remaining evidence gap after the Windows fictional catalogue/environment comparison: live account/model metadata has not been inspected. It does not start Codex, pass a token to a child, call Responses, generate a dream, establish inference entitlement or grant production adapter admission.
+This is a separately approved, catalogue-only login entry. It addresses the account-metadata evidence gap after the Windows fictional catalogue/environment comparison. A subsequent user-reported catalogue-only observation is recorded below; native compatibility remains unresolved. It does not start Codex, pass a token to a child, call Responses, generate a dream, establish inference entitlement or grant production adapter admission.
 
 ## Exact scope
 
@@ -27,4 +27,12 @@ Reports always keep external_calls_started=0, realModelRequests=0, nativeChildre
 
 All automated verification uses independent synthetic OAuth/JWT/HTTP and local loopback callback fixtures. Tests cover closed projection and unknown/absent fields, large irrelevant metadata, missing/duplicate selected data, exact approval, no-store preflight, no model endpoint, replay, cancellation including noncooperative late response, expiry, foreign ownership, overlap, durable save failure, actual child process exit at authorizing/observed stages and explicit failed revocation. The default CLI has no test-auth override, transport injection, model selection or fee flag.
 
-Evidence: [validation](validation/plan-catalog-review.json). No real account login or catalogue read is claimed by these tests. The approved next user operation, if separately confirmed, is only a fresh browser login and this bounded directory review. Actual native credential ownership, actual catalogue-to-native compatibility and a separately approved inference diagnostic remain future work. The previous Windows four-case observations remain independent evidence; they do not authorize this entry.
+Evidence: [validation](validation/plan-catalog-review.json). No real account login or catalogue read is claimed by these tests. The subsequent user operation completed this bounded directory review; its allowance is consumed and must not be rerun. Actual native credential ownership, actual catalogue-to-native compatibility and a separately approved inference diagnostic remain future work. The previous Windows four-case observations remain independent evidence; they do not authorize this entry.
+
+## User-reported Windows catalogue observation
+
+The [sanitized receipt](validation/user-local-plan-catalog-review-windows.json) reports one authorization attempt, one additional catalogue GET intent, zero model requests and zero native children. The selected model is listed; patchType=freeform, inputModalities=text_and_image, experimentalTools=empty and instructions=text_present. Remote revocation is confirmed. This is user-reported evidence, not a maintainer account reproduction. The action and following preflight repeat the same observation.
+
+shellType=unreviewed and toolMode=unreviewed mean only that the original values did not match this version's closed vocabulary. Their original values and types are not retained. They cannot be recovered or relabelled from this receipt, and do not prove either incompatibility or support. Do not broaden the source-pinned consumed entry to reinterpret history. Review the relevant provider/native field definitions offline before proposing any distinct diagnostic. No new login, inference or native credential transfer is approved by this record.
+
+The unchanged entry's 11 tests passed again on Linux; its implementation, test and proposal hashes match the previous 1565/1565 full regression. This documentation-only archive does not claim another full run, Windows reproduction or successful subscription inference.
