@@ -151,3 +151,5 @@ Windows 原生空环境观察已收到：本地请求工具声明为 0；[实测
 用户随后完成了[单组原生身份观察](docs/validation/user-local-codex-code-mode-witness-windows.json)：新请求匹配公开 exec/custom 和 wait/function，非空工具仍阻断；没有生成或执行验证。已完成[执行边界源码审查](docs/CODEX-CODE-MODE-EXECUTION-BOUNDARY.md)，发现独立宿主开关及构造器选择条件，并冻结候选守卫设计；尚无执行守卫的原生验证或真实订阅准入。无需重复身份观察。
 
 Independent candidate guard/accounting rehearsal: [scope and limitations](docs/CODEX-CODE-MODE-GUARD-REHEARSAL.md); `node scripts/check-codex-code-mode-guard.mjs` uses two loopback-only POSTs, no native Codex or real inference. Native execution denial and real-provider request accounting remain unverified.
+
+Next bounded native candidate: [fixed arithmetic exec denial](docs/CODEX-GUARDED-EXEC-LOCAL.md), `node scripts/check-codex-guarded-exec.mjs` (default scripted peer; explicit native path required). Native selected-call denial remains pending; this does not enable subscription inference.

@@ -1369,3 +1369,12 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - No native handler was called, no native guard or subscription qualification is claimed, and no existing allowance is reopened. Next: review and implement a separately bounded native guard fixture owner; no user action or new login is needed for this offline slice.
 - Verification and limits: [guard rehearsal](docs/CODEX-CODE-MODE-GUARD-REHEARSAL.md), [machine-readable validation](docs/validation/codex-code-mode-guard-rehearsal.json).
 - Final Linux Node v24.19.0 verification: targeted 32/32; full 1621/1621, no failures/cancellations/skips (97246.271813 ms). Loopback standalone check passed with two saved-before-send intents, zero native/model/credential activity.
+
+
+## Local guarded-exec candidate, native result pending
+
+- Added a separate credential-free owner and one fixed custom exec `1+1` fixture after the independent guard rehearsal. Candidate host/fallback configuration, owned-thread exact warning, pinned fictional catalogue and exactly two root public tool identities gate the scripted response. Old owners/classifier/allowance pins remain unchanged.
+- Matching custom-tool output must be exactly the reviewed disabled-host text; other outputs, unknown warnings/tools/RPC, duplicates and startup errors stop. At most two local POSTs are accepted; observed local requests are recorded before fixture reply, explicitly not claimed as outbound real-provider reservations. No blanket stderr continuation or production admission is added.
+- Default verification uses an independent scripted Node peer, which never executes the arithmetic. Native source/schema/handler qualification and subscription entitlement are not inferred. No matching native executable is selected here. Next user step is one bounded installed-0.160.0 Windows local observation, with no login, key or real provider. Wait-call qualification remains deferred.
+- Scope, release-pinned source contract and remaining boundaries: [local guarded exec](docs/CODEX-GUARDED-EXEC-LOCAL.md); detailed verification: [validation](docs/validation/codex-guarded-exec-local.json).
+- Verified Linux Node v24.19.0: targeted 57/57; full 1654/1654, zero failures/cancellations/skips (100631.513495 ms). Default peer standalone returned selected_exec_denial_observed with two local POSTs; its denial is scripted, not native proof.
