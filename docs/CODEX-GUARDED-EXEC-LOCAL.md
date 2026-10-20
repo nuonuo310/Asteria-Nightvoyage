@@ -46,3 +46,5 @@ The candidate is ready for one user-side local native observation using the inst
 ## Subsequent Windows result and current candidate
 
 The user v3 result checked the timestamped warning and supplied the fixed call, then stopped on a stderr error before a bound output. Its discarded error text/phase cannot establish the cause. [V4 scoped trace policy](CODEX-GUARD-BOUND-TRACE.md) is the current local candidate; older pending statements above describe those earlier slices, not a newly established native denial.
+
+Windows v4 result received: [selected fixed exec denial observed](CODEX-GUARD-EXEC-WINDOWS-RESULT.md). The same-call second local POST and owned cleanup passed. Earlier pending statements describe prior slices; wait, real subscription inference and production admission remain unverified.

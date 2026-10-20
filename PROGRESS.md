@@ -1404,3 +1404,11 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - Added a separate bounded local-only trace policy based on pinned router/session/output sources. One fixed disabled-host router ERROR may continue only with all guard prerequisites and both line-start/completion in scope. Duplicate, unknown, early/late, incomplete, wrong-target and unsupported errors still block. Original error labels remain visible.
 - Same-call exact disabled-host output in a second local POST remains mandatory; a permitted log alone cannot pass. Added split-byte/UTF-8/ANSI/context/lifecycle and integrated peer regressions. No login, real provider, API budget, production admission, bridge or old grant change.
 - Linux Node v24.19.0: targeted 60/60; full 1687/1687, zero failures/cancellations/skips (102813.774468 ms). Default independent peer passed its scripted trace/output exchange; no native v4 run is claimed. Windows helper updated and statically reviewed; one user-side local native observation remains. [Scope and evidence](docs/CODEX-GUARD-BOUND-TRACE.md).
+
+
+## User Windows v4 selected exec denial received
+
+- Archived user-reported native Codex 0.160.0 / Windows / Node v24.19.0: checked guard, warning, catalogue and identities; one scoped disabled-host trace plus exact same-call custom output in the second local POST. Both POST records observed, owned process closed, private temporary cleanup complete. Requested implementation 8cfc302; actual Git HEAD not supplied. No maintainer native reproduction claimed.
+- This closes only the fixed exec disabled-host observation. Legacy acceptance, all-handler denial, wait/terminate qualification, subscription entitlement, real-provider accounting and production admission remain unchanged/unverified. Real model requests, credential reads and authorization attempts are zero.
+- Reviewed pinned upstream wait_handler.rs and shared session service; documented a separate fixed function wait candidate and explicit exclusion of terminate=true. This evidence-only slice delivers no wait runtime or new user command. Existing exec observation need not be repeated.
+- JSON invariants and staged diff checked; runtime/test sources unchanged, existing 1687/1687 implementation evidence retained without rerun. [Result, source pins and next boundary](docs/CODEX-GUARD-EXEC-WINDOWS-RESULT.md).

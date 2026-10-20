@@ -25,3 +25,5 @@ A pattern match is not a causal proof, native schema validation, universal handl
 Linux Node v24.19.0: targeted 60/60; full 1687/1687, zero failures, cancellations or skips. The default independent-process check observed its scripted trace and bound second POST, with owned cleanup complete. See [validation](validation/codex-guard-bound-trace.json).
 
 The existing `scripts/Invoke-CodexGuardedExec.ps1` helper now includes the new regressions. It retains the exact installed 0.160.0 package resolver/version check and performs one local native observation. It needs no login or real inference. The new helper has been statically reviewed here; Windows execution must be reported separately. Stop after the result and return only the final JSON. No old approval or failed dream is resumed.
+
+Windows v4 result received: [selected fixed exec denial observed](CODEX-GUARD-EXEC-WINDOWS-RESULT.md). The same-call second local POST and owned cleanup passed. Earlier pending statements describe prior slices; wait, real subscription inference and production admission remain unverified.
