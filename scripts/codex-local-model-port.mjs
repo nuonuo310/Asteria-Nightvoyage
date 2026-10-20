@@ -1,4 +1,5 @@
 import {isCodexFixtureStageTransport} from './codex-fixture-stage-transport.mjs';
+import {isAccountedCodexStageTransport} from './codex-accounted-stage-transport.mjs';
 // Explicit offline process-transport extension; original source-pinned port stays unchanged.
 import {isCodexLocalStageTransport,codexLocalStageTransportVersion} from './codex-local-stage-transport.mjs';
 // Model-stage boundary only. No Asteria state, network, login or credential loading.
@@ -101,7 +102,7 @@ export class CodexAdapter extends Adapter {
   #simulator;#transport;
   constructor({model_id='unknown',simulator,stageTransport}={}){
     if(simulator!==undefined&&typeof simulator!=='function')fail('invalid_protocol_simulator');
-    if(stageTransport!==undefined&&(!(isCodexLocalStageTransport(stageTransport)||isCodexFixtureStageTransport(stageTransport))||stageTransport.model_id!==model_id||simulator))fail('unreviewed_model_adapter');
+    if(stageTransport!==undefined&&(!(isCodexLocalStageTransport(stageTransport)||isCodexFixtureStageTransport(stageTransport)||isAccountedCodexStageTransport(stageTransport))||stageTransport.model_id!==model_id||simulator))fail('unreviewed_model_adapter');
     const offline=!!simulator||!!stageTransport;
     super('CodexAdapter',offline?'openai_protocol_simulator':'openai',model_id,offline?'synthetic_stub':'codex_chatgpt_subscription',stageTransport?stageTransport.protocolVersion:simulator?codexDreamProtocolVersion:'codex-app-server-pending',!offline);this.#simulator=simulator;this.#transport=stageTransport;
   }

@@ -8,6 +8,8 @@ import {own,safeId} from '../src/contract.js';
 import {assertAppraisalReviewJsonData} from '../src/appraisal-review-memory.js';
 import {readContentReview} from '../src/content-review.js';
 import {readModelPortContent} from './aggregate-plan-content-view.mjs';
+import {readModelPortContent as readAccountedCodexContent} from './accounted-codex-content-view.mjs';
+import {accountedStageProtocols} from './codex-dream-http-account.mjs';
 import {renderDreambookReview} from './dreambook-review-text.mjs';
 export const dreambookReaderVersion='local-dreambook-reader-v1';
 const supported=new Set(['coupled-affect-quotes-v1','scene-continuity-quotes-v1','inline-evidence-quotes-v1']);
@@ -53,7 +55,8 @@ export function runDreambook(args){
     if(!id||!catalog.dreams.some(d=>d.id===id))return '当前没有可查看的已保存梦境。';
     // Unsupported/corrupt selected dreams fail closed; never silently substitute an older one.
     const run=store.state.runs[store.state.entries[id].runId];
-    const view=run.modelPortVersion==='dream-model-port-v1'?readModelPortContent(store,id):readContentReview(store,id);
+    const portReader=accountedStageProtocols.includes(run.modelSelection?.protocol_version)?readAccountedCodexContent:readModelPortContent;
+    const view=run.modelPortVersion==='dream-model-port-v1'?portReader(store,id):readContentReview(store,id);
     return renderDreambookReview(view,{reviewJson:flags.has('--review-json')});
   }finally{store.close();}
 }
