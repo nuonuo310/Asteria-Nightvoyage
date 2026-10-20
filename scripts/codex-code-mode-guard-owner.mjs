@@ -7,7 +7,7 @@ import http from 'node:http';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {codeModeGuardOverrides,reviewCodeModeGuardConfig} from './codex-code-mode-guard-review.mjs';
-import {fixedGuardExecSse,exactGuardWarning,reviewGuardExecContinuation} from './codex-code-mode-exec-fixture.mjs';
+import {fixedGuardExecSse,exactGuardWarning,reviewGuardExecContinuation,reviewGuardWarningEnvelope} from './codex-code-mode-exec-fixture.mjs';
 import {reviewObserverWarning} from './codex-observer-warning-review.mjs';
 import {observerNotificationWitness} from './codex-observer-notification-witness.mjs';
 import {reviewCodexLocalRequest} from './codex-request-tool-review.mjs';
@@ -31,7 +31,7 @@ export function observeNativeCodexGuardExec(executable,value={}){
 }
 export function rehearseCodexGuardExec(scenario='observed',value={}){
  const settings=options(value),comparison=codexToolModeCase('code_only_empty');
- if(!['observed','legacy_invalid_root','host_enabled','fallback_enabled','missing_guard','unknown_warning','foreign_warning','duplicate_warning','no_warning','unknown_tools','missing_tools','wrong_output','wrong_call','duplicate_output','wrong_kind','auth_header','early_post','third_post','duplicate_initial','malformed_body','oversized_body','encoded_body','wrong_path','second_unknown_tools','warning_after_request','server_request','stderr_error','stall_thread','stall_after_call','catalog_body_changed','wrong_provider'].includes(scenario))throw Error('metadata_scenario_invalid');
+ if(!['observed','legacy_invalid_root','invalid_warning_timestamp','extra_warning_field','bare_warning','host_enabled','fallback_enabled','missing_guard','unknown_warning','foreign_warning','duplicate_warning','no_warning','unknown_tools','missing_tools','wrong_output','wrong_call','duplicate_output','wrong_kind','auth_header','early_post','third_post','duplicate_initial','malformed_body','oversized_body','encoded_body','wrong_path','second_unknown_tools','warning_after_request','server_request','stderr_error','stall_thread','stall_after_call','catalog_body_changed','wrong_provider'].includes(scenario))throw Error('metadata_scenario_invalid');
  return run({kind:'independent_node_peer',scenario,fictionalCatalog:true,environmentless:true,comparison},settings);
 }
 
@@ -48,12 +48,12 @@ function temporaryParent(){
  }catch{throw Error('metadata_workspace_unavailable');}
 }
 async function run(launch,{signal,timeoutMs}){
- const report={contractVersion:'codex-local-guarded-exec-denial-v2-input-schema',kind:launch.kind,status:'not_started',reason:null,
+ const report={contractVersion:'codex-local-guarded-exec-denial-v3-warning-envelope',kind:launch.kind,status:'not_started',reason:null,
   requestedModel:model,initializeChecked:false,configurationChecked:false,threadPrepared:false,threadEphemeralVerified:false,
   processStarted:false,ownedProcessClosed:false,temporaryCleanupComplete:false,temporaryCleanupFailureCode:null,configWarnings:0,
   fixtureCatalogGets:0,fixtureModelPosts:0,unexpectedHttpRequests:0,methodsQueued:[],startupDiagnostics:null,
   requestObservation:null,requestIdentityWitness:null,notificationRejection:null,requestBodyRetained:false,generatedResponseSupplied:false,
-  candidateGuardConfigurationMatched:false,expectedGuardWarningObserved:false,scriptedExecCallSupplied:false,selectedExecObservation:null,
+  candidateGuardConfigurationMatched:false,expectedGuardWarningObserved:false,guardWarningEnvelopeReview:null,scriptedExecCallSupplied:false,selectedExecObservation:null,
   observedPostRecords:0,postRecordsSavedBeforeFixtureReply:false,realProviderAccountingIntegrated:false,
   remoteHostArgumentSupplied:false,nativeVersionVerified:false,allHandlerDenialVerified:false,
   catalogMode:'independent_tool_mode_comparison',caseId:launch.comparison.caseId,toolMode:launch.comparison.toolMode,inputModalities:launch.comparison.inputModalities,comparisonVersion:codexToolModeComparisonVersion,
@@ -207,6 +207,7 @@ async function run(launch,{signal,timeoutMs}){
       turnId=result.turn.id;phase='observing';expected=null;
      }else throw Error('unexpected_rpc_reply');
     }else if(message.method==='warning'&&['turn','observing'].includes(phase)){
+     report.guardWarningEnvelopeReview=reviewGuardWarningEnvelope(JSON.stringify(message),threadId);
      if(!report.candidateGuardConfigurationMatched||report.expectedGuardWarningObserved||!exactGuardWarning(message,threadId))rejectNotification('guard_warning_rejected');
      report.expectedGuardWarningObserved=true;pendingFixtureResponse?.();
     }else if(message.method==='configWarning'){report.configWarnings++;throw Error('configuration_warning_observed');}

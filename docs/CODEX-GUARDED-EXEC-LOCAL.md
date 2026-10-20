@@ -1,6 +1,8 @@
 # Local native candidate: one fixed exec denial
 
-**Current candidate: v2 input-schema correction.** The [first Windows native observation](validation/user-local-codex-guarded-exec-startup-windows.json) was blocked before initialize by configuration rejection. The old input path was invalid; [correction and evidence](CODEX-GUARD-CONFIG-CORRECTION.md) explain the implementation/test gap. Native v2 outcome is pending.
+**Current candidate: v3 notification-envelope correction.** The [v2 native observation](validation/user-local-codex-guarded-exec-warning-windows.json) passed configuration/thread preparation and stopped on a warning before any local model POST. The [v3 correction](CODEX-GUARD-WARNING-ENVELOPE.md) handles only the official optional emission timestamp; exact warning text/binding and unknown-field rejection remain required. Native v3 outcome is pending.
+
+**Earlier v2 input-schema correction:** The [first Windows native observation](validation/user-local-codex-guarded-exec-startup-windows.json) was blocked before initialize by configuration rejection. The old input path was invalid; [correction and evidence](CODEX-GUARD-CONFIG-CORRECTION.md) explain the implementation/test gap. Native v2 outcome is pending.
 
 The [independent guard/journal rehearsal](CODEX-CODE-MODE-GUARD-REHEARSAL.md) is followed by a separate executable local fixture owner. The new entry is `node scripts/check-codex-guarded-exec.mjs`. Default execution uses an independent Node peer with **scripted** identities, configuration, warning and denial. Native execution requires the explicit `--native-executable ABSOLUTE_CODEX_PATH` option. No account, OAuth owner or real provider is connected.
 

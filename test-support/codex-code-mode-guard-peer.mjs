@@ -11,7 +11,12 @@ for(let i=0;i<args.length;i++)if(args[i]==='-c'){
 if(scenario==='legacy_invalid_root')config.code_mode={disable_in_process_fallback:false};
 try{validateGuardInputProjection(JSON.stringify(config));}catch{fs.writeSync(2,'Unrecognized configuration setting: independent rejected guard projection\n');process.exit(57);}
 if(['OPENAI_API_KEY','ACCESS_TOKEN','NODE_OPTIONS','NODE_PATH','HTTPS_PROXY','NIGHTVOYAGE_DEEPSEEK_KEY'].some(k=>process.env[k]))process.exit(51);
-const write=x=>process.stdout.write(JSON.stringify(x)+'\n');
+const write=x=>{
+ if(Object.hasOwn(x,'method')&&!Object.hasOwn(x,'id')&&!Object.hasOwn(x,'emittedAtMs')&&!(scenario==='bare_warning'&&x.method==='warning'))x={...x,emittedAtMs:1792515600000};
+ if(x.method==='warning'&&scenario==='invalid_warning_timestamp')x.emittedAtMs='FICTIONAL-PRIVATE-TIME';
+ if(x.method==='warning'&&scenario==='extra_warning_field')x.fixtureUnknown='FICTIONAL-PRIVATE-FIELD';
+ process.stdout.write(JSON.stringify(x)+'\n');
+};
 const warning=()=>({method:'warning',params:{threadId:scenario==='foreign_warning'?'fictional-other-thread':'fictional-guard-thread-1',message:scenario==='unknown_warning'?'FICTIONAL-PRIVATE-WARNING':'Code Mode is unavailable because code-mode host is disabled. Code mode will fail closed; enable `features.code_mode_host` and install `codex-code-mode-host`.'}});
 const thread='fictional-guard-thread-1',turn='fictional-guard-turn';
 let phase='initialize';

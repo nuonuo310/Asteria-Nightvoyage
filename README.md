@@ -155,3 +155,5 @@ Independent candidate guard/accounting rehearsal: [scope and limitations](docs/C
 Next bounded native candidate: [fixed arithmetic exec denial](docs/CODEX-GUARDED-EXEC-LOCAL.md), `node scripts/check-codex-guarded-exec.mjs` (default scripted peer; explicit native path required). Native selected-call denial remains pending; this does not enable subscription inference.
 
 Guard startup correction: [v2 input contract and regression](docs/CODEX-GUARD-CONFIG-CORRECTION.md). The first native guarded-exec observation stopped before initialize; the invalid runtime-shaped input was corrected. Native v2 verification remains pending, with no subscription dispatch enabled.
+
+Guard notification correction: [v3 official emission-timestamp envelope](docs/CODEX-GUARD-WARNING-ENVELOPE.md). The user v2 run passed configuration/thread checks and stopped on a warning before a local model POST. Exact text/thread/config guards remain; native v3 selected-call denial is still pending.

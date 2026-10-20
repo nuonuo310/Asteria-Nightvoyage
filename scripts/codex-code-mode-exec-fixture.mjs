@@ -9,9 +9,27 @@ export function fixedGuardExecSse(){
 }
 export function exactGuardWarning(message,threadId){
  if(typeof threadId!=='string'||!/^[A-Za-z0-9_-]{1,200}$/.test(threadId))return false;
- const p=message?.params;
- return message?.method==='warning'&&p?.threadId===threadId&&p?.message===warning&&
-  Object.keys(message).sort().join(',')==='method,params'&&Object.keys(p).sort().join(',')==='message,threadId';
+ const p=message?.params,keys=message&&typeof message==='object'?Object.keys(message).sort().join(','):'';
+ const timestampValid=!Object.hasOwn(message??{},'emittedAtMs')||Number.isSafeInteger(message.emittedAtMs)&&message.emittedAtMs>=0;
+ return message?.method==='warning'&&p?.threadId===threadId&&p?.message===warning&&timestampValid&&
+  ['method,params','emittedAtMs,method,params'].includes(keys)&&Object.keys(p).sort().join(',')==='message,threadId';
+}
+export function reviewGuardWarningEnvelope(text,threadId){
+ if(typeof text!=='string'||Buffer.byteLength(text)>65536)throw Error('guard_warning_envelope_rejected');
+ let m;try{m=JSON.parse(text);}catch{throw Error('guard_warning_envelope_rejected');}
+ const object=v=>v!==null&&typeof v==='object'&&!Array.isArray(v);
+ const keys=object(m)?Object.keys(m).sort().join(','):'';
+ const hasTime=object(m)&&Object.hasOwn(m,'emittedAtMs'),time=hasTime?m.emittedAtMs:undefined;
+ const p=object(m?.params)?m.params:null,id=p?.threadId;
+ return {reviewVersion:'guard-warning-envelope-diagnostic-v1',
+  envelopeShape:keys==='method,params'?'bare':keys==='emittedAtMs,method,params'?'timestamped':'unreviewed',
+  timestampShape:hasTime?Number.isSafeInteger(time)&&time>=0?'safe_nonnegative_integer':'invalid':'absent',
+  paramsShape:p&&Object.keys(p).sort().join(',')==='message,threadId'?'exact_public_fields':'unreviewed',
+  threadBinding:id===undefined?'missing':id===null?'global':id===threadId?'matches':'different',
+  expectedMessageMatched:p?.message===warning,
+  exactCandidateWarningMatched:exactGuardWarning(m,threadId),
+  timestampValueReturned:false,rawMessageReturned:false,identityReturned:false,
+  warningAccepted:false,changesAcceptance:false,dispatchEnabled:false,productionAdmission:false};
 }
 export function reviewGuardExecContinuation(bytes){
  if(!(bytes instanceof Uint8Array)||bytes.byteLength>262144)throw Error('guard_continuation_rejected');
