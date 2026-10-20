@@ -31,3 +31,7 @@ One copy/paste PowerShell block can fast-forward main and invoke this new helper
 The [validation record](validation/codex-eof-wait-entry.json) separates independent scripted-peer success, actual owned Node child EOF tests, full regression, static Windows helper review and pending native execution. User execution of the fresh native entry is the next evidence needed; a Linux fake-peer pass is not substituted for it.
 
 Final Linux Node v24.19.0 results: targeted **60/60** (7327.482765 ms); full **1815/1815** (104245.634941 ms), no failures/cancellations/skips. The compact standalone receipt reported eof_wait_cleanup_observed with the new identity and normal EOF. Native Windows execution remains pending.
+
+## Subsequent native Windows result
+
+The user supplied the [complete Windows receipt](CODEX-EOF-WAIT-WINDOWS-RESULT.md): normal EOF and zero exit without force, scoped root removal on attempt six, and completed/closed retained two-call accounting. This single native local fixture round is accepted. Earlier pending statements describe the implementation slice; real subscription inference and full-dream per-request accounting remain separate dependencies. Do not rerun the completed trial.

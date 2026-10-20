@@ -34,3 +34,5 @@ Next: use this verified candidate when separately arranging a fresh, explicitly 
 Final Linux Node v24.19.0 evidence: targeted **53/53** (7321.755097 ms); full **1808/1808** (104560.805788 ms), no failures/cancellations/skips. The independent peer reported normal EOF, zero exit, no force-stop request and successful scoped temporary cleanup. Windows effectiveness remains unverified.
 
 The [fresh EOF observation entry](CODEX-EOF-WAIT-OBSERVATION.md) supplies a distinct immutable identity and a separate fixed retained directory. It requires observed normal EOF as well as actual cleanup. The consumed earlier trial remains sealed; native execution of the fresh entry is pending.
+
+The separately identified [fresh EOF Windows observation](CODEX-EOF-WAIT-WINDOWS-RESULT.md) subsequently passed: normal EOF, no force stop, removal on attempt six and retained accounting closure. It does not erase the older failure, establish its unique cause or confirm removal of that older workspace.
