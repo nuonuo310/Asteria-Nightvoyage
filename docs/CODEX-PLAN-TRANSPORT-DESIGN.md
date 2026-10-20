@@ -58,3 +58,8 @@ Evidence and exact source hashes: [credential-owner validation](validation/codex
 ## Credential-free comparison entry now implemented
 
 The next local slice is [catalogue/configuration comparison](CODEX-CATALOG-COMPARISON.md). It uses two independently authored fictional modality profiles and two explicit environment bundles, not live account metadata. The independent peer matrix is checked; the actual maintainer native attempt stops before its first POST, with cleanup complete. The subsequent user Windows native receipt completes all four local conditions (3, 3, 0, 0 declared tools); see the comparison document for its limited interpretation. No authenticated diagnostic or real transport is admitted.
+
+
+## Next account-metadata prerequisite
+
+The separate [catalogue-only review entry](PLAN-CATALOG-REVIEW.md) now prepares the first actual-account metadata inspection, requiring new login consent but no inference approval. It must not pass a token or fictional/projected metadata to Codex. Missing/unreviewed fields remain unresolved. The earlier one-inference diagnostic design is not enabled by preparing or completing this directory review.

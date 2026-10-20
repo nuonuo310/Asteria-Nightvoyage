@@ -1,0 +1,56 @@
+{
+  "recordVersion": "plan-catalog-review-validation-v1",
+  "baseCommit": "37c916feb4a7c8d574ba02f3c5395c1cfb6230ec",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "sourceSha256": {
+    "scripts/plan-catalog-shape.mjs": "edc8939af7887b1661f014528bebd6a7996301adc92df62411e41806531b9d11",
+    "scripts/plan-catalog-review.mjs": "5eb643821aa90d9c76a46bf18156101bad0adb4d03c4cb1cfc31849f5b2c26c8",
+    "scripts/plan-catalog-review-cli.mjs": "98d3e1a58aa914d475b999916ee863c004c977ab117af137cc250eda3fd23b58",
+    "test/plan-catalog-review.test.js": "12fd0b03c75b909cf8bcbea3c596118087772ca34eebcf33606b78bebccc830b",
+    "docs/proposals/plan-catalog-review-v1.json": "a3b0c2af821935df6547129dfa1df7d3d6b516d33a9cf9435a494b621d05c5a1"
+  },
+  "targeted": {
+    "command": "node --test test/plan-catalog-review.test.js test/chatgpt-plan-auth.test.js test/chatgpt-plan-login.test.js test/codex-plan-credential-owner.test.js test/codex-catalog-comparison.test.js",
+    "tests": 56,
+    "pass": 56,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "durationMs": 2161.818598
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 1565,
+    "pass": 1565,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "durationMs": 111595.816719
+  },
+  "proposalSourcePins": 28,
+  "syntheticOnly": true,
+  "scope": [
+    "Independent synthetic OAuth/JWT/HTTP plus real local loopback callback; no OpenAI request.",
+    "Selected-model projection returns only fixed labels, never raw metadata or instructions.",
+    "Two authenticated synthetic catalogue GETs in successful owner path; no model endpoint.",
+    "Actual child process exit at durable authorizing and observed checkpoints prevents re-login.",
+    "Cancellation, noncooperative late response, concurrent store owner, expiry, foreign ownership and intent-save failure covered.",
+    "Revocation failure remains explicit and does not erase an observed shape."
+  ],
+  "finalSourceReviewed": true,
+  "historicalCodeAndGrantsUnchanged": true,
+  "actualUserLoginAttempted": false,
+  "realModelRequests": 0,
+  "realCredentialsRead": 0,
+  "nativeCodexStarted": false,
+  "userStoreAccessed": false,
+  "nativeCompatibilityVerified": false,
+  "productionAdmission": false,
+  "qualityAssessed": false,
+  "nextUserActionRequiresNewExplicitLoginConsent": true,
+  "developmentCorrections": [
+    "Additional catalogue GET uses the existing standard fixed-GET 1 MiB envelope instead of a new purpose that would fall back to the smaller authentication envelope.",
+    "Authorization summary preserves only closed error/phase/network labels; revocation failure includes the existing actionable cleanup notice."
+  ]
+}
