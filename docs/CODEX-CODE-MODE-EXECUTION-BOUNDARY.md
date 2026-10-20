@@ -2,6 +2,8 @@
 
 The [new user Windows identity receipt](validation/user-local-codex-code-mode-witness-windows.json) completes the bounded name/kind observation: public_exec_custom and shared_wait_function, no unreviewed identities, one local POST and owned cleanup. Its inner report remains blocked. This is a distinct new request; it does not reconstruct the preceding discarded names. It does not identify the wait handler, validate the native schema, test execution denial or establish subscription inference.
 
+**Input-path correction:** the original audit described the internal runtime field correctly but translated it into an invalid root startup setting. Use the [v2 input correction](CODEX-GUARD-CONFIG-CORRECTION.md); the v1 design proposal is historical and not an executable configuration contract.
+
 ## Release-pinned call chain
 
 Reviewed public OpenAI Codex release rust-v0.160.0, commit `a956835d020762cb2b570053af06f643a11c0ecc`. The following are source-level findings, not observations of the user's runtime provider selection:
@@ -23,14 +25,14 @@ Model tool-mode selection and tool registration were reviewed separately in [the
 
 For the reviewed normal constructor, without a provider override:
 
-| features.code_mode_host | code_mode.disable_in_process_fallback | Selected provider |
+| Resolved CodeModeHost feature | Internal CodeModeConfig.disable_in_process_fallback | Selected provider |
 | --- | --- | --- |
 | false | false | Disabled |
 | false | true | Process-owned host |
 | true | false | Process-owned host |
 | true | true | Process-owned host |
 
-Thus setting disable_in_process_fallback=true is not a way to disable the execution host. A candidate guard must explicitly set BOTH values false at process startup, seal the launch against a remote host argument/provider injection, and verify effective configuration before any turn. It must preserve code_mode_only metadata rather than pretend that the model uses direct. This is a candidate based on public source, not a runtime-qualified production configuration.
+Thus setting disable_in_process_fallback=true is not a way to disable the execution host. A candidate guard must obtain BOTH false values from supported startup input: `features.code_mode_host.enabled=false` and `features.code_mode_host.disable_in_process_fallback=false`, seal the launch against a remote host argument/provider injection, and verify effective configuration before any turn. It must preserve code_mode_only metadata rather than pretend that the model uses direct. This is a candidate based on public source, not a runtime-qualified production configuration.
 
 The service also emits a fixed unavailable warning when code mode is selected without an available provider. An existing observer correctly stops on unreviewed warnings; do not broadly ignore them to make a guard trial pass. Any future continuation of this one expected warning needs a separate exact, bounded, thread/configuration-bound rule, with unknown messages still rejected.
 

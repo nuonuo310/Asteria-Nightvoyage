@@ -1,14 +1,16 @@
 // Offline candidate policy. It neither launches Codex nor grants inference authority.
 import {codexIsolationOverrides,reviewCodexConfigReply} from './codex-isolation-review.mjs';
-export const codeModeGuardVersion='offline-code-mode-guard-review-v1';
+export const codeModeGuardVersion='offline-code-mode-guard-review-v2-input-schema';
 const disabledWarning='Code Mode is unavailable because code-mode host is disabled. Code mode will fail closed; enable `features.code_mode_host` and install `codex-code-mode-host`.';
 export function codeModeGuardOverrides(){
- return [...codexIsolationOverrides(),'features.code_mode_host=false','code_mode.disable_in_process_fallback=false'];
+ return [...codexIsolationOverrides(),'features.code_mode_host.enabled=false','features.code_mode_host.disable_in_process_fallback=false'];
 }
 export function reviewCodeModeGuardConfig(text){
  const base=reviewCodexConfigReply(text),config=JSON.parse(text).result.config;
- const host=Object.hasOwn(config.features??{},'code_mode_host')&&config.features.code_mode_host===false;
- const fallback=Object.hasOwn(config.code_mode??{},'disable_in_process_fallback')&&config.code_mode.disable_in_process_fallback===false;
+ const table=config.features?.code_mode_host;
+ const valid=table!==null&&typeof table==='object'&&!Array.isArray(table)&&Object.keys(table).every(k=>['enabled','disable_in_process_fallback'].includes(k))&&!Object.hasOwn(config,'code_mode');
+ const host=valid&&Object.hasOwn(table,'enabled')&&table.enabled===false;
+ const fallback=valid&&Object.hasOwn(table,'disable_in_process_fallback')&&table.disable_in_process_fallback===false;
  return {reviewVersion:codeModeGuardVersion,baseControlsMatched:base.configuredControlsMatched,
   hostExplicitlyDisabled:host,fallbackFlagExplicitlyFalse:fallback,
   candidateConfigurationMatched:base.configuredControlsMatched&&host&&fallback,

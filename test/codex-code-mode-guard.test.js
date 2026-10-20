@@ -8,10 +8,10 @@ import {fictionalGuardConfig,fictionalGuardWarning,rehearseCodeModeGuard} from '
 const configured=edit=>{const c=JSON.parse(fictionalGuardConfig());edit(c.result.config);return JSON.stringify(c);};
 function memory(){let saved=LocalDispatchJournal.initialSnapshot();return {read:()=>saved,save:s=>{saved=s;}};}
 test('guard requires both explicit false flags and all earlier controls; unknown configuration never passes',()=>{
- const flags=codeModeGuardOverrides();assert.ok(flags.includes('features.code_mode_host=false'));assert.ok(flags.includes('code_mode.disable_in_process_fallback=false'));
+ const flags=codeModeGuardOverrides();assert.ok(flags.includes('features.code_mode_host.enabled=false'));assert.ok(flags.includes('features.code_mode_host.disable_in_process_fallback=false'));
  assert.equal(reviewCodeModeGuardConfig(fictionalGuardConfig()).candidateConfigurationMatched,true);
- for(const host of [false,true])for(const fallback of [false,true])assert.equal(reviewCodeModeGuardConfig(configured(c=>{c.features.code_mode_host=host;c.code_mode.disable_in_process_fallback=fallback;})).candidateConfigurationMatched,!host&&!fallback);
- for(const edit of [c=>delete c.features.code_mode_host,c=>delete c.code_mode,c=>c.code_mode.disable_in_process_fallback='false',c=>c.features.shell_tool=true,c=>c.mcp_servers={fictional:{}},c=>c.features.code_mode_host=null])assert.equal(reviewCodeModeGuardConfig(configured(edit)).candidateConfigurationMatched,false);
+ for(const host of [false,true])for(const fallback of [false,true])assert.equal(reviewCodeModeGuardConfig(configured(c=>{c.features.code_mode_host.enabled=host;c.features.code_mode_host.disable_in_process_fallback=fallback;})).candidateConfigurationMatched,!host&&!fallback);
+ for(const edit of [c=>delete c.features.code_mode_host,c=>delete c.features.code_mode_host.disable_in_process_fallback,c=>c.features.code_mode_host.disable_in_process_fallback='false',c=>c.features.shell_tool=true,c=>c.mcp_servers={fictional:{}},c=>c.features.code_mode_host=null])assert.equal(reviewCodeModeGuardConfig(configured(edit)).candidateConfigurationMatched,false);
  for(const text of ['{','null','x'.repeat(65537)])assert.throws(()=>reviewCodeModeGuardConfig(text));
  const r=reviewCodeModeGuardConfig(fictionalGuardConfig());assert.equal(r.localTransportVerified,false);assert.equal(r.providerOverrideExcluded,false);assert.equal(r.nativeHandlerDenialVerified,false);
 });
@@ -20,7 +20,7 @@ test('only exact bounded thread-bound warning permits fixture continuation and n
  for(const edit of [e=>e.params.threadId='fictional-guard-thread-2',e=>e.params.message+=' extra',e=>e.params.extra='PRIVATE-FIXTURE',e=>e.method='error']){
   const e=JSON.parse(warn);edit(e);const r=reviewCodeModeGuardWarning(config,JSON.stringify(e),'fictional-guard-thread-1');assert.equal(r.fixtureContinuationAllowed,false);assert.ok(!JSON.stringify(r).includes('PRIVATE-FIXTURE'));
  }
- assert.equal(reviewCodeModeGuardWarning(configured(c=>c.features.code_mode_host=true),warn,'fictional-guard-thread-1').fixtureContinuationAllowed,false);
+ assert.equal(reviewCodeModeGuardWarning(configured(c=>c.features.code_mode_host.enabled=true),warn,'fictional-guard-thread-1').fixtureContinuationAllowed,false);
  for(const w of ['{','x'.repeat(4097)])assert.throws(()=>reviewCodeModeGuardWarning(config,w,'fictional-guard-thread-1'));
  assert.throws(()=>reviewCodeModeGuardWarning(config,warn,'arbitrary-thread'));
 });

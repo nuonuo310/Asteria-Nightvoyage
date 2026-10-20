@@ -1,12 +1,15 @@
 // Independent invented RPC/config/tool/output peer. It never executes the supplied source.
 import readline from 'node:readline';
 import fs from 'node:fs';
+import {validateGuardInputProjection} from './codex-0160-guard-input-projection.mjs';
 const scenario=process.argv[2],args=process.argv.slice(3);
 const config={features:{shell_tool:false,apps:false,multi_agent:false,hooks:false,memories:false,goals:false,code_mode:{enabled:false}},apps:{_default:{enabled:false}},mcp_servers:{},web_search:'disabled',approval_policy:'never',sandbox_mode:'read-only'};
 for(let i=0;i<args.length;i++)if(args[i]==='-c'){
  const text=args[++i],at=text.indexOf('='),keys=text.slice(0,at).split('.');let o=config;
  for(const k of keys.slice(0,-1))o=o[k]??={};o[keys.at(-1)]=JSON.parse(text.slice(at+1));
 }
+if(scenario==='legacy_invalid_root')config.code_mode={disable_in_process_fallback:false};
+try{validateGuardInputProjection(JSON.stringify(config));}catch{fs.writeSync(2,'Unrecognized configuration setting: independent rejected guard projection\n');process.exit(57);}
 if(['OPENAI_API_KEY','ACCESS_TOKEN','NODE_OPTIONS','NODE_PATH','HTTPS_PROXY','NIGHTVOYAGE_DEEPSEEK_KEY'].some(k=>process.env[k]))process.exit(51);
 const write=x=>process.stdout.write(JSON.stringify(x)+'\n');
 const warning=()=>({method:'warning',params:{threadId:scenario==='foreign_warning'?'fictional-other-thread':'fictional-guard-thread-1',message:scenario==='unknown_warning'?'FICTIONAL-PRIVATE-WARNING':'Code Mode is unavailable because code-mode host is disabled. Code mode will fail closed; enable `features.code_mode_host` and install `codex-code-mode-host`.'}});
@@ -19,8 +22,8 @@ readline.createInterface({input:process.stdin}).on('line',async line=>{
   write({id:1,result:{codexHome:process.env.CODEX_HOME,platformFamily:'fictional',platformOs:'fictional',userAgent:'independent-guard-peer'}});phase='initialized';
  }else if(m.method==='initialized'&&phase==='initialized')phase='config';
  else if(m.method==='config/read'&&phase==='config'){
-  if(scenario==='host_enabled')config.features.code_mode_host=true;
-  if(scenario==='fallback_enabled')config.code_mode.disable_in_process_fallback=true;
+  if(scenario==='host_enabled')config.features.code_mode_host.enabled=true;
+  if(scenario==='fallback_enabled')config.features.code_mode_host.disable_in_process_fallback=true;
   if(scenario==='missing_guard')delete config.features.code_mode_host;
   if(scenario==='catalog_body_changed')fs.writeFileSync(config.model_catalog_json,'independent changed fixture');
   if(scenario==='early_post'){try{await fetch(config.model_providers.nightvoyage_metadata_fixture.base_url+'/responses',{method:'POST'});}catch{}return;}

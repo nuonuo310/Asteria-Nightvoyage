@@ -31,7 +31,7 @@ export function observeNativeCodexGuardExec(executable,value={}){
 }
 export function rehearseCodexGuardExec(scenario='observed',value={}){
  const settings=options(value),comparison=codexToolModeCase('code_only_empty');
- if(!['observed','host_enabled','fallback_enabled','missing_guard','unknown_warning','foreign_warning','duplicate_warning','no_warning','unknown_tools','missing_tools','wrong_output','wrong_call','duplicate_output','wrong_kind','auth_header','early_post','third_post','duplicate_initial','malformed_body','oversized_body','encoded_body','wrong_path','second_unknown_tools','warning_after_request','server_request','stderr_error','stall_thread','stall_after_call','catalog_body_changed','wrong_provider'].includes(scenario))throw Error('metadata_scenario_invalid');
+ if(!['observed','legacy_invalid_root','host_enabled','fallback_enabled','missing_guard','unknown_warning','foreign_warning','duplicate_warning','no_warning','unknown_tools','missing_tools','wrong_output','wrong_call','duplicate_output','wrong_kind','auth_header','early_post','third_post','duplicate_initial','malformed_body','oversized_body','encoded_body','wrong_path','second_unknown_tools','warning_after_request','server_request','stderr_error','stall_thread','stall_after_call','catalog_body_changed','wrong_provider'].includes(scenario))throw Error('metadata_scenario_invalid');
  return run({kind:'independent_node_peer',scenario,fictionalCatalog:true,environmentless:true,comparison},settings);
 }
 
@@ -48,7 +48,7 @@ function temporaryParent(){
  }catch{throw Error('metadata_workspace_unavailable');}
 }
 async function run(launch,{signal,timeoutMs}){
- const report={contractVersion:'codex-local-guarded-exec-denial-v1',kind:launch.kind,status:'not_started',reason:null,
+ const report={contractVersion:'codex-local-guarded-exec-denial-v2-input-schema',kind:launch.kind,status:'not_started',reason:null,
   requestedModel:model,initializeChecked:false,configurationChecked:false,threadPrepared:false,threadEphemeralVerified:false,
   processStarted:false,ownedProcessClosed:false,temporaryCleanupComplete:false,temporaryCleanupFailureCode:null,configWarnings:0,
   fixtureCatalogGets:0,fixtureModelPosts:0,unexpectedHttpRequests:0,methodsQueued:[],startupDiagnostics:null,

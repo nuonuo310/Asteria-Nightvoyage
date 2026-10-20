@@ -153,3 +153,5 @@ Windows 原生空环境观察已收到：本地请求工具声明为 0；[实测
 Independent candidate guard/accounting rehearsal: [scope and limitations](docs/CODEX-CODE-MODE-GUARD-REHEARSAL.md); `node scripts/check-codex-code-mode-guard.mjs` uses two loopback-only POSTs, no native Codex or real inference. Native execution denial and real-provider request accounting remain unverified.
 
 Next bounded native candidate: [fixed arithmetic exec denial](docs/CODEX-GUARDED-EXEC-LOCAL.md), `node scripts/check-codex-guarded-exec.mjs` (default scripted peer; explicit native path required). Native selected-call denial remains pending; this does not enable subscription inference.
+
+Guard startup correction: [v2 input contract and regression](docs/CODEX-GUARD-CONFIG-CORRECTION.md). The first native guarded-exec observation stopped before initialize; the invalid runtime-shaped input was corrected. Native v2 verification remains pending, with no subscription dispatch enabled.

@@ -1,5 +1,7 @@
 # Independent execution-guard and dispatch-accounting rehearsal
 
+**Correction:** the original v1 rehearsal used a runtime-shaped root fallback setting that native startup does not accept. Its tests did not validate the native input schema. The [v2 correction and new source-derived regression](CODEX-GUARD-CONFIG-CORRECTION.md) supersede that setting; earlier validation records remain historical.
+
 This slice implements an **offline candidate policy and an independent outbound journal**, not a native Codex execution guard. It follows the [pinned source review](CODEX-CODE-MODE-EXECUTION-BOUNDARY.md). No Codex process, account, provider token, real model or user store is used. The earlier native identity receipt remains blocked and unchanged.
 
 Run the complete independent rehearsal:
@@ -12,7 +14,7 @@ This command accepts no arguments. It cannot enable native execution, login or i
 
 ## Candidate configuration and warning policy
 
-`scripts/codex-code-mode-guard-review.mjs` adds two explicit startup overrides to the earlier controls: `features.code_mode_host=false` and `code_mode.disable_in_process_fallback=false`. Its bounded JSON reviewer requires both explicit false values and all previously reviewed isolation settings. Missing, mismatched or differently typed values cannot pass. It does not change model tool mode or the old observers.
+`scripts/codex-code-mode-guard-review.mjs` adds two explicit startup overrides to the earlier controls: `features.code_mode_host.enabled=false` and `features.code_mode_host.disable_in_process_fallback=false`. Its bounded JSON reviewer requires both explicit false values and all previously reviewed isolation settings. Missing, mismatched or differently typed values cannot pass. It does not change model tool mode or the old observers.
 
 The separate warning reviewer permits **fixture continuation only** for the exact disabled-host warning derived from the pinned source, under matching candidate configuration and an independently fixed fictional thread. A different thread, extra field, altered message or unknown event does not match. It returns labels only. It makes no native warning or handler claim.
 

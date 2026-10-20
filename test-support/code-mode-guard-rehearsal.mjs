@@ -7,8 +7,8 @@ import assert from 'node:assert/strict';
 import {LocalDispatchJournal} from '../scripts/codex-local-dispatch-journal.mjs';
 import {reviewCodeModeGuardConfig,reviewCodeModeGuardWarning} from '../scripts/codex-code-mode-guard-review.mjs';
 export function fictionalGuardConfig(){return JSON.stringify({id:2,result:{config:{
- features:{shell_tool:false,apps:false,multi_agent:false,hooks:false,memories:false,goals:false,code_mode:{enabled:false},code_mode_host:false},
- code_mode:{disable_in_process_fallback:false},apps:{_default:{enabled:false}},mcp_servers:{},web_search:'disabled',approval_policy:'never',sandbox_mode:'read-only'
+ features:{shell_tool:false,apps:false,multi_agent:false,hooks:false,memories:false,goals:false,code_mode:{enabled:false},code_mode_host:{enabled:false,disable_in_process_fallback:false}},
+ apps:{_default:{enabled:false}},mcp_servers:{},web_search:'disabled',approval_policy:'never',sandbox_mode:'read-only'
 }}});}
 export function fictionalGuardWarning(){return JSON.stringify({method:'warning',params:{threadId:'fictional-guard-thread-1',message:'Code Mode is unavailable because code-mode host is disabled. Code mode will fail closed; enable `features.code_mode_host` and install `codex-code-mode-host`.'}});}
 export async function rehearseCodeModeGuard(){
@@ -40,7 +40,7 @@ export async function rehearseCodeModeGuard(){
   persist(LocalDispatchJournal.initialSnapshot());journal=new LocalDispatchJournal(fs.readFileSync(file,'utf8'),persist);journal.reserve();
   const reopened=new LocalDispatchJournal(fs.readFileSync(file,'utf8'),persist);
   assert.throws(()=>reopened.reserve());assert.throws(()=>reopened.complete());
-  return {contractVersion:'offline-code-mode-guard-rehearsal-v1',status:'passed',fixtureConfigurationMatched:true,
+  return {contractVersion:'offline-code-mode-guard-rehearsal-v2-input-schema',status:'passed',fixtureConfigurationMatched:true,
    scriptedWarningMatched:true,localPosts:posts,intentsSavedBeforeEachLocalPost:preDispatchChecks,
    completedReopenBlocksThirdDispatch:true,ambiguousReopenBlocksDispatchAndCompletion:true,
    nativeChildrenStarted:0,realModelRequests:0,credentialReads:0,userStoreAccessed:false,

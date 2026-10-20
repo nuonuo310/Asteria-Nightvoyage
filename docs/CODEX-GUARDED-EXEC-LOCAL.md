@@ -1,12 +1,14 @@
 # Local native candidate: one fixed exec denial
 
+**Current candidate: v2 input-schema correction.** The [first Windows native observation](validation/user-local-codex-guarded-exec-startup-windows.json) was blocked before initialize by configuration rejection. The old input path was invalid; [correction and evidence](CODEX-GUARD-CONFIG-CORRECTION.md) explain the implementation/test gap. Native v2 outcome is pending.
+
 The [independent guard/journal rehearsal](CODEX-CODE-MODE-GUARD-REHEARSAL.md) is followed by a separate executable local fixture owner. The new entry is `node scripts/check-codex-guarded-exec.mjs`. Default execution uses an independent Node peer with **scripted** identities, configuration, warning and denial. Native execution requires the explicit `--native-executable ABSOLUTE_CODEX_PATH` option. No account, OAuth owner or real provider is connected.
 
 ## Exact scope
 
 One owned app-server child uses a fresh private profile/cwd/state outside the checkout, the existing independent fictional code_mode_only catalogue and an owned loopback Responses fixture. The original comparison, identity owner, legacy tool classifier, production adapters, source pins, allowances and failed runs are not changed. The new owner preserves the legacy classifier's `toolInventoryReviewed:false` result; its exception permits only this local scripted call, not production admission.
 
-The owner first checks effective configuration, including explicit `features.code_mode_host=false` AND `code_mode.disable_in_process_fallback=false`, the prior isolation controls, exact local provider endpoint, zero transport retries, file catalogue identity and unchanged bytes, ephemeral thread and empty turn environments. Its sealed argv supplies no remote code-mode-host argument. Effective configuration alone is not general provider-injection proof.
+The owner first checks effective configuration, including explicit `features.code_mode_host.enabled=false` AND `features.code_mode_host.disable_in_process_fallback=false`, the prior isolation controls, exact local provider endpoint, zero transport retries, file catalogue identity and unchanged bytes, ephemeral thread and empty turn environments. Its sealed argv supplies no remote code-mode-host argument. Effective configuration alone is not general provider-injection proof.
 
 Only the exact source-reviewed unavailable warning for this owned thread is eligible for local continuation. A warning arriving after the first HTTP request still gates the response. Missing, altered, foreign or repeated warnings stop the probe. Unknown notification, server request, configuration warning or startup error also stops; no new blanket stderr continuation rule is added.
 
