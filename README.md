@@ -167,3 +167,5 @@ Separate wait candidate: [fixed fictional function-call denial probe](docs/CODEX
 Windows wait result received: [selected fixed wait denial observed](docs/CODEX-GUARD-WAIT-WINDOWS-RESULT.md). Same-call second POST and owned cleanup passed; earlier pending statements describe the implementation slice. Real-provider request accounting and subscription inference remain unverified.
 
 Local pre-forward candidate: [per-HTTP-intent loopback relay and separate accounted-wait observation](docs/CODEX-LOCAL-PRE-FORWARD.md). Journal reservation precedes each local upstream request. Native observation, persistent real-trial allowance integration and real subscription inference remain pending.
+
+Accounted-wait Windows result: two saved pre-forward intents were observed natively, but the overall run was blocked by EBUSY during temporary cleanup. [Scoped v2 cleanup correction](docs/CODEX-OWNED-PROBE-CLEANUP.md) keeps that result blocked and adds bounded retries with body-free location witnesses; Windows v2 verification remains pending.

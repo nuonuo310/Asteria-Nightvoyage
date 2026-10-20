@@ -1,6 +1,7 @@
 // Separate local-only wait denial owner; no account, real provider or production capability.
 import {spawn} from 'node:child_process';
 import {openLocalForwardOwner} from './codex-local-forward-owner.mjs';
+import {createOwnedProbeCleanup} from './codex-owned-probe-cleanup.mjs';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -50,9 +51,9 @@ function temporaryParent(){
  }catch{throw Error('metadata_workspace_unavailable');}
 }
 async function run(launch,{signal,timeoutMs}){
- const report={contractVersion:'codex-local-accounted-wait-denial-v1',kind:launch.kind,status:'not_started',reason:null,
+ const report={contractVersion:'codex-local-accounted-wait-denial-v2-owned-cleanup',kind:launch.kind,status:'not_started',reason:null,
   requestedModel:model,initializeChecked:false,configurationChecked:false,threadPrepared:false,threadEphemeralVerified:false,
-  processStarted:false,ownedProcessClosed:false,temporaryCleanupComplete:false,temporaryCleanupFailureCode:null,configWarnings:0,
+  processStarted:false,ownedProcessClosed:false,temporaryCleanupComplete:false,temporaryCleanupFailureCode:null,cleanupReview:null,configWarnings:0,
   fixtureCatalogGets:0,fixtureModelPosts:0,unexpectedHttpRequests:0,methodsQueued:[],startupDiagnostics:null,guardWaitTracePolicy:null,
   requestObservation:null,requestIdentityWitness:null,notificationRejection:null,requestBodyRetained:false,generatedResponseSupplied:false,
   candidateGuardConfigurationMatched:false,expectedGuardWarningObserved:false,guardWarningEnvelopeReview:null,scriptedWaitCallSupplied:false,selectedWaitObservation:null,
@@ -70,12 +71,13 @@ async function run(launch,{signal,timeoutMs}){
  if(signal?.aborted)return {...report,status:'cancelled',reason:'cancelled_before_start'};
  const root=fs.mkdtempSync(path.join(temporaryParent(),'nightvoyage-request-observer-'));
  const state=path.join(root,'state'),cwd=path.join(root,'cwd'),home=path.join(root,'profile');
- let server,child,relay,relayIntents=0,stop=()=>{},failure=null,prepared=false,observed=false,pendingFixtureResponse=null;
+ let server,child,relay,cleanup,relayIntents=0,stop=()=>{},failure=null,prepared=false,observed=false,pendingFixtureResponse=null;
  const postRecordsPath=path.join(root,'local-post-observations.json');
  const relayState=path.join(root,'relay-state');
  const catalogPath=path.join(root,'fictional-model-catalog.json');
  const catalogBytes=launch.fictionalCatalog?Buffer.from(JSON.stringify(launch.comparison.catalog)):null;
  try{
+  cleanup=createOwnedProbeCleanup(root);
   for(const dir of [state,cwd,home,relayState])fs.mkdirSync(dir);
   if(catalogBytes){fs.writeFileSync(catalogPath,catalogBytes,{flag:'wx',mode:0o600});report.fictionalCatalogSha256=createHash('sha256').update(catalogBytes).digest('hex');}
   server=http.createServer((req,res)=>{
@@ -276,8 +278,8 @@ async function run(launch,{signal,timeoutMs}){
   if(relay){try{await relay.close();}catch{failure??='local_forward_cleanup_failed';}report.localForwardAccounting={...relay.view(),appServerIntegrated:launch.kind==='native'&&relayIntents>0,intentsCheckedBeforeFixtureArrival:relayIntents,nativeAppServerClient:launch.kind==='native'&&relayIntents>0,independentPeerClient:launch.kind!=='native'&&relayIntents>0,logicalTrialBudgetIntegrated:false};if(observed&&(relayIntents!==2||relay.view().journal.phase!=='completed'||relay.view().forwardedLocalRequests!==2))failure??='local_forward_accounting_incomplete';}
   if(server){server.closeAllConnections();await new Promise(resolve=>server.close(()=>resolve()));}
   // Retry only removal of this invocation's private workspace; never restart Codex.
-  try{await fs.promises.rm(root,{recursive:true,force:true,maxRetries:5,retryDelay:100});report.temporaryCleanupComplete=true;}
-  catch(error){report.temporaryCleanupFailureCode=['EBUSY','EPERM','EACCES','ENOTEMPTY','EMFILE','ENFILE'].includes(error?.code)?error.code:'unknown';failure??='temporary_cleanup_failed';}
+  try{if(!cleanup)throw Error();report.cleanupReview=await cleanup();report.temporaryCleanupComplete=report.cleanupReview.status==='removed';if(!report.temporaryCleanupComplete){report.temporaryCleanupFailureCode=report.cleanupReview.lastFailure?.code??'unknown';failure??='temporary_cleanup_failed';}}
+  catch{report.temporaryCleanupFailureCode='unknown';failure??='temporary_cleanup_failed';}
  }
  report.status=failure==='cancelled'?'cancelled':failure?'blocked':'selected_wait_denial_observed';report.reason=failure;
  return report;

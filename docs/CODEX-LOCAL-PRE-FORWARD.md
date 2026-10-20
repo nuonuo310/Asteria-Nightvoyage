@@ -35,3 +35,7 @@ The initial development fixture omitted the custom tool format object and was re
 `node scripts/check-codex-local-forward.mjs` uses two independent owned loopback servers, no Codex. `node scripts/check-codex-accounted-wait.mjs` defaults to the independent peer. Only `--native-executable` selects a native file; no login, code, cell, host, account, target or token override is exposed. Native pre-forward observation remains pending. No real model, subscription entitlement, universal handler denial, formal Asteria bridge or production admission is claimed.
 
 The Windows helper `scripts/Invoke-CodexAccountedWait.ps1` retains the exact installed 0.160.0 wrapper/platform-package resolver and version check. It runs independent tests, then one new local native accounted-wait observation. It does not repeat the older plain exec/wait probes. The helper is statically reviewed here; Windows execution is separate evidence. No login or real inference is needed. Stop after the final JSON and do not repeat automatically.
+
+## Subsequent Windows result
+
+The user v1 native run observed both pre-forward intents and the same-call wait denial, with a completed relay journal. Overall status remained blocked by EBUSY during temporary cleanup. [V2 leased-root cleanup and receipt preservation](CODEX-OWNED-PROBE-CLEANUP.md) is the current candidate; the earlier pending text above describes the implementation slice, not a newly completed overall native run.
