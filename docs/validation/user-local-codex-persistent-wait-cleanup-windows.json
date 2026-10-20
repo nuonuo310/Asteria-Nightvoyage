@@ -1,0 +1,121 @@
+{
+  "evidenceVersion": "user-local-persistent-wait-cleanup-header-v1",
+  "evidenceOrigin": "user_supplied_same_console_header_after_tail_not_maintainer_reproduction",
+  "requestedImplementationCommit": "09d5d7bfc192719daeec98413260ec246006acc6",
+  "reportedCommit": null,
+  "reportedNativeVersion": null,
+  "reportedTopLevel": {
+    "command": "node scripts/check-codex-persistent-wait.mjs",
+    "node": "v24.19.0",
+    "platform": "win32",
+    "status": "blocked",
+    "kind": "native",
+    "maximumOwnedChildren": 1,
+    "maximumLocalPostsAccepted": 2,
+    "fixtureIsScripted": true,
+    "peerDenialIsScripted": false,
+    "realModelRequests": 0,
+    "credentialReads": 0,
+    "accountAuthorizationRequested": false,
+    "realUserApprovalRecorded": false,
+    "automaticRetry": false,
+    "productionAdmission": false,
+    "dispatchEnabled": false
+  },
+  "reportedOwnerFields": {
+    "contractVersion": "codex-local-persistent-wait-v1",
+    "status": "blocked",
+    "reason": "temporary_cleanup_failed",
+    "requestedModel": "gpt-5.6-sol",
+    "initializeChecked": true,
+    "configurationChecked": true,
+    "threadPrepared": true,
+    "threadEphemeralVerified": true,
+    "processStarted": true,
+    "ownedProcessClosed": true,
+    "temporaryCleanupComplete": false,
+    "temporaryCleanupFailureCode": "EBUSY",
+    "cleanupReview": {
+      "policyVersion": "owned-probe-directory-cleanup-v1",
+      "status": "blocked",
+      "attempts": 8,
+      "retries": 7,
+      "scheduledDelayMs": 6300,
+      "firstFailure": {
+        "code": "EBUSY",
+        "operation": "rmdir",
+        "locationClass": "state"
+      },
+      "lastFailure": {
+        "code": "EBUSY",
+        "operation": "rmdir",
+        "locationClass": "state"
+      },
+      "stopClass": "cleanup_retry_limit",
+      "rootIdentityChecked": true,
+      "pathReturned": false,
+      "priorDirectoriesScanned": false,
+      "processesRestarted": 0,
+      "signalsSent": 0
+    },
+    "configWarnings": 0,
+    "fixtureCatalogGets": 0,
+    "fixtureModelPosts": 2,
+    "unexpectedHttpRequests": 0,
+    "observedPostRecords": 2,
+    "localForwardAccounting": {
+      "receivedLocalPosts": 2,
+      "forwardedLocalRequests": 2,
+      "directSocketAttempts": 2,
+      "rejectedRequests": 0,
+      "journal": {
+        "version": "independent-local-dispatch-journal-v1",
+        "phase": "completed",
+        "calls": 2,
+        "ambiguousDispatch": false,
+        "persistenceFailed": false,
+        "realProviderAccountingIntegrated": false
+      },
+      "failed": null,
+      "closed": true,
+      "appServerIntegrated": true,
+      "fictionalTrialAccountingIntegrated": true,
+      "intentsCheckedBeforeFixtureArrival": 2,
+      "nativeAppServerClient": true,
+      "independentPeerClient": false,
+      "logicalTrialBudgetIntegrated": true,
+      "logicalTrialScope": "independent_fictional_two_http_calls"
+    },
+    "selectedWaitObservation": {
+      "selectedWaitDisabledHostObserved": true
+    }
+  },
+  "priorTailReference": {
+    "path": "docs/validation/user-local-codex-persistent-wait-excerpt-windows.json",
+    "commit": "f212e6f5dacf426b18cb8541d836741b26f72e39",
+    "sameReceiptMarkers": {
+      "identity_hash": "38ed634d586381cb2f1dce3756205bb934b49965ba5d2d04eced220d0e056fb9",
+      "last_clock": 1792522151094,
+      "request_hashes": [
+        "c47484bc7ba8a77047b23ca95afd7f8fbe40e2db31503fb32c351d18ca1eadf0",
+        "30f2c5a1f020c3916c1830213192b0141411d031a10cfd6f41d52ff3eaf32162"
+      ]
+    }
+  },
+  "review": {
+    "headerResolvesEarlierMissingOverallStatus": true,
+    "overallNativeProbeAccepted": false,
+    "outcome": "blocked_temporary_cleanup_failed",
+    "accountingAndRetainedClosureObserved": true,
+    "cleanupRemovedRoot": false,
+    "busyHolderIdentified": false,
+    "uniqueFailureCauseProven": false,
+    "scheduledWaitIsWallClockDuration": false,
+    "oldRootRecoveryCapabilityAvailable": false,
+    "oldRootScanOrDeletionRequested": false,
+    "rerunRequested": false,
+    "realSubscriptionInferenceVerified": false,
+    "productionAdmission": false,
+    "newNativeAllowanceCreated": false
+  }
+}

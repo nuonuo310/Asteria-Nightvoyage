@@ -11,3 +11,7 @@ The receipt beginning was not supplied. Top-level status, owner status/reason, o
 This is local fictional transport evidence. Real model requests are reported as zero, real-provider accounting and real-user approval remain false, and model entitlement, universal handler denial, background network instrumentation, power-loss durability and descendant termination are not established. No subscription dream success or formal Asteria bridge is claimed.
 
 Next user step: paste the beginning of this **same** console JSON through cleanupReview. Do not rerun a probe, delete a retained directory, repair a lock or create another allowance. This evidence-only slice validates identity/hash/count consistency and documentation; executable source and the existing 1802-test evidence remain unchanged. No new test suite, native process, login or model request is run to fill the missing evidence.
+
+## Later header resolves the outcome
+
+The user subsequently supplied the [same receipt's header](CODEX-PERSISTENT-WAIT-CLEANUP-REVIEW.md): overall blocked / temporary_cleanup_failed, with EBUSY after all eight removal attempts. The earlier missing-header review above is historical; it is not overall acceptance. The partial tail archive remains unchanged.

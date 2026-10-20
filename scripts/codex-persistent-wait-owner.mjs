@@ -1,5 +1,6 @@
 // Separate local-only wait denial owner; no account, real provider or production capability.
 import {spawn} from 'node:child_process';
+import {createOwnedChildStop} from './codex-owned-child-stop.mjs';
 import {openLocalForwardOwner} from './codex-local-forward-owner.mjs';
 import {openFictionalTrialStore} from './codex-fictional-trial-store.mjs';
 import {createOwnedProbeCleanup} from './codex-owned-probe-cleanup.mjs';
@@ -82,7 +83,7 @@ async function run(launch,{signal,timeoutMs,stateDirectory,trial}){
   fixtureCatalogGets:0,fixtureModelPosts:0,unexpectedHttpRequests:0,methodsQueued:[],startupDiagnostics:null,guardWaitTracePolicy:null,
   requestObservation:null,requestIdentityWitness:null,notificationRejection:null,requestBodyRetained:false,generatedResponseSupplied:false,
   candidateGuardConfigurationMatched:false,expectedGuardWarningObserved:false,guardWarningEnvelopeReview:null,scriptedWaitCallSupplied:false,selectedWaitObservation:null,
-  observedPostRecords:0,postRecordsSavedBeforeFixtureReply:false,realProviderAccountingIntegrated:false,localForwardAccounting:null,
+  observedPostRecords:0,postRecordsSavedBeforeFixtureReply:false,realProviderAccountingIntegrated:false,localForwardAccounting:null,ownedShutdown:null,
   remoteHostArgumentSupplied:false,nativeVersionVerified:false,allHandlerDenialVerified:false,
   catalogMode:'independent_tool_mode_comparison',caseId:launch.comparison.caseId,toolMode:launch.comparison.toolMode,inputModalities:launch.comparison.inputModalities,comparisonVersion:codexToolModeComparisonVersion,
   fictionalCatalogVersion:codexToolModeComparisonVersion,
@@ -96,7 +97,7 @@ async function run(launch,{signal,timeoutMs,stateDirectory,trial}){
  if(signal?.aborted)return {...report,status:'cancelled',reason:'cancelled_before_start'};
  const root=fs.mkdtempSync(path.join(temporaryParent(),'nightvoyage-request-observer-'));
  const state=path.join(root,'state'),cwd=path.join(root,'cwd'),home=path.join(root,'profile');
- let server,child,relay,cleanup,relayIntents=0,stop=()=>{},failure=null,prepared=false,observed=false,pendingFixtureResponse=null;
+ let server,child,relay,cleanup,shutdown,relayIntents=0,stop=()=>{},failure=null,prepared=false,observed=false,pendingFixtureResponse=null;
  const postRecordsPath=path.join(root,'local-post-observations.json');
  const relayState=path.join(stateDirectory,'relay');
  const catalogPath=path.join(root,'fictional-model-catalog.json');
@@ -187,7 +188,7 @@ async function run(launch,{signal,timeoutMs,stateDirectory,trial}){
     if(!child||child.exitCode!==null||child.signalCode!==null)return;
     try{if(process.platform!=='win32')process.kill(-child.pid,'SIGKILL');else child.kill('SIGKILL');}catch{try{child.kill('SIGKILL');}catch{}}
    };
-   stop=reason=>{if(reason&&!failure)failure=reason;closing=true;terminate();};
+   stop=reason=>{if(reason&&!failure)failure=reason;closing=true;if(shutdown){if(reason)shutdown.abort();else shutdown.finishNormally();}else terminate();};
    const abort=()=>{try{relay.cancel();stop('cancelled');}catch{stop('cancellation_persistence_failed');}};
    const send=frame=>{report.methodsQueued.push(frame.method);child.stdin.write(JSON.stringify(frame)+'\n',error=>{if(error&&!closing)stop('stdin_failed');});};
    const frame=message=>{
@@ -273,6 +274,7 @@ async function run(launch,{signal,timeoutMs,stateDirectory,trial}){
     }else rejectNotification('notification_not_reviewed');
    };
    child=spawn(executable,childArgs,{cwd,env,shell:false,windowsHide:true,detached:process.platform!=='win32',stdio:['pipe','pipe','pipe']});
+   shutdown=createOwnedChildStop(child);
    child.once('spawn',()=>{report.processStarted=true;});
    child.once('error',()=>stop('spawn_failed'));child.stdin.on('error',()=>{if(!closing)stop('stdin_failed');});
    child.stdout.on('error',()=>stop('stdout_failed'));child.stderr.on('error',()=>stop('stderr_failed'));
@@ -292,7 +294,7 @@ async function run(launch,{signal,timeoutMs,stateDirectory,trial}){
    child.once('close',()=>{
     clearTimeout(timer);signal?.removeEventListener('abort',abort);report.ownedProcessClosed=report.processStarted;
     try{pending+=decoder.decode();if(pending.trim())failure??='stdout_incomplete';report.startupDiagnostics=diagnostics.finish();report.guardWaitTracePolicy=tracePolicy.finish(traceContext());if(report.guardWaitTracePolicy.blocked)failure??='startup_error_observed';if(report.guardWaitTracePolicy.expectedTraceLinesContinued&&!observed)failure??='guard_trace_without_bound_continuation';}catch{failure??='diagnostic_incomplete';}
-    if(!observed)failure??=prepared?'process_exited_before_selected_denial':'process_exited_before_thread';resolve();
+    report.ownedShutdown=shutdown.view();if(!observed)failure??=prepared?'process_exited_before_selected_denial':'process_exited_before_thread';resolve();
    });
    timer=setTimeout(()=>stop(report.scriptedWaitCallSupplied?'selected_denial_timeout':report.requestObservation&&!report.expectedGuardWarningObserved?'guard_warning_missing':'preparation_timeout'),timeoutMs);
    signal?.addEventListener('abort',abort,{once:true});

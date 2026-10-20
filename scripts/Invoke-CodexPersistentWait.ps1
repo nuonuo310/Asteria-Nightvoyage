@@ -2,7 +2,7 @@
 $ErrorActionPreference = 'Stop'
 Set-Location (Split-Path -Parent $PSScriptRoot) -ErrorAction Stop
 
-node --test test/codex-persistent-wait-owner.test.js test/codex-fictional-trial-store.test.js test/codex-persistent-forward.test.js test/codex-owned-probe-cleanup.test.js
+node --test test/codex-owned-child-stop.test.js test/codex-persistent-wait-owner.test.js test/codex-fictional-trial-store.test.js test/codex-persistent-forward.test.js test/codex-owned-probe-cleanup.test.js
 if ($LASTEXITCODE -ne 0) { throw 'Local tests failed. Stop and return the output.' }
 
 $nightvoyageWrapper = Get-Command codex.cmd -CommandType Application -ErrorAction SilentlyContinue |

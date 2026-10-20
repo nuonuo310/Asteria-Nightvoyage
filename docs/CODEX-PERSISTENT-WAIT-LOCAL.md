@@ -37,3 +37,5 @@ Final Linux Node v24.19.0 verification: targeted **73/73** (7345.551536 ms); ful
 ## Subsequent Windows excerpt
 
 The [user's native tail excerpt](CODEX-PERSISTENT-WAIT-WINDOWS-EXCERPT.md) reports both logical intents, completed retained state, final owner closure and retained files. Its beginning, overall status and temporary cleanup result were not supplied. Overall native acceptance remains pending that same receipt's missing header; no repeat or new allowance is requested.
+
+The subsequent header confirms [Windows temporary cleanup failure](CODEX-PERSISTENT-WAIT-CLEANUP-REVIEW.md). Accounting and final retained closure are observed, but the native round is not accepted. A bounded owned-child EOF-drain candidate is independently tested; its Windows effect is unverified, and the consumed trial must not be rerun.
