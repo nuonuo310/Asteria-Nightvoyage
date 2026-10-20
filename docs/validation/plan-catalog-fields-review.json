@@ -1,0 +1,60 @@
+{
+  "recordVersion": "plan-catalog-fields-review-validation-v1",
+  "baseCommit": "f89ca6fa4965a0475c7bd3c42a218371662501e8",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "sourceSha256": {
+    "scripts/codex-model-field-review.mjs": "b27e287fcf4c1a9817275246b16b9e328846fcc47f926453997a7a0b185323ae",
+    "scripts/plan-catalog-fields-shape.mjs": "fd7e88cfe6593bdaabaa47193b27c31f7a8a328d1da5629258a769bc06190a87",
+    "scripts/plan-catalog-fields-review.mjs": "912d7ca79b79b998f65ad770b9ec5c570e1cf6a785f9152e5972ad3435cbd726",
+    "scripts/plan-catalog-fields-review-cli.mjs": "0dbc565bd128ddd8949659b327f37cecfa30bf39ddaa9a0f1963804fd74acad9",
+    "test/plan-catalog-fields-review.test.js": "6a9dc46642cdf6f3440e7fc9f8de12a71acdb60037e6795698accc40043fbaba",
+    "docs/proposals/plan-catalog-fields-review-v1.json": "dd68782eec4aa012d5c52e1c374613cdc92f73b179e87a1e422877761ef635cf",
+    "docs/PLAN-CATALOG-FIELDS-REVIEW.md": "2df8ac2c9b7c7a05534b4be16ac87b0804af29c29130cb122678785d2e93d4a6"
+  },
+  "targeted": {
+    "command": "node --test test/plan-catalog-fields-review.test.js test/plan-catalog-review.test.js test/codex-model-field-review.test.js test/chatgpt-plan-auth.test.js test/chatgpt-plan-login.test.js",
+    "tests": 52,
+    "passCount": 52,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "durationMs": 1937.894892
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 1584,
+    "passCount": 1584,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "durationMs": 111708.869782
+  },
+  "proposalSourcePins": 30,
+  "oldProposalSourcePins": 28,
+  "oldOwnerProjectionAuthAndProposalUnchanged": true,
+  "classifierAlgorithmUnchanged": true,
+  "classifierHeaderUpdatedForPureReuse": true,
+  "originalReceiptUnchanged": true,
+  "syntheticOnly": true,
+  "realAuthorizationAttempts": 0,
+  "realModelRequests": 0,
+  "realCredentialsRead": false,
+  "nativeCodexStarted": false,
+  "userStoreAccessed": false,
+  "freshLoginApprovalRecorded": false,
+  "generationEnabled": false,
+  "productionAdmission": false,
+  "scope": [
+    "Independent synthetic OAuth/JWT/HTTP and loopback callback; no real account or OpenAI request.",
+    "Separately pinned static derivative of v1 owner with distinct contract, top-level state, default directory, CLI and explicit non-recovery acknowledgement.",
+    "New result stores closed native enum/alias/status labels only; never original unknown values, instructions or credentials.",
+    "Terminal replay, queued/in-flight cancellation, delayed body, expiry, overlap, actual child exit, failed revocation and persistence failure before login/additional GET covered.",
+    "Actual CLI absent-store preflight, exact init acknowledgement and unchanged expiry verified in independent temporary profiles.",
+    "Old v1 store refused without adopting state or changing its bytes."
+  ],
+  "developmentCorrections": [
+    "Removed reliance on an overridable Array.find method in the new own-data projector before final verification.",
+    "Corrected two new test assertions to use the existing contract error vocabulary and synthetic revocation counter."
+  ]
+}

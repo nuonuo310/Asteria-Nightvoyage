@@ -38,3 +38,5 @@ shellType=unreviewed and toolMode=unreviewed mean only that the original values 
 The unchanged entry's 11 tests passed again on Linux; its implementation, test and proposal hashes match the previous 1565/1565 full regression. This documentation-only archive does not claim another full run, Windows reproduction or successful subscription inference.
 
 The subsequent [release-pinned field-contract review](CODEX-MODEL-FIELD-CONTRACT.md) identifies the wider native enum vocabulary and provides a separate offline classifier. It does not change this consumed entry, recover raw fields or admit a new authenticated request.
+
+A separately pinned [new field-review entry](PLAN-CATALOG-FIELDS-REVIEW.md) now prepares a future observation under fresh approval. It refuses this v1 store and never upgrades or resets the consumed allowance.

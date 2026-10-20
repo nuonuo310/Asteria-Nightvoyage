@@ -1,0 +1,21 @@
+Final-source independent synthetic validation; no real authorization or inference.
+{
+  "targeted": {
+    "command": "node --test test/plan-catalog-fields-review.test.js test/plan-catalog-review.test.js test/codex-model-field-review.test.js test/chatgpt-plan-auth.test.js test/chatgpt-plan-login.test.js",
+    "tests": 52,
+    "passCount": 52,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "durationMs": 1937.894892
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 1584,
+    "passCount": 1584,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "durationMs": 111708.869782
+  }
+}

@@ -1,4 +1,4 @@
-// Offline shape classification only. Never used by a live adapter or approval owner.
+// Pure shape classification only: no network, credentials, native process or dispatch authority.
 export const modelFieldReviewVersion = 'offline-codex-0160-field-review-v1';
 const shell = new Map([
   ['unified_exec', 'unified_exec'], ['disabled', 'disabled'],
