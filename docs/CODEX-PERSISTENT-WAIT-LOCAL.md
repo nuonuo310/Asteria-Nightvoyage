@@ -33,3 +33,7 @@ The retained store uses synchronous write-and-rename and exclusive locks, not po
 This candidate has no auth capability and no real-provider forwarding. Retained identity integration into a native local fixture must pass separately before designing a real-user approval/provider route and dream stage/checkpoint accounting. All old approvals and failed inference attempts stay terminal. Dream core, dreambook, withdrawal behavior, typed provenance, existing API adapters and Asteria state are not modified. No formal Asteria bridge is implemented.
 
 Final Linux Node v24.19.0 verification: targeted **73/73** (7345.551536 ms); full **1802/1802** (99707.142225 ms), zero failures/cancellations/skips. The standalone independent peer observed two persisted intents, exact selected wait denial, closed retained allowance and confirmed temporary cleanup. Windows native verification remains pending.
+
+## Subsequent Windows excerpt
+
+The [user's native tail excerpt](CODEX-PERSISTENT-WAIT-WINDOWS-EXCERPT.md) reports both logical intents, completed retained state, final owner closure and retained files. Its beginning, overall status and temporary cleanup result were not supplied. Overall native acceptance remains pending that same receipt's missing header; no repeat or new allowance is requested.

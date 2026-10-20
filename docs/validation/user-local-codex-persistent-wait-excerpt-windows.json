@@ -1,0 +1,99 @@
+{
+  "evidenceVersion": "user-local-persistent-wait-excerpt-v1",
+  "evidenceOrigin": "user_pasted_windows_console_excerpt_not_maintainer_reproduction",
+  "evidenceScope": "reported_fields_only_not_a_reconstructed_full_receipt",
+  "requestedImplementationCommit": "09d5d7bfc192719daeec98413260ec246006acc6",
+  "reportedCommit": null,
+  "reportedNativeVersion": null,
+  "reportedTopLevelStatus": null,
+  "reportedOwnerStatus": null,
+  "reportedOwnerReason": null,
+  "reportedOwnedProcessClosed": null,
+  "reportedTemporaryCleanupComplete": null,
+  "reportedCleanupReview": null,
+  "reportedFields": {
+    "localForwardAccounting": {
+      "intentsCheckedBeforeFixtureArrival": 2,
+      "nativeAppServerClient": true,
+      "independentPeerClient": false,
+      "logicalTrialBudgetIntegrated": true,
+      "logicalTrialScope": "independent_fictional_two_http_calls",
+      "powerLossDurabilityVerified": false,
+      "remoteCancellationConfirmed": "unknown",
+      "dispatchEnabled": false,
+      "productionAdmission": false
+    },
+    "retainedAllowance": {
+      "version": "codex-persistent-fictional-allowance-v1",
+      "identity": {
+        "approval_id": "independent-persistent-wait-v1",
+        "run_id": "independent-persistent-wait-v1",
+        "adapter_kind": "CodexAdapter",
+        "model_id": "gpt-5.6-sol",
+        "protocol_version": "codex-local-persistent-wait-v1",
+        "source_hash": "c0158278986b3fb3cdc08099f0cf22ba2bb846a79ca0222b69f490fbcf263cc8",
+        "fixture_hash": "adf6381845d9d27d6a587c2bf32977dc838a128c144fb2f579609c7c9422d0f7",
+        "expires_at": 1793491200000,
+        "max_calls": 2,
+        "confirmation_origin": "independent_fictional_fixture"
+      },
+      "identity_hash": "38ed634d586381cb2f1dce3756205bb934b49965ba5d2d04eced220d0e056fb9",
+      "phase": "completed",
+      "last_clock": 1792522151094,
+      "attempts": [
+        {
+          "request_id": "fictional-forward-1",
+          "request_hash": "c47484bc7ba8a77047b23ca95afd7f8fbe40e2db31503fb32c351d18ca1eadf0",
+          "ordinal": 1,
+          "state": "http_completed"
+        },
+        {
+          "request_id": "fictional-forward-2",
+          "request_hash": "30f2c5a1f020c3916c1830213192b0141411d031a10cfd6f41d52ff3eaf32162",
+          "ordinal": 2,
+          "state": "http_completed"
+        }
+      ],
+      "closed": true,
+      "persistenceFailed": false,
+      "calls": 2,
+      "ambiguousDispatch": false,
+      "realModelRequests": 0,
+      "realProviderAccountingIntegrated": false,
+      "dispatchEnabled": false,
+      "productionAdmission": false,
+      "powerLossDurabilityVerified": false
+    },
+    "retainedAllowanceClosed": true,
+    "retainedAllowancePresent": true,
+    "retainedRelayPresent": true,
+    "retainedPathReturned": false,
+    "realUserApprovalRecorded": false,
+    "nativePersistentFixtureIntegrated": true,
+    "nativeVersionVerified": false,
+    "allHandlerDenialVerified": false,
+    "modelEntitlementVerified": false,
+    "backgroundNetworkInstrumented": false,
+    "descendantTerminationConfirmed": "unknown",
+    "qualityAssessed": false,
+    "accountAuthorizationRequested": false,
+    "appServerTurnsRequested": 1,
+    "credentialEnvironmentSupplied": false,
+    "dispatchEnabled": false,
+    "productionAdmission": false
+  },
+  "review": {
+    "fixedIdentityMatchesRequestedCandidate": true,
+    "retainedAttemptCountAndCompletionConsistent": true,
+    "nativeLocalIntegrationReported": true,
+    "retainedAllowanceClosedReported": true,
+    "overallNativeProbeAccepted": false,
+    "overallOutcome": "incomplete_excerpt_header_and_temporary_cleanup_not_supplied",
+    "realSubscriptionInferenceVerified": false,
+    "realProviderAccountingIntegrated": false,
+    "realUserApprovalRecorded": false,
+    "additionalProbeRequested": false,
+    "newAllowanceRequested": false,
+    "requestToUser": "Supply the beginning of this same console JSON through cleanupReview; do not rerun."
+  }
+}
