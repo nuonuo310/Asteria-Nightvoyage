@@ -165,3 +165,5 @@ Windows v4 result received: [selected fixed exec denial observed](docs/CODEX-GUA
 Separate wait candidate: [fixed fictional function-call denial probe](docs/CODEX-GUARDED-WAIT-LOCAL.md), `node scripts/check-codex-guarded-wait.mjs` (scripted peer by default). Native wait remains pending; this adds no subscription inference or production admission.
 
 Windows wait result received: [selected fixed wait denial observed](docs/CODEX-GUARD-WAIT-WINDOWS-RESULT.md). Same-call second POST and owned cleanup passed; earlier pending statements describe the implementation slice. Real-provider request accounting and subscription inference remain unverified.
+
+Local pre-forward candidate: [per-HTTP-intent loopback relay and separate accounted-wait observation](docs/CODEX-LOCAL-PRE-FORWARD.md). Journal reservation precedes each local upstream request. Native observation, persistent real-trial allowance integration and real subscription inference remain pending.

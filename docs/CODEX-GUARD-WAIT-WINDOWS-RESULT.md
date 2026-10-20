@@ -17,3 +17,5 @@ That integration should first be implemented and verified with independent loopb
 ## Evidence-only checks
 
 Archived JSON invariants checked: native-kind selected wait status, same-call second output, exactly two observed POSTs, retained scoped error metadata, complete owned cleanup, zero model/credential/account counters and unchanged admission flags. Public-repository diff reviewed for sensitive data. Runtime/test files are unchanged; no model, native process, login or full test suite was rerun. Existing implementation evidence remains 1729/1729 plus final 92-test targeted regression at 3d0b574.
+
+Subsequent candidate implementation: [local pre-forward relay and accounted-wait owner](CODEX-LOCAL-PRE-FORWARD.md). This adds a bounded local transport check, not real-provider accounting or an approved subscription trial.
