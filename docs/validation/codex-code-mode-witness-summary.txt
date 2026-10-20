@@ -1,0 +1,23 @@
+Independent synthetic verification; no native witness, account or inference run.
+{
+  "targeted": {
+    "command": "node --test test/codex-code-mode-witness.test.js test/codex-tool-mode-comparison.test.js test/codex-catalog-comparison.test.js",
+    "tests": 41,
+    "passCount": 41,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "durationMs": 1774.480292
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 1610,
+    "passCount": 1610,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "durationMs": 107928.974928
+  },
+  "historicalToolNamesRecovered": false,
+  "nativeWitnessAttempted": false
+}

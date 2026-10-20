@@ -71,3 +71,7 @@ The [Windows account-catalogue receipt](validation/user-local-plan-catalog-revie
 ### New field observation and mode gap
 
 The [user-reported field observation](validation/user-local-plan-catalog-fields-windows.json) recognizes a unified_exec shell alias and code_mode_only, with confirmed revocation and no inference/native child. It does not reconstruct discarded v1 fields. Earlier local native evidence used direct, so it cannot qualify this mode. The separate [two-mode fictional local comparison](CODEX-TOOL-MODE-COMPARISON.md) tests that next gap without account credentials or a model response. Its scripted peer result is not native selection evidence; native results and real credential/inference admission remain separate.
+
+### Code-mode exposure observed; admission remains blocked
+
+The [user Windows mode result](validation/user-local-codex-tool-mode-comparison-windows.json) observes zero tools under direct but two declared tools under code_mode_only, one unknown. Empty environments therefore do not establish zero exposure in that condition. The old agents label is name-based, not handler evidence. The [public-source identity review and separately bounded local witness](CODEX-CODE-MODE-IDENTITY-WITNESS.md) preserve rejection; public-name recognition cannot qualify execution denial. No account token or real inference is enabled.

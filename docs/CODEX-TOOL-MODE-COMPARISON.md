@@ -25,10 +25,14 @@ Unknown tools, missing inventory, changed catalogue/configuration, unreviewed no
 
 The peer's zero-tool inventory is scripted in both cases. It validates the observer's protocol/lifetime/stop rules, not native mode selection. No native execution of this new matrix is claimed by the peer tests. Select the already inspected Windows 0.160.0 wrapper's actual platform binary before running the native checker; do not recursively choose an arbitrary executable or install/upgrade another version to force success.
 
-Evidence: [validation](validation/codex-tool-mode-comparison.json). This slice does not start native Codex in the maintainer environment. An explicit matching native executable has not been selected there; Windows native results remain pending. Authentication and inference are not prerequisites for this local comparison.
+Evidence: [validation](validation/codex-tool-mode-comparison.json). This slice does not start native Codex in the maintainer environment. An explicit matching native executable has not been selected there; The subsequent user Windows result is recorded below; the separate identity witness remains native-unverified. Authentication and inference are not prerequisites for this local comparison.
 
 ## Interpretation
 
 Both empty lists, a changed inventory, and a blocked code-mode condition are different useful observations. None alone grants production admission or all-handler denial. A blocked/unknown tool must be reviewed before adding another condition or changing accepted vocabulary. Do not feed the fictional catalogue to a real subscription transport or override a real model's tool mode based on this comparison.
 
 The report retains dispatchEnabled=false, toolExclusionVerified=false, modelEntitlementVerified=false and productionAdmission=false. Background networking is not instrumented and descendant termination remains unknown; closure of the owned process/workspace does not qualify broader containment. The existing direct GPT compatibility stop, consumed logins, failed dreams, API budgets and Asteria memory/bridges remain unchanged.
+
+## User Windows result received
+
+The [sanitized receipt](validation/user-local-codex-tool-mode-comparison-windows.json) reports direct_empty with zero tools and code_only_empty blocked with two tools, one unknown, under the legacy agents class. Each condition made one local POST and completed owned cleanup. This is user-reported evidence, not a maintainer reproduction or production admission. The classifier label is name-based: it cannot establish a multi-agent handler or recover the discarded unknown name. See the [source review, independent ambiguity counterexample and single-condition identity witness](CODEX-CODE-MODE-IDENTITY-WITNESS.md). Do not repeat the same two-case matrix.

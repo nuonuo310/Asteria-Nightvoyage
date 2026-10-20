@@ -145,3 +145,5 @@ Windows 原生空环境观察已收到：本地请求工具声明为 0；[实测
 新的[独立目录字段核对入口](docs/PLAN-CATALOG-FIELDS-REVIEW.md)已接入经过审查的枚举/别名分类，并单独固定源码与许可。最多一次登录、合计两次目录 GET、零生成请求；旧目录原值不恢复、旧许可不复用。实现与合成测试不代表真实运行，下一次登录仍需用户明确批准。
 
 用户随后完成了[新字段观察](docs/validation/user-local-plan-catalog-fields-windows.json)：shell 为 recognized_alias/unified_exec，工具模式为 code_mode_only；会话撤销确认、零生成、零 Codex 子进程。该许可已消耗。此前原生比较均为 direct，现新增[独立双模式本地比较](docs/CODEX-TOOL-MODE-COMPARISON.md)，默认只运行脚本化假进程；新的 Windows 原生结果仍待核验，不需要再次登录。
+
+用户的[双模式 Windows 回执](docs/validation/user-local-codex-tool-mode-comparison-windows.json)已收到：direct 为零工具，code_mode_only 声明两个工具、一个未知，因此阻断；两组进程和临时目录均已清理。旧 agents 标签只是按名字分类，不能证明出现代理调用工具。已新增[单组公开身份核对](docs/CODEX-CODE-MODE-IDENTITY-WITNESS.md)，只保存固定身份编号，非空工具仍阻断；真实订阅推理仍未验证。
