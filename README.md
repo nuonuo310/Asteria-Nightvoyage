@@ -169,3 +169,5 @@ Windows wait result received: [selected fixed wait denial observed](docs/CODEX-G
 Local pre-forward candidate: [per-HTTP-intent loopback relay and separate accounted-wait observation](docs/CODEX-LOCAL-PRE-FORWARD.md). Journal reservation precedes each local upstream request. Native observation, persistent real-trial allowance integration and real subscription inference remain pending.
 
 Accounted-wait Windows result: two saved pre-forward intents were observed natively, but the overall run was blocked by EBUSY during temporary cleanup. [Scoped v2 cleanup correction](docs/CODEX-OWNED-PROBE-CLEANUP.md) keeps that result blocked and adds bounded retries with body-free location witnesses; Windows v2 verification remains pending.
+
+Windows accounted-wait v2 completed: [two saved pre-forward intents, exact wait denial and confirmed leased-root cleanup](docs/CODEX-ACCOUNTED-WAIT-WINDOWS-RESULT.md). Removal succeeded on attempt five after four scheduled waits; prior v1 failure remains historical. Earlier pending statements describe those slices. Persistent real-trial allowance and subscription inference remain unimplemented/unverified.

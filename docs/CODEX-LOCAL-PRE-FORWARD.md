@@ -39,3 +39,5 @@ The Windows helper `scripts/Invoke-CodexAccountedWait.ps1` retains the exact ins
 ## Subsequent Windows result
 
 The user v1 native run observed both pre-forward intents and the same-call wait denial, with a completed relay journal. Overall status remained blocked by EBUSY during temporary cleanup. [V2 leased-root cleanup and receipt preservation](CODEX-OWNED-PROBE-CLEANUP.md) is the current candidate; the earlier pending text above describes the implementation slice, not a newly completed overall native run.
+
+Windows accounted-wait v2 completed: [two saved pre-forward intents, exact wait denial and confirmed leased-root cleanup](CODEX-ACCOUNTED-WAIT-WINDOWS-RESULT.md). Removal succeeded on attempt five after four scheduled waits; prior v1 failure remains historical. Earlier pending statements describe those slices. Persistent real-trial allowance and subscription inference remain unimplemented/unverified.
