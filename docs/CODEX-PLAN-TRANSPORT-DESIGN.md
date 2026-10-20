@@ -57,4 +57,4 @@ Evidence and exact source hashes: [credential-owner validation](validation/codex
 
 ## Credential-free comparison entry now implemented
 
-The next local slice is [catalogue/configuration comparison](CODEX-CATALOG-COMPARISON.md). It uses two independently authored fictional modality profiles and two explicit environment bundles, not live account metadata. The independent peer matrix is checked; the actual maintainer native attempt stops before its first POST, with cleanup complete. Windows native comparison remains pending. No authenticated diagnostic or real transport is admitted.
+The next local slice is [catalogue/configuration comparison](CODEX-CATALOG-COMPARISON.md). It uses two independently authored fictional modality profiles and two explicit environment bundles, not live account metadata. The independent peer matrix is checked; the actual maintainer native attempt stops before its first POST, with cleanup complete. The subsequent user Windows native receipt completes all four local conditions (3, 3, 0, 0 declared tools); see the comparison document for its limited interpretation. No authenticated diagnostic or real transport is admitted.
