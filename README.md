@@ -163,3 +163,5 @@ Guard trace candidate: [v4 scoped router error plus bound denial](docs/CODEX-GUA
 Windows v4 result received: [selected fixed exec denial observed](docs/CODEX-GUARD-EXEC-WINDOWS-RESULT.md). The same-call second local POST and owned cleanup passed. Earlier pending statements describe prior slices; wait, real subscription inference and production admission remain unverified.
 
 Separate wait candidate: [fixed fictional function-call denial probe](docs/CODEX-GUARDED-WAIT-LOCAL.md), `node scripts/check-codex-guarded-wait.mjs` (scripted peer by default). Native wait remains pending; this adds no subscription inference or production admission.
+
+Windows wait result received: [selected fixed wait denial observed](docs/CODEX-GUARD-WAIT-WINDOWS-RESULT.md). Same-call second POST and owned cleanup passed; earlier pending statements describe the implementation slice. Real-provider request accounting and subscription inference remain unverified.

@@ -42,3 +42,5 @@ Native wait outcome is pending. `terminate=true` remains deliberately untested; 
 ## One Windows observation
 
 After syncing main, use `scripts/Invoke-CodexGuardedWait.ps1`. It runs independent regressions, uses the exact existing installed-wrapper/platform-package resolver, checks `codex-cli 0.160.0`, then invokes one local native wait probe. The --version preparation is separate from its one probe child. The helper is statically reviewed here; maintainer Windows execution is unavailable. It does not install/update, log in, reuse an account profile or request inference. Stop and return only the final JSON, with no automatic repetition.
+
+Windows wait result received: [selected fixed wait denial observed](CODEX-GUARD-WAIT-WINDOWS-RESULT.md). Same-call second POST and owned cleanup passed; earlier pending statements describe the implementation slice. Real-provider request accounting and subscription inference remain unverified.
