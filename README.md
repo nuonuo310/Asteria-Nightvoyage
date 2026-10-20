@@ -138,6 +138,6 @@ Windows 原生空环境观察已收到：本地请求工具声明为 0；[实测
 
 - Windows 0.160.0 的四组原生本地对照已收到：默认配置的两组各声明 3 类工具，空环境配置组合的两组均为 0；每组关闭与清理完成。见[实机回执与解释边界](docs/validation/user-local-codex-catalog-comparison-windows.json)。不代表单个开关因果、真实型号资料或订阅推理已通过。
 
-- [真实账号型号目录只读核对入口](docs/PLAN-CATALOG-REVIEW.md)：已准备独立批准与终态重放，登录校验和复核合计最多两次目录 GET，只保存 GPT-5.6-Sol 的固定结构标签。未执行真实登录；不启动 Codex、不请求推理。运行前需要新的明确登录许可。
+- [真实账号型号目录只读核对入口](docs/PLAN-CATALOG-REVIEW.md)：已准备独立批准与终态重放，登录校验和复核合计最多两次目录 GET，只保存 GPT-5.6-Sol 的固定结构标签。用户已完成一次目录核对，该许可已消耗；不启动 Codex、不请求推理。任何新的登录操作需另行明确批准。
 
-目录核对已有[用户 Windows 回执](docs/validation/user-local-plan-catalog-review-windows.json)：GPT-5.6-Sol 可见、会话撤销已确认，零生成请求、零 Codex 子进程。shellType/toolMode 仍为 unreviewed，原值未保留；订阅推理和原生兼容性均未验证。本次许可已消耗，不重复登录；下一步先离线核对字段合同。
+目录核对已有[用户 Windows 回执](docs/validation/user-local-plan-catalog-review-windows.json)：GPT-5.6-Sol 可见、会话撤销已确认，零生成请求、零 Codex 子进程。shellType/toolMode 仍为 unreviewed，原值未保留；订阅推理和原生兼容性均未验证。本次许可已消耗，不重复登录。[Codex 0.160.0 字段合同](docs/CODEX-MODEL-FIELD-CONTRACT.md)已离线核对，并新增独立离线分类器；旧回执原值仍不可恢复，尚未批准新的目录读取或真实推理。

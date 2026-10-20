@@ -1,0 +1,60 @@
+{
+  "recordVersion": "offline-codex-0160-field-contract-v1",
+  "baseCommit": "6d900284bbee80e9c550046ff42c6028f648c975",
+  "reviewedAt": "2026-10-20",
+  "upstreamRepository": "openai/codex",
+  "upstreamRelease": "rust-v0.160.0",
+  "upstreamCommit": "a956835d020762cb2b570053af06f643a11c0ecc",
+  "upstreamGitBlobs": {
+    "codex-rs/protocol/src/openai_models.rs": "e5f02ac9e86d31bc6f27e3624fd64b4a8fa3e881",
+    "codex-rs/core/src/tools/mod.rs": "41ed0189b8bfd80d938a16073b2af5c40b18d2f9",
+    "codex-rs/core/src/tools/spec_plan.rs": "bb1474feb52820424f14089c0b073df7b9d650a1"
+  },
+  "tagAndCommitProtocolBlobMatched": true,
+  "sourceSha256": {
+    "scripts/codex-model-field-review.mjs": "0554d560c80a4b000425ca2252b1ea2123f494bd723def67cd3bc7b11ceaeefd",
+    "test/codex-model-field-review.test.js": "0bef01074c585d2dc4577b3eb21b2edbec1c83d3c466dc71303c219cf768663f",
+    "docs/CODEX-MODEL-FIELD-CONTRACT.md": "36a882d8b6b0ff1d5db6971f9fa4c5a90f0d5bd87cce44f77c0ceddac5c69542"
+  },
+  "targeted": {
+    "command": "node --test test/codex-model-field-review.test.js test/plan-catalog-review.test.js",
+    "tests": 15,
+    "passCount": 15,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "durationMs": 1131.102831
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 1569,
+    "passCount": 1569,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "durationMs": 109620.688625
+  },
+  "platform": "linux",
+  "node": "v24.19.0",
+  "realModelRequests": 0,
+  "authorizationAttempts": 0,
+  "nativeChildrenStarted": 0,
+  "realCredentialsRead": false,
+  "userStoreAccessed": false,
+  "originalReceiptUnchanged": true,
+  "originalProjectionAndProposalUnchanged": true,
+  "proposalSourcePins": 28,
+  "liveIntegrationAdded": false,
+  "rustDeserializationExecuted": false,
+  "nativeCompatibilityVerified": false,
+  "inferenceEntitlementVerified": false,
+  "productionAdmission": false,
+  "scope": [
+    "Release-pinned source review; independent fictional JavaScript classification tests only.",
+    "Unknown strings/types, missing/null, aliases, accessors, immutable input and unrecoverable archived labels are distinguished.",
+    "Known native enum values do not reconstruct prior unreviewed values or qualify tool exclusion."
+  ],
+  "developmentCorrections": [
+    "Corrected an initially misnamed projection export in the new test before the passing targeted and full runs."
+  ]
+}

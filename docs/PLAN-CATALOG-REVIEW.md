@@ -36,3 +36,5 @@ The [sanitized receipt](validation/user-local-plan-catalog-review-windows.json) 
 shellType=unreviewed and toolMode=unreviewed mean only that the original values did not match this version's closed vocabulary. Their original values and types are not retained. They cannot be recovered or relabelled from this receipt, and do not prove either incompatibility or support. Do not broaden the source-pinned consumed entry to reinterpret history. Review the relevant provider/native field definitions offline before proposing any distinct diagnostic. No new login, inference or native credential transfer is approved by this record.
 
 The unchanged entry's 11 tests passed again on Linux; its implementation, test and proposal hashes match the previous 1565/1565 full regression. This documentation-only archive does not claim another full run, Windows reproduction or successful subscription inference.
+
+The subsequent [release-pinned field-contract review](CODEX-MODEL-FIELD-CONTRACT.md) identifies the wider native enum vocabulary and provides a separate offline classifier. It does not change this consumed entry, recover raw fields or admit a new authenticated request.
