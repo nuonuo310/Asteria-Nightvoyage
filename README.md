@@ -147,3 +147,5 @@ Windows 原生空环境观察已收到：本地请求工具声明为 0；[实测
 用户随后完成了[新字段观察](docs/validation/user-local-plan-catalog-fields-windows.json)：shell 为 recognized_alias/unified_exec，工具模式为 code_mode_only；会话撤销确认、零生成、零 Codex 子进程。该许可已消耗。此前原生比较均为 direct，现新增[独立双模式本地比较](docs/CODEX-TOOL-MODE-COMPARISON.md)，默认只运行脚本化假进程；新的 Windows 原生结果仍待核验，不需要再次登录。
 
 用户的[双模式 Windows 回执](docs/validation/user-local-codex-tool-mode-comparison-windows.json)已收到：direct 为零工具，code_mode_only 声明两个工具、一个未知，因此阻断；两组进程和临时目录均已清理。旧 agents 标签只是按名字分类，不能证明出现代理调用工具。已新增[单组公开身份核对](docs/CODEX-CODE-MODE-IDENTITY-WITNESS.md)，只保存固定身份编号，非空工具仍阻断；真实订阅推理仍未验证。
+
+用户随后完成了[单组原生身份观察](docs/validation/user-local-codex-code-mode-witness-windows.json)：新请求匹配公开 exec/custom 和 wait/function，非空工具仍阻断；没有生成或执行验证。已完成[执行边界源码审查](docs/CODEX-CODE-MODE-EXECUTION-BOUNDARY.md)，发现独立宿主开关及构造器选择条件，并冻结候选守卫设计；尚无执行守卫的原生验证或真实订阅准入。无需重复身份观察。

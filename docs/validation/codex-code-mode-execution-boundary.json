@@ -1,0 +1,86 @@
+{
+  "recordVersion": "codex-code-mode-execution-boundary-source-review-v1",
+  "baseCommit": "1b5d27559bcff8597a47abc89bdf968d7d54e332",
+  "reviewedAt": "2026-10-20",
+  "sourceSha256": {
+    "docs/CODEX-CODE-MODE-EXECUTION-BOUNDARY.md": "ba0b2ca0055456485d6492edf40f56902828fae405c40e89295b1274f19f758d",
+    "docs/proposals/codex-code-mode-execution-guard-design-v1.json": "04c2655e9592a44e5f950ad34f916b13e3e4708988d1eb4303991498e9aa223c",
+    "docs/validation/user-local-codex-code-mode-witness-windows.json": "7c55700eb540d6ac71ca69d219f8c18c3ac86cad281a6cbaf141d879c6a5fea5"
+  },
+  "upstreamCommit": "a956835d020762cb2b570053af06f643a11c0ecc",
+  "upstreamGitBlobs": {
+    "codex-rs/features/src/lib.rs": "4b05bdb5bee3345f7aa3e9e20c542adb3fc5aaae",
+    "codex-rs/core/src/thread_manager.rs": "ba195d8e0cdb9381891b06713a595257f320c422",
+    "codex-rs/code-mode/src/remote_session.rs": "36e4e1a74f57847f12608fc714b5d1228158c925",
+    "codex-rs/core/src/tools/code_mode/mod.rs": "79a95b2ac26288ff141e5d670bf49bb8ae3f7eda",
+    "codex-rs/core/src/tools/code_mode/execute_handler.rs": "2215209053284c66a1feece99819e2f419cf29bb",
+    "codex-rs/app-server/src/code_mode_host.rs": "97b250a59a8037aa808599011ee24eb27fb22d9f",
+    "codex-rs/app-server/src/lib.rs": "d1a622ca8cc94ab626e8e377333c9d875cd18451",
+    "codex-rs/app-server/src/message_processor.rs": "9e9a90437b3fddde282a0d05216907d77fa5a745"
+  },
+  "scope": "source_review_and_user_report_archival_only",
+  "nativeReceiptOrigin": "user_reported_not_maintainer_reproduction",
+  "recheck": {
+    "command": "node --test test/codex-code-mode-witness.test.js",
+    "platform": "linux",
+    "node": "v24.19.0",
+    "tests": 13,
+    "passCount": 13,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "durationMs": 1370.899603
+  },
+  "priorFullRegression": {
+    "tests": 1610,
+    "passCount": 1610,
+    "source": "unchanged implementation at 1b5d275",
+    "rerun": false
+  },
+  "runtimeSourceUnchanged": true,
+  "previousReceiptsUnchanged": true,
+  "oldCatalogPinsValidated": 28,
+  "newCatalogFieldPinsValidated": 30,
+  "guardDesignExecutable": false,
+  "guardImplemented": false,
+  "rustLogicExecuted": false,
+  "nativeExecutionProbeRun": false,
+  "scriptedToolCallSupplied": false,
+  "realModelRequests": 0,
+  "realAuthorizationAttempts": 0,
+  "realCredentialsRead": false,
+  "userStoreAccessed": false,
+  "nativeHostDisabledVerified": false,
+  "nativeHandlerDenialVerified": false,
+  "allHandlerDenialVerified": false,
+  "productionAdmission": false,
+  "guardTruthTable": [
+    {
+      "hostFeature": false,
+      "disableInProcessFallback": false,
+      "normalConstructorProvider": "disabled"
+    },
+    {
+      "hostFeature": false,
+      "disableInProcessFallback": true,
+      "normalConstructorProvider": "process_owned"
+    },
+    {
+      "hostFeature": true,
+      "disableInProcessFallback": false,
+      "normalConstructorProvider": "process_owned"
+    },
+    {
+      "hostFeature": true,
+      "disableInProcessFallback": true,
+      "normalConstructorProvider": "process_owned"
+    }
+  ],
+  "qualifications": [
+    "The constructor truth table applies only without an injected provider; Local app-server transport supplies no override in the reviewed source.",
+    "Both execute and wait route through session acquisition, but source reasoning is not a measured native execution-denial result.",
+    "Existing false code_mode control does not establish that the distinct default-enabled host feature is false.",
+    "Public identity matching cannot validate schema or wait handler role. No preceding discarded name is recovered.",
+    "A prior local refusal report has two local POSTs for one turn/start; real accounting must not equate turn count and external request count."
+  ]
+}

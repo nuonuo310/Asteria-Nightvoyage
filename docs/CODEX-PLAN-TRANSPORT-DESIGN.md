@@ -75,3 +75,7 @@ The [user-reported field observation](validation/user-local-plan-catalog-fields-
 ### Code-mode exposure observed; admission remains blocked
 
 The [user Windows mode result](validation/user-local-codex-tool-mode-comparison-windows.json) observes zero tools under direct but two declared tools under code_mode_only, one unknown. Empty environments therefore do not establish zero exposure in that condition. The old agents label is name-based, not handler evidence. The [public-source identity review and separately bounded local witness](CODEX-CODE-MODE-IDENTITY-WITNESS.md) preserve rejection; public-name recognition cannot qualify execution denial. No account token or real inference is enabled.
+
+### Identity observed; host guard and turn accounting remain separate
+
+The [new user native witness](validation/user-local-codex-code-mode-witness-windows.json) matches public exec/custom and wait/function identities without lifting exposure rejection. The [execution-boundary audit](CODEX-CODE-MODE-EXECUTION-BOUNDARY.md) traces the distinct default-enabled host feature, constructor provider selection and app-server injection boundary. A candidate false/false Local-provider guard is design-only and execution-unverified. A tool continuation may also cause an additional provider request within one app-server turn; real external-call accounting cannot assume one turn/start equals one dispatch. No new native execution, OAuth or real transport was added in this audit.

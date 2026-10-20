@@ -1,0 +1,32 @@
+{
+  "contractVersion": "codex-code-mode-execution-guard-design-v1",
+  "status": "design_only_not_executable",
+  "reviewedUpstreamCommit": "a956835d020762cb2b570053af06f643a11c0ecc",
+  "model_id": "gpt-5.6-sol",
+  "preserveModelToolMode": "code_mode_only",
+  "candidateStartupConfiguration": {
+    "features.code_mode_host": false,
+    "code_mode.disable_in_process_fallback": false
+  },
+  "requiredHostTransport": "local_without_provider_override",
+  "requiresEffectiveConfigurationBeforeTurn": true,
+  "requiresReviewedExactWarningAndOutputSemantics": true,
+  "futureFixtureCases": [
+    { "kind": "exec_arithmetic_only", "source": "1+1" },
+    { "kind": "wait_nonexistent_independent_cell", "usesExistingCell": false }
+  ],
+  "proposedMaximumOwnedChildrenPerCase": 1,
+  "proposedMaximumScriptedCallsPerCase": 1,
+  "proposedMaximumLocalPostsPerCase": 2,
+  "newNativeExecutionImplemented": false,
+  "newNativeExecutionRun": false,
+  "freshAccountAuthorizationPermitted": false,
+  "realModelRequestsPermitted": 0,
+  "callerCodePermitted": false,
+  "userMaterialsPermitted": false,
+  "productionAdmission": false,
+  "allHandlerDenialVerified": false,
+  "sourceSharedSessionBarrierIsRuntimeProof": false,
+  "oneTurnEqualsOneExternalCallAssumed": false,
+  "asteriaBridgeImplemented": false
+}
