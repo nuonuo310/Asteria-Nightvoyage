@@ -1,6 +1,6 @@
 // Separate local-only wait denial owner; no account, real provider or production capability.
 import {spawn} from 'node:child_process';
-import {createOwnedChildStop} from './codex-owned-child-stop.mjs';
+import {createOwnedChildStop,ownedChildStopVersion} from './codex-owned-child-stop.mjs';
 import {openLocalForwardOwner} from './codex-local-forward-owner.mjs';
 import {openFictionalTrialStore} from './codex-fictional-trial-store.mjs';
 import {createOwnedProbeCleanup} from './codex-owned-probe-cleanup.mjs';
@@ -29,16 +29,26 @@ function options(value){
  if(signal!==undefined&&!(signal instanceof AbortSignal)||!Number.isSafeInteger(timeoutMs)||timeoutMs<1||timeoutMs>30000)throw Error('metadata_options_invalid');
  return {signal,timeoutMs,stateDirectory};
 }
-export function observeNativeCodexPersistentWait(executable,value={}){
+function nativeLaunch(executable,value,eofProfile){
  const settings=options(value),comparison=codexToolModeCase('code_only_empty');
  if(typeof executable!=='string'||!path.isAbsolute(executable)||!/^codex(?:\.exe)?$/i.test(path.basename(executable)))throw Error('metadata_executable_invalid');
  let binary;try{binary=fs.realpathSync(executable);if(!fs.statSync(binary).isFile()||!/^codex(?:\.exe)?$/i.test(path.basename(binary)))throw Error();}catch{throw Error('metadata_executable_invalid');}
- return persistentRun({kind:'native',binary,fictionalCatalog:true,environmentless:comparison.environmentless,comparison},settings);
+ return persistentRun({kind:'native',binary,fictionalCatalog:true,environmentless:comparison.environmentless,comparison},settings,eofProfile);
 }
-export function rehearseCodexPersistentWait(scenario='observed',value={}){
+function peerLaunch(scenario,value,eofProfile){
  const settings=options(value),comparison=codexToolModeCase('code_only_empty');
  if(!['observed','quiet_denial','trace_before_call','trace_duplicate','trace_unknown_after','trace_wrong_target','trace_unsupported_exec','trace_no_continuation','trace_no_newline','trace_prefix_before_call','legacy_invalid_root','invalid_warning_timestamp','extra_warning_field','bare_warning','host_enabled','fallback_enabled','missing_guard','unknown_warning','foreign_warning','duplicate_warning','no_warning','unknown_tools','missing_tools','wrong_output','wrong_call','duplicate_output','wrong_kind','auth_header','early_post','third_post','duplicate_initial','malformed_body','oversized_body','encoded_body','wrong_path','second_unknown_tools','warning_after_request','server_request','stderr_error','stall_thread','stall_after_call','catalog_body_changed','wrong_provider'].includes(scenario))throw Error('metadata_scenario_invalid');
- return persistentRun({kind:'independent_node_peer',scenario,fictionalCatalog:true,environmentless:true,comparison},settings);
+ return persistentRun({kind:'independent_node_peer',scenario,fictionalCatalog:true,environmentless:true,comparison},settings,eofProfile);
+}
+
+export const observeNativeCodexPersistentWait=(executable,value={})=>nativeLaunch(executable,value,false);
+export const rehearseCodexPersistentWait=(scenario='observed',value={})=>peerLaunch(scenario,value,false);
+export const observeNativeCodexEofWait=(executable,value={})=>nativeLaunch(executable,value,true);
+export const rehearseCodexEofWait=(scenario='observed',value={})=>peerLaunch(scenario,value,true);
+export function eofWaitIdentity(){
+ const prior=persistentWaitIdentity();
+ return {...prior,approval_id:'independent-persistent-eof-wait-v1',run_id:'independent-persistent-eof-wait-v1',protocol_version:'codex-local-persistent-eof-wait-v1',
+  source_hash:createHash('sha256').update(JSON.stringify({guard_policy_hash:prior.source_hash,shutdown_policy:ownedChildStopVersion,grace_ms:1500})).digest('hex')};
 }
 
 export function persistentWaitIdentity(){
@@ -48,15 +58,16 @@ export function persistentWaitIdentity(){
   protocol_version:'codex-local-persistent-wait-v1',source_hash:hash({guard:codeModeGuardOverrides(),probeText,provider}),
   fixture_hash:hash({catalog:comparison.catalog,sse:fixedGuardWaitSse()}),expires_at:Date.parse('2026-11-01T00:00:00.000Z'),max_calls:2,confirmation_origin:'independent_fictional_fixture'};
 }
-async function persistentRun(launch,settings){
+async function persistentRun(launch,settings,eofProfile=false){
+ const contract=eofProfile?'codex-local-persistent-eof-wait-v1':'codex-local-persistent-wait-v1';
  let trial;
- try{trial=openFictionalTrialStore({directory:settings.stateDirectory,identity:persistentWaitIdentity(),mode:'create',now:Date.now()});}
- catch{return {contractVersion:'codex-local-persistent-wait-v1',kind:launch.kind,status:'blocked',reason:'persistent_trial_create_blocked',processStarted:false,ownedProcessClosed:false,temporaryCleanupComplete:false,retainedAllowanceOpened:false,retainedAllowanceClosed:false,retainedAllowancePresent:'not_inspected',realModelRequests:0,credentialReads:0,dispatchEnabled:false,productionAdmission:false};}
+ try{trial=openFictionalTrialStore({directory:settings.stateDirectory,identity:eofProfile?eofWaitIdentity():persistentWaitIdentity(),mode:'create',now:Date.now()});}
+ catch{return {contractVersion:contract,kind:launch.kind,status:'blocked',reason:'persistent_trial_create_blocked',processStarted:false,ownedProcessClosed:false,temporaryCleanupComplete:false,retainedAllowanceOpened:false,retainedAllowanceClosed:false,retainedAllowancePresent:'not_inspected',realModelRequests:0,credentialReads:0,dispatchEnabled:false,productionAdmission:false};}
  let report;
  try{
-  if(settings.signal?.aborted){trial.cancel(Date.now());report={contractVersion:'codex-local-persistent-wait-v1',kind:launch.kind,status:'cancelled',reason:'cancelled_before_start',processStarted:false};}
-  else report=await run(launch,{...settings,trial});
- }catch{report={contractVersion:'codex-local-persistent-wait-v1',kind:launch.kind,status:'blocked',reason:'persistent_owner_failed',processStarted:'unknown'};}
+  if(settings.signal?.aborted){trial.cancel(Date.now());report={contractVersion:contract,kind:launch.kind,status:'cancelled',reason:'cancelled_before_start',processStarted:false};}
+  else report=await run(launch,{...settings,trial,contract});
+ }catch{report={contractVersion:contract,kind:launch.kind,status:'blocked',reason:'persistent_owner_failed',processStarted:'unknown'};}
  finally{try{trial.close();}catch{if(report){report.status='blocked';report.reason='persistent_owner_close_failed';}}}
  return {...report,retainedAllowance:trial.view(),retainedAllowanceClosed:trial.view().closed,
   retainedAllowancePresent:fs.existsSync(path.join(settings.stateDirectory,'fictional-trial.json')),
@@ -76,8 +87,8 @@ function temporaryParent(){
   return parent;
  }catch{throw Error('metadata_workspace_unavailable');}
 }
-async function run(launch,{signal,timeoutMs,stateDirectory,trial}){
- const report={contractVersion:'codex-local-persistent-wait-v1',kind:launch.kind,status:'not_started',reason:null,
+async function run(launch,{signal,timeoutMs,stateDirectory,trial,contract}){
+ const report={contractVersion:contract,kind:launch.kind,status:'not_started',reason:null,
   requestedModel:model,initializeChecked:false,configurationChecked:false,threadPrepared:false,threadEphemeralVerified:false,
   processStarted:false,ownedProcessClosed:false,temporaryCleanupComplete:false,temporaryCleanupFailureCode:null,cleanupReview:null,configWarnings:0,
   fixtureCatalogGets:0,fixtureModelPosts:0,unexpectedHttpRequests:0,methodsQueued:[],startupDiagnostics:null,guardWaitTracePolicy:null,
