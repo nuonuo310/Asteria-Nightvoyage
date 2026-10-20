@@ -1,0 +1,74 @@
+{
+  "recordVersion": "user-local-plan-catalog-fields-windows-v1",
+  "reportedAt": "2026-10-20",
+  "evidenceOrigin": "user_reported_terminal_json",
+  "maintainerReproduction": false,
+  "implementationCommit": "364f9c1ab93e0537a04514d1b6b079acd0c4aa34",
+  "platform": "win32",
+  "receipt": {
+    "contractVersion": "plan-catalog-fields-review-v1",
+    "status": "observed",
+    "ready": false,
+    "model_id": "gpt-5.6-sol",
+    "authorizationAttempts": 1,
+    "additionalCatalogGetIntents": 1,
+    "maxTotalAuthenticatedCatalogGets": 2,
+    "external_calls_started": 0,
+    "realModelRequests": 0,
+    "nativeChildrenStarted": 0,
+    "credentialsPersisted": false,
+    "apiKeyReads": 0,
+    "rawMetadataPersisted": false,
+    "review": {
+      "reviewVersion": "selected-plan-catalog-fields-v2",
+      "model_id": "gpt-5.6-sol",
+      "selectedModelPresent": true,
+      "visibility": "list",
+      "patchType": "freeform",
+      "inputModalities": "text_and_image",
+      "experimentalTools": "empty",
+      "instructions": "text_present",
+      "rawMetadataReturned": false,
+      "inferenceEntitlementVerified": false,
+      "nativeCompatibilityVerified": false,
+      "productionAdmission": false,
+      "fieldContractVersion": "offline-codex-0160-field-review-v1",
+      "shell": {
+        "status": "recognized_alias",
+        "value": "unified_exec"
+      },
+      "toolMode": {
+        "status": "recognized",
+        "value": "code_mode_only"
+      }
+    },
+    "error": null,
+    "authorization": {
+      "status": "plan_action_finished",
+      "reason": null,
+      "failureStage": null,
+      "httpDiagnostic": null
+    },
+    "remoteRevocationConfirmed": true,
+    "remoteCleanupMayBeRequired": false,
+    "cleanupNotice": null,
+    "automaticRetry": false,
+    "productionAdmission": false,
+    "generationEnabled": false,
+    "expiresAt": 1792592177289,
+    "credentialRead": false,
+    "reason": "catalog_review_consumed"
+  },
+  "interpretation": [
+    "The action and following preflight describe one observation and one consumed allowance, not two logins.",
+    "The new observation classifies a shell alias as unified_exec without retaining which alias, and recognizes code_mode_only.",
+    "This does not reconstruct the two discarded raw values/types from the prior v1 observation; the observations and grants remain separate.",
+    "Remote revocation is confirmed by the user-reported owner. No model request or Codex child was started.",
+    "Prior Windows four-case native comparisons used direct mode, so their empty-tool result is not qualification for code_mode_only.",
+    "An independent local tool-mode comparison is the next evidence step; it must not use account data, credentials or infer subscription access."
+  ],
+  "realModelRequestsByMaintainer": 0,
+  "realCredentialsReadByMaintainer": false,
+  "rawMetadataCopied": false,
+  "terminalPromptAndPrivatePathExcluded": true
+}

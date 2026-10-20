@@ -67,3 +67,7 @@ The separate [catalogue-only review entry](PLAN-CATALOG-REVIEW.md) now prepares 
 ### Catalogue-only user observation received
 
 The [Windows account-catalogue receipt](validation/user-local-plan-catalog-review-windows.json) reports the selected model present and revocation confirmed, with no model request or native child. shellType and toolMode remain unreviewed under the pinned closed vocabulary; discarded raw types/values cannot be inferred from that label. This closes the question of whether this catalogue action produced an observation, not native compatibility or inference entitlement. Preserve the consumed allowance and review field contracts offline before any separately proposed authenticated/native diagnostic.
+
+### New field observation and mode gap
+
+The [user-reported field observation](validation/user-local-plan-catalog-fields-windows.json) recognizes a unified_exec shell alias and code_mode_only, with confirmed revocation and no inference/native child. It does not reconstruct discarded v1 fields. Earlier local native evidence used direct, so it cannot qualify this mode. The separate [two-mode fictional local comparison](CODEX-TOOL-MODE-COMPARISON.md) tests that next gap without account credentials or a model response. Its scripted peer result is not native selection evidence; native results and real credential/inference admission remain separate.

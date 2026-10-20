@@ -1,0 +1,22 @@
+Independent synthetic validation; peer inventories are scripted, native mode selection remains unverified.
+{
+  "targeted": {
+    "command": "node --test test/codex-tool-mode-comparison.test.js test/codex-catalog-comparison.test.js test/plan-catalog-fields-review.test.js",
+    "tests": 43,
+    "passCount": 43,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "durationMs": 2096.3749
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 1597,
+    "passCount": 1597,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "durationMs": 110061.871571
+  },
+  "nativeAttempted": false
+}

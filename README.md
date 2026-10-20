@@ -143,3 +143,5 @@ Windows 原生空环境观察已收到：本地请求工具声明为 0；[实测
 目录核对已有[用户 Windows 回执](docs/validation/user-local-plan-catalog-review-windows.json)：GPT-5.6-Sol 可见、会话撤销已确认，零生成请求、零 Codex 子进程。shellType/toolMode 仍为 unreviewed，原值未保留；订阅推理和原生兼容性均未验证。本次许可已消耗，不重复登录。[Codex 0.160.0 字段合同](docs/CODEX-MODEL-FIELD-CONTRACT.md)已离线核对，并新增独立离线分类器；旧回执原值仍不可恢复，尚未批准新的目录读取或真实推理。
 
 新的[独立目录字段核对入口](docs/PLAN-CATALOG-FIELDS-REVIEW.md)已接入经过审查的枚举/别名分类，并单独固定源码与许可。最多一次登录、合计两次目录 GET、零生成请求；旧目录原值不恢复、旧许可不复用。实现与合成测试不代表真实运行，下一次登录仍需用户明确批准。
+
+用户随后完成了[新字段观察](docs/validation/user-local-plan-catalog-fields-windows.json)：shell 为 recognized_alias/unified_exec，工具模式为 code_mode_only；会话撤销确认、零生成、零 Codex 子进程。该许可已消耗。此前原生比较均为 direct，现新增[独立双模式本地比较](docs/CODEX-TOOL-MODE-COMPARISON.md)，默认只运行脚本化假进程；新的 Windows 原生结果仍待核验，不需要再次登录。

@@ -44,3 +44,9 @@ Reports separate shape observation from remote cleanup. An observed result with 
 All automated tests use independent synthetic OAuth/JWT/HTTP and local callback fixtures. They cover new enum/alias/type labels, malformed persisted labels/getters, exact approval and actual CLI paths, v1 ownership refusal and unchanged bytes, terminal replay, cancellation/late body, expiry, concurrency, actual child exit and persistence failure before login or before the extra GET. The old projection, v1 owner/CLI/proposal and auth owner remain unchanged; the old 28-source proposal still validates.
 
 Evidence: [validation](validation/plan-catalog-fields-review.json). Tests do not establish live account fields, real subscription entitlement, native tool configuration or all-handler denial. The next user operation, only after fresh confirmation, is this catalogue-only login. Actual native credential containment, model inference, dream quality and Asteria's formal bridges remain unfinished and are not enabled here. Historical grants, unknown billing holds, API budgets, user memories and other repositories remain unchanged.
+
+## Subsequent user observation
+
+The [sanitized Windows receipt](validation/user-local-plan-catalog-fields-windows.json) reports one consumed observation: recognized_alias/unified_exec for shell and recognized/code_mode_only for tool mode, with revocation confirmed and zero inference/native children. The repeated action/preflight JSON is one result, not two authorization attempts. No exact shell alias or prior v1 value is reconstructed. This is user-reported evidence, not a maintainer real-account reproduction.
+
+The next dependency is a [credential-free fictional two-mode comparison](CODEX-TOOL-MODE-COMPARISON.md), because the previous Windows native matrix used direct throughout. No new login or real inference is requested by that local comparison.
