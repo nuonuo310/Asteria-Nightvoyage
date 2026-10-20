@@ -12,6 +12,7 @@ import {reviewObserverWarning} from './codex-observer-warning-review.mjs';
 import {observerNotificationWitness} from './codex-observer-notification-witness.mjs';
 import {reviewCodexLocalRequest} from './codex-request-tool-review.mjs';
 import {CodexStartupDiagnostics} from './codex-startup-diagnostics.mjs';
+import {GuardExecTracePolicy} from './codex-guard-exec-trace-policy.mjs';
 import {codexToolModeCase,codexToolModeComparisonVersion} from './codex-tool-mode-comparison.mjs';
 import {reviewCodeModeToolIdentity} from './codex-code-mode-identity-review.mjs';
 const model='gpt-5.6-sol',provider='nightvoyage_metadata_fixture';
@@ -31,7 +32,7 @@ export function observeNativeCodexGuardExec(executable,value={}){
 }
 export function rehearseCodexGuardExec(scenario='observed',value={}){
  const settings=options(value),comparison=codexToolModeCase('code_only_empty');
- if(!['observed','legacy_invalid_root','invalid_warning_timestamp','extra_warning_field','bare_warning','host_enabled','fallback_enabled','missing_guard','unknown_warning','foreign_warning','duplicate_warning','no_warning','unknown_tools','missing_tools','wrong_output','wrong_call','duplicate_output','wrong_kind','auth_header','early_post','third_post','duplicate_initial','malformed_body','oversized_body','encoded_body','wrong_path','second_unknown_tools','warning_after_request','server_request','stderr_error','stall_thread','stall_after_call','catalog_body_changed','wrong_provider'].includes(scenario))throw Error('metadata_scenario_invalid');
+ if(!['observed','quiet_denial','trace_before_call','trace_duplicate','trace_unknown_after','trace_wrong_target','trace_unsupported_exec','trace_no_continuation','trace_no_newline','trace_prefix_before_call','legacy_invalid_root','invalid_warning_timestamp','extra_warning_field','bare_warning','host_enabled','fallback_enabled','missing_guard','unknown_warning','foreign_warning','duplicate_warning','no_warning','unknown_tools','missing_tools','wrong_output','wrong_call','duplicate_output','wrong_kind','auth_header','early_post','third_post','duplicate_initial','malformed_body','oversized_body','encoded_body','wrong_path','second_unknown_tools','warning_after_request','server_request','stderr_error','stall_thread','stall_after_call','catalog_body_changed','wrong_provider'].includes(scenario))throw Error('metadata_scenario_invalid');
  return run({kind:'independent_node_peer',scenario,fictionalCatalog:true,environmentless:true,comparison},settings);
 }
 
@@ -48,10 +49,10 @@ function temporaryParent(){
  }catch{throw Error('metadata_workspace_unavailable');}
 }
 async function run(launch,{signal,timeoutMs}){
- const report={contractVersion:'codex-local-guarded-exec-denial-v3-warning-envelope',kind:launch.kind,status:'not_started',reason:null,
+ const report={contractVersion:'codex-local-guarded-exec-denial-v4-bound-trace',kind:launch.kind,status:'not_started',reason:null,
   requestedModel:model,initializeChecked:false,configurationChecked:false,threadPrepared:false,threadEphemeralVerified:false,
   processStarted:false,ownedProcessClosed:false,temporaryCleanupComplete:false,temporaryCleanupFailureCode:null,configWarnings:0,
-  fixtureCatalogGets:0,fixtureModelPosts:0,unexpectedHttpRequests:0,methodsQueued:[],startupDiagnostics:null,
+  fixtureCatalogGets:0,fixtureModelPosts:0,unexpectedHttpRequests:0,methodsQueued:[],startupDiagnostics:null,guardExecTracePolicy:null,
   requestObservation:null,requestIdentityWitness:null,notificationRejection:null,requestBodyRetained:false,generatedResponseSupplied:false,
   candidateGuardConfigurationMatched:false,expectedGuardWarningObserved:false,guardWarningEnvelopeReview:null,scriptedExecCallSupplied:false,selectedExecObservation:null,
   observedPostRecords:0,postRecordsSavedBeforeFixtureReply:false,realProviderAccountingIntegrated:false,
@@ -143,7 +144,8 @@ async function run(launch,{signal,timeoutMs}){
   env.PATH=[...new Set(dirs)].join(path.delimiter);
   const executable=launch.kind==='native'?launch.binary:process.execPath;
   const childArgs=launch.kind==='native'?args:[fileURLToPath(new URL('../test-support/codex-code-mode-guard-peer.mjs',import.meta.url)),launch.scenario,...args];
-  const decoder=new TextDecoder('utf-8',{fatal:true}),diagnostics=new CodexStartupDiagnostics();
+  const decoder=new TextDecoder('utf-8',{fatal:true}),diagnostics=new CodexStartupDiagnostics(),tracePolicy=new GuardExecTracePolicy();
+  const traceContext=()=>({responseQueued:report.scriptedExecCallSupplied,guardMatched:report.candidateGuardConfigurationMatched,warningMatched:report.expectedGuardWarningObserved,identitiesMatched:report.requestIdentityWitness?.unreviewedIdentities===0&&report.requestIdentityWitness?.toolCount===2,threadPrepared:report.threadPrepared,catalogBytesChecked:report.fictionalCatalogBytesChecked,continuationObserved:observed,terminal:failure!==null||closing});
   let pending='',bytes=0,frames=0,phase='initialize',expected=1,threadId=null,earlyThreadId=null,threadNotificationSeen=false,closing=false,turnId=null,earlyTurnId=null,turnStarted=false,userItemId=null,userItemDone=false;
   const samePath=(a,b)=>typeof a==='string'&&(process.platform==='win32'?path.resolve(a).toLowerCase()===path.resolve(b).toLowerCase():path.resolve(a)===path.resolve(b));
   await new Promise(resolve=>{
@@ -250,13 +252,13 @@ async function run(launch,{signal,timeoutMs}){
      if(Buffer.byteLength(pending)>65536)throw Error('stdout_limit');
     }catch(error){stop(['rpc_shape_invalid','unexpected_server_request','rpc_rejected','initialize_mismatch','configuration_mismatch','thread_mismatch','unexpected_rpc_reply','unexpected_notification','stdout_limit','configuration_warning_observed','turn_mismatch','fictional_catalog_changed'].includes(error.message)?error.message:'stdout_invalid');}
    });
-   child.stderr.on('data',chunk=>{try{const labels=diagnostics.push(chunk);if(labels.some(label=>['sandbox_executable_lookup_failed','unrecognized_configuration','unclassified_startup_error'].includes(label)))stop('startup_error_observed');}catch{stop('stderr_invalid');}});
+   child.stderr.on('data',chunk=>{try{diagnostics.push(chunk);if(!tracePolicy.push(chunk,traceContext()))stop('startup_error_observed');}catch{stop('stderr_invalid');}});
    // An escaped descendant may keep inherited pipe descriptors open after its owner exits.
    // Close only our pipe handles; do not claim descendant termination.
    child.once('exit',()=>{child.stdin.destroy();child.stdout.destroy();child.stderr.destroy();});
    child.once('close',()=>{
     clearTimeout(timer);signal?.removeEventListener('abort',abort);report.ownedProcessClosed=report.processStarted;
-    try{pending+=decoder.decode();if(pending.trim())failure??='stdout_incomplete';report.startupDiagnostics=diagnostics.finish();if(report.startupDiagnostics.labels.some(label=>['sandbox_executable_lookup_failed','unrecognized_configuration','unclassified_startup_error'].includes(label)))failure??='startup_error_observed';}catch{failure??='diagnostic_incomplete';}
+    try{pending+=decoder.decode();if(pending.trim())failure??='stdout_incomplete';report.startupDiagnostics=diagnostics.finish();report.guardExecTracePolicy=tracePolicy.finish(traceContext());if(report.guardExecTracePolicy.blocked)failure??='startup_error_observed';if(report.guardExecTracePolicy.expectedTraceLinesContinued&&!observed)failure??='guard_trace_without_bound_continuation';}catch{failure??='diagnostic_incomplete';}
     if(!observed)failure??=prepared?'process_exited_before_selected_denial':'process_exited_before_thread';resolve();
    });
    timer=setTimeout(()=>stop(report.scriptedExecCallSupplied?'selected_denial_timeout':report.requestObservation&&!report.expectedGuardWarningObserved?'guard_warning_missing':'preparation_timeout'),timeoutMs);

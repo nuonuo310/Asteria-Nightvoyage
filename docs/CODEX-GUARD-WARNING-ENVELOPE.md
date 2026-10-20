@@ -28,3 +28,7 @@ The independent peer now emits timestamped notifications by default using a fixe
 The v2 input correction remains unchanged. The native probe still uses the fresh private profile/cwd/catalogue, one owned child, local-only provider, at most two accepted local POSTs, one fixed arithmetic call, exact call/output binding, cancellation and cleanup. No account, real model or production admission is added; wait qualification and real outbound request accounting remain pending.
 
 After verified publication, run the existing Windows helper once to observe v3. The helper now includes these warning-envelope tests. Matching native execution is unavailable here, so the Linux tests cannot establish the Windows result. Return the final JSON without automatic retry. [Validation](validation/codex-guard-warning-envelope.json).
+
+## Subsequent Windows result and current candidate
+
+The user v3 result checked the timestamped warning and supplied the fixed call, then stopped on a stderr error before a bound output. Its discarded error text/phase cannot establish the cause. [V4 scoped trace policy](CODEX-GUARD-BOUND-TRACE.md) is the current local candidate; older pending statements above describe those earlier slices, not a newly established native denial.

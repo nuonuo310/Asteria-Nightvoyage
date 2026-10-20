@@ -1396,3 +1396,11 @@ Prepared SCENE-CONTINUITY-PAID-PLAN.md as explicit unimplemented checklist: sepa
 - Added body-free envelope/text/time/binding diagnostics for new observations; old v2 records are not backfilled. Independent peer notifications now include a fictional timestamp; added regression for bare compatibility, source-shaped envelopes, invalid timestamps and unchanged terminal cases.
 - No matching native execution or subscription proof is claimed. The existing Windows helper includes new tests and remains the minimum next user operation. No login, credential, real model, paid action, retry or production admission is added. [Scope and evidence](docs/CODEX-GUARD-WARNING-ENVELOPE.md).
 - Linux Node v24.19.0 verification: targeted 49/49; full 1670/1670, no failures/cancellations/skips (95836.115106 ms). Default timestamped independent peer check passed; native v3 execution remains pending, no login or real inference performed.
+
+
+## Guard v4 scoped router trace with mandatory bound continuation
+
+- Archived user Windows v3: configuration, exact timestamped warning, catalogue and identities checked; one local POST and fixed call supplied, then startup error, no selected denial. No retained error text/read phase or unique cause; old receipt is not reinterpreted.
+- Added a separate bounded local-only trace policy based on pinned router/session/output sources. One fixed disabled-host router ERROR may continue only with all guard prerequisites and both line-start/completion in scope. Duplicate, unknown, early/late, incomplete, wrong-target and unsupported errors still block. Original error labels remain visible.
+- Same-call exact disabled-host output in a second local POST remains mandatory; a permitted log alone cannot pass. Added split-byte/UTF-8/ANSI/context/lifecycle and integrated peer regressions. No login, real provider, API budget, production admission, bridge or old grant change.
+- Linux Node v24.19.0: targeted 60/60; full 1687/1687, zero failures/cancellations/skips (102813.774468 ms). Default independent peer passed its scripted trace/output exchange; no native v4 run is claimed. Windows helper updated and statically reviewed; one user-side local native observation remains. [Scope and evidence](docs/CODEX-GUARD-BOUND-TRACE.md).

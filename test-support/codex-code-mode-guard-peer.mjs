@@ -18,6 +18,7 @@ const write=x=>{
  process.stdout.write(JSON.stringify(x)+'\n');
 };
 const warning=()=>({method:'warning',params:{threadId:scenario==='foreign_warning'?'fictional-other-thread':'fictional-guard-thread-1',message:scenario==='unknown_warning'?'FICTIONAL-PRIVATE-WARNING':'Code Mode is unavailable because code-mode host is disabled. Code mode will fail closed; enable `features.code_mode_host` and install `codex-code-mode-host`.'}});
+const fixedTrace='ERROR codex_core::tools::router: error=code-mode host is disabled';
 const thread='fictional-guard-thread-1',turn='fictional-guard-turn';
 let phase='initialize';
 readline.createInterface({input:process.stdin}).on('line',async line=>{
@@ -42,6 +43,8 @@ readline.createInterface({input:process.stdin}).on('line',async line=>{
   write({id:4,result:{turn:{id:turn,status:'inProgress'}}});
   write({method:'turn/started',params:{threadId:thread,turn:{id:turn}}});
   if(!['no_warning','warning_after_request'].includes(scenario))write(warning());if(scenario==='duplicate_warning')write(warning());
+  if(scenario==='trace_before_call'){process.stderr.write(fixedTrace+'\n');return;}
+  if(scenario==='trace_prefix_before_call'){process.stderr.write('ERROR codex_core::tools::router: ');await new Promise(r=>setTimeout(r,40));}
   const tools=[{type:'custom',name:'exec',format:{type:'grammar',syntax:'lark',definition:'start: /.+/'}},{type:'function',name:'wait',parameters:{type:'object',properties:{cell_id:{type:'string'}},required:['cell_id'],additionalProperties:false}}];
   if(scenario==='unknown_tools')tools[0].name='FICTIONAL-PRIVATE-TOOL';
   const b={model:config.model,input:[],tools};if(scenario==='missing_tools')delete b.tools;
@@ -57,6 +60,16 @@ readline.createInterface({input:process.stdin}).on('line',async line=>{
    const events=text.split('\n').filter(l=>l.startsWith('data: ')).map(l=>JSON.parse(l.slice(6))),item=events.find(e=>e.type==='response.output_item.done')?.item;
    if(item?.type!=='custom_tool_call'||item.name!=='exec'||item.input!=='1+1'||item.call_id!=='nightvoyage-fictional-guard-exec-call')process.exit(55);
    if(scenario==='stall_after_call')return;
+   if(scenario==='trace_prefix_before_call')process.stderr.write('error=code-mode host is disabled\n');
+   else if(scenario!=='quiet_denial'&&scenario!=='stderr_error'){
+    const trace=scenario==='trace_wrong_target'?fixedTrace.replace('codex_core::tools::router','codex_api::client'):scenario==='trace_unsupported_exec'?'ERROR codex_core::tools::router: error=unsupported custom tool call: exec':fixedTrace;
+    process.stderr.write(trace+(scenario==='trace_no_newline'?'':'\n'));
+    if(scenario==='trace_duplicate'){process.stderr.write(fixedTrace+'\n');return;}
+    if(scenario==='trace_unknown_after'){process.stderr.write('ERROR FICTIONAL-PRIVATE-LATER-ERROR\n');return;}
+    if(['trace_wrong_target','trace_unsupported_exec','trace_no_continuation','trace_no_newline'].includes(scenario))return;
+   }
+   // Independent pacing lets the owner read its stderr observation before continuation.
+   await new Promise(resolve=>setTimeout(resolve,30));
    if(scenario==='stderr_error'){process.stderr.write('ERROR FICTIONAL-PRIVATE-EXECUTION-ERROR\n');return;}
    const output={type:scenario==='wrong_kind'?'function_call_output':'custom_tool_call_output',call_id:scenario==='wrong_call'?'fictional-other-call':item.call_id,output:scenario==='wrong_output'?'2':'code-mode host is disabled'};
    if(scenario==='second_unknown_tools')b.tools.push({type:'function',name:'FICTIONAL-PRIVATE-NEW-TOOL',parameters:{}});
