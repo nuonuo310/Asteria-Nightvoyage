@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import {persistentFixture,checkPersistentForward} from '../test-support/codex-persistent-forward-fixture.mjs';
 import {openLocalForwardOwner} from '../scripts/codex-local-forward-owner.mjs';
@@ -25,4 +26,12 @@ test('cancellation persists in both records and suppresses late response',async(
 });
 test('unbranded allowance is rejected before relay lock or journal mutation',async()=>{
  const f=await persistentFixture();try{await assert.rejects(openLocalForwardOwner({target:f.target,stateDirectory:f.relay,fictionalTrial:{reserve(){throw Error('must_not_call');}}}));assert.deepEqual(fs.readdirSync(f.relay),[]);}finally{await f.close();}
+});
+
+test('outside the ambient temp root only the issued allowance exact relay child is permitted',async()=>{
+ const f=await persistentFixture(),originalTemp=os.tmpdir,other=fs.mkdtempSync(path.join(os.tmpdir(),'nightvoyage-other-temp-'));
+ try{const t=f.trial('create'),owned=path.join(f.allowance,'relay');fs.mkdirSync(owned);os.tmpdir=()=>other;const owner=await f.forward(t,{stateDirectory:owned});assert.equal(owner.view().fictionalTrialAccountingIntegrated,true);assert.equal(f.posts(),0);await owner.close();
+  const unrelated=path.join(f.root,'unrelated');fs.mkdirSync(unrelated);await assert.rejects(f.forward(t,{stateDirectory:unrelated}));assert.deepEqual(fs.readdirSync(unrelated),[]);
+  await assert.rejects(openLocalForwardOwner({target:f.target,stateDirectory:owned}));
+ }finally{os.tmpdir=originalTemp;await f.close();fs.rmSync(other,{recursive:true,force:true});}
 });

@@ -2,7 +2,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
-const owners=new WeakSet();
+const owners=new WeakSet(),roots=new WeakMap();
+// Boolean-only capability check; never exposes the retained directory in a receipt.
+export const isFictionalTrialRelayDirectory=(owner,directory)=>typeof directory==='string'&&roots.has(owner)&&directory===path.join(roots.get(owner),'relay');
 export const isFictionalTrialStore=value=>owners.has(value);
 export const fictionalTrialVersion='codex-persistent-fictional-allowance-v1';
 const id=v=>typeof v==='string'&&/^[a-zA-Z0-9_-]{1,100}$/.test(v);
@@ -76,5 +78,5 @@ export function openFictionalTrialStore(options){
   cancel(t){usable();clock(t);if(['cancelled','completed','expired'].includes(state.phase))return;persist({...state,last_clock:t,phase:'cancelled'});active=null;},
   close(){if(closed)return;closed=true;active=null;release();}
  });
- owners.add(owner);return owner;
+ owners.add(owner);roots.set(owner,root);return owner;
 }

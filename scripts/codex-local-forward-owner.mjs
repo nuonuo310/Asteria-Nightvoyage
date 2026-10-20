@@ -5,7 +5,7 @@ import path from 'node:path';
 import http from 'node:http';
 import net from 'node:net';
 import {createHash} from 'node:crypto';
-import {isFictionalTrialStore} from './codex-fictional-trial-store.mjs';
+import {isFictionalTrialStore,isFictionalTrialRelayDirectory} from './codex-fictional-trial-store.mjs';
 import {LocalDispatchJournal} from './codex-local-dispatch-journal.mjs';
 import {reviewCodeModeToolIdentity} from './codex-code-mode-identity-review.mjs';
 export const localForwardVersion='codex-loopback-pre-forward-owner-v1';
@@ -32,7 +32,8 @@ function settings(v){
  let directory;try{
   if(fs.lstatSync(stateDirectory).isSymbolicLink())throw Error();directory=fs.realpathSync(stateDirectory);
   const temp=fs.realpathSync(os.tmpdir()),relative=path.relative(temp,directory);
-  if(!fs.statSync(directory).isDirectory()||!relative||relative==='..'||relative.startsWith('..'+path.sep)||path.isAbsolute(relative))throw Error();
+  const underTemp=relative&&relative!=='..'&&!relative.startsWith('..'+path.sep)&&!path.isAbsolute(relative);
+  if(!fs.statSync(directory).isDirectory()||!(underTemp||isFictionalTrialRelayDirectory(fictionalTrial,directory)))throw Error();
   for(let cursor=directory;;){if(fs.existsSync(path.join(cursor,'.git')))throw Error();const next=path.dirname(cursor);if(next===cursor)break;cursor=next;}
  }catch{throw Error('forward_directory_invalid');}
  return {target:url.href,directory,timeoutMs,fictionalTrial};
