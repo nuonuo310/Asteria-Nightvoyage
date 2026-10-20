@@ -161,3 +161,5 @@ Guard notification correction: [v3 official emission-timestamp envelope](docs/CO
 Guard trace candidate: [v4 scoped router error plus bound denial](docs/CODEX-GUARD-BOUND-TRACE.md). The user v3 run reached the fixed call but stopped on an unclassified error; no native selected denial is established. V4 requires the same-call second POST and preserves unknown-error rejection.
 
 Windows v4 result received: [selected fixed exec denial observed](docs/CODEX-GUARD-EXEC-WINDOWS-RESULT.md). The same-call second local POST and owned cleanup passed. Earlier pending statements describe prior slices; wait, real subscription inference and production admission remain unverified.
+
+Separate wait candidate: [fixed fictional function-call denial probe](docs/CODEX-GUARDED-WAIT-LOCAL.md), `node scripts/check-codex-guarded-wait.mjs` (scripted peer by default). Native wait remains pending; this adds no subscription inference or production admission.

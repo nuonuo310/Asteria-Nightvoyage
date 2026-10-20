@@ -27,3 +27,5 @@ The current exec result is complete; do not rerun it to manufacture additional e
 ## Verification of this evidence-only slice
 
 Checked the archived JSON against the supplied fields and required invariants: two local POSTs, exact bound selected outcome, retained error labels, complete owned cleanup, no real model/credential/account authorization and unchanged admission flags. Documentation and receipt only; runtime and tests are unchanged. The existing implementation evidence remains 1687/1687 tests at 8cfc302; it was not rerun or relabelled as a new native result.
+
+Subsequent implementation: [the separate fixed wait candidate](CODEX-GUARDED-WAIT-LOCAL.md) now supplies its own fixture/owner/helper; the no-runtime statement above describes this earlier evidence-only slice. Native wait outcome remains pending.
