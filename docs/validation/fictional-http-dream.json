@@ -1,0 +1,88 @@
+{
+  "status": "completed",
+  "baseCommit": "b05db7ef7aa233fd940f6ff7e18625b21a51c06f",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "contractVersion": "independent-fictional-http-dream-v1",
+  "targeted": {
+    "command": "node --test test/fictional-http-dream.test.js test/dream-model-port.test.js test/model-port-dreambook.test.js",
+    "tests": 34,
+    "pass": 34,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "duration_ms": 1257.220334
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 1828,
+    "pass": 1828,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "duration_ms": 103446.292702
+  },
+  "crlfParse": {
+    "status": "parsed",
+    "files": [
+      "scripts/fictional-http-dream.mjs",
+      "scripts/check-fictional-http-dream.mjs",
+      "test/fictional-http-dream.test.js"
+    ],
+    "nativeWindowsExecutionVerified": false
+  },
+  "fixtureReceipt": {
+    "command": "node scripts/check-fictional-http-dream.mjs",
+    "node": "v24.19.0",
+    "platform": "linux",
+    "contractVersion": "independent-fictional-http-dream-v1",
+    "status": "completed",
+    "adapter_kind": "FakeAdapter",
+    "provider_kind": "local_fake",
+    "kind": "independent_loopback_fixture",
+    "savedScenes": 2,
+    "wakeSaved": true,
+    "fakeStageCalls": 3,
+    "loopbackHttpPosts": 6,
+    "persistedLocalHttpIntents": 6,
+    "checkpointAndCompletedRowsInSameStore": true,
+    "checkpointRowsMatch": true,
+    "replayAdditionalPosts": 0,
+    "originalUnchanged": true,
+    "dreambookReadable": true,
+    "withdrawalSuppressesReopenedReadRecallAndBook": true,
+    "bodyFreeAccountingRetained": true,
+    "realModelRequests": 0,
+    "credentialReads": 0,
+    "nativeChildrenStarted": 0,
+    "userStoreAccessed": false,
+    "realUserApprovalRecorded": false,
+    "nativeAppServerIntegrated": false,
+    "realProviderAccountingIntegrated": false,
+    "powerLossDurabilityVerified": false,
+    "remoteCancellationConfirmed": "unknown",
+    "productionAdmission": false,
+    "qualityAssessed": false
+  },
+  "sha256": {
+    "scripts/fictional-http-dream.mjs": "6ca07bd6582f744572478dff53625f4b61f685fc0c8d9d85f6415d6ed9f9c33c",
+    "scripts/check-fictional-http-dream.mjs": "1e034edf9db1d2bcc6ab638ad31ec62d5a69f4d3c361afc7079ccf0a4d3326e1",
+    "test/fictional-http-dream.test.js": "74b9bb2387c13dd06b7b9e4ee609f99d27ce5ef3bd087f21a61ea68702466152"
+  },
+  "scope": {
+    "independentFictionalFixturesOnly": true,
+    "existingCoreAndProvidersChanged": false,
+    "sameStoreAccountingAndCheckpoint": true,
+    "realChildDeathAfterReservationTested": true,
+    "nativeAppServerIntegrated": false,
+    "realProviderAccountingIntegrated": false,
+    "realModelRequests": 0,
+    "credentialsRead": false,
+    "userStoreAccessed": false,
+    "priorAllowancesOrRunsModified": false,
+    "productionAdmission": false,
+    "powerLossDurabilityVerified": false,
+    "qualityAssessed": false
+  },
+  "nextDependency": "Bind native local app-server forwarding to full-dream checkpoints using independent fixtures; fresh authorization still required before any real subscription request."
+}
