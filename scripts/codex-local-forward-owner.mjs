@@ -4,6 +4,8 @@ import os from 'node:os';
 import path from 'node:path';
 import http from 'node:http';
 import net from 'node:net';
+import {createHash} from 'node:crypto';
+import {isFictionalTrialStore} from './codex-fictional-trial-store.mjs';
 import {LocalDispatchJournal} from './codex-local-dispatch-journal.mjs';
 import {reviewCodeModeToolIdentity} from './codex-code-mode-identity-review.mjs';
 export const localForwardVersion='codex-loopback-pre-forward-owner-v1';
@@ -22,8 +24,8 @@ function directLocalPost(target,bytes,signal,onConnection){
  });
 }
 function settings(v){
- if(!v||Object.getPrototypeOf(v)!==Object.prototype||Reflect.ownKeys(v).some(k=>!['target','stateDirectory','timeoutMs'].includes(k)||!Object.hasOwn(Object.getOwnPropertyDescriptor(v,k),'value')))throw Error('forward_options_invalid');
- const {target,stateDirectory,timeoutMs=3000}=v;if(typeof target!=='string')throw Error('forward_target_invalid');let url;
+ if(!v||Object.getPrototypeOf(v)!==Object.prototype||Reflect.ownKeys(v).some(k=>!['target','stateDirectory','timeoutMs','fictionalTrial'].includes(k)||!Object.hasOwn(Object.getOwnPropertyDescriptor(v,k),'value')))throw Error('forward_options_invalid');
+ const {target,stateDirectory,timeoutMs=3000,fictionalTrial=null}=v;if(fictionalTrial!==null&&!isFictionalTrialStore(fictionalTrial))throw Error('forward_trial_invalid');if(typeof target!=='string')throw Error('forward_target_invalid');let url;
  try{url=new URL(target);}catch{throw Error('forward_target_invalid');}
  if(typeof target!=='string'||url.protocol!=='http:'||url.hostname!=='127.0.0.1'||!url.port||url.username||url.password||url.search||url.hash||url.pathname!=='/v1/responses')throw Error('forward_target_invalid');
  if(!Number.isSafeInteger(timeoutMs)||timeoutMs<1||timeoutMs>10000||typeof stateDirectory!=='string'||!path.isAbsolute(stateDirectory))throw Error('forward_options_invalid');
@@ -33,10 +35,10 @@ function settings(v){
   if(!fs.statSync(directory).isDirectory()||!relative||relative==='..'||relative.startsWith('..'+path.sep)||path.isAbsolute(relative))throw Error();
   for(let cursor=directory;;){if(fs.existsSync(path.join(cursor,'.git')))throw Error();const next=path.dirname(cursor);if(next===cursor)break;cursor=next;}
  }catch{throw Error('forward_directory_invalid');}
- return {target:url.href,directory,timeoutMs};
+ return {target:url.href,directory,timeoutMs,fictionalTrial};
 }
 export async function openLocalForwardOwner(value){
- const {target,directory,timeoutMs}=settings(value),lock=path.join(directory,'forward-owner.lock'),file=path.join(directory,'forward-journal.json'),next=file+'.next';
+ const {target,directory,timeoutMs,fictionalTrial}=settings(value),lock=path.join(directory,'forward-owner.lock'),file=path.join(directory,'forward-journal.json'),next=file+'.next';
  let fd;try{fd=fs.openSync(lock,'wx',0o600);}catch{throw Error('forward_owner_locked');}
  let journal,server,closed=false,failed=null,active=null,received=0,forwarded=0,rejected=0,connections=0;
  const persist=text=>{fs.writeFileSync(next,text,{flag:'wx',mode:0o600});fs.renameSync(next,file);};
@@ -44,7 +46,7 @@ export async function openLocalForwardOwner(value){
  const fail=reason=>{failed??=reason;active?.abort();};
  const view=()=>({contractVersion:localForwardVersion,receivedLocalPosts:received,forwardedLocalRequests:forwarded,directSocketAttempts:connections,rejectedRequests:rejected,
   journal:journal?.view()??null,failed,closed,bodyRetained:false,credentialReads:0,realModelRequests:0,
-  realProviderAccountingIntegrated:false,appServerIntegrated:false,powerLossDurabilityVerified:false,
+  realProviderAccountingIntegrated:false,appServerIntegrated:false,fictionalTrialAccountingIntegrated:fictionalTrial!==null,fictionalTrial:fictionalTrial?.view()??null,powerLossDurabilityVerified:false,
   remoteCancellationConfirmed:'unknown',dispatchEnabled:false,productionAdmission:false});
  try{
   for(const name of [file,next])if(fs.existsSync(name)&&(!fs.lstatSync(name).isFile()||fs.lstatSync(name).isSymbolicLink()))throw Error('forward_storage_invalid');
@@ -52,6 +54,7 @@ export async function openLocalForwardOwner(value){
   if(!fs.existsSync(file))persist(LocalDispatchJournal.initialSnapshot());
   if(fs.statSync(file).size>1024)throw Error('forward_storage_invalid');
   journal=new LocalDispatchJournal(fs.readFileSync(file,'utf8'),persist);
+  if(fictionalTrial){const t=fictionalTrial.view();if(t.closed||t.persistenceFailed||t.calls!==journal.view().calls)throw Error('forward_trial_mismatch');}
   server=http.createServer((req,res)=>{
    const deny=(status,reason)=>{rejected++;res.writeHead(status,{'Content-Type':'application/json'});res.end(JSON.stringify({error:reason}));req.resume();};
    if(closed||failed){deny(503,'forward_closed');return;}
@@ -70,7 +73,8 @@ export async function openLocalForwardOwner(value){
      if(body.model!=='gpt-5.6-sol'||!Array.isArray(body.input)||body.input.length>512)throw Error();
     }catch{bytes=null;deny(400,'forward_body_rejected');return;}
     if(closed||failed||active){bytes=null;if(active)fail('concurrent_dispatch');deny(409,'forward_dispatch_blocked');return;}
-    try{journal.reserve();}catch{bytes=null;fail('reservation_blocked');deny(409,'forward_dispatch_blocked');return;}
+    let trialRequestId;
+    try{const ordinal=journal.reserve();if(fictionalTrial){trialRequestId=`fictional-forward-${ordinal}`;fictionalTrial.reserve({request_id:trialRequestId,request_hash:createHash('sha256').update(bytes).digest('hex')},Date.now());}}catch{bytes=null;fail('reservation_blocked');deny(409,'forward_dispatch_blocked');return;}
     const controller=new AbortController();active=controller;
     const timeout=setTimeout(()=>controller.abort(),timeoutMs);
     // No asynchronous boundary or caller hook between persisted reservation and dispatch.
@@ -80,6 +84,7 @@ export async function openLocalForwardOwner(value){
      if(response.status>=300&&response.status<400||closed||failed||controller.signal.aborted)throw Error();
      // Completion means a bounded HTTP reply was read, not accepted inference or billing.
      journal.complete();
+     if(fictionalTrial)fictionalTrial.complete(trialRequestId,Date.now());
      const type=response.type,headers={};if(typeof type==='string'&&type.length<=128&&/^(application\/json|text\/event-stream)(?:\s*;|$)/i.test(type))headers['Content-Type']=type;
      res.writeHead(response.status,headers);res.end(response.bytes);
     }catch{fail('forward_or_settlement_failed');if(!res.headersSent)deny(502,'forward_failed');else res.destroy();}
@@ -90,7 +95,7 @@ export async function openLocalForwardOwner(value){
   await new Promise((resolve,reject)=>{server.once('error',reject);server.listen(0,'127.0.0.1',resolve);});
   const endpoint=`http://127.0.0.1:${server.address().port}/v1/responses`;
   return Object.freeze({endpoint,view,
-   cancel(){if(closed)return;try{journal.cancel();}catch{fail('cancellation_persistence_failed');throw Error('forward_cancel_failed');}fail('cancelled');},
+   cancel(){if(closed)return;try{fictionalTrial?.cancel(Date.now());journal.cancel();}catch{fail('cancellation_persistence_failed');throw Error('forward_cancel_failed');}fail('cancelled');},
    async close(){if(closed)return;closed=true;active?.abort();server.closeAllConnections();await new Promise(resolve=>server.close(resolve));release();}
   });
  }catch{if(server){server.closeAllConnections();await new Promise(resolve=>server.close(resolve));}release();throw Error('forward_open_failed');}

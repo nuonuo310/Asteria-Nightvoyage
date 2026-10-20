@@ -1,0 +1,67 @@
+{
+  "status": "completed",
+  "platform": "linux",
+  "node": "v24.19.0",
+  "targeted": {
+    "tests": 71,
+    "pass": 71,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "duration_ms": 7302.921132,
+    "command": "node --test test/codex-fictional-trial-store.test.js test/codex-persistent-forward.test.js test/codex-local-forward-owner.test.js test/codex-accounted-wait-owner.test.js test/codex-owned-probe-cleanup.test.js test/codex-code-mode-guard.test.js"
+  },
+  "standalone": {
+    "command": "node scripts/check-codex-persistent-forward.mjs",
+    "node": "v24.19.0",
+    "platform": "linux",
+    "status": "completed",
+    "contractVersion": "codex-persistent-fictional-allowance-v1",
+    "confirmationOrigin": "independent_fictional_fixture",
+    "fixturePosts": 2,
+    "dualIntentsCheckedBeforeArrival": 2,
+    "reopened": true,
+    "additionalPostsAfterCap": 0,
+    "bodyRetained": false,
+    "nativeAppServerIntegrated": false,
+    "realProviderAccountingIntegrated": false,
+    "realModelRequests": 0,
+    "credentialReads": 0,
+    "userStoreAccessed": false,
+    "realUserApprovalRecorded": false,
+    "powerLossDurabilityVerified": false,
+    "dispatchEnabled": false,
+    "productionAdmission": false
+  },
+  "full": {
+    "command": "node --test",
+    "tests": 1789,
+    "pass": 1789,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "duration_ms": 99684.361331
+  },
+  "sourceSha256": {
+    "scripts/codex-fictional-trial-store.mjs": "95e6c3aa6b645bd30b903fe3ee86f5627db2661a0acd7769fa710631bce38260",
+    "scripts/codex-local-forward-owner.mjs": "a832586473aac3d443eecd4776fc47cf6925d349fb228eb809715d58165494b8",
+    "scripts/check-codex-persistent-forward.mjs": "2eef1637ae0b3e7034d720cb2d7784e0dee644bb72bad5dc28346acbf6081c3c",
+    "test-support/codex-persistent-forward-fixture.mjs": "83e08b7595a7aa174c7086eac7c1b6468067988c8cce775ada137b62f6dbb3d3",
+    "test/codex-fictional-trial-store.test.js": "867c336afc1c25e063573d1a3471ad14884ab25f4caed1e0531f2ea12f6a3f81",
+    "test/codex-persistent-forward.test.js": "fe27a6187e1c62562d0bdfe59cfdb2a00c1a54786c0f8ce4078c86369a53e55b"
+  },
+  "nativePersistentTrialIntegrated": false,
+  "realProviderAccountingIntegrated": false,
+  "realUserApprovalRecorded": false,
+  "realModelRequests": 0,
+  "credentialReads": 0,
+  "productionAdmission": false,
+  "finalPortabilityCheck": {
+    "command": "node --test test/codex-fictional-trial-store.test.js",
+    "tests": 15,
+    "pass": 15,
+    "fail": 0,
+    "duration_ms": 201.843839,
+    "note": "Windows record-symlink fixture uses a junction; Linux semantics unchanged. This targeted rerun followed the test-only portability refinement during the full run. Windows execution is not claimed."
+  }
+}
