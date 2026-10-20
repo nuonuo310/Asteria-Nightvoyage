@@ -53,3 +53,8 @@ The independent Node child checks the sentinel in its explicit environment, an e
 These checks exercise actual local process/environment/stdio behavior, not a mocked spawn callback. They do not prove native Codex token handling, OS credential confidentiality, descendant termination, remote cancellation/revocation, production redaction, model eligibility or an authenticated transport. The token is a public fixture constant, and dropping a reference is not memory zeroization. The delay scenario proves suppression by local process termination; no real server's late response is involved. No raw output, token, callback URL or temporary private path is returned.
 
 Evidence and exact source hashes: [credential-owner validation](validation/codex-plan-credential-owner.json). The next slice is the credential-free native metadata/tool comparison in the ordered table. It must remain separate from the fictional catalogue's successful empty-tool result.
+
+
+## Credential-free comparison entry now implemented
+
+The next local slice is [catalogue/configuration comparison](CODEX-CATALOG-COMPARISON.md). It uses two independently authored fictional modality profiles and two explicit environment bundles, not live account metadata. The independent peer matrix is checked; the actual maintainer native attempt stops before its first POST, with cleanup complete. Windows native comparison remains pending. No authenticated diagnostic or real transport is admitted.
