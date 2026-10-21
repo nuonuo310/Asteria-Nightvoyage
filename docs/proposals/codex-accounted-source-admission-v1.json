@@ -1,0 +1,829 @@
+{
+  "manifestVersion": "codex-accounted-source-manifest-v1",
+  "contractVersion": "codex-accounted-source-inventory-v1",
+  "authority": {
+    "envelope": "docs/construction-envelopes/2026-10-21-codex-source-admission-v1.md",
+    "commit": "f75e4054bd82bbd0c7023f8b3a73536f44d74b97"
+  },
+  "hashPolicy": {
+    "text": "UTF-8 decoded, CRLF and lone CR normalized to LF, SHA-256 of normalized UTF-8 bytes.",
+    "binary": "Exact bytes, SHA-256.",
+    "manifest": "Same text policy."
+  },
+  "edgeClasses": [
+    "relative_static_import",
+    "relative_static_reexport",
+    "literal_dynamic_import",
+    "node_builtin",
+    "reviewed_repository_child_program",
+    "fixed_repository_data",
+    "fixed_repository_config",
+    "reviewed_external_program",
+    "generated_workspace_state_exclusion"
+  ],
+  "roots": [
+    {
+      "id": "accounted_checker",
+      "kind": "accounted_checker",
+      "path": "scripts/check-codex-accounted-dream.mjs"
+    },
+    {
+      "id": "standalone_reading_projection",
+      "kind": "standalone_reading_projection",
+      "path": "scripts/accounted-codex-content-view.mjs"
+    }
+  ],
+  "explicitEdges": [
+    {
+      "id": "accounted_fixture_snapshot",
+      "kind": "fixed_repository_data",
+      "from": "scripts/check-codex-accounted-dream.mjs",
+      "to": "examples/adapter-boundary.snapshot.json",
+      "sourceToken": "new URL('../examples/adapter-boundary.snapshot.json',import.meta.url)",
+      "reviewNote": "Fixed fictional snapshot read before engine construction; literal URL only."
+    },
+    {
+      "id": "accounted_peer_child",
+      "kind": "reviewed_repository_child_program",
+      "from": "scripts/codex-accounted-stage-owner.mjs",
+      "to": "test-support/codex-request-observer-peer.mjs",
+      "sourceToken": "new URL('../test-support/codex-request-observer-peer.mjs',import.meta.url)",
+      "reviewNote": "Only repository child selected by the accounted stage owner; native binary stays external."
+    },
+    {
+      "id": "fixture_peer_child",
+      "kind": "reviewed_repository_child_program",
+      "from": "scripts/codex-fixture-stage-owner.mjs",
+      "to": "test-support/codex-request-observer-peer.mjs",
+      "sourceToken": "new URL('../test-support/codex-request-observer-peer.mjs',import.meta.url)",
+      "reviewNote": "Only repository child selected by the non-accounted fixture owner; native binary stays external."
+    },
+    {
+      "id": "rpc_peer_child",
+      "kind": "reviewed_repository_child_program",
+      "from": "scripts/codex-pipe-rehearsal.mjs",
+      "to": "test-support/codex-rpc-peer-child.mjs",
+      "sourceToken": "new URL('../test-support/codex-rpc-peer-child.mjs',import.meta.url)",
+      "reviewNote": "Fixed local RPC rehearsal peer, selected by a literal URL."
+    }
+  ],
+  "fixedInputs": [
+    {
+      "path": "package.json",
+      "kind": "fixed_repository_config",
+      "reviewNote": "ES module mode and Node >=24 engine contract for the checked entry."
+    }
+  ],
+  "runtimeInputs": [
+    {
+      "id": "node_runtime",
+      "kind": "node_platform",
+      "requirement": "Node.js >=24",
+      "verifiedByInventory": false,
+      "note": "Version is reported by the checker, not pinned to a binary hash."
+    },
+    {
+      "id": "native_codex_executable",
+      "kind": "supplied_native_binary",
+      "status": "unverified",
+      "note": "Path, version and content are not validated by the offline inventory."
+    },
+    {
+      "id": "windows_url_opener",
+      "kind": "platform_executable",
+      "status": "unverified",
+      "note": "System32/rundll32.exe is an external platform dependency."
+    },
+    {
+      "id": "generated_workspace_state",
+      "kind": "generated_workspace_state",
+      "status": "excluded",
+      "note": "Temporary workspaces, books and Store state are runtime data and are never scanned."
+    },
+    {
+      "id": "real_provider_route",
+      "kind": "authenticated_route",
+      "status": "unverified",
+      "note": "No credentials, account data, entitlement or real model request is checked."
+    }
+  ],
+  "externalPrograms": [
+    {
+      "id": "native_codex_version_probe",
+      "kind": "supplied_native_binary",
+      "from": "scripts/check-codex-accounted-dream.mjs",
+      "sourceToken": "spawnSync(options.executable,['--version']",
+      "reviewNote": "Installed codex executable is a supplied external input; no binary hash is available."
+    },
+    {
+      "id": "native_codex_accounted_stage",
+      "kind": "supplied_native_binary",
+      "from": "scripts/codex-accounted-stage-owner.mjs",
+      "sourceToken": "launch.kind==='native'?launch.binary:process.execPath",
+      "reviewNote": "Native stage executable is supplied at runtime and is not repository source."
+    },
+    {
+      "id": "native_codex_fixture_stage",
+      "kind": "supplied_native_binary",
+      "from": "scripts/codex-fixture-stage-owner.mjs",
+      "sourceToken": "launch.kind==='native'?launch.binary:process.execPath",
+      "reviewNote": "Native stage executable is supplied at runtime and is not repository source."
+    },
+    {
+      "id": "windows_url_opener",
+      "kind": "platform_executable",
+      "from": "scripts/chatgpt-plan-login.mjs",
+      "sourceToken": "spawn(path.join(root,'System32','rundll32.exe')",
+      "reviewNote": "Operating-system URL opener reached only by the separate login source; not exercised by this checker."
+    }
+  ],
+  "exclusions": [
+    "Node built-ins and their platform implementations",
+    "The installed native Codex executable and its platform package",
+    "The operating-system URL opener and other host executables",
+    "Generated temporary workspaces, books, Store state and relay journals",
+    "Dynamic behavior, authenticated forwarding, model entitlement and production admission"
+  ],
+  "counts": {
+    "files": 65,
+    "sourceFiles": 63,
+    "fixedDataFiles": 2,
+    "fixedConfigFiles": 1,
+    "childPrograms": 2,
+    "edges": 241,
+    "relativeStaticImports": 171,
+    "relativeStaticReexports": 0,
+    "literalDynamicImports": 1,
+    "nodeBuiltins": 9,
+    "explicitDataEdges": 1,
+    "explicitChildEdges": 3,
+    "reviewedExternalProgramEdges": 4
+  },
+  "closureHash": "8055bd5f965737e5bc742648a6b74ef7cc9f559d028bf8956bd07d9c1542b8a1",
+  "edgesHash": "3dcd62332707320825b5637640ce92e7c59b5ea73d2ad538672acd8ed64490af",
+  "files": [
+    {
+      "path": "examples/adapter-boundary.snapshot.json",
+      "kind": "fixed_data",
+      "roles": [
+        "fixed_repository_data"
+      ],
+      "bytes": 2171,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "69053bcfc1ea16bbc24918444db6f43ac8eb70669260fdf263821bcc73c66c4e"
+    },
+    {
+      "path": "package.json",
+      "kind": "fixed_data",
+      "roles": [
+        "fixed_repository_config"
+      ],
+      "bytes": 180,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "8ebbf5270f9c23228409410269e56cc009779eff803d3d5cd1144a3f4b04a56f"
+    },
+    {
+      "path": "scripts/accounted-codex-content-view.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import",
+        "root:standalone_reading_projection"
+      ],
+      "bytes": 5869,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "0aa85cbdd8cae51781a7d579d16c5b555e9387d9097dd86a56ef2cf7bbaed17d"
+    },
+    {
+      "path": "scripts/chatgpt-plan-auth.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 7593,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "405ff88505410e41a94c35132793c9529f48a7568013e92d60d08acf6176a7a8"
+    },
+    {
+      "path": "scripts/chatgpt-plan-connections.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 2186,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "5f7bd4961b92b7c514675ba2266a8a9c7b575c05c062709239a74a7511c3745f"
+    },
+    {
+      "path": "scripts/chatgpt-plan-http.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 4093,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "0cec80a45527273ea5c3b2fa7c647a45071c75e8598223cd6fcd1674d981338a"
+    },
+    {
+      "path": "scripts/chatgpt-plan-login.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 14976,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "4d05b3c8cd2ec0e6a40d8454bcab78cb015c48f2a17c3f5a617da63f2595b390"
+    },
+    {
+      "path": "scripts/chatgpt-plan-protocol.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 6028,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "09b1c04fd928dd3b052bdcff258b093b6212f3c8b8f3be9833a6f018773e9893"
+    },
+    {
+      "path": "scripts/check-codex-accounted-dream.mjs",
+      "kind": "source",
+      "roles": [
+        "root:accounted_checker"
+      ],
+      "bytes": 7458,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "a4266aea5fb793bcb70929c307557eae0dee45a5a9a25c9c4c6c6738e0505235"
+    },
+    {
+      "path": "scripts/codex-accounted-dream-runtime.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 2355,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "96ef0d918b00fdffc5102015e8fbf682a414cc33970b3beeba50909892bff550"
+    },
+    {
+      "path": "scripts/codex-accounted-stage-owner.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 26666,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "081ac2fac8ace70e212923261738440bf14b297c23026e62b949abb87b883725"
+    },
+    {
+      "path": "scripts/codex-accounted-stage-transport.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 3895,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "e89953a74a960cd7e2ab02d79b418f18a16436f95894b2d2192f0b4d7283cc6c"
+    },
+    {
+      "path": "scripts/codex-code-mode-guard-review.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 2567,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "9104f6d247aa5b3df59bc58627c56eced7e544366e5ffdff792071aca6ef88f8"
+    },
+    {
+      "path": "scripts/codex-code-mode-identity-review.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 1557,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "ef75f0016ee62bb417c8c904e1958d51516bf23e5a15071725a74b21a3cd9205"
+    },
+    {
+      "path": "scripts/codex-dream-http-account.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 5516,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "6cc4384232e07b55c4daac4a4592401d9d57136b8d9d10af09d2fcc4f04e1a95"
+    },
+    {
+      "path": "scripts/codex-dream-protocol.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 4752,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "f66d0a54f2c6e6e21822325f3dbb54d1b741d6a49e68d213d0d21a4925eccc5e"
+    },
+    {
+      "path": "scripts/codex-fictional-catalog.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 1193,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "7b495340113ba16a7bde186b05090239a78e4852da55793e225edee2796026e5"
+    },
+    {
+      "path": "scripts/codex-fictional-trial-store.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 7048,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "5e078e13efbb914ff7e108178a9272da6db581d0c26a8ba50a3d6b5ce7aaf5ff"
+    },
+    {
+      "path": "scripts/codex-fixture-stage-owner.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 25331,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "0dbe32f5727404e70f49c4ff6585ce9e3c83aaaa8d698143518fdd2134f95b10"
+    },
+    {
+      "path": "scripts/codex-fixture-stage-transport.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 3606,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "cf33e85ba8b9fc56c5c4c4083149c504476e02580c5629cb9f6d7e32073d61a2"
+    },
+    {
+      "path": "scripts/codex-isolation-review.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 2315,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "1100405dcb11cd6501fd43f61a741e33af1fa58c467ac68ed4123f1edd13d419"
+    },
+    {
+      "path": "scripts/codex-local-dispatch-journal.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 2538,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "d3281c73b92e25b492ed4738a0ec742f134688707124a0d9da4be3b966a8538b"
+    },
+    {
+      "path": "scripts/codex-local-forward-owner.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 9703,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "08de5c2601ba7665086248dae1f082f8b707e1291db38974c6cb47ff6ef72c10"
+    },
+    {
+      "path": "scripts/codex-local-model-port.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 11936,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "0a55f645a8f98f76e5ddb03ee068f35859cd5aaae35ee3621690c42cd81db9f4"
+    },
+    {
+      "path": "scripts/codex-local-model-runtime.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 7128,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "a20a642f7ed3b93a3a102c8a32ac554712c01de080c678b1efbcb794a5630a8f"
+    },
+    {
+      "path": "scripts/codex-local-stage-transport.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 2723,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "5320ea998726ca056fc0db49d57cfd2bacb9d0b22cf8c2319b936d2a5ad25f1f"
+    },
+    {
+      "path": "scripts/codex-observer-notification-witness.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 3856,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "f89bf659887350cf2734f0d5f0883a890eeb76c6bf42afd1bc2331533e45a222"
+    },
+    {
+      "path": "scripts/codex-observer-warning-review.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 860,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "c9598fe2ca26979188dd8b9ab51faaf98d8f3fcf1f0be0e4f5709b4070d52c0f"
+    },
+    {
+      "path": "scripts/codex-owned-child-stop.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 2302,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "32f2699ea85600b26ce4b20f8ad7f192ba89cc17fabc57b2a25b3ed36d0f98ee"
+    },
+    {
+      "path": "scripts/codex-owned-probe-cleanup.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 3622,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "d2bc1c6a7d3068497ebab14daec188bdd504b2e506d0bcfef6d06cfc32f745f1"
+    },
+    {
+      "path": "scripts/codex-pipe-rehearsal.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 3435,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "2d2c45bd43c11d6486753435635279963dc2d1ad34d463949de17da70487f905"
+    },
+    {
+      "path": "scripts/codex-refusal-fixture.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 1920,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "8a58e12b54fd9aa9812164c44498e8cb79ec46513e3494d06424f5c8ad95940a"
+    },
+    {
+      "path": "scripts/codex-refusal-stderr-witness.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 2316,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "99af8e18750d6d1b9d4c04b461a6ae56f793f893e9c2bc7e7e1603f0ede2f75b"
+    },
+    {
+      "path": "scripts/codex-refusal-trace-policy.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 3122,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "fb65f81655ae6da76b73f2f148a2c1fb3470678ad365b8aeae5356f4f07afbec"
+    },
+    {
+      "path": "scripts/codex-request-tool-review.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 3932,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "f0b3f12e4bf09a25d1922ff5e6f3334f2de89595dc6f4d3dfa66c0ae6500c3d2"
+    },
+    {
+      "path": "scripts/codex-rpc-rehearsal.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 5564,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "5c9d90ad3ce59420caccd50d402e3a76bd9b28cef2b1cdbd9fae323da41d212e"
+    },
+    {
+      "path": "scripts/codex-stage-fixture.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 3869,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "cd06189f8648cbbc89f483a1d288b8f87356460b9f90095128a0d9250c984c41"
+    },
+    {
+      "path": "scripts/codex-startup-diagnostics.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 2050,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "c6a27ae72abbda752be4fe6be67ed35d5345106b6b835f722ba94bfc02eea8fe"
+    },
+    {
+      "path": "scripts/dream-model-port.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 11006,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "5eca916e142aeba14fdc651905bff9e175874dfa8d0ff975da7c90c5c5dddd68"
+    },
+    {
+      "path": "scripts/plan-response-diagnostic.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 2687,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "cd4f310958bee09bf67c5332a413c4d847bce36a5effdbe1f2b28f73d5bda7ba"
+    },
+    {
+      "path": "src/appraisal-rehearsal.js",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 9289,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "4dafa4205bd1594a2c0887191abbd95817b23ebcc4478b38a64fb978e36d7998"
+    },
+    {
+      "path": "src/appraisal-review-adapter.js",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 2914,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "0ed696c1207a682b91ea3ecc9661da7d2b5bbad4876c7267e17a4acba72ac812"
+    },
+    {
+      "path": "src/appraisal-review-memory.js",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 8710,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "8300817cdb3bad397b84b08059269d793b0c3b08d69b5ef870b533bc6aab8974"
+    },
+    {
+      "path": "src/appraisal-review-store.js",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 7519,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "b9dc6ccead2fdba2680d1925c2b85c2719220459b690d496e3b63c95ece3d066"
+    },
+    {
+      "path": "src/appraisal-view.js",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 5418,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "569f435cc4d04b54430b8e9312cfbd8391cb2b5ac14ab7256a1c5e56e0f62df5"
+    },
+    {
+      "path": "src/compact-appraisal-protocol.js",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 5951,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "935762c0e5961b0abcd38d0d5a959ff40ebd97e051a1236e57c7ab3fb8118e34"
+    },
+    {
+      "path": "src/compact-v2-offline.js",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 7254,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "8414444a6c29d39b18f13a176a2baa01faf0cb0ab7a914f5d5c9dc9bae186422"
+    },
+    {
+      "path": "src/compact-v2-protocol.js",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 2346,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "a9e26e5ffe8dee7102e695af7dd9ee92f90426d7d94b126126f171be6a0a312b"
+    },
+    {
+      "path": "src/content-review.js",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 4887,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "12edd57af958241840266e7da48bdc778b844e718308da5f79870f6dacd2ef7b"
+    },
+    {
+      "path": "src/contract.js",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 4126,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "850c99572c39930eac150588e379c9af90b5e792159ae46a04f9fad0f9d52ca7"
+    },
+    {
+      "path": "src/coupled-affect-offline.js",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 7277,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "6a514e11f549967685d068b608c10be6d9daec2e520075a58ae99e7332e71fb9"
+    },
+    {
+      "path": "src/coupled-affect-protocol.js",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 2515,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "a29727739495a2fad672efd536105f36417c9607110c927beb41d0997f4173a6"
+    },
+    {
+      "path": "src/coupled-affect-wire.js",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 1162,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "ea93558e31edecc2c8b55ea2ef0f08595e2299bf71ed0ae83c3cdd6a649be355"
+    },
+    {
+      "path": "src/deepseek-protocol.js",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 8162,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "0f8471c69f170ec74880ef0e7deef8889df8a3b12e6e86c0aea2b13fcefa681e"
+    },
+    {
+      "path": "src/engine.js",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 12248,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "f1484c19d4df2879d0ae5e642c3957cd8e9ff5446a81b07cd541ac080afb4266"
+    },
+    {
+      "path": "src/fake-provider.js",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 453,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "9460fac1e2d936b5aacde19ec1c79a07b1d1db77987cc4b51e815acd913f6456"
+    },
+    {
+      "path": "src/inline-evidence-protocol.js",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 7483,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "f2edd60a2fe6fd70f186a327187b2c8d40da699ba09017aa2a7f736d08ae737d"
+    },
+    {
+      "path": "src/scene-continuity-prompt-text.js",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 700,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "da6a08803ebdc96b36d01ad2878281c06323bf67b58e70c67a5159c396154b6e"
+    },
+    {
+      "path": "src/scene-continuity-protocol.js",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 3178,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "4ce09f583ad1d74451db4dc780208f3f29edeea8ca3de79e4ce5d2f1811e8366"
+    },
+    {
+      "path": "src/store.js",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 6074,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "07711405e41780805dbe23a3f993fdfb7a7d0b44a39d3dbd160374dafd1aaacb"
+    },
+    {
+      "path": "src/validation-diagnostic.js",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 1167,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "931a0bd25e03755570a8931fc5efa4d25a2c2548b164ede0051b005b17d9c0be"
+    },
+    {
+      "path": "test-support/codex-isolation-fixtures.mjs",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 428,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "9fd287219578e09692de8bfb0110c3096166dc974e81ffba19104bdd62ba8589"
+    },
+    {
+      "path": "test-support/codex-request-observer-peer.mjs",
+      "kind": "source",
+      "roles": [
+        "reviewed_repository_child_program"
+      ],
+      "bytes": 14257,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "d78244fe7a92b4cfb26d1d288c59f809d55e52d5a8549df2e95d551670287ce2"
+    },
+    {
+      "path": "test-support/codex-rpc-peer-child.mjs",
+      "kind": "source",
+      "roles": [
+        "reviewed_repository_child_program"
+      ],
+      "bytes": 2247,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "2768a48644777127cebde62f718e55d377618abc43277b9180363714f0a1bb58"
+    },
+    {
+      "path": "test-support/model-port-protocol-fixtures.js",
+      "kind": "source",
+      "roles": [
+        "relative_static_import"
+      ],
+      "bytes": 1837,
+      "hashPolicy": "text_utf8_crlf_to_lf_sha256_v1",
+      "sha256": "137884735183057b8bfe84c0888d9c13191f225d1520e9169bdf579db0a72d27"
+    }
+  ],
+  "nodeBuiltins": [
+    "node:child_process",
+    "node:crypto",
+    "node:fs",
+    "node:http",
+    "node:net",
+    "node:os",
+    "node:path",
+    "node:readline",
+    "node:url"
+  ],
+  "unresolved": []
+}

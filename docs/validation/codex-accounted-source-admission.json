@@ -1,0 +1,185 @@
+{
+  "contractVersion": "codex-accounted-source-admission-evidence-v1",
+  "status": "repository_source_inventory_verified",
+  "authority": {
+    "envelope": "docs/construction-envelopes/2026-10-21-codex-source-admission-v1.md",
+    "authorityCommit": "f75e4054bd82bbd0c7023f8b3a73536f44d74b97",
+    "implementationBaseline": "d2698e62bdbf11a1efe5991497914af976e0efb8",
+    "branch": "deepseek/nightvoyage-source-admission-v1",
+    "baselineIsAncestor": true,
+    "authorityScope": "control_and_evidence_documentation_only"
+  },
+  "environment": {
+    "node": "v24.19.0",
+    "platform": "win32",
+    "arch": "x64",
+    "packageModuleType": "module",
+    "engineRequirement": ">=24"
+  },
+  "scope": {
+    "roots": [
+      "scripts/check-codex-accounted-dream.mjs",
+      "scripts/accounted-codex-content-view.mjs"
+    ],
+    "edgeClasses": [
+      "relative_static_import",
+      "relative_static_reexport",
+      "literal_dynamic_import",
+      "reviewed_repository_child_program",
+      "fixed_repository_data",
+      "fixed_repository_config",
+      "reviewed_external_program",
+      "generated_workspace_state_exclusion"
+    ],
+    "nodeBuiltins": [
+      "node:child_process",
+      "node:crypto",
+      "node:fs",
+      "node:http",
+      "node:net",
+      "node:os",
+      "node:path",
+      "node:readline",
+      "node:url"
+    ],
+    "excludedRuntimeInputs": [
+      "Node.js and platform implementations",
+      "installed native Codex executable and platform package",
+      "operating-system URL opener",
+      "generated temporary workspaces, books, Store state and relay journals",
+      "authenticated provider route, entitlement and dynamic behavior"
+    ],
+    "unverifiedRuntimeInputs": 4,
+    "unresolvedRepositoryEdges": []
+  },
+  "checker": {
+    "command": "node scripts/check-codex-accounted-source.mjs",
+    "exitCode": 0,
+    "status": "repository_source_inventory_verified",
+    "diagnostics": [],
+    "counts": {
+      "files": 65,
+      "sourceFiles": 63,
+      "fixedDataFiles": 2,
+      "fixedConfigFiles": 1,
+      "childPrograms": 2,
+      "edges": 241,
+      "relativeStaticImports": 171,
+      "relativeStaticReexports": 0,
+      "literalDynamicImports": 1,
+      "nodeBuiltins": 9,
+      "explicitDataEdges": 1,
+      "explicitChildEdges": 3,
+      "reviewedExternalProgramEdges": 4
+    },
+    "manifest": {
+      "path": "docs/proposals/codex-accounted-source-admission-v1.json",
+      "sha256": "8dc05f4833a63de8f0ff0264c4f15d18e95d0b565d1ddbdcb4b202a7e0783760"
+    },
+    "closureHash": "8055bd5f965737e5bc742648a6b74ef7cc9f559d028bf8956bd07d9c1542b8a1",
+    "edgesHash": "3dcd62332707320825b5637640ce92e7c59b5ea73d2ad538672acd8ed64490af",
+    "generationEnabled": false,
+    "productionAdmission": false,
+    "credentialsRead": false,
+    "realModelRequests": 0,
+    "nativeChildProcessesStarted": 0,
+    "authOperationsStarted": 0,
+    "userStateDirectoriesCreated": 0,
+    "realProviderStatus": "unverified",
+    "externalBinaryStatus": "unverified",
+    "entitlementStatus": "unverified",
+    "outputContainedAbsolutePaths": false
+  },
+  "preImplementationInputFreeze": {
+    "capturedBeforeImplementation": true,
+    "hashPolicy": "UTF-8 text normalized CRLF/CR to LF, SHA-256; raw bytes for non-text",
+    "adHocTraversalFileCount": 63,
+    "adHocTraversalClosureHash": "3d3a837290e15c8316b3584a571b21286a55fb449a24758f6c771bd9862400e8",
+    "directInputs": {
+      "examples/adapter-boundary.snapshot.json": "69053bcfc1ea16bbc24918444db6f43ac8eb70669260fdf263821bcc73c66c4e",
+      "package.json": "8ebbf5270f9c23228409410269e56cc009779eff803d3d5cd1144a3f4b04a56f",
+      "scripts/accounted-codex-content-view.mjs": "0aa85cbdd8cae51781a7d579d16c5b555e9387d9097dd86a56ef2cf7bbaed17d",
+      "scripts/check-codex-accounted-dream.mjs": "a4266aea5fb793bcb70929c307557eae0dee45a5a9a25c9c4c6c6738e0505235",
+      "test-support/codex-request-observer-peer.mjs": "d78244fe7a92b4cfb26d1d288c59f809d55e52d5a8549df2e95d551670287ce2"
+    },
+    "directInputsUnchangedAfterImplementation": true,
+    "inputDriftDetected": false
+  },
+  "implementationArtifacts": {
+    "scripts/codex-accounted-source-inventory.mjs": "ba5fe280f505f1587fe578330cb4bec4aa5e4b6298d5cc9c6ddca843de681691",
+    "scripts/codex-accounted-source-manifest.mjs": "06696f9a04f787fd4b79d174b2cea179827dbc19188c767b4e9af5452448c876",
+    "scripts/check-codex-accounted-source.mjs": "c1548ef50cc6028f78d87a19e28cf405caf6ccde605211e6c757d1154ce5007f",
+    "test/codex-accounted-source.test.js": "9c803278543379b2fd0445354eb5e45422d1a4417e081547a7a32eed748e02bb",
+    "test-support/codex-accounted-source-fixtures.js": "60079f49c87c9fd2ac83d9e6907bfae8daf5712ddb08ea03bb10f2385c70ada5",
+    "docs/CODEX-ACCOUNTED-SOURCE-ADMISSION.md": "41ea5dc6a6ae447895ac65c2ec52afb1dd8d58d83f42aaa03d6f4cee6ebe03be",
+    "docs/proposals/codex-accounted-source-admission-v1.json": "8dc05f4833a63de8f0ff0264c4f15d18e95d0b565d1ddbdcb4b202a7e0783760"
+  },
+  "tests": {
+    "targeted": {
+      "command": "node --test test/codex-accounted-source.test.js",
+      "exitCode": 0,
+      "tests": 9,
+      "pass": 9,
+      "fail": 0,
+      "skipped": 0,
+      "durationMs": 303.9533
+    },
+    "baselineFull": {
+      "command": "node --test",
+      "authorityState": true,
+      "exitCode": 1,
+      "tests": 1844,
+      "pass": 1840,
+      "fail": 4,
+      "cancelled": 0,
+      "skipped": 0,
+      "durationMs": 468118.763,
+      "failures": [
+        "independent credential lifetime: success",
+        "independent credential lifetime: timeout",
+        "independent credential lifetime: failed_child",
+        "independent credential lifetime: secret_output"
+      ],
+      "note": "Pre-existing Windows failures in test/codex-plan-credential-owner.test.js; frozen file was not edited."
+    },
+    "finalFull": {
+      "command": "node --test",
+      "exitCode": 1,
+      "tests": 1853,
+      "pass": 1849,
+      "fail": 4,
+      "cancelled": 0,
+      "skipped": 0,
+      "durationMs": 477018.8554,
+      "failures": [
+        "independent credential lifetime: success",
+        "independent credential lifetime: timeout",
+        "independent credential lifetime: failed_child",
+        "independent credential lifetime: secret_output"
+      ],
+      "newFailures": [],
+      "failureSetPreserved": true,
+      "addedTests": 9
+    }
+  },
+  "safety": {
+    "loginAttempts": 0,
+    "oauthCallbacks": 0,
+    "credentialReads": 0,
+    "realProviderRequests": 0,
+    "nativeCodexInvocations": 0,
+    "networkTests": 0,
+    "userBookOrPrivateMaterialReads": 0,
+    "oldPinsRefreshed": false,
+    "existingRunnableEntriesEnabled": false,
+    "otherProjectsTouched": false,
+    "absoluteMachinePathsAdded": false,
+    "secretsOrCallbackUrlsAdded": false
+  },
+  "knownLimits": [
+    "Not a complete proof of the external native executable, platform package or operating system.",
+    "Not a general JavaScript call graph or arbitrary dynamic-code proof.",
+    "Not authentication, tool-exposure, entitlement, billing, remote-cancellation or production acceptance.",
+    "Generated workspace, book, Store and relay state are intentionally excluded."
+  ]
+}
