@@ -1,0 +1,110 @@
+{
+  "reviewVersion": "codex-accounted-source-coordinator-review-v1",
+  "reviewDate": "2026-10-21",
+  "candidateParent": "dec69750187b600eda49b6972d283cfead76792e",
+  "decision": "ACCEPT_OFFLINE_EXACT_REGISTRY_WITH_LIMITS",
+  "productionAdmission": false,
+  "mergePerformed": false,
+  "correction": {
+    "path": "test/codex-accounted-source.test.js",
+    "change": "Replace mojibake BMP text with ASCII JavaScript Unicode escapes that evaluate to actual U+1F600 astral characters in both generated-source fixtures.",
+    "changedLines": 2,
+    "sha256": "932cf431b9edff2599350392753d3d8e210d9152b22cf77ff1fdf2c51354b0ee",
+    "runtimeOrRegistryChanged": false
+  },
+  "validation": {
+    "environment": {
+      "node": "v24.19.0",
+      "platform": "linux"
+    },
+    "targeted": {
+      "command": "node --test test/codex-accounted-source.test.js",
+      "tests": 24,
+      "pass": 24,
+      "fail": 0,
+      "skip": 0,
+      "exitCode": 0,
+      "durationMs": 748.917735
+    },
+    "finalFull": {
+      "command": "node --test",
+      "tests": 1868,
+      "pass": 1868,
+      "fail": 0,
+      "cancelled": 0,
+      "skip": 0,
+      "exitCode": 0,
+      "durationMs": 108242.164126,
+      "testedInputs": "Candidate parent plus only the two-line astral-fixture correction identified above; this evidence file was added after verification."
+    },
+    "checker": {
+      "status": "repository_source_inventory_verified",
+      "reviewMode": "exact_reviewed_source_registry",
+      "files": 65,
+      "edges": 242,
+      "diagnostics": 0,
+      "manifestHash": "fa988b747d2337409641866e114ba1280cc3c0db73ac020630f9314d6e3e4143",
+      "registryHash": "42b5d560366c598dafadce8c376697eb3aa5e3e00c12637bbef63b2738a806d4"
+    },
+    "independentInspection": {
+      "fileHashesMatched": 65,
+      "edgeLocationsWithinSourceBounds": 242,
+      "currentFrozenSourceStaticImportLines": 232,
+      "unrecordedCurrentStaticImportLines": 0,
+      "reviewedExecutableOccurrences": 5,
+      "generalJavaScriptCoverageProven": false
+    },
+    "copiedTreeCliChecks": [
+      {
+        "case": "unchanged_copy",
+        "exitCode": 0,
+        "status": "repository_source_inventory_verified"
+      },
+      {
+        "case": "nested_source_changed",
+        "exitCode": 1,
+        "status": "blocked"
+      },
+      {
+        "case": "candidate_tampered",
+        "exitCode": 1,
+        "status": "blocked"
+      },
+      {
+        "case": "registry_tampered",
+        "exitCode": 1,
+        "status": "blocked"
+      },
+      {
+        "case": "symlink_source",
+        "exitCode": 1,
+        "status": "blocked"
+      }
+    ]
+  },
+  "preservedWindowsEvidence": {
+    "origin": "executor_report_not_coordinator_reproduction",
+    "fullTests": 1868,
+    "pass": 1864,
+    "fail": 4,
+    "skip": 0,
+    "failureGroup": "codex-plan-credential-owner",
+    "allGreen": false,
+    "reclassifiedAsPassing": false
+  },
+  "limits": [
+    "Exact reviewed source and edge registry only; discovery remains non-authoritative.",
+    "New or changed sources require explicit review; no general parser or dynamic call-graph proof.",
+    "Native executable, real subscription inference, entitlement, billing and production admission remain unverified.",
+    "Windows credential-owner failures require a separately scoped investigation; frozen code was not changed."
+  ],
+  "safety": {
+    "realModelRequests": 0,
+    "nativeCodexInvocations": 0,
+    "loginAttempts": 0,
+    "credentialReads": 0,
+    "oldPinsChanged": false,
+    "otherRepositoryWrites": 0,
+    "mainWritten": false
+  }
+}

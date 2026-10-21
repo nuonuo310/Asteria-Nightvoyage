@@ -298,11 +298,11 @@ test('regex literals stay lexical while division, strings, and templates expose 
 test('UTF-16 offsets keep lines correct after astral characters',t=>{
  const fixture=createSourceFixture(t);
  write(fixture,'scripts/dep-e.mjs','export const depE=true;\n');
- write(fixture,'scripts/dep-c.mjs',"const mark='馃榾馃榾馃榾馃榾';\nconst text=`${await import('./dep-e.mjs')}`;\n");
+ write(fixture,'scripts/dep-c.mjs',"const mark='\u{1F600}\u{1F600}\u{1F600}\u{1F600}';\nconst text=`${await import('./dep-e.mjs')}`;\n");
  const covered=inventory(fixture);
  assert.ok(covered.edges.some(edge=>edge.from==='scripts/dep-c.mjs'&&edge.to==='scripts/dep-e.mjs'&&edge.line===2));
  const executable=createSourceFixture(t);
- write(executable,'scripts/dep-c.mjs',"const mark='馃榾馃榾';\nimport {spawn as launch} from 'node:child_process';\nlaunch(process.execPath,['./dep-d.mjs']);\n");
+ write(executable,'scripts/dep-c.mjs',"const mark='\u{1F600}\u{1F600}';\nimport {spawn as launch} from 'node:child_process';\nlaunch(process.execPath,['./dep-d.mjs']);\n");
  assert.ok(hasDiagnostic(inventory(executable),'unclassified_executable_call','scripts/dep-c.mjs',3));
 });
 
