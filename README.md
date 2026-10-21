@@ -140,6 +140,8 @@ Windows 原生空环境观察已收到：本地请求工具声明为 0；[实测
 
 - [Codex 订阅凭据边界与接入顺序](docs/CODEX-PLAN-TRANSPORT-DESIGN.md)：独立 Node 子进程已演练虚构令牌的环境传递、应用归属、关闭后释放、超时/取消及错误输出抑制。`node scripts/check-codex-plan-credential-owner.mjs` 只跑固定虚构场景，不登录、不读取真实凭据、不启动原生 Codex；真实订阅 transport 尚未实现。
 
+Windows fixture repair: the fixed independent Node credential rehearsal now supplies explicit neutral Windows startup placeholders and validates them before clearing, so libuv supplementation cannot trip the closed child allowlist. The checker verifies all seven exact status/reason contracts. This is offline fixture behavior only; real credentials, native Codex, remote revocation and provider authentication remain untouched and unverified. See [the repair record](docs/CODEX-CREDENTIAL-WINDOWS-REPAIR.md).
+
 - [Codex 型号资料与环境配置本地对照](docs/CODEX-CATALOG-COMPARISON.md)：四种固定虚构条件，仅观察本地请求声明的工具，收到第一个阻断就停止。默认使用独立 Node 假进程；显式原生模式也不登录、不接真实模型。真实账号型号资料与订阅入口仍待核验。
 
 - Windows 0.160.0 的四组原生本地对照已收到：默认配置的两组各声明 3 类工具，空环境配置组合的两组均为 0；每组关闭与清理完成。见[实机回执与解释边界](docs/validation/user-local-codex-catalog-comparison-windows.json)。不代表单个开关因果、真实型号资料或订阅推理已通过。
