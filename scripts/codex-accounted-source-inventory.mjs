@@ -78,7 +78,10 @@ export const defaultExclusions=Object.freeze([
 const textExtensions=new Set(['.js','.mjs','.json']);
 const digest=value=>createHash('sha256').update(value).digest('hex');
 const posix=value=>value.split(path.sep).join('/');
-const lineAt=(source,index)=>source.slice(0,index).split('\n').length;
+const isLineBreak=ch=>ch==='\n'||ch==='\r'||ch==='\u2028'||ch==='\u2029';
+const isIdentifierStart=ch=>/[A-Za-z_$]/.test(ch)||ch.charCodeAt(0)>127&&!isLineBreak(ch)&&!/\s/.test(ch);
+const isIdentifierPart=ch=>/[A-Za-z0-9_$]/.test(ch)||ch.charCodeAt(0)>127&&!isLineBreak(ch)&&!/\s/.test(ch);
+const lineAt=(source,index)=>source.slice(0,index).split(/\r\n?|\n|\u2028|\u2029/).length;
 
 function diagnostic(code,pathValue=null,line=null){return {code,path:pathValue,line};}
 function compareDiagnostics(a,b){return (a.code??'').localeCompare(b.code??'')||(a.path??'').localeCompare(b.path??'')||(a.line??0)-(b.line??0);}
@@ -121,7 +124,49 @@ function readSafeFile(root,relative){
 function codeView(source){
  // UTF-16 code-unit array: indexes remain identical to source string offsets.
  const chars=source.split('');
- const mask=index=>{if(index<chars.length&&chars[index]!=='\n'&&chars[index]!=='\r')chars[index]=' ';};
+ const mask=index=>{if(index<chars.length&&!isLineBreak(chars[index]))chars[index]=' ';};
+ const expressionPrefix=new Set(['return','throw','case','delete','void','typeof','new','in','of','instanceof','yield','await','else','do']);
+ const expressionValue=new Set(['this','true','false','null','super']);
+ const previousIndex=index=>{let i=index-1;while(i>=0&&/\s/.test(chars[i]))i--;return i;};
+ const wordBefore=index=>{let end=index+1,start=index;while(start>=0&&isIdentifierPart(chars[start]))start--;return {start:start+1,word:chars.slice(start+1,end).join('')};};
+ const matchingOpen=(index,open,close)=>{let depth=0;for(let i=index;i>=0;i--){if(chars[i]===close)depth++;else if(chars[i]===open){depth--;if(depth===0)return i;}}return -1;};
+ function parenKind(closeIndex){
+  const open=matchingOpen(closeIndex,'(',')');if(open<0)return 'normal';
+  const before=previousIndex(open);if(before<0)return 'normal';
+  if(chars[before]==='.')return 'normal';
+  const {start,word}=wordBefore(before);
+  if(['if','while','for','with','switch','catch'].includes(word))return 'control';
+  if(word==='function')return 'function';
+  const prior=previousIndex(start-1);if(prior>=0&&wordBefore(prior).word==='function')return 'function';
+  return 'normal';
+ }
+ function braceKind(openIndex){
+  const before=previousIndex(openIndex);if(before<0)return 'statement';
+  const ch=chars[before];
+  if(ch===';'||ch==='{'||ch==='}')return 'statement';
+  if(ch===')')return ['control','function'].includes(parenKind(before))?'statement':'expression';
+  if(ch==='>'){const prior=previousIndex(before-1);if(prior>=0&&chars[prior]==='=')return 'expression';}
+  if(ch==='='||ch==='('||ch===','||ch===':'||ch==='['||ch==='?')return 'expression';
+  const {start,word}=wordBefore(before);
+  if(['return','yield','await'].includes(word))return 'expression';
+  if(['else','try','finally','do'].includes(word))return 'statement';
+  return 'statement';
+ }
+ function scanRegex(index){
+  mask(index);index++;
+  let inClass=false;
+  while(index<chars.length){
+   const ch=source[index];
+   if(ch==='\\'){mask(index);mask(index+1);index+=2;continue;}
+   if(isLineBreak(ch))break;
+   if(ch==='[')inClass=true;
+   else if(ch===']')inClass=false;
+   else if(ch==='/'&&!inClass){mask(index);index++;break;}
+   mask(index);index++;
+  }
+  while(index<chars.length&&/[A-Za-z]/.test(source[index])){mask(index);index++;}
+  return index;
+ }
  function scanTemplate(index){
   while(index<chars.length){
    const ch=source[index];
@@ -131,29 +176,45 @@ function codeView(source){
    mask(index);index++;
   }
   return index;
- }
- function scanCode(index,stopAtBrace){
-  let braceDepth=0;
-  while(index<chars.length){
-   const ch=source[index];
-   if(ch==='\''||ch==='"'){
+  }
+  function scanCode(index,stopAtBrace){
+   let braceDepth=0,expressionStart=true;const braceKinds=[];
+   while(index<chars.length){
+    const ch=source[index];
+    if(ch==='\''||ch==='"'){
     const quote=ch;index++;
     while(index<chars.length){
      if(source[index]==='\\'){mask(index);mask(index+1);index+=2;continue;}
      if(source[index]===quote){index++;break;}
      mask(index);index++;
     }
+    expressionStart=false;
     continue;
    }
-   if(ch==='`'){mask(index);index=scanTemplate(index+1);continue;}
-   if(ch==='/'&&source[index+1]==='/'){mask(index);mask(index+1);index+=2;while(index<chars.length&&source[index]!=='\n'){mask(index);index++;}continue;}
+   if(ch==='`'){mask(index);index=scanTemplate(index+1);expressionStart=false;continue;}
+   if(ch==='/'&&source[index+1]==='/'){mask(index);mask(index+1);index+=2;while(index<chars.length&&!isLineBreak(source[index])){mask(index);index++;}continue;}
    if(ch==='/'&&source[index+1]==='*'){
     mask(index);mask(index+1);index+=2;
     while(index<chars.length){if(source[index]==='*'&&source[index+1]==='/'){mask(index);mask(index+1);index+=2;break;}mask(index);index++;}
     continue;
    }
-   if(stopAtBrace&&ch==='{'){braceDepth++;index++;continue;}
-   if(stopAtBrace&&ch==='}'){if(braceDepth===0){mask(index);return index+1;}braceDepth--;index++;continue;}
+   if(ch==='/'){if(expressionStart){index=scanRegex(index);expressionStart=false;}else{expressionStart=true;index++;}continue;}
+   if(isIdentifierStart(ch)){
+    let end=index+1;while(end<chars.length&&isIdentifierPart(source[end]))end++;
+    const word=source.slice(index,end);
+    expressionStart=expressionPrefix.has(word)?true:expressionValue.has(word)?false:false;
+    index=end;continue;
+   }
+   if(/\s/.test(ch)){index++;continue;}
+   if(/[0-9]/.test(ch)){expressionStart=false;index++;continue;}
+   if(ch==='{'){braceKinds.push(braceKind(index));braceDepth++;expressionStart=true;index++;continue;}
+   if(ch==='}'){if(stopAtBrace&&braceDepth===0){mask(index);return index+1;}if(braceDepth>0)braceDepth--;expressionStart=(braceKinds.pop()??'expression')==='statement';index++;continue;}
+   if(ch==='('){expressionStart=true;index++;continue;}
+   if(ch===')'){const kind=parenKind(index);expressionStart=kind==='control'||kind==='function';index++;continue;}
+   if(ch==='['||ch===','||ch===';'||ch===':'||ch==='?'){expressionStart=true;index++;continue;}
+   if(ch===']'||ch==='.'){expressionStart=false;index++;continue;}
+   if(ch==='+'||ch==='-'){if(source[index+1]===ch){expressionStart=false;index+=2;continue;}expressionStart=true;index++;continue;}
+   if(ch==='*'||ch==='%'||ch==='^'||ch==='!'||ch==='~'||ch==='='||ch==='<'||ch==='>'||ch==='&'||ch==='|'){expressionStart=true;index++;continue;}
    index++;
   }
   return index;
@@ -217,63 +278,141 @@ function literalAt(source,index){
    const hex=source.slice(cursor+1,cursor+5);if(!/^[0-9A-Fa-f]{4}$/.test(hex))return null;
    value+=String.fromCharCode(Number.parseInt(hex,16));cursor+=4;continue;
   }
-  if(escaped==='\n')continue;
+  if(isLineBreak(escaped))continue;
   value+=escaped;
  }
  return null;
 }
 
-function firstQuoteBeforeStatementEnd(view,start){
- let braces=0,parens=0;
- for(let i=start;i<view.length;i++){
-  const ch=view[i];
-  if(ch==='{')braces++;else if(ch==='}')braces=Math.max(0,braces-1);
-  else if(ch==='(')parens++;else if(ch===')')parens=Math.max(0,parens-1);
-  else if((ch==='\''||ch==='"')&&braces===0&&parens===0)return i;
-  else if((ch===';'||ch==='\n')&&braces===0&&parens===0)return -1;
+function skipWhitespace(view,index){
+ while(index<view.length&&/\s/.test(view[index]))index++;
+ return index;
+}
+
+function balancedEnd(view,index,open,close){
+ let depth=0;
+ for(let cursor=index;cursor<view.length;cursor++){
+  if(view[cursor]===open)depth++;
+  else if(view[cursor]===close){depth--;if(depth===0)return cursor+1;}
  }
  return -1;
 }
 
-function fromQuoteBeforeStatementEnd(view,start){
- let braces=0,parens=0;
- for(let i=start;i<view.length;i++){
-  const ch=view[i];
-  if(ch==='{')braces++;else if(ch==='}')braces=Math.max(0,braces-1);
-  else if(ch==='(')parens++;else if(ch===')')parens=Math.max(0,parens-1);
-  if(braces===0&&parens===0&&identifierAt(view,i,'from')){
-   for(let cursor=i+4;cursor<view.length;cursor++){
-    const next=view[cursor];
-    if(next==='\''||next==='"')return cursor;
-    if(next===';'||next==='\n')return -1;
-   }
+function identifierTokenAt(view,index){return isIdentifierStart(view[index]??'');}
+
+function identifierEnd(view,index){
+ let end=index+1;while(end<view.length&&isIdentifierPart(view[end]))end++;
+ return end;
+}
+
+function parseImportClause(view,start){
+ let index=skipWhitespace(view,start);
+ if(view[index]==='\''||view[index]==='"')return {quote:index,clauseEnd:index,sideEffect:true};
+ if(view[index]==='*'){
+  index=skipWhitespace(view,index+1);
+  if(!identifierAt(view,index,'as'))return null;
+  index=skipWhitespace(view,index+2);
+  if(!identifierTokenAt(view,index))return null;
+  index=identifierEnd(view,index);
+ }else if(view[index]==='{'){
+  index=balancedEnd(view,index,'{','}');if(index<0)return null;
+ }else if(identifierTokenAt(view,index)){
+  index=identifierEnd(view,index);
+  const separator=skipWhitespace(view,index);
+  if(view[separator]===','){
+   index=skipWhitespace(view,separator+1);
+   if(view[index]==='*'){
+    index=skipWhitespace(view,index+1);
+    if(!identifierAt(view,index,'as'))return null;
+    index=skipWhitespace(view,index+2);
+    if(!identifierTokenAt(view,index))return null;
+    index=identifierEnd(view,index);
+   }else if(view[index]==='{'){
+    index=balancedEnd(view,index,'{','}');if(index<0)return null;
+   }else return null;
   }
-  if((ch===';'||ch==='\n')&&braces===0&&parens===0)return -1;
+ }else return null;
+ const clauseEnd=index;
+ index=skipWhitespace(view,index);
+ if(!identifierAt(view,index,'from'))return null;
+ index=skipWhitespace(view,index+4);
+ if(view[index]!=='\''&&view[index]!=='"')return null;
+ return {quote:index,clauseEnd,sideEffect:false};
+}
+
+function parseExportClause(view,start){
+ let index=skipWhitespace(view,start);
+ if(view[index]==='*'){
+  index=skipWhitespace(view,index+1);
+  if(identifierAt(view,index,'as')){
+   index=skipWhitespace(view,index+2);
+   if(!identifierTokenAt(view,index))return {kind:'unsupported'};
+   index=identifierEnd(view,index);
+  }
+  const clauseEnd=index;
+  index=skipWhitespace(view,index);
+  if(!identifierAt(view,index,'from'))return {kind:'unsupported'};
+  index=skipWhitespace(view,index+4);
+  if(view[index]!=='\''&&view[index]!=='"')return {kind:'unsupported'};
+  return {kind:'reexport',quote:index,clauseEnd};
  }
- return -1;
+ if(view[index]==='{'){
+  const end=balancedEnd(view,index,'{','}');if(end<0)return {kind:'unsupported'};
+  let cursor=skipWhitespace(view,end);
+  if(identifierAt(view,cursor,'from')){
+   cursor=skipWhitespace(view,cursor+4);
+   if(view[cursor]!=='\''&&view[cursor]!=='"')return {kind:'unsupported'};
+   return {kind:'reexport',quote:cursor,clauseEnd:end};
+  }
+  return {kind:'local',clauseEnd:end};
+ }
+ return {kind:'local',clauseEnd:null};
+}
+
+function statementEnd(view,start){
+ let index=start;
+ while(index<view.length&&view[index]!==';'&&!isLineBreak(view[index]))index++;
+ return index;
 }
 
 const executableFunctions=new Set(['spawn','spawnSync','exec','execSync','execFile','execFileSync','fork']);
 
-function childProcessAliases(source,index,quote){
- const prefix=source.slice(index+6,quote).replace(/\bfrom\s*$/,'').trim();
- if(!prefix)return {names:new Set(),namespaces:new Set(),invalid:false};
- const names=new Set(),namespaces=new Set();
- const namespace=prefix.match(/^\*\s+as\s+([A-Za-z_$][\w$]*)$/);
- if(namespace){namespaces.add(namespace[1]);return {names,namespaces,invalid:false};}
- const braces=prefix.match(/\{([\s\S]*)\}/);
- if(braces){
-  for(const raw of braces[1].split(',')){
-   const value=raw.trim();if(!value)continue;
-   const match=value.match(/^(?:type\s+)?([A-Za-z_$][\w$]*)(?:\s+as\s+([A-Za-z_$][\w$]*))?$/);
-   if(!match)return {names,namespaces,invalid:true};
-   if(executableFunctions.has(match[1]))names.add(match[2]??match[1]);
-  }
-  return {names,namespaces,invalid:false};
+function splitImportClause(text){
+ const parts=[];let depth=0,start=0;
+ for(let index=0;index<text.length;index++){
+  if(text[index]==='{')depth++;
+  else if(text[index]==='}')depth=Math.max(0,depth-1);
+  else if(text[index]===','&&depth===0){parts.push(text.slice(start,index));start=index+1;}
  }
- const defaultImport=prefix.match(/^([A-Za-z_$][\w$]*)(?:\s*,|$)/);
- if(defaultImport)namespaces.add(defaultImport[1]);
- return {names,namespaces,invalid:!defaultImport};
+ parts.push(text.slice(start));
+ return parts;
+}
+
+function childProcessAliases(view,index,clauseEnd){
+ const names=new Set(),namespaces=new Set();
+ let seen=false;
+ for(const raw of splitImportClause(view.slice(index+6,clauseEnd))){
+  const value=raw.trim();if(!value)continue;
+  seen=true;
+  const namespace=value.match(/^\*\s+as\s+([A-Za-z_$][\w$]*)$/);
+  if(namespace){namespaces.add(namespace[1]);continue;}
+  const braces=value.match(/^\{([\s\S]*)\}$/);
+  if(braces){
+   for(const item of braces[1].split(',')){
+    const entry=item.trim();if(!entry)continue;
+    const match=entry.match(/^(?:type\s+)?([A-Za-z_$][\w$]*)(?:\s+as\s+([A-Za-z_$][\w$]*))?$/);
+    if(!match)return {names,namespaces,invalid:true};
+    const imported=match[1],local=match[2]??imported;
+    if(imported==='default')namespaces.add(local);
+    else if(executableFunctions.has(imported))names.add(local);
+   }
+   continue;
+  }
+  const defaultImport=value.match(/^([A-Za-z_$][\w$]*)$/);
+  if(defaultImport){namespaces.add(defaultImport[1]);continue;}
+  return {names,namespaces,invalid:true};
+ }
+ return {names,namespaces,invalid:!seen};
 }
 
 function executableCalls(relative,source,view,names,namespaces,skipRanges){
@@ -305,8 +444,32 @@ function executableCalls(relative,source,view,names,namespaces,skipRanges){
  return {calls,diagnostics};
 }
 
+function codeLoadDiagnostics(relative,source,view,skipRanges){
+ const diagnostics=[],skipped=index=>skipRanges.some(([start,end])=>index>=start&&index<end);
+ const add=index=>{if(!skipped(index))diagnostics.push(diagnostic('computed_code_load',relative,lineAt(source,index)));};
+ for(const pattern of [
+  /\b(?:eval|Function|require|createRequire)\b/g,
+  /\bvm\b/g,
+  /\bimport\s*\.\s*meta\s*\.\s*resolve\b/g,
+  /\bmodule\s*(?:\?\.|\.)\s*_load\b/g,
+  /\bprocess\s*(?:\?\.|\.)\s*(?:binding|getBuiltinModule|mainModule|dlopen)\b/g,
+  /\b(?:globalThis|global|window|self)\s*(?:\?\.|\.)\s*(?:eval|Function|require|createRequire|binding|getBuiltinModule|mainModule|_load)\b/g
+ ]){
+  for(const match of view.matchAll(pattern))add(match.index);
+ }
+ for(const pattern of [/\bprocess\s*(?:\?\.)?\s*\[/g,/\bmodule\s*(?:\?\.)?\s*\[/g,/\b(?:globalThis|global|window|self)\s*(?:\?\.)?\s*\[/g]){
+  for(const match of view.matchAll(pattern)){
+   const open=view.indexOf('[',match.index),literal=literalAt(source,open+1);
+   let close=literal?literal.end:open+1;while(close<view.length&&/\s/.test(view[close]))close++;
+   const forbidden=['binding','getBuiltinModule','mainModule','dlopen','_load','eval','Function','require','createRequire'];
+   if(!literal||view[close]!==']'||forbidden.includes(literal.value))add(match.index);
+  }
+ }
+ return diagnostics;
+}
+
 function scanModule(relative,source){
- const view=codeView(source),references=[],diagnostics=[],executableNames=new Set(),executableNamespaces=new Set(),skipRanges=[],localExportStarts=[];
+ const view=codeView(source),references=[],diagnostics=[],executableNames=new Set(),executableNamespaces=new Set(),skipRanges=[],localExportSpans=[];
  for(let index=0;index<view.length;index++){
   if(identifierAt(view,index,'import')){
    let cursor=index+6;while(cursor<view.length&&/\s/.test(view[cursor]))cursor++;
@@ -321,12 +484,12 @@ function scanModule(relative,source){
     if(literal.value==='node:child_process')diagnostics.push(diagnostic('unreviewed_executable_import',relative,lineAt(source,index)));
     continue;
    }
-   const quote=firstQuoteBeforeStatementEnd(view,index+6);
-   if(quote<0){diagnostics.push(diagnostic('unsupported_import_syntax',relative,lineAt(source,index)));continue;}
-   const literal=literalAt(source,quote);
+   const clause=parseImportClause(view,index+6);
+   if(!clause){diagnostics.push(diagnostic('unsupported_import_syntax',relative,lineAt(source,index)));continue;}
+   const literal=literalAt(source,clause.quote);
    if(!literal){diagnostics.push(diagnostic('unsupported_import_syntax',relative,lineAt(source,index)));continue;}
     if(literal.value==='node:child_process'){
-     const aliases=childProcessAliases(source,index,quote);
+     const aliases=childProcessAliases(view,index,clause.clauseEnd);
      if(aliases.invalid)diagnostics.push(diagnostic('unsupported_import_syntax',relative,lineAt(source,index)));
      for(const name of aliases.names)executableNames.add(name);
      for(const name of aliases.namespaces)executableNamespaces.add(name);
@@ -336,25 +499,26 @@ function scanModule(relative,source){
     continue;
    }
    if(identifierAt(view,index,'export')){
-    const quote=fromQuoteBeforeStatementEnd(view,index+6);
-    if(quote<0){localExportStarts.push(index);continue;}
-    const literal=literalAt(source,quote);
+    const clause=parseExportClause(view,index+6);
+    if(clause.kind==='unsupported'){diagnostics.push(diagnostic('unsupported_import_syntax',relative,lineAt(source,index)));continue;}
+    if(clause.kind==='local'){localExportSpans.push({start:index,end:clause.clauseEnd??statementEnd(view,index+6)});continue;}
+    const literal=literalAt(source,clause.quote);
     if(!literal){diagnostics.push(diagnostic('unsupported_import_syntax',relative,lineAt(source,index)));continue;}
     skipRanges.push([index,literal.end]);
     if(literal.value==='node:child_process')diagnostics.push(diagnostic('unreviewed_executable_export',relative,lineAt(source,index)));
     references.push({specifier:literal.value,kind:'relative_static_reexport',line:lineAt(source,index)});
    }
   }
-  for(const start of localExportStarts){
-   let end=start;while(end<view.length&&view[end]!==';'&&view[end]!=='\n')end++;
+  for(const {start,end} of localExportSpans){
    const segment=view.slice(start,end);
    for(const name of [...executableNames,...executableNamespaces]){
     if(new RegExp('\\b'+escapeRegExp(name)+'\\b').test(segment))diagnostics.push(diagnostic('unreviewed_executable_export',relative,lineAt(source,start)));
    }
   }
-  for(const pattern of [/\brequire\s*\(/g,/\bcreateRequire\s*\(/g,/\bnew\s+Function\s*\(/g,/\beval\s*\(/g,/\bimport\.meta\.resolve\s*\(/g,/\bvm\./g,/\bprocess\.getBuiltinModule\s*\(/g,/\bprocess\.binding\s*\(/g]){
-   for(const match of view.matchAll(pattern))diagnostics.push(diagnostic('computed_code_load',relative,lineAt(source,match.index)));
+  for(const match of view.matchAll(/\\(?:u(?:\{[0-9A-Fa-f]+\}|[0-9A-Fa-f]{4})|x[0-9A-Fa-f]{2})/g)){
+   diagnostics.push(diagnostic('unsupported_identifier_escape',relative,lineAt(source,match.index)));
   }
+  diagnostics.push(...codeLoadDiagnostics(relative,source,view,skipRanges));
   const executable=executableCalls(relative,source,view,executableNames,executableNamespaces,skipRanges);
   diagnostics.push(...executable.diagnostics);
   const seen=new Set(),unique=diagnostics.filter(item=>{const key=item.code+'\0'+item.path+'\0'+item.line;if(seen.has(key))return false;seen.add(key);return true;});

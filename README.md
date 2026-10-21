@@ -2,6 +2,8 @@
 
 [Offline source admission](docs/CODEX-ACCOUNTED-SOURCE-ADMISSION.md) inventories the accounted checker and its reading projection without executing them; `node scripts/check-codex-accounted-source.mjs` is a read-only, fail-closed repository-source check. It does not enable a provider, authentication, native execution or production admission.
 
+Second review correction: multiline/comment-separated module clauses, combined default/named/namespace child-process imports and regex-versus-division lexical states are covered by fail-closed negative fixtures; see the [source-admission document](docs/CODEX-ACCOUNTED-SOURCE-ADMISSION.md) and its appended validation evidence.
+
 独立运行的实验性梦境层：获准的虚构快照 → 最多两幕梦境及模拟情绪 → 独立醒来残片与余韵 → 带来源身份的字面线索召回候选。Node.js 24+／JavaScript，MIT，无运行时依赖。
 
 **当前状态：第一阶段本地工程闭环已有实现与有界证据；梦境总体质量尚未验收，Asteria 适配待对接。** 梦境事件始终不是现实事实；不会写入真实记忆、人格或任务，也不会执行梦中文字中的现实工具指令。当前仅支持虚构素材。

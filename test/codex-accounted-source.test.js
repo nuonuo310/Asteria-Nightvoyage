@@ -12,6 +12,11 @@ const verify=fixture=>{
  const manifest=readManifest(fixture);
  return verifyInventory({repoRoot:fixture.root,manifest,manifestHash:fixture.manifestHash,expectedManifestHash:fixture.manifestHash});
 };
+const review=fixture=>{
+ const manifest=buildManifest({repoRoot:fixture.root,definitions:fixtureDefinitions});
+ const manifestHash=rewriteManifest(fixture,manifest);
+ return verifyInventory({repoRoot:fixture.root,manifest,manifestHash,expectedManifestHash:manifestHash});
+};
 const codes=result=>new Set(result.diagnostics.map(item=>item.code));
 const hasDiagnostic=(result,code,relative,line)=>result.diagnostics.some(item=>item.code===code&&(!relative||item.path===relative)&&(!line||item.line===line));
 function treeSnapshot(root){
@@ -185,6 +190,97 @@ test('re-exporting child_process loading fails closed',t=>{
  const fixture=createSourceFixture(t);
  write(fixture,'scripts/dep-c.mjs',"export {spawn} from 'node:child_process';\n");
  assert.ok(hasDiagnostic(inventory(fixture),'unreviewed_executable_export','scripts/dep-c.mjs'));
+});
+
+test('multiline and comment-separated imports and re-exports are inventoried or refused',t=>{
+ const star=createSourceFixture(t);
+ write(star,'scripts/dep-x.mjs','export const depX=true;\n');
+ write(star,'scripts/dep-c.mjs',"export *\n/* gap */\nfrom './dep-x.mjs';\n");
+ const starInventory=inventory(star);
+ assert.ok(starInventory.edges.some(edge=>edge.from==='scripts/dep-c.mjs'&&edge.to==='scripts/dep-x.mjs'&&edge.kind==='relative_static_reexport'));
+ assert.ok(starInventory.files.some(file=>file.path==='scripts/dep-x.mjs'));
+ assert.equal(starInventory.diagnostics.length,0);
+ assert.equal(review(star).status,'verified');
+
+ const named=createSourceFixture(t);
+ write(named,'scripts/dep-x.mjs','export const depX=true;\n');
+ write(named,'scripts/dep-c.mjs',"export {\n depX\n}\n/* gap */ from\n './dep-x.mjs';\n");
+ const namedInventory=inventory(named);
+ assert.ok(namedInventory.edges.some(edge=>edge.from==='scripts/dep-c.mjs'&&edge.to==='scripts/dep-x.mjs'&&edge.kind==='relative_static_reexport'));
+ assert.equal(namedInventory.diagnostics.length,0);
+ assert.equal(review(named).status,'verified');
+
+ const imported=createSourceFixture(t);
+ write(imported,'scripts/dep-x.mjs','export const depX=true;\n');
+ write(imported,'scripts/dep-c.mjs',"import {\n depX\n}\nfrom './dep-x.mjs';\nexport const value=depX;\n");
+ const importedInventory=inventory(imported);
+ assert.ok(importedInventory.edges.some(edge=>edge.from==='scripts/dep-c.mjs'&&edge.to==='scripts/dep-x.mjs'&&edge.kind==='relative_static_import'));
+ assert.equal(importedInventory.diagnostics.length,0);
+ assert.equal(review(imported).status,'verified');
+
+ const missing=createSourceFixture(t);
+ write(missing,'scripts/dep-c.mjs',"export *\n from './missing.mjs';\n");
+ assert.ok(hasDiagnostic(inventory(missing),'source_file_missing','scripts/missing.mjs'));
+ assert.equal(review(missing).status,'blocked');
+});
+
+test('default, named, namespace, and computed child_process forms fail closed',t=>{
+ const cases=[
+  ["import cp, {spawn} from 'node:child_process';\ncp.spawn(process.execPath,['./dep-x.mjs']);\n",'unclassified_executable_call',2],
+  ["import cp, * as ns from 'node:child_process';\nns.exec(process.execPath);\n",'unclassified_executable_call',2],
+  ["import {default as cp} from 'node:child_process';\ncp.execFile('x');\n",'unclassified_executable_call',2],
+  ["import {\n spawn as launch\n}\nfrom 'node:child_process';\nlaunch(process.execPath);\n",'unclassified_executable_call',5],
+  ["import cp from 'node:child_process';\ncp['spawn'](process.execPath);\n",'unsupported_executable_usage',2]
+ ];
+ for(const [source,code,line] of cases){
+  const fixture=createSourceFixture(t);
+  write(fixture,'scripts/dep-x.mjs','export const depX=true;\n');
+  write(fixture,'scripts/dep-c.mjs',source);
+  const built=inventory(fixture);
+  assert.ok(hasDiagnostic(built,code,'scripts/dep-c.mjs',line),`${code}@${line}`);
+  assert.equal(review(fixture).status,'blocked');
+ }
+
+ const source="import cp, {spawn} from 'node:child_process';\ncp.spawn(process.execPath,['one']);\nspawn(process.execPath,['two']);\n";
+ const definitions={...fixtureDefinitions,executableOccurrences:[{id:'reviewed_one',kind:'repository_child',from:'scripts/dep-c.mjs',
+  sourceToken:"cp.spawn(process.execPath,['one']",sourceSha256:hashText(source),occurrence:0}]};
+ const occurrence=createSourceFixture(t);
+ write(occurrence,'scripts/dep-c.mjs',source);
+ const occurrenceInventory=inventory(occurrence,definitions);
+ assert.equal(occurrenceInventory.edges.filter(edge=>edge.kind==='reviewed_executable_occurrence').length,1);
+ assert.ok(hasDiagnostic(occurrenceInventory,'unclassified_executable_call','scripts/dep-c.mjs',3));
+});
+
+test('regex literals stay lexical while division, strings, and templates expose following code',t=>{
+ const cases=[
+  ["const re = /\"/; await import(moduleName); // \"\n",1],
+  ["const re = /[//]/; await import(moduleName); //\n",1],
+  ["const re = /[/*]/; await import(moduleName); /* \" */\n",1],
+  ["if (flag) /[//]/.test(text);\nawait import(moduleName); //\n",2],
+  ["if (flag) {}\nconst re = /[//]/;\nawait import(moduleName); //\n",3],
+  ["function f() {}\nconst re = /[//]/;\nawait import(moduleName); //\n",3],
+  ["function f(){ return /\"/; }\nawait import(moduleName); //\n",2],
+  ["const ratio = width / height / 2;\nawait import(moduleName); //\n",2],
+  ["const value = call() / 2;\nawait import(moduleName); //\n",2],
+  ["const value = list[0] / 2;\nawait import(moduleName); //\n",2],
+  ["const url = 'https://example.invalid/a';\nawait import(moduleName); //\n",2],
+  ["const text = `await import('./dep-x.mjs')`;\nawait import(moduleName); //\n",2]
+ ];
+ for(const [source,line] of cases){
+  const fixture=createSourceFixture(t);
+  write(fixture,'scripts/dep-x.mjs','export const depX=true;\n');
+  write(fixture,'scripts/dep-c.mjs',source);
+  const built=inventory(fixture);
+  assert.ok(hasDiagnostic(built,'computed_code_load','scripts/dep-c.mjs',line),`computed_code_load@${line}`);
+  assert.equal(built.edges.some(edge=>edge.from==='scripts/dep-c.mjs'&&edge.to==='scripts/dep-x.mjs'),false);
+  assert.equal(review(fixture).status,'blocked');
+ }
+
+ const safe=createSourceFixture(t);
+ write(safe,'scripts/dep-c.mjs',"const re = /[//]/;\nconst home = process.env['HOME'];\nexport const ok=home;\n");
+ const safeInventory=inventory(safe);
+ assert.equal(safeInventory.diagnostics.length,0);
+ assert.equal(review(safe).status,'verified');
 });
 
 test('UTF-16 offsets keep lines correct after astral characters',t=>{
