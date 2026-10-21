@@ -1,5 +1,11 @@
 # Asteria-Nightvoyage · 夜航
 
+[Offline source admission](docs/CODEX-ACCOUNTED-SOURCE-ADMISSION.md) inventories the accounted checker and its reading projection without executing them; `node scripts/check-codex-accounted-source.mjs` is a read-only, fail-closed repository-source check. It does not enable a provider, authentication, native execution or production admission.
+
+Second review correction: multiline/comment-separated module clauses, combined default/named/namespace child-process imports and regex-versus-division lexical states are covered by fail-closed negative fixtures; see the [source-admission document](docs/CODEX-ACCOUNTED-SOURCE-ADMISSION.md) and its appended validation evidence.
+
+Third review correction: admission is now derived only from the [exact-source-hash-bound reviewed registry](docs/proposals/codex-accounted-source-reviewed-registry-v1.json). The generated [candidate manifest](docs/proposals/codex-accounted-source-admission-v1.json) is permanently `candidate_requires_review` and cannot admit a new or changed source. The registry review owner is procedural DeepSeek attribution, not human acceptance.
+
 独立运行的实验性梦境层：获准的虚构快照 → 最多两幕梦境及模拟情绪 → 独立醒来残片与余韵 → 带来源身份的字面线索召回候选。Node.js 24+／JavaScript，MIT，无运行时依赖。
 
 **当前状态：第一阶段本地工程闭环已有实现与有界证据；梦境总体质量尚未验收，Asteria 适配待对接。** 梦境事件始终不是现实事实；不会写入真实记忆、人格或任务，也不会执行梦中文字中的现实工具指令。当前仅支持虚构素材。
@@ -189,3 +195,5 @@ The retained native-local Windows round [completed accounting but remained block
 The [fresh EOF observation entry](docs/CODEX-EOF-WAIT-OBSERVATION.md) is ready for separate Windows native verification, using a distinct fixed identity/directory and compact receipt. It admits a local success only with observed normal EOF, confirmed temporary cleanup and completed retained accounting. Independent fixtures pass; it does not reopen the consumed trial or enable real subscription inference.
 
 The [fresh EOF Windows local observation passed](docs/CODEX-EOF-WAIT-WINDOWS-RESULT.md): normal zero exit without force, confirmed leased-root removal on attempt six, and completed/closed two-call retained accounting. This qualifies that local fixture round; real subscription dreaming remains unverified. Next is full-dream stage/checkpoint binding for persistent per-HTTP accounting, using independent fixtures.
+
+Review correction for the offline source admission: reviewed executable calls are now bound to an exact owning-source hash, token and occurrence, template interpolations are scanned as code, and aliased/namespaced or computed executable launches fail closed. The committed evidence remains an offline repository-source inventory, not a provider, native-execution or production admission.
