@@ -6,6 +6,8 @@ Second review correction: multiline/comment-separated module clauses, combined d
 
 Third review correction: admission is now derived only from the [exact-source-hash-bound reviewed registry](docs/proposals/codex-accounted-source-reviewed-registry-v1.json). The generated [candidate manifest](docs/proposals/codex-accounted-source-admission-v1.json) is permanently `candidate_requires_review` and cannot admit a new or changed source. The registry review owner is procedural DeepSeek attribution, not human acceptance.
 
+Offline integration candidate: exact reviewed PR #83 and PR #82 heads were locally merged in that order on `deepseek/nightvoyage-offline-integration-v1` at authority `917c4e04924d01ff033e738dc91d4909c6145402`; PR #82 uses `a7fa9b373e2111a085a0fa8d8427357939e00210`, not `dec6975`. The bounded Windows probe observed file and directory symbolic-link support with complete cleanup, and the combined offline suite passed 1873/1873. See the [offline integration review](docs/OFFLINE-INTEGRATION-REVIEW.md). This is a draft candidate only: no GitHub merge, main write, native Codex, login, real credential read or real-provider result is claimed.
+
 独立运行的实验性梦境层：获准的虚构快照 → 最多两幕梦境及模拟情绪 → 独立醒来残片与余韵 → 带来源身份的字面线索召回候选。Node.js 24+／JavaScript，MIT，无运行时依赖。
 
 **当前状态：第一阶段本地工程闭环已有实现与有界证据；梦境总体质量尚未验收，Asteria 适配待对接。** 梦境事件始终不是现实事实；不会写入真实记忆、人格或任务，也不会执行梦中文字中的现实工具指令。当前仅支持虚构素材。

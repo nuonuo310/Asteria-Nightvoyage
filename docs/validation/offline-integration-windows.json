@@ -1,0 +1,338 @@
+{
+    "recordVersion":  "offline-integration-windows-v1",
+    "status":  "local_integration_and_offline_verification_complete",
+    "authority":  {
+                      "repository":  "nuonuo310/Asteria-Nightvoyage",
+                      "commit":  "917c4e04924d01ff033e738dc91d4909c6145402",
+                      "parent":  "fe55734f209f3aaa59b2cdf59bd27b19488a6233",
+                      "package":  "docs/construction-envelopes/2026-10-21-offline-integration-v1.md",
+                      "packageBlob":  "78ed4451b1d5b581419e71ea669fbb4390b14772",
+                      "packageSha256":  "41c0536321e23948e17d1d246af90e83f016f0bdad3b1b2ea7c83a06935c6997",
+                      "diffOnlyAddsPackage":  true,
+                      "packageBlobPreserved":  true,
+                      "authorityIsAncestor":  true
+                  },
+    "environment":  {
+                        "platform":  "win32",
+                        "node":  "v24.19.0",
+                        "arch":  "x64",
+                        "osVersion":  "10.0.26200.0",
+                        "checkoutSeparateFromExistingWorktrees":  true
+                    },
+    "integration":  {
+                        "branch":  "deepseek/nightvoyage-offline-integration-v1",
+                        "order":  [
+                                      "PR #83",
+                                      "PR #82"
+                                  ],
+                        "candidateHead":  "0ec94b2782f11f76c4900633b3ba3c88d90ed9e4",
+                        "candidateHeadTree":  "6d516deceeaef0dd6d25a587d653856cb550df7e",
+                        "testedExecutableTree":  "786f8fe02ebe4f5434fd8743020c95994ce8bfbc",
+                        "authorityIsAncestor":  true,
+                        "pr83IsAncestor":  true,
+                        "pr82IsAncestor":  true,
+                        "pr83Merge":  {
+                                          "commit":  "ff4ffdfd5674a2b083f6b4b6879b294a2a093a9b",
+                                          "parents":  [
+                                                          "917c4e04924d01ff033e738dc91d4909c6145402",
+                                                          "46ccd57bfd7a8dad64f31c139edc32e8d6395a5f"
+                                                      ],
+                                          "input":  "46ccd57bfd7a8dad64f31c139edc32e8d6395a5f"
+                                      },
+                        "pr82Merge":  {
+                                          "commit":  "0ec94b2782f11f76c4900633b3ba3c88d90ed9e4",
+                                          "parents":  [
+                                                          "ff4ffdfd5674a2b083f6b4b6879b294a2a093a9b",
+                                                          "a7fa9b373e2111a085a0fa8d8427357939e00210"
+                                                      ],
+                                          "input":  "a7fa9b373e2111a085a0fa8d8427357939e00210"
+                                      },
+                        "rebaseSquashOrSelectiveRewrite":  false,
+                        "mainWritten":  false,
+                        "previousWorktreesModified":  false
+                    },
+    "inputPreservation":  {
+                              "pr83":  {
+                                           "base":  "fe55734f209f3aaa59b2cdf59bd27b19488a6233",
+                                           "head":  "46ccd57bfd7a8dad64f31c139edc32e8d6395a5f",
+                                           "changedFileCount":  9,
+                                           "resolvedDocumentation":  [
+                                                                         "README.md",
+                                                                         "PROGRESS.md"
+                                                                     ],
+                                           "preservedFileCount":  7,
+                                           "blobMismatchCount":  0,
+                                           "preservedFiles":  [
+                                                                  {
+                                                                      "path":  "docs/CODEX-CREDENTIAL-WINDOWS-REPAIR.md",
+                                                                      "inputBlob":  "8ad4f66df058140f4432cb2a35a480fd76a197dd",
+                                                                      "candidateBlob":  "8ad4f66df058140f4432cb2a35a480fd76a197dd",
+                                                                      "equal":  true
+                                                                  },
+                                                                  {
+                                                                      "path":  "docs/validation/codex-credential-windows-repair.json",
+                                                                      "inputBlob":  "4827aee40ba1ebe582df16385f218d2fe30cd847",
+                                                                      "candidateBlob":  "4827aee40ba1ebe582df16385f218d2fe30cd847",
+                                                                      "equal":  true
+                                                                  },
+                                                                  {
+                                                                      "path":  "scripts/check-codex-plan-credential-owner.mjs",
+                                                                      "inputBlob":  "09a58319da64fabc4ab202b5d183cba441a45226",
+                                                                      "candidateBlob":  "09a58319da64fabc4ab202b5d183cba441a45226",
+                                                                      "equal":  true
+                                                                  },
+                                                                  {
+                                                                      "path":  "scripts/codex-credential-rehearsal-policy.mjs",
+                                                                      "inputBlob":  "7bb18525381b1e7d2053ad8db77fc1f897733a7e",
+                                                                      "candidateBlob":  "7bb18525381b1e7d2053ad8db77fc1f897733a7e",
+                                                                      "equal":  true
+                                                                  },
+                                                                  {
+                                                                      "path":  "scripts/codex-plan-credential-rehearsal.mjs",
+                                                                      "inputBlob":  "f5856fd69da8220bf71b721283d1d357ddc89ed2",
+                                                                      "candidateBlob":  "f5856fd69da8220bf71b721283d1d357ddc89ed2",
+                                                                      "equal":  true
+                                                                  },
+                                                                  {
+                                                                      "path":  "test-support/codex-plan-credential-child.mjs",
+                                                                      "inputBlob":  "10c6913cbe0e7b81d92c9d72208e3b3f9fc54829",
+                                                                      "candidateBlob":  "10c6913cbe0e7b81d92c9d72208e3b3f9fc54829",
+                                                                      "equal":  true
+                                                                  },
+                                                                  {
+                                                                      "path":  "test/codex-plan-credential-owner.test.js",
+                                                                      "inputBlob":  "d328619fd01b1fdeee566e6df04f31e64839ca5b",
+                                                                      "candidateBlob":  "d328619fd01b1fdeee566e6df04f31e64839ca5b",
+                                                                      "equal":  true
+                                                                  }
+                                                              ]
+                                       },
+                              "pr82":  {
+                                           "base":  "f75e4054bd82bbd0c7023f8b3a73536f44d74b97",
+                                           "head":  "a7fa9b373e2111a085a0fa8d8427357939e00210",
+                                           "changedFileCount":  14,
+                                           "resolvedDocumentation":  [
+                                                                         "README.md",
+                                                                         "PROGRESS.md"
+                                                                     ],
+                                           "preservedFileCount":  12,
+                                           "blobMismatchCount":  0,
+                                           "preservedFiles":  [
+                                                                  {
+                                                                      "path":  "docs/CODEX-ACCOUNTED-SOURCE-ADMISSION.md",
+                                                                      "inputBlob":  "ef3cff38a00d0749a6f032827aa1467f35ee347b",
+                                                                      "candidateBlob":  "ef3cff38a00d0749a6f032827aa1467f35ee347b",
+                                                                      "equal":  true
+                                                                  },
+                                                                  {
+                                                                      "path":  "docs/proposals/codex-accounted-source-admission-v1.json",
+                                                                      "inputBlob":  "d36b073c6407f9b18bb0bc781b3e0653ee455078",
+                                                                      "candidateBlob":  "d36b073c6407f9b18bb0bc781b3e0653ee455078",
+                                                                      "equal":  true
+                                                                  },
+                                                                  {
+                                                                      "path":  "docs/proposals/codex-accounted-source-reviewed-registry-v1.json",
+                                                                      "inputBlob":  "f6f565158beb9e782b45c6944850a1651096c9bf",
+                                                                      "candidateBlob":  "f6f565158beb9e782b45c6944850a1651096c9bf",
+                                                                      "equal":  true
+                                                                  },
+                                                                  {
+                                                                      "path":  "docs/validation/codex-accounted-source-admission-blocked-receipt.json",
+                                                                      "inputBlob":  "3f8be73596bcdef27918d50ee2dafdbd54cde6e8",
+                                                                      "candidateBlob":  "3f8be73596bcdef27918d50ee2dafdbd54cde6e8",
+                                                                      "equal":  true
+                                                                  },
+                                                                  {
+                                                                      "path":  "docs/validation/codex-accounted-source-admission-review-blocked-receipt.json",
+                                                                      "inputBlob":  "95a8879ce89c8322a82d0f767e384a5a620eaa97",
+                                                                      "candidateBlob":  "95a8879ce89c8322a82d0f767e384a5a620eaa97",
+                                                                      "equal":  true
+                                                                  },
+                                                                  {
+                                                                      "path":  "docs/validation/codex-accounted-source-admission.json",
+                                                                      "inputBlob":  "a140a5b66b53f2120ae26d29ec19e8a1169f302b",
+                                                                      "candidateBlob":  "a140a5b66b53f2120ae26d29ec19e8a1169f302b",
+                                                                      "equal":  true
+                                                                  },
+                                                                  {
+                                                                      "path":  "docs/validation/codex-accounted-source-coordinator-review.json",
+                                                                      "inputBlob":  "432d2b37803a5b987ef753cc2487338c8063b0f3",
+                                                                      "candidateBlob":  "432d2b37803a5b987ef753cc2487338c8063b0f3",
+                                                                      "equal":  true
+                                                                  },
+                                                                  {
+                                                                      "path":  "scripts/check-codex-accounted-source.mjs",
+                                                                      "inputBlob":  "259f686092e782319cc61f68e471ab0762b644fb",
+                                                                      "candidateBlob":  "259f686092e782319cc61f68e471ab0762b644fb",
+                                                                      "equal":  true
+                                                                  },
+                                                                  {
+                                                                      "path":  "scripts/codex-accounted-source-inventory.mjs",
+                                                                      "inputBlob":  "fb1a3095f54449c89f7ed70ad870e8f38b0c867a",
+                                                                      "candidateBlob":  "fb1a3095f54449c89f7ed70ad870e8f38b0c867a",
+                                                                      "equal":  true
+                                                                  },
+                                                                  {
+                                                                      "path":  "scripts/codex-accounted-source-manifest.mjs",
+                                                                      "inputBlob":  "b53d9b0f96b267b9dfcf150597b4732f90b2e60f",
+                                                                      "candidateBlob":  "b53d9b0f96b267b9dfcf150597b4732f90b2e60f",
+                                                                      "equal":  true
+                                                                  },
+                                                                  {
+                                                                      "path":  "test-support/codex-accounted-source-fixtures.js",
+                                                                      "inputBlob":  "38bef8b7ee0e21420db0972cfefe19d2ae9b7a21",
+                                                                      "candidateBlob":  "38bef8b7ee0e21420db0972cfefe19d2ae9b7a21",
+                                                                      "equal":  true
+                                                                  },
+                                                                  {
+                                                                      "path":  "test/codex-accounted-source.test.js",
+                                                                      "inputBlob":  "04590c22df1e3d42ba94556408b9de4353a7f5a9",
+                                                                      "candidateBlob":  "04590c22df1e3d42ba94556408b9de4353a7f5a9",
+                                                                      "equal":  true
+                                                                  }
+                                                              ]
+                                       },
+                              "inputBlobMismatches":  0,
+                              "documentationConflictResolution":  "Both historical entries retained in chronological order; no source/test/registry conflict occurred.",
+                              "oldPr82CommitExcluded":  "dec6975 not used as the reviewed PR #82 input"
+                          },
+    "windowsCapability":  {
+                              "command":  "node scripts/check-offline-integration-capability.mjs",
+                              "exitCode":  0,
+                              "status":  "capability_available",
+                              "fileSymlink":  "supported",
+                              "directorySymlink":  "supported",
+                              "fileSymlinkErrorCode":  null,
+                              "directorySymlinkErrorCode":  null,
+                              "ownedCleanup":  "complete",
+                              "privilegeOrPolicyChange":  false,
+                              "developerModeEnabled":  false,
+                              "aclOrOwnershipChanged":  false,
+                              "unexpectedArguments":  {
+                                                          "exitCode":  1,
+                                                          "status":  "arguments_rejected"
+                                                      }
+                          },
+    "verification":  {
+                         "preliminaryDiffCheck":  {
+                                                      "exitCode":  129,
+                                                      "classification":  "repository_selection_missing_from_shell_invocation",
+                                                      "rawRepositoryDataReturned":  false
+                                                  },
+                         "diffCheck":  {
+                                           "command":  "git -c safe.directory=\u003cowned-worktree\u003e -C \u003cowned-worktree\u003e diff --check",
+                                           "exitCode":  0
+                                       },
+                         "targeted":  {
+                                          "command":  "node --test test/codex-accounted-source.test.js test/codex-plan-credential-owner.test.js",
+                                          "exitCode":  0,
+                                          "tests":  37,
+                                          "pass":  37,
+                                          "fail":  0,
+                                          "skipped":  0,
+                                          "durationMs":  1273.0467
+                                      },
+                         "sourceChecker":  {
+                                               "command":  "node scripts/check-codex-accounted-source.mjs",
+                                               "exitCode":  0,
+                                               "status":  "repository_source_inventory_verified",
+                                               "reviewMode":  "exact_reviewed_source_registry",
+                                               "files":  65,
+                                               "sourceFiles":  63,
+                                               "fixedDataFiles":  2,
+                                               "fixedConfigFiles":  1,
+                                               "childPrograms":  2,
+                                               "edges":  242,
+                                               "diagnostics":  0,
+                                               "registrySha256":  "42b5d560366c598dafadce8c376697eb3aa5e3e00c12637bbef63b2738a806d4",
+                                               "manifestSha256":  "fa988b747d2337409641866e114ba1280cc3c0db73ac020630f9314d6e3e4143",
+                                               "closureSha256":  "8055bd5f965737e5bc742648a6b74ef7cc9f559d028bf8956bd07d9c1542b8a1",
+                                               "edgesSha256":  "722dadb4f371be0802a65fd6ba1f71ff586b8db3ba8a5f29ea2fa77e76f7055d",
+                                               "candidateManifestCanAdmit":  false
+                                           },
+                         "credentialChecker":  {
+                                                   "command":  "node scripts/check-codex-plan-credential-owner.mjs",
+                                                   "exitCode":  0,
+                                                   "status":  "passed",
+                                                   "independentCases":  7,
+                                                   "exactOutcomes":  true,
+                                                   "outcomes":  {
+                                                                    "success":  "completed/null",
+                                                                    "timeout":  "blocked/timeout",
+                                                                    "cancel":  "blocked/cancelled",
+                                                                    "late_response":  "blocked/cancelled",
+                                                                    "failed_spawn":  "blocked/spawn_failed",
+                                                                    "failed_child":  "blocked/untrusted_child_output",
+                                                                    "secret_output":  "blocked/untrusted_child_output"
+                                                                },
+                                                   "realModelRequests":  0,
+                                                   "credentialReads":  0,
+                                                   "nativeCodexProcessStarted":  false
+                                               },
+                         "accountedDream":  {
+                                                "command":  "node scripts/check-codex-accounted-dream.mjs",
+                                                "exitCode":  0,
+                                                "status":  "accounted_fictional_dream_completed",
+                                                "kind":  "independent_node_peer",
+                                                "savedScenes":  2,
+                                                "wakeSaved":  true,
+                                                "persistedLocalHttpIntents":  3,
+                                                "replayAdditionalChildren":  0,
+                                                "originalUnchanged":  true,
+                                                "dreambookReadable":  true,
+                                                "withdrawalSuppressesReopenedViews":  true,
+                                                "stageOwnedCleanupComplete":  true,
+                                                "nativeAppServerIntegrated":  false,
+                                                "realModelRequests":  0,
+                                                "credentialReads":  0
+                                            },
+                         "fullSuite":  {
+                                           "command":  "node --test",
+                                           "exitCode":  0,
+                                           "finalRunCount":  1,
+                                           "tests":  1873,
+                                           "pass":  1873,
+                                           "fail":  0,
+                                           "cancelled":  0,
+                                           "skipped":  0,
+                                           "todo":  0,
+                                           "durationMs":  596272.2715,
+                                           "wallClockMs":  596347.6,
+                                           "assertionFailures":  0,
+                                           "capabilityFailures":  0,
+                                           "timeouts":  0
+                                       }
+                     },
+    "newArtifacts":  {
+                         "scripts/check-offline-integration-capability.mjs":  {
+                                                                                  "normalizedSha256":  "fd1be7d5f84f33ff4e9048b333aeb089e33d0ee4234e7af747dbdf3dd6b165d9",
+                                                                                  "rawSha256":  "fd1be7d5f84f33ff4e9048b333aeb089e33d0ee4234e7af747dbdf3dd6b165d9",
+                                                                                  "normalization":  "UTF-8 text with CRLF and lone CR normalized to LF"
+                                                                              }
+                     },
+    "safety":  {
+                   "loginAttempts":  0,
+                   "credentialReads":  0,
+                   "realCredentialValuesUsed":  0,
+                   "nativeCodexInvocations":  0,
+                   "realModelRequests":  0,
+                   "providerRequests":  0,
+                   "feesIncurred":  0,
+                   "codexConfigurationChanged":  false,
+                   "codexHomeChanged":  false,
+                   "modelOrProviderChanged":  false,
+                   "mainWritten":  false,
+                   "reviewedPinsRefreshed":  false,
+                   "pr82OrPr83Merged":  false,
+                   "existingWorktreesModified":  false,
+                   "machinePolicyOrAclChanged":  false,
+                   "temporaryProbePathsReturned":  false,
+                   "rawErrorsReturned":  false
+               },
+    "remainingLimits":  [
+                            "This validates the scripted offline combination on one Windows environment; it is not Linux verification, production admission, native Codex, authentication, real credentials or real-provider inference.",
+                            "The capability probe observes file and directory symbolic-link availability only; it does not prove containment or traversal resistance.",
+                            "The exact reviewed source registry remains authoritative and was not refreshed, widened or auto-approved.",
+                            "A draft PR publication is reported separately; no GitHub merge or main write is authorized."
+                        ]
+}
