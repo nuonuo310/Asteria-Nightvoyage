@@ -5,6 +5,8 @@ import {createHash} from 'node:crypto';
 
 export const inventoryVersion='codex-accounted-source-inventory-v1';
 export const manifestVersion='codex-accounted-source-manifest-v1';
+export const reviewedRegistryVersion='codex-accounted-reviewed-source-registry-v1';
+export const manifestReviewStatus='candidate_requires_review';
 export const hashPolicy='text_utf8_crlf_to_lf_sha256_v1; binary_raw_sha256_v1';
 export const edgeClasses=Object.freeze([
  'relative_static_import','relative_static_reexport','literal_dynamic_import','node_builtin',
@@ -542,12 +544,68 @@ function normalizeDefinitions(definitions={}){
  return {roots:definitions.roots??defaultRoots,explicitEdges:definitions.explicitEdges??defaultExplicitEdges,fixedInputs:definitions.fixedInputs??defaultFixedInputs,
   externalPrograms:definitions.externalPrograms??defaultExternalPrograms,runtimeInputs:definitions.runtimeInputs??defaultRuntimeInputs,
   executableOccurrences:definitions.executableOccurrences??defaultExecutableOccurrences,
-  exclusions:definitions.exclusions??defaultExclusions,authority:definitions.authority??null};
+  exclusions:definitions.exclusions??defaultExclusions,authority:definitions.authority??null,
+  reviewedRegistry:definitions.reviewedRegistry??null};
+}
+
+function edgeKey(edge){
+ return [edge.from??'',edge.to??'',edge.kind??'',edge.line??'',edge.edgeId??'',edge.importMode??''].join('\0');
+}
+
+function definitionsFromRegistry(registry){
+ return {roots:registry.roots??[],explicitEdges:registry.explicitEdges??[],fixedInputs:registry.fixedInputs??[],
+  externalPrograms:registry.externalPrograms??[],runtimeInputs:registry.runtimeInputs??[],
+  executableOccurrences:registry.executableOccurrences??[],exclusions:registry.exclusions??[],
+  authority:registry.authority??null,reviewedRegistry:registry};
+}
+
+function sortedValue(value){
+ if(Array.isArray(value))return value.map(sortedValue);
+ if(value&&typeof value==='object')return Object.fromEntries(Object.keys(value).sort().map(key=>[key,sortedValue(value[key])]));
+ return value;
+}
+
+function stableStringify(value){return JSON.stringify(sortedValue(value));}
+
+function definitionsView(value){
+ return {
+  roots:(value.roots??[]).map(item=>({id:item.id,kind:item.kind,path:posix(item.path)})),
+  fixedInputs:(value.fixedInputs??[]).map(item=>({path:posix(item.path),kind:item.kind})),
+  explicitEdges:(value.explicitEdges??[]).map(item=>({id:item.id,kind:item.kind,from:posix(item.from),to:posix(item.to),
+   sourceToken:item.sourceToken,sourceSha256:item.sourceSha256,occurrence:item.occurrence??0})),
+  executableOccurrences:(value.executableOccurrences??[]).map(item=>({id:item.id,kind:item.kind,from:posix(item.from),
+   sourceToken:item.sourceToken,sourceSha256:item.sourceSha256,occurrence:item.occurrence??0})),
+  externalPrograms:value.externalPrograms??[],
+  runtimeInputs:value.runtimeInputs??[],
+  exclusions:value.exclusions??[],
+  authority:value.authority??null
+ };
+}
+
+function reviewedRegistryDiagnostics(registry){
+ if(!registry||typeof registry!=='object'||Array.isArray(registry))return [diagnostic('reviewed_registry_invalid')];
+ const diagnostics=[];
+ if(registry.registryVersion!==reviewedRegistryVersion||registry.inventoryVersion!==inventoryVersion)diagnostics.push(diagnostic('reviewed_registry_invalid'));
+ if(!Array.isArray(registry.files)||!registry.files.length)diagnostics.push(diagnostic('reviewed_registry_files_missing'));
+ const owner=registry.reviewPolicy?.reviewOwner;
+ if(!owner||typeof owner.identity!=='string'||!owner.identity||typeof owner.kind!=='string'||!owner.kind)diagnostics.push(diagnostic('reviewed_registry_owner_missing'));
+ for(const file of registry.files??[]){
+  if(typeof file.path!=='string'||typeof file.sha256!=='string'||!/^[0-9a-f]{64}$/.test(file.sha256)||!file.reviewOwner?.identity||!file.reviewOwner?.kind){
+   diagnostics.push(diagnostic('reviewed_registry_file_invalid',file.path??null));continue;
+  }
+  for(const edge of file.edges??[]){
+   if(typeof edge.to!=='string'||typeof edge.kind!=='string'||!Number.isInteger(edge.line))diagnostics.push(diagnostic('reviewed_registry_edge_invalid',file.path));
+  }
+ }
+ return diagnostics;
 }
 
 export function buildInventory({repoRoot,definitions={}}={}){
  if(typeof repoRoot!=='string')throw Error('repo_root_invalid');
  const root=fs.realpathSync(repoRoot),defs=normalizeDefinitions(definitions);
+ const reviewed=defs.reviewedRegistry,reviewedFiles=new Map((reviewed?.files??[]).map(file=>[file.path,file])),
+  reviewedEdges=new Map(),reviewedUsedFiles=new Set();
+ for(const file of reviewed?.files??[])for(const edge of file.edges??[])reviewedEdges.set(edgeKey({...edge,from:file.path}),{...edge,from:file.path});
  const files=new Map(),edges=[],diagnostics=[],queue=[],sourceTexts=new Map(),sourceViews=new Map(),executableCallsBySource=new Map(),
   nodeBuiltins=new Set(),explicitUsed=new Set(),executableUsed=new Set();
  const enqueue=(relative,role)=>{if(typeof relative==='string')queue.push({relative:posix(relative),role});};
@@ -568,6 +626,13 @@ export function buildInventory({repoRoot,definitions={}}={}){
   }
   const record={path:clean,kind:/\.(?:js|mjs)$/.test(extension)?'source':isText?'fixed_data':'binary',
    roles:new Set([role]),bytes:normalized.length,hashPolicy:policy,sha256:digest(normalized)};
+  if(reviewed){
+   const reviewedFile=reviewedFiles.get(clean);
+   if(!reviewedFile){diagnostics.push(diagnostic('reviewed_source_unrecorded',clean));return false;}
+   if(reviewedFile.sha256!==record.sha256){diagnostics.push(diagnostic('reviewed_source_hash_mismatch',clean));return false;}
+   if(reviewedFile.kind!==record.kind){diagnostics.push(diagnostic('reviewed_source_kind_mismatch',clean));return false;}
+   reviewedUsedFiles.add(clean);
+  }
   files.set(clean,record);
   if(text!==null&&record.kind==='source'){
    sourceTexts.set(clean,text);
@@ -615,6 +680,16 @@ export function buildInventory({repoRoot,definitions={}}={}){
   for(const call of calls)if(!executableUsed.has(relative+'\0'+call.index))diagnostics.push(diagnostic('unclassified_executable_call',relative,call.line));
  }
  for(const item of defs.explicitEdges)if(!explicitUsed.has(item.id))diagnostics.push(diagnostic('explicit_edge_unvisited',item.from??null));
+ if(reviewed){
+  const actualEdges=new Set(edges.map(edgeKey));
+  for(const edge of edges)if(!reviewedEdges.has(edgeKey(edge)))diagnostics.push(diagnostic('reviewed_edge_unrecorded',edge.from??null,edge.line??null));
+  for(const [key,edge] of reviewedEdges)if(reviewedUsedFiles.has(edge.from)&&!actualEdges.has(key))diagnostics.push(diagnostic('reviewed_edge_not_observed',edge.from,edge.line));
+  for(const path of reviewedFiles.keys())if(!reviewedUsedFiles.has(path))diagnostics.push(diagnostic('reviewed_source_unvisited',path));
+  for(const [path,reviewedFile] of reviewedFiles){
+   const actual=files.get(path);if(!actual)continue;
+   if(JSON.stringify([...(reviewedFile.roles??[])].sort())!==JSON.stringify([...actual.roles].sort()))diagnostics.push(diagnostic('reviewed_source_role_mismatch',path));
+  }
+ }
 
  const sortedFiles=[...files.values()].map(record=>({path:record.path,kind:record.kind,roles:[...record.roles].sort((a,b)=>a.localeCompare(b)),
   bytes:record.bytes,hashPolicy:record.hashPolicy,sha256:record.sha256})).sort((a,b)=>a.path.localeCompare(b.path));
@@ -637,7 +712,7 @@ export function buildInventory({repoRoot,definitions={}}={}){
 
 export function buildManifest({repoRoot,definitions={}}={}){
  const defs=normalizeDefinitions(definitions),inventory=buildInventory({repoRoot,definitions:defs});
- return {manifestVersion,contractVersion:inventoryVersion,authority:defs.authority,
+ return {manifestVersion,contractVersion:inventoryVersion,reviewStatus:manifestReviewStatus,authority:defs.authority,
   hashPolicy:{text:'UTF-8 decoded, CRLF and lone CR normalized to LF, SHA-256 of normalized UTF-8 bytes.',binary:'Exact bytes, SHA-256.',manifest:'Same text policy.'},
   edgeClasses:[...edgeClasses],roots:defs.roots.map(({id,kind,path:value})=>({id,kind,path:posix(value)})),
   explicitEdges:defs.explicitEdges.map(({id,kind,from,to,sourceToken,sourceSha256,occurrence,reviewNote})=>({id,kind,from,to:posix(to),sourceToken,sourceSha256,occurrence,reviewNote})),
@@ -684,6 +759,41 @@ export function verifyInventory({repoRoot,manifest,manifestHash,expectedManifest
  if(current.diagnostics.length)return {status:'blocked',diagnostics:current.diagnostics,manifestHash:manifestHash??null,sideEffectsStarted:false};
  const mismatch=inventoryMismatchDiagnostics(manifest,current);
  if(mismatch.length)return {status:'blocked',diagnostics:mismatch,manifestHash:manifestHash??null,sideEffectsStarted:false};
- return {status:'verified',diagnostics:[],manifestHash:manifestHash??null,closureHash:current.closureHash,counts:current.counts,
-  files:current.files,edgesHash:current.edgesHash,nodeBuiltins:current.nodeBuiltins,sideEffectsStarted:false};
+ return {status:'candidate_only',reviewStatus:manifestReviewStatus,admissionVerified:false,diagnostics:[],
+  manifestHash:manifestHash??null,closureHash:current.closureHash,counts:current.counts,files:current.files,
+  edgesHash:current.edgesHash,nodeBuiltins:current.nodeBuiltins,sideEffectsStarted:false};
+}
+
+export function verifyReviewedInventory({repoRoot,manifest,manifestHash,expectedManifestHash,registry,registryHash,expectedRegistryHash}={}){
+ const blocked=(code,extra={})=>({status:'blocked',diagnostics:[diagnostic(code)],manifestHash:manifestHash??null,
+  registryHash:registryHash??null,sideEffectsStarted:false,...extra});
+ const registryDiagnostics=reviewedRegistryDiagnostics(registry);
+ if(registryDiagnostics.length)return {status:'blocked',diagnostics:registryDiagnostics,manifestHash:manifestHash??null,registryHash:registryHash??null,sideEffectsStarted:false};
+ if(typeof expectedRegistryHash==='string'&&registryHash!==expectedRegistryHash)return blocked('reviewed_registry_hash_mismatch');
+ if(!manifest||typeof manifest!=='object'||Array.isArray(manifest)||manifest.manifestVersion!==manifestVersion||manifest.contractVersion!==inventoryVersion){
+  return blocked('manifest_invalid');
+ }
+ if(Array.isArray(manifest.unresolved)&&manifest.unresolved.length)return blocked('manifest_unresolved');
+ if(typeof expectedManifestHash==='string'&&manifestHash!==expectedManifestHash)return blocked('manifest_hash_mismatch');
+ if(stableStringify(definitionsView(manifest))!==stableStringify(definitionsView(definitionsFromRegistry(registry)))){
+  return blocked('reviewed_manifest_registry_mismatch');
+ }
+ let current;
+ try{current=buildInventory({repoRoot,definitions:definitionsFromRegistry(registry)});}
+ catch{return blocked('inventory_scan_failed');}
+ if(current.diagnostics.length)return {status:'blocked',diagnostics:current.diagnostics,manifestHash:manifestHash??null,
+  registryHash:registryHash??null,sideEffectsStarted:false};
+ const mismatch=inventoryMismatchDiagnostics(manifest,current);
+ if(mismatch.length)return {status:'blocked',diagnostics:mismatch,manifestHash:manifestHash??null,registryHash:registryHash??null,sideEffectsStarted:false};
+ if((registry.counts&&stableStringify(registry.counts)!==stableStringify(current.counts))||
+  (registry.closureHash&&registry.closureHash!==current.closureHash)||
+  (registry.edgesHash&&registry.edgesHash!==current.edgesHash)||
+  (registry.nodeBuiltins&&stableStringify(registry.nodeBuiltins)!==stableStringify(current.nodeBuiltins))){
+  return {status:'blocked',diagnostics:[diagnostic('reviewed_registry_inventory_mismatch')],manifestHash:manifestHash??null,
+   registryHash:registryHash??null,sideEffectsStarted:false};
+ }
+ return {status:'verified',diagnostics:[],manifestHash:manifestHash??null,registryHash:registryHash??null,
+  reviewMode:'exact_reviewed_source_registry',reviewOwner:registry.reviewPolicy?.reviewOwner??null,
+  closureHash:current.closureHash,counts:current.counts,files:current.files,edgesHash:current.edgesHash,
+  nodeBuiltins:current.nodeBuiltins,sideEffectsStarted:false};
 }

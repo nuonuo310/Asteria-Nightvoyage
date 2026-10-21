@@ -1,6 +1,7 @@
 {
   "manifestVersion": "codex-accounted-source-manifest-v1",
   "contractVersion": "codex-accounted-source-inventory-v1",
+  "reviewStatus": "candidate_requires_review",
   "authority": {
     "envelope": "docs/construction-envelopes/2026-10-21-codex-source-admission-v1.md",
     "commit": "f75e4054bd82bbd0c7023f8b3a73536f44d74b97"

@@ -4,8 +4,8 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
-import {buildInventory,buildManifest,hashText,verifyInventory} from '../scripts/codex-accounted-source-inventory.mjs';
-import {createSourceFixture,rewriteManifest,fixtureDefinitions} from '../test-support/codex-accounted-source-fixtures.js';
+import {buildInventory,buildManifest,hashText,verifyInventory,verifyReviewedInventory} from '../scripts/codex-accounted-source-inventory.mjs';
+import {createSourceFixture,rewriteManifest,fixtureDefinitions,createReviewedFixtureRegistry} from '../test-support/codex-accounted-source-fixtures.js';
 
 const readManifest=fixture=>JSON.parse(fs.readFileSync(fixture.manifestPath,'utf8'));
 const verify=fixture=>{
@@ -16,6 +16,15 @@ const review=fixture=>{
  const manifest=buildManifest({repoRoot:fixture.root,definitions:fixtureDefinitions});
  const manifestHash=rewriteManifest(fixture,manifest);
  return verifyInventory({repoRoot:fixture.root,manifest,manifestHash,expectedManifestHash:manifestHash});
+};
+const registryText=registry=>JSON.stringify(registry,null,2)+'\n';
+const registryHash=registry=>hashText(registryText(registry));
+const reviewed= (fixture,registry=createReviewedFixtureRegistry(),options={})=>{
+ const manifest=options.manifest??buildManifest({repoRoot:fixture.root,definitions:fixtureDefinitions});
+ const manifestHash=rewriteManifest(fixture,manifest),actualRegistryHash=registryHash(registry);
+ const result=verifyReviewedInventory({repoRoot:fixture.root,manifest,manifestHash,expectedManifestHash:manifestHash,
+  registry,registryHash:actualRegistryHash,expectedRegistryHash:options.expectedRegistryHash??actualRegistryHash});
+ return {manifest,manifestHash,registryHash:actualRegistryHash,result};
 };
 const codes=result=>new Set(result.diagnostics.map(item=>item.code));
 const hasDiagnostic=(result,code,relative,line)=>result.diagnostics.some(item=>item.code===code&&(!relative||item.path===relative)&&(!line||item.line===line));
@@ -44,7 +53,10 @@ test('inventory covers imports, re-exports, dynamic imports, child and data edge
  assert.equal(first.counts.explicitDataEdges,1);
  assert.ok(first.files.some(item=>item.path==='test-support/child-peer.mjs'));
  assert.ok(first.files.some(item=>item.path==='data/config.json'));
- assert.equal(verify(fixture).status,'verified');
+ const candidate=verify(fixture);
+ assert.equal(candidate.status,'candidate_only');
+ assert.equal(candidate.reviewStatus,'candidate_requires_review');
+ assert.equal(candidate.admissionVerified,false);
 });
 
 test('CRLF and file creation order do not change the reviewed inventory',t=>{
@@ -200,7 +212,7 @@ test('multiline and comment-separated imports and re-exports are inventoried or 
  assert.ok(starInventory.edges.some(edge=>edge.from==='scripts/dep-c.mjs'&&edge.to==='scripts/dep-x.mjs'&&edge.kind==='relative_static_reexport'));
  assert.ok(starInventory.files.some(file=>file.path==='scripts/dep-x.mjs'));
  assert.equal(starInventory.diagnostics.length,0);
- assert.equal(review(star).status,'verified');
+ assert.equal(review(star).status,'candidate_only');
 
  const named=createSourceFixture(t);
  write(named,'scripts/dep-x.mjs','export const depX=true;\n');
@@ -208,7 +220,7 @@ test('multiline and comment-separated imports and re-exports are inventoried or 
  const namedInventory=inventory(named);
  assert.ok(namedInventory.edges.some(edge=>edge.from==='scripts/dep-c.mjs'&&edge.to==='scripts/dep-x.mjs'&&edge.kind==='relative_static_reexport'));
  assert.equal(namedInventory.diagnostics.length,0);
- assert.equal(review(named).status,'verified');
+ assert.equal(review(named).status,'candidate_only');
 
  const imported=createSourceFixture(t);
  write(imported,'scripts/dep-x.mjs','export const depX=true;\n');
@@ -216,7 +228,7 @@ test('multiline and comment-separated imports and re-exports are inventoried or 
  const importedInventory=inventory(imported);
  assert.ok(importedInventory.edges.some(edge=>edge.from==='scripts/dep-c.mjs'&&edge.to==='scripts/dep-x.mjs'&&edge.kind==='relative_static_import'));
  assert.equal(importedInventory.diagnostics.length,0);
- assert.equal(review(imported).status,'verified');
+ assert.equal(review(imported).status,'candidate_only');
 
  const missing=createSourceFixture(t);
  write(missing,'scripts/dep-c.mjs',"export *\n from './missing.mjs';\n");
@@ -280,18 +292,95 @@ test('regex literals stay lexical while division, strings, and templates expose 
  write(safe,'scripts/dep-c.mjs',"const re = /[//]/;\nconst home = process.env['HOME'];\nexport const ok=home;\n");
  const safeInventory=inventory(safe);
  assert.equal(safeInventory.diagnostics.length,0);
- assert.equal(review(safe).status,'verified');
+ assert.equal(review(safe).status,'candidate_only');
 });
 
 test('UTF-16 offsets keep lines correct after astral characters',t=>{
  const fixture=createSourceFixture(t);
  write(fixture,'scripts/dep-e.mjs','export const depE=true;\n');
- write(fixture,'scripts/dep-c.mjs',"const mark='😀😀😀😀';\nconst text=`${await import('./dep-e.mjs')}`;\n");
+ write(fixture,'scripts/dep-c.mjs',"const mark='馃榾馃榾馃榾馃榾';\nconst text=`${await import('./dep-e.mjs')}`;\n");
  const covered=inventory(fixture);
  assert.ok(covered.edges.some(edge=>edge.from==='scripts/dep-c.mjs'&&edge.to==='scripts/dep-e.mjs'&&edge.line===2));
  const executable=createSourceFixture(t);
- write(executable,'scripts/dep-c.mjs',"const mark='😀😀';\nimport {spawn as launch} from 'node:child_process';\nlaunch(process.execPath,['./dep-d.mjs']);\n");
+ write(executable,'scripts/dep-c.mjs',"const mark='馃榾馃榾';\nimport {spawn as launch} from 'node:child_process';\nlaunch(process.execPath,['./dep-d.mjs']);\n");
  assert.ok(hasDiagnostic(inventory(executable),'unclassified_executable_call','scripts/dep-c.mjs',3));
+});
+
+test('reviewed exact-source registry admits only the explicit fixture closure',t=>{
+ const fixture=createSourceFixture(t),{manifest,result}=reviewed(fixture);
+ assert.equal(manifest.reviewStatus,'candidate_requires_review');
+ assert.equal(result.status,'verified');
+ assert.equal(result.reviewMode,'exact_reviewed_source_registry');
+ assert.equal(result.counts.files,10);
+ assert.equal(result.counts.edges,11);
+ assert.equal(result.diagnostics.length,0);
+ const crlf=createSourceFixture(t,{crlf:true});
+ assert.equal(reviewed(crlf).result.status,'verified');
+});
+
+test('reviewed admission blocks a missing target even when the referencing hash is approved',t=>{
+ const fixture=createSourceFixture(t),manifest=buildManifest({repoRoot:fixture.root,definitions:fixtureDefinitions});
+ fs.rmSync(path.join(fixture.root,'scripts/dep-d.mjs'));
+ const {result}=reviewed(fixture,createReviewedFixtureRegistry(),{manifest});
+ assert.equal(result.status,'blocked');
+ assert.ok(hasDiagnostic(result,'source_file_missing','scripts/dep-d.mjs'));
+});
+
+test('division probes cannot be auto-approved by a freshly minted candidate manifest',t=>{
+ const sources=[
+  "const f = function(){} / 2; await import(moduleName); //\n",
+  "const x = obj.return / 2; await import(moduleName); //\n"
+ ];
+ for(const source of sources){
+  const fixture=createSourceFixture(t);
+  write(fixture,'scripts/dep-x.mjs','export const depX=true;\n');
+  write(fixture,'scripts/dep-c.mjs',source);
+  const {manifest,result}=reviewed(fixture);
+  assert.equal(manifest.unresolved.length,0);
+  assert.equal(manifest.reviewStatus,'candidate_requires_review');
+  assert.equal(result.status,'blocked');
+  assert.ok(hasDiagnostic(result,'reviewed_source_hash_mismatch','scripts/dep-c.mjs'));
+ }
+});
+
+test('a reachable source omitted from the reviewed registry blocks admission',t=>{
+ const fixture=createSourceFixture(t),source="export {depX} from './dep-x.mjs';\n";
+ write(fixture,'scripts/dep-x.mjs','export const depX=true;\n');
+ write(fixture,'scripts/dep-c.mjs',source);
+ const registry=structuredClone(createReviewedFixtureRegistry()),record=registry.files.find(file=>file.path==='scripts/dep-c.mjs');
+ record.sha256=hashText(source);record.bytes=Buffer.byteLength(source);
+ record.edges=[{to:'scripts/dep-x.mjs',kind:'relative_static_reexport',importMode:'relative_static_reexport',line:1}];
+ const {result}=reviewed(fixture,registry);
+ assert.equal(result.status,'blocked');
+ assert.ok(hasDiagnostic(result,'reviewed_source_unrecorded','scripts/dep-x.mjs'));
+});
+
+test('registry tamper, edge omission, stale edge and owner omission block admission',t=>{
+ const fixture=createSourceFixture(t),base=createReviewedFixtureRegistry(),baseHash=registryHash(base);
+ const tampered=structuredClone(base);tampered.files.find(file=>file.path==='scripts/checker.mjs').sha256='0'.repeat(64);
+ let result=reviewed(fixture,tampered,{expectedRegistryHash:baseHash}).result;
+ assert.equal(result.status,'blocked');
+ assert.ok(hasDiagnostic(result,'reviewed_registry_hash_mismatch'));
+ result=reviewed(fixture,tampered).result;
+ assert.equal(result.status,'blocked');
+ assert.ok(hasDiagnostic(result,'reviewed_source_hash_mismatch','scripts/checker.mjs'));
+
+ const missing=structuredClone(base),missingChecker=missing.files.find(file=>file.path==='scripts/checker.mjs');
+ missingChecker.edges=missingChecker.edges.filter(edge=>edge.to!=='scripts/dep-a.mjs');
+ result=reviewed(fixture,missing).result;
+ assert.equal(result.status,'blocked');
+ assert.ok(hasDiagnostic(result,'reviewed_edge_unrecorded','scripts/checker.mjs',1));
+
+ const stale=structuredClone(base),staleChecker=stale.files.find(file=>file.path==='scripts/checker.mjs');
+ staleChecker.edges.push({to:'node:path',kind:'node_builtin',importMode:'relative_static_import',line:7});
+ result=reviewed(fixture,stale).result;
+ assert.equal(result.status,'blocked');
+ assert.ok(hasDiagnostic(result,'reviewed_edge_not_observed','scripts/checker.mjs',7));
+
+ const noOwner=structuredClone(base);delete noOwner.reviewPolicy.reviewOwner;
+ result=reviewed(fixture,noOwner).result;
+ assert.equal(result.status,'blocked');
+ assert.ok(hasDiagnostic(result,'reviewed_registry_owner_missing'));
 });
 
 test('the no-argument checker reports a bounded verified inventory without absolute paths',()=>{
@@ -300,6 +389,10 @@ test('the no-argument checker reports a bounded verified inventory without absol
  assert.equal(result.status,0,result.stderr);
  const report=JSON.parse(result.stdout);
  assert.equal(report.status,'repository_source_inventory_verified');
+ assert.equal(report.reviewMode,'exact_reviewed_source_registry');
+ assert.equal(report.discoveryReviewStatus,'candidate_requires_review');
+ assert.equal(report.reviewedRegistry.path,'docs/proposals/codex-accounted-source-reviewed-registry-v1.json');
+ assert.match(report.reviewedRegistry.sha256,/^[0-9a-f]{64}$/);
  assert.equal(report.generationEnabled,false);
  assert.equal(report.productionAdmission,false);
  assert.equal(report.credentialsRead,false);
