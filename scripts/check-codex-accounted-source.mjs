@@ -4,7 +4,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {verifyInventory,hashText,inventoryVersion} from './codex-accounted-source-inventory.mjs';
 
-const expectedManifestHash='8dc05f4833a63de8f0ff0264c4f15d18e95d0b565d1ddbdcb4b202a7e0783760';
+const expectedManifestHash='684a3e24c568fe28d95eb91a1ed1ab6385c2fa307bdd58cfb60bb120b5733172';
 const contractVersion='codex-accounted-source-admission-check-v1';
 const manifestPath='docs/proposals/codex-accounted-source-admission-v1.json';
 const repoRoot=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');

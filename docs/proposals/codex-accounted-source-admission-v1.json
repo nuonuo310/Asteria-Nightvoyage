@@ -18,7 +18,7 @@
     "reviewed_repository_child_program",
     "fixed_repository_data",
     "fixed_repository_config",
-    "reviewed_external_program",
+    "reviewed_executable_occurrence",
     "generated_workspace_state_exclusion"
   ],
   "roots": [
@@ -40,6 +40,8 @@
       "from": "scripts/check-codex-accounted-dream.mjs",
       "to": "examples/adapter-boundary.snapshot.json",
       "sourceToken": "new URL('../examples/adapter-boundary.snapshot.json',import.meta.url)",
+      "sourceSha256": "a4266aea5fb793bcb70929c307557eae0dee45a5a9a25c9c4c6c6738e0505235",
+      "occurrence": 0,
       "reviewNote": "Fixed fictional snapshot read before engine construction; literal URL only."
     },
     {
@@ -48,6 +50,8 @@
       "from": "scripts/codex-accounted-stage-owner.mjs",
       "to": "test-support/codex-request-observer-peer.mjs",
       "sourceToken": "new URL('../test-support/codex-request-observer-peer.mjs',import.meta.url)",
+      "sourceSha256": "081ac2fac8ace70e212923261738440bf14b297c23026e62b949abb87b883725",
+      "occurrence": 0,
       "reviewNote": "Only repository child selected by the accounted stage owner; native binary stays external."
     },
     {
@@ -56,6 +60,8 @@
       "from": "scripts/codex-fixture-stage-owner.mjs",
       "to": "test-support/codex-request-observer-peer.mjs",
       "sourceToken": "new URL('../test-support/codex-request-observer-peer.mjs',import.meta.url)",
+      "sourceSha256": "0dbe32f5727404e70f49c4ff6585ce9e3c83aaaa8d698143518fdd2134f95b10",
+      "occurrence": 0,
       "reviewNote": "Only repository child selected by the non-accounted fixture owner; native binary stays external."
     },
     {
@@ -64,6 +70,8 @@
       "from": "scripts/codex-pipe-rehearsal.mjs",
       "to": "test-support/codex-rpc-peer-child.mjs",
       "sourceToken": "new URL('../test-support/codex-rpc-peer-child.mjs',import.meta.url)",
+      "sourceSha256": "2d2c45bd43c11d6486753435635279963dc2d1ad34d463949de17da70487f905",
+      "occurrence": 0,
       "reviewNote": "Fixed local RPC rehearsal peer, selected by a literal URL."
     }
   ],
@@ -109,32 +117,63 @@
   ],
   "externalPrograms": [
     {
-      "id": "native_codex_version_probe",
+      "id": "native_codex_executable",
       "kind": "supplied_native_binary",
-      "from": "scripts/check-codex-accounted-dream.mjs",
-      "sourceToken": "spawnSync(options.executable,['--version']",
-      "reviewNote": "Installed codex executable is a supplied external input; no binary hash is available."
-    },
-    {
-      "id": "native_codex_accounted_stage",
-      "kind": "supplied_native_binary",
-      "from": "scripts/codex-accounted-stage-owner.mjs",
-      "sourceToken": "launch.kind==='native'?launch.binary:process.execPath",
-      "reviewNote": "Native stage executable is supplied at runtime and is not repository source."
-    },
-    {
-      "id": "native_codex_fixture_stage",
-      "kind": "supplied_native_binary",
-      "from": "scripts/codex-fixture-stage-owner.mjs",
-      "sourceToken": "launch.kind==='native'?launch.binary:process.execPath",
-      "reviewNote": "Native stage executable is supplied at runtime and is not repository source."
+      "status": "unverified",
+      "note": "Path, version and content are outside this repository-source inventory."
     },
     {
       "id": "windows_url_opener",
       "kind": "platform_executable",
+      "status": "unverified",
+      "note": "System32/rundll32.exe is an external platform dependency."
+    }
+  ],
+  "executableOccurrences": [
+    {
+      "id": "accounted_native_version_probe",
+      "kind": "supplied_native_binary",
+      "from": "scripts/check-codex-accounted-dream.mjs",
+      "sourceToken": "spawnSync(options.executable,['--version']",
+      "sourceSha256": "a4266aea5fb793bcb70929c307557eae0dee45a5a9a25c9c4c6c6738e0505235",
+      "occurrence": 0,
+      "reviewNote": "Exact reviewed native version-probe call; the executable is supplied externally."
+    },
+    {
+      "id": "accounted_stage_launch",
+      "kind": "repository_child_or_supplied_native",
+      "from": "scripts/codex-accounted-stage-owner.mjs",
+      "sourceToken": "spawn(executable,childArgs",
+      "sourceSha256": "081ac2fac8ace70e212923261738440bf14b297c23026e62b949abb87b883725",
+      "occurrence": 0,
+      "reviewNote": "Exact reviewed stage launch; the peer child and supplied native branch are separately inventoried."
+    },
+    {
+      "id": "fixture_stage_launch",
+      "kind": "repository_child_or_supplied_native",
+      "from": "scripts/codex-fixture-stage-owner.mjs",
+      "sourceToken": "spawn(executable,childArgs",
+      "sourceSha256": "0dbe32f5727404e70f49c4ff6585ce9e3c83aaaa8d698143518fdd2134f95b10",
+      "occurrence": 0,
+      "reviewNote": "Exact reviewed fixture-stage launch; native execution remains unverified."
+    },
+    {
+      "id": "rpc_peer_launch",
+      "kind": "repository_child",
+      "from": "scripts/codex-pipe-rehearsal.mjs",
+      "sourceToken": "spawn(process.execPath,[fileURLToPath(new URL('../test-support/codex-rpc-peer-child.mjs',import.meta.url))",
+      "sourceSha256": "2d2c45bd43c11d6486753435635279963dc2d1ad34d463949de17da70487f905",
+      "occurrence": 0,
+      "reviewNote": "Exact reviewed local RPC peer launch."
+    },
+    {
+      "id": "windows_url_opener_launch",
+      "kind": "platform_executable",
       "from": "scripts/chatgpt-plan-login.mjs",
       "sourceToken": "spawn(path.join(root,'System32','rundll32.exe')",
-      "reviewNote": "Operating-system URL opener reached only by the separate login source; not exercised by this checker."
+      "sourceSha256": "4d05b3c8cd2ec0e6a40d8454bcab78cb015c48f2a17c3f5a617da63f2595b390",
+      "occurrence": 0,
+      "reviewNote": "Exact reviewed platform URL-opener call; not exercised by this checker."
     }
   ],
   "exclusions": [
@@ -150,17 +189,17 @@
     "fixedDataFiles": 2,
     "fixedConfigFiles": 1,
     "childPrograms": 2,
-    "edges": 241,
+    "edges": 242,
     "relativeStaticImports": 171,
     "relativeStaticReexports": 0,
     "literalDynamicImports": 1,
     "nodeBuiltins": 9,
     "explicitDataEdges": 1,
     "explicitChildEdges": 3,
-    "reviewedExternalProgramEdges": 4
+    "reviewedExecutableOccurrenceEdges": 5
   },
   "closureHash": "8055bd5f965737e5bc742648a6b74ef7cc9f559d028bf8956bd07d9c1542b8a1",
-  "edgesHash": "3dcd62332707320825b5637640ce92e7c59b5ea73d2ad538672acd8ed64490af",
+  "edgesHash": "722dadb4f371be0802a65fd6ba1f71ff586b8db3ba8a5f29ea2fa77e76f7055d",
   "files": [
     {
       "path": "examples/adapter-boundary.snapshot.json",

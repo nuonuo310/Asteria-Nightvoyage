@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
-import {buildManifest,verifyInventory} from '../scripts/codex-accounted-source-inventory.mjs';
+import {buildInventory,buildManifest,hashText,verifyInventory} from '../scripts/codex-accounted-source-inventory.mjs';
 import {createSourceFixture,rewriteManifest,fixtureDefinitions} from '../test-support/codex-accounted-source-fixtures.js';
 
 const readManifest=fixture=>JSON.parse(fs.readFileSync(fixture.manifestPath,'utf8'));
@@ -13,7 +13,7 @@ const verify=fixture=>{
  return verifyInventory({repoRoot:fixture.root,manifest,manifestHash:fixture.manifestHash,expectedManifestHash:fixture.manifestHash});
 };
 const codes=result=>new Set(result.diagnostics.map(item=>item.code));
-const hasDiagnostic=(result,code,relative)=>result.diagnostics.some(item=>item.code===code&&(!relative||item.path===relative));
+const hasDiagnostic=(result,code,relative,line)=>result.diagnostics.some(item=>item.code===code&&(!relative||item.path===relative)&&(!line||item.line===line));
 function treeSnapshot(root){
  const output=[];
  for(const entry of fs.readdirSync(root,{withFileTypes:true}).sort((a,b)=>a.name.localeCompare(b.name))){
@@ -24,6 +24,8 @@ function treeSnapshot(root){
  return output;
 }
 function append(fixture,relative,text){fs.appendFileSync(path.join(fixture.root,relative),text);}
+function write(fixture,relative,text){const file=path.join(fixture.root,relative);fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,text);}
+const inventory=(fixture,definitions=fixtureDefinitions)=>buildInventory({repoRoot:fixture.root,definitions});
 
 test('inventory covers imports, re-exports, dynamic imports, child and data edges deterministically',t=>{
  const fixture=createSourceFixture(t),first=buildManifest({repoRoot:fixture.root,definitions:fixtureDefinitions});
@@ -103,6 +105,97 @@ test('blocked verification refuses before side effects and leaves the fixture un
  assert.equal(result.sideEffectsStarted,false);
  assert.deepEqual(after,before);
  assert.ok(codes(result).has('computed_code_load'));
+});
+
+test('template interpolation is scanned as code while raw template text stays inert',t=>{
+ const positive=createSourceFixture(t);
+ write(positive,'scripts/dep-e.mjs','export const depE=true;\n');
+ append(positive,'scripts/dep-c.mjs',"const text=`${await import('./dep-e.mjs')}`;\n");
+ const covered=inventory(positive);
+ assert.equal(covered.diagnostics.length,0);
+ assert.ok(covered.edges.some(edge=>edge.from==='scripts/dep-c.mjs'&&edge.to==='scripts/dep-e.mjs'&&edge.kind==='literal_dynamic_import'));
+ const computed=createSourceFixture(t);
+ write(computed,'scripts/dep-e.mjs','export const depE=true;\n');
+ append(computed,'scripts/dep-c.mjs',"const suffix='e';\nconst text=`${await import('./dep-'+suffix+'.mjs')}`;\n");
+ assert.ok(hasDiagnostic(inventory(computed),'computed_code_load','scripts/dep-c.mjs'));
+ const inert=createSourceFixture(t);
+ append(inert,'scripts/dep-c.mjs',"// import './phantom.mjs'\nconst raw=`import './phantom.mjs'`;\nconst quoted='import \\'./phantom.mjs\\'';\n");
+ const inertInventory=inventory(inert);
+ assert.equal(inertInventory.diagnostics.length,0);
+ assert.equal(inertInventory.files.some(item=>item.path.includes('phantom')),false);
+});
+
+test('dynamic import concatenation fails closed and escaped literals still resolve',t=>{
+ const computed=createSourceFixture(t);
+ write(computed,'scripts/dep-e.mjs','export const depE=true;\n');
+ append(computed,'scripts/dep-c.mjs',"const suffix='e';\nawait import('./dep-'+suffix+'.mjs');\n");
+ assert.ok(hasDiagnostic(inventory(computed),'computed_code_load','scripts/dep-c.mjs'));
+ const escaped=createSourceFixture(t);
+ write(escaped,'scripts/dep-e.mjs','export const depE=true;\n');
+ append(escaped,'scripts/dep-c.mjs',"await import('./dep\\x2de.mjs');\n");
+ const result=inventory(escaped);
+ assert.equal(result.diagnostics.length,0);
+ assert.ok(result.edges.some(edge=>edge.from==='scripts/dep-c.mjs'&&edge.to==='scripts/dep-e.mjs'));
+});
+
+test('aliased and namespaced executable launches fail closed without a reviewed occurrence',t=>{
+ const sources=[
+  "import {spawn as launch} from 'node:child_process';\nlaunch(process.execPath,['./dep-d.mjs']);\n",
+  "import * as cp from 'node:child_process';\ncp.spawn(process.execPath,['./dep-d.mjs']);\n"
+ ];
+ for(const source of sources){
+  const fixture=createSourceFixture(t);write(fixture,'scripts/dep-c.mjs',source);
+  const result=inventory(fixture);
+  assert.ok(hasDiagnostic(result,'unclassified_executable_call','scripts/dep-c.mjs',2));
+  assert.equal(result.edges.some(edge=>edge.kind==='reviewed_executable_occurrence'),false);
+ }
+});
+
+test('a reviewed executable occurrence covers exactly one hash-bound call',t=>{
+ const source="import {spawn} from 'node:child_process';\nspawn(process.execPath,['one']);\n";
+ const definitions={...fixtureDefinitions,executableOccurrences:[{id:'reviewed_one',kind:'repository_child',from:'scripts/dep-c.mjs',
+  sourceToken:"spawn(process.execPath,['one']",sourceSha256:hashText(source),occurrence:0}]};
+ const accepted=createSourceFixture(t);write(accepted,'scripts/dep-c.mjs',source);
+ const acceptedInventory=inventory(accepted,definitions);
+ assert.equal(acceptedInventory.diagnostics.length,0);
+ assert.equal(acceptedInventory.edges.filter(edge=>edge.kind==='reviewed_executable_occurrence').length,1);
+ const extraSource=source+"spawn(process.execPath,['two']);\n";
+ const extraDefinitions={...definitions,executableOccurrences:[{...definitions.executableOccurrences[0],sourceSha256:hashText(extraSource)}]};
+ const extra=createSourceFixture(t);write(extra,'scripts/dep-c.mjs',extraSource);
+ const extraInventory=inventory(extra,extraDefinitions);
+ assert.ok(hasDiagnostic(extraInventory,'unclassified_executable_call','scripts/dep-c.mjs',3));
+ assert.equal(extraInventory.edges.filter(edge=>edge.kind==='reviewed_executable_occurrence').length,1);
+ const wrongHash={...definitions,executableOccurrences:[{...definitions.executableOccurrences[0],sourceSha256:'0'.repeat(64)}]};
+ assert.ok(hasDiagnostic(inventory(accepted,wrongHash),'executable_occurrence_hash_mismatch','scripts/dep-c.mjs'));
+ const commentOnly=createSourceFixture(t);write(commentOnly,'scripts/dep-c.mjs',"// spawn(process.execPath,['one'])\n");
+ const commentDefinitions={...fixtureDefinitions,executableOccurrences:[{...definitions.executableOccurrences[0],
+  sourceSha256:hashText("// spawn(process.execPath,['one'])\n")}]};
+ assert.ok(hasDiagnostic(inventory(commentOnly,commentDefinitions),'executable_occurrence_unreviewed','scripts/dep-c.mjs'));
+});
+
+test('child and data review records reject tokens that appear only in comments',t=>{
+ const source="// new URL('../data/config.json',import.meta.url)\nexport const depC=true;\n";
+ const fixture=createSourceFixture(t);write(fixture,'scripts/dep-c.mjs',source);
+ const definitions={...fixtureDefinitions,explicitEdges:[{id:'phantom_data',kind:'fixed_repository_data',from:'scripts/dep-c.mjs',to:'data/config.json',
+  sourceToken:"new URL('../data/config.json',import.meta.url)",sourceSha256:hashText(source),occurrence:0}]};
+ assert.ok(hasDiagnostic(inventory(fixture,definitions),'explicit_edge_source_mismatch','scripts/dep-c.mjs'));
+});
+
+test('re-exporting child_process loading fails closed',t=>{
+ const fixture=createSourceFixture(t);
+ write(fixture,'scripts/dep-c.mjs',"export {spawn} from 'node:child_process';\n");
+ assert.ok(hasDiagnostic(inventory(fixture),'unreviewed_executable_export','scripts/dep-c.mjs'));
+});
+
+test('UTF-16 offsets keep lines correct after astral characters',t=>{
+ const fixture=createSourceFixture(t);
+ write(fixture,'scripts/dep-e.mjs','export const depE=true;\n');
+ write(fixture,'scripts/dep-c.mjs',"const mark='😀😀😀😀';\nconst text=`${await import('./dep-e.mjs')}`;\n");
+ const covered=inventory(fixture);
+ assert.ok(covered.edges.some(edge=>edge.from==='scripts/dep-c.mjs'&&edge.to==='scripts/dep-e.mjs'&&edge.line===2));
+ const executable=createSourceFixture(t);
+ write(executable,'scripts/dep-c.mjs',"const mark='😀😀';\nimport {spawn as launch} from 'node:child_process';\nlaunch(process.execPath,['./dep-d.mjs']);\n");
+ assert.ok(hasDiagnostic(inventory(executable),'unclassified_executable_call','scripts/dep-c.mjs',3));
 });
 
 test('the no-argument checker reports a bounded verified inventory without absolute paths',()=>{

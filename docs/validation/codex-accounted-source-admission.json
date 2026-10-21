@@ -176,6 +176,144 @@
     "absoluteMachinePathsAdded": false,
     "secretsOrCallbackUrlsAdded": false
   },
+  "reviewCorrection": {
+    "contractVersion": "codex-accounted-source-admission-review-correction-v1",
+    "review": {
+      "id": 5602827328,
+      "reviewedCommit": "26be8af046c15168dbd9f0aaffe9d85264ad89cd",
+      "verdict": "changes_requested",
+      "preservedVerdict": "not_accepted_for_merge"
+    },
+    "status": "repository_source_inventory_verified",
+    "authorityUnchanged": true,
+    "preservedEvidence": {
+      "previousImplementationCommit": "b89c049df65eb46e9d50b5639f3b3469bbdd47e8",
+      "previousValidationFieldsRetained": true,
+      "blockedPublicationReceiptRetained": true,
+      "frozenRuntimeProviderAndOldTestsModified": false
+    },
+    "findingsAddressed": [
+      "Template interpolation containing await import() was masked and could omit a dependency.",
+      "A dynamic import with a concatenated argument was accepted from its first literal fragment.",
+      "An aliased or namespace child-process launch could escape the module-level spawn token check."
+    ],
+    "scope": {
+      "edgeClasses": [
+        "relative_static_import",
+        "relative_static_reexport",
+        "literal_dynamic_import",
+        "reviewed_repository_child_program",
+        "fixed_repository_data",
+        "fixed_repository_config",
+        "reviewed_executable_occurrence",
+        "generated_workspace_state_exclusion"
+      ],
+      "reviewBinding": "owning normalized source SHA-256 + exact source token + occurrence index",
+      "sourceOffsets": "UTF-16 code units",
+      "unresolvedRepositoryEdges": []
+    },
+    "checker": {
+      "command": "node scripts/check-codex-accounted-source.mjs",
+      "exitCode": 0,
+      "status": "repository_source_inventory_verified",
+      "diagnostics": [],
+      "counts": {
+        "files": 65,
+        "sourceFiles": 63,
+        "fixedDataFiles": 2,
+        "fixedConfigFiles": 1,
+        "childPrograms": 2,
+        "edges": 242,
+        "relativeStaticImports": 171,
+        "relativeStaticReexports": 0,
+        "literalDynamicImports": 1,
+        "nodeBuiltins": 9,
+        "explicitDataEdges": 1,
+        "explicitChildEdges": 3,
+        "reviewedExecutableOccurrenceEdges": 5
+      },
+      "manifestSha256": "684a3e24c568fe28d95eb91a1ed1ab6385c2fa307bdd58cfb60bb120b5733172",
+      "closureHash": "8055bd5f965737e5bc742648a6b74ef7cc9f559d028bf8956bd07d9c1542b8a1",
+      "edgesHash": "722dadb4f371be0802a65fd6ba1f71ff586b8db3ba8a5f29ea2fa77e76f7055d",
+      "outputContainedAbsolutePaths": false
+    },
+    "implementationArtifacts": {
+      "scripts/codex-accounted-source-inventory.mjs": "f9e2dc2918b345cd4de55d2da04d489f1fa0e508189a31d6a0d2d5d585d6f130",
+      "scripts/codex-accounted-source-manifest.mjs": "06696f9a04f787fd4b79d174b2cea179827dbc19188c767b4e9af5452448c876",
+      "scripts/check-codex-accounted-source.mjs": "e7bf3422b66ef6d62b828355041672977953f6bb5ab9ddde8f9b3ffa218a35d7",
+      "test/codex-accounted-source.test.js": "a422ff0005c61e60eee97ee9975ecc89e537c350bc5afd4fc924c169a1549c26",
+      "test-support/codex-accounted-source-fixtures.js": "09b62156f6af8ca5d8cdc90752c6f5f80c67fe9ea73dc30f9633415431477963",
+      "docs/proposals/codex-accounted-source-admission-v1.json": "684a3e24c568fe28d95eb91a1ed1ab6385c2fa307bdd58cfb60bb120b5733172"
+    },
+    "tests": {
+      "targeted": {
+        "command": "node --test test/codex-accounted-source.test.js",
+        "exitCode": 0,
+        "tests": 16,
+        "pass": 15,
+        "fail": 0,
+        "skipped": 1,
+        "skipReason": "file symlink unavailable in this environment",
+        "durationMs": 462.9226
+      },
+      "negativeCoverage": [
+        "template interpolation includes a dependency while raw template text stays inert",
+        "computed template and direct concatenated dynamic imports block",
+        "escaped literal dynamic imports resolve",
+        "aliased and namespaced child-process calls are unclassified",
+        "a second unreviewed launch in an already reviewed module blocks",
+        "hash-mismatched executable review records block",
+        "comment-only executable and child/data tokens do not satisfy review",
+        "child-process re-exports block",
+        "astral characters preserve UTF-16 line offsets"
+      ],
+      "preExistingFailureAssertions": {
+        "success": {"actual": "blocked", "expected": "completed"},
+        "timeout": {"actual": "child_failed", "expected": "timeout"},
+        "failed_child": {"actual": "child_failed", "expected": "untrusted_child_output"},
+        "secret_output": {"actual": "child_failed", "expected": "untrusted_child_output"}
+      },
+      "fullSuite": {
+        "command": "node --test",
+        "status": "environment_limited",
+        "tests": 1860,
+        "pass": 1847,
+        "fail": 12,
+        "skipped": 1,
+        "durationMs": 476167.8833,
+        "preExistingAssertionFailures": [
+          "independent credential lifetime: success",
+          "independent credential lifetime: timeout",
+          "independent credential lifetime: failed_child",
+          "independent credential lifetime: secret_output"
+        ],
+        "environmentFailures": [
+          "target coercion and managed storage symlinks cannot acquire forwarding authority",
+          "historical approval changes and unsafe config links never refresh or reinterpret old permissions",
+          "bootstrap rejects symlink before opening existing authorized Store",
+          "static graph blocks symbolic links and source outside the reviewed project",
+          "checkout and symlink directories/files cannot become history paths",
+          "inventory symlink cannot silently reuse the reviewed source snapshot",
+          "unsafe symlink contract closes with fixed metadata",
+          "paid loader rejects symlink before Store access or credential supply"
+        ],
+        "environmentFailureCause": "The sandbox account cannot create Windows file symlinks: frozen tests stop at fs.symlinkSync with EPERM before invoking this slice.",
+        "environmentProbe": {"operation": "fs.symlinkSync", "code": "EPERM", "syscall": "symlink"},
+        "newAssertionFailures": [],
+        "note": "All non-symlink tests outside the four preserved credential-lifetime failures passed. The prior baseline log in the implementation environment recorded the same four assertion failures with symlinks available; this review run cannot reproduce symlink creation."
+      }
+    },
+    "safety": {
+      "loginAttempts": 0,
+      "credentialReads": 0,
+      "realProviderRequests": 0,
+      "nativeCodexInvocations": 0,
+      "networkTests": 0,
+      "mergePerformed": false,
+      "mainPushed": false,
+      "forcePushed": false
+    }
+  },
   "knownLimits": [
     "Not a complete proof of the external native executable, platform package or operating system.",
     "Not a general JavaScript call graph or arbitrary dynamic-code proof.",

@@ -11,12 +11,15 @@ export const fixtureDefinitions={
  ],
  explicitEdges:[
   {id:'fixture_data',kind:'fixed_repository_data',from:'scripts/checker.mjs',to:'data/config.json',
-   sourceToken:"new URL('../data/config.json',import.meta.url)",reviewNote:'Independent fixed fixture data.'},
+   sourceToken:"new URL('../data/config.json',import.meta.url)",sourceSha256:'44953cf976a27cff456855d09f98f4eb4733b73f1e6c6496769cb86a783baa37',occurrence:0,
+   reviewNote:'Independent fixed fixture data.'},
   {id:'fixture_child',kind:'reviewed_repository_child_program',from:'scripts/checker.mjs',to:'test-support/child-peer.mjs',
-   sourceToken:"new URL('../test-support/child-peer.mjs',import.meta.url)",reviewNote:'Independent local child program.'}
+   sourceToken:"new URL('../test-support/child-peer.mjs',import.meta.url)",sourceSha256:'44953cf976a27cff456855d09f98f4eb4733b73f1e6c6496769cb86a783baa37',occurrence:0,
+   reviewNote:'Independent local child program.'}
  ],
  fixedInputs:[{path:'package.json',kind:'fixed_repository_config',reviewNote:'Fixture ESM configuration.'}],
  externalPrograms:[],
+ executableOccurrences:[],
  runtimeInputs:[{id:'node_runtime',kind:'node_platform',requirement:'Node.js >=24',verifiedByInventory:false}],
  exclusions:['No external executable or generated state is part of this fixture.'],
  authority:{envelope:'fixture',commit:'fixture'}
