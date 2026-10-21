@@ -26,6 +26,8 @@
 
 随后已加入[Codex 阶段转发与梦境记账集成](docs/CODEX-ACCOUNTED-FICTIONAL-DREAM.md)：独立进程的实际请求经回环转发器，发包前绑定梦境 Store，正常退出和清理后才提交检查点。`node scripts/check-codex-accounted-dream.mjs` 默认只用假进程；该固定最终答案样例每幕一次 POST，共三次。新 Windows 一次性原生入口已准备，实机结果待回报；真实账户转发、订阅推理和总体质量仍未通过，旧 GPT 许可与旧探针不复用。
 
+用户随后回报[原生 Windows 本地虚构闭环通过](docs/CODEX-ACCOUNTED-DREAM-WINDOWS-RESULT.md)：两幕与醒来、三次持久记账、正常退出与清理、重放零新增进程。仅接受该次本地观察；真实订阅推理仍未通过，不重跑旧入口。下一阶段由 DeepSeek 按[版本化离线施工包](docs/construction-envelopes/2026-10-21-codex-source-admission-v1.md)在独立分支补依赖清单与预检，完成后由总控审核。
+
 最新用户回报触发了[目录外事件兼容停止](docs/GPT-SUBSCRIPTION-COMPATIBILITY-STOP.md)，该诊断已消耗；直接 GPT 仍是目标首选，但暂停新的真实试跑。Codex 备用现已有[完整 RPC 顺序的离线演练](docs/CODEX-RPC-REHEARSAL.md)，可运行 `node scripts/check-codex-rpc-rehearsal.mjs`。它仍不启动 Codex 进程、不登录、不证明工具禁用或订阅可用，也不接续旧失败梦。
 
 随后已加入[独立 Node 子进程管道演练](docs/CODEX-PIPE-REHEARSAL.md)，运行 `node scripts/check-codex-pipe-rehearsal.mjs` 可验证真实本地 stdin/stdout、退出与持久重放；子进程是假服务，仍未启动 Codex 或调用真实模型。下一步需核对本机 Codex 安装版本，再审查原生配置与工具排除，不能把管道通过说成订阅接通。
