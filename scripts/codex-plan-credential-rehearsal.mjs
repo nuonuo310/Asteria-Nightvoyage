@@ -4,22 +4,17 @@ import {spawn} from 'node:child_process';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {PlanAuthorizationAttempt} from './chatgpt-plan-auth.mjs';
-const sentinel='nightvoyage-independent-oauth-sentinel-not-a-credential';
-const scenarios=['success','timeout','cancel','late_response','failed_spawn','failed_child','secret_output'];
+import {credentialRehearsalEnvironment,credentialRehearsalScenarios,credentialRehearsalSentinel} from './codex-credential-rehearsal-policy.mjs';
 export async function rehearseCodexPlanCredentialOwner(options={}){
  if(!options||Object.getPrototypeOf(options)!==Object.prototype||Reflect.ownKeys(options).some(k=>!['scenario','timeoutMs'].includes(k)||!Object.hasOwn(Object.getOwnPropertyDescriptor(options,k),'value')))throw Error('credential_rehearsal_options_invalid');
  const {scenario='success',timeoutMs=1500}=options;
- if(!scenarios.includes(scenario)||!Number.isSafeInteger(timeoutMs)||timeoutMs<50||timeoutMs>5000)throw Error('credential_rehearsal_options_invalid');
+ if(!credentialRehearsalScenarios.includes(scenario)||!Number.isSafeInteger(timeoutMs)||timeoutMs<50||timeoutMs>5000)throw Error('credential_rehearsal_options_invalid');
  const attribution=new URL(new PlanAuthorizationAttempt({hostId:'urn:uuid:00000000-0000-4000-8000-000000000001',redirectUri:'http://127.0.0.1:1/auth/callback'}).authorizationUrl).searchParams.get('agent_name_hint');
  let leaseActive=true,revocationAttempted=false;
  let child,started=false,closed=false,timedOut=false,cancelled=false,spawnFailed=false,exitCode=null;
  let rawBytes=0,pending='',validReply=false,invalidOutput=false,closedWithLeaseActive=false;
- const order=[],env={ACCESS_TOKEN:sentinel,PATH:path.dirname(process.execPath)};
- if(process.platform==='win32'){
-  if(typeof process.env.SystemRoot!=='string'||!path.isAbsolute(process.env.SystemRoot))throw Error('credential_rehearsal_system_root_required');
-  env.SystemRoot=process.env.SystemRoot;env.WINDIR=process.env.SystemRoot;
- }
- let secretReference=sentinel;
+ const order=[],env=credentialRehearsalEnvironment();
+ let secretReference=credentialRehearsalSentinel;
  try{
   order.push('lease_opened');
   await new Promise(resolve=>{

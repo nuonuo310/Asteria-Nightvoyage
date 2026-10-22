@@ -1,0 +1,74 @@
+{
+  "contractVersion": "codex-accounted-source-admission-review-blocked-receipt-v1",
+  "status": "BLOCKED",
+  "review": {
+    "id": 5602827328,
+    "reviewedCommit": "26be8af046c15168dbd9f0aaffe9d85264ad89cd",
+    "verdictAddressed": "changes_requested"
+  },
+  "authority": {
+    "envelope": "docs/construction-envelopes/2026-10-21-codex-source-admission-v1.md",
+    "authorityCommit": "f75e4054bd82bbd0c7023f8b3a73536f44d74b97"
+  },
+  "branch": {
+    "name": "deepseek/nightvoyage-source-admission-v1",
+    "remoteRef": "refs/heads/deepseek/nightvoyage-source-admission-v1",
+    "localImplementationCommit": "0ac5f4173e4de173792076fd78b3009c824247ae",
+    "pushed": false
+  },
+  "pullRequest": {
+    "number": 82,
+    "url": "https://github.com/nuonuo310/Asteria-Nightvoyage/pull/82",
+    "updated": false,
+    "merged": false
+  },
+  "blockedCapability": {
+    "name": "github_https_push",
+    "detail": "The local implementation commit is ready, but outbound TCP 443 to github.com times out. DNS resolves github.com; a TCP probe failed and git push failed before authentication with 'Failed to connect to github.com:443'. No proxy is configured and network access is restricted.",
+    "stopClass": "missing_environment_capability",
+    "permissionsExpanded": false,
+    "loginAttempted": false,
+    "credentialRead": false,
+    "forcePushAttempted": false
+  },
+  "verifiedImplementation": {
+    "checkerCommand": "node scripts/check-codex-accounted-source.mjs",
+    "checkerExitCode": 0,
+    "checkerStatus": "repository_source_inventory_verified",
+    "checkerDiagnostics": 0,
+    "files": 65,
+    "edges": 242,
+    "reviewedExecutableOccurrenceEdges": 5,
+    "manifestSha256": "684a3e24c568fe28d95eb91a1ed1ab6385c2fa307bdd58cfb60bb120b5733172",
+    "closureHash": "8055bd5f965737e5bc742648a6b74ef7cc9f559d028bf8956bd07d9c1542b8a1",
+    "edgesHash": "722dadb4f371be0802a65fd6ba1f71ff586b8db3ba8a5f29ea2fa77e76f7055d",
+    "targetedTests": {
+      "tests": 16,
+      "pass": 15,
+      "fail": 0,
+      "skipped": 1
+    },
+    "fullTests": {
+      "tests": 1860,
+      "pass": 1847,
+      "fail": 12,
+      "skipped": 1,
+      "preExistingAssertionFailures": 4,
+      "environmentSymlinkFailures": 8,
+      "newAssertionFailures": 0
+    }
+  },
+  "evidencePaths": [
+    "docs/CODEX-ACCOUNTED-SOURCE-ADMISSION.md",
+    "docs/proposals/codex-accounted-source-admission-v1.json",
+    "docs/validation/codex-accounted-source-admission.json"
+  ],
+  "notDone": [
+    "push the implementation commit to the dedicated remote branch",
+    "update draft pull request 82",
+    "merge",
+    "production admission",
+    "real-provider or authenticated-route verification"
+  ],
+  "decisionNeededFromShenshu": "Restore outbound GitHub connectivity or push commit 0ac5f4173e4de173792076fd78b3009c824247ae from an authorized environment, then update draft pull request 82 for re-review. Do not merge before review."
+ }

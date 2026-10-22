@@ -1,5 +1,13 @@
 # Asteria-Nightvoyage · 夜航
 
+[Offline source admission](docs/CODEX-ACCOUNTED-SOURCE-ADMISSION.md) inventories the accounted checker and its reading projection without executing them; `node scripts/check-codex-accounted-source.mjs` is a read-only, fail-closed repository-source check. It does not enable a provider, authentication, native execution or production admission.
+
+Second review correction: multiline/comment-separated module clauses, combined default/named/namespace child-process imports and regex-versus-division lexical states are covered by fail-closed negative fixtures; see the [source-admission document](docs/CODEX-ACCOUNTED-SOURCE-ADMISSION.md) and its appended validation evidence.
+
+Third review correction: admission is now derived only from the [exact-source-hash-bound reviewed registry](docs/proposals/codex-accounted-source-reviewed-registry-v1.json). The generated [candidate manifest](docs/proposals/codex-accounted-source-admission-v1.json) is permanently `candidate_requires_review` and cannot admit a new or changed source. The registry review owner is procedural DeepSeek attribution, not human acceptance.
+
+Offline integration candidate: exact reviewed PR #83 and PR #82 heads were locally merged in that order on `deepseek/nightvoyage-offline-integration-v1` at authority `917c4e04924d01ff033e738dc91d4909c6145402`; PR #82 uses `a7fa9b373e2111a085a0fa8d8427357939e00210`, not `dec6975`. The bounded Windows probe observed file and directory symbolic-link support with complete cleanup, and the combined offline suite passed 1873/1873. See the [offline integration review](docs/OFFLINE-INTEGRATION-REVIEW.md). This is a draft candidate only: no GitHub merge, main write, native Codex, login, real credential read or real-provider result is claimed.
+
 独立运行的实验性梦境层：获准的虚构快照 → 最多两幕梦境及模拟情绪 → 独立醒来残片与余韵 → 带来源身份的字面线索召回候选。Node.js 24+／JavaScript，MIT，无运行时依赖。
 
 **当前状态：第一阶段本地工程闭环已有实现与有界证据；梦境总体质量尚未验收，Asteria 适配待对接。** 梦境事件始终不是现实事实；不会写入真实记忆、人格或任务，也不会执行梦中文字中的现实工具指令。当前仅支持虚构素材。
@@ -140,6 +148,8 @@ Windows 原生空环境观察已收到：本地请求工具声明为 0；[实测
 
 - [Codex 订阅凭据边界与接入顺序](docs/CODEX-PLAN-TRANSPORT-DESIGN.md)：独立 Node 子进程已演练虚构令牌的环境传递、应用归属、关闭后释放、超时/取消及错误输出抑制。`node scripts/check-codex-plan-credential-owner.mjs` 只跑固定虚构场景，不登录、不读取真实凭据、不启动原生 Codex；真实订阅 transport 尚未实现。
 
+Windows fixture repair: the fixed independent Node credential rehearsal now supplies explicit neutral Windows startup placeholders and validates them before clearing, so libuv supplementation cannot trip the closed child allowlist. The checker verifies all seven exact status/reason contracts. This is offline fixture behavior only; real credentials, native Codex, remote revocation and provider authentication remain untouched and unverified. See [the repair record](docs/CODEX-CREDENTIAL-WINDOWS-REPAIR.md).
+
 - [Codex 型号资料与环境配置本地对照](docs/CODEX-CATALOG-COMPARISON.md)：四种固定虚构条件，仅观察本地请求声明的工具，收到第一个阻断就停止。默认使用独立 Node 假进程；显式原生模式也不登录、不接真实模型。真实账号型号资料与订阅入口仍待核验。
 
 - Windows 0.160.0 的四组原生本地对照已收到：默认配置的两组各声明 3 类工具，空环境配置组合的两组均为 0；每组关闭与清理完成。见[实机回执与解释边界](docs/validation/user-local-codex-catalog-comparison-windows.json)。不代表单个开关因果、真实型号资料或订阅推理已通过。
@@ -187,3 +197,5 @@ The retained native-local Windows round [completed accounting but remained block
 The [fresh EOF observation entry](docs/CODEX-EOF-WAIT-OBSERVATION.md) is ready for separate Windows native verification, using a distinct fixed identity/directory and compact receipt. It admits a local success only with observed normal EOF, confirmed temporary cleanup and completed retained accounting. Independent fixtures pass; it does not reopen the consumed trial or enable real subscription inference.
 
 The [fresh EOF Windows local observation passed](docs/CODEX-EOF-WAIT-WINDOWS-RESULT.md): normal zero exit without force, confirmed leased-root removal on attempt six, and completed/closed two-call retained accounting. This qualifies that local fixture round; real subscription dreaming remains unverified. Next is full-dream stage/checkpoint binding for persistent per-HTTP accounting, using independent fixtures.
+
+Review correction for the offline source admission: reviewed executable calls are now bound to an exact owning-source hash, token and occurrence, template interpolations are scanned as code, and aliased/namespaced or computed executable launches fail closed. The committed evidence remains an offline repository-source inventory, not a provider, native-execution or production admission.

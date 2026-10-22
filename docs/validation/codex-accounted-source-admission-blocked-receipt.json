@@ -1,0 +1,53 @@
+{
+  "contractVersion": "codex-accounted-source-admission-receipt-v1",
+  "status": "BLOCKED",
+  "authority": {
+    "envelope": "docs/construction-envelopes/2026-10-21-codex-source-admission-v1.md",
+    "authorityCommit": "f75e4054bd82bbd0c7023f8b3a73536f44d74b97"
+  },
+  "branch": {
+    "name": "deepseek/nightvoyage-source-admission-v1",
+    "pushed": true,
+    "implementationCommit": "b89c049df65eb46e9d50b5639f3b3469bbdd47e8",
+    "remoteRef": "refs/heads/deepseek/nightvoyage-source-admission-v1"
+  },
+  "pullRequest": {
+    "created": false,
+    "draftRequested": true,
+    "url": null,
+    "manualCompareLink": "https://github.com/nuonuo310/Asteria-Nightvoyage/compare/main...deepseek/nightvoyage-source-admission-v1?expand=1"
+  },
+  "blockedCapability": {
+    "name": "github_draft_pr_creation",
+    "detail": "No GitHub CLI (gh) or hub client is installed, and no authorized non-interactive GitHub PR creation path is available. Logging in, opening an interactive browser session, reading stored credentials or invoking a stored token is prohibited by the authority envelope.",
+    "stopClass": "missing_environment_capability",
+    "permissionsExpanded": false,
+    "loginAttempted": false,
+    "credentialRead": false
+  },
+  "verifiedImplementation": {
+    "checkerCommand": "node scripts/check-codex-accounted-source.mjs",
+    "checkerExitCode": 0,
+    "checkerStatus": "repository_source_inventory_verified",
+    "checkerDiagnostics": 0,
+    "files": 65,
+    "edges": 241,
+    "manifestSha256": "8dc05f4833a63de8f0ff0264c4f15d18e95d0b565d1ddbdcb4b202a7e0783760",
+    "closureHash": "8055bd5f965737e5bc742648a6b74ef7cc9f559d028bf8956bd07d9c1542b8a1",
+    "edgesHash": "3dcd62332707320825b5637640ce92e7c59b5ea73d2ad538672acd8ed64490af",
+    "targetedTests": {"tests": 9, "pass": 9, "fail": 0},
+    "fullTests": {"tests": 1853, "pass": 1849, "fail": 4, "newFailures": 0, "failureSetPreserved": true}
+  },
+  "evidencePaths": [
+    "docs/CODEX-ACCOUNTED-SOURCE-ADMISSION.md",
+    "docs/proposals/codex-accounted-source-admission-v1.json",
+    "docs/validation/codex-accounted-source-admission.json"
+  ],
+  "notDone": [
+    "draft pull request creation",
+    "merge",
+    "production admission",
+    "real-provider or authenticated-route verification"
+  ],
+  "decisionNeededFromShenshu": "Provide an already-authorized non-interactive GitHub PR publication capability, or create the draft PR manually from the pushed branch. No permission was expanded by the executor."
+}
