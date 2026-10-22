@@ -12,6 +12,8 @@ The strict historical `ChatgptPlanStream` still requires the completed response 
 
 The new entry reuses the existing reviewed `ValidatedEnvelopeStream` decoder instead of adding another protocol. It validates a closed reasoning subset and discards reasoning text, summaries and encrypted content. Exactly one completed assistant text message must remain. Refusal, tool or unknown output, invalid lifecycle, a mismatched model, inconsistent usage, incomplete output, invalid UTF-8 and byte/event overflow still fail closed. Final dream-stage validation remains separate and mandatory.
 
+Coordinator correction: a previous bounded Windows observation reported HTTP 200 with a missing Content-Type and an SSE-like prefix. The first post-freeze candidate required a present header, so that known case would have consumed its one call before decoding. This entry now reuses the existing explicit missing-type transport and policy: a missing header only permits bounded reading; a complete validated envelope and valid dream stage are still required. A present non-SSE header remains rejected. This compatibility policy is local engineering judgment, not an official guarantee or proof of the old response's full content.
+
 Official references are the [Sign in with ChatGPT models and inference](https://developers.openai.com/siwc/token-sharing-open-source/models-and-inference) and [Responses streaming events](https://developers.openai.com/api/reference/resources/responses/streaming-events) pages already recorded in [the output-shape review](PLAN-OUTPUT-SHAPE-REVIEW.md). Those contracts do not prove this account's entitlement, the cause of the historical failure or successful inference.
 
 ## Fixed trial
@@ -21,9 +23,9 @@ Official references are the [Sign in with ChatGPT models and inference](https://
 | Contract | `nv-postfreeze-dream-01-v1` |
 | Adapter / provider / auth | `ChatGPTPlanAdapter / openai / chatgpt_plan` |
 | Model | `gpt-5.6-sol` |
-| Transport / decoder | `chatgpt-plan-inline-http-v1 / validated-reasoning-envelope-v1` |
+| Transport / decoder | `chatgpt-plan-inline-missing-type-v1 / validated-reasoning-envelope-v1` |
 | Scope | One run; at most three stage calls; two scenes and one wake |
-| HTTP media type | Present `text/event-stream` required |
+| HTTP media type | `text/event-stream`, or missing/empty only under the explicit complete-stream policy; present non-SSE rejected |
 | Request / stream bytes | 65,536 / 65,536 per call |
 | Final JSON bytes | 1,200 per call |
 | Local stage timeout | 60 seconds |
@@ -45,6 +47,6 @@ Runtime storage is outside the checkout under `Nightvoyage/gpt-subscription-post
 
 `node scripts/check-postfreeze-plan-trial.mjs` creates temporary synthetic OAuth and HTTP responses, performs no real network request, uses no credential environment or user Store, validates two scenes and the wake, reads the typed result, verifies reasoning privacy and replay deduplication, then withdraws the source and verifies suppression. It removes its temporary files.
 
-The automated tests cover fixed identity and source pins, credential-free preflight, immutable approval, old-decoder rejection versus reviewed-envelope acceptance, forged adapter refusal, first-stage and second-stage checkpoints, non-SSE rejection, expiry, withdrawal, typed residue and Dreambook provenance. The validation receipt returned with this branch records the exact commit, environment and test counts for the run.
+The automated tests cover fixed identity and source pins, credential-free preflight, immutable approval, old-decoder rejection versus reviewed-envelope acceptance, forged adapter refusal, first-stage and second-stage checkpoints, missing-header complete-stream acceptance, present non-SSE rejection, expiry, withdrawal, typed residue and Dreambook provenance. The validation receipt returned with this branch records the exact commit, environment and test counts for the run.
 
 No real login, inference entitlement, usage, billing, remote revocation, dream quality or Asteria integration is established by these checks. The next external action requires a new explicit approval of this exact proposal; do not reuse an old grant or run a follow-on diagnostic merely to keep the line moving.

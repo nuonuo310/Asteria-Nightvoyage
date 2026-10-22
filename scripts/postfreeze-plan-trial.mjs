@@ -5,12 +5,12 @@ import {createHash} from 'node:crypto';
 import {Store} from '../src/store.js';
 import {hash,snapshot} from '../src/contract.js';
 import {withCheckedPlanSession,planSessionBinding} from './chatgpt-plan-login.mjs';
-import {createPlanHttpTransport,planHttpProtocolVersion} from './chatgpt-plan-http.mjs';
-import {selectAdapter,jsonFields} from './dream-model-port.mjs';
+import {createMissingTypeHttpTransport,missingTypeHttpProtocolVersion} from './missing-type-plan-http.mjs';
+import {selectAdapter,jsonFields} from './missing-type-model-port.mjs';
 import {PostfreezePlanAdapter,postfreezeDecoderVersion} from './postfreeze-plan-adapter.mjs';
-import {ModelPortNightvoyage} from './dream-model-runtime.mjs';
+import {ModelPortNightvoyage} from './missing-type-model-runtime.mjs';
 import {reviewedPlanResponseDiagnostic} from './plan-response-diagnostic.mjs';
-import {readModelPortContent} from './model-port-content-view.mjs';
+import {readModelPortContent} from './aggregate-plan-content-view.mjs';
 const fail=code=>{throw Error(code);};
 const root=new URL('../',import.meta.url),fixturePath=new URL('../examples/gpt-plan-trial.snapshot.json',import.meta.url);
 const digest=bytes=>createHash('sha256').update(bytes).digest('hex');
@@ -37,7 +37,7 @@ export function calculatePostfreezePlanTrialProposal(){
   if(digest(raw)!==fixtureHash)fail('trial_fixture_changed');
   const input=snapshot(JSON.parse(raw));if(input.sources.some(s=>s.grant.modelEgress))fail('trial_fixture_changed');
   return {contractVersion:postfreezePlanTrialVersion,batchId:postfreezePlanTrialVersion,authorityBase:postfreezeAuthorityBase,authorityCommit:postfreezeAuthorityCommit,
-    adapter_kind:'ChatGPTPlanAdapter',provider_kind:'openai',model_id:'gpt-5.6-sol',auth_mode:'chatgpt_plan',protocol_version:planHttpProtocolVersion,decoder_version:postfreezeDecoderVersion,
+    adapter_kind:'ChatGPTPlanAdapter',provider_kind:'openai',model_id:'gpt-5.6-sol',auth_mode:'chatgpt_plan',protocol_version:missingTypeHttpProtocolVersion,decoder_version:postfreezeDecoderVersion,
     fixtureHash,sourcePins:sourcePins(),maxRuns:1,maxCalls:3,approvalExpiryMs:86400000,settings:{...settings},
     localLimits:{requestBytes:65536,streamBytes:65536,contentBytes:1200,serverOutputTokenCap:null},apiFallback:false,automaticRetry:false,automaticModelSwitch:false,
     extraCreditsApproved:false,priorGrantReused:false,freshApprovalRequired:true,remoteCancellationConfirmed:'unknown',money:'unknown',qualityAssessed:false};
@@ -119,7 +119,7 @@ export async function executePostfreezePlanTrial({directory,connectionDirectory,
         const current=check(engine.store),r=engine.run(runId),last=r.attempts.at(-1);
         if(hash(r.config)!==hash(settings)||current.status!=='executing'||current.runId!==runId||current.accountBinding!==hash(planSessionBinding(session))||r.status!=='running'||request.run_id!==runId||r.attempts.length>3||r.budget.calls>3||hash(request.snapshot)!==hash(approvedSnapshot())||hash(request.scenes)!==hash(r.scenes)||last?.request_id!==request.request_id||last.state!=='dispatched'||last.stage!==request.stage||last.index!==request.index||last.external_call_intent!==true)fail('ambiguous_attempt');
       };
-      const transport=createPlanHttpTransport({session,model:t.proposal.model_id,authorize}),adapter=new PostfreezePlanAdapter({model_id:t.proposal.model_id,httpTransport:transport});
+      const transport=createMissingTypeHttpTransport({session,model:t.proposal.model_id,authorize,allowMissingContentType:true}),adapter=new PostfreezePlanAdapter({model_id:t.proposal.model_id,httpTransport:transport});
       store.close();engine=new ModelPortNightvoyage(directory,{selection:selectAdapter({primary:adapter})});store=engine.store;t=check(store);
       runId=engine.start(postfreezePlanTrialVersion,postfreezePlanTrialVersion,approvedSnapshot(),settings);t.runId=runId;store.save();
       const cancel=()=>engine.cancel(runId);signal?.addEventListener('abort',cancel,{once:true});

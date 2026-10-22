@@ -6,7 +6,7 @@ import path from 'node:path';
 import {Store} from '../src/store.js';
 import {calculatePostfreezePlanTrialProposal,postfreezePlanTrialProposal,initPostfreezePlanTrial,preflightPostfreezePlanTrial,executePostfreezePlanTrial,postfreezeReadinessDecision} from '../scripts/postfreeze-plan-trial.mjs';
 import {PostfreezePlanAdapter} from '../scripts/postfreeze-plan-adapter.mjs';
-import {readModelPortContent} from '../scripts/model-port-content-view.mjs';
+import {readModelPortContent} from '../scripts/aggregate-plan-content-view.mjs';
 import {runDreambook} from '../scripts/dreambook.mjs';
 import {ChatgptPlanStream} from '../scripts/chatgpt-plan-protocol.mjs';
 import {ValidatedEnvelopeStream} from '../scripts/validated-envelope-stream.mjs';
@@ -28,7 +28,7 @@ test('proposal binds fictional fixture, one model, one run and the full imported
  assert.equal(proposal.provider_kind,'openai');
  assert.equal(proposal.model_id,'gpt-5.6-sol');
  assert.equal(proposal.auth_mode,'chatgpt_plan');
- assert.equal(proposal.protocol_version,'chatgpt-plan-inline-http-v1');
+ assert.equal(proposal.protocol_version,'chatgpt-plan-inline-missing-type-v1');
  assert.equal(proposal.decoder_version,'validated-reasoning-envelope-v1');
  assert.equal(proposal.fixtureHash,'b2481512fe1f4f3d597863eeaf8754cef61ef37ebad2d60ddf76f75e7772378a');
  assert.equal(proposal.maxRuns,1);assert.equal(proposal.maxCalls,3);
@@ -77,7 +77,7 @@ test('synthetic two-scene and wake trial completes, stores typed residue, reads 
  assert.equal(first.receipt.status,'completed');assert.equal(http.bodies.length,3);assert.equal(first.receipt.external_calls_started,3);
  assert.match(first.receipt.proposalHash,/^[a-f0-9]{64}$/);assert.equal(first.receipt.fixtureHash,'b2481512fe1f4f3d597863eeaf8754cef61ef37ebad2d60ddf76f75e7772378a');
  assert.equal(first.receipt.checkpoint.saved_scenes,2);assert.equal(first.receipt.checkpoint.wake_saved,true);
- assert.equal(first.receipt.adapter_kind,'ChatGPTPlanAdapter');assert.equal(first.receipt.protocol_version,'chatgpt-plan-inline-http-v1');assert.equal(first.receipt.decoder_version,'validated-reasoning-envelope-v1');
+ assert.equal(first.receipt.adapter_kind,'ChatGPTPlanAdapter');assert.equal(first.receipt.protocol_version,'chatgpt-plan-inline-missing-type-v1');assert.equal(first.receipt.decoder_version,'validated-reasoning-envelope-v1');
  assert.equal(first.receipt.apiFallback,false);assert.equal(first.receipt.automaticRetry,false);assert.equal(first.receipt.automaticModelSwitch,false);assert.equal(first.receipt.money,'unknown');
  assert.equal(first.receipt.usage.length,3);assert.deepEqual(first.receipt.usage[0].usage,{input_tokens:10,output_tokens:10,total_tokens:20});
  assert.equal(first.dream.isRealityFact,false);assert.equal(first.wake.origin,'wake_note');assert.equal(first.residue.origin,'simulated_affect');assert.equal(first.residue.isRealityFact,false);
@@ -88,6 +88,25 @@ test('synthetic two-scene and wake trial completes, stores typed residue, reads 
  const store=new Store(dirs.directory);try{const view=readModelPortContent(store,first.dream.id);assert.equal(view.narrative.dream.origin,'dream');assert.deepEqual(view.narrative.wake,first.wake);assert.ok(view.sourceRefs.length>0);}finally{store.close();}
  assert.ok(runDreambook(['read','--latest','--data-dir',dirs.directory]).includes(first.dream.scenes[0].event));
  assert.equal(preflightPostfreezePlanTrial(dirs.directory).reason,'trial_consumed');
+});
+
+test('missing Content-Type requires a complete validated envelope and remains readable in Dreambook',async t=>{
+ const dirs=setup(t);initPostfreezePlanTrial(dirs.directory,trialApproval());
+ const http=install(t,{onGenerate:body=>new Response(Buffer.concat(envelopeTranscript({body})))});
+ const output=await executePostfreezePlanTrial({...dirs,onReady:http.onReady});
+ assert.equal(output.receipt.status,'completed');assert.equal(http.bodies.length,3);
+ assert.equal(output.receipt.protocol_version,'chatgpt-plan-inline-missing-type-v1');
+ assert.ok(output.dream?.scenes?.length===2);assert.equal(output.wake?.isRealityFact,false);
+ assert.ok(runDreambook(['read','--latest','--data-dir',dirs.directory]).includes(output.dream.scenes[0].event));
+});
+
+test('missing Content-Type with an incomplete stream still consumes only one call and saves no dream',async t=>{
+ const dirs=setup(t);initPostfreezePlanTrial(dirs.directory,trialApproval());
+ const http=install(t,{onGenerate:()=>new Response('event: response.created\ndata: {}\n\n')});
+ const output=await executePostfreezePlanTrial({...dirs,onReady:http.onReady});
+ assert.equal(output.receipt.status,'failed');assert.equal(output.receipt.external_calls_started,1);
+ assert.equal(http.bodies.length,1);assert.equal(output.receipt.checkpoint.saved_scenes,0);
+ assert.equal(output.dream,null);assert.equal(output.wake,null);
 });
 
 test('a first-stage protocol rejection stops before a scene checkpoint or wake dispatch',async t=>{

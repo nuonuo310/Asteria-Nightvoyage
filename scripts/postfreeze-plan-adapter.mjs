@@ -1,5 +1,5 @@
 // Post-freeze direct ChatGPT Plan adapter. The reviewed decoder is reused unchanged.
-import {ChatGPTPlanAdapter,stageRequest,stageResponse} from './dream-model-port.mjs';
+import {MissingTypePlanAdapter,stageRequest,stageResponse} from './missing-type-model-port.mjs';
 import {ValidatedEnvelopeStream,offlineEnvelopeVersion} from './validated-envelope-stream.mjs';
 import {envelopeDiagnostic} from './envelope-diagnostic.mjs';
 import {markPlanResponseFailure} from './plan-response-diagnostic.mjs';
@@ -17,7 +17,7 @@ function reviewedFailure(error){
   return markPlanResponseFailure(Error(code));
 }
 
-export class PostfreezePlanAdapter extends ChatGPTPlanAdapter {
+export class PostfreezePlanAdapter extends MissingTypePlanAdapter {
   #transport;
   constructor({model_id,httpTransport}){
     super({model_id,httpTransport});

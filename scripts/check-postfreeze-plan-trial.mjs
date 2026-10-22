@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 import {Store} from '../src/store.js';
 import {hash} from '../src/contract.js';
 import {calculatePostfreezePlanTrialProposal,initPostfreezePlanTrial,preflightPostfreezePlanTrial,executePostfreezePlanTrial} from './postfreeze-plan-trial.mjs';
-import {readModelPortContent} from './model-port-content-view.mjs';
+import {readModelPortContent} from './aggregate-plan-content-view.mjs';
 import {syntheticPlanHttp,trialApproval} from '../test-support/plan-trial-fixtures.js';
 import {envelopeTranscript} from '../test-support/offline-envelope-runtime-fixtures.js';
 
@@ -14,7 +14,7 @@ if(process.argv.length!==2)throw Error('rehearsal_arguments_invalid');
 const root=fs.mkdtempSync(path.join(os.tmpdir(),'nightvoyage-postfreeze-plan-rehearsal-'));
 const directory=path.join(root,'book'),connectionDirectory=path.join(root,'connection');
 const allText=dir=>fs.readdirSync(dir,{withFileTypes:true}).map(entry=>entry.isDirectory()?allText(path.join(dir,entry.name)):fs.readFileSync(path.join(dir,entry.name),'utf8')).join('\n');
-const http=syntheticPlanHttp({onGenerate:body=>new Response(Buffer.concat(envelopeTranscript({body})),{headers:{'Content-Type':'text/event-stream; charset=utf-8'}})});
+const http=syntheticPlanHttp({onGenerate:body=>new Response(Buffer.concat(envelopeTranscript({body})))});
 try{
   const before=preflightPostfreezePlanTrial(directory);
   assert.equal(before.ready,false);assert.equal(before.reason,'trial_approval_required');assert.equal(fs.existsSync(directory),false);
