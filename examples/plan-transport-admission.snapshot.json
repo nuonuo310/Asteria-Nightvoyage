@@ -1,0 +1,18 @@
+{
+  "id": "fictional-plan-transport-window",
+  "version": "1",
+  "materialKind": "fictional",
+  "sources": [{
+    "id": "fictional-plan-transport-window-memory",
+    "version": "1",
+    "text": "A wholly fictional observation: an unnamed visitor places a pale blue enamel cup on a narrow windowsill. Inside the cup rests a small wooden disc. A distant bell sounds once; beyond the glass is a blank white wall. There is no stated goal, relationship, or task, and no explanation is requested.",
+    "grant": {"dream": true, "modelEgress": false}
+  }],
+  "channels": {
+    "memory": {"availability": "present", "sourceIds": ["fictional-plan-transport-window-memory"]},
+    "background": {"availability": "absent", "sourceIds": []},
+    "affect": {"availability": "absent", "sourceIds": []},
+    "mind": {"availability": "absent", "sourceIds": []},
+    "intents": {"availability": "absent", "sourceIds": []}
+  }
+}
