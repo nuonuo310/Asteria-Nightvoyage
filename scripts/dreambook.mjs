@@ -10,6 +10,8 @@ import {readContentReview} from '../src/content-review.js';
 import {readModelPortContent as readAggregateModelPortContent} from './aggregate-plan-content-view.mjs';
 import {readModelPortContent as readAggregateIntegrationContent} from './offline-aggregate-integration-content-view.mjs';
 import {offlineAggregateIntegrationVersion} from './offline-aggregate-integration-port.mjs';
+import {readModelPortContent as readPlanTransportAdmissionContent} from './plan-transport-admission-content-view.mjs';
+import {planTransportAdmissionHttpVersion} from './plan-transport-admission-http.mjs';
 import {readModelPortContent as readAccountedCodexContent} from './accounted-codex-content-view.mjs';
 import {accountedStageProtocols} from './codex-dream-http-account.mjs';
 import {renderDreambookReview} from './dreambook-review-text.mjs';
@@ -57,7 +59,7 @@ export function runDreambook(args){
     if(!id||!catalog.dreams.some(d=>d.id===id))return '当前没有可查看的已保存梦境。';
     // Unsupported/corrupt selected dreams fail closed; never silently substitute an older one.
     const run=store.state.runs[store.state.entries[id].runId];
-    const portReader=run.modelSelection?.protocol_version===offlineAggregateIntegrationVersion?readAggregateIntegrationContent:accountedStageProtocols.includes(run.modelSelection?.protocol_version)?readAccountedCodexContent:readAggregateModelPortContent;
+    const portReader=run.modelSelection?.protocol_version===planTransportAdmissionHttpVersion?readPlanTransportAdmissionContent:run.modelSelection?.protocol_version===offlineAggregateIntegrationVersion?readAggregateIntegrationContent:accountedStageProtocols.includes(run.modelSelection?.protocol_version)?readAccountedCodexContent:readAggregateModelPortContent;
     const view=run.modelPortVersion==='dream-model-port-v1'?portReader(store,id):readContentReview(store,id);
     return renderDreambookReview(view,{reviewJson:flags.has('--review-json')});
   }finally{store.close();}
