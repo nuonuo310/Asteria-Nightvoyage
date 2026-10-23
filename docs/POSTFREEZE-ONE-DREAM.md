@@ -2,9 +2,15 @@
 
 ## Current status
 
-`NV-POSTFREEZE-DREAM-01 v1` is an isolated offline-ready entry for one new fictional ChatGPT subscription dream. It is based on exact `main@476b4378e78a0eab5371e2d6801bbd0f99c537dc`. No browser login, account authorization, credential read, real model request or paid dispatch is performed or claimed by this slice.
+`NV-POSTFREEZE-DREAM-01 v1` prepared one fictional ChatGPT subscription dream from exact `main@476b4378e78a0eab5371e2d6801bbd0f99c537dc`. Its offline preparation preceded a separately approved Windows live run. The run has now ended **failed**, with one external stage call and no saved scene or wake. The one-run authorization is consumed; this package does not reopen Phase One or permit another run.
 
-This entry does not reopen Phase One, reuse a consumed grant, continue a failed dream or alter an Asteria repository. Its terminal state before a later explicit approval is `OFFLINE_READY_AWAITING_FRESH_APPROVAL`.
+## Terminal live observation and closure
+
+The user-reported Windows receipt for proposal `da35a84fba7701a1b0f6ce41b222471c1c794f0b56f75be55a9a7ab530d68fd9` records `status: failed`, `external_calls_started: 1`, `checkpoint.saved_scenes: 0`, `wake_saved: false`, and `invalid_model_response` with `responses_protocol / plan_stream_limit`. The authorization wrapper reported remote revocation confirmed. Usage, money and remote cancellation remain unknown. This is a reported terminal receipt, not an independent replay or a recovered provider response. No run ID, local path, generated body, token or callback is reproduced here.
+
+The adapter maps both envelope `event_limit` and `stream_byte_limit` to `plan_stream_limit`, so the stored diagnostic alone does not identify the underlying check. The transport has its own 65,536-byte limit and would normally report `http_stream_limit` before handing an oversized chunk to the envelope decoder. That makes an event limit a plausible explanation, not proof of the unseen stream. A prior independent fictional case showed 129 frames can exceed the current 128-event ceiling while remaining under the byte ceiling. None of this establishes that the discarded response would have passed the complete event lifecycle or final dream-stage validation.
+
+Closure decision: retain the failed local checkpoint and this draft as review evidence. Do not merge this candidate as a demonstrated live success, reset the allowance, rerun `init` or `run`, continue another model, or recover rejected body. Any later trial needs a separately scoped offline review of the aggregate envelope and inner strict counter, then a new proposal and fresh authorization. The experimental local Phase One baseline remains frozen.
 
 ## Reviewable protocol correction
 
@@ -49,4 +55,4 @@ Runtime storage is outside the checkout under `Nightvoyage/gpt-subscription-post
 
 The automated tests cover fixed identity and source pins, credential-free preflight, immutable approval, old-decoder rejection versus reviewed-envelope acceptance, forged adapter refusal, first-stage and second-stage checkpoints, missing-header complete-stream acceptance, present non-SSE rejection, expiry, withdrawal, typed residue and Dreambook provenance. The validation receipt returned with this branch records the exact commit, environment and test counts for the run.
 
-No real login, inference entitlement, usage, billing, remote revocation, dream quality or Asteria integration is established by these checks. The next external action requires a new explicit approval of this exact proposal; do not reuse an old grant or run a follow-on diagnostic merely to keep the line moving.
+These offline checks established no live inference entitlement or dream quality. The later failed live attempt is recorded above; it did not save a typed dream. No Asteria integration is claimed. This exact trial is terminal and its authorization cannot be reused.
