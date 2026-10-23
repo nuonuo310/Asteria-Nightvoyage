@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-24",
+  "kind": "local_dreambook_browser_view",
+  "baseCommit": "96f8e5a17836a00a5dea2be6f13fc2f5760e097d",
+  "branch": "deepseek/nightvoyage-nv-dreambook-local-view-01",
+  "environment": {
+    "node": "v24.19.0",
+    "platform": "win32",
+    "shell": "Windows PowerShell 5.1",
+    "browserVisualCheck": "Microsoft Edge 155.0.4283.62 headless"
+  },
+  "tests": {
+    "firstFullRun": {
+      "command": "node --test",
+      "exitCode": 1,
+      "observedFailureClasses": {
+        "sourcePinDriftFromEditingPinnedReaderFiles": 10,
+        "windowsTemporarySymlinkEperm": 8
+      },
+      "rawSummaryRetained": false,
+      "correction": "Moved the new projection and labels out of pinned reader sources; restored both pinned files to zero diff."
+    },
+    "correctedFullRun": {
+      "command": "node --test",
+      "exitCode": 1,
+      "tests": 1920,
+      "suites": 0,
+      "pass": 1911,
+      "fail": 8,
+      "cancelled": 0,
+      "skipped": 1,
+      "todo": 0,
+      "durationMs": 465292.1797,
+      "failureClass": "windows_temporary_symlink_eperm",
+      "allFailuresAreEnvironmentEperm": true,
+      "newFeatureFailures": 0,
+      "failingTests": [
+        "target coercion and managed storage symlinks cannot acquire forwarding authority",
+        "historical approval changes and unsafe config links never refresh or reinterpret old permissions",
+        "bootstrap rejects symlink before opening existing authorized Store",
+        "static graph blocks symbolic links and source outside the reviewed project",
+        "checkout and symlink directories/files cannot become history paths",
+        "inventory symlink cannot silently reuse the reviewed source snapshot",
+        "unsafe symlink contract closes with fixed metadata",
+        "paid loader rejects symlink before Store access or credential supply"
+      ]
+    },
+    "targeted": {
+      "command": "node --test test/dreambook-view.test.js test/dreambook-reader.test.js test/dreambook-review-text.test.js test/model-port-dreambook.test.js test/dream-model-port.test.js test/plan-transport-admission.test.js",
+      "exitCode": 0,
+      "tests": 59,
+      "pass": 59,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "viewTests": {
+      "command": "node --test test/dreambook-view.test.js",
+      "exitCode": 0,
+      "tests": 9,
+      "pass": 9,
+      "fail": 0
+    }
+  },
+  "checks": {
+    "dreambookView": {
+      "command": "node scripts/check-dreambook-view.mjs",
+      "exitCode": 0,
+      "syntheticStageCalls": 3,
+      "syntheticLaterRecords": 2,
+      "realModelRequests": 0,
+      "nativeHttpsRequests": 0,
+      "credentialReads": 0,
+      "loopbackOnly": true,
+      "capabilityCookie": true,
+      "stableStateBytesUnchanged": true,
+      "pageLoadGeneration": false,
+      "replayStable": true,
+      "sectionsDistinct": true,
+      "laterRecordsDistinct": true,
+      "scriptlessAndNoRemoteAssets": true,
+      "storeClosedOnStop": true,
+      "userStoreAccessed": false,
+      "qualityAssessed": false
+    },
+    "dreambookReader": {
+      "command": "node scripts/check-dreambook-reader.mjs",
+      "exitCode": 0,
+      "realModelRequests": 0,
+      "credentialReads": 0,
+      "userStoreAccessed": false
+    },
+    "localDreamPorts": {
+      "command": "node scripts/check-local-dream-ports.mjs",
+      "exitCode": 0,
+      "realModelRequests": 0,
+      "credentialReads": 0,
+      "userStoreAccessed": false
+    },
+    "dreamModelPort": {
+      "command": "node scripts/check-dream-model-port.mjs",
+      "exitCode": 0,
+      "realModelRequests": 0,
+      "credentialReads": 0,
+      "userStoreAccessed": false
+    },
+    "sourceAdmission": {
+      "command": "node scripts/check-codex-accounted-source.mjs",
+      "exitCode": 0,
+      "status": "repository_source_inventory_verified",
+      "files": 65,
+      "edges": 242,
+      "diagnostics": 0,
+      "credentialsRead": false,
+      "realModelRequests": 0
+    }
+  },
+  "existingPinnedProposal": {
+    "name": "nv-plan-transport-admission-01-v1",
+    "targetedTestsPassed": 18,
+    "targetedTestsFailed": 0,
+    "pinnedReaderSourcesChanged": false,
+    "sourceIdentityUnchanged": "3c3012f0f235b6a797f10d4d343b079194b577affd90afa0a5f93f8babc11222"
+  },
+  "visualInspection": {
+    "independentFictionalDemoOnly": true,
+    "viewports": ["1280x5000", "390x5000"],
+    "desktopScreenshotBytes": 1639663,
+    "mobileScreenshotBytes": 531211,
+    "screenshotsCommitted": false,
+    "userStoreScreenshotTaken": false,
+    "sectionOrderVisible": true,
+    "responsivePhoneLayoutVisible": true,
+    "freshBrowserWithoutCapabilityRejected": true
+  },
+  "boundaries": {
+    "syntheticDemoOnlyForRepositoryEvidence": true,
+    "actualUserStoreVerifiedInThisSlice": false,
+    "realSubscriptionInference": false,
+    "login": false,
+    "credentialReads": 0,
+    "realModelRequests": 0,
+    "paidCalls": 0,
+    "qualityAssessed": false,
+    "semanticSupport": "not_assessed",
+    "phaseOneFreezeChanged": false,
+    "asteriaBridgeChanged": false
+  }
+}
