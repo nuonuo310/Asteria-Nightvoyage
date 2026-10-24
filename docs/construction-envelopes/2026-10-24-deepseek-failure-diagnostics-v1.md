@@ -1,0 +1,27 @@
+# NV-DEEPSEEK-FAILURE-DIAGNOSTICS-01 — offline classification after one blocked dream
+
+Repository: `nuonuo310/Asteria-Nightvoyage`. Coordinator: Shenshu. Authority base: `main@dfe56712ebe2384b3f385a4867f8a4e08b5aedfa`. Candidate implementation to inspect: draft PR #91, exact head `a94d0909162ce9d544c5d1338cb9096cd97b17e1`. Read `AGENTS.md` if present, this envelope, `docs/v1-closure/V1-CLOSURE-PLAN.md`, `docs/INLINE-LIVE-TRIAL-RESULT.md`, PR #91's contract/source graph, `src/gated-deepseek-client.js`, `scripts/nv-deepseek-one-dream/client.mjs`, the ledger, runtime, worker, tests and current main/PR state. If either exact base changes, report the difference before choosing an implementation base; never silently rebase the pinned paid source.
+
+## Evidence and goal
+
+A user-authorized single DeepSeek fictional run stopped at scene 0 with `request_failed`, 0 saved scenes and one `unknown` attempt. Its full local hold is `2100352` micro-CNY; it is neither a settled bill nor proof that the POST was accepted. A later unauthenticated GET to the public models endpoint returned HTTP 401 from curl, Node, and an isolated child. Those probes show reachability at that later time only. The failed POST's underlying cause cannot be reconstructed from the retained body-free row.
+
+The current client turns native HTTPS request/response errors into `one_dream_provider_transport_failed`. The gated client maps any unlisted error to `request_failed`. Other internal errors can also reach that generic result. Give future *new* attempts a bounded, truthful diagnostic vocabulary so a failure can be located by layer without exposing credentials, network addresses, raw errors, request/response bodies or private material.
+
+## Scope and invariants
+
+1. Build a separate versioned offline candidate from the exact PR #91 head. Do not edit or overwrite the old pinned source graph, contract, fixture, authorization, run, Store or billing row. If the new code must change a pinned module, generate a new graph and contract identity for a *future* proposal; old approvals must fail closed against changed bytes.
+2. Model distinct phases: pre-dispatch refusal, persisted dispatch intent, transport connection/TLS/write failure, HTTP non-200 response class, bounded response read/stream failure, JSON/protocol/usage rejection, cancellation/timeout, settlement/publication failure, and unknown internal failure. A diagnostic may say the local phase and fixed class observed; it must never claim remote receipt, cancellation, usage or charge without evidence. Do not put transient network codes, host names, stack traces, arbitrary exception text or response bodies in persisted diagnostics.
+3. Keep the provider-facing error classification as an explicit closed mapping. Unknown exceptions map to `unclassified` and fail closed. Distinguish a known native transport failure from that unclassified bucket. Preserve the existing `unknown` hold after ambiguous dispatch, the per-run call ceiling, first-failure stop, adapter pinning, no replay of unknown attempts, and no release of old holds.
+4. Bound and validate every diagnostic field. Keep the reader-facing Dreambook free of prominent provider/model labels while retaining truthful internal provenance. Do not append diagnostic prose to dream/wake content or treat a model output as a reality fact.
+5. Any new future paid run requires a fresh, exact proposal, updated pricing/expiry/source/fixture pins, explicit user approval and a separate deliberate local Key action. This package contains **zero** real provider requests, Key reads, login or new budget authorization. Do not perform another public network probe for the old failure.
+
+## Offline verification
+
+Use independent fictional fixtures and a local stub/native HTTPS stand-in. Exercise at least: DNS/connect/TLS/write refusal before response; request error after a persisted dispatch intent; closed HTTP status classes including 401, 429 and 5xx; response abort/size/read error; invalid JSON, invalid usage and invalid dream stage; timeout/cancel/late reply; arbitrary unexpected error with a sensitive sentinel; storage failure; duplicate request, restart and blocked unknown replay. Verify that a fixed class survives reopening in a body-free technical receipt, while unknown delivery/usage/money stays unknown, no Key/body/sentinel leaks, no extra stage runs, and old failed row/history remains byte-identical. Avoid tests that mirror only string constants; use fault-injection at real boundaries.
+
+Run targeted paid-entry/Dreambook tests, the no-Key checker, source admission, `git diff --check`, a sensitive-material scan and one complete `node --test`. Keep actual exit codes and failures. If platform limitations prevent a full pass, report them without labeling the gate green. Do not rely on the user's Store or historical raw response, which was not retained.
+
+## Delivery and stop line
+
+Produce a short design/receipt in `docs/` and `docs/validation/` with exact commit/source identity, observed test counts, supported diagnostic classes and limitations. Commit a narrow isolated branch and open a draft PR when available; do not merge or modify other repositories. If pinning or durable unknown accounting cannot be preserved, stop with `BLOCKED_DIAGNOSTIC_BOUNDARY` and exact evidence. Otherwise finish at `OFFLINE_DIAGNOSTICS_READY`. That status does not mean a new dream or real provider entitlement has been verified. No new trial proposal or local `init`/`run --live` belongs to this package.
