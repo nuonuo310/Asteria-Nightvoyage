@@ -7,8 +7,11 @@
   "environment": {
     "node": "v24.19.0",
     "platform": "win32",
+    "arch": "x64",
+    "privilegeContext": "windows_administrator",
     "shell": "Windows PowerShell 5.1",
-    "browserVisualCheck": "Microsoft Edge 155.0.4283.62 headless"
+    "browserVisualCheck": "Microsoft Edge 155.0.4283.62 headless",
+    "symlinkCapabilityInThisExecutionContext": "available"
   },
   "tests": {
     "firstFullRun": {
@@ -49,8 +52,8 @@
     "targeted": {
       "command": "node --test test/dreambook-view.test.js test/dreambook-reader.test.js test/dreambook-review-text.test.js test/model-port-dreambook.test.js test/dream-model-port.test.js test/plan-transport-admission.test.js",
       "exitCode": 0,
-      "tests": 59,
-      "pass": 59,
+      "tests": 61,
+      "pass": 61,
       "fail": 0,
       "cancelled": 0,
       "skipped": 0,
@@ -59,9 +62,84 @@
     "viewTests": {
       "command": "node --test test/dreambook-view.test.js",
       "exitCode": 0,
-      "tests": 9,
-      "pass": 9,
+      "tests": 11,
+      "pass": 11,
       "fail": 0
+    }
+  },
+  "reviewCorrection": {
+    "review": "PR #88 coordinator review of 1798b36a",
+    "correctedBaseCommit": "1798b36a7241d9d48438a949952880aa13a9b689",
+    "firstReadBoundary": {
+      "mechanism": "one-time HTTP Basic bootstrap credential printed in the startup terminal",
+      "secretInUrlOrHistory": false,
+      "unauthenticatedFirstGetStatus": 401,
+      "unauthenticatedFirstGetReturnsDreamBody": false,
+      "cookieIssued": false
+    },
+    "closeFailure": {
+      "fixedReceipt": "store_close_failed",
+      "cliExitCode": 1,
+      "httpListenerClosed": true,
+      "storeReleaseConfirmed": false,
+      "injectedFailureTests": 2
+    },
+    "targeted": {
+      "command": "node --test test/dreambook-view.test.js test/dreambook-reader.test.js test/dreambook-review-text.test.js test/model-port-dreambook.test.js test/dream-model-port.test.js test/plan-transport-admission.test.js",
+      "exitCode": 0,
+      "tests": 61,
+      "pass": 61,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "viewTests": {
+      "command": "node --test test/dreambook-view.test.js",
+      "exitCode": 0,
+      "tests": 11,
+      "pass": 11,
+      "fail": 0
+    },
+    "fullRun": {
+      "command": "node --test",
+      "exitCode": 0,
+      "tests": 1922,
+      "suites": 0,
+      "pass": 1922,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "durationMs": 473033.9612,
+      "windowsSymlinkEpermFailures": 0,
+      "previouslyFailingSymlinkTests": "8/8 passed in this execution context"
+    },
+    "windowsSymlinkObservation": {
+      "reviewBaselineAt1798b36a": {
+        "exitCode": 1,
+        "tests": 1920,
+        "pass": 1911,
+        "fail": 8,
+        "skipped": 1,
+        "failureClass": "windows_temporary_symlink_eperm"
+      },
+      "newHeadExecution": {
+        "exitCode": 0,
+        "tests": 1922,
+        "pass": 1922,
+        "fail": 0,
+        "epermOccurrencesInLog": 0
+      },
+      "interpretation": "This executor ran as Windows Administrator and could create temporary symlinks, so the restricted-context EPERM class was not reproduced. The green run is scoped to this execution context and does not erase the earlier Windows baseline."
+    },
+    "checker": {
+      "command": "node scripts/check-dreambook-view.mjs",
+      "exitCode": 0,
+      "firstReadRequiresBootstrap": true,
+      "bootstrapAuthorization": true,
+      "credentialReads": 0,
+      "realModelRequests": 0
     }
   },
   "checks": {
@@ -74,7 +152,8 @@
       "nativeHttpsRequests": 0,
       "credentialReads": 0,
       "loopbackOnly": true,
-      "capabilityCookie": true,
+      "firstReadRequiresBootstrap": true,
+      "bootstrapAuthorization": true,
       "stableStateBytesUnchanged": true,
       "pageLoadGeneration": false,
       "replayStable": true,
@@ -125,6 +204,8 @@
     "sourceIdentityUnchanged": "3c3012f0f235b6a797f10d4d343b079194b577affd90afa0a5f93f8babc11222"
   },
   "visualInspection": {
+    "head": "1798b36a7241d9d48438a949952880aa13a9b689",
+    "rerunAtCorrection": false,
     "independentFictionalDemoOnly": true,
     "viewports": ["1280x5000", "390x5000"],
     "desktopScreenshotBytes": 1639663,

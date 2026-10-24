@@ -68,7 +68,7 @@ node scripts/dreambook-view.mjs --demo
 node scripts/dreambook-view.mjs --data-dir C:\path\to\existing-book --latest
 ```
 
-`--demo` 只用仓库固定虚构 fixture 建立临时 Store；已有 Store 必须通过绝对路径显式选择。页面只绑定 `127.0.0.1`，使用短生命周期 capability cookie，拒绝跨源读取和非 GET/HEAD 方法，无脚本、远程资源或遥测。原梦、醒来、后来回想、想象续写、模拟评价、分别署名的独立意见与来源分开显示；页面加载不生成新梦、不调用模型，停止时关闭服务与 Store owner。普通 Store 不会被删除，已复制或截图的页面也不能因来源撤回被远程擦除。安全边界与使用方式见[本地梦簿浏览器视图](docs/DREAMBOOK-LOCAL-VIEW.md)。
+`--demo` 只用仓库固定虚构 fixture 建立临时 Store；已有 Store 必须通过绝对路径显式选择。页面只绑定 `127.0.0.1`，每次启动生成一次性 HTTP Basic bootstrap 凭据并只显示在当前终端；未授权的首次 GET 返回 401，不返回正文，令牌也不进入 URL 或浏览器历史。服务拒绝跨源读取和非 GET/HEAD 方法，无脚本、远程资源或遥测。原梦、醒来、后来回想、想象续写、模拟评价、分别署名的独立意见与来源分开显示；页面加载不生成新梦、不调用模型，停止时关闭服务与 Store owner。若 `Store.close()` 失败，停止回执固定为 `store_close_failed` 且退出码为 1，不声称 owner 已释放。普通 Store 不会被删除，已复制或截图的页面也不能因来源撤回被远程擦除。安全边界与使用方式见[本地梦簿浏览器视图](docs/DREAMBOOK-LOCAL-VIEW.md)。
 
 ## 开发与独立虚构演练
 
