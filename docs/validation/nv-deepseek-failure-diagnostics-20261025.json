@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "kind": "nv_deepseek_failure_diagnostics_validation",
+  "status": "OFFLINE_DIAGNOSTICS_READY",
+  "authority": {
+    "repository": "nuonuo310/Asteria-Nightvoyage",
+    "envelopePath": "docs/construction-envelopes/2026-10-24-deepseek-failure-diagnostics-v1.md",
+    "envelopeBase": "main@ae44ede83d4df6840820892fc3a56464a5a4c003",
+    "candidateBase": "PR #91@a94d0909162ce9d544c5d1338cb9096cd97b17e1",
+    "branch": "deepseek/nightvoyage-nv-deepseek-failure-diagnostics-01"
+  },
+  "preserved": {
+    "contractPath": "docs/proposals/deepseek-one-dream-20261025.json",
+    "contractHash": "c3a87c6085a5551bd1622ad5303ab5f8f810ab02a2009b9fb1712b1c33ba84c5",
+    "sourceGraphPath": "scripts/nv-deepseek-one-dream/runtime-graph.json",
+    "sourceGraphHash": "70eccc5071db0215163e5c77ac3b5351c5b520c8e75f0fc64a1f40c5bb9e8e5d",
+    "sourceCodeHash": "2e86af02e666462900b8c81f495958d1c7d00eb93032b28d0ef7244289d85b42",
+    "fixturePath": "examples/deepseek-one-dream-20261025.json",
+    "fixtureHash": "401d3ae218ebe569d33f85c2ae2a35e82cf87837c108f4f83dc12210495f4f7c",
+    "fixtureFileHash": "9d5f8dabe6a8db6f6bc62862f389a9885581d18611d0f61f024d63e988e093a9",
+    "pricingExpiresAt": 1792946700000,
+    "maxCalls": 3,
+    "additionalBudgetMicroCny": "3000000",
+    "legacyUnknownHolds": 4,
+    "legacyHeldMicroCny": "8812800",
+    "oldContractsRunsAndUnknownHoldsChanged": false,
+    "oneDreamContractAndFixtureUnchanged": true
+  },
+  "diagnostics": {
+    "version": "nv-deepseek-failure-diagnostics-v1",
+    "journalPath": "nv-deepseek-failure-diagnostics.json",
+    "receiptSchemaVersion": 1,
+    "maximumReceipts": 32,
+    "liveMode": "refused_offline_only",
+    "persistedFieldsAreFixedEnumsAndBoundedHashes": true,
+    "deliveryUsageAndMoneyOnFailure": "unknown",
+    "phases": [
+      "pre_dispatch",
+      "dispatch_intent",
+      "transport",
+      "http_response",
+      "response_read",
+      "response_protocol",
+      "cancellation",
+      "settlement",
+      "publication",
+      "internal"
+    ],
+    "classes": [
+      "pre_dispatch_refused",
+      "dispatch_contract_rejected",
+      "transport_dns_failure",
+      "transport_connect_failure",
+      "transport_tls_failure",
+      "transport_write_failure",
+      "transport_native_failure",
+      "http_unauthorized",
+      "http_rate_limited",
+      "http_client_error",
+      "http_server_error",
+      "http_other_non_200",
+      "response_aborted",
+      "response_too_large",
+      "response_read_failure",
+      "response_invalid_json",
+      "response_protocol_rejected",
+      "response_usage_rejected",
+      "response_stage_rejected",
+      "cancelled_locally",
+      "local_timeout",
+      "settlement_failure",
+      "publication_failure",
+      "local_storage_failure",
+      "unclassified"
+    ]
+  },
+  "sourceIdentity": {
+    "scripts/nv-deepseek-failure-diagnostics/policy.mjs": "92debc1fb8a9386c5b5c77856b19cb6ac3b41a75d4e17c59b6df9ef28ac1cf17",
+    "scripts/nv-deepseek-failure-diagnostics/classify.mjs": "b870cedcad95398350eba7abd120f7b824febb6623fb7ad7f1c2659201f3ba6e",
+    "scripts/nv-deepseek-failure-diagnostics/journal.mjs": "2da70e677ab73e8137dd9db87bd11f15670680573c33ce496cf9dc338ca21af7",
+    "scripts/nv-deepseek-failure-diagnostics/client.mjs": "b3d6d9436aa180c531c4fff02e7088f75409a2ff1bec8992145fbd342ae5ba67",
+    "scripts/nv-deepseek-failure-diagnostics/runtime.mjs": "ba2267e7be3f7d92ae6e501a33cc3dce85b87061e26a3d75878756668b162656",
+    "scripts/check-nv-deepseek-failure-diagnostics.mjs": "c257032670875aaa89f3e11c066f112338a5bf29b5a06d4188752d5e674a6861",
+    "test/nv-deepseek-failure-diagnostics.test.js": "eb836d7c9b1aff7e94ebbdd8e776f08bb7132432a8a653c98d8920270f5bd6d6"
+  },
+  "verification": {
+    "platform": "Windows, Node v24.19.0",
+    "commands": [
+      {
+        "command": "node --test test/nv-deepseek-failure-diagnostics.test.js",
+        "exitCode": 0,
+        "tests": 16,
+        "pass": 16,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0,
+        "durationMs": 46155.8689
+      },
+      {
+        "command": "node --test test/nv-deepseek-failure-diagnostics.test.js test/nv-deepseek-one-dream.test.js test/dreambook-reader.test.js test/dreambook-view.test.js test/inline-paid-entry.test.js",
+        "exitCode": 0,
+        "tests": 74,
+        "pass": 74,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0,
+        "durationMs": 51307.0735
+      },
+      {
+        "command": "node --test",
+        "exitCode": 0,
+        "tests": 1953,
+        "pass": 1953,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0,
+        "durationMs": 469304.0151
+      },
+      {
+        "command": "node scripts/check-nv-deepseek-failure-diagnostics.mjs",
+        "exitCode": 0,
+        "status": "passed",
+        "credentialReads": 0,
+        "providerNetworkRequests": 0,
+        "userStoreAccessed": false
+      },
+      {
+        "command": "node scripts/check-nv-deepseek-one-dream.mjs",
+        "exitCode": 0,
+        "status": "passed",
+        "credentialSupplierCalls": 0,
+        "providerNetworkRequests": 0,
+        "oldAccountsUnchanged": true
+      },
+      {
+        "command": "node scripts/check-codex-accounted-source.mjs",
+        "exitCode": 0,
+        "status": "repository_source_inventory_verified",
+        "files": 65,
+        "edges": 242,
+        "diagnostics": 0,
+        "discoveryReviewStatus": "candidate_requires_review"
+      },
+      {
+        "command": "git diff --check",
+        "exitCode": 0
+      }
+    ],
+    "transientPlatformObservation": {
+      "command": "targeted paid-entry/Dreambook suite",
+      "firstAttemptExitCode": 1,
+      "firstAttemptTests": 74,
+      "firstAttemptPass": 73,
+      "firstAttemptFail": 1,
+      "firstAttemptError": "EPERM: operation not permitted, symlink in test/inline-paid-entry.test.js:33",
+      "finalAttemptExitCode": 0,
+      "finalAttemptPass": 74,
+      "note": "The Windows symlink failure did not reproduce on the final targeted run or the complete suite."
+    }
+  },
+  "limitations": [
+    "The retained old failed row is body-free, so the cause of the historical request_failed outcome cannot be recovered.",
+    "Diagnostic transport and HTTP classes describe locally observed layers only; they do not prove remote receipt, cancellation, usage or charge.",
+    "The offline diagnostics runtime refuses live construction; no new provider path, entitlement or paid-run approval is admitted.",
+    "A receipt-storage failure is surfaced as a fixed failure and cannot itself persist a receipt.",
+    "Unknown delivery, usage and money remain unknown and every prior unknown hold remains unchanged."
+  ],
+  "remainingBlockers": [
+    "fresh exact paid-run proposal and explicit user approval are required for any future provider attempt",
+    "provider usage, receipt and charge for the historical failed attempt remain unknown",
+    "live-provider diagnostics are not admitted by this offline candidate"
+  ]
+}
