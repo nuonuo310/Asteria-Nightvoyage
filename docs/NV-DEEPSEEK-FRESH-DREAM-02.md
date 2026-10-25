@@ -36,14 +36,16 @@ local loopback stand-in.
 | --- | --- |
 | Contract | `docs/proposals/deepseek-fresh-dream-02-20261025.json` |
 | Contract id | `nv-deepseek-fresh-dream-02-fresh-admission-20261025` |
-| Contract hash | `c31b781e01de87c32e181bd4ecc710b996d26d31130384d0dd3dd63366aecbaa` |
+| Contract hash | `d05144631becd68bfd1be06779159211fc771fd342d3b854acd5bdbbb2ea1104` |
+| Contract file SHA-256 | `3bbd2c85e8d5746808f0716bdde889f220cbf157d95f1513fe3a3097514002c9` |
 | Fixture | `examples/deepseek-fresh-dream-02-20261025.json` |
 | Fixture id | `fictional-glass-orchard-20261025` |
 | Fixture snapshot hash | `694265fed23ae52c407bf5f584056415ca1177d64f8648fa6ecbb7ecc37b1124` |
 | Fixture file hash | `00bb025ccf4978ce8a4f665d30e55938e22f96c9cdac6c16065db2bec7e5aae1` |
 | Source graph | `scripts/nv-deepseek-fresh-dream-02/runtime-graph.json` |
-| Graph hash | `525811a4afaf68974724be8debbd4b201437e21e7759756efdd24f3d8b66721c` |
-| Code hash | `5f095b33813d0b20cfe82dcd7a4a2659d8e3a2d0463f4de6c7dd5bdc2515eb51` |
+| Graph hash | `91b089700fe90f125147a01ca8b9535ebf6d38b046b4e8d0a7f2bd6233c9adea` |
+| Code hash | `58089a0c227496156922dc2a0077e6ce48bca79ca2e8165f6b1a3e61fce41d97` |
+| Reviewed unknown rows hash | `3aa18c454d0013623d430375a2ee7368200ce3d3cf3ba38fac5864d5abc87dbf` |
 | Allowance | `nv-deepseek-fresh-dream-02-20261025` |
 | Authorization field | `nvDeepSeekFreshDream02Authorization` |
 
@@ -51,6 +53,16 @@ The graph is a parse-only static ESM closure of 47 files and 8 builtins. The
 fixture source is `fiction-glass-orchard-source` and is independently fictional.
 Hashes are identity pins, not approval, quality evidence or a successful provider
 receipt.
+
+The contract now names all five historical `unknown` rows in
+`history.reviewedUnknownRows`. First `init` must match each account id, request id,
+run id, fingerprint, source reference, `unknown` status, reserved amount and charged
+amount before it captures the baseline. The five rows are exactly the four earlier
+`q-sparse-memory@1` holds and the later `fiction-night-station-source@1` hold,
+totalling `10913152` micro-CNY. Missing any row, adding an undeclared `unknown`, or
+changing an amount fails before a new authorization or allowance can be created.
+Reopen continues to compare the already-captured whole-account fingerprint baseline
+instead of recapturing it.
 
 Validity is `2026-10-25T13:10:19Z` through `2026-10-26T13:10:19Z`. The public
 DeepSeek Chinese pricing page was read without authentication from
@@ -98,39 +110,49 @@ preserves an ambiguous hold. A ledger save failure records
 `pre_dispatch / local_storage_failure / none` before any loopback POST. There is
 no automatic retry, repair call or provider fallback.
 
+The PR #93 review correction keeps only reviewed native transport codes in a typed,
+fixed-message error. Arbitrary native codes, response text and addresses are dropped.
+Response abort, read failure and size overflow now carry separate fixed
+response-stage codes and map to `response_aborted`, `response_read_failure` and
+`response_too_large`. Four local CA-signed HTTPS cases exercise TLS verification
+failure, response abort, malformed chunk/read failure and oversize response through the real
+`providerResponse` implementation. Each writes one body-free receipt with a
+persisted dispatch intent, retains the full unknown hold, and produces the same
+receipt after reopen. These are local stand-in observations, not provider or live
+evidence.
+
 ## Verification
 
 Recorded on Windows x64 with Node `v24.19.0`:
 
 | Gate | Result | Exit | Duration |
 | --- | --- | --- | --- |
-| New targeted suite | 18/18, zero failures/cancellations/skips | 0 | 91141.4588 ms |
-| Related paid-entry and Dreambook suites | 94/94, zero failures/cancellations/skips | 0 | 102145.3562 ms |
-| Complete `node --test` | 1973/1973, zero failures/cancellations/skips | 0 | 519600.1489 ms |
+| New targeted suite | 24/24, zero failures/cancellations/skips | 0 | 102585.1071 ms |
+| Six-file targeted suites | 100/100, zero failures/cancellations/skips | 0 | 118033.7106 ms |
+| Complete `node --test` | 1979/1979, zero failures/cancellations/skips | 0 | 527945.1215 ms |
 
 The no-Key fresh checker, earlier one-dream checker and failure-diagnostics
 checker all passed with exit `0`. The inline entry dependency gate passed with
 33 parsed modules, 184 static edges and 4 allowed builtins. Source-graph
 regeneration reproduced 47 files, 8 builtins and the pinned graph hash.
 
-The first development run of the new suite was 17/18. Its ledger-save failure
-test injected the fault before `engine.execute()` reached the diagnostic
-transport boundary, so the expected receipt was not created. The test harness
-was corrected to persist the running state first, then inject the save failure
-during `client.send()` reservation persistence. Business code, contract pins,
-graph and fixture were not changed by that correction. The final targeted and
-full runs pass.
+The review-fix suite adds two independent history negatives (missing fifth row and
+changed fifth-row amount) plus four local HTTPS transport negatives. Each history
+negative proves that no authorization, allowance or commit phase was reached. The
+old accounts remain byte-identical apart from the deliberate temp-fixture mutation
+inside that negative test; production code does not repair or rewrite them.
 
-Sensitive-material scanning found no real Key, private-key, GitHub-token or
-provider-token pattern in the new package. `PRIVATE-*-SENTINEL` strings are
+Sensitive-material scanning found no real Key, production private-key,
+GitHub-token or provider-token pattern in the new package. The embedded PFX is a
+synthetic local HTTPS test identity only. `PRIVATE-*-SENTINEL` strings are
 synthetic test-only assertion markers, never credentials. `git diff --check`
 passes for the final tree.
 
 ## Delivery boundary
 
-A narrow commit is prepared on the isolated branch. A draft PR cannot be created
-through an authenticated channel in this environment: `gh` is absent and no
-verified PR creation channel is available. No PR URL is claimed here.
+A narrow review-fix commit is prepared on the isolated branch and updates the same
+draft PR #93. This update creates no new PR, does not merge PR #91/#92/main and does
+not alter any prior approval, authorization, ledger row or unknown hold.
 
 This work stops at `OFFLINE_READY_AWAITING_FRESH_APPROVAL`. A coordinator must
 review the exact candidate. The user must then make a fresh 3 CNY decision for
@@ -146,7 +168,6 @@ Remaining blockers:
 - `provider_usage_and_bill_remain_unknown`
 - `mutable_model_alias_requires_reconfirmation`
 - `no_server_side_output_cap_local_bound_only`
-- `draft_pr_creation_channel_not_authenticated`
 
 Compact machine receipt:
 [validation/nv-deepseek-fresh-dream-02-20261025.json](validation/nv-deepseek-fresh-dream-02-20261025.json).

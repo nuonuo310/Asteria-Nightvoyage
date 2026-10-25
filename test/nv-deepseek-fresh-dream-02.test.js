@@ -9,6 +9,7 @@ import {Nightvoyage} from '../src/engine.js';
 import {LocalFileAppraisalReviewAdapter} from '../src/appraisal-review-adapter.js';
 import {readOneDreamContract,validateOneDreamContract,oneDreamFixtureSummary} from '../scripts/nv-deepseek-fresh-dream-02/contract.mjs';
 import {initOneDreamAuthorization} from '../scripts/nv-deepseek-fresh-dream-02/authorization.mjs';
+import {providerResponse} from '../scripts/nv-deepseek-fresh-dream-02/client.mjs';
 import {DiagnosticOneDreamRuntime} from '../scripts/nv-deepseek-fresh-dream-02/diagnostic.mjs';
 import {OneDreamLedger} from '../scripts/nv-deepseek-fresh-dream-02/ledger.mjs';
 import {createOneDreamLoopback,oneDreamLoopbackScenes,oneDreamLoopbackWakeFragment} from '../scripts/nv-deepseek-fresh-dream-02/local-http.mjs';
@@ -19,6 +20,7 @@ import {verifyOneDreamGraph} from '../scripts/nv-deepseek-fresh-dream-02/source.
 import {classifyFailure,classifyNativeTransport} from '../scripts/nv-deepseek-failure-diagnostics/classify.mjs';
 import {diagnosticJournalPath,readDiagnosticReceipts} from '../scripts/nv-deepseek-failure-diagnostics/journal.mjs';
 import {prepareFreshDream02History,freshDreamTestNow,priorOneDreamAllowanceId} from '../test-support/nv-fresh-dream-02-fixtures.mjs';
+import {createLocalHttpsPeer,localHttpsCa} from '../test-support/nv-fresh-dream-02-https-fixture.mjs';
 import {dreambookCatalog,runDreambook} from '../scripts/dreambook.mjs';
 import {readDreambookView,readDreambookLaterRecords} from '../scripts/dreambook-view-records.mjs';
 import {renderDreambookViewHtml} from '../scripts/dreambook-view-html.mjs';
@@ -50,6 +52,17 @@ async function withRuntime(t,{transport,timeoutMs=60000,fault},run){
   return await run({h,engine,gate,loopback});
 }
 async function failedRun(t,options={}){return withRuntime(t,options,async context=>{const status=await context.engine.execute(context.gate.id);return {...context,status,receipts:readDiagnosticReceipts(context.h.directory)};});}
+async function localHttpsFailure(t,mode){
+  const h=prepareFreshDream02History(t,{mode:'live'}),peer=await createLocalHttpsPeer(mode);t.after(()=>peer.close());
+  let engine=new DiagnosticOneDreamRuntime(h.directory,{mode:'live',enabled:true,timeoutMs:5000});
+  t.after(()=>{try{engine?.close();}catch{}});
+  engine.client.providerTransport=(_endpoint,request)=>providerResponse(peer.url,request,{ca:mode==='tls'?undefined:localHttpsCa});
+  const gate=engine.prepare({dispatchKind:'provider',create:true});engine.credential=oneDreamLocalCredential;
+  const status=await engine.execute(gate.id),attempt=rowsFor(engine)[0],before=readDiagnosticReceipts(h.directory);
+  engine.close();engine=undefined;
+  const after=readDiagnosticReceipts(h.directory);
+  return {h,peer,status,attempt,before,after};
+}
 function rowsFor(engine){return Object.values(engine.store.state.billing.accounts[oneDreamAllowanceId].attempts);}
 async function rehearsed(t){const h=prepareFreshDream02History(t,{mode:'stub'});const value=await runOneDreamSession('rehearse',h.directory,null,()=>{throw Error('unexpected_credential');});return {h,value};}
 
@@ -87,6 +100,11 @@ test('fresh contract pins exact alias, rates, local hold bound, source graph, an
   assert.equal(contract.history.unknownHoldGroups[0].heldMicroCny,'8812800');
   assert.equal(contract.history.unknownHoldGroups[1].heldMicroCny,'2100352');
   assert.equal(contract.history.unknownHoldGroups[1].allowanceId,priorOneDreamAllowanceId);
+  assert.equal(contract.history.reviewedUnknownRows.length,5);
+  assert.equal(contract.history.reviewedUnknownRowCount,5);
+  assert.match(contract.history.reviewedUnknownRowsHash,/^[a-f0-9]{64}$/);
+  assert.deepEqual(contract.history.reviewedUnknownRows.at(-2),{accountId:'pruned-v2-dream-trial-20261015',requestId:'stage-synthetic-pruned-failure-scene-0',runId:'synthetic-pruned-failure',fingerprint:'922079d4d114e9d2632ee00fc21e8c320e24d2bee87cc26720017a9fd8e27209',sourceRefs:[{id:'q-sparse-memory',version:'1'}],status:'unknown',reservedMicroCny:'2203200',chargedMicroCny:'2203200'});
+  assert.deepEqual(contract.history.reviewedUnknownRows.at(-1),{accountId:'scene-continuity-dream-trial-20261016',requestId:'stage-synthetic-entry-history-run-scene-0',runId:'synthetic-entry-history-run',fingerprint:'810d243141e4c7f5e038a6afe7306115782cc53f0ada5b2c23534d9554c43408',sourceRefs:[{id:'q-sparse-memory',version:'1'}],status:'unknown',reservedMicroCny:'2203200',chargedMicroCny:'2203200'});
   assert.equal(contract.source.legacyReusable,false);
   assert.equal(contract.source.priorOneDreamReusable,false);
   assert.equal(contract.source.priorOneDreamUnknownHoldMicroCny,'2100352');
@@ -257,6 +275,50 @@ test('authorization is one-use and duplicate init reuses the same independent ru
     const again=initOneDreamAuthorization(store,{confirmation:h.confirmation,mode:'stub',now});
     assert.equal(again.termsHash,h.record.termsHash);assert.equal(again.terms.requestId,'nv-deepseek-fresh-dream-02-20261025');assert.equal(again.terms.sessionId,'nv-deepseek-fresh-dream-02-20261025');
     assert.equal(Object.keys(store.state.billing.accounts[oneDreamAllowanceId].attempts).length,0);
+  }finally{store.close();}
+});
+
+test('first live init rejects a missing fifth reviewed unknown before creating authorization or allowance',t=>{
+  const h=prepareFreshDream02History(t,{mode:'live',authorize:false}),store=new Store(h.directory);
+  try{
+    delete store.state.billing.accounts[priorOneDreamAllowanceId].attempts['stage-prior-one-dream-run-scene-0'];store.save();
+    const mutated=structuredClone(store.state.billing.accounts);let committed=false;
+    assert.throws(()=>initOneDreamAuthorization(store,{confirmation:h.confirmation,mode:'live',now,fault:phase=>{if(phase.includes('authorization_commit'))committed=true;}}),/one_dream_history_unknown_mismatch/);
+    assert.equal(committed,false);assert.equal(store.state[oneDreamAuthorizationField],undefined);assert.equal(store.state.billing.accounts[oneDreamAllowanceId],undefined);
+    assert.deepEqual(store.state.billing.accounts,mutated);
+  }finally{store.close();}
+});
+
+test('first live init rejects a changed historical unknown amount before creating authorization or allowance',t=>{
+  const h=prepareFreshDream02History(t,{mode:'live',authorize:false}),store=new Store(h.directory);
+  try{
+    store.state.billing.accounts[priorOneDreamAllowanceId].attempts['stage-prior-one-dream-run-scene-0'].chargedMicroCny='2100351';store.save();
+    const mutated=structuredClone(store.state.billing.accounts);let committed=false;
+    assert.throws(()=>initOneDreamAuthorization(store,{confirmation:h.confirmation,mode:'live',now,fault:phase=>{if(phase.includes('authorization_commit'))committed=true;}}),/one_dream_history_unknown_mismatch/);
+    assert.equal(committed,false);assert.equal(store.state[oneDreamAuthorizationField],undefined);assert.equal(store.state.billing.accounts[oneDreamAllowanceId],undefined);
+    assert.deepEqual(store.state.billing.accounts,mutated);
+  }finally{store.close();}
+});
+
+for(const scenario of [
+  {mode:'tls',phase:'transport',diagnosticClass:'transport_tls_failure',requests:0},
+  {mode:'aborted',phase:'response_read',diagnosticClass:'response_aborted',requests:1},
+  {mode:'read',phase:'response_read',diagnosticClass:'response_read_failure',requests:1},
+  {mode:'too_large',phase:'response_read',diagnosticClass:'response_too_large',requests:1}
+])test(`real HTTPS ${scenario.mode} failure persists one bounded receipt and survives reopen`,async t=>{
+  const value=await localHttpsFailure(t,scenario.mode);
+  assert.equal(value.status.status,'failed');assert.equal(value.peer.requests,scenario.requests);
+  assert.equal(value.attempt.status,'unknown');assert.equal(value.attempt.chargedMicroCny,'134272');
+  assert.equal(value.before.length,1);assert.deepEqual(value.after,value.before);
+  const receipt=value.after[0];assert.equal(receipt.phase,scenario.phase);assert.equal(receipt.diagnosticClass,scenario.diagnosticClass);
+  assert.equal(receipt.dispatchIntent,'persisted');assert.equal(receipt.delivery,'unknown');assert.equal(receipt.usage,'unknown');assert.equal(receipt.money,'unknown');
+  const journalText=fs.readFileSync(diagnosticJournalPath(value.h.directory),'utf8');
+  for(const marker of ['PRIVATE-HTTPS-BODY-SENTINEL','127.0.0.1','LOCAL-HTTPS-FIXTURE-ONLY','provider_response_','UNABLE_TO_','CERT_','SELF_SIGNED'])assert.equal(journalText.includes(marker),false,marker);
+  const store=new Store(value.h.directory);
+  try{
+    for(const [id,account]of Object.entries(value.h.oldAccounts))assert.equal(JSON.stringify(store.state.billing.accounts[id]),JSON.stringify(account),id);
+    const historical=Object.entries(store.state.billing.accounts).filter(([id])=>id!==oneDreamAllowanceId).flatMap(([,account])=>Object.values(account.attempts??{})).filter(row=>row.status==='unknown');
+    assert.equal(historical.length,5);assert.equal(historical.reduce((sum,row)=>sum+BigInt(row.chargedMicroCny),0n).toString(),'10913152');
   }finally{store.close();}
 });
 

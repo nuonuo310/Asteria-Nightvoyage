@@ -12,6 +12,9 @@ import {freshDreamInputTokenBound,oneDreamAllowanceId, oneDreamAuthorizationFiel
 
 const root=fileURLToPath(new URL('../..',import.meta.url));
 const exact=(value,keys)=>value&&typeof value==='object'&&!Array.isArray(value)&&Object.keys(value).length===keys.length&&keys.every(key=>Object.hasOwn(value,key));
+const reviewedUnknownRowKeys=Object.freeze(['accountId','requestId','runId','fingerprint','sourceRefs','status','reservedMicroCny','chargedMicroCny']);
+const microCnyAmount=value=>typeof value==='string'&&/^(?:0|[1-9][0-9]*)$/.test(value);
+const sameSourceRefs=(actual,expected)=>Array.isArray(actual)&&actual.length===expected.length&&actual.every((source,index)=>exact(source,['id','version'])&&source.id===expected[index].id&&source.version===expected[index].version);
 export const oneDreamContractConfirmationKeys=Object.freeze(['contractHash','budgetCny','caseId','allowFictionalEgress','acknowledgePreservedHolds','acknowledgeMutableModelAlias','accountCurrency']);
 export function oneDreamConfirmation(contractHash){return {contractHash,budgetCny:3,caseId:oneDreamCaseId,allowFictionalEgress:true,acknowledgePreservedHolds:true,acknowledgeMutableModelAlias:true,accountCurrency:'CNY'};}
 export function inspectOneDreamConfirmation(contract,confirmation){
@@ -31,6 +34,22 @@ function assertOwnerLock(store){
   const filename=path.join(store.directory,'owner.lock');let fd,saved,stat;
   try{fd=fs.fstatSync(store.lockfd);stat=fs.lstatSync(filename);saved=JSON.parse(fs.readFileSync(filename,'utf8'));}catch{fail('one_dream_owner_lock_required');}
   if(!stat.isFile()||stat.isSymbolicLink()||fd.dev!==stat.dev||fd.ino!==stat.ino||saved.pid!==process.pid)fail('one_dream_owner_lock_required');
+}
+function assertReviewedUnknownRows(store,contract){
+  assertOwnerLock(store);
+  const history=contract?.history,expected=history?.reviewedUnknownRows;
+  if(!Array.isArray(expected)||expected.length!==5||history.reviewedUnknownRowCount!==5||history.requiredLegacyAccounts!==5||history.legacyUnknownHolds!==5||history.legacyHeldMicroCny!=='10913152'||history.reviewedUnknownRowsHash!==hash(expected))fail('one_dream_reviewed_history_invalid');
+  const actual=Object.entries(store.state.billing?.accounts??{}).filter(([accountId])=>accountId!==oneDreamAllowanceId).flatMap(([accountId,account])=>Object.values(account?.attempts??{}).filter(row=>row?.status==='unknown').map(row=>({accountId,row})));
+  if(actual.length!==expected.length)fail('one_dream_history_unknown_mismatch');
+  const actualById=new Map(actual.map(({accountId,row})=>[`${accountId}\0${row.requestId??''}`,row])),seen=new Set();let total=0n;
+  for(const item of expected){
+    if(!exact(item,reviewedUnknownRowKeys)||typeof item.accountId!=='string'||typeof item.requestId!=='string'||typeof item.runId!=='string'||!/^[a-f0-9]{64}$/.test(item.fingerprint)||!Array.isArray(item.sourceRefs)||!item.sourceRefs.every(source=>exact(source,['id','version']))||item.status!=='unknown'||!microCnyAmount(item.reservedMicroCny)||!microCnyAmount(item.chargedMicroCny))fail('one_dream_reviewed_history_invalid');
+    const key=`${item.accountId}\0${item.requestId}`;if(seen.has(key))fail('one_dream_reviewed_history_invalid');seen.add(key);
+    const row=actualById.get(key);
+    if(!row||row.requestId!==item.requestId||row.runId!==item.runId||row.fingerprint!==item.fingerprint||!sameSourceRefs(row.sourceRefs,item.sourceRefs)||row.status!==item.status||row.reservedMicroCny!==item.reservedMicroCny||row.chargedMicroCny!==item.chargedMicroCny)fail('one_dream_history_unknown_mismatch');
+    total+=BigInt(row.chargedMicroCny);
+  }
+  if(total.toString()!==history.legacyHeldMicroCny||total!==10913152n)fail('one_dream_history_unknown_mismatch');
 }
 function legacyBaseline(store){
   assertOwnerLock(store);
@@ -75,6 +94,7 @@ export function initOneDreamAuthorization(store,{confirmation,mode,dispatchKind=
     return old;
   }
   if(own(store.state.billing?.accounts??{},oneDreamAllowanceId))fail('one_dream_unbound_account');
+  assertReviewedUnknownRows(store,checked.contract);
   const baseline=legacyBaseline(store),terms={contract:checked.contract,contractHash:checked.contractHash,confirmation:copy(confirmation),dispatchKind,allowance:oneDreamAllowance(checked.contract,mode),baseline,createdAt:now,requestId:oneDreamRequestId,sessionId:oneDreamSessionId,runConfig:oneDreamRunConfig(checked.contract)};
   const record={schemaVersion:1,authorizationVersion:oneDreamAuthorizationVersion,mode,status:'active',terms,termsHash:hash(terms)};
   fault('before_one_dream_authorization_commit');validateOneDreamContract(checked.contract,{now});

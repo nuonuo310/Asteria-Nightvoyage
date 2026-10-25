@@ -8,11 +8,12 @@ import {FailureReceiptJournal} from '../nv-deepseek-failure-diagnostics/journal.
 
 const dispatchContractCodes=new Set(['one_dream_transport_contract_mismatch','one_dream_loopback_required','one_dream_runtime_mode_mismatch','one_dream_authorized_stage_mismatch']);
 const safeId=value=>typeof value==='string'&&/^[\w-]{1,100}$/.test(value)&&!['__proto__','constructor','prototype'].includes(value);
+function boundedReadError(code){const error=Error(code);error.code=code;return error;}
 function trackedResponse(response,trace){
   if(!response||typeof response!=='object')return response;
   const body=response.body;
   if(!body||typeof body.getReader!=='function')return response;
-  return {status:response.status,body:{getReader(){const reader=body.getReader();return {read:async()=>{try{return await reader.read();}catch(error){trace.responseReadError=true;if(error?.name==='AbortError'||/abort/i.test(error?.message??''))trace.responseAborted=true;throw error;}},cancel:(...args)=>reader.cancel(...args),releaseLock:()=>reader.releaseLock()};}}};
+  return {status:response.status,body:{getReader(){const reader=body.getReader();return {read:async()=>{try{return await reader.read();}catch(error){const aborted=error?.name==='AbortError'||error?.code==='ABORT_ERR';trace.responseAborted=aborted;trace.responseReadError=!aborted;throw boundedReadError(aborted?'provider_response_aborted':'provider_response_read_failed');}},cancel:(...args)=>reader.cancel(...args),releaseLock:()=>reader.releaseLock()};}}};
 }
 function authorizationIdentity(store){
   try{const record=readOneDreamAuthorization(store,{allowExpired:true,allowRevoked:true});return {contractHash:record.terms.contractHash,termsHash:record.termsHash};}
@@ -48,7 +49,11 @@ export class DiagnosticOneDreamClient extends OneDreamClient{
       if(Number.isInteger(response?.status)){trace.httpStatus=response.status;trace.httpStatusClass=classifyHttpStatus(response.status);}
       return response.status===200?trackedResponse(response,trace):response;
     }catch(error){
-      trace.transportObservation=classifyNativeTransport(error);
+      if(error?.code==='provider_response_aborted')trace.responseAborted=true;
+      else if(error?.code==='provider_response_read_failed')trace.responseReadError=true;
+      else if(error?.code==='provider_response_too_large')trace.responseTooLarge=true;
+      const typed=/^provider_response_(?:aborted|read_failed|too_large)$/.test(error?.code);
+      trace.transportObservation=typed?'not_classified':classifyNativeTransport(error);
       trace.dispatchContractRejected=dispatchContractCodes.has(error?.message);
       throw error;
     }
