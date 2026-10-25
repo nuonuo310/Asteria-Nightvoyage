@@ -11,6 +11,7 @@ import {dreambookCatalog,runDreambook} from '../scripts/dreambook.mjs';
 import {readDreambookLaterRecords,readDreambookView} from '../scripts/dreambook-view-records.mjs';
 import {prepareDreambookViewDemo} from '../scripts/dreambook-view-demo.mjs';
 import {renderDreambookViewHtml,escapeDreambookText} from '../scripts/dreambook-view-html.mjs';
+import {renderDreambookStoryHtml} from '../scripts/dreambook-story-html.mjs';
 import {startDreambookViewServer,runDreambookView,stopDreambookView,dreambookViewCloseFailure} from '../scripts/dreambook-view.mjs';
 const repoRoot=fileURLToPath(new URL('..',import.meta.url));
 function request(url,{method='GET',headers={}}={}){
@@ -31,6 +32,60 @@ async function demo(t){
 function authorization(server){
   return `Basic ${Buffer.from(`${server.bootstrap.username}:${server.bootstrap.password}`).toString('base64')}`;
 }
+test('story mode reads the two scenes and wake as a quiet page without technical records or another dispatch',async t=>{
+  const {root,book,prepared}=await demo(t);
+  let store=new Store(book),server;
+  try{
+    server=await startDreambookViewServer({store,dreamId:prepared.dreamId,demo:true,story:true});
+    const view=readDreambookView(store,prepared.dreamId);
+    const first=await request(server.url);
+    assert.equal(first.status,401);
+    assert.equal(first.body.includes(view.narrative.dream.scenes[0].event),false);
+    const before=fs.readFileSync(path.join(book,'state.json'),'utf8');
+    const page=await request(server.url,{headers:{authorization:authorization(server)}});
+    assert.equal(page.status,200);
+    const positions=[...view.narrative.dream.scenes.map(scene=>page.body.indexOf(escapeDreambookText(scene.event))),page.body.lastIndexOf(escapeDreambookText(view.narrative.wake.fragment))];
+    assert.ok(positions.every(position=>position>=0));
+    assert.deepEqual(positions,[...positions].sort((a,b)=>a-b));
+    for(const marker of ['夜航','一场梦','醒来时，留下的','这是一场虚构演示梦。'])assert.ok(page.body.includes(marker),marker);
+    for(const marker of [prepared.dreamId,prepared.reviewId,'fictional-view-reviewer','DeepSeek','ChatGPTPlanAdapter','模拟评价','独立评审','来源与身份','后来回想','想象续写','runId','model_id',root])assert.equal(page.body.includes(marker),false,marker);
+    for(const record of readDreambookLaterRecords(store,prepared.dreamId))assert.equal(page.body.includes(escapeDreambookText(record.text)),false);
+    assert.equal(page.headers['set-cookie'],undefined);
+    assert.match(page.headers['content-security-policy'],/script-src 'none'/);
+    assert.equal(/<script\b|<form\b|https?:\/\//i.test(page.body),false);
+    assert.equal(fs.readFileSync(path.join(book,'state.json'),'utf8'),before);
+    const refreshed=await request(server.url,{headers:{authorization:authorization(server)}});
+    assert.equal(refreshed.status,200);
+    assert.equal(fs.readFileSync(path.join(book,'state.json'),'utf8'),before);
+    store.withdraw(prepared.sourceId);
+    const hidden=await request(server.url,{headers:{authorization:authorization(server)}});
+    assert.equal(hidden.status,410);
+    assert.equal(hidden.body.includes(escapeDreambookText(view.narrative.dream.scenes[0].event)),false);
+  }finally{await server?.close();store?.close();}
+});
+test('story renderer escapes dream text and keeps an explicit existing Store read-only',async t=>{
+  const {book,prepared}=await demo(t);
+  let store=new Store(book),running;
+  try{
+    const view=readDreambookView(store,prepared.dreamId);
+    view.narrative.dream.scenes[0].event='<script>alert(1)</script>\u0000';
+    view.narrative.wake.fragment='</style><img src=x onerror=alert(1)>';
+    const html=renderDreambookStoryHtml(view);
+    assert.equal(html.includes('<script>'),false);
+    assert.equal(html.includes('<img'),false);
+    assert.ok(html.includes('&lt;script&gt;'));
+    assert.ok(html.includes('&lt;img'));
+    assert.ok(html.includes('\\u0000'));
+    store.close();store=null;
+    const before=fs.readFileSync(path.join(book,'state.json'),'utf8');
+    running=await runDreambookView(['--data-dir',book,'--latest','--story','--no-open'],{stdout:()=>{}});
+    const page=await request(running.url,{headers:{authorization:authorization(running)}});
+    assert.equal(page.status,200);
+    assert.ok(page.body.includes('一场梦'));
+    assert.equal(page.body.includes(prepared.dreamId),false);
+    assert.equal(fs.readFileSync(path.join(book,'state.json'),'utf8'),before);
+  }finally{await running?.close();store?.close();}
+});
 test('fixed fictional demo keeps dream, wake, later records, appraisal and attributed opinion distinct without writes',async t=>{
   const {root,book,prepared}=await demo(t);let store=new Store(book),server;
   try{

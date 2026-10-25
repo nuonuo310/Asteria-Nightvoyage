@@ -4,6 +4,15 @@
 
 ## 入口
 
+给人阅读已保存的梦，使用安静阅读页：
+
+```sh
+node scripts/dreambook-view.mjs --demo --story --open
+node scripts/dreambook-view.mjs --data-dir C:\path\to\existing-book --latest --story --open
+```
+
+阅读页仅呈现两幕原梦和醒来残片；demo 会标注虚构演示。页面不呈现 provider、模型、运行编号、模拟评价、独立意见、后来记录或来源编号。来源及权限仍由同一个 Store 严格校验，来源撤回后刷新即停止返回正文。阅读页不是新的梦、不是新的持久化格式，也不会把后来回想混入原梦。省略 `--story` 可回到以下技术核对视图。
+
 从仓库目录运行独立虚构 demo：
 
 ```sh

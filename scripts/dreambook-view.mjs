@@ -11,6 +11,7 @@ import {safeId} from '../src/contract.js';
 import {dreambookCatalog} from './dreambook.mjs';
 import {readDreambookLaterRecords,readDreambookView} from './dreambook-view-records.mjs';
 import {renderDreambookViewHtml} from './dreambook-view-html.mjs';
+import {renderDreambookStoryHtml} from './dreambook-story-html.mjs';
 import {prepareDreambookViewDemo} from './dreambook-view-demo.mjs';
 export const dreambookViewVersion='local-dreambook-view-v1';
 export const dreambookViewCloseFailure='store_close_failed';
@@ -42,10 +43,11 @@ function closeFailure({serverError=false,storeError=false}={}){
   error.cleanup=Object.freeze({httpListenerClosed:!serverError,storeReleaseConfirmed:!storeError});
   return error;
 }
-export async function startDreambookViewServer({store,dreamId,demo=false,port=0}={}){
+export async function startDreambookViewServer({store,dreamId,demo=false,story=false,port=0}={}){
   if(!(store instanceof Store))fail('managed_store_required');
   if(!safeId(dreamId))fail('invalid_dreambook_entry');
   if(!Number.isSafeInteger(port)||port<0||port>65535)fail('invalid_dreambook_view_arguments');
+  if(typeof story!=='boolean')fail('invalid_dreambook_view_arguments');
   if(!readDreambookView(store,dreamId))fail('dream_not_visible');
   readDreambookLaterRecords(store,dreamId);
   const bootstrapPassword=crypto.randomBytes(32).toString('base64url');
@@ -74,7 +76,8 @@ export async function startDreambookViewServer({store,dreamId,demo=false,port=0}
       if(req.url==='/favicon.ico'){res.writeHead(204,{...securityHeaders,'Cache-Control':'no-store'});res.end();return;}
       const view=readDreambookView(store,dreamId);
       if(!view){send(res,410,'梦境当前不可访问。');return;}
-      const html=renderDreambookViewHtml(view,{demo,laterRecords:readDreambookLaterRecords(store,dreamId)});
+      const laterRecords=readDreambookLaterRecords(store,dreamId);
+      const html=story?renderDreambookStoryHtml(view,{demo}):renderDreambookViewHtml(view,{demo,laterRecords});
       send(res,200,html,{head:req.method==='HEAD',contentType:'text/html; charset=utf-8'});
     }catch{
       send(res,503,'本地梦簿暂时不可读取。');
@@ -112,11 +115,12 @@ export async function startDreambookViewServer({store,dreamId,demo=false,port=0}
   return Object.freeze({version:dreambookViewVersion,url:`${expectedOrigin}/`,port:address.port,host,close,server,bootstrap:Object.freeze({username:bootstrapUsername,password:bootstrapPassword})});
 }
 function parseArgs(args){
-  const options={demo:false,dataDir:null,latest:false,dreamId:null,port:0,portSet:false,open:false,openSet:false,help:false};
+  const options={demo:false,story:false,dataDir:null,latest:false,dreamId:null,port:0,portSet:false,open:false,openSet:false,help:false};
   for(let index=0;index<args.length;index++){
     const key=args[index];
     if(key==='--help'){if(args.length!==1)fail('invalid_dreambook_view_arguments');options.help=true;continue;}
     if(key==='--demo'){if(options.demo)fail('invalid_dreambook_view_arguments');options.demo=true;continue;}
+    if(key==='--story'){if(options.story)fail('invalid_dreambook_view_arguments');options.story=true;continue;}
     if(key==='--latest'){if(options.latest)fail('invalid_dreambook_view_arguments');options.latest=true;continue;}
     if(key==='--no-open'){if(options.openSet)fail('invalid_dreambook_view_arguments');options.openSet=true;options.open=false;continue;}
     if(key==='--open'){if(options.openSet)fail('invalid_dreambook_view_arguments');options.openSet=true;options.open=true;continue;}
@@ -145,7 +149,7 @@ function openBrowser(url){
   try{const child=spawn(command,args,{detached:true,stdio:'ignore',windowsHide:true});child.unref();}catch{}
 }
 export function dreambookViewHelp(){
-  return 'Nightvoyage local browser view: node scripts/dreambook-view.mjs --demo [--open] [--port <0-65535>] | node scripts/dreambook-view.mjs --data-dir <absolute existing Store> (--latest | --dream-id <id>) [--open] [--port <0-65535>]. The server binds 127.0.0.1 only and is read-only. Enter the one-time HTTP Basic username and password printed at startup in the browser prompt; the secret is not placed in the URL. Demo creates a temporary fictional Store; an existing Store is opened only when explicitly selected. No login, model call, generation, review write, deletion or remote asset.';
+  return 'Nightvoyage local browser view: node scripts/dreambook-view.mjs --demo [--story] [--open] [--port <0-65535>] | node scripts/dreambook-view.mjs --data-dir <absolute existing Store> (--latest | --dream-id <id>) [--story] [--open] [--port <0-65535>]. --story opens the quiet human reading view; without it, the technical review view remains available. The server binds 127.0.0.1 only and is read-only. Enter the one-time HTTP Basic username and password printed at startup in the browser prompt; the secret is not placed in the URL. Demo creates a temporary fictional Store; an existing Store is opened only when explicitly selected. No login, model call, generation, review write, deletion or remote asset.';
 }
 export async function runDreambookView(args,{stdout=line=>console.log(line),stderr=line=>console.error(line)}={}){
   const options=parseArgs(args);
@@ -167,7 +171,7 @@ export async function runDreambookView(args,{stdout=line=>console.log(line),stde
       sourceId=catalog.dreams.find(item=>item.id===dreamId).sourceRefs[0]?.id??null;
     }
     if(!readDreambookView(store,dreamId))fail('dream_not_visible');
-    server=await startDreambookViewServer({store,dreamId,demo:options.demo,port:options.port});
+    server=await startDreambookViewServer({store,dreamId,demo:options.demo,story:options.story,port:options.port});
     store=null;
     stdout(`Nightvoyage local view: ${server.url}\nBootstrap username: ${server.bootstrap.username}\nBootstrap password: ${server.bootstrap.password}\nBound to 127.0.0.1 only. Enter these in the browser prompt. Press Ctrl+C to close.`);
     if(options.open)openBrowser(server.url);
