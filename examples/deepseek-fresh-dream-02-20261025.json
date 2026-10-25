@@ -1,0 +1,38 @@
+{
+  "id": "fictional-glass-orchard-20261025",
+  "version": "1",
+  "materialKind": "fictional",
+  "sources": [
+    {
+      "id": "fiction-glass-orchard-source",
+      "version": "1",
+      "text": "Entirely fictional: at dawn a glass orchard stands without wind, and orange fruit hangs from transparent branches. At its far end a wooden door opens onto a narrow path of fine white gravel that reaches into a low sky. No other background is available.",
+      "grant": {
+        "dream": true,
+        "modelEgress": false
+      }
+    }
+  ],
+  "channels": {
+    "memory": {
+      "availability": "present",
+      "sourceIds": ["fiction-glass-orchard-source"]
+    },
+    "background": {
+      "availability": "unavailable",
+      "sourceIds": []
+    },
+    "affect": {
+      "availability": "absent",
+      "sourceIds": []
+    },
+    "mind": {
+      "availability": "denied",
+      "sourceIds": []
+    },
+    "intents": {
+      "availability": "stale",
+      "sourceIds": []
+    }
+  }
+}

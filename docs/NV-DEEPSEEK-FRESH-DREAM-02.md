@@ -1,0 +1,152 @@
+# NV-DEEPSEEK-FRESH-DREAM-02
+
+Status: `OFFLINE_READY_AWAITING_FRESH_APPROVAL`.
+
+This slice adds one separately versioned offline admission candidate for one new
+fictional dream. It is built at the exact PR #92 head
+`e927b882b07c93285a6a88b2b8c4524db1474af0` on branch
+`deepseek/nightvoyage-nv-deepseek-fresh-dream-02`. It does not merge, rebase or
+consume PR #91, PR #92, the 2026-10-17 grant or the earlier one-dream grant.
+
+No login, real API Key read, user Store access, `init`, `run --live`, provider
+request, paid API call or real model invocation was used while preparing this
+slice. All new-dream execution and failure injection used synthetic Stores and a
+local loopback stand-in.
+
+## Authority and base
+
+- The construction envelope was published on `main` at
+  `249d38ab6eb65aeab3207771062b0e51b962bd4d`. That authority commit only adds
+  `docs/construction-envelopes/2026-10-25-deepseek-fresh-dream-02.md` as Git
+  blob `83b76b6f06b0bf9c625100a25c35d6e70e4b94c1`.
+- PR #92 exact head is `e927b882b07c93285a6a88b2b8c4524db1474af0`; its parent is
+  `6eb9a8665f9b387bb7863b0f3320e4c79b36c20a`. PR #92 is stacked over PR #91 head
+  `a94d0909162ce9d544c5d1338cb9096cd97b17e1`.
+- PR #92 is not a descendant of `main`. Its merge base with the authority commit
+  is `dfe56712ebe2384b3f385a4867f8a4e08b5aedfa`. The implementation branch starts
+  at the exact #92 head instead of silently rebasing it.
+- The initial worktree was clean and there was no `AGENTS.md`.
+- The envelope text itself records historical authority
+  `main@ae44ede83d4df6840820892fc3a56464a5a4c003`; the separate publication
+  commit above is the authority requested for this construction.
+
+## Fresh contract
+
+| Item | Pinned value |
+| --- | --- |
+| Contract | `docs/proposals/deepseek-fresh-dream-02-20261025.json` |
+| Contract id | `nv-deepseek-fresh-dream-02-fresh-admission-20261025` |
+| Contract hash | `c31b781e01de87c32e181bd4ecc710b996d26d31130384d0dd3dd63366aecbaa` |
+| Fixture | `examples/deepseek-fresh-dream-02-20261025.json` |
+| Fixture id | `fictional-glass-orchard-20261025` |
+| Fixture snapshot hash | `694265fed23ae52c407bf5f584056415ca1177d64f8648fa6ecbb7ecc37b1124` |
+| Fixture file hash | `00bb025ccf4978ce8a4f665d30e55938e22f96c9cdac6c16065db2bec7e5aae1` |
+| Source graph | `scripts/nv-deepseek-fresh-dream-02/runtime-graph.json` |
+| Graph hash | `525811a4afaf68974724be8debbd4b201437e21e7759756efdd24f3d8b66721c` |
+| Code hash | `5f095b33813d0b20cfe82dcd7a4a2659d8e3a2d0463f4de6c7dd5bdc2515eb51` |
+| Allowance | `nv-deepseek-fresh-dream-02-20261025` |
+| Authorization field | `nvDeepSeekFreshDream02Authorization` |
+
+The graph is a parse-only static ESM closure of 47 files and 8 builtins. The
+fixture source is `fiction-glass-orchard-source` and is independently fictional.
+Hashes are identity pins, not approval, quality evidence or a successful provider
+receipt.
+
+Validity is `2026-10-25T13:10:19Z` through `2026-10-26T13:10:19Z`. The public
+DeepSeek Chinese pricing page was read without authentication from
+`2026-10-25T13:10:17.715Z` through `13:10:18.942Z`: HTTP 200, 26,182 bytes,
+SHA-256 `556097caba8adfeeed6455714bffd731c7f60db520fcee06a922eba5840663a3`.
+It still listed `deepseek-flash` as the mutable alias for
+`DeepSeek-V4.1-Flash-1017`, with peak cache-miss input 2 CNY and output 8 CNY per
+million tokens. No models API or provider endpoint was called.
+
+## Limits and state separation
+
+- At most one run, three calls, two ordered original scenes and one wake.
+- At most 400 output tokens per call and a 3 CNY aggregate reservation ceiling.
+- The local request bound is 65,536 input tokens. A complete worst-case call
+  reserves `134272` micro-CNY; all three reserve `402816` micro-CNY, below the
+  `3000000` micro-CNY ceiling.
+- Unknown usage or delivery keeps the complete call hold and stops. It is not
+  presented as a settled provider bill, remote receipt or known charge.
+- The four earlier unknown holds remain `8812800` micro-CNY. The later one-dream
+  unknown remains `2100352` micro-CNY under
+  `nv-deepseek-one-dream-20261025`. Their combined `10913152` micro-CNY and every
+  original account, request, run and row identity are preserved byte-for-byte.
+- The new package uses an independent authorization field and allowance. It does
+  not widen the old four-account history guard and does not release, settle,
+  retry or extend any old unknown hold.
+- The old contract and inventory hashes remain pinned historical values:
+  `8c1d8a58070f5100de2714845754ceddac75f1de424656d52d26b59dcc1fcdef` and
+  `b4a06baeaeb4d9cf572bb349117d651db993957f413518a4b7ea1caf975a908d`.
+
+## Offline closure and diagnostics
+
+The loopback stand-in commits two ordered fictional scenes and one separate wake
+under three settled synthetic calls. The no-Key checker reports three loopback
+POSTs, `3240` micro-CNY of synthetic fixture usage, zero credential-supplier
+calls, zero provider-network requests and a credential-free replay. Dreambook
+keeps the original, wake, later records and attributed opinion separate and does
+not show a provider or model label on the reader page.
+
+PR #92's closed classes are wired into this new transport at the real
+pre-dispatch, reservation, dispatch, transport, HTTP, stream, protocol,
+cancellation, settlement and publication boundaries. Receipts are bounded,
+body-free and free of error text, hosts, addresses, status codes, credentials and
+arbitrary exception messages. A diagnostic-journal save failure fails closed and
+preserves an ambiguous hold. A ledger save failure records
+`pre_dispatch / local_storage_failure / none` before any loopback POST. There is
+no automatic retry, repair call or provider fallback.
+
+## Verification
+
+Recorded on Windows x64 with Node `v24.19.0`:
+
+| Gate | Result | Exit | Duration |
+| --- | --- | --- | --- |
+| New targeted suite | 18/18, zero failures/cancellations/skips | 0 | 91141.4588 ms |
+| Related paid-entry and Dreambook suites | 94/94, zero failures/cancellations/skips | 0 | 102145.3562 ms |
+| Complete `node --test` | 1973/1973, zero failures/cancellations/skips | 0 | 519600.1489 ms |
+
+The no-Key fresh checker, earlier one-dream checker and failure-diagnostics
+checker all passed with exit `0`. The inline entry dependency gate passed with
+33 parsed modules, 184 static edges and 4 allowed builtins. Source-graph
+regeneration reproduced 47 files, 8 builtins and the pinned graph hash.
+
+The first development run of the new suite was 17/18. Its ledger-save failure
+test injected the fault before `engine.execute()` reached the diagnostic
+transport boundary, so the expected receipt was not created. The test harness
+was corrected to persist the running state first, then inject the save failure
+during `client.send()` reservation persistence. Business code, contract pins,
+graph and fixture were not changed by that correction. The final targeted and
+full runs pass.
+
+Sensitive-material scanning found no real Key, private-key, GitHub-token or
+provider-token pattern in the new package. `PRIVATE-*-SENTINEL` strings are
+synthetic test-only assertion markers, never credentials. `git diff --check`
+passes for the final tree.
+
+## Delivery boundary
+
+A narrow commit is prepared on the isolated branch. A draft PR cannot be created
+through an authenticated channel in this environment: `gh` is absent and no
+verified PR creation channel is available. No PR URL is claimed here.
+
+This work stops at `OFFLINE_READY_AWAITING_FRESH_APPROVAL`. A coordinator must
+review the exact candidate. The user must then make a fresh 3 CNY decision for
+this exact contract hash, CNY account, fixture, preserved holds and mutable model
+alias. Only after that may a separate local Key step and at most one genuine
+trial be considered. No old approval, currency confirmation, result or unknown
+hold is reusable as permission.
+
+Remaining blockers:
+
+- `fresh_explicit_contract_approval_required`
+- `user_account_currency_confirmation_required`
+- `provider_usage_and_bill_remain_unknown`
+- `mutable_model_alias_requires_reconfirmation`
+- `no_server_side_output_cap_local_bound_only`
+- `draft_pr_creation_channel_not_authenticated`
+
+Compact machine receipt:
+[validation/nv-deepseek-fresh-dream-02-20261025.json](validation/nv-deepseek-fresh-dream-02-20261025.json).

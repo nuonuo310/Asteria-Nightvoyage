@@ -1,0 +1,421 @@
+{
+  "schemaVersion": 1,
+  "kind": "parse_only_static_esm_graph",
+  "entry": "scripts/nv-deepseek-fresh-dream-02/session.mjs",
+  "files": {
+    "scripts/nv-deepseek-failure-diagnostics/classify.mjs": "da74f7a97f33a7c4d8f647753cdc38503cce1ea1a18ebf3a46e95073c4eaa3e4",
+    "scripts/nv-deepseek-failure-diagnostics/journal.mjs": "2da70e677ab73e8137dd9db87bd11f15670680573c33ce496cf9dc338ca21af7",
+    "scripts/nv-deepseek-failure-diagnostics/policy.mjs": "92debc1fb8a9386c5b5c77856b19cb6ac3b41a75d4e17c59b6df9ef28ac1cf17",
+    "scripts/nv-deepseek-fresh-dream-02/authorization.mjs": "7f953595af336e5085ae36daf73f7b3b3f4868c52b0f34e1e74228a792d34bb0",
+    "scripts/nv-deepseek-fresh-dream-02/client.mjs": "ead58502d66710efa174038c2940f47bcb1bb22073e30767dfa276b8eef4831c",
+    "scripts/nv-deepseek-fresh-dream-02/contract.mjs": "28fe49d68e32541f93290ffbb2c6d8def82b0bb4b3310015d6f370421e85cbf3",
+    "scripts/nv-deepseek-fresh-dream-02/diagnostic.mjs": "c6f5f8ade1b1d1b46f67a47a61d913716ff20568aef3a139d47db09f5a710e57",
+    "scripts/nv-deepseek-fresh-dream-02/ledger.mjs": "ae4fe056064282a79db49959b26e055160ad385f79e8a172ef000516164fcb90",
+    "scripts/nv-deepseek-fresh-dream-02/local-http.mjs": "8138f1d73f2f4d659694bee1abb47991125189267e58c5ed6ace2306991079fc",
+    "scripts/nv-deepseek-fresh-dream-02/policy.mjs": "01a31a8f28e9f97af16bc79b1978317994cd22d7ee8ff9a3179c8bc63df6aead",
+    "scripts/nv-deepseek-fresh-dream-02/runtime.mjs": "efdd82fa93449b23a0c2dd3a025d20f2cbb7788305827627cd24fd73fda83ee4",
+    "scripts/nv-deepseek-fresh-dream-02/session.mjs": "411ada429b05e868b83ab9ff1fcf637fcee7081493a5317fa60d060ef2afe825",
+    "scripts/nv-deepseek-fresh-dream-02/source.mjs": "0bb7b461eaa940a9ff3fbadb63d6aea86dd771a74592aec6c6c4f8233f682988",
+    "src/appraisal-rehearsal.js": "4dafa4205bd1594a2c0887191abbd95817b23ebcc4478b38a64fb978e36d7998",
+    "src/appraisal-review-memory.js": "8300817cdb3bad397b84b08059269d793b0c3b08d69b5ef870b533bc6aab8974",
+    "src/appraisal-view.js": "569f435cc4d04b54430b8e9312cfbd8391cb2b5ac14ab7256a1c5e56e0f62df5",
+    "src/budget-ledger.js": "3a5488a8af472c4063a15475538c0acf5841735b5431b58454aa06808e7627be",
+    "src/budgeted-runtime.js": "af3956636be707608c6559f51f45ecd508cde60074004d2573171949d080f451",
+    "src/compact-appraisal-protocol.js": "935762c0e5961b0abcd38d0d5a959ff40ebd97e051a1236e57c7ab3fb8118e34",
+    "src/compact-trial-config.js": "161a8e313c93ac90084fcada85208f844ec8be58442544c08140603726f5fd15",
+    "src/compact-v2-offline.js": "8414444a6c29d39b18f13a176a2baa01faf0cb0ab7a914f5d5c9dc9bae186422",
+    "src/compact-v2-protocol.js": "a9e26e5ffe8dee7102e695af7dd9ee92f90426d7d94b126126f171be6a0a312b",
+    "src/continuity-trial-config.js": "3bac64d690ae6e42a0f06d8cff4ed33abf1e6d1483bb07a8a8ef591d9f408239",
+    "src/contract.js": "850c99572c39930eac150588e379c9af90b5e792159ae46a04f9fad0f9d52ca7",
+    "src/coupled-affect-offline.js": "6a514e11f549967685d068b608c10be6d9daec2e520075a58ae99e7332e71fb9",
+    "src/coupled-affect-protocol.js": "a29727739495a2fad672efd536105f36417c9607110c927beb41d0997f4173a6",
+    "src/coupled-affect-wire.js": "ea93558e31edecc2c8b55ea2ef0f08595e2299bf71ed0ae83c3cdd6a649be355",
+    "src/coupled-trial-config.js": "4d6facb774271e68397268e2fc965d792bd5f6b17e30b7ef382d9a23982129ea",
+    "src/deepseek-protocol.js": "0f8471c69f170ec74880ef0e7deef8889df8a3b12e6e86c0aea2b13fcefa681e",
+    "src/engine.js": "f1484c19d4df2879d0ae5e642c3957cd8e9ff5446a81b07cd541ac080afb4266",
+    "src/fake-provider.js": "9460fac1e2d936b5aacde19ec1c79a07b1d1db77987cc4b51e815acd913f6456",
+    "src/gated-deepseek-client.js": "34ac1a488fb7d8085b18ec9afed89b3ae964ec8d3ed4713579b744828f3243ac",
+    "src/inline-credential-pipe.js": "611f6d39aba88422f81da0fd92e820f2393b97ef05f00e9f2dcf3741b404ee13",
+    "src/inline-entry-admission.js": "9d1b7e7dc4278a267c90bf35c089530d6e0680ca97f870ada0b3ecd1a5b9b095",
+    "src/inline-entry-preflight.js": "4ca39a54a743c461d6e998c2255e8bd118dc587bdd9ae3ce967ce27887c96765",
+    "src/inline-evidence-protocol.js": "f2edd60a2fe6fd70f186a327187b2c8d40da699ba09017aa2a7f736d08ae737d",
+    "src/inline-paid-contract.js": "8386a77baee096ca4df70c03bcf791d5d997c65aedd0445ed1001350d8857b01",
+    "src/inline-trial-policy.js": "1cd0039ae3bb0edfcd6eb316c83cccc95787f085e35ce5de30a2595ba6a10caf",
+    "src/pruned-v2-reviewed-profile.js": "eea51f1ac5d283e7f13dfd8bd711ad9dc12ff5a62094e6b13205443f6cc8c35b",
+    "src/pruned-v2-trial-config.js": "f3394e9ac80c244801cd57b651b2954d44d42c34e65e8624a4e18b5eb7dbb49c",
+    "src/quality-config.js": "5218f5119b34071533e1a270227d3ee92a92e956b430acd4ed7607c779bf3f85",
+    "src/scene-continuity-prompt-text.js": "da6a08803ebdc96b36d01ad2878281c06323bf67b58e70c67a5159c396154b6e",
+    "src/scene-continuity-protocol.js": "4ce09f583ad1d74451db4dc780208f3f29edeea8ca3de79e4ce5d2f1811e8366",
+    "src/single-scene-diagnostic.js": "950111a645199a8087a0be49ea99f4dea56766f26f4f069eb823ac881f2253cf",
+    "src/store.js": "07711405e41780805dbe23a3f993fdfb7a7d0b44a39d3dbd160374dafd1aaacb",
+    "src/trial-config.js": "32762a9fae9872e9533a292a40b729c55c4f1ce258b1f91a0d5d0f454c007d90",
+    "src/validation-diagnostic.js": "931a0bd25e03755570a8931fc5efa4d25a2c2548b164ede0051b005b17d9c0be"
+  },
+  "edges": {
+    "scripts/nv-deepseek-failure-diagnostics/classify.mjs": [
+      "scripts/nv-deepseek-failure-diagnostics/policy.mjs"
+    ],
+    "scripts/nv-deepseek-failure-diagnostics/journal.mjs": [
+      "node:fs",
+      "node:path",
+      "node:crypto",
+      "scripts/nv-deepseek-failure-diagnostics/policy.mjs"
+    ],
+    "scripts/nv-deepseek-failure-diagnostics/policy.mjs": [],
+    "scripts/nv-deepseek-fresh-dream-02/authorization.mjs": [
+      "node:fs",
+      "node:path",
+      "node:url",
+      "src/store.js",
+      "src/contract.js",
+      "src/inline-evidence-protocol.js",
+      "src/appraisal-review-memory.js",
+      "scripts/nv-deepseek-fresh-dream-02/contract.mjs",
+      "scripts/nv-deepseek-fresh-dream-02/ledger.mjs",
+      "scripts/nv-deepseek-fresh-dream-02/policy.mjs"
+    ],
+    "scripts/nv-deepseek-fresh-dream-02/client.mjs": [
+      "node:https",
+      "src/gated-deepseek-client.js",
+      "src/store.js",
+      "src/inline-evidence-protocol.js",
+      "scripts/nv-deepseek-fresh-dream-02/authorization.mjs",
+      "scripts/nv-deepseek-fresh-dream-02/ledger.mjs",
+      "scripts/nv-deepseek-fresh-dream-02/policy.mjs"
+    ],
+    "scripts/nv-deepseek-fresh-dream-02/contract.mjs": [
+      "node:fs",
+      "node:path",
+      "node:url",
+      "node:crypto",
+      "src/store.js",
+      "src/contract.js",
+      "src/inline-evidence-protocol.js",
+      "src/inline-paid-contract.js",
+      "src/inline-entry-preflight.js",
+      "src/appraisal-review-memory.js",
+      "scripts/nv-deepseek-fresh-dream-02/source.mjs",
+      "scripts/nv-deepseek-fresh-dream-02/ledger.mjs",
+      "scripts/nv-deepseek-fresh-dream-02/policy.mjs"
+    ],
+    "scripts/nv-deepseek-fresh-dream-02/diagnostic.mjs": [
+      "scripts/nv-deepseek-fresh-dream-02/client.mjs",
+      "scripts/nv-deepseek-fresh-dream-02/authorization.mjs",
+      "scripts/nv-deepseek-fresh-dream-02/runtime.mjs",
+      "src/store.js",
+      "scripts/nv-deepseek-failure-diagnostics/classify.mjs",
+      "scripts/nv-deepseek-failure-diagnostics/journal.mjs"
+    ],
+    "scripts/nv-deepseek-fresh-dream-02/ledger.mjs": [
+      "src/inline-evidence-protocol.js",
+      "src/store.js",
+      "src/contract.js",
+      "scripts/nv-deepseek-fresh-dream-02/policy.mjs"
+    ],
+    "scripts/nv-deepseek-fresh-dream-02/local-http.mjs": [
+      "node:http",
+      "scripts/nv-deepseek-fresh-dream-02/policy.mjs"
+    ],
+    "scripts/nv-deepseek-fresh-dream-02/policy.mjs": [],
+    "scripts/nv-deepseek-fresh-dream-02/runtime.mjs": [
+      "src/budgeted-runtime.js",
+      "src/store.js",
+      "src/contract.js",
+      "src/inline-evidence-protocol.js",
+      "scripts/nv-deepseek-fresh-dream-02/contract.mjs",
+      "scripts/nv-deepseek-fresh-dream-02/authorization.mjs",
+      "scripts/nv-deepseek-fresh-dream-02/client.mjs",
+      "scripts/nv-deepseek-fresh-dream-02/policy.mjs",
+      "scripts/nv-deepseek-fresh-dream-02/ledger.mjs"
+    ],
+    "scripts/nv-deepseek-fresh-dream-02/session.mjs": [
+      "node:fs",
+      "node:path",
+      "node:url",
+      "src/engine.js",
+      "src/store.js",
+      "src/appraisal-view.js",
+      "scripts/nv-deepseek-fresh-dream-02/contract.mjs",
+      "scripts/nv-deepseek-fresh-dream-02/authorization.mjs",
+      "scripts/nv-deepseek-fresh-dream-02/runtime.mjs",
+      "scripts/nv-deepseek-fresh-dream-02/diagnostic.mjs",
+      "scripts/nv-deepseek-fresh-dream-02/local-http.mjs",
+      "src/inline-credential-pipe.js",
+      "scripts/nv-deepseek-fresh-dream-02/policy.mjs"
+    ],
+    "scripts/nv-deepseek-fresh-dream-02/source.mjs": [
+      "node:fs",
+      "node:path",
+      "node:vm",
+      "node:crypto",
+      "node:url",
+      "node:module"
+    ],
+    "src/appraisal-rehearsal.js": [
+      "src/deepseek-protocol.js",
+      "src/contract.js",
+      "src/store.js",
+      "src/fake-provider.js",
+      "src/engine.js"
+    ],
+    "src/appraisal-review-memory.js": [
+      "src/inline-evidence-protocol.js",
+      "src/scene-continuity-protocol.js",
+      "src/contract.js",
+      "src/coupled-affect-protocol.js"
+    ],
+    "src/appraisal-view.js": [
+      "src/inline-evidence-protocol.js",
+      "src/scene-continuity-protocol.js",
+      "src/coupled-affect-protocol.js",
+      "src/store.js",
+      "src/contract.js",
+      "src/appraisal-rehearsal.js",
+      "src/compact-appraisal-protocol.js",
+      "src/compact-v2-offline.js",
+      "src/compact-v2-protocol.js",
+      "src/coupled-affect-offline.js"
+    ],
+    "src/budget-ledger.js": [
+      "src/inline-evidence-protocol.js",
+      "src/inline-trial-policy.js",
+      "src/scene-continuity-protocol.js",
+      "src/coupled-affect-protocol.js",
+      "src/store.js",
+      "src/contract.js",
+      "src/validation-diagnostic.js",
+      "src/compact-v2-protocol.js"
+    ],
+    "src/budgeted-runtime.js": [
+      "src/inline-evidence-protocol.js",
+      "src/continuity-trial-config.js",
+      "src/scene-continuity-protocol.js",
+      "src/coupled-affect-protocol.js",
+      "src/contract.js",
+      "src/engine.js",
+      "src/gated-deepseek-client.js",
+      "src/store.js",
+      "src/deepseek-protocol.js"
+    ],
+    "src/compact-appraisal-protocol.js": [
+      "src/deepseek-protocol.js",
+      "src/appraisal-rehearsal.js",
+      "src/contract.js",
+      "src/store.js"
+    ],
+    "src/compact-trial-config.js": [
+      "node:fs",
+      "node:path",
+      "node:crypto",
+      "src/store.js",
+      "src/contract.js",
+      "src/budget-ledger.js",
+      "src/trial-config.js",
+      "src/quality-config.js",
+      "src/compact-appraisal-protocol.js"
+    ],
+    "src/compact-v2-offline.js": [
+      "src/compact-appraisal-protocol.js",
+      "src/appraisal-rehearsal.js",
+      "src/deepseek-protocol.js",
+      "src/contract.js",
+      "src/store.js",
+      "src/engine.js",
+      "src/fake-provider.js"
+    ],
+    "src/compact-v2-protocol.js": [
+      "src/compact-v2-offline.js",
+      "src/deepseek-protocol.js",
+      "src/validation-diagnostic.js",
+      "src/store.js"
+    ],
+    "src/continuity-trial-config.js": [
+      "node:fs",
+      "node:path",
+      "node:crypto",
+      "src/store.js",
+      "src/contract.js",
+      "src/budget-ledger.js",
+      "src/scene-continuity-protocol.js",
+      "src/coupled-trial-config.js",
+      "src/compact-trial-config.js",
+      "src/single-scene-diagnostic.js",
+      "src/pruned-v2-trial-config.js"
+    ],
+    "src/contract.js": [
+      "node:crypto",
+      "src/store.js"
+    ],
+    "src/coupled-affect-offline.js": [
+      "src/coupled-affect-wire.js",
+      "src/compact-v2-offline.js",
+      "src/deepseek-protocol.js",
+      "src/contract.js",
+      "src/store.js",
+      "src/engine.js",
+      "src/fake-provider.js"
+    ],
+    "src/coupled-affect-protocol.js": [
+      "src/coupled-affect-offline.js",
+      "src/deepseek-protocol.js",
+      "src/validation-diagnostic.js",
+      "src/store.js"
+    ],
+    "src/coupled-affect-wire.js": [
+      "src/store.js"
+    ],
+    "src/coupled-trial-config.js": [
+      "node:fs",
+      "node:path",
+      "node:crypto",
+      "src/store.js",
+      "src/contract.js",
+      "src/budget-ledger.js",
+      "src/coupled-affect-protocol.js",
+      "src/quality-config.js",
+      "src/pruned-v2-trial-config.js",
+      "src/compact-trial-config.js",
+      "src/single-scene-diagnostic.js"
+    ],
+    "src/deepseek-protocol.js": [
+      "src/contract.js",
+      "src/store.js",
+      "src/fake-provider.js"
+    ],
+    "src/engine.js": [
+      "node:crypto",
+      "src/store.js",
+      "src/contract.js",
+      "src/fake-provider.js"
+    ],
+    "src/fake-provider.js": [],
+    "src/gated-deepseek-client.js": [
+      "src/inline-evidence-protocol.js",
+      "src/continuity-trial-config.js",
+      "src/scene-continuity-protocol.js",
+      "src/coupled-affect-protocol.js",
+      "src/deepseek-protocol.js",
+      "src/compact-appraisal-protocol.js",
+      "src/validation-diagnostic.js",
+      "src/compact-v2-protocol.js",
+      "src/budget-ledger.js",
+      "src/contract.js",
+      "src/store.js"
+    ],
+    "src/inline-credential-pipe.js": [],
+    "src/inline-entry-admission.js": [
+      "node:fs",
+      "node:path",
+      "src/store.js",
+      "src/contract.js",
+      "src/budget-ledger.js",
+      "src/inline-evidence-protocol.js",
+      "src/inline-entry-preflight.js",
+      "src/appraisal-review-memory.js",
+      "src/compact-trial-config.js",
+      "src/single-scene-diagnostic.js",
+      "src/pruned-v2-trial-config.js",
+      "src/continuity-trial-config.js",
+      "src/inline-trial-policy.js"
+    ],
+    "src/inline-entry-preflight.js": [
+      "node:fs",
+      "node:path",
+      "node:url",
+      "node:crypto",
+      "src/inline-evidence-protocol.js",
+      "src/contract.js",
+      "src/appraisal-review-memory.js"
+    ],
+    "src/inline-evidence-protocol.js": [
+      "src/coupled-affect-protocol.js",
+      "src/appraisal-review-memory.js",
+      "src/deepseek-protocol.js",
+      "src/scene-continuity-prompt-text.js",
+      "src/contract.js",
+      "src/store.js"
+    ],
+    "src/inline-paid-contract.js": [
+      "node:fs",
+      "node:path",
+      "node:url",
+      "node:crypto",
+      "src/store.js",
+      "src/contract.js",
+      "src/budget-ledger.js",
+      "src/inline-evidence-protocol.js",
+      "src/inline-entry-preflight.js",
+      "src/inline-entry-admission.js",
+      "src/appraisal-review-memory.js"
+    ],
+    "src/inline-trial-policy.js": [],
+    "src/pruned-v2-reviewed-profile.js": [],
+    "src/pruned-v2-trial-config.js": [
+      "node:fs",
+      "node:path",
+      "node:crypto",
+      "src/store.js",
+      "src/contract.js",
+      "src/budget-ledger.js",
+      "src/pruned-v2-reviewed-profile.js",
+      "src/quality-config.js",
+      "src/compact-trial-config.js",
+      "src/single-scene-diagnostic.js"
+    ],
+    "src/quality-config.js": [
+      "node:fs",
+      "node:path",
+      "node:crypto",
+      "src/store.js",
+      "src/contract.js",
+      "src/budget-ledger.js",
+      "src/trial-config.js",
+      "src/deepseek-protocol.js"
+    ],
+    "src/scene-continuity-prompt-text.js": [],
+    "src/scene-continuity-protocol.js": [
+      "src/coupled-affect-protocol.js",
+      "src/scene-continuity-prompt-text.js",
+      "src/deepseek-protocol.js",
+      "src/contract.js",
+      "src/store.js"
+    ],
+    "src/single-scene-diagnostic.js": [
+      "node:fs",
+      "node:path",
+      "node:crypto",
+      "src/store.js",
+      "src/contract.js",
+      "src/budget-ledger.js",
+      "src/gated-deepseek-client.js",
+      "src/trial-config.js",
+      "src/compact-trial-config.js"
+    ],
+    "src/store.js": [
+      "node:fs",
+      "node:path",
+      "node:url"
+    ],
+    "src/trial-config.js": [
+      "node:fs",
+      "node:path",
+      "node:crypto",
+      "src/contract.js",
+      "src/store.js",
+      "src/budget-ledger.js"
+    ],
+    "src/validation-diagnostic.js": []
+  },
+  "builtins": [
+    "node:crypto",
+    "node:fs",
+    "node:http",
+    "node:https",
+    "node:module",
+    "node:path",
+    "node:url",
+    "node:vm"
+  ],
+  "evaluated": false,
+  "dynamicImportClosureProved": false
+}
