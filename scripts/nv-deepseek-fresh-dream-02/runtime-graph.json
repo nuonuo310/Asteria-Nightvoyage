@@ -6,7 +6,7 @@
     "scripts/nv-deepseek-failure-diagnostics/classify.mjs": "da74f7a97f33a7c4d8f647753cdc38503cce1ea1a18ebf3a46e95073c4eaa3e4",
     "scripts/nv-deepseek-failure-diagnostics/journal.mjs": "2da70e677ab73e8137dd9db87bd11f15670680573c33ce496cf9dc338ca21af7",
     "scripts/nv-deepseek-failure-diagnostics/policy.mjs": "92debc1fb8a9386c5b5c77856b19cb6ac3b41a75d4e17c59b6df9ef28ac1cf17",
-    "scripts/nv-deepseek-fresh-dream-02/authorization.mjs": "ff98d58c036055f47159ee1d89f0de129a4fdd540f569b6a2ac49ba93f77f2a5",
+    "scripts/nv-deepseek-fresh-dream-02/authorization.mjs": "9c50bdf0b9d57318b7e8cf6ff3796a466e50c4a38ac8d45a0761842100052c96",
     "scripts/nv-deepseek-fresh-dream-02/client.mjs": "32a50710cae0fe6593483ea7d7b06ae78c8032f62b0fc8773c23986e36d29a26",
     "scripts/nv-deepseek-fresh-dream-02/contract.mjs": "bbf48d963a4748930e09d82f83facfba03ccf9b3fd9b9855e61968d0bd82ffd0",
     "scripts/nv-deepseek-fresh-dream-02/diagnostic.mjs": "1af38be0afa923a238450ce777ecbf0cf6ff36971f6fa04fd50231e163107f16",

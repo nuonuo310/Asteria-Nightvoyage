@@ -23,8 +23,8 @@
   "contract": {
     "path": "docs/proposals/deepseek-fresh-dream-02-20261025.json",
     "id": "nv-deepseek-fresh-dream-02-fresh-admission-20261025",
-    "hash": "b178e6a2e86d8d21f33a345eac85516f359dde4df33429194d2e34bacb204fa2",
-    "fileSha256": "4ffac3939daf579f81689787b68110b6978ad9df139c2c5619c3147c98c4f1ff",
+    "hash": "734dbed92a2839ce147d002ce73d3052b72d98c624f81aa74bde0db5d952e9d0",
+    "fileSha256": "e3f6718d667e823464365c11f1635767ce28a4209b9bdcc3805e43674d87c06c",
     "allowanceId": "nv-deepseek-fresh-dream-02-20261025",
     "authorizationField": "nvDeepSeekFreshDream02Authorization",
     "protocolVersion": "inline-evidence-quotes-v1",
@@ -49,6 +49,7 @@
     "legacyUnknownHolds": 5,
     "publicContractRowIdentitiesDisclosed": false,
     "privateFullBaselineSealedLocally": true,
+    "privateFullBaselineNotReturned": true,
     "privateBaselineReopenStrictCompare": true,
     "randomizedLegacyIdentitiesTested": true,
     "missingFifthUnknownNegative": true,
@@ -74,13 +75,13 @@
   "sourceIdentity": {
     "entry": "scripts/nv-deepseek-fresh-dream-02/session.mjs",
     "graphPath": "scripts/nv-deepseek-fresh-dream-02/runtime-graph.json",
-    "graphHash": "8455802749e85b3be6cd060f5c76b2c9c341954916d6f381b40b4d1dc30be8c2",
-    "codeHash": "ca81ab9f759a6ea5a3f6de55e605b7920d23c600430d6ea9ad1649defad25f77",
+    "graphHash": "9ea5e2de37153849d5ca477c3f9b26fbcadcc61c32b158e551ceeb134ad43c15",
+    "codeHash": "a84faaf539a7954db713da092586940247fcd0496e2ab35148adc278cc354297",
     "graphFiles": 47,
     "graphBuiltins": 8,
     "graphKind": "parse_only_static_esm_graph",
     "dynamicImportClosureProved": false,
-    "testFileSha256": "da4411ad9c5993f385e0bfba5008f43dfff917a5a33c43e30e13c60b0188ce46",
+    "testFileSha256": "9860fae2c2dcdf5fd9b9e5998b9f71e252cb7365bdcf6caf97fa6413c396e70a",
     "testSupportSha256": "bf071d5eccc08e7a79c13b97ac4fa4fc12a10a459e65c206c4117e22ce583b4a",
     "httpsTestFixtureSha256": "3e6fa72f15874fc0fe7af5197db9e9830b49d4b781e2934804d5e2d2e52a9fc2",
     "noKeyCheckerSha256": "8ea596cb961ede8512b59666ca13638f2a8d54f1300b3f2d999629e674d0c0c0"
@@ -251,7 +252,7 @@
       "cancelled": 0,
       "skipped": 0,
       "todo": 0,
-      "durationMs": 101484.3833,
+      "durationMs": 101646.0045,
       "exitCode": 0
     },
     "targeted": {
@@ -262,7 +263,7 @@
       "cancelled": 0,
       "skipped": 0,
       "todo": 0,
-      "durationMs": 129120.6057,
+      "durationMs": 118016.7093,
       "exitCode": 0
     },
     "full": {
@@ -273,7 +274,7 @@
       "cancelled": 0,
       "skipped": 0,
       "todo": 0,
-      "durationMs": 481832.7153,
+      "durationMs": 481978.8939,
       "exitCode": 0
     }
   },

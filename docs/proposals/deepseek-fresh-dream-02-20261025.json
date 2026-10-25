@@ -44,9 +44,9 @@
     "kind": "independent_fresh_dream_02_surface",
     "entry": "scripts/nv-deepseek-fresh-dream-02/session.mjs",
     "graphPath": "scripts/nv-deepseek-fresh-dream-02/runtime-graph.json",
-    "graphHash": "8455802749e85b3be6cd060f5c76b2c9c341954916d6f381b40b4d1dc30be8c2",
+    "graphHash": "9ea5e2de37153849d5ca477c3f9b26fbcadcc61c32b158e551ceeb134ad43c15",
     "codeFiles": {
-      "scripts/nv-deepseek-fresh-dream-02/authorization.mjs": "ff98d58c036055f47159ee1d89f0de129a4fdd540f569b6a2ac49ba93f77f2a5",
+      "scripts/nv-deepseek-fresh-dream-02/authorization.mjs": "9c50bdf0b9d57318b7e8cf6ff3796a466e50c4a38ac8d45a0761842100052c96",
       "scripts/nv-deepseek-fresh-dream-02/client.mjs": "32a50710cae0fe6593483ea7d7b06ae78c8032f62b0fc8773c23986e36d29a26",
       "scripts/nv-deepseek-fresh-dream-02/contract.mjs": "bbf48d963a4748930e09d82f83facfba03ccf9b3fd9b9855e61968d0bd82ffd0",
       "scripts/nv-deepseek-fresh-dream-02/diagnostic.mjs": "1af38be0afa923a238450ce777ecbf0cf6ff36971f6fa04fd50231e163107f16",
@@ -54,13 +54,13 @@
       "scripts/nv-deepseek-fresh-dream-02/ledger.mjs": "ae4fe056064282a79db49959b26e055160ad385f79e8a172ef000516164fcb90",
       "scripts/nv-deepseek-fresh-dream-02/local-http.mjs": "8138f1d73f2f4d659694bee1abb47991125189267e58c5ed6ace2306991079fc",
       "scripts/nv-deepseek-fresh-dream-02/policy.mjs": "02b3d404e7354973f2c6ab530af0bec43c3ef6ee53e116870d5cf74db530a085",
-      "scripts/nv-deepseek-fresh-dream-02/runtime-graph.json": "8455802749e85b3be6cd060f5c76b2c9c341954916d6f381b40b4d1dc30be8c2",
+      "scripts/nv-deepseek-fresh-dream-02/runtime-graph.json": "9ea5e2de37153849d5ca477c3f9b26fbcadcc61c32b158e551ceeb134ad43c15",
       "scripts/nv-deepseek-fresh-dream-02/runtime.mjs": "efdd82fa93449b23a0c2dd3a025d20f2cbb7788305827627cd24fd73fda83ee4",
       "scripts/nv-deepseek-fresh-dream-02/session.mjs": "71c9e114ca7e00099fdb691af587f4a1c72620975bac5abd54c52879dd8f044f",
       "scripts/nv-deepseek-fresh-dream-02/source.mjs": "0bb7b461eaa940a9ff3fbadb63d6aea86dd771a74592aec6c6c4f8233f682988",
       "scripts/nv-deepseek-fresh-dream-02/worker.mjs": "51bd292f48565c50a88260799d920360bc12f30ee12b9d061b76b3cd56b878c8"
     },
-    "codeHash": "ca81ab9f759a6ea5a3f6de55e605b7920d23c600430d6ea9ad1649defad25f77",
+    "codeHash": "a84faaf539a7954db713da092586940247fcd0496e2ab35148adc278cc354297",
     "protocolIdentity": {
       "promptCandidateHash": "c8e9bbd6963c89f5a3c90f0f411afc32d90a18961a9dca7a3a3a96b185da0043",
       "evidenceEncodingVersion": "direct-quotation-interning-v1",

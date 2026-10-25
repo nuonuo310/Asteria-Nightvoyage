@@ -36,15 +36,15 @@ local loopback stand-in.
 | --- | --- |
 | Contract | `docs/proposals/deepseek-fresh-dream-02-20261025.json` |
 | Contract id | `nv-deepseek-fresh-dream-02-fresh-admission-20261025` |
-| Contract hash | `b178e6a2e86d8d21f33a345eac85516f359dde4df33429194d2e34bacb204fa2` |
-| Contract file SHA-256 | `4ffac3939daf579f81689787b68110b6978ad9df139c2c5619c3147c98c4f1ff` |
+| Contract hash | `734dbed92a2839ce147d002ce73d3052b72d98c624f81aa74bde0db5d952e9d0` |
+| Contract file SHA-256 | `e3f6718d667e823464365c11f1635767ce28a4209b9bdcc3805e43674d87c06c` |
 | Fixture | `examples/deepseek-fresh-dream-02-20261025.json` |
 | Fixture id | `fictional-glass-orchard-20261025` |
 | Fixture snapshot hash | `694265fed23ae52c407bf5f584056415ca1177d64f8648fa6ecbb7ecc37b1124` |
 | Fixture file hash | `00bb025ccf4978ce8a4f665d30e55938e22f96c9cdac6c16065db2bec7e5aae1` |
 | Source graph | `scripts/nv-deepseek-fresh-dream-02/runtime-graph.json` |
-| Graph hash | `8455802749e85b3be6cd060f5c76b2c9c341954916d6f381b40b4d1dc30be8c2` |
-| Code hash | `ca81ab9f759a6ea5a3f6de55e605b7920d23c600430d6ea9ad1649defad25f77` |
+| Graph hash | `9ea5e2de37153849d5ca477c3f9b26fbcadcc61c32b158e551ceeb134ad43c15` |
+| Code hash | `a84faaf539a7954db713da092586940247fcd0496e2ab35148adc278cc354297` |
 | Public legacy row identities | not disclosed |
 | Allowance | `nv-deepseek-fresh-dream-02-20261025` |
 | Authorization field | `nvDeepSeekFreshDream02Authorization` |
@@ -65,7 +65,8 @@ that the actual history has five `unknown` rows in five distinct legacy accounts
 that the rows form exactly those two cardinality and amount groups. It then seals a
 schema-2 baseline privately in the local authorization record: hashes of every
 legacy account plus the complete account/request/run/fingerprint/source identity of
-all five `unknown` rows. Missing the fifth row, adding an undeclared `unknown`,
+all five `unknown` rows. The baseline and those identities are not returned by the
+authorization API and are not written to the public contract. Missing the fifth row, adding an undeclared `unknown`,
 changing a group amount or reaching an invalid row shape fails before a new
 authorization, allowance or commit phase is created. Reopen strictly compares the
 current complete private baseline with the sealed baseline and never recaptures it.
@@ -133,9 +134,9 @@ Recorded on Windows x64 with Node `v24.19.0`:
 
 | Gate | Result | Exit | Duration |
 | --- | --- | --- | --- |
-| New targeted suite | 25/25, zero failures/cancellations/skips | 0 | 101484.3833 ms |
-| Six-file targeted suites | 101/101, zero failures/cancellations/skips | 0 | 129120.6057 ms |
-| Complete `node --test` | 1980/1980, zero failures/cancellations/skips | 0 | 481832.7153 ms |
+| New targeted suite | 25/25, zero failures/cancellations/skips | 0 | 101646.0045 ms |
+| Six-file targeted suites | 101/101, zero failures/cancellations/skips | 0 | 118016.7093 ms |
+| Complete `node --test` | 1980/1980, zero failures/cancellations/skips | 0 | 481978.8939 ms |
 
 The no-Key fresh checker, earlier one-dream checker and failure-diagnostics
 checker all passed with exit `0`. The inline entry dependency gate passed with

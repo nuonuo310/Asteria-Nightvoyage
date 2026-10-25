@@ -79,6 +79,7 @@ function assertLegacyBaseline(store,baseline){
   assertOwnerLock(store);const current=legacyBaseline(store);
   if(hash(current)!==hash(baseline))fail('one_dream_legacy_history_changed');
 }
+const withoutPrivateBaseline=record=>{const exposed=copy(record);delete exposed.terms.baseline;return exposed;};
 function validateRecord(record,{now=Date.now(),allowExpired=false,allowRevoked=false}={}){
   try{assertAppraisalReviewJsonData(record);}catch{fail('one_dream_invalid_authorization');}
   if(!exact(record,['schemaVersion','authorizationVersion','mode','status','terms','termsHash'])||record.schemaVersion!==1||record.authorizationVersion!==oneDreamAuthorizationVersion||!['stub','live'].includes(record.mode)||!['active','revoked'].includes(record.status)||!exact(record.terms,['contract','contractHash','confirmation','dispatchKind','allowance','baseline','createdAt','requestId','sessionId','runConfig'])||hash(record.terms)!==record.termsHash)fail('one_dream_invalid_authorization');
@@ -99,7 +100,7 @@ export function readOneDreamAuthorization(store,options={}){
   if(!(store instanceof Store))fail('one_dream_managed_store_required');store.assert();
   const record=validateRecord(own(store.state,oneDreamAuthorizationField),options);
   assertAccount(store,record);assertLegacyBaseline(store,record.terms.baseline);
-  return copy(record);
+  return withoutPrivateBaseline(record);
 }
 export function initOneDreamAuthorization(store,{confirmation,mode,dispatchKind=mode==='stub'?'rehearsal':'provider',now=Date.now(),fault=()=>{}}={}){
   if(!(store instanceof Store))fail('one_dream_managed_store_required');store.assert();
@@ -124,7 +125,7 @@ export function revokeOneDreamAuthorization(store){
   if(record.status==='revoked')return record;
   store.state[oneDreamAuthorizationField].status='revoked';
   try{store.save();}catch{store.poisoned=true;fail('one_dream_storage_io_failure');}
-  return copy(store.state[oneDreamAuthorizationField]);
+  return withoutPrivateBaseline(store.state[oneDreamAuthorizationField]);
 }
 export function requireOneDreamAuthorization(directory,{mode}={}){
   try{
@@ -133,7 +134,7 @@ export function requireOneDreamAuthorization(directory,{mode}={}){
     const filename=path.join(resolved,'state.json'),stat=fs.lstatSync(filename);if(!stat.isFile()||stat.isSymbolicLink()||stat.size>2097152)fail('one_dream_unsafe_path');
     const record=validateRecord(JSON.parse(fs.readFileSync(filename,'utf8'))[oneDreamAuthorizationField]);
     if(mode!==undefined&&record.mode!==mode)fail('one_dream_mode_mismatch');
-    return copy(record);
+    return withoutPrivateBaseline(record);
   }catch{fail('one_dream_matching_authorization_required');}
 }
 export function assertOneDreamStage(store,{allowanceId,requestId,runId,payload},phase,{mode='stub'}={}){

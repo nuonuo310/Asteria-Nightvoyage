@@ -296,6 +296,8 @@ test('first live init accepts randomized legacy identities, seals their full loc
     for(const row of randomized)for(const value of [row.accountId,row.requestId,row.runId,row.fingerprint,row.sourceId])assert.equal(contractText.includes(value),false,value);
     const record=initOneDreamAuthorization(store,{confirmation:h.confirmation,mode:'live',now});
     assert.equal(record.mode,'live');
+    assert.equal(Object.hasOwn(record.terms,'baseline'),false);
+    const reopened=readOneDreamAuthorization(store,{now});assert.equal(Object.hasOwn(reopened.terms,'baseline'),false);
     const baseline=store.state[oneDreamAuthorizationField].terms.baseline;
     assert.equal(baseline.schemaVersion,2);assert.equal(baseline.unknownRows.length,5);assert.equal(baseline.unknownAccounts,5);
     assert.equal(baseline.unknownReservedMicroCny,'10913152');assert.equal(baseline.unknownChargedMicroCny,'10913152');
