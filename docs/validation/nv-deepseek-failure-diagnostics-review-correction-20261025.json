@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "kind": "nv_deepseek_failure_diagnostics_review_correction",
+  "reviewedHead": "6eb9a8665f9b387bb7863b0f3320e4c79b36c20a",
+  "scope": "offline_only",
+  "originalValidationPreserved": true,
+  "corrections": [
+    "unexpected_error_without_dispatch_intent_is_unclassified",
+    "native_transport_classification_uses_reviewed_error_codes_only"
+  ],
+  "sourceSha256": {
+    "scripts/nv-deepseek-failure-diagnostics/classify.mjs": "da74f7a97f33a7c4d8f647753cdc38503cce1ea1a18ebf3a46e95073c4eaa3e4",
+    "test/nv-deepseek-failure-diagnostics.test.js": "e2b323642a852ec55618774a4f9d4aecf262494681d20aa1d51e2304c2e5ae6a"
+  },
+  "independentVerification": {
+    "platform": "linux",
+    "node": "v24.22.1",
+    "diagnosticTests": {"command": "node --test test/nv-deepseek-failure-diagnostics.test.js", "tests": 18, "pass": 18, "fail": 0, "exitCode": 0},
+    "targetedTests": {"tests": 76, "pass": 76, "fail": 0, "exitCode": 0},
+    "fullTests": {"command": "node --test", "tests": 1955, "pass": 1955, "fail": 0, "skipped": 0, "exitCode": 0},
+    "diagnosticNoKeyChecker": "passed",
+    "oneDreamNoKeyChecker": "passed",
+    "sourceInventory": {"status": "repository_source_inventory_verified", "files": 65, "edges": 242, "diagnostics": 0},
+    "diffCheckExitCode": 0
+  },
+  "historicalFailedAttemptCause": "unknown",
+  "historicalUnknownHoldReleased": false,
+  "realModelRequests": 0,
+  "realKeyReads": 0,
+  "liveDiagnosticsAdmitted": false,
+  "paidApprovalGranted": false
+}

@@ -38,11 +38,10 @@ export function classifyHttpStatus(status){
 }
 export function classifyNativeTransport(error){
   const code=typeof error?.code==='string'?error.code:typeof error?.cause?.code==='string'?error.cause.code:'';
-  const message=typeof error?.message==='string'?error.message:'';
   if(/^(?:ENOTFOUND|EAI_AGAIN|EAI_FAIL)$/.test(code))return 'dns';
   if(/^(?:ECONNREFUSED|ECONNRESET|EHOSTUNREACH|ENETUNREACH|EADDRNOTAVAIL|ECONNABORTED)$/.test(code))return 'connect';
-  if(code==='EPIPE'||/^write\b/i.test(message))return 'write';
-  if(/(?:TLS|SSL|CERT|SELF_SIGNED|UNABLE_TO_VERIFY|DEPTH_ZERO)/i.test(code)||/(?:certificate|tls|ssl)/i.test(message))return 'tls';
+  if(code==='EPIPE')return 'write';
+  if(/^(?:ERR_TLS_[A-Z0-9_]+|ERR_SSL_[A-Z0-9_]+|CERT_[A-Z0-9_]+|SELF_SIGNED_CERT_IN_CHAIN|UNABLE_TO_VERIFY_LEAF_SIGNATURE|UNABLE_TO_GET_ISSUER_CERT_LOCALLY|DEPTH_ZERO_SELF_SIGNED_CERT)$/.test(code))return 'tls';
   if(code)return 'unknown_native';
   return 'not_classified';
 }
@@ -72,7 +71,7 @@ export function classifyFailure({errorMessage,trace={}}={}){
   if(protocolCodes.has(code)||trace.protocolError)return {phase:'response_protocol',diagnosticClass:'response_protocol_rejected',transportObservation:transport,httpStatusClass:http};
   if(stageCodes.has(code)&&trace.transportInvoked)return {phase:'response_protocol',diagnosticClass:'response_stage_rejected',transportObservation:transport,httpStatusClass:http};
   if(trace.dispatchContractRejected||dispatchCodes.has(code))return {phase:'dispatch_intent',diagnosticClass:'dispatch_contract_rejected',transportObservation:transport,httpStatusClass:http};
-  if(preDispatchCodes.has(code)||!trace.dispatchIntentPersisted)return {phase:'pre_dispatch',diagnosticClass:'pre_dispatch_refused',transportObservation:transport,httpStatusClass:http};
+  if(preDispatchCodes.has(code))return {phase:'pre_dispatch',diagnosticClass:'pre_dispatch_refused',transportObservation:transport,httpStatusClass:http};
   return {phase:'internal',diagnosticClass:'unclassified',transportObservation:transport,httpStatusClass:http};
 }
 export const reviewedDiagnosticPhase=value=>permitted(diagnosticPhases,value);

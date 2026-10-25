@@ -5,6 +5,7 @@ import path from 'node:path';
 import os from 'node:os';
 import {Store} from '../src/store.js';
 import {DiagnosticOneDreamRuntime} from '../scripts/nv-deepseek-failure-diagnostics/runtime.mjs';
+import {classifyFailure,classifyNativeTransport} from '../scripts/nv-deepseek-failure-diagnostics/classify.mjs';
 import {FailureReceiptJournal,diagnosticJournalPath,readDiagnosticReceipts} from '../scripts/nv-deepseek-failure-diagnostics/journal.mjs';
 import {createOneDreamLoopback,oneDreamLoopbackScenes} from '../scripts/nv-deepseek-one-dream/local-http.mjs';
 import {oneDreamAllowanceId,oneDreamLocalCredential,oneDreamLoopbackKind} from '../scripts/nv-deepseek-one-dream/policy.mjs';
@@ -34,6 +35,24 @@ async function failedRun(t,options={}){
   return withDiagnosticRuntime(t,options,async context=>{const status=await context.engine.execute(context.gate.id);return {...context,status,receipts:readDiagnosticReceipts(context.h.directory)};});
 }
 function row(engine){return Object.values(engine.store.state.billing.accounts[oneDreamAllowanceId].attempts)[0];}
+
+test('unexpected pre-dispatch exception remains unclassified in a durable body-free receipt',async t=>{
+  const sentinel='PRIVATE-UNEXPECTED-FAULT';
+  const value=await failedRun(t,{transport:async()=>{throw Error('must_not_dispatch');},fault:phase=>{if(phase==='reserved')throw Error(sentinel);}});
+  assert.equal(value.status.status,'failed');assert.equal(value.loopback.posts,0);
+  assert.equal(value.receipts.length,1);assert.equal(value.receipts[0].diagnosticClass,'unclassified');
+  assert.equal(value.receipts[0].phase,'internal');assert.equal(value.receipts[0].dispatchIntent,'none');
+  assert.equal(fs.readFileSync(diagnosticJournalPath(value.h.directory),'utf8').includes(sentinel),false);
+  assert.equal(classifyFailure({errorMessage:sentinel,trace:{dispatchIntentPersisted:false}}).diagnosticClass,'unclassified');
+});
+
+test('transport classification uses reviewed native codes, never arbitrary exception messages',()=>{
+  assert.equal(classifyNativeTransport(new Error('PRIVATE TLS failure')),'not_classified');
+  assert.equal(classifyNativeTransport(new Error('write PRIVATE')),'not_classified');
+  assert.equal(classifyNativeTransport(Object.assign(new Error('TLS'),{code:'EUNRELATED'})),'unknown_native');
+  assert.equal(classifyNativeTransport(Object.assign(new Error('PRIVATE'),{code:'CERT_HAS_EXPIRED'})),'tls');
+  assert.equal(classifyNativeTransport(Object.assign(new Error('PRIVATE'),{code:'EPIPE'})),'write');
+});
 
 for(const [code,expected] of [['ENOTFOUND','transport_dns_failure'],['ECONNREFUSED','transport_connect_failure'],['CERT_HAS_EXPIRED','transport_tls_failure'],['EPIPE','transport_write_failure']]){
   test(`${code} before a response is classified as ${expected} after a persisted dispatch intent`,async t=>{
