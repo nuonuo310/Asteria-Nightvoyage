@@ -1,0 +1,152 @@
+// New authorization record and account. This module has no HTTP or credential loader.
+import fs from 'node:fs';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {Store, copy, fail} from '../../src/store.js';
+import {hash, config, own, safeId} from '../../src/contract.js';
+import {inlineProtocolVersion, buildInlineRequest} from '../../src/inline-evidence-protocol.js';
+import {assertAppraisalReviewJsonData} from '../../src/appraisal-review-memory.js';
+import {readOneDreamContract, validateOneDreamContract, oneDreamInput, oneDreamCaseId} from './contract.mjs';
+import {validateOneDreamAllowance} from './ledger.mjs';
+import {freshDreamInputTokenBound,oneDreamAllowanceId, oneDreamAuthorizationField, oneDreamAuthorizationVersion, oneDreamRequestId, oneDreamSessionId} from './policy.mjs';
+
+const root=fileURLToPath(new URL('../..',import.meta.url));
+const exact=(value,keys)=>value&&typeof value==='object'&&!Array.isArray(value)&&Object.keys(value).length===keys.length&&keys.every(key=>Object.hasOwn(value,key));
+const privateUnknownRowKeys=Object.freeze(['accountId','requestId','runId','fingerprint','sourceRefs','status','reservedMicroCny','chargedMicroCny']);
+const privateBaselineKeys=Object.freeze(['schemaVersion','accounts','unknownRows','unknownAccounts','unknownHolds','unknownReservedMicroCny','unknownChargedMicroCny']);
+const legacyGroupKeys=Object.freeze(['kind','accounts','holds','eachReservedMicroCny','eachChargedMicroCny','reservedMicroCny','chargedMicroCny','heldMicroCny','releaseOrSettlementAuthorized']);
+const microCnyAmount=value=>typeof value==='string'&&/^(?:0|[1-9][0-9]*)$/.test(value);
+const boundedIdentity=value=>typeof value==='string'&&value.length>0&&value.length<=200&&!value.includes('\0');
+const validSourceRefs=value=>Array.isArray(value)&&value.length>0&&value.length<=16&&value.every(source=>exact(source,['id','version'])&&boundedIdentity(source.id)&&boundedIdentity(source.version));
+const privateUnknownRow=(accountId,row)=>({accountId,requestId:row?.requestId,runId:row?.runId,fingerprint:row?.fingerprint,sourceRefs:copy(row?.sourceRefs),status:row?.status,reservedMicroCny:row?.reservedMicroCny,chargedMicroCny:row?.chargedMicroCny});
+const validPrivateUnknownRow=row=>exact(row,privateUnknownRowKeys)&&boundedIdentity(row.accountId)&&boundedIdentity(row.requestId)&&boundedIdentity(row.runId)&&/^[a-f0-9]{64}$/.test(row.fingerprint)&&validSourceRefs(row.sourceRefs)&&row.status==='unknown'&&microCnyAmount(row.reservedMicroCny)&&microCnyAmount(row.chargedMicroCny);
+export const oneDreamContractConfirmationKeys=Object.freeze(['contractHash','budgetCny','caseId','allowFictionalEgress','acknowledgePreservedHolds','acknowledgeMutableModelAlias','accountCurrency']);
+export function oneDreamConfirmation(contractHash){return {contractHash,budgetCny:3,caseId:oneDreamCaseId,allowFictionalEgress:true,acknowledgePreservedHolds:true,acknowledgeMutableModelAlias:true,accountCurrency:'CNY'};}
+export function inspectOneDreamConfirmation(contract,confirmation){
+  try{assertAppraisalReviewJsonData(confirmation);}catch{fail('one_dream_confirmation_mismatch');}
+  const checked=validateOneDreamContract(contract,{now:contract?.pricing?.checkedAt});
+  if(!exact(confirmation,oneDreamContractConfirmationKeys)||JSON.stringify(confirmation)!==JSON.stringify(oneDreamConfirmation(checked.contractHash)))fail('one_dream_confirmation_mismatch');
+  return {contractHash:checked.contractHash,shapeMatches:true,createsAuthorization:false,credentialRead:false,liveEntryAvailable:false};
+}
+export function oneDreamAllowance(contract,mode){
+  if(!['stub','live'].includes(mode))fail('one_dream_authorization_mode_required');
+  const pricing=contract.pricing;
+  return validateOneDreamAllowance({id:oneDreamAllowanceId,mode,approved:true,expiresAt:pricing.expiresAt,limits:{maxRuns:1,maxCalls:3,maxMicroCny:3000000},pricing:{model:contract.provider.model,contextTokenLimit:pricing.inputTokenBound,inputTokenBound:pricing.inputTokenBound,inputMicroCnyPerMillion:pricing.inputMicroCnyPerMillion,outputMicroCnyPerMillion:pricing.outputMicroCnyPerMillion,reference:pricing.references[0],checkedAt:pricing.checkedAt},protocolVersion:inlineProtocolVersion,entryAuthorizationVersion:oneDreamAuthorizationVersion});
+}
+export function oneDreamRunConfig(contract){return config({scenes:2,maxCalls:3,inputTokens:freshDreamInputTokenBound*3,outputTokens:1200,perCallOutput:400,timeoutMs:60000});}
+function assertOwnerLock(store){
+  store.assert();
+  const filename=path.join(store.directory,'owner.lock');let fd,saved,stat;
+  try{fd=fs.fstatSync(store.lockfd);stat=fs.lstatSync(filename);saved=JSON.parse(fs.readFileSync(filename,'utf8'));}catch{fail('one_dream_owner_lock_required');}
+  if(!stat.isFile()||stat.isSymbolicLink()||fd.dev!==stat.dev||fd.ino!==stat.ino||saved.pid!==process.pid)fail('one_dream_owner_lock_required');
+}
+function privateUnknownRows(store){
+  return Object.entries(store.state.billing?.accounts??{}).filter(([accountId])=>accountId!==oneDreamAllowanceId).flatMap(([accountId,account])=>Object.values(account?.attempts??{}).filter(row=>row?.status==='unknown').map(row=>privateUnknownRow(accountId,row))).sort((a,b)=>`${a.accountId}\0${a.requestId}`.localeCompare(`${b.accountId}\0${b.requestId}`,'en'));
+}
+function assertLegacyUnknownGroups(store,contract){
+  assertOwnerLock(store);
+  const history=contract?.history,groups=history?.unknownHoldGroups;
+  if(history?.requiredLegacyAccounts!==5||history.legacyUnknownHolds!==5||history.legacyReservedMicroCny!=='10913152'||history.legacyHeldMicroCny!=='10913152'||history.publicRowIdentitiesDisclosed!==false||history.privateBaselineSchemaVersion!==2||!Array.isArray(groups)||groups.length!==2)fail('one_dream_reviewed_history_invalid');
+  const groupsValid=groups.every(group=>exact(group,legacyGroupKeys)&&boundedIdentity(group.kind)&&Number.isSafeInteger(group.accounts)&&group.accounts>0&&Number.isSafeInteger(group.holds)&&group.holds>0&&microCnyAmount(group.eachReservedMicroCny)&&microCnyAmount(group.eachChargedMicroCny)&&microCnyAmount(group.reservedMicroCny)&&microCnyAmount(group.chargedMicroCny)&&microCnyAmount(group.heldMicroCny)&&group.releaseOrSettlementAuthorized===false&&BigInt(group.eachReservedMicroCny)*BigInt(group.holds)===BigInt(group.reservedMicroCny)&&BigInt(group.eachChargedMicroCny)*BigInt(group.holds)===BigInt(group.chargedMicroCny)&&group.chargedMicroCny===group.heldMicroCny);
+  if(!groupsValid)fail('one_dream_reviewed_history_invalid');
+  const rows=privateUnknownRows(store);
+  if(rows.some(row=>!validPrivateUnknownRow(row)))fail('one_dream_reviewed_history_invalid');
+  if(rows.length!==5||new Set(rows.map(row=>row.accountId)).size!==5)fail('one_dream_history_unknown_mismatch');
+  let covered=0,reserved=0n,charged=0n;
+  for(const group of groups){
+    const matching=rows.filter(row=>row.reservedMicroCny===group.eachReservedMicroCny&&row.chargedMicroCny===group.eachChargedMicroCny);
+    if(matching.length!==group.holds||new Set(matching.map(row=>row.accountId)).size!==group.accounts)fail('one_dream_history_unknown_mismatch');
+    const groupReserved=matching.reduce((sum,row)=>sum+BigInt(row.reservedMicroCny),0n),groupCharged=matching.reduce((sum,row)=>sum+BigInt(row.chargedMicroCny),0n);
+    if(groupReserved!==BigInt(group.reservedMicroCny)||groupCharged!==BigInt(group.chargedMicroCny))fail('one_dream_history_unknown_mismatch');
+    covered+=matching.length;reserved+=groupReserved;charged+=groupCharged;
+  }
+  if(covered!==rows.length||reserved!==10913152n||charged!==10913152n||reserved.toString()!==history.legacyReservedMicroCny||charged.toString()!==history.legacyHeldMicroCny)fail('one_dream_history_unknown_mismatch');
+}
+function legacyBaseline(store){
+  assertOwnerLock(store);
+  const accounts=Object.fromEntries(Object.entries(store.state.billing?.accounts??{}).filter(([id])=>id!==oneDreamAllowanceId).map(([id,account])=>[id,hash(account)]));
+  const unknownRows=privateUnknownRows(store);
+  return {schemaVersion:2,accounts,unknownRows,unknownAccounts:new Set(unknownRows.map(row=>row.accountId)).size,unknownHolds:unknownRows.length,unknownReservedMicroCny:unknownRows.reduce((sum,row)=>sum+BigInt(row.reservedMicroCny),0n).toString(),unknownChargedMicroCny:unknownRows.reduce((sum,row)=>sum+BigInt(row.chargedMicroCny),0n).toString()};
+}
+function assertLegacyBaseline(store,baseline){
+  const invalid=()=>fail('one_dream_invalid_legacy_baseline');
+  if(!exact(baseline,privateBaselineKeys)||baseline.schemaVersion!==2||!baseline.accounts||typeof baseline.accounts!=='object'||Array.isArray(baseline.accounts)||!Array.isArray(baseline.unknownRows))invalid();
+  const accountIds=Object.keys(baseline.accounts);
+  if(!accountIds.length||accountIds.some(id=>!boundedIdentity(id)||!/^[a-f0-9]{64}$/.test(baseline.accounts[id])))invalid();
+  if(baseline.unknownRows.length!==5||baseline.unknownRows.some(row=>!validPrivateUnknownRow(row)||!Object.hasOwn(baseline.accounts,row.accountId)))invalid();
+  const rows=baseline.unknownRows,unknownAccounts=new Set(rows.map(row=>row.accountId)).size,reserved=rows.reduce((sum,row)=>sum+BigInt(row.reservedMicroCny),0n),charged=rows.reduce((sum,row)=>sum+BigInt(row.chargedMicroCny),0n);
+  if(unknownAccounts!==baseline.unknownAccounts||rows.length!==baseline.unknownHolds||reserved.toString()!==baseline.unknownReservedMicroCny||charged.toString()!==baseline.unknownChargedMicroCny)invalid();
+  assertOwnerLock(store);const current=legacyBaseline(store);
+  if(hash(current)!==hash(baseline))fail('one_dream_legacy_history_changed');
+}
+const withoutPrivateBaseline=record=>{const exposed=copy(record);delete exposed.terms.baseline;return exposed;};
+function validateRecord(record,{now=Date.now(),allowExpired=false,allowRevoked=false}={}){
+  try{assertAppraisalReviewJsonData(record);}catch{fail('one_dream_invalid_authorization');}
+  if(!exact(record,['schemaVersion','authorizationVersion','mode','status','terms','termsHash'])||record.schemaVersion!==1||record.authorizationVersion!==oneDreamAuthorizationVersion||!['stub','live'].includes(record.mode)||!['active','revoked'].includes(record.status)||!exact(record.terms,['contract','contractHash','confirmation','dispatchKind','allowance','baseline','createdAt','requestId','sessionId','runConfig'])||hash(record.terms)!==record.termsHash)fail('one_dream_invalid_authorization');
+  const terms=record.terms,checked=validateOneDreamContract(terms.contract,{now:terms.createdAt,allowExpired});
+  inspectOneDreamConfirmation(terms.contract,terms.confirmation);
+  if(!['rehearsal','provider'].includes(terms.dispatchKind)||record.mode==='stub'&&terms.dispatchKind!=='rehearsal'||record.mode==='live'&&terms.dispatchKind!=='provider')fail('one_dream_dispatch_kind_mismatch');
+  if(checked.contractHash!==terms.contractHash||hash(oneDreamAllowance(checked.contract,record.mode))!==hash(terms.allowance)||terms.requestId!==oneDreamRequestId||terms.sessionId!==oneDreamSessionId||hash(terms.runConfig)!==hash(oneDreamRunConfig(checked.contract)))fail('one_dream_authorization_terms_changed');
+  if(!Number.isSafeInteger(terms.createdAt)||now<terms.createdAt)fail('one_dream_contract_clock_invalid');
+  validateOneDreamContract(terms.contract,{now,allowExpired});
+  if(!allowRevoked&&record.status!=='active')fail('one_dream_authorization_revoked');
+  return record;
+}
+function assertAccount(store,record){
+  const account=own(store.state.billing?.accounts??{},oneDreamAllowanceId);
+  if(!account||account.fingerprint!==hash(record.terms.allowance)||hash(account.allowance)!==hash(record.terms.allowance))fail('one_dream_authorization_account_mismatch');
+}
+export function readOneDreamAuthorization(store,options={}){
+  if(!(store instanceof Store))fail('one_dream_managed_store_required');store.assert();
+  const record=validateRecord(own(store.state,oneDreamAuthorizationField),options);
+  assertAccount(store,record);assertLegacyBaseline(store,record.terms.baseline);
+  return withoutPrivateBaseline(record);
+}
+export function initOneDreamAuthorization(store,{confirmation,mode,dispatchKind=mode==='stub'?'rehearsal':'provider',now=Date.now(),fault=()=>{}}={}){
+  if(!(store instanceof Store))fail('one_dream_managed_store_required');store.assert();
+  if(!['stub','live'].includes(mode)||!['rehearsal','provider'].includes(dispatchKind)||mode==='stub'&&dispatchKind!=='rehearsal'||mode==='live'&&dispatchKind!=='provider')fail('one_dream_dispatch_kind_mismatch');
+  const checked=readOneDreamContract({now}),confirmationCheck=inspectOneDreamConfirmation(checked.contract,confirmation);
+  if(own(store.state,oneDreamAuthorizationField)){
+    const old=readOneDreamAuthorization(store,{now});
+    if(old.mode!==mode||old.authorizationVersion!==oneDreamAuthorizationVersion||old.terms.contractHash!==confirmationCheck.contractHash||old.terms.dispatchKind!==dispatchKind)fail('one_dream_authorization_conflict');
+    return old;
+  }
+  if(own(store.state.billing?.accounts??{},oneDreamAllowanceId))fail('one_dream_unbound_account');
+  assertLegacyUnknownGroups(store,checked.contract);
+  const baseline=legacyBaseline(store),terms={contract:checked.contract,contractHash:checked.contractHash,confirmation:copy(confirmation),dispatchKind,allowance:oneDreamAllowance(checked.contract,mode),baseline,createdAt:now,requestId:oneDreamRequestId,sessionId:oneDreamSessionId,runConfig:oneDreamRunConfig(checked.contract)};
+  const record={schemaVersion:1,authorizationVersion:oneDreamAuthorizationVersion,mode,status:'active',terms,termsHash:hash(terms)};
+  fault('before_one_dream_authorization_commit');validateOneDreamContract(checked.contract,{now});
+  store.state[oneDreamAuthorizationField]=record;store.state.billing.accounts[oneDreamAllowanceId]={fingerprint:hash(terms.allowance),allowance:terms.allowance,attempts:{},runIds:[]};
+  try{store.save();}catch{delete store.state[oneDreamAuthorizationField];delete store.state.billing.accounts[oneDreamAllowanceId];store.poisoned=true;fail('one_dream_storage_io_failure');}
+  fault('after_one_dream_authorization_commit');return readOneDreamAuthorization(store,{now});
+}
+export function revokeOneDreamAuthorization(store){
+  const record=readOneDreamAuthorization(store,{allowExpired:true,allowRevoked:true});
+  if(record.status==='revoked')return record;
+  store.state[oneDreamAuthorizationField].status='revoked';
+  try{store.save();}catch{store.poisoned=true;fail('one_dream_storage_io_failure');}
+  return withoutPrivateBaseline(store.state[oneDreamAuthorizationField]);
+}
+export function requireOneDreamAuthorization(directory,{mode}={}){
+  try{
+    const resolved=path.resolve(directory),base=path.resolve(root);if(resolved===base||resolved.startsWith(base+path.sep))fail('one_dream_unsafe_path');
+    let current=resolved;for(;;){if(fs.lstatSync(current).isSymbolicLink())fail('one_dream_unsafe_path');const parent=path.dirname(current);if(parent===current)break;current=parent;}
+    const filename=path.join(resolved,'state.json'),stat=fs.lstatSync(filename);if(!stat.isFile()||stat.isSymbolicLink()||stat.size>2097152)fail('one_dream_unsafe_path');
+    const record=validateRecord(JSON.parse(fs.readFileSync(filename,'utf8'))[oneDreamAuthorizationField]);
+    if(mode!==undefined&&record.mode!==mode)fail('one_dream_mode_mismatch');
+    return withoutPrivateBaseline(record);
+  }catch{fail('one_dream_matching_authorization_required');}
+}
+export function assertOneDreamStage(store,{allowanceId,requestId,runId,payload},phase,{mode='stub'}={}){
+  const record=readOneDreamAuthorization(store),terms=record.terms,run=runId&&own(store.state.runs,runId),request=own(store.state.requests,terms.requestId);
+  if(record.mode!==mode)fail('one_dream_mode_mismatch');
+  assertAppraisalReviewJsonData(payload);
+  const providerIdentity=`${inlineProtocolVersion}:${mode}:${oneDreamAllowanceId}:deepseek-flash:${oneDreamAuthorizationVersion}:${record.termsHash}`;
+  if(allowanceId!==oneDreamAllowanceId||request?.runId!==runId||!run||run.id!==runId||run.status!=='running'||run.billingAllowanceId!==oneDreamAllowanceId||run.billingProtocolVersion!==inlineProtocolVersion||run.appraisalProtocolVersion!==inlineProtocolVersion||run.nvDeepSeekOneDreamAuthorizationVersion!==oneDreamAuthorizationVersion||run.nvDeepSeekOneDreamAuthorizationHash!==record.termsHash||hash(run.executionOwner)!==hash({schemaVersion:1,family:`specialized:${inlineProtocolVersion}`,providerIdentity})||hash(run.config)!==hash(terms.runConfig)||hash(run.snapshot)!==hash(oneDreamInput(terms.contract))||!exact(payload,['stage','index','snapshot','scenes'])||hash(payload)!==hash({stage:run.scenes.length<2?'scene':'wake',index:run.scenes.length,snapshot:run.snapshot,scenes:run.scenes})||requestId!==`stage-${runId}-${payload.stage}-${payload.index}`)fail('one_dream_authorized_stage_mismatch');
+  const rows=Object.values(store.state.billing.accounts[oneDreamAllowanceId].attempts);
+  if(rows.some(row=>row.runId!==runId||row.status==='unknown')||phase==='before_reservation'&&rows.some(row=>row.status!=='settled'))fail('one_dream_ambiguous_attempt');
+  if(phase!=='before_reservation'){const row=own(store.state.billing.accounts[oneDreamAllowanceId].attempts,requestId),expected=phase==='before_dispatch'?'reserved':phase==='publish'?'settled':'dispatched';if(row?.status!==expected)fail('one_dream_stage_reservation_mismatch');}
+  const built=buildInlineRequest(payload,{model:terms.allowance.pricing.model,maxOutputTokens:400});
+  if(phase!=='before_reservation'){const row=store.state.billing.accounts[oneDreamAllowanceId].attempts[requestId];if(row.fingerprint!==hash({runId,request:built.body,snapshot:payload.snapshot})||row.maxOutputTokens!==400||row.reservedMicroCny!==terms.contract.pricing.fullPerCallReservationMicroCny)fail('one_dream_stage_reservation_mismatch');}
+  return record;
+}

@@ -1,0 +1,223 @@
+{
+  "schemaVersion": 1,
+  "kind": "fresh_one_use_deepseek_one_dream_contract",
+  "id": "nv-deepseek-fresh-dream-02-fresh-admission-20261025",
+  "authority": {
+    "constructionPath": "docs/construction-envelopes/2026-10-25-deepseek-fresh-dream-02.md",
+    "authorityCommit": "249d38ab6eb65aeab3207771062b0e51b962bd4d",
+    "implementationBase": "e927b882b07c93285a6a88b2b8c4524db1474af0",
+    "stackedAbove": "a94d0909162ce9d544c5d1338cb9096cd97b17e1",
+    "pullRequest": 92
+  },
+  "protocolVersion": "inline-evidence-quotes-v1",
+  "protocolIdentity": {
+    "promptCandidateHash": "c8e9bbd6963c89f5a3c90f0f411afc32d90a18961a9dca7a3a3a96b185da0043",
+    "evidenceEncodingVersion": "direct-quotation-interning-v1",
+    "affectEncodingVersion": "explicit-affect-union-v1",
+    "wakePolicyVersion": "saved-scene-excerpt-v1"
+  },
+  "provider": {
+    "name": "DeepSeek",
+    "endpoint": "https://api.deepseek.com/chat/completions",
+    "model": "deepseek-flash",
+    "observedRevision": "DeepSeek-V4.1-Flash-1017",
+    "aliasRevisionPinned": false,
+    "actualModelsRequestMade": false
+  },
+  "material": {
+    "caseId": "fictional-glass-orchard-20261025",
+    "fixturePath": "examples/deepseek-fresh-dream-02-20261025.json",
+    "fixtureHash": "694265fed23ae52c407bf5f584056415ca1177d64f8648fa6ecbb7ecc37b1124",
+    "fixtureFileHash": "00bb025ccf4978ce8a4f665d30e55938e22f96c9cdac6c16065db2bec7e5aae1",
+    "materialKind": "fictional",
+    "generatedEventOrigin": "dream",
+    "isRealityFact": false,
+    "sourceRefs": [
+      {
+        "id": "fiction-glass-orchard-source",
+        "version": "1"
+      }
+    ],
+    "privateMaterialAllowed": false
+  },
+  "source": {
+    "kind": "independent_fresh_dream_02_surface",
+    "entry": "scripts/nv-deepseek-fresh-dream-02/session.mjs",
+    "graphPath": "scripts/nv-deepseek-fresh-dream-02/runtime-graph.json",
+    "graphHash": "9ea5e2de37153849d5ca477c3f9b26fbcadcc61c32b158e551ceeb134ad43c15",
+    "codeFiles": {
+      "scripts/nv-deepseek-fresh-dream-02/authorization.mjs": "9c50bdf0b9d57318b7e8cf6ff3796a466e50c4a38ac8d45a0761842100052c96",
+      "scripts/nv-deepseek-fresh-dream-02/client.mjs": "32a50710cae0fe6593483ea7d7b06ae78c8032f62b0fc8773c23986e36d29a26",
+      "scripts/nv-deepseek-fresh-dream-02/contract.mjs": "bbf48d963a4748930e09d82f83facfba03ccf9b3fd9b9855e61968d0bd82ffd0",
+      "scripts/nv-deepseek-fresh-dream-02/diagnostic.mjs": "1af38be0afa923a238450ce777ecbf0cf6ff36971f6fa04fd50231e163107f16",
+      "scripts/nv-deepseek-fresh-dream-02/entry.mjs": "8503eafe5e8dd11b5fdb5cfb5a6f33f4dc19c60d2cf78af648b243ed7f34ff59",
+      "scripts/nv-deepseek-fresh-dream-02/ledger.mjs": "ae4fe056064282a79db49959b26e055160ad385f79e8a172ef000516164fcb90",
+      "scripts/nv-deepseek-fresh-dream-02/local-http.mjs": "8138f1d73f2f4d659694bee1abb47991125189267e58c5ed6ace2306991079fc",
+      "scripts/nv-deepseek-fresh-dream-02/policy.mjs": "02b3d404e7354973f2c6ab530af0bec43c3ef6ee53e116870d5cf74db530a085",
+      "scripts/nv-deepseek-fresh-dream-02/runtime-graph.json": "9ea5e2de37153849d5ca477c3f9b26fbcadcc61c32b158e551ceeb134ad43c15",
+      "scripts/nv-deepseek-fresh-dream-02/runtime.mjs": "efdd82fa93449b23a0c2dd3a025d20f2cbb7788305827627cd24fd73fda83ee4",
+      "scripts/nv-deepseek-fresh-dream-02/session.mjs": "71c9e114ca7e00099fdb691af587f4a1c72620975bac5abd54c52879dd8f044f",
+      "scripts/nv-deepseek-fresh-dream-02/source.mjs": "0bb7b461eaa940a9ff3fbadb63d6aea86dd771a74592aec6c6c4f8233f682988",
+      "scripts/nv-deepseek-fresh-dream-02/worker.mjs": "51bd292f48565c50a88260799d920360bc12f30ee12b9d061b76b3cd56b878c8"
+    },
+    "codeHash": "a84faaf539a7954db713da092586940247fcd0496e2ab35148adc278cc354297",
+    "protocolIdentity": {
+      "promptCandidateHash": "c8e9bbd6963c89f5a3c90f0f411afc32d90a18961a9dca7a3a3a96b185da0043",
+      "evidenceEncodingVersion": "direct-quotation-interning-v1",
+      "affectEncodingVersion": "explicit-affect-union-v1",
+      "wakePolicyVersion": "saved-scene-excerpt-v1"
+    },
+    "legacyContractPath": "docs/proposals/inline-paid-entry-windows-20261017.json",
+    "legacyContractHash": "8c1d8a58070f5100de2714845754ceddac75f1de424656d52d26b59dcc1fcdef",
+    "legacyInventoryHash": "b4a06baeaeb4d9cf572bb349117d651db993957f413518a4b7ea1caf975a908d",
+    "legacyExpiresAt": 1792334940000,
+    "legacyReusable": false,
+    "oldSourceAdmissionChanged": false,
+    "priorOneDreamContractPath": "docs/proposals/deepseek-one-dream-20261025.json",
+    "priorOneDreamContractFileHash": "6e7940b2c4215fd2b27995a5548e54861a0aff7cee38e6fa66ce8748fadded84",
+    "priorOneDreamContractHash": "c3a87c6085a5551bd1622ad5303ab5f8f810ab02a2009b9fb1712b1c33ba84c5",
+    "priorOneDreamGraphPath": "scripts/nv-deepseek-one-dream/runtime-graph.json",
+    "priorOneDreamGraphHash": "70eccc5071db0215163e5c77ac3b5351c5b520c8e75f0fc64a1f40c5bb9e8e5d",
+    "priorOneDreamCodeHash": "2e86af02e666462900b8c81f495958d1c7d00eb93032b28d0ef7244289d85b42",
+    "priorOneDreamExpiresAt": 1792946700000,
+    "priorOneDreamReusable": false,
+    "priorOneDreamUnknownHoldMicroCny": "2100352"
+  },
+  "pricing": {
+    "currency": "CNY",
+    "checkedAt": 1792933819000,
+    "expiresAt": 1793020219000,
+    "rateBasis": "peak_cache_miss_upper_bound",
+    "inputMicroCnyPerMillion": 2000000,
+    "outputMicroCnyPerMillion": 8000000,
+    "contextTokenLimit": 1048576,
+    "inputTokenBound": 65536,
+    "inputTokenBoundBasis": "the 65,536-byte request cap is a conservative local input-token upper bound; tokenization cannot consume less than one UTF-8 byte per token",
+    "fullPerCallReservationMicroCny": "134272",
+    "aggregateThreeCallReservationMicroCny": "402816",
+    "aggregateCeilingMicroCny": "3000000",
+    "worstCaseFitsAggregateCeiling": true,
+    "actualAccountCurrencyVerified": false,
+    "automaticRenewal": false,
+    "references": [
+      "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
+      "https://api-docs.deepseek.com/api/list-models/"
+    ],
+    "observedAt": "2026-10-25T13:10:18.942Z",
+    "observedFrom": "2026-10-25T13:10:17.715Z",
+    "observedTo": "2026-10-25T13:10:18.942Z",
+    "publicDocsRecheck": {
+      "pricingStatus": 200,
+      "pricingBytes": 26182,
+      "pricingSha256": "556097caba8adfeeed6455714bffd731c7f60db520fcee06a922eba5840663a3",
+      "revisionMatched": true,
+      "ratesMatched": true,
+      "contextMatched": true,
+      "modelsApiRequestMade": false,
+      "providerRequestMade": false
+    },
+    "uncertainty": {
+      "providerUsageAndBillUnknown": true,
+      "noServerSideOutputCap": true,
+      "localTokenBoundOnly": true,
+      "mutableModelAlias": true,
+      "priceSnapshotIsNotFutureRateLock": true
+    }
+  },
+  "limits": {
+    "additionalBudgetMicroCny": "3000000",
+    "maxRuns": 1,
+    "maxCalls": 3,
+    "scenes": 2,
+    "wakeCalls": 1,
+    "perCallOutputTokens": 400,
+    "requestBytes": 65536,
+    "localInputTokenBound": 65536,
+    "responseJsonBytes": 1200,
+    "aggregateWorstCaseMicroCny": "402816",
+    "worstCaseFitsAggregateCeiling": true
+  },
+  "history": {
+    "requiredLegacyAccounts": 5,
+    "legacyUnknownHolds": 5,
+    "legacyReservedMicroCny": "10913152",
+    "legacyHeldMicroCny": "10913152",
+    "publicRowIdentitiesDisclosed": false,
+    "initialVerification": "owner_locked_local_group_counts_and_amounts",
+    "privateBaselineSchemaVersion": 2,
+    "privateBaselineScope": "all_legacy_account_hashes_plus_full_unknown_row_identities_in_local_authorization_only",
+    "providerChargeKnown": false,
+    "preserveEveryOldAccount": true,
+    "preserveEachOriginalIdentity": true,
+    "releaseOrSettlementAuthorized": false,
+    "captureBaseline": "under_owner_before_new_account",
+    "reopenPolicy": "strict_compare_persisted_full_private_baseline_never_recapture",
+    "separateAllowanceId": "nv-deepseek-fresh-dream-02-20261025",
+    "separateAuthorizationField": "nvDeepSeekFreshDream02Authorization",
+    "unknownHoldGroups": [
+      {
+        "kind": "four_earlier_independent_unknowns",
+        "accounts": 4,
+        "holds": 4,
+        "eachReservedMicroCny": "2203200",
+        "eachChargedMicroCny": "2203200",
+        "reservedMicroCny": "8812800",
+        "chargedMicroCny": "8812800",
+        "heldMicroCny": "8812800",
+        "releaseOrSettlementAuthorized": false
+      },
+      {
+        "kind": "later_one_dream_unknown",
+        "accounts": 1,
+        "holds": 1,
+        "eachReservedMicroCny": "2100352",
+        "eachChargedMicroCny": "2100352",
+        "reservedMicroCny": "2100352",
+        "chargedMicroCny": "2100352",
+        "heldMicroCny": "2100352",
+        "releaseOrSettlementAuthorized": false
+      }
+    ]
+  },
+  "control": {
+    "automaticRetry": false,
+    "repairCalls": false,
+    "continuesPriorRun": false,
+    "resume": "explicit_settled_committed_prefix_only",
+    "cancel": "suppress_late_body_and_keep_ambiguous_full_hold",
+    "sourceWithdrawal": "block_and_purge_managed_bodies",
+    "originalDream": "immutable_separate_from_wake_recollection_and_continuation"
+  },
+  "credential": {
+    "channel": "one_shot_parent_to_child_private_pipe",
+    "readOnlyAfter": [
+      "exact_contract_confirmation",
+      "source_and_loader_checks",
+      "owner_locked_history_and_budget",
+      "next_request_bytes"
+    ],
+    "inheritedEnvironment": false,
+    "persist": false,
+    "log": false,
+    "replayRequiresKey": false
+  },
+  "delivery": {
+    "readerPath": "scripts/dreambook-view-html.mjs",
+    "readerRequiresProviderLabel": false,
+    "internalReceiptsMayNameProvider": true,
+    "mustPreserveOriginalAndWakeTypes": true
+  },
+  "blockers": [
+    "fresh_explicit_contract_approval_required",
+    "user_account_currency_confirmation_required",
+    "provider_usage_and_bill_remain_unknown",
+    "mutable_model_alias_requires_reconfirmation",
+    "no_server_side_output_cap_local_bound_only"
+  ],
+  "paidEvaluationApproved": false,
+  "fictionalEgressApproved": false,
+  "liveEntryAvailable": true,
+  "implementationReady": true,
+  "qualityAssessed": false,
+  "semanticSupport": "not_assessed"
+}
