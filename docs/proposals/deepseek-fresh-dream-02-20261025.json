@@ -44,23 +44,23 @@
     "kind": "independent_fresh_dream_02_surface",
     "entry": "scripts/nv-deepseek-fresh-dream-02/session.mjs",
     "graphPath": "scripts/nv-deepseek-fresh-dream-02/runtime-graph.json",
-    "graphHash": "91b089700fe90f125147a01ca8b9535ebf6d38b046b4e8d0a7f2bd6233c9adea",
+    "graphHash": "8455802749e85b3be6cd060f5c76b2c9c341954916d6f381b40b4d1dc30be8c2",
     "codeFiles": {
-      "scripts/nv-deepseek-fresh-dream-02/authorization.mjs": "b6fbc265999b74c9892e97c71f0683c7041775b6b3754f034fb125258d2cb47f",
+      "scripts/nv-deepseek-fresh-dream-02/authorization.mjs": "ff98d58c036055f47159ee1d89f0de129a4fdd540f569b6a2ac49ba93f77f2a5",
       "scripts/nv-deepseek-fresh-dream-02/client.mjs": "32a50710cae0fe6593483ea7d7b06ae78c8032f62b0fc8773c23986e36d29a26",
-      "scripts/nv-deepseek-fresh-dream-02/contract.mjs": "c10ae15159b570031c9cf567e6239c63265c1f308e73a0ad14be1c96eef78753",
+      "scripts/nv-deepseek-fresh-dream-02/contract.mjs": "bbf48d963a4748930e09d82f83facfba03ccf9b3fd9b9855e61968d0bd82ffd0",
       "scripts/nv-deepseek-fresh-dream-02/diagnostic.mjs": "1af38be0afa923a238450ce777ecbf0cf6ff36971f6fa04fd50231e163107f16",
       "scripts/nv-deepseek-fresh-dream-02/entry.mjs": "8503eafe5e8dd11b5fdb5cfb5a6f33f4dc19c60d2cf78af648b243ed7f34ff59",
       "scripts/nv-deepseek-fresh-dream-02/ledger.mjs": "ae4fe056064282a79db49959b26e055160ad385f79e8a172ef000516164fcb90",
       "scripts/nv-deepseek-fresh-dream-02/local-http.mjs": "8138f1d73f2f4d659694bee1abb47991125189267e58c5ed6ace2306991079fc",
       "scripts/nv-deepseek-fresh-dream-02/policy.mjs": "02b3d404e7354973f2c6ab530af0bec43c3ef6ee53e116870d5cf74db530a085",
-      "scripts/nv-deepseek-fresh-dream-02/runtime-graph.json": "91b089700fe90f125147a01ca8b9535ebf6d38b046b4e8d0a7f2bd6233c9adea",
+      "scripts/nv-deepseek-fresh-dream-02/runtime-graph.json": "8455802749e85b3be6cd060f5c76b2c9c341954916d6f381b40b4d1dc30be8c2",
       "scripts/nv-deepseek-fresh-dream-02/runtime.mjs": "efdd82fa93449b23a0c2dd3a025d20f2cbb7788305827627cd24fd73fda83ee4",
       "scripts/nv-deepseek-fresh-dream-02/session.mjs": "71c9e114ca7e00099fdb691af587f4a1c72620975bac5abd54c52879dd8f044f",
       "scripts/nv-deepseek-fresh-dream-02/source.mjs": "0bb7b461eaa940a9ff3fbadb63d6aea86dd771a74592aec6c6c4f8233f682988",
       "scripts/nv-deepseek-fresh-dream-02/worker.mjs": "51bd292f48565c50a88260799d920360bc12f30ee12b9d061b76b3cd56b878c8"
     },
-    "codeHash": "58089a0c227496156922dc2a0077e6ce48bca79ca2e8165f6b1a3e61fce41d97",
+    "codeHash": "ca81ab9f759a6ea5a3f6de55e605b7920d23c600430d6ea9ad1649defad25f77",
     "protocolIdentity": {
       "promptCandidateHash": "c8e9bbd6963c89f5a3c90f0f411afc32d90a18961a9dca7a3a3a96b185da0043",
       "evidenceEncodingVersion": "direct-quotation-interning-v1",
@@ -140,105 +140,40 @@
   "history": {
     "requiredLegacyAccounts": 5,
     "legacyUnknownHolds": 5,
+    "legacyReservedMicroCny": "10913152",
     "legacyHeldMicroCny": "10913152",
-    "reviewedUnknownRows": [
-      {
-        "accountId": "compact-appraisal-trial-20261015",
-        "requestId": "stage-old-failed-scene-0",
-        "runId": "old-failed",
-        "fingerprint": "8bb422c5c4d4a79a233b38b813c66472201b9f70d947ae8fa3c55f340cec6250",
-        "sourceRefs": [
-          {
-            "id": "q-sparse-memory",
-            "version": "1"
-          }
-        ],
-        "status": "unknown",
-        "reservedMicroCny": "2203200",
-        "chargedMicroCny": "2203200"
-      },
-      {
-        "accountId": "compact-single-scene-diagnostic-20261015",
-        "requestId": "compact-single-scene-diagnostic-20261015-scene-0",
-        "runId": "compact-single-scene-diagnostic-20261015",
-        "fingerprint": "72a97c077f4bd55616a718dc372245655b10fac89d915e26f878bc5a8793f851",
-        "sourceRefs": [
-          {
-            "id": "q-sparse-memory",
-            "version": "1"
-          }
-        ],
-        "status": "unknown",
-        "reservedMicroCny": "2203200",
-        "chargedMicroCny": "2203200"
-      },
-      {
-        "accountId": "nv-deepseek-one-dream-20261025",
-        "requestId": "stage-prior-one-dream-run-scene-0",
-        "runId": "prior-one-dream-run",
-        "fingerprint": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-        "sourceRefs": [
-          {
-            "id": "fiction-night-station-source",
-            "version": "1"
-          }
-        ],
-        "status": "unknown",
-        "reservedMicroCny": "2100352",
-        "chargedMicroCny": "2100352"
-      },
-      {
-        "accountId": "pruned-v2-dream-trial-20261015",
-        "requestId": "stage-synthetic-pruned-failure-scene-0",
-        "runId": "synthetic-pruned-failure",
-        "fingerprint": "922079d4d114e9d2632ee00fc21e8c320e24d2bee87cc26720017a9fd8e27209",
-        "sourceRefs": [
-          {
-            "id": "q-sparse-memory",
-            "version": "1"
-          }
-        ],
-        "status": "unknown",
-        "reservedMicroCny": "2203200",
-        "chargedMicroCny": "2203200"
-      },
-      {
-        "accountId": "scene-continuity-dream-trial-20261016",
-        "requestId": "stage-synthetic-entry-history-run-scene-0",
-        "runId": "synthetic-entry-history-run",
-        "fingerprint": "810d243141e4c7f5e038a6afe7306115782cc53f0ada5b2c23534d9554c43408",
-        "sourceRefs": [
-          {
-            "id": "q-sparse-memory",
-            "version": "1"
-          }
-        ],
-        "status": "unknown",
-        "reservedMicroCny": "2203200",
-        "chargedMicroCny": "2203200"
-      }
-    ],
-    "reviewedUnknownRowCount": 5,
-    "reviewedUnknownRowsHash": "3aa18c454d0013623d430375a2ee7368200ce3d3cf3ba38fac5864d5abc87dbf",
-    "unknownRowVerification": "exact_account_row_status_and_amounts_before_first_authorization",
+    "publicRowIdentitiesDisclosed": false,
+    "initialVerification": "owner_locked_local_group_counts_and_amounts",
+    "privateBaselineSchemaVersion": 2,
+    "privateBaselineScope": "all_legacy_account_hashes_plus_full_unknown_row_identities_in_local_authorization_only",
     "providerChargeKnown": false,
     "preserveEveryOldAccount": true,
     "preserveEachOriginalIdentity": true,
     "releaseOrSettlementAuthorized": false,
     "captureBaseline": "under_owner_before_new_account",
-    "reopenPolicy": "compare_persisted_baseline_never_recapture",
+    "reopenPolicy": "strict_compare_persisted_full_private_baseline_never_recapture",
     "separateAllowanceId": "nv-deepseek-fresh-dream-02-20261025",
     "separateAuthorizationField": "nvDeepSeekFreshDream02Authorization",
     "unknownHoldGroups": [
       {
         "kind": "four_earlier_independent_unknowns",
         "accounts": 4,
+        "holds": 4,
+        "eachReservedMicroCny": "2203200",
+        "eachChargedMicroCny": "2203200",
+        "reservedMicroCny": "8812800",
+        "chargedMicroCny": "8812800",
         "heldMicroCny": "8812800",
         "releaseOrSettlementAuthorized": false
       },
       {
         "kind": "later_one_dream_unknown",
-        "allowanceId": "nv-deepseek-one-dream-20261025",
+        "accounts": 1,
+        "holds": 1,
+        "eachReservedMicroCny": "2100352",
+        "eachChargedMicroCny": "2100352",
+        "reservedMicroCny": "2100352",
+        "chargedMicroCny": "2100352",
         "heldMicroCny": "2100352",
         "releaseOrSettlementAuthorized": false
       }

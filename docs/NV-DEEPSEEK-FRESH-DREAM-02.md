@@ -36,16 +36,16 @@ local loopback stand-in.
 | --- | --- |
 | Contract | `docs/proposals/deepseek-fresh-dream-02-20261025.json` |
 | Contract id | `nv-deepseek-fresh-dream-02-fresh-admission-20261025` |
-| Contract hash | `d05144631becd68bfd1be06779159211fc771fd342d3b854acd5bdbbb2ea1104` |
-| Contract file SHA-256 | `3bbd2c85e8d5746808f0716bdde889f220cbf157d95f1513fe3a3097514002c9` |
+| Contract hash | `b178e6a2e86d8d21f33a345eac85516f359dde4df33429194d2e34bacb204fa2` |
+| Contract file SHA-256 | `4ffac3939daf579f81689787b68110b6978ad9df139c2c5619c3147c98c4f1ff` |
 | Fixture | `examples/deepseek-fresh-dream-02-20261025.json` |
 | Fixture id | `fictional-glass-orchard-20261025` |
 | Fixture snapshot hash | `694265fed23ae52c407bf5f584056415ca1177d64f8648fa6ecbb7ecc37b1124` |
 | Fixture file hash | `00bb025ccf4978ce8a4f665d30e55938e22f96c9cdac6c16065db2bec7e5aae1` |
 | Source graph | `scripts/nv-deepseek-fresh-dream-02/runtime-graph.json` |
-| Graph hash | `91b089700fe90f125147a01ca8b9535ebf6d38b046b4e8d0a7f2bd6233c9adea` |
-| Code hash | `58089a0c227496156922dc2a0077e6ce48bca79ca2e8165f6b1a3e61fce41d97` |
-| Reviewed unknown rows hash | `3aa18c454d0013623d430375a2ee7368200ce3d3cf3ba38fac5864d5abc87dbf` |
+| Graph hash | `8455802749e85b3be6cd060f5c76b2c9c341954916d6f381b40b4d1dc30be8c2` |
+| Code hash | `ca81ab9f759a6ea5a3f6de55e605b7920d23c600430d6ea9ad1649defad25f77` |
+| Public legacy row identities | not disclosed |
 | Allowance | `nv-deepseek-fresh-dream-02-20261025` |
 | Authorization field | `nvDeepSeekFreshDream02Authorization` |
 
@@ -54,15 +54,21 @@ fixture source is `fiction-glass-orchard-source` and is independently fictional.
 Hashes are identity pins, not approval, quality evidence or a successful provider
 receipt.
 
-The contract now names all five historical `unknown` rows in
-`history.reviewedUnknownRows`. First `init` must match each account id, request id,
-run id, fingerprint, source reference, `unknown` status, reserved amount and charged
-amount before it captures the baseline. The five rows are exactly the four earlier
-`q-sparse-memory@1` holds and the later `fiction-night-station-source@1` hold,
-totalling `10913152` micro-CNY. Missing any row, adding an undeclared `unknown`, or
-changing an amount fails before a new authorization or allowance can be created.
-Reopen continues to compare the already-captured whole-account fingerprint baseline
-instead of recapturing it.
+The public contract discloses only the preserved history's group shape:
+four earlier independent `unknown` holds at `2203200` micro-CNY each, one later
+one-dream `unknown` hold at `2100352` micro-CNY, and the exact total `10913152`
+micro-CNY. It does not disclose any account, request, run, fingerprint or source
+identity for those five rows.
+
+During first `init`, inside the local Store owner lock, the implementation verifies
+that the actual history has five `unknown` rows in five distinct legacy accounts and
+that the rows form exactly those two cardinality and amount groups. It then seals a
+schema-2 baseline privately in the local authorization record: hashes of every
+legacy account plus the complete account/request/run/fingerprint/source identity of
+all five `unknown` rows. Missing the fifth row, adding an undeclared `unknown`,
+changing a group amount or reaching an invalid row shape fails before a new
+authorization, allowance or commit phase is created. Reopen strictly compares the
+current complete private baseline with the sealed baseline and never recaptures it.
 
 Validity is `2026-10-25T13:10:19Z` through `2026-10-26T13:10:19Z`. The public
 DeepSeek Chinese pricing page was read without authentication from
@@ -127,20 +133,24 @@ Recorded on Windows x64 with Node `v24.19.0`:
 
 | Gate | Result | Exit | Duration |
 | --- | --- | --- | --- |
-| New targeted suite | 24/24, zero failures/cancellations/skips | 0 | 102585.1071 ms |
-| Six-file targeted suites | 100/100, zero failures/cancellations/skips | 0 | 118033.7106 ms |
-| Complete `node --test` | 1979/1979, zero failures/cancellations/skips | 0 | 527945.1215 ms |
+| New targeted suite | 25/25, zero failures/cancellations/skips | 0 | 101484.3833 ms |
+| Six-file targeted suites | 101/101, zero failures/cancellations/skips | 0 | 129120.6057 ms |
+| Complete `node --test` | 1980/1980, zero failures/cancellations/skips | 0 | 481832.7153 ms |
 
 The no-Key fresh checker, earlier one-dream checker and failure-diagnostics
 checker all passed with exit `0`. The inline entry dependency gate passed with
 33 parsed modules, 184 static edges and 4 allowed builtins. Source-graph
 regeneration reproduced 47 files, 8 builtins and the pinned graph hash.
 
-The review-fix suite adds two independent history negatives (missing fifth row and
-changed fifth-row amount) plus four local HTTPS transport negatives. Each history
-negative proves that no authorization, allowance or commit phase was reached. The
-old accounts remain byte-identical apart from the deliberate temp-fixture mutation
-inside that negative test; production code does not repair or rewrite them.
+The review-fix suite randomizes all five legacy row identities before first
+authorization, proves those identities appear nowhere in the public contract, and
+verifies that the complete randomized baseline is sealed locally. It then mutates
+the sealed fifth row and proves reopen reports a strict-comparison failure. Separate
+independent negatives delete the fifth row and change its amount; both fail before
+authorization, allowance or commit, with no mutation left outside the temporary
+fixture. Four local HTTPS transport negatives remain independent. The old accounts
+in the real Store were not read or altered; production code does not repair, release
+or rewrite preserved history.
 
 Sensitive-material scanning found no real Key, production private-key,
 GitHub-token or provider-token pattern in the new package. The embedded PFX is a

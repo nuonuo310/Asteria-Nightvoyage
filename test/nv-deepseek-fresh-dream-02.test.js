@@ -8,7 +8,7 @@ import {Store} from '../src/store.js';
 import {Nightvoyage} from '../src/engine.js';
 import {LocalFileAppraisalReviewAdapter} from '../src/appraisal-review-adapter.js';
 import {readOneDreamContract,validateOneDreamContract,oneDreamFixtureSummary} from '../scripts/nv-deepseek-fresh-dream-02/contract.mjs';
-import {initOneDreamAuthorization} from '../scripts/nv-deepseek-fresh-dream-02/authorization.mjs';
+import {initOneDreamAuthorization,readOneDreamAuthorization} from '../scripts/nv-deepseek-fresh-dream-02/authorization.mjs';
 import {providerResponse} from '../scripts/nv-deepseek-fresh-dream-02/client.mjs';
 import {DiagnosticOneDreamRuntime} from '../scripts/nv-deepseek-fresh-dream-02/diagnostic.mjs';
 import {OneDreamLedger} from '../scripts/nv-deepseek-fresh-dream-02/ledger.mjs';
@@ -19,7 +19,7 @@ import {oneDreamAllowanceId,oneDreamAuthorizationField,oneDreamLocalCredential,o
 import {verifyOneDreamGraph} from '../scripts/nv-deepseek-fresh-dream-02/source.mjs';
 import {classifyFailure,classifyNativeTransport} from '../scripts/nv-deepseek-failure-diagnostics/classify.mjs';
 import {diagnosticJournalPath,readDiagnosticReceipts} from '../scripts/nv-deepseek-failure-diagnostics/journal.mjs';
-import {prepareFreshDream02History,freshDreamTestNow,priorOneDreamAllowanceId} from '../test-support/nv-fresh-dream-02-fixtures.mjs';
+import {prepareFreshDream02History,freshDreamTestNow,priorOneDreamAllowanceId,randomizeLegacyUnknownIdentities} from '../test-support/nv-fresh-dream-02-fixtures.mjs';
 import {createLocalHttpsPeer,localHttpsCa} from '../test-support/nv-fresh-dream-02-https-fixture.mjs';
 import {dreambookCatalog,runDreambook} from '../scripts/dreambook.mjs';
 import {readDreambookView,readDreambookLaterRecords} from '../scripts/dreambook-view-records.mjs';
@@ -96,15 +96,23 @@ test('fresh contract pins exact alias, rates, local hold bound, source graph, an
   assert.equal(contract.limits.additionalBudgetMicroCny,'3000000');
   assert.equal(contract.history.requiredLegacyAccounts,5);
   assert.equal(contract.history.legacyUnknownHolds,5);
+  assert.equal(contract.history.legacyReservedMicroCny,'10913152');
   assert.equal(contract.history.legacyHeldMicroCny,'10913152');
+  assert.equal(contract.history.publicRowIdentitiesDisclosed,false);
+  assert.equal(contract.history.privateBaselineSchemaVersion,2);
+  assert.equal(contract.history.unknownHoldGroups.length,2);
   assert.equal(contract.history.unknownHoldGroups[0].heldMicroCny,'8812800');
   assert.equal(contract.history.unknownHoldGroups[1].heldMicroCny,'2100352');
-  assert.equal(contract.history.unknownHoldGroups[1].allowanceId,priorOneDreamAllowanceId);
-  assert.equal(contract.history.reviewedUnknownRows.length,5);
-  assert.equal(contract.history.reviewedUnknownRowCount,5);
-  assert.match(contract.history.reviewedUnknownRowsHash,/^[a-f0-9]{64}$/);
-  assert.deepEqual(contract.history.reviewedUnknownRows.at(-2),{accountId:'pruned-v2-dream-trial-20261015',requestId:'stage-synthetic-pruned-failure-scene-0',runId:'synthetic-pruned-failure',fingerprint:'922079d4d114e9d2632ee00fc21e8c320e24d2bee87cc26720017a9fd8e27209',sourceRefs:[{id:'q-sparse-memory',version:'1'}],status:'unknown',reservedMicroCny:'2203200',chargedMicroCny:'2203200'});
-  assert.deepEqual(contract.history.reviewedUnknownRows.at(-1),{accountId:'scene-continuity-dream-trial-20261016',requestId:'stage-synthetic-entry-history-run-scene-0',runId:'synthetic-entry-history-run',fingerprint:'810d243141e4c7f5e038a6afe7306115782cc53f0ada5b2c23534d9554c43408',sourceRefs:[{id:'q-sparse-memory',version:'1'}],status:'unknown',reservedMicroCny:'2203200',chargedMicroCny:'2203200'});
+  assert.deepEqual(contract.history.unknownHoldGroups.map(group=>[group.kind,group.accounts,group.holds,group.eachReservedMicroCny,group.eachChargedMicroCny,group.heldMicroCny]),[
+    ['four_earlier_independent_unknowns',4,4,'2203200','2203200','8812800'],
+    ['later_one_dream_unknown',1,1,'2100352','2100352','2100352']
+  ]);
+  assert.equal(Object.hasOwn(contract.history,'reviewedUnknownRows'),false);
+  assert.equal(Object.hasOwn(contract.history,'reviewedUnknownRowsHash'),false);
+  assert.equal(Object.hasOwn(contract.history.unknownHoldGroups[1],'allowanceId'),false);
+  const historyText=JSON.stringify(contract.history);
+  for(const marker of ['compact-appraisal-trial-20261015','stage-old-failed-scene-0','old-failed','8bb422c5c4d4a79a233b38b813c66472201b9f70d947ae8fa3c55f340cec6250',priorOneDreamAllowanceId,'prior-one-dream-run','b'.repeat(64),'q-sparse-memory','fiction-night-station-source'])assert.equal(historyText.includes(marker),false,marker);
+  assert.equal(/[a-f0-9]{64}/.test(historyText),false);
   assert.equal(contract.source.legacyReusable,false);
   assert.equal(contract.source.priorOneDreamReusable,false);
   assert.equal(contract.source.priorOneDreamUnknownHoldMicroCny,'2100352');
@@ -150,8 +158,10 @@ test('offline rehearsal saves two ordered scenes and one wake with a separate al
     assert.deepEqual(store.state.billing.accounts[priorOneDreamAllowanceId],h.oldAccounts[priorOneDreamAllowanceId]);
     assert.equal(store.state[oneDreamAuthorizationField].mode,'stub');
     assert.equal(store.state[oneDreamAuthorizationField].terms.dispatchKind,'rehearsal');
-    assert.equal(store.state[oneDreamAuthorizationField].terms.baseline.unknownRows.length,5);
-    assert.equal(store.state[oneDreamAuthorizationField].terms.baseline.unknownHeldMicroCny,'10913152');
+    const baseline=store.state[oneDreamAuthorizationField].terms.baseline;
+    assert.equal(baseline.schemaVersion,2);assert.equal(baseline.unknownRows.length,5);assert.equal(baseline.unknownAccounts,5);
+    assert.equal(baseline.unknownReservedMicroCny,'10913152');assert.equal(baseline.unknownChargedMicroCny,'10913152');
+    assert.ok(baseline.unknownRows.every(row=>Object.keys(row).length===8&&row.fingerprint.length===64&&row.sourceRefs.length>0));
   }finally{store.close();}
 });
 
@@ -278,10 +288,30 @@ test('authorization is one-use and duplicate init reuses the same independent ru
   }finally{store.close();}
 });
 
-test('first live init rejects a missing fifth reviewed unknown before creating authorization or allowance',t=>{
+test('first live init accepts randomized legacy identities, seals their full local baseline, and rejects reopen mutation',t=>{
   const h=prepareFreshDream02History(t,{mode:'live',authorize:false}),store=new Store(h.directory);
   try{
-    delete store.state.billing.accounts[priorOneDreamAllowanceId].attempts['stage-prior-one-dream-run-scene-0'];store.save();
+    const randomized=randomizeLegacyUnknownIdentities(store),contractText=fs.readFileSync(path.join(root,'docs/proposals/deepseek-fresh-dream-02-20261025.json'),'utf8');
+    assert.equal(randomized.length,5);assert.equal(new Set(randomized.map(row=>row.accountId)).size,5);
+    for(const row of randomized)for(const value of [row.accountId,row.requestId,row.runId,row.fingerprint,row.sourceId])assert.equal(contractText.includes(value),false,value);
+    const record=initOneDreamAuthorization(store,{confirmation:h.confirmation,mode:'live',now});
+    assert.equal(record.mode,'live');
+    const baseline=store.state[oneDreamAuthorizationField].terms.baseline;
+    assert.equal(baseline.schemaVersion,2);assert.equal(baseline.unknownRows.length,5);assert.equal(baseline.unknownAccounts,5);
+    assert.equal(baseline.unknownReservedMicroCny,'10913152');assert.equal(baseline.unknownChargedMicroCny,'10913152');
+    const current=Object.entries(store.state.billing.accounts).filter(([id])=>id!==oneDreamAllowanceId).flatMap(([accountId,account])=>Object.values(account?.attempts??{}).filter(row=>row?.status==='unknown').map(row=>({accountId,requestId:row.requestId,runId:row.runId,fingerprint:row.fingerprint,sourceRefs:structuredClone(row.sourceRefs),status:row.status,reservedMicroCny:row.reservedMicroCny,chargedMicroCny:row.chargedMicroCny}))).sort((a,b)=>`${a.accountId}\0${a.requestId}`.localeCompare(`${b.accountId}\0${b.requestId}`,'en'));
+    assert.deepEqual(baseline.unknownRows,current);
+    const fifth=baseline.unknownRows.find(row=>row.chargedMicroCny==='2100352');assert.ok(fifth);
+    store.state.billing.accounts[fifth.accountId].attempts[fifth.requestId].sourceRefs[0].id='changed-local-source';store.save();
+    assert.throws(()=>readOneDreamAuthorization(store,{now}),/one_dream_legacy_history_changed/);
+  }finally{store.close();}
+});
+
+test('first live init rejects a randomized history missing its fifth unknown before creating authorization or allowance',t=>{
+  const h=prepareFreshDream02History(t,{mode:'live',authorize:false}),store=new Store(h.directory);
+  try{
+    const randomized=randomizeLegacyUnknownIdentities(store),fifth=randomized.find(row=>row.chargedMicroCny==='2100352');assert.ok(fifth);
+    delete store.state.billing.accounts[fifth.accountId].attempts[fifth.requestId];store.save();
     const mutated=structuredClone(store.state.billing.accounts);let committed=false;
     assert.throws(()=>initOneDreamAuthorization(store,{confirmation:h.confirmation,mode:'live',now,fault:phase=>{if(phase.includes('authorization_commit'))committed=true;}}),/one_dream_history_unknown_mismatch/);
     assert.equal(committed,false);assert.equal(store.state[oneDreamAuthorizationField],undefined);assert.equal(store.state.billing.accounts[oneDreamAllowanceId],undefined);
@@ -289,10 +319,11 @@ test('first live init rejects a missing fifth reviewed unknown before creating a
   }finally{store.close();}
 });
 
-test('first live init rejects a changed historical unknown amount before creating authorization or allowance',t=>{
+test('first live init rejects a randomized history with a changed fifth-row amount before creating authorization or allowance',t=>{
   const h=prepareFreshDream02History(t,{mode:'live',authorize:false}),store=new Store(h.directory);
   try{
-    store.state.billing.accounts[priorOneDreamAllowanceId].attempts['stage-prior-one-dream-run-scene-0'].chargedMicroCny='2100351';store.save();
+    const randomized=randomizeLegacyUnknownIdentities(store),fifth=randomized.find(row=>row.chargedMicroCny==='2100352');assert.ok(fifth);
+    store.state.billing.accounts[fifth.accountId].attempts[fifth.requestId].chargedMicroCny='2100351';store.save();
     const mutated=structuredClone(store.state.billing.accounts);let committed=false;
     assert.throws(()=>initOneDreamAuthorization(store,{confirmation:h.confirmation,mode:'live',now,fault:phase=>{if(phase.includes('authorization_commit'))committed=true;}}),/one_dream_history_unknown_mismatch/);
     assert.equal(committed,false);assert.equal(store.state[oneDreamAuthorizationField],undefined);assert.equal(store.state.billing.accounts[oneDreamAllowanceId],undefined);
