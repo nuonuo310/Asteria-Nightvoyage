@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 1,
+  "kind": "nv_deepseek_one_dream_offline_validation",
+  "status": "OFFLINE_READY_AWAITING_FRESH_APPROVAL",
+  "authority": {
+    "constructionPath": "docs/construction-envelopes/2026-10-24-deepseek-one-dream-v1.md",
+    "pullRequest": 89,
+    "constructionHead": "c3e5cdaf366961f5d7ae3cee1e54f673c2701a04",
+    "baseCommit": "dfe56712ebe2384b3f385a4867f8a4e08b5aedfa",
+    "branch": "deepseek/nightvoyage-nv-deepseek-one-dream-01"
+  },
+  "contract": {
+    "path": "docs/proposals/deepseek-one-dream-20261025.json",
+    "id": "nv-deepseek-one-dream-fresh-admission-20261025",
+    "hash": "c3a87c6085a5551bd1622ad5303ab5f8f810ab02a2009b9fb1712b1c33ba84c5",
+    "paidEvaluationApproved": false,
+    "fictionalEgressApproved": false,
+    "liveEntryAvailable": true,
+    "implementationReady": true
+  },
+  "fixture": {
+    "path": "examples/deepseek-one-dream-20261025.json",
+    "snapshotHash": "401d3ae218ebe569d33f85c2ae2a35e82cf87837c108f4f83dc12210495f4f7c",
+    "fileHash": "9d5f8dabe6a8db6f6bc62862f389a9885581d18611d0f61f024d63e988e093a9",
+    "materialKind": "fictional",
+    "generatedEventOrigin": "dream",
+    "isRealityFact": false,
+    "sourceRefs": 1
+  },
+  "sourceIdentity": {
+    "entry": "scripts/nv-deepseek-one-dream/session.mjs",
+    "graphPath": "scripts/nv-deepseek-one-dream/runtime-graph.json",
+    "graphHash": "70eccc5071db0215163e5c77ac3b5351c5b520c8e75f0fc64a1f40c5bb9e8e5d",
+    "codeHash": "2e86af02e666462900b8c81f495958d1c7d00eb93032b28d0ef7244289d85b42",
+    "graphFiles": 43,
+    "graphBuiltins": 8,
+    "graphKind": "parse_only_static_esm_graph",
+    "dynamicImportClosureProved": false
+  },
+  "pricing": {
+    "currency": "CNY",
+    "provider": "DeepSeek",
+    "endpoint": "https://api.deepseek.com/chat/completions",
+    "model": "deepseek-flash",
+    "observedRevision": "DeepSeek-V4.1-Flash-1017",
+    "rateBasis": "peak_cache_miss_upper_bound",
+    "inputMicroCnyPerMillion": 2000000,
+    "outputMicroCnyPerMillion": 8000000,
+    "contextTokenLimit": 1048576,
+    "fullPerCallReservationMicroCny": "2100352",
+    "checkedAt": "2026-10-24T16:45:00Z",
+    "expiresAt": "2026-10-25T16:45:00Z",
+    "publicDocsRecheck": {
+      "observedFrom": "2026-10-24T17:46:04Z",
+      "observedTo": "2026-10-24T17:46:06Z",
+      "pricingStatus": 200,
+      "pricingBytes": 26182,
+      "modelsDocStatus": 200,
+      "modelsDocBytes": 40842,
+      "revisionMatched": true,
+      "ratesMatched": true,
+      "contextMatched": true,
+      "modelsApiRequestMade": false,
+      "providerRequestMade": false
+    }
+  },
+  "limits": {
+    "maxRuns": 1,
+    "maxCalls": 3,
+    "scenes": 2,
+    "wakeCalls": 1,
+    "perCallOutputTokens": 400,
+    "aggregateBudgetMicroCny": "3000000",
+    "aggregateBudgetCny": 3
+  },
+  "oldBoundary": {
+    "oldContractHash": "8c1d8a58070f5100de2714845754ceddac75f1de424656d52d26b59dcc1fcdef",
+    "oldInventoryHash": "b4a06baeaeb4d9cf572bb349117d651db993957f413518a4b7ea1caf975a908d",
+    "oldExpiresAt": "2026-10-18T14:49:00Z",
+    "oldUnknownHolds": 4,
+    "oldHeldMicroCny": "8812800",
+    "oldContractReused": false,
+    "oldSourceAdmissionChanged": false,
+    "syntheticOldAccountsUnchanged": true,
+    "userStoreAccessed": false
+  },
+  "offlineChecker": {
+    "command": "node scripts/check-nv-deepseek-one-dream.mjs",
+    "exitCode": 0,
+    "status": "passed",
+    "rehearsalStatus": "completed",
+    "scenesSaved": 2,
+    "wakeSaved": true,
+    "settledCalls": 3,
+    "syntheticUsageMicroCny": "3240",
+    "loopbackPosts": 3,
+    "credentialSupplierCalls": 0,
+    "providerNetworkRequests": 0,
+    "replayCredentialSupplierCalls": 0,
+    "readerProviderOrModelLabelVisible": false,
+    "preflightReason": "completed_replay_available",
+    "liveRequestStarted": false,
+    "qualityAssessed": false,
+    "semanticSupport": "not_assessed"
+  },
+  "tests": {
+    "environment": {
+      "node": "v24.19.0",
+      "platform": "win32",
+      "arch": "x64"
+    },
+    "newSuite": {
+      "command": "node --test test/nv-deepseek-one-dream.test.js",
+      "tests": 15,
+      "pass": 15,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "durationMs": 39055.8591,
+      "exitCode": 0
+    },
+    "targeted": {
+      "command": "node --test test/nv-deepseek-one-dream.test.js test/dreambook-view.test.js test/dreambook-reader.test.js test/inline-paid-entry.test.js",
+      "tests": 58,
+      "pass": 58,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "durationMs": 42470.1086,
+      "exitCode": 0
+    },
+    "full": {
+      "command": "node --test",
+      "tests": 1937,
+      "pass": 1937,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "durationMs": 485487.505,
+      "exitCode": 0,
+      "windowsSymlinkEpermFailures": 0
+    },
+    "developmentRun": {
+      "command": "node --test",
+      "tests": 1937,
+      "pass": 1936,
+      "fail": 1,
+      "exitCode": 1,
+      "failure": "timeout test polling window expired under suite-wide load before loopback receipt",
+      "resolution": "replaced polling race with deterministic 100 ms timeout and 300 ms late controlled response; implementation and contract pins unchanged"
+    }
+  },
+  "safety": {
+    "loginPerformed": false,
+    "realApiKeyRead": false,
+    "initPerformed": false,
+    "liveRunPerformed": false,
+    "realModelRequestMade": false,
+    "paidApiCallMade": false,
+    "userStoreRead": false,
+    "phaseOneModified": false,
+    "oldContractModified": false,
+    "oldAuthorizationModified": false,
+    "oldLedgerModified": false,
+    "newDraftPrCreated": false,
+    "merged": false
+  },
+  "checks": {
+    "gitDiffCheckExit": 0,
+    "sensitiveMaterialScan": "passed",
+    "sourceGraphPinVerified": true
+  },
+  "blockers": [
+    "fresh_explicit_contract_approval_required",
+    "user_account_currency_confirmation_required",
+    "provider_usage_and_bill_remain_unknown",
+    "draft_pr_creation_channel_not_authenticated"
+  ],
+  "nextAction": "Return the exact contract and hashes for fresh user review. Do not initialize or run a live trial before a new explicit approval."
+}

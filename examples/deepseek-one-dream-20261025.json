@@ -1,0 +1,38 @@
+{
+  "id": "fictional-night-station-20261025",
+  "version": "1",
+  "materialKind": "fictional",
+  "sources": [
+    {
+      "id": "fiction-night-station-source",
+      "version": "1",
+      "text": "完全虚构：一个没有名字、没有指定性别的人在一座只在夜里开放的小车站候车。长椅上放着一只用蓝线缝补的纸船，站牌没有目的地，广播也没有说明下一班车何时到。除此以外没有可用背景。",
+      "grant": {
+        "dream": true,
+        "modelEgress": false
+      }
+    }
+  ],
+  "channels": {
+    "memory": {
+      "availability": "present",
+      "sourceIds": ["fiction-night-station-source"]
+    },
+    "background": {
+      "availability": "unavailable",
+      "sourceIds": []
+    },
+    "affect": {
+      "availability": "absent",
+      "sourceIds": []
+    },
+    "mind": {
+      "availability": "denied",
+      "sourceIds": []
+    },
+    "intents": {
+      "availability": "stale",
+      "sourceIds": []
+    }
+  }
+}
