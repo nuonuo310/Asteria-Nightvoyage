@@ -1,10 +1,14 @@
 # NV-GENERATED-WAKE-OFFLINE-01 本地验证回执
 
 - 回执状态：`COMPLETE_SYNTHETIC_ONLY`
-- 交付状态：本地提交完成；远端推送与 Draft PR 待一次核验。若网络不可用，交付状态为 `BLOCKED_DELIVERY`。
+- 交付状态：`BLOCKED_DELIVERY`。实现分支已推送；Draft PR 未创建，因为本机没有 `gh`/`hub`、没有 `GH_TOKEN`/`GITHUB_TOKEN`，且未读取凭据存储。
 - 实现基线：`4e994b5f2ab0c42df4bdb9cff2a95aa9fc96d94f`
+- 实现提交：`5753e94cd2d1bb57d8ba9a58d6641cdbf8b4116f`
+- 实现 tree：`755424d0284af382161892f3bd5c052805c242ea`
 - 基准分支：`codex/nightvoyage-versioned-wake-admission-impl-01`
 - 实现分支：`codex/nightvoyage-generated-wake-offline-01`
+- 远端基准核验：`4e994b5f2ab0c42df4bdb9cff2a95aa9fc96d94f`
+- Draft PR 入口：`https://github.com/nuonuo310/Asteria-Nightvoyage/pull/new/codex/nightvoyage-generated-wake-offline-01`
 - Node：`v24.19.0`；平台：`win32`；包管理器：`npm.cmd`
 - 权威文档副本来源：`docs/validation/generated-wake-offline-source-v1.md`
 
@@ -33,7 +37,8 @@
 | 记录时间来源 | 本地提交时间，不是主观发生时间 |
 | 用户 Store 访问 | `false` |
 | Key 读取 | `0` |
-| 网络请求 | `0` |
+| 模型网络请求 | `0` |
+| Git 远端核验与推送 | 1 次 `ls-remote`，1 次 `push` |
 | 真实模型请求 | `0` |
 | 旧清单刷新 | `false` |
 | 旧许可复用 | `false` |
@@ -60,6 +65,6 @@
 
 ## 未解决项
 
-- 远端 push 与 Draft PR 尚未完成；不得 ready 或合并。
+- 实现分支已推送，但 Draft PR 尚未创建；不得 ready 或合并。
 - 语义质量、主观体验和真实提供商计费未验收，继续保持 `not_assessed`。
 - 未读取或迁移任何用户旧梦；本轮为全合成离线闭环。
