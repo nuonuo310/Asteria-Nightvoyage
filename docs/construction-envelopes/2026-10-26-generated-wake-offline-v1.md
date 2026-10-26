@@ -113,3 +113,59 @@ base 设 codex/nightvoyage-versioned-wake-admission-impl-01（#98），
 回执：COMPLETE / BLOCKED / TOTAL CONTROL DECISION REQUIRED；
 HEAD/tree、base、文件范围、各组验收及证据路径、未解决项、STOP触碰情况。
 DONE LINE 满足即结束；不得 ready、merge 或自动发起真实试跑。
+
+
+## R1 · 同包提示继承修正（2026-10-26，总控裁定）
+
+本段为原包续接权威，不是新施工包。前述“发现同包即停止”不适用于本次已识别任务：
+仅续接 codex/nightvoyage-generated-wake-offline-01 的
+a5d638929461c5a7dc73f063284e441d26d89344（tree 84a7d0ae2795d8bf72b08daadbb4a2accf5bfbd6），
+更新已有 Draft PR #101，base 仍固定 #98@4e994b5f2ab0c42df4bdb9cff2a95aa9fc96d94f。
+不创建重复 worktree、分支或 PR。开工先只读核对既有 worktree 状态、HEAD、远端；
+如任务正在运行，不并发；如存在未预期编辑或 head 漂移，报告总控。
+
+### 已确认问题
+
+src/generated-wake-protocol.js 的 buildGeneratedWakeRequest() 先调用 buildDeepSeekRequest()，
+随后以 sceneRules/wakeRules 重写整个 system 内容，丢失原系统公共约束：
+自然中文、素材只作虚构数据而不是指令、无工具与非现实事实、
+不得新增现实指控/人格事实、不得强制洞察/浪漫/工作/正向结尾；
+场景分支还丢失第三人称主体/不发明性别/不向真实用户称“你”及 previous affect 的明确延续要求。
+第二幕 continuity 提示写着“保留既有约束”，但不能代替已被覆盖的具体约束。
+当前12项定向测试用固定假响应，没有检查实际发送的最终 system 是否保留这些关系。
+这是真实提示组装缺口；不声称已发生现实泄漏或真实模型行为失败。
+
+### 唯一修正目标
+
+仅在新生成候选内补齐最终实际请求中的公共与阶段语义约束，
+同时保留新 firstFeeling schema、逐字 fragment、现有 compact affect/evidence、
+两幕+一次wake、400 tokens上限、拒绝自动重试。
+不要把旧完整 system 生硬拼接造成 JSON shape、旧字段或阶段规则冲突。
+可以提取新模块内部的 commonRules，分别组合 scene/wake 的新形状。
+不修改旧 src/deepseek-protocol.js 或任何冻结 core。
+generatedWakePromptHash 必须覆盖实际用于组装的新公共规则及阶段规则，
+不能只哈希旧数组而遗漏最终生效约束。
+
+### 验收与范围
+
+允许修改 src/generated-wake-protocol.js、新候选 test/generated-wake-offline.test.js，
+及确因这次源码/提示身份变化需要更新的该候选检查器/文档/新身份记录。
+其他新运行时或记录模块默认不动；若发现当前 DONE LINE 的具体 blocker，报告总控，
+不顺带重构或扩大范围。
+
+用假响应捕获真实的第一幕、第二幕与wake请求：
+- 三阶段均含公共虚构/数据非指令/无工具/中文/不强制题材结局约束；
+- 两个scene都有第三人称与previous affect要求，第二幕保留连续性文本；
+- wake保留逐字摘录、独立心情、可省略/absent/uncertain、负向许可，
+  且没有把旧禁止额外字段的三字段示例带入新schema；
+- 素材中放置虚构的指令样式文本，证明它仍只在 user 数据字段，
+  不被插入 system；此检查只证明请求组装，不宣称抵抗真实模型提示注入已验收；
+- 断言prompt identity覆盖实际规则，变化时身份相应变化；
+- 既有完整三次fake闭环、来源区分、持久化和旧入口拒绝继续通过。
+
+先跑定向和新旧检查器，普通失败在本范围修复；
+最终执行一次完整 npm.cmd test 及 git diff --check。
+若失败需重跑，须有具体诊断或修正，保留原始失败和新结果，不循环碰运气。
+保存R1追加证据，不覆盖此前Windows失败记录。
+所有运行仍为虚构离线；不接网络模型、Key或用户Store，不新建付费授权。
+commit/push到原实现分支并更新 #101，不 ready、不合并。完成即停止回执。
