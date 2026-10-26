@@ -6,7 +6,7 @@
 
 - 仓库：`nuonuo310/Asteria-Nightvoyage`；权威 `main@249d38ab6eb65aeab3207771062b0e51b962bd4d`。先核对本地/远端、工作树、`AGENTS.md`。若 main 已前进，比较后停下回报，不自行换基线。
 - 设计参考：PR #94 `79ad750140ca0b0beb48e1b46ffd175ae4433ecd` 的 `docs/WAKE-AFTERGLOW-INTERACTION-DESIGN.md`；阻断记录：PR #96 `a7b775bd45048db0b12b7651206c0faa0f4cfeeb`。均只读，不合并或继承它们的许可。
-- Windows 未提交 WIP：`C:\\Users\\Administrator\\Desktop\\Asteria-Nightvoyage-NV-WAKE-FIRST-FEELING-01`，分支 `codex/nightvoyage-wake-first-feeling-01`。先列出状态并保全五个 WIP 文件；不要 reset、clean、覆盖或直接当成已验收实现。WIP 9/9 与邻接 40/40 是施工者报告，完整测试 1,764/1,931、167 失败、exit 1。
+- Windows 未提交 WIP：`C:\Users\Administrator\Desktop\Asteria-Nightvoyage-NV-WAKE-FIRST-FEELING-01`，分支 `codex/nightvoyage-wake-first-feeling-01`。先列出状态并保全五个 WIP 文件；不要 reset、clean、覆盖或直接当成已验收实现。WIP 9/9 与邻接 40/40 是施工者报告，完整测试 1,764/1,931、167 失败、exit 1。
 - 只在新的独立 worktree/分支施工；旧 WIP 可作为只读输入。不得改 main、原 WIP、#94/#95/#96、历史付费提案、许可、账本或用户 Store。
 
 ## 核心裁定
