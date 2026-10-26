@@ -1,4 +1,4 @@
-import test from 'node:test';
+import test,{after} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
@@ -15,6 +15,8 @@ import {aggregateEvents,envelopeSeed} from '../test-support/offline-aggregate-fi
 import {aggregateTrialProposal} from '../scripts/aggregate-plan-trial.mjs';
 import {eventClassProbeProposal} from '../scripts/event-class-probe.mjs';
 import {readInlinePaidContract} from '../src/inline-paid-contract.js';
+import {createFrozenInlineEntrySource} from '../test-support/frozen-inline-entry-source.js';
+const frozenSource=createFrozenInlineEntrySource();after(frozenSource.cleanup);
 const frame=type=>envelopeBytes([{type}]);
 function rejection(type,prefix=[]){const parser=new OfflineEventWitnessEnvelopeStream(shapeModel);let diagnostic;try{parser.push(Buffer.from([...prefix,{type,secret:'SYNTHETIC-PRIVATE-BODY',id:'SYNTHETIC-PRIVATE-ID'}].map(e=>'data:'+JSON.stringify(e)+'\n\n').join('')));}catch(error){diagnostic=eventWitnessDiagnostic(error);}assert.ok(diagnostic);assert.throws(()=>parser.finish(),/closed/);return diagnostic;}
 function book(t,adapter){const root=fs.mkdtempSync(path.join(os.tmpdir(),'nightvoyage-event-witness-')),directory=path.join(root,'book');let engine;const open=()=>engine=new ModelPortNightvoyage(directory,{selection:adapter===undefined?selectAdapter():selectAdapter({primary:adapter})});t.after(()=>{engine?.close();fs.rmSync(root,{recursive:true,force:true});});return {directory,open,get engine(){return engine;}};}
@@ -68,7 +70,7 @@ test('versioned parser/runtime transformation is narrow, CRLF-aware and leaves o
  .replace("['responses_envelope','rejected_response_event']","['responses_envelope','rejected_response_event','responses_event_witness']")
  .replace("if(event.sequence_number!==undefined&&(!Number.isSafeInteger(event.sequence_number)||event.sequence_number<0))fail('event_sequence');","if(event.sequence_number!==undefined&&(!Number.isSafeInteger(event.sequence_number)||event.sequence_number<0))fail('event_sequence');\n  const witness=this.#witness.observe(event.type);")
  .replace('throw rejectedEventFailure(event.type);','throw eventWitnessFailure(witness);');assert.equal(read('offline-event-witness-envelope.mjs'),expected);
- assert.equal(read('offline-event-witness-runtime.mjs'),read('offline-event-class-runtime.mjs').replace('offline-event-class-port','offline-event-witness-port').replace("rejectedEventDiagnostic as planResponseDiagnostic,reviewedRejectedEventDiagnostic as reviewedPlanResponseDiagnostic} from './rejected-event-class.mjs'","eventWitnessDiagnostic as planResponseDiagnostic,reviewedEventWitnessDiagnostic as reviewedPlanResponseDiagnostic} from './response-event-witness.mjs'"));assert.ok(aggregateTrialProposal());assert.ok(eventClassProbeProposal());assert.ok(readInlinePaidContract({allowExpired:true}));
+ assert.equal(read('offline-event-witness-runtime.mjs'),read('offline-event-class-runtime.mjs').replace('offline-event-class-port','offline-event-witness-port').replace("rejectedEventDiagnostic as planResponseDiagnostic,reviewedRejectedEventDiagnostic as reviewedPlanResponseDiagnostic} from './rejected-event-class.mjs'","eventWitnessDiagnostic as planResponseDiagnostic,reviewedEventWitnessDiagnostic as reviewedPlanResponseDiagnostic} from './response-event-witness.mjs'"));assert.ok(aggregateTrialProposal());assert.ok(eventClassProbeProposal());assert.throws(()=>readInlinePaidContract({allowExpired:true}),/paid_contract_source_changed/);assert.ok(readInlinePaidContract({repositoryRoot:frozenSource.directory,allowExpired:true}));
 });
 test('in-flight cancellation suppresses late witness metadata and cannot save a dream or start another stage',async t=>{
  let entered,release,calls=0;const reached=new Promise(r=>entered=r),late=new Promise(r=>release=r),adapter=new OfflineEventWitnessPlanAdapter({model_id:'synthetic-cancel-witness',simulator:async function*(){calls++;yield frame('response.created');entered();await late;yield frame('response.audio.delta');}}),b=book(t,adapter);b.open();const id=b.engine.start('synthetic-cancel','synthetic-cancel',envelopeSeed());const pending=b.engine.execute(id);await reached;b.engine.cancel(id);await pending;release();await new Promise(r=>setImmediate(r));assert.equal(b.engine.status(id).status,'cancelled');assert.equal(b.engine.status(id).validation_diagnostic,null);assert.equal(b.engine.result(id).dream,null);await b.engine.execute(id);assert.equal(calls,1);

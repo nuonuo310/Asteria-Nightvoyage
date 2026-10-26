@@ -1,16 +1,14 @@
-import {test} from 'node:test';
+import {test,after} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
-import {fileURLToPath} from 'node:url';
-import {hash} from '../src/contract.js';
-import {Store} from '../src/store.js';
-import {inlineChildEnvironment} from '../src/inline-stub-launcher.js';
-import {prepareAuthorizedHistory} from '../test-support/inline-authorization-fixtures.js';
-const root=fileURLToPath(new URL('..',import.meta.url));
-const cli=fileURLToPath(new URL('../src/inline-stub-launcher.js',import.meta.url));
+import {pathToFileURL} from 'node:url';
+import {createFrozenInlineEntrySource,frozenModule} from '../test-support/frozen-inline-entry-source.js';
+const frozenSource=createFrozenInlineEntrySource();after(frozenSource.cleanup);const root=frozenSource.directory,frozenUrl=relative=>pathToFileURL(path.join(root,relative)).href;
+const {hash}=await frozenModule(root,'src/contract.js'),{Store}=await frozenModule(root,'src/store.js'),{inlineChildEnvironment}=await frozenModule(root,'src/inline-stub-launcher.js'),{prepareAuthorizedHistory}=await frozenModule(root,'test-support/inline-authorization-fixtures.js');
+const cli=path.join(root,'src/inline-stub-launcher.js');
 function run(directory,command='run',project=root,environment={}){
   return spawnSync(process.execPath,[path.join(project,'src/inline-stub-launcher.js'),command,'--data-dir',directory],{encoding:'utf8',timeout:20000,env:{...process.env,...environment}});
 }
@@ -32,7 +30,7 @@ test('clean child loads constrained runtime, persists three synthetic stages and
 test('launch ignores inherited execArgv and strips hostile preload configuration before spawning runtime',t=>{
   const {directory}=prepareAuthorizedHistory(t),sentinel=path.join(directory,'must-not-exist');
   const preload=path.join(directory,'preload.cjs');fs.writeFileSync(preload,`require('node:fs').writeFileSync(${JSON.stringify(sentinel)},'executed');`);
-  const code=`import {launchInlineStub} from ${JSON.stringify(new URL('../src/inline-stub-launcher.js',import.meta.url).href)};process.env.NODE_OPTIONS=${JSON.stringify('--require='+preload)};process.env.NIGHTVOYAGE_DEEPSEEK_KEY='DUMMY-PRIVATE-KEY-SENTINEL';process.env.HTTPS_PROXY='DUMMY-PRIVATE-PROXY-SENTINEL';process.execArgv.push('--require='+${JSON.stringify(preload)});console.log(JSON.stringify(await launchInlineStub('run',${JSON.stringify(directory)})));`;
+  const code=`import {launchInlineStub} from ${JSON.stringify(frozenUrl('src/inline-stub-launcher.js'))};process.env.NODE_OPTIONS=${JSON.stringify('--require='+preload)};process.env.NIGHTVOYAGE_DEEPSEEK_KEY='DUMMY-PRIVATE-KEY-SENTINEL';process.env.HTTPS_PROXY='DUMMY-PRIVATE-PROXY-SENTINEL';process.execArgv.push('--require='+${JSON.stringify(preload)});console.log(JSON.stringify(await launchInlineStub('run',${JSON.stringify(directory)})));`;
   const r=spawnSync(process.execPath,['--input-type=module','-e',code],{encoding:'utf8',timeout:20000});assert.equal(r.status,0,r.stderr);assert.equal(fs.existsSync(sentinel),false);assert.ok(!r.stdout.includes('SENTINEL'));assert.equal(JSON.parse(r.stdout).stubCalls,3);
 });
 test('missing path or authorization cannot create Store files or expose parser details',t=>{
@@ -56,7 +54,7 @@ test('resume never implicitly starts a run and live/init/arbitrary transport opt
 });
 for(const point of ['scene_saved','dispatched'])test(`fresh-process ${point} death is recovered only within the saved authorization`,t=>{
   const {directory}=prepareAuthorizedHistory(t);
-  const code=`import {InlineAuthorizedStubRuntime} from ${JSON.stringify(new URL('../src/inline-authorized-runtime.js',import.meta.url).href)};import {authorizedTransport} from ${JSON.stringify(new URL('../test-support/inline-authorization-fixtures.js',import.meta.url).href)};const e=new InlineAuthorizedStubRuntime(${JSON.stringify(directory)},{enabled:true,fetchImpl:authorizedTransport,fault:p=>{if(p===${JSON.stringify(point)})process.exit(8);}});await e.execute(e.start());`;
+  const code=`import {InlineAuthorizedStubRuntime} from ${JSON.stringify(frozenUrl('src/inline-authorized-runtime.js'))};import {authorizedTransport} from ${JSON.stringify(frozenUrl('test-support/inline-authorization-fixtures.js'))};const e=new InlineAuthorizedStubRuntime(${JSON.stringify(directory)},{enabled:true,fetchImpl:authorizedTransport,fault:p=>{if(p===${JSON.stringify(point)})process.exit(8);}});await e.execute(e.start());`;
   const dead=spawnSync(process.execPath,['--input-type=module','-e',code],{encoding:'utf8',timeout:15000});assert.equal(dead.status,8,dead.stderr);
   const r=run(directory,'resume');
   if(point==='scene_saved'){assert.equal(r.status,0,r.stderr);const v=JSON.parse(r.stdout);assert.equal(v.status,'completed');assert.equal(v.stubCalls,2);assert.equal(v.settledRows,3);assert.equal(JSON.parse(run(directory).stdout).stubCalls,0);}

@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "stage": "versioned_wake_admission_and_synthetic_first_feeling",
+  "capturedAt": "2026-10-26T23:35:13.0529244+08:00",
+  "status": "PASS_SYNTHETIC_ONLY",
+  "repository": {
+    "name": "nuonuo310/Asteria-Nightvoyage",
+    "originMain": "249d38ab6eb65aeab3207771062b0e51b962bd4d",
+    "constructionAuthorityBranch": "codex/nightvoyage-versioned-wake-admission-01",
+    "constructionAuthorityHead": "6e49398f881079491cc2cfcf5fffded9a4efcb70",
+    "implementationBranch": "codex/nightvoyage-versioned-wake-admission-impl-01",
+    "implementationWorktree": "C:\\Users\\Administrator\\Desktop\\Asteria-Nightvoyage-NV-VERSIONED-WAKE-ADMISSION-01",
+    "authorityDocument": "docs/construction-envelopes/2026-10-26-versioned-wake-admission-v1.md"
+  },
+  "sourceIdentities": {
+    "historical": {
+      "manifestPath": "src/inline-entry-review.json",
+      "manifestGitBlobLfSha256": "21e08f5444ef0923d9bdc8bc9b2736a1f491601cb3dd960a5b4107ff37d52d6a",
+      "inventoryHash": "b4a06baeaeb4d9cf572bb349117d651db993957f413518a4b7ea1caf975a908d",
+      "inventoryFiles": 86,
+      "reconstruction": "test-support/frozen-inline-entry-source.js",
+      "manifestRefreshed": false
+    },
+    "current": {
+      "inventoryHash": "6307428d494e44678ec42afa7e4e8e63d7e5ef9f3196ebc9a20d2b53bee66381",
+      "inventoryFiles": 88,
+      "addedFiles": [
+        "fixtures/wake-first-feeling.json",
+        "src/wake-first-feeling.js"
+      ],
+      "implementationMovedOutsideInventory": false,
+      "manifestChanged": false
+    }
+  },
+  "proofs": {
+    "oldPaidEntryFailsClosedOnCurrentSource": {
+      "currentPreflightReason": "source_inventory_changed",
+      "currentPaidContractReason": "paid_contract_source_changed",
+      "launchInlinePaidResult": "inline_paid_entry_refused",
+      "credentialSupplierCalls": 0,
+      "historyBytesUnchanged": true,
+      "ownerLockAbsent": true
+    },
+    "oldHistoricalIdentityValidatedByOriginalEvidence": {
+      "oldPreflightSourceMatches": true,
+      "oldHistoryPreserved": true,
+      "oldHistoryHeldMicroCny": "8812800",
+      "oldContractSourcePinned": true,
+      "oldContractApprovals": false,
+      "oldPermissionReused": false,
+      "oldRecordMigrated": false
+    },
+    "wakeFirstFeelingNonPaidSyntheticLoop": {
+      "featureVersion": "wake-first-feeling-v1",
+      "viewVersion": "wake-first-feeling-view-v1",
+      "sourceLfBytes": 11416,
+      "sourceLfSha256": "3360e66779cdbef9f63fa2422179fdb21e539dd040911cdb905a0b70de844bf8",
+      "fixtureLfBytes": 566,
+      "fixtureLfSha256": "e5d62c287e8b73281aeec02c89587df46d705f31afaf65841468c968d80b3b4a",
+      "dreamStages": 2,
+      "wakeFragmentExact": true,
+      "firstFeelingStatus": "present",
+      "firstFeelingOrder": 1,
+      "recollectionCount": 1,
+      "residueKind": "simulated_estimate",
+      "manualFeelingFromValenceArousal": false,
+      "dreamAndReceiptUnchanged": true,
+      "billingUnchanged": true
+    },
+    "boundaries": {
+      "userStoreAccessed": false,
+      "credentialReads": 0,
+      "networkAttempts": 0,
+      "realModelRequests": 0,
+      "qualityAssessed": false,
+      "semanticSupport": "not_assessed"
+    }
+  },
+  "tests": [
+    {
+      "command": "node --test test/wake-first-feeling.test.js test/versioned-wake-admission.test.js",
+      "exitCode": 0,
+      "tests": 13,
+      "pass": 13,
+      "fail": 0,
+      "durationMs": 1923.463
+    },
+    {
+      "command": "node --test test/inline-entry-preflight.test.js test/inline-paid-contract.test.js test/inline-admission.test.js test/inline-trial-authorization.test.js test/inline-paid-runtime.test.js test/inline-paid-entry.test.js test/response-event-witness.test.js test/response-event-coverage.test.js",
+      "exitCode": 0,
+      "tests": 167,
+      "pass": 167,
+      "fail": 0,
+      "durationMs": 87389.1916
+    },
+    {
+      "command": "node --test test/continuity-trial.test.js test/inline-authorization.test.js test/inline-bootstrap.test.js test/inline-integration-review.test.js",
+      "exitCode": 0,
+      "tests": 54,
+      "pass": 54,
+      "fail": 0,
+      "durationMs": 34903.1507
+    },
+    {
+      "command": "node scripts/check-inline-entry-preflight.mjs && node scripts/check-inline-history-guard.mjs && node scripts/check-inline-paid-contract.mjs && node scripts/check-inline-trial-authorization.mjs && node scripts/check-inline-paid-entry.mjs && node scripts/check-inline-authorized-loop.mjs && node scripts/check-inline-integration.mjs && node scripts/check-versioned-wake-admission.mjs",
+      "exitCode": 0,
+      "checks": 8
+    },
+    {
+      "command": "npm.cmd test",
+      "exitCode": 0,
+      "tests": 1935,
+      "pass": 1935,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "durationMs": 474708.0608,
+      "node": "v24.19.0",
+      "platform": "win32"
+    }
+  ],
+  "wipPreservation": {
+    "worktree": "C:\\Users\\Administrator\\Desktop\\Asteria-Nightvoyage-NV-WAKE-FIRST-FEELING-01",
+    "branch": "codex/nightvoyage-wake-first-feeling-01",
+    "head": "249d38ab6eb65aeab3207771062b0e51b962bd4d",
+    "backup": "C:\\Users\\Administrator\\Desktop\\Asteria-Nightvoyage-NV-WAKE-FIRST-FEELING-01-candidate-backup-20261026",
+    "allMatchBackup": true,
+    "resetCleanOrOverwritePerformed": false,
+    "files": [
+      {
+        "path": "docs/WAKE-FIRST-FEELING.md",
+        "sha256": "E3A5EF1F9417918504A081FA63EC360209C66F204821522ABEFCC5A934C13791"
+      },
+      {
+        "path": "fixtures/wake-first-feeling.json",
+        "sha256": "E5D62C287E8B73281AEEC02C89587DF46D705F31AFAF65841468C968D80B3B4A"
+      },
+      {
+        "path": "scripts/wake-first-feeling-demo.mjs",
+        "sha256": "CE3069071941ACCFFC794BF3381A8466C59E5E2754DDE079F4AB5B90AB8FE45C"
+      },
+      {
+        "path": "src/wake-first-feeling.js",
+        "sha256": "3360E66779CDBEF9F63FA2422179FDB21E539DD040911CDB905A0B70DE844BF8"
+      },
+      {
+        "path": "test/wake-first-feeling.test.js",
+        "sha256": "1717313EBA3FEED8F410BB8412A6D35879DB2440941398687F6655701A3FC3A3"
+      }
+    ]
+  },
+  "remainingLimits": [
+    "No real model request was made.",
+    "No user Store, Key, credential, or real model was accessed.",
+    "No subjective feeling, semantic support, or dream quality was assessed.",
+    "No new paid profile, price snapshot, budget, live switch, or authorization was created.",
+    "The independent pull request remains a draft and is not ready to merge."
+  ]
+}

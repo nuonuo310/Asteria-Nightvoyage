@@ -1,22 +1,16 @@
-import {test} from 'node:test';
+import {test,after} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
+import {pathToFileURL} from 'node:url';
 import {spawnSync} from 'node:child_process';
-import {Store} from '../src/store.js';
 import {hash} from '../src/contract.js';
-import {readAppraisalView} from '../src/appraisal-view.js';
-import {BudgetLedger,validateAllowance} from '../src/budget-ledger.js';
-import {BudgetedNightvoyage} from '../src/budgeted-runtime.js';
-import {GatedDeepSeekClient} from '../src/gated-deepseek-client.js';
-import {InlineHistoryGuard} from '../src/inline-entry-admission.js';
-import {readInlinePaidContract} from '../src/inline-paid-contract.js';
-import {InlineTrialRehearsalRuntime} from '../src/inline-trial-rehearsal-runtime.js';
-import {initInlineTrialAuthorization,readInlineTrialAuthorization,revokeInlineTrialAuthorization,inlineTrialAllowanceId} from '../src/inline-trial-authorization.js';
-import {prepareTrialHistory,trialTransport,trialFixtureNow} from '../test-support/inline-trial-fixtures.js';
+import {createFrozenInlineEntrySource,frozenModule} from '../test-support/frozen-inline-entry-source.js';
+const frozenSource=createFrozenInlineEntrySource();after(frozenSource.cleanup);const frozen=frozenSource.directory;
+const {Store}=await frozenModule(frozen,'src/store.js'),{readAppraisalView}=await frozenModule(frozen,'src/appraisal-view.js'),{BudgetLedger,validateAllowance}=await frozenModule(frozen,'src/budget-ledger.js'),{BudgetedNightvoyage}=await frozenModule(frozen,'src/budgeted-runtime.js'),{GatedDeepSeekClient}=await frozenModule(frozen,'src/gated-deepseek-client.js'),{InlineHistoryGuard}=await frozenModule(frozen,'src/inline-entry-admission.js'),{InlineTrialRehearsalRuntime}=await frozenModule(frozen,'src/inline-trial-rehearsal-runtime.js'),{initInlineTrialAuthorization,readInlineTrialAuthorization,revokeInlineTrialAuthorization,inlineTrialAllowanceId}=await frozenModule(frozen,'src/inline-trial-authorization.js'),{prepareTrialHistory,trialTransport,trialFixtureNow}=await frozenModule(frozen,'test-support/inline-trial-fixtures.js');
 function oldUnchanged(store,old){for(const [id,a]of Object.entries(old))assert.deepEqual(store.state.billing.accounts[id],a);}
 function setup(t,options={}){const h=prepareTrialHistory(t),calls=[],engine=new InlineTrialRehearsalRuntime(h.directory,{enabled:true,fetchImpl:async(u,r)=>{calls.push(JSON.parse(r.body));return trialTransport(u,r);},...options});t.after(()=>engine.close());return {...h,engine,calls};}
-function child(directory,code){return spawnSync(process.execPath,['--input-type=module','-e',`import fs from 'node:fs';import {Store} from ${JSON.stringify(new URL('../src/store.js',import.meta.url).href)};import {InlineTrialRehearsalRuntime} from ${JSON.stringify(new URL('../src/inline-trial-rehearsal-runtime.js',import.meta.url).href)};import {initInlineTrialAuthorization} from ${JSON.stringify(new URL('../src/inline-trial-authorization.js',import.meta.url).href)};import {trialTransport,trialConfirmation} from ${JSON.stringify(new URL('../test-support/inline-trial-fixtures.js',import.meta.url).href)};Date.now=()=>${trialFixtureNow};const directory=${JSON.stringify(directory)};${code}`],{encoding:'utf8',timeout:15000});}
+function child(directory,code){const moduleUrl=relative=>pathToFileURL(path.join(frozen,relative)).href;return spawnSync(process.execPath,['--input-type=module','-e',`import fs from 'node:fs';import {Store} from ${JSON.stringify(moduleUrl('src/store.js'))};import {InlineTrialRehearsalRuntime} from ${JSON.stringify(moduleUrl('src/inline-trial-rehearsal-runtime.js'))};import {initInlineTrialAuthorization} from ${JSON.stringify(moduleUrl('src/inline-trial-authorization.js'))};import {trialTransport,trialConfirmation} from ${JSON.stringify(moduleUrl('test-support/inline-trial-fixtures.js'))};Date.now=()=>${trialFixtureNow};const directory=${JSON.stringify(directory)};${code}`],{encoding:'utf8',timeout:15000});}
 test('missing exact confirmation or mode cannot create authority/account or consume a key',t=>{
   const h=prepareTrialHistory(t,{authorize:false}),s=new Store(h.directory);try{const before=structuredClone(s.state);for(const o of [{mode:'live'},{confirmation:h.confirmation},{mode:'live',confirmation:{...h.confirmation,budgetCny:4}}])assert.throws(()=>initInlineTrialAuthorization(s,o));assert.deepEqual(s.state,before);}finally{s.close();}
   const absent=path.join(h.directory,'absent');assert.throws(()=>new InlineTrialRehearsalRuntime(absent,{fetchImpl:trialTransport}),/existing_matching_trial_authorization_required/);assert.equal(fs.existsSync(absent),false);

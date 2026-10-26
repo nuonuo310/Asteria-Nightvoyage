@@ -1,14 +1,13 @@
-import {test} from 'node:test';
+import {test,after} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
+import {pathToFileURL} from 'node:url';
 import {spawnSync} from 'node:child_process';
-import {InlinePaidRuntime} from '../src/inline-paid-runtime.js';
-import {Store} from '../src/store.js';
-import {readAppraisalView} from '../src/appraisal-view.js';
-import {revokeInlineTrialAuthorization,inlineTrialAllowanceId} from '../src/inline-trial-authorization.js';
-import {prepareTrialHistory,trialFixtureNow} from '../test-support/inline-trial-fixtures.js';
 import {mockPaidHttps,paidFixtureBody} from '../test-support/inline-paid-http-fixture.js';
+import {createFrozenInlineEntrySource,frozenModule} from '../test-support/frozen-inline-entry-source.js';
+const frozenSource=createFrozenInlineEntrySource();after(frozenSource.cleanup);const frozen=frozenSource.directory;
+const {InlinePaidRuntime}=await frozenModule(frozen,'src/inline-paid-runtime.js'),{Store}=await frozenModule(frozen,'src/store.js'),{readAppraisalView}=await frozenModule(frozen,'src/appraisal-view.js'),{revokeInlineTrialAuthorization,inlineTrialAllowanceId}=await frozenModule(frozen,'src/inline-trial-authorization.js'),{prepareTrialHistory,trialFixtureNow}=await frozenModule(frozen,'test-support/inline-trial-fixtures.js');
 const dummy='DUMMY-PAID-PIPE-ONLY';
 function setup(t,handle,options={}){const h=prepareTrialHistory(t,{mode:'live'}),calls=mockPaidHttps(t,handle??(({body,respond})=>respond(paidFixtureBody(body)))),engine=new InlinePaidRuntime(h.directory,{enabled:true,...options});engine.credential=dummy;t.after(()=>engine.close());return {...h,engine,calls};}
 function olds(e,h){for(const [id,a]of Object.entries(h.oldAccounts))assert.deepEqual(e.store.state.billing.accounts[id],a);}
@@ -34,5 +33,5 @@ test('pre-credential request gate rejects an ambiguous row, while committed-pref
   const h=setup(t);let once=true;h.engine.client.fault=p=>{if(p==='dispatched'&&once){once=false;throw Error('PRIVATE-SENTINEL');}};const id=h.engine.start();await h.engine.execute(id);assert.equal(h.calls.length,0);assert.throws(()=>h.engine.prepare({resume:true,dispatchKind:'provider'}),/inline_resume_requires_committed_prefix/);assert.equal(h.engine.status(id).billing[0].status,'unknown');
 });
 for(const point of ['reserved','dispatched','scene_saved'])test(`paid runtime actual ${point} process death never resends an ambiguous request`,async t=>{
-  const h=prepareTrialHistory(t,{mode:'live',dispatchKind:'rehearsal'});const code=`import {InlinePaidRuntime} from ${JSON.stringify(new URL('../src/inline-paid-runtime.js',import.meta.url).href)};Date.now=()=>${trialFixtureNow};const e=new InlinePaidRuntime(${JSON.stringify(h.directory)},{enabled:true,fault:p=>{if(p===${JSON.stringify(point)})process.exit(8);}});e.credential='DUMMY-CHILD';await e.execute(e.start());`;const dead=spawnSync(process.execPath,['--input-type=module','-e',code],{encoding:'utf8',timeout:15000});assert.equal(dead.status,8,dead.stderr);const e=new InlinePaidRuntime(h.directory,{enabled:true});e.credential=dummy;try{const id=e.start();if(point==='scene_saved'){assert.equal(e.prepare({resume:true,dispatchKind:'rehearsal'}).id,id);await e.resume(id,{retryUnknown:true});assert.equal(e.status(id).status,'completed');assert.equal(e.status(id).billing.length,3);}else{assert.throws(()=>e.prepare({resume:true,dispatchKind:'rehearsal'}),/inline_resume_requires_committed_prefix/);assert.equal(e.status(id).billing.length,1);assert.equal(e.status(id).billing[0].status,'unknown');}olds(e,h);}finally{e.close();}
+  const h=prepareTrialHistory(t,{mode:'live',dispatchKind:'rehearsal'}),runtimeUrl=pathToFileURL(path.join(frozen,'src/inline-paid-runtime.js')).href;const code=`import {InlinePaidRuntime} from ${JSON.stringify(runtimeUrl)};Date.now=()=>${trialFixtureNow};const e=new InlinePaidRuntime(${JSON.stringify(h.directory)},{enabled:true,fault:p=>{if(p===${JSON.stringify(point)})process.exit(8);}});e.credential='DUMMY-CHILD';await e.execute(e.start());`;const dead=spawnSync(process.execPath,['--input-type=module','-e',code],{encoding:'utf8',timeout:15000});assert.equal(dead.status,8,dead.stderr);const e=new InlinePaidRuntime(h.directory,{enabled:true});e.credential=dummy;try{const id=e.start();if(point==='scene_saved'){assert.equal(e.prepare({resume:true,dispatchKind:'rehearsal'}).id,id);await e.resume(id,{retryUnknown:true});assert.equal(e.status(id).status,'completed');assert.equal(e.status(id).billing.length,3);}else{assert.throws(()=>e.prepare({resume:true,dispatchKind:'rehearsal'}),/inline_resume_requires_committed_prefix/);assert.equal(e.status(id).billing.length,1);assert.equal(e.status(id).billing[0].status,'unknown');}olds(e,h);}finally{e.close();}
 });

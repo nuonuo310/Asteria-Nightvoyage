@@ -1,20 +1,15 @@
-import {test} from 'node:test';
+import {test,after} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {spawnSync,spawn} from 'node:child_process';
-import {launchInlinePaid} from '../src/inline-paid-entry.js';
-import {inlineChildEnvironment} from '../src/inline-stub-launcher.js';
-import {runInlinePaidSession} from '../src/inline-paid-session.js';
-import {Store} from '../src/store.js';
-import {InlinePaidRuntime} from '../src/inline-paid-runtime.js';
-import {prepareTrialHistory} from '../test-support/inline-trial-fixtures.js';
-import {inlineTrialAllowanceId} from '../src/inline-trial-authorization.js';
-const root=fileURLToPath(new URL('..',import.meta.url));
+import {createFrozenInlineEntrySource,frozenModule,materializeFrozenInlineEntrySource} from '../test-support/frozen-inline-entry-source.js';
+const frozenSource=createFrozenInlineEntrySource();after(frozenSource.cleanup);const root=frozenSource.directory;
+const {launchInlinePaid}=await frozenModule(root,'src/inline-paid-entry.js'),{inlineChildEnvironment}=await frozenModule(root,'src/inline-stub-launcher.js'),{runInlinePaidSession}=await frozenModule(root,'src/inline-paid-session.js'),{Store}=await frozenModule(root,'src/store.js'),{InlinePaidRuntime}=await frozenModule(root,'src/inline-paid-runtime.js'),{prepareTrialHistory}=await frozenModule(root,'test-support/inline-trial-fixtures.js'),{inlineTrialAllowanceId}=await frozenModule(root,'src/inline-trial-authorization.js');
 const cli=path.join(root,'src/inline-paid-entry.js');
-function project(t){const p=fs.mkdtempSync(path.join(os.tmpdir(),'nightvoyage-paid-process-'));t.after(()=>fs.rmSync(p,{recursive:true,force:true}));for(const n of ['src','fixtures','package.json','docs/proposals'])fs.cpSync(path.join(root,n),path.join(p,n),{recursive:true});return p;}
+function project(t){return materializeFrozenInlineEntrySource(t);}
 function run(p,args,environment={}){return spawnSync(process.execPath,[path.join(p,'src/inline-paid-entry.js'),...args],{encoding:'utf8',timeout:20000,env:{...process.env,...environment}});}
 test('fresh constrained paid child completes a pipe rehearsal, reopens and replays without another credential',async t=>{
   const h=prepareTrialHistory(t,{mode:'live',dispatchKind:'rehearsal'});let suppliers=0;const v=await launchInlinePaid('rehearse',h.directory,{credentialSupplier:()=>{suppliers++;const state=JSON.parse(fs.readFileSync(path.join(h.directory,'state.json')));assert.equal(state.inlineTrialAuthorization.termsHash,h.record.termsHash);assert.equal(state.runs[state.requests[inlineTrialAllowanceId].runId].status,'queued');return 'DUMMY-PROCESS-PIPE';}});assert.equal(v.status,'completed');assert.equal(v.credentialSupplierCalls,1);assert.equal(v.receipt.budget.calls,3);assert.equal(v.appraisalView.status,'available');assert.equal(v.dream.origin,'dream');assert.equal(v.dream.materialKind,'fictional');assert.equal(v.dream.isRealityFact,false);assert.equal(suppliers,1);const next=await launchInlinePaid('rehearse',h.directory,{credentialSupplier:()=>{suppliers++;throw Error('must_not_request');}});assert.deepEqual(next.dream,v.dream);assert.equal(next.credentialSupplierCalls,0);assert.equal(suppliers,1);

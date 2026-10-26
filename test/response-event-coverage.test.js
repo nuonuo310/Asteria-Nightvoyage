@@ -1,4 +1,4 @@
-import test from 'node:test';
+import test,{after} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {spawnSync} from 'node:child_process';
@@ -9,6 +9,8 @@ import {eventClassProbeProposal} from '../scripts/event-class-probe.mjs';
 import {aggregateTrialProposal} from '../scripts/aggregate-plan-trial.mjs';
 import {readInlinePaidContract} from '../src/inline-paid-contract.js';
 import {aggregateTranscript,envelopeSeed} from '../test-support/offline-aggregate-fixtures.js';
+import {createFrozenInlineEntrySource} from '../test-support/frozen-inline-entry-source.js';
+const frozenSource=createFrozenInlineEntrySource();after(frozenSource.cleanup);
 
 test('static reference audit distinguishes routing from event acceptance and discloses incomplete service coverage',()=>{
  const summary=responseEventCoverageSummary();assert.equal(summary.reviewedReferenceNames,59);assert.equal(new Set(reviewedEventTypes).size,59);assert.deepEqual(summary.routes,{classified_rejection_route:6,unreviewed_documented_audio:4,unreviewed_documented_tool:32,core_validation_route:9,reasoning_validation_route:6,refusal_rejection_route:2});assert.equal(summary.acceptanceChanged,false);assert.equal(summary.historicalTypeRecoverable,false);assert.equal(summary.providerSchemaCompatibilityValidated,false);
@@ -27,7 +29,7 @@ test('the recorded label does not distinguish supported-reference tools, arbitra
  const parser=new OfflineEventClassEnvelopeStream('gpt-5.6-sol');assert.throws(()=>parser.push(Buffer.from('data:{"type":12}\n\n')),e=>rejectedEventDiagnostic(e)?.check==='event_shape');
 });
 test('audit does not replace native source pins or weaken complete-stream/stage validation',()=>{
- assert.ok(eventClassProbeProposal());assert.ok(aggregateTrialProposal());assert.ok(readInlinePaidContract({allowExpired:true}));const draft={body:{model:'gpt-5.6-sol',input:[{content:JSON.stringify({snapshot:envelopeSeed,scenes:[],stage:'scene',index:0})}]}};
+ assert.ok(eventClassProbeProposal());assert.ok(aggregateTrialProposal());assert.throws(()=>readInlinePaidContract({allowExpired:true}),/paid_contract_source_changed/);assert.ok(readInlinePaidContract({repositoryRoot:frozenSource.directory,allowExpired:true}));const draft={body:{model:'gpt-5.6-sol',input:[{content:JSON.stringify({snapshot:envelopeSeed,scenes:[],stage:'scene',index:0})}]}};
  const p=new OfflineEventClassEnvelopeStream('gpt-5.6-sol');for(const b of aggregateTranscript(draft))p.push(b);const result=p.finish();assert.equal(result.usage.totalTokens,20);assert.equal(result.envelopeAudit.reasoningReturned,false);
 });
 test('standalone audit forbids any fetch and reports only aggregate synthetic counts',()=>{

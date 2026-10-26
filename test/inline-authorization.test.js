@@ -1,20 +1,15 @@
-import {test} from 'node:test';
+import {test,after} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 import {spawnSync} from 'node:child_process';
-import {Store} from '../src/store.js';
-import {hash} from '../src/contract.js';
-import {BudgetedNightvoyage} from '../src/budgeted-runtime.js';
-import {BudgetLedger} from '../src/budget-ledger.js';
-import {InlineAuthorizedStubRuntime} from '../src/inline-authorized-runtime.js';
-import {inlineAuthorizationId,initInlineStubAuthorization,readInlineAuthorization,revokeInlineAuthorization,inlineAuthorizedInput} from '../src/inline-entry-authorization.js';
-import {inlineCandidateAllowanceId} from '../src/inline-entry-admission.js';
-import {prepareInlineAdmissionHistory} from '../test-support/inline-admission-fixtures.js';
-import {authorizationAllowance,authorize,authorizedTransport,prepareAuthorizedHistory} from '../test-support/inline-authorization-fixtures.js';
+import {pathToFileURL} from 'node:url';
+import {createFrozenInlineEntrySource,frozenModule} from '../test-support/frozen-inline-entry-source.js';
+const frozenSource=createFrozenInlineEntrySource();after(frozenSource.cleanup);const frozen=frozenSource.directory,frozenUrl=relative=>pathToFileURL(path.join(frozen,relative)).href;
+const {Store}=await frozenModule(frozen,'src/store.js'),{hash}=await frozenModule(frozen,'src/contract.js'),{BudgetedNightvoyage}=await frozenModule(frozen,'src/budgeted-runtime.js'),{BudgetLedger}=await frozenModule(frozen,'src/budget-ledger.js'),{InlineAuthorizedStubRuntime}=await frozenModule(frozen,'src/inline-authorized-runtime.js'),{inlineAuthorizationId,initInlineStubAuthorization,readInlineAuthorization,revokeInlineAuthorization,inlineAuthorizedInput}=await frozenModule(frozen,'src/inline-entry-authorization.js'),{inlineCandidateAllowanceId}=await frozenModule(frozen,'src/inline-entry-admission.js'),{prepareInlineAdmissionHistory}=await frozenModule(frozen,'test-support/inline-admission-fixtures.js'),{authorizationAllowance,authorize,authorizedTransport,prepareAuthorizedHistory}=await frozenModule(frozen,'test-support/inline-authorization-fixtures.js');
 function runtime(t,options={}){const v=prepareAuthorizedHistory(t),calls=[],e=new InlineAuthorizedStubRuntime(v.directory,{enabled:true,fetchImpl:async(u,r)=>{calls.push(JSON.parse(r.body));return authorizedTransport(u,r);},...options});t.after(()=>e.close());return {...v,e,calls};}
-function child(directory,body){return spawnSync(process.execPath,['--input-type=module','-e',`import fs from 'node:fs';import path from 'node:path';import {Store} from ${JSON.stringify(new URL('../src/store.js',import.meta.url).href)};import {InlineAuthorizedStubRuntime} from ${JSON.stringify(new URL('../src/inline-authorized-runtime.js',import.meta.url).href)};import {authorize,authorizationAllowance,authorizedTransport} from ${JSON.stringify(new URL('../test-support/inline-authorization-fixtures.js',import.meta.url).href)};const directory=${JSON.stringify(directory)};${body}`],{encoding:'utf8',timeout:15000});}
+function child(directory,body){return spawnSync(process.execPath,['--input-type=module','-e',`import fs from 'node:fs';import path from 'node:path';import {Store} from ${JSON.stringify(frozenUrl('src/store.js'))};import {InlineAuthorizedStubRuntime} from ${JSON.stringify(frozenUrl('src/inline-authorized-runtime.js'))};import {authorize,authorizationAllowance,authorizedTransport} from ${JSON.stringify(frozenUrl('test-support/inline-authorization-fixtures.js'))};const directory=${JSON.stringify(directory)};${body}`],{encoding:'utf8',timeout:15000});}
 function assertOld(store,accounts){for(const [id,a]of Object.entries(accounts))assert.deepEqual(store.state.billing.accounts[id],a);}
 test('missing/incorrect stub consent changes no account or grant; absent runtime approval creates no directory',t=>{
   const d=prepareInlineAdmissionHistory(t),s=new Store(d);try{const before=structuredClone(s.state);assert.throws(()=>initInlineStubAuthorization(s,{allowance:authorizationAllowance()}),/explicit_stub_authorization_required/);assert.throws(()=>authorize(s,{...authorizationAllowance(),mode:'live'}),/inline_live_entry_pending/);assert.deepEqual(s.state,before);}finally{s.close();}

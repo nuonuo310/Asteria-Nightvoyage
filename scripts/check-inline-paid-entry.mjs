@@ -2,11 +2,11 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import {Store} from '../src/store.js';
-import {launchInlinePaid} from '../src/inline-paid-entry.js';
-import {inlineChildEnvironment} from '../src/inline-stub-launcher.js';
-import {prepareTrialHistory,trialFixtureNow} from '../test-support/inline-trial-fixtures.js';
+import {createFrozenInlineEntrySource,frozenModule} from '../test-support/frozen-inline-entry-source.js';
 const cleanups=[],environment=process.env;let keyRequests=0;
+const frozenSource=createFrozenInlineEntrySource();
+cleanups.push(frozenSource.cleanup);
+const {Store}=await frozenModule(frozenSource.directory,'src/store.js'),{launchInlinePaid}=await frozenModule(frozenSource.directory,'src/inline-paid-entry.js'),{inlineChildEnvironment}=await frozenModule(frozenSource.directory,'src/inline-stub-launcher.js'),{prepareTrialHistory,trialFixtureNow}=await frozenModule(frozenSource.directory,'test-support/inline-trial-fixtures.js');
 try{
   const h=prepareTrialHistory({after:f=>cleanups.push(f)},{mode:'live',dispatchKind:'rehearsal'});
   // These sentinels must not be inherited by the worker. No real credential is read.
@@ -17,5 +17,5 @@ try{
   const viewed=await launchInlinePaid('read',h.directory);assert.deepEqual(viewed.dream,first.dream);assert.equal(viewed.credentialSupplierCalls,0);
   let store=new Store(h.directory);const bodies=first.dream.scenes.map(s=>s.event);try{for(const [id,a]of Object.entries(h.oldAccounts))assert.deepEqual(store.state.billing.accounts[id],a);store.withdraw('q-sparse-memory');}finally{store.close();}
   assert.equal((await launchInlinePaid('read',h.directory)).dream,null);store=new Store(h.directory);try{for(const [id,a]of Object.entries(h.oldAccounts))assert.deepEqual(store.state.billing.accounts[id],a);for(const name of fs.readdirSync(h.directory)){const f=path.join(h.directory,name);if(fs.statSync(f).isFile()){const text=fs.readFileSync(f,'utf8');for(const body of bodies)assert.ok(!text.includes(body));assert.ok(!text.includes('DUMMY-ONE-SHOT-PIPE'));assert.ok(!text.includes('DUMMY-INHERITED-FORBIDDEN'));}}}finally{store.close();}
-  console.log(JSON.stringify({command:'node scripts/check-inline-paid-entry.mjs',node:process.version,platform:process.platform,fixtureClock:new Date(trialFixtureNow).toISOString(),fixtureClockAppliesOnlyToRehearsal:true,confirmationOrigin:'independent_synthetic_fixture_not_user_consent',dispatchKind:'rehearsal',cleanChild:true,constrainedPaidGraph:true,inheritedKeyAndNodeOptionsDropped:true,dummyCredentialSupplierCalls:keyRequests,credentialChannel:'one_shot_private_stdin_pipe',stubCalls:3,stubSettledRows:3,replayAdditionalCalls:0,replayCredentialSupplierCalls:0,typedViewAvailable:true,readPreservesOriginal:true,oldAccountsUnchanged:true,withdrawalPurgedAfterReopen:true,realModelRequests:0,userStoreAccessed:false,realUserApprovalRecorded:false,providerNetworkTested:false,qualityAssessed:false,semanticSupport:'not_assessed'},null,2));
+  console.log(JSON.stringify({command:'node scripts/check-inline-paid-entry.mjs',node:process.version,platform:process.platform,sourceIdentity:'frozen-manifest-reconstruction',fixtureClock:new Date(trialFixtureNow).toISOString(),fixtureClockAppliesOnlyToRehearsal:true,confirmationOrigin:'independent_synthetic_fixture_not_user_consent',dispatchKind:'rehearsal',cleanChild:true,constrainedPaidGraph:true,inheritedKeyAndNodeOptionsDropped:true,dummyCredentialSupplierCalls:keyRequests,credentialChannel:'one_shot_private_stdin_pipe',stubCalls:3,stubSettledRows:3,replayAdditionalCalls:0,replayCredentialSupplierCalls:0,typedViewAvailable:true,readPreservesOriginal:true,oldAccountsUnchanged:true,withdrawalPurgedAfterReopen:true,realModelRequests:0,userStoreAccessed:false,realUserApprovalRecorded:false,providerNetworkTested:false,qualityAssessed:false,semanticSupport:'not_assessed'},null,2));
 }finally{process.env=environment;for(const cleanup of cleanups.reverse())cleanup();}
