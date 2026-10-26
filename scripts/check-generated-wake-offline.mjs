@@ -11,7 +11,7 @@ import {hash} from '../src/contract.js';
 import {generatedWakeFixture as fixture} from '../fixtures/generated-wake-offline.js';
 import {GeneratedWakeRehearsal} from '../src/generated-wake-runtime.js';
 import {readGeneratedWakeView,renderGeneratedWakeView} from '../src/generated-wake-records.js';
-import {generatedWakeProtocolVersion,generatedWakeRuntimeVersion,generatedWakeTextBasis} from '../src/generated-wake-protocol.js';
+import {generatedWakeProtocolVersion,generatedWakeRuntimeVersion,generatedWakeTextBasis,generatedWakePromptHash} from '../src/generated-wake-protocol.js';
 import {wakeFirstFeelingVersion} from '../src/wake-first-feeling.js';
 import {prepareInlineAdmissionHistory} from '../test-support/inline-admission-fixtures.js';
 import {createFrozenInlineEntrySource} from '../test-support/frozen-inline-entry-source.js';
@@ -100,7 +100,7 @@ try{
   assert.equal(Object.values(engine.store.state.entries).some(entry=>entry?.origin==='wake_first_feeling'),false);
 
   console.log(JSON.stringify({command:'node scripts/check-generated-wake-offline.mjs',node:process.version,platform:process.platform,
-    status:'COMPLETE_SYNTHETIC_ONLY',generatedWakeProtocolVersion,generatedWakeRuntimeVersion,wakeFirstFeelingVersion,
+    status:'COMPLETE_SYNTHETIC_ONLY',generatedWakeProtocolVersion,generatedWakeRuntimeVersion,generatedWakePromptHash,wakeFirstFeelingVersion,
     oldManifestLfSha256:manifestSha256,oldInventoryHash:expectedOldInventoryHash,newInventoryHash:hash(currentInventory),
     oldInventoryFiles:Object.keys(profile.files).length,newInventoryFiles:Object.keys(currentInventory).length,addedFiles:added,
     currentPreflightReason:currentPreflight.reason,currentPaidContractReason:'paid_contract_source_changed',

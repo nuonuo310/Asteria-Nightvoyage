@@ -1,5 +1,7 @@
 # NV-GENERATED-WAKE-OFFLINE-01 本地验证回执
 
+> R1 续接证据见 `docs/validation/generated-wake-offline-r1-validation.md`；PR #101 已存在并保持 Draft。以下为 R1 之前的 Windows 验证记录，保留不覆盖。
+
 - 回执状态：`COMPLETE_SYNTHETIC_ONLY`
 - 交付状态：`BLOCKED_DELIVERY`。实现分支已推送；Draft PR 未创建，因为本机没有 `gh`/`hub`、没有 `GH_TOKEN`/`GITHUB_TOKEN`，且未读取凭据存储。
 - 实现基线：`4e994b5f2ab0c42df4bdb9cff2a95aa9fc96d94f`
