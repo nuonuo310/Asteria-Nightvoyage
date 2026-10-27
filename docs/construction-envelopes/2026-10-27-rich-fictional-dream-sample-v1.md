@@ -132,3 +132,22 @@ Phase A 交付后，总控依据本次对话中糯糯“刚充值，让它多干
 随后糯糯亲自在普通 PowerShell 运行该 inventory-pinned 脚本并在隐藏提示中粘贴 Key，视为 R1/R2 下唯一真实批次的现场启动授权。脚本只允许一次启动；若任何 provider 请求进入 unknown/timeout/cancelled，或某 run 未 completed，立即停止余下场次且不得重试。完成后必须撤销 release、关闭 Store、保存三场真实内容与账务回执；仍保持 PR #107 Draft，不 ready、不合并、不部署。
 
 原价格窗口 `2026-10-28T00:00:00Z` 不放宽。若到期前未启动，必须失败关闭并交回总控，不得自行延长或刷新费率合同。
+
+
+## R3 · 专用 Store 路径一致性修正（2026-10-27）
+
+糯糯按已审 R2 安全入口输入凭据一次后，入口在任何 API 网络请求和 Store 创建之前返回 `rich_sample_dedicated_store_required`。回执同时证明 `networkAttempts=0`、`realModelRequests=0`、`storeExists=false`、费用 0、release 已撤销、凭据未持久化。该次仅完成内存凭据交付，未形成 provider attempt，不消耗 R1 的唯一真实批次；允许修正后再次由糯糯现场输入一次。
+
+总控定位的确定原因：Phase B 固定目录 basename 为 `rich-fictional-dream-sample-01`，而已冻结 Phase A `runtime.mjs` 的专用目录契约只接受 basename 以 `nightvoyage-rich-dream-sample-` 开头。不得为适配错误路径而修改或放宽 Phase A runtime。
+
+在同一 worktree、分支和 PR #107，仅授权把 Phase B 专用 Store 精确改为：
+
+`C:\Users\Administrator\AppData\Local\Nightvoyage\nightvoyage-rich-dream-sample-01`
+
+允许同步修改 `phase-b/config.mjs`、R1 release 对象及其 hash、`secure-input.ps1` 中的固定 Store 检查、Phase B identity/generator、定向测试和本轮验证回执。不得改变 source、prompt、transport、runtime、records、价格、预算、调用数、顺序、无重试语义或任何用户旧 Store。
+
+必须在 credential prompt 之前新增并验证静态一致性：固定目录 basename 必须满足冻结 runtime 的精确 dedicated prefix；使用 dummy simulator 在临时父目录下构造同 prefix 的 Store、正常关闭并删除，证明不是只比较字符串。准入失败时不得启动 secure console 或提示 Key。
+
+只用 dummy frame 完成 R3 测试并重钉 Phase B identity；施工端不得读取真实 Key或运行模型。提交、push 后停在 `READY_FOR_USER_SECURE_INPUT_R3`，交回同一条形式的普通 PowerShell 命令。糯糯再次在隐藏提示中输入 Key即恢复 R1 唯一真实批次。价格窗口仍为 `2026-10-28T00:00:00Z`；到期则失败关闭，不自行延长。
+
+保持 PR #107 Draft；不另开包/PR，不 ready、不合并、不部署、不生成后来回想、不自动续开任务。
