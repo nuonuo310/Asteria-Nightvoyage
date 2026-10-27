@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "contract": "nv-rich-fictional-dream-sample-phase-b-r2-ready-v1",
+  "status": "READY_FOR_USER_SECURE_INPUT",
+  "authority": {
+    "package": "docs/construction-envelopes/2026-10-27-rich-fictional-dream-sample-v1.md",
+    "commit": "fdbdfdda2732a7f2bebb12b46b039e067c498199",
+    "section": "R2"
+  },
+  "fixedCandidate": {
+    "head": "f27db88b15426a7c32911aa3f4cf6016cd3527e9",
+    "tree": "1939d96805523bc2f3ff20491868652bb65f267d"
+  },
+  "repository": "nuonuo310/Asteria-Nightvoyage",
+  "worktree": "C:\\Users\\Administrator\\Desktop\\Asteria-Nightvoyage-NV-RICH-FICTIONAL-DREAM-SAMPLE-01",
+  "branch": "codex/nightvoyage-rich-fictional-dream-sample-01",
+  "phaseA": {
+    "head": "c9c0438945bb35a1b507ca14166136c4292f73ec",
+    "tree": "375bc898da910d2311903ed9a4a74df50f2d95a0",
+    "parent": "621074a9a57772d957e43bed8d26ea7fae3a0561",
+    "identityHash": "851e443a44bb044e8f2153dd791cc47ec653713b3bdc7339c5a0513cbc2c44ea"
+  },
+  "phaseB": {
+    "identityHash": "a24b55a430b9a663c8bb95bcbed0f97e079f524fa326d98158045ff40b0a2e5c",
+    "releaseHash": "3f14ffc735dcb62284424378b3596312976f14a7b6e36fb45b26e5886ae60969",
+    "executionFiles": 11,
+    "secureConsolePinned": true,
+    "securePowerShellEntryPinned": true,
+    "releasePresentAfterCheck": false,
+    "dedicatedStoreExists": false
+  },
+  "r2Checks": {
+    "environmentCredentialFallbackRemoved": true,
+    "coreRunRequiresExplicitSupplier": true,
+    "missingSupplierReason": "rich_sample_credential_source_unavailable",
+    "missingSupplierBeforeWorker": true,
+    "secureInputPromptCount": 1,
+    "promptAfterAdmission": true,
+    "secureStringBstrZeroed": true,
+    "credentialFrameStdinOnly": true,
+    "credentialFrameByteLimit": 8192,
+    "delayedSupplierUntilCredentialRequired": true,
+    "releaseRemovedOnAdmissionFailure": true,
+    "releaseRevokedOnRunClose": true,
+    "providerRawErrorPrinted": false,
+    "authorizationHeaderPrinted": false
+  },
+  "priceEvidence": {
+    "source": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
+    "savedPageSha256": "556097caba8adfeeed6455714bffd731c7f60db520fcee06a922eba5840663a3",
+    "modelAlias": "deepseek-flash",
+    "observedModelAlias": "DeepSeek-V4.1-Flash-1017",
+    "peakInputMicroCnyPerMillion": 2000000,
+    "peakOutputMicroCnyPerMillion": 8000000,
+    "currency": "CNY",
+    "exactReviewedRates": true
+  },
+  "admission": {
+    "status": "READY_FOR_ONE_LIVE_BATCH",
+    "ok": true,
+    "credentialSupplierCalls": 0,
+    "sentinelSupplierCalls": 0,
+    "networkAttempts": 0,
+    "realModelRequests": 0,
+    "storeExists": false
+  },
+  "validation": {
+    "targetedTests": {
+      "command": "node --test test/rich-fictional-dream-sample.test.js test/rich-fictional-dream-sample-phase-b.test.js",
+      "tests": 22,
+      "pass": 22,
+      "fail": 0
+    },
+    "dummyFrameTestsOnly": true,
+    "powershellSyntaxParsed": true,
+    "admissionFailureNoPromptVerified": true
+  },
+  "secureEntryCommand": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\Administrator\\Desktop\\Asteria-Nightvoyage-NV-RICH-FICTIONAL-DREAM-SAMPLE-01\\scripts\\nv-rich-fictional-dream-sample-01\\phase-b\\secure-input.ps1\" -PriceFile \"C:\\Users\\Administrator\\AppData\\Local\\Temp\\deepseek-pricing-20261028.html\"",
+  "boundaries": {
+    "realKeyReadByAgent": false,
+    "credentialStoreRead": false,
+    "realModelRequests": 0,
+    "networkRequests": 0,
+    "realStoreCreated": false,
+    "releaseJsonCommitted": false,
+    "phaseBExecuted": false,
+    "ready": false,
+    "merged": false,
+    "deployed": false
+  }
+}

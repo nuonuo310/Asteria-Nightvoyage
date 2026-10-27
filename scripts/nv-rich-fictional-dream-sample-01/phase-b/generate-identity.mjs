@@ -10,7 +10,8 @@ import {
 
 const directory=fileURLToPath(new URL('.',import.meta.url));
 const digest=bytes=>createHash('sha256').update(bytes).digest('hex');
-const files=fs.readdirSync(directory,{withFileTypes:true}).filter(entry=>entry.isFile()&&entry.name.endsWith('.mjs'))
+const executionName=name=>name.endsWith('.mjs')||name.endsWith('.ps1');
+const files=fs.readdirSync(directory,{withFileTypes:true}).filter(entry=>entry.isFile()&&executionName(entry.name))
   .map(entry=>entry.name).sort((left,right)=>left.localeCompare(right,'en'));
 const executionFiles={};
 for(const name of files){

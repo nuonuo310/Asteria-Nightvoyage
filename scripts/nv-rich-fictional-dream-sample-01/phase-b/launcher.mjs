@@ -25,10 +25,15 @@ function phaseAProof(){
   return JSON.stringify(proof);
 }
 
-export function launchPhaseB(action,{priceFile,credentialSupplier=()=>process.env.NIGHTVOYAGE_DEEPSEEK_KEY,timeoutMs=phaseBWorkerTimeoutMs}={}){
+export function launchPhaseB(action,{priceFile,credentialSupplier,timeoutMs=phaseBWorkerTimeoutMs}={}){
   if(!['preflight','run'].includes(action)||typeof priceFile!=='string'||!path.isAbsolute(priceFile)||
-     typeof credentialSupplier!=='function'||!Number.isSafeInteger(timeoutMs)||timeoutMs<1||timeoutMs>phaseBWorkerTimeoutMs){
+     credentialSupplier!==undefined&&typeof credentialSupplier!=='function'||
+     !Number.isSafeInteger(timeoutMs)||timeoutMs<1||timeoutMs>phaseBWorkerTimeoutMs){
     return Promise.resolve({status:'blocked',ready:false,reason:'invalid_rich_sample_phase_b_launcher_arguments',
+      credentialSupplierCalls:0,networkAttempts:0,storeCreated:false});
+  }
+  if(action==='run'&&typeof credentialSupplier!=='function'){
+    return Promise.resolve({status:'blocked',ready:false,reason:'rich_sample_credential_source_unavailable',
       credentialSupplierCalls:0,networkAttempts:0,storeCreated:false});
   }
   let proof;
@@ -88,7 +93,7 @@ if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.ur
   while(args.length){const key=args.shift();if(key!=='--price-file'||Object.hasOwn(flags,key)||!args.length)break;flags[key]=args.shift();}
   if(!['preflight','run'].includes(action)||!flags['--price-file']||!path.isAbsolute(flags['--price-file'])){
     console.error('Usage: node launcher.mjs preflight|run --price-file <absolute saved official pricing HTML>');
-    console.error('Fixed source, prompt, Store, 3 runs / 12 calls, 480000 micro-CNY cap and no retry. Key is read only from the existing parent environment after preflight.');
+    console.error('Fixed source, prompt, Store, 3 runs / 12 calls, 480000 micro-CNY cap and no retry. Environment credentials are refused; run only through the inventory-pinned secure console adapter.');
     process.exitCode=1;
   }else{
     try{

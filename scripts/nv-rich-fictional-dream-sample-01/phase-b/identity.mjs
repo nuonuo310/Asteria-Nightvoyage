@@ -37,7 +37,8 @@ export function verifyPhaseBIdentity({packageDirectory=defaultPackageDirectory,r
      manifest.releaseHash!==phaseBExpectedReleaseHash||!object(manifest.executionFiles))fail('invalid_rich_sample_phase_b_identity');
   if(phaseA.identityHash!==phaseAIdentityHash||phaseA.promptHash!==phaseAPromptHash||
      phaseA.sourceHash!==phaseASourceHash||phaseA.priceSnapshotHash!==phaseAPriceSnapshotHash)fail('rich_sample_phase_a_identity_changed');
-  const actual=fs.readdirSync(packageRoot,{withFileTypes:true}).filter(entry=>entry.isFile()&&entry.name.endsWith('.mjs'))
+  const executionName=name=>name.endsWith('.mjs')||name.endsWith('.ps1');
+  const actual=fs.readdirSync(packageRoot,{withFileTypes:true}).filter(entry=>entry.isFile()&&executionName(entry.name))
     .map(entry=>entry.name).sort((left,right)=>left.localeCompare(right,'en'));
   const declared=Object.keys(manifest.executionFiles).sort((left,right)=>left.localeCompare(right,'en'));
   if(actual.length!==declared.length||actual.some((name,index)=>name!==declared[index]))fail('invalid_rich_sample_phase_b_identity');

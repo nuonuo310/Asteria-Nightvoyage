@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import {PassThrough} from 'node:stream';
 import {EventEmitter} from 'node:events';
 import {fileURLToPath} from 'node:url';
 import {hash} from '../src/contract.js';
@@ -11,6 +12,8 @@ import {readPhaseBRelease,validatePhaseBRelease} from '../scripts/nv-rich-fictio
 import {verifyPhaseBIdentity} from '../scripts/nv-rich-fictional-dream-sample-01/phase-b/identity.mjs';
 import {verifyPhaseBPriceEvidence} from '../scripts/nv-rich-fictional-dream-sample-01/phase-b/price-check.mjs';
 import {createDeepSeekTransport} from '../scripts/nv-rich-fictional-dream-sample-01/phase-b/transport.mjs';
+import {launchPhaseB} from '../scripts/nv-rich-fictional-dream-sample-01/phase-b/launcher.mjs';
+import {runSecureConsole} from '../scripts/nv-rich-fictional-dream-sample-01/phase-b/secure-console.mjs';
 import {
   phaseAHead,phaseAIdentityHash,phaseAParent,phaseAPriceSnapshotHash,phaseAPromptHash,
   phaseASourceHash,phaseATree,phaseBAllowanceCapMicroCny,phaseBExpectedReleaseHash,
@@ -40,13 +43,76 @@ test('R1 release object is exact and independently hash-pinned',t=>{
 test('Phase B identity pins new files while preserving Phase A identity',t=>{
   const value=verifyPhaseBIdentity();
   assert.equal(value.phaseAIdentityHash,phaseAIdentityHash);
-  assert.equal(value.phaseBIdentityHash,'3be74c80ff49d60a7b72b8057142db1abaeee44f2d838a6b4bc6a79fb4a89927');
-  assert.equal(value.executionFiles,9);
+  assert.equal(value.phaseBIdentityHash,'a24b55a430b9a663c8bb95bcbed0f97e079f524fa326d98158045ff40b0a2e5c');
+  assert.equal(value.executionFiles,11);
+  const manifest=JSON.parse(fs.readFileSync(path.join(packageDirectory,'phase-b','identity.json'),'utf8'));
+  assert.equal(typeof manifest.executionFiles['secure-console.mjs'],'string');
+  assert.equal(typeof manifest.executionFiles['secure-input.ps1'],'string');
   const directory=temporary();t.after(()=>fs.rmSync(directory,{recursive:true,force:true}));
   const copy=path.join(directory,'package');fs.cpSync(packageDirectory,copy,{recursive:true});
-  fs.writeFileSync(path.join(copy,'phase-b','unlisted.mjs'),'export const hidden=true;\n');
+  fs.writeFileSync(path.join(copy,'phase-b','unlisted.ps1'),'Write-Host hidden\n');
   assert.throws(()=>verifyPhaseBIdentity({packageDirectory:path.join(copy,'phase-b'),repositoryRoot:root}),
     /invalid_rich_sample_phase_b_identity/);
+});
+
+test('core launcher refuses run without explicit supplier and has no environment fallback',async()=>{
+  const source=fs.readFileSync(path.join(packageDirectory,'phase-b','launcher.mjs'),'utf8');
+  assert.equal(source.includes('process.env'),false);
+  assert.equal(source.includes('NIGHTVOYAGE_DEEPSEEK_KEY'),false);
+  const previous=process.env.NIGHTVOYAGE_DEEPSEEK_KEY;
+  process.env.NIGHTVOYAGE_DEEPSEEK_KEY='DUMMY-ENV-ONLY-SENTINEL';
+  try{
+    const result=await launchPhaseB('run',{priceFile:'C:\\dummy\\pricing.html'});
+    assert.equal(result.status,'blocked');
+    assert.equal(result.reason,'rich_sample_credential_source_unavailable');
+    assert.equal(result.credentialSupplierCalls,0);
+    assert.equal(result.networkAttempts,0);
+    assert.equal(result.storeCreated,false);
+    assert.equal(JSON.stringify(result).includes('DUMMY-ENV-ONLY-SENTINEL'),false);
+  }finally{
+    if(previous===undefined)delete process.env.NIGHTVOYAGE_DEEPSEEK_KEY;
+    else process.env.NIGHTVOYAGE_DEEPSEEK_KEY=previous;
+  }
+});
+
+test('secure console reads one dummy frame only after the explicit supplier call',async()=>{
+  const input=new PassThrough();let key;
+  const result=await runSecureConsole({priceFile:path.join(root,'package.json'),input,launch:async(action,{credentialSupplier})=>{
+    assert.equal(action,'run');
+    assert.equal(typeof credentialSupplier,'function');
+    assert.equal(input.listenerCount('data'),0);
+    const pending=credentialSupplier();
+    assert.equal(input.listenerCount('data'),1);
+    input.end(JSON.stringify({credential:'DUMMY-FRAME-ONLY'}));
+    key=await pending;
+    assert.throws(()=>credentialSupplier(),/rich_sample_credential_frame_repeated/);
+    return {status:'dummy_completed',credentialSupplierCalls:1};
+  }});
+  assert.equal(key,'DUMMY-FRAME-ONLY');
+  assert.equal(JSON.stringify(result).includes('DUMMY-FRAME-ONLY'),false);
+});
+
+test('PowerShell secure entry prompts once only after admission and keeps the key out of env argv files and output',()=>{
+  const ps=fs.readFileSync(path.join(packageDirectory,'phase-b','secure-input.ps1'),'utf8');
+  const launcher=fs.readFileSync(path.join(packageDirectory,'phase-b','launcher.mjs'),'utf8');
+  const prompts=ps.match(/Read-Host\s+'DeepSeek API Key'\s+-AsSecureString/g)??[];
+  assert.equal(prompts.length,1);
+  assert.equal(ps.includes('NIGHTVOYAGE_DEEPSEEK_KEY'),false);
+  assert.equal(ps.includes('Get-Clipboard'),false);
+  assert.equal(ps.includes('Set-Content'),false);
+  assert.equal(ps.includes('$env:'),false);
+  assert.equal(ps.includes('Write-Output $plain'),false);
+  assert.equal(ps.includes('Write-Host $plain'),false);
+  const admission=ps.indexOf('check-admission.mjs'),ready=ps.indexOf('READY_FOR_ONE_LIVE_BATCH'),prompt=ps.indexOf('Read-Host');
+  assert.ok(admission>=0&&admission<prompt);
+  assert.ok(ready>=0&&ready<prompt);
+  assert.ok(ps.includes('SecureStringToBSTR'));
+  assert.ok(ps.includes('ZeroFreeBSTR'));
+  assert.ok(ps.includes('RedirectStandardInput = $true'));
+  assert.ok(ps.includes('StandardInput.BaseStream.Write'));
+  assert.ok(ps.includes('if ($releasePrepared)'));
+  assert.ok(ps.includes('Remove-Item -LiteralPath $releasePath'));
+  assert.ok(launcher.includes("if(action==='run')revokePhaseBRelease(phaseBReleasePath);"));
 });
 
 test('price evidence accepts only the reviewed flash rates and unexpired window',t=>{

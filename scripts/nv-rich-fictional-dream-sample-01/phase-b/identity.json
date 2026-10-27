@@ -12,11 +12,13 @@
   "executionFiles": {
     "check-admission.mjs": "f1b8f1817936a7be2233e97cd793e98b2fd3587fa3f2580377311d8f4d4aae50",
     "config.mjs": "fbd2355b777bc9eeea3a7dfa611f322aa3d7efaaed11111146ecf4f585783578",
-    "generate-identity.mjs": "e66398f38afae0d255097694c7a1745247ecf0310239a182dfee237de3235c4c",
-    "identity.mjs": "0fea5be69233f1150bc83653103cf062914be6a684b2d41f0d54c07412a749a5",
-    "launcher.mjs": "276e80ff1f02014ffafdf2b38d68122f980e90325876badcc7f41071c3489970",
+    "generate-identity.mjs": "ee610988ef8c15404a1aaf0267fc5d7e7613e19c6c8b58e00970f73a669ce86e",
+    "identity.mjs": "628cca51d7df9f76287352272485818ff1d6c82070caff103d1d512a7a301ad0",
+    "launcher.mjs": "b12b8a2199eb6bedb177c72f7e633e368e3e99a58801ec12efa67c4c8b3c2de8",
     "price-check.mjs": "6b1ebd8a80213319d6ac8dd9362f8995ba4b91de4e2757acacdbec8052f78892",
     "release.mjs": "951790d02f55b3ed8076ce3f99580de745750b292c672ee94f5d9a0dc278eb3a",
+    "secure-console.mjs": "7632c27fd49018abb76811ddd6f31745d3a260ab1eff44a2b9f3b793f0d3e2bb",
+    "secure-input.ps1": "90ee18652703d0230b27a84fc4893d409a3d5a9bd761e09e4a9aa062049d4a7f",
     "transport.mjs": "601da4ea767eaadec58acfe42ba56bb633c4078f7f097a8924f91300c3bb5e6d",
     "worker.mjs": "e3b151d5662533ae928f9a38a7ed70a9f6b07186fb07c8ea269be54b28d00e51"
   }
