@@ -72,9 +72,9 @@ test('absent, uncertain and omitted feelings stay distinct and omitted is hidden
   const uncertain=await complete(t,'story-uncertain',{wakeOptions:{firstFeeling:{status:'uncertain'}}});
   const omitted=await complete(t,'story-omitted',{wakeOptions:{omitFirstFeeling:true}});
   const absentHtml=renderGeneratedWakeStoryHtml(absent.view),uncertainHtml=renderGeneratedWakeStoryHtml(uncertain.view),omittedHtml=renderGeneratedWakeStoryHtml(omitted.view);
-  assert.match(absentHtml,/没有记下刚醒时的心情。/);assert.ok(absentHtml.includes('id="feeling-title"'));
+  assert.equal(absentHtml.includes('无（明确记为无）。'),true);assert.equal(absentHtml.includes('没有记下刚醒时的心情。'),false);assert.ok(absentHtml.includes('id="feeling-title"'));
   assert.match(uncertainHtml,/刚醒时的心情，还说不清。/);assert.ok(uncertainHtml.includes('id="feeling-title"'));
-  assert.equal(omittedHtml.includes('id="feeling-title"'),false);assert.equal(omittedHtml.includes('刚醒心情'),false);
+  assert.equal(omittedHtml.includes('id="feeling-title"'),false);assert.equal(omittedHtml.includes('刚醒心情'),false);assert.equal(omittedHtml.includes('无（明确记为无）。'),false);
   for(const html of [absentHtml,uncertainHtml,omittedHtml])assert.ok(html.includes(fixture.scenes[0].event));
 });
 
@@ -99,7 +99,7 @@ test('deleting the feeling hides its section without inventing a quiet mood',asy
   assert.equal(view.firstFeeling,null);assert.equal(view.firstFeelingDeleted,true);
   const html=renderGeneratedWakeStoryHtml(view);
   assert.equal(html.includes('id="feeling-title"'),false);assert.equal(html.includes(fixture.wake.firstFeeling.text),false);
-  assert.equal(html.includes('没有记下刚醒时的心情。'),false);
+  assert.equal(html.includes('无（明确记为无）。'),false);assert.equal(html.includes('没有记下刚醒时的心情。'),false);
 });
 
 test('source withdrawal and dream deletion make later exports unreadable and body-free',async t=>{

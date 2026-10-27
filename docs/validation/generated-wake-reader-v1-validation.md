@@ -81,3 +81,14 @@
 ## STOP 触碰
 
 无。未改写正文/混层，未生成无来源心情或回想，未在撤回后泄漏旧正文，未读取或写入真实 Store，未放宽校验/清单，未修改冻结 `src/`，未发起真实外部调用或费用。
+
+## R1 收尾修正（2026-10-27）
+
+- 授权：`1a404c68f6db3b84adb11b6dcc32bb4036216cb0` 的 R1 节；沿用既有 worktree、分支与 Draft PR #103，未新建任务或 PR。
+- 唯一行为修正：`renderFeeling` 的 absent 文案改为 `无（明确记为无）。`；present、uncertain、省略与已删除路径不变。
+- 测试断言：absent 显示新文案且不含旧文案；omitted 与已删除均不出现 absent 文案。
+- 权威包副本已同步至 R1 内容。
+- `node --test test/generated-wake-story.test.js`：10/10，退出码 0，994.0949 ms。
+- `git diff --check`：退出码 0，无空白错误。
+- 按 R1 未重跑完整 1958 测试或截图；前轮证据保持原记录，不构成本轮重跑。
+- 未访问真实 Store、Key 或模型；PR 保持 Draft，不 ready、不合并、不部署。

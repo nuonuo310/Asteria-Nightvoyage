@@ -31,7 +31,7 @@ function renderFeeling(view){
   const feeling=view.firstFeeling;
   if(feeling===null)return '';
   const copy=feeling.status==='present'?`<p class="feeling-copy">${text(feeling.text)}</p>`:
-    feeling.status==='absent'?'<p class="feeling-quiet">没有记下刚醒时的心情。</p>':
+    feeling.status==='absent'?'<p class="feeling-quiet">无（明确记为无）。</p>':
       '<p class="feeling-quiet">刚醒时的心情，还说不清。</p>';
   return chapter('刚醒心情','feeling-title',copy,'feeling');
 }
