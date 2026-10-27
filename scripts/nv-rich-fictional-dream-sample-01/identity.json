@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "reviewVersion": "nv-rich-fictional-dream-sample-inventory-v1",
+  "protocolVersion": "nv-rich-fictional-dream-sample-v1",
+  "runtimeVersion": "nv-rich-fictional-dream-sample-fake-runtime-v1",
+  "promptVersion": "nv-rich-fictional-dream-sample-prompt-v1",
+  "normalizationVersion": "nv-rich-fictional-dream-sample-normalization-v1",
+  "extractionVersion": "nv-rich-fictional-dream-sample-extraction-v1",
+  "authorizationVersion": "nv-rich-fictional-dream-sample-authorization-v1",
+  "source": {
+    "id": "rich-fictional-dream-sample-memory",
+    "version": "1",
+    "sha256": "605d69511cc72c0b0ca60a77be34dafb061e63b57e98db94b778cf7bfce8cbb6"
+  },
+  "promptHash": "23ab5917e42bfbcf4f6072f43142d5d32b9c7e47f3d19b426aaa49612bf15bea",
+  "priceSnapshotHash": "4a4cfc970a3e285756b9ce0703467c13ff3b76da4578a0f7e9f637d4a3ecd00d",
+  "allowanceId": "nv-rich-fictional-dream-sample-001",
+  "allowanceCapMicroCny": 480000,
+  "maxRuns": 3,
+  "maxCalls": 12,
+  "maxOutputTokens": 400,
+  "requestByteLimit": 16384,
+  "coreInventoryHash": "c1e14b491c0249061fc13714575b8a67cd8b1fc4c24c39bde26b486be4af5ad2",
+  "coreInventoryFiles": 92,
+  "executionFiles": {
+    "authorization.mjs": "da1005d796d44015dbe8fd4177e53fced36098caf5ed6625f482b17fcc31e730",
+    "generate-identity.mjs": "06bc429fe6071bb0cb276553e7021adc1fd93e86d1ff0cbb6167b06dbae6ec23",
+    "identity.mjs": "dedb6f4f99512c4c5aab03afdd492cb8bb4cba69eb2a90afc0444ffb6c9f74ea",
+    "live-launcher.mjs": "14e520385d169682173876341e5116556fdb80ce86048a8d13745d415cf8180c",
+    "offline-check.mjs": "8ca11b13db21f0123cdeea4ba609f65262e3bbb243b5ae2f28a7b4b8913ea1e2",
+    "offline-sample.mjs": "1fb81186a584533f00d886174a1fb63f11056b94a1f3228187c4a044ecd17920",
+    "protocol.mjs": "2541ebbb4e83b0bdc5934f5f890e709fca93b02a8d12bce523ea9d4cce4c1288",
+    "receipt.mjs": "d35dcc6d167cbf3f85fa853f8d5310a80d9e4f5c0692abb72673b9ccf2aa949d",
+    "records.mjs": "9ba0e87bab504351cdec6202e4b224edf351eec496edc9462d11953f23841182",
+    "runtime.mjs": "4a2272908ee8d0de0a38175696d61678ed584f87ee6262b460d76d1ae7c03a63"
+  }
+}
