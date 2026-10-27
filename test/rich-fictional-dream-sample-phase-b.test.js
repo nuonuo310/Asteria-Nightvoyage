@@ -14,6 +14,7 @@ import {verifyPhaseBPriceEvidence} from '../scripts/nv-rich-fictional-dream-samp
 import {createDeepSeekTransport} from '../scripts/nv-rich-fictional-dream-sample-01/phase-b/transport.mjs';
 import {launchPhaseB} from '../scripts/nv-rich-fictional-dream-sample-01/phase-b/launcher.mjs';
 import {runSecureConsole} from '../scripts/nv-rich-fictional-dream-sample-01/phase-b/secure-console.mjs';
+import {verifyDedicatedStoreContract} from '../scripts/nv-rich-fictional-dream-sample-01/phase-b/check-admission.mjs';
 import {
   phaseAHead,phaseAIdentityHash,phaseAParent,phaseAPriceSnapshotHash,phaseAPromptHash,
   phaseASourceHash,phaseATree,phaseBAllowanceCapMicroCny,phaseBExpectedReleaseHash,
@@ -31,6 +32,7 @@ const temporary=()=>fs.mkdtempSync(path.join(os.tmpdir(),'nightvoyage-rich-sampl
 test('R1 release object is exact and independently hash-pinned',t=>{
   const directory=temporary();t.after(()=>fs.rmSync(directory,{recursive:true,force:true}));
   const file=path.join(directory,'release.json'),release=releaseObject();
+  assert.equal(phaseBExpectedReleaseHash,'b60cd22b14ced7409e07742600b06a544acddff4f79430419b01404a605b9f26');
   assert.equal(hash(release),phaseBExpectedReleaseHash);
   assert.deepEqual(validatePhaseBRelease(release),release);
   fs.writeFileSync(file,JSON.stringify(release));
@@ -40,10 +42,31 @@ test('R1 release object is exact and independently hash-pinned',t=>{
   assert.throws(()=>readPhaseBRelease(path.join(directory,'missing.json')),/rich_sample_phase_b_release_required/);
 });
 
+test('R3 fixed Store matches the frozen dedicated prefix and survives a real temporary Store lifecycle',t=>{
+  assert.equal(phaseBStoreDirectory,
+    'C:\\Users\\Administrator\\AppData\\Local\\Nightvoyage\\nightvoyage-rich-dream-sample-01');
+  assert.equal(path.basename(phaseBStoreDirectory),'nightvoyage-rich-dream-sample-01');
+  assert.ok(path.basename(phaseBStoreDirectory).startsWith('nightvoyage-rich-dream-sample-'));
+  const temporaryRoot=temporary();t.after(()=>fs.rmSync(temporaryRoot,{recursive:true,force:true}));
+  const proof=verifyDedicatedStoreContract({temporaryRoot});
+  assert.equal(proof.basename,'nightvoyage-rich-dream-sample-01');
+  assert.equal(proof.prefix,'nightvoyage-rich-dream-sample-');
+  assert.equal(proof.constructed,true);
+  assert.equal(proof.ownerLockObserved,true);
+  assert.equal(proof.closed,true);
+  assert.equal(proof.deleted,true);
+  assert.equal(proof.simulatorCalls,0);
+  assert.equal(proof.networkAttempts,0);
+  assert.deepEqual(fs.readdirSync(temporaryRoot),[]);
+  const wrongRoot=temporary();t.after(()=>fs.rmSync(wrongRoot,{recursive:true,force:true}));
+  assert.throws(()=>verifyDedicatedStoreContract({directory:path.join(wrongRoot,'rich-fictional-dream-sample-01')}),
+    /rich_sample_dedicated_store_required/);
+});
+
 test('Phase B identity pins new files while preserving Phase A identity',t=>{
   const value=verifyPhaseBIdentity();
   assert.equal(value.phaseAIdentityHash,phaseAIdentityHash);
-  assert.equal(value.phaseBIdentityHash,'a24b55a430b9a663c8bb95bcbed0f97e079f524fa326d98158045ff40b0a2e5c');
+  assert.equal(value.phaseBIdentityHash,'03bac475b3490f40d4e013aa4fdd21242d5d8e9bc86eba955bdd6f6f3c4d6494');
   assert.equal(value.executionFiles,11);
   const manifest=JSON.parse(fs.readFileSync(path.join(packageDirectory,'phase-b','identity.json'),'utf8'));
   assert.equal(typeof manifest.executionFiles['secure-console.mjs'],'string');
@@ -108,6 +131,14 @@ test('PowerShell secure entry prompts once only after admission and keeps the ke
   assert.ok(ready>=0&&ready<prompt);
   assert.ok(ps.includes('SecureStringToBSTR'));
   assert.ok(ps.includes('ZeroFreeBSTR'));
+  assert.ok(ps.includes('nightvoyage-rich-dream-sample-01'));
+  assert.ok(ps.includes('$check.storeContract.constructed'));
+  assert.ok(ps.includes('$check.storeContract.closed'));
+  assert.ok(ps.includes('$check.storeContract.deleted'));
+  const proofCheck=ps.indexOf('$check.storeContract.constructed');
+  assert.ok(proofCheck>=0&&proofCheck<prompt);
+  assert.equal(ps.includes('Nightvoyage\\rich-fictional-dream-sample-01'),false);
+  assert.equal(ps.includes('Nightvoyage\\\\rich-fictional-dream-sample-01'),false);
   assert.ok(ps.includes('RedirectStandardInput = $true'));
   assert.ok(ps.includes('StandardInput.BaseStream.Write'));
   assert.ok(ps.includes('if ($releasePrepared)'));

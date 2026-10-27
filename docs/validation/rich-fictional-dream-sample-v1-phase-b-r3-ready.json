@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "package": "NV-RICH-FICTIONAL-DREAM-SAMPLE-01",
+  "phase": "Phase B R3",
+  "status": "READY_FOR_USER_SECURE_INPUT_R3",
+  "date": "2026-10-28",
+  "repository": "nuonuo310/Asteria-Nightvoyage",
+  "branch": "codex/nightvoyage-rich-fictional-dream-sample-01",
+  "authority": {
+    "commit": "935c33bcf51c31fa5941ec36babadd7364947cdb",
+    "path": "docs/construction-envelopes/2026-10-27-rich-fictional-dream-sample-v1.md",
+    "section": "R3"
+  },
+  "fixedCandidate": {
+    "head": "5c704cd2871ddbdd7685ef5e5872b2688c96e945",
+    "tree": "0f48fb8b1bd5a9806bee7fb691addcc310d93e38"
+  },
+  "phaseA": {
+    "head": "c9c0438945bb35a1b507ca14166136c4292f73ec",
+    "tree": "375bc898da910d2311903ed9a4a74df50f2d95a0",
+    "identityHash": "851e443a44bb044e8f2153dd791cc47ec653713b3bdc7339c5a0513cbc2c44ea",
+    "runtimeModified": false
+  },
+  "phaseB": {
+    "identityHash": "03bac475b3490f40d4e013aa4fdd21242d5d8e9bc86eba955bdd6f6f3c4d6494",
+    "executionFiles": 11,
+    "releaseHash": "b60cd22b14ced7409e07742600b06a544acddff4f79430419b01404a605b9f26",
+    "storeDirectory": "C:\\Users\\Administrator\\AppData\\Local\\Nightvoyage\\nightvoyage-rich-dream-sample-01",
+    "storeBasename": "nightvoyage-rich-dream-sample-01",
+    "runtimeDedicatedPrefix": "nightvoyage-rich-dream-sample-"
+  },
+  "storeContract": {
+    "staticBasenamePrefixAccepted": true,
+    "temporaryParentProbe": true,
+    "temporaryStoreConstructed": true,
+    "ownerLockObserved": true,
+    "temporaryStoreClosed": true,
+    "ownerLockRemoved": true,
+    "temporaryStoreDeleted": true,
+    "temporaryParentDeleted": true,
+    "dummySimulatorCalls": 0,
+    "networkAttempts": 0,
+    "realStoreExists": false,
+    "legacyStoreRead": false,
+    "legacyStoreModified": false,
+    "legacyStoreDeleted": false
+  },
+  "admission": {
+    "status": "READY_FOR_ONE_LIVE_BATCH",
+    "ok": true,
+    "credentialSupplierCalls": 0,
+    "sentinelSupplierCalls": 0,
+    "credentialRead": false,
+    "networkAttempts": 0,
+    "realModelRequests": 0,
+    "chargesMicroCny": 0,
+    "releaseRevoked": true,
+    "phaseBExecuted": false
+  },
+  "validation": {
+    "command": "node --test test/rich-fictional-dream-sample.test.js test/rich-fictional-dream-sample-phase-b.test.js",
+    "tests": 23,
+    "pass": 23,
+    "fail": 0,
+    "dummyFrameTestsOnly": true,
+    "powershellSyntaxParsed": true,
+    "admissionFailureNoPromptVerified": true,
+    "pricePageSha256": "556097caba8adfeeed6455714bffd731c7f60db520fcee06a922eba5840663a3",
+    "nextRequestBytes": 4062,
+    "maxOutputTokens": 400,
+    "perCallWorstMicroCny": 35968,
+    "maxCalls": 12,
+    "worstBatchMicroCny": 431616,
+    "hardCapMicroCny": 480000
+  },
+  "boundaries": {
+    "realKeyReadByAgent": false,
+    "credentialPromptedByAgent": false,
+    "realModelRequests": 0,
+    "networkRequests": 0,
+    "chargesMicroCny": 0,
+    "realStoreCreated": false,
+    "releaseJsonCommitted": false,
+    "phaseAChanged": false,
+    "sourcePromptTransportRuntimeRecordsChanged": false,
+    "budgetOrRunStructureChanged": false,
+    "ready": false,
+    "merged": false,
+    "deployed": false
+  },
+  "secureEntryCommand": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\Administrator\\Desktop\\Asteria-Nightvoyage-NV-RICH-FICTIONAL-DREAM-SAMPLE-01\\scripts\\nv-rich-fictional-dream-sample-01\\phase-b\\secure-input.ps1\" -PriceFile \"C:\\Users\\Administrator\\AppData\\Local\\Temp\\deepseek-pricing-20261028.html\""
+}

@@ -14,9 +14,11 @@ export const phaseAPromptHash='23ab5917e42bfbcf4f6072f43142d5d32b9c7e47f3d19b426
 export const phaseASourceHash='605d69511cc72c0b0ca60a77be34dafb061e63b57e98db94b778cf7bfce8cbb6';
 export const phaseAPriceSnapshotHash='4a4cfc970a3e285756b9ce0703467c13ff3b76da4578a0f7e9f637d4a3ecd00d';
 
-export const phaseBStoreDirectory='C:\\Users\\Administrator\\AppData\\Local\\Nightvoyage\\rich-fictional-dream-sample-01';
+export const phaseBStorePrefix='nightvoyage-rich-dream-sample-';
+export const phaseBStoreBasename='nightvoyage-rich-dream-sample-01';
+export const phaseBStoreDirectory='C:\\Users\\Administrator\\AppData\\Local\\Nightvoyage\\nightvoyage-rich-dream-sample-01';
 export const phaseBReleasePath=fileURLToPath(new URL('./release.json',import.meta.url));
-export const phaseBExpectedReleaseHash='3f14ffc735dcb62284424378b3596312976f14a7b6e36fb45b26e5886ae60969';
+export const phaseBExpectedReleaseHash='b60cd22b14ced7409e07742600b06a544acddff4f79430419b01404a605b9f26';
 export const phaseBReleaseKeys=Object.freeze([
   'status','phaseAHead','phaseATree','identityHash','promptHash','sourceHash',
   'priceSnapshotHash','allowanceCapMicroCny','maxRuns','maxCalls',

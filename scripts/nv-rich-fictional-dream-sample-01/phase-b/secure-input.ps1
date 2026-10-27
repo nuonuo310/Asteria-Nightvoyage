@@ -45,7 +45,7 @@ $repoRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..\..'))
 $adapterPath = Join-Path $PSScriptRoot 'secure-console.mjs'
 $checkPath = Join-Path $PSScriptRoot 'check-admission.mjs'
 $releasePath = Join-Path $PSScriptRoot 'release.json'
-$storePath = 'C:\Users\Administrator\AppData\Local\Nightvoyage\rich-fictional-dream-sample-01'
+$storePath = 'C:\Users\Administrator\AppData\Local\Nightvoyage\nightvoyage-rich-dream-sample-01'
 
 if (-not [IO.Path]::IsPathRooted($PriceFile) -or $PriceFile.Contains('"') -or
     $PriceFile.Contains("`r") -or $PriceFile.Contains("`n")) {
@@ -80,7 +80,7 @@ $releaseJson = @'
   "allowanceCapMicroCny": 480000,
   "maxRuns": 3,
   "maxCalls": 12,
-  "storeDirectory": "C:\\Users\\Administrator\\AppData\\Local\\Nightvoyage\\rich-fictional-dream-sample-01",
+  "storeDirectory": "C:\\Users\\Administrator\\AppData\\Local\\Nightvoyage\\nightvoyage-rich-dream-sample-01",
   "noRetry": true
 }
 '@
@@ -107,7 +107,13 @@ try {
         Stop-SecureInput 'admission_receipt_invalid'
     }
     if ($check.status -ne 'READY_FOR_ONE_LIVE_BATCH' -or -not $check.ok -or
-        $check.storeExists -ne $false -or $check.credentialSupplierCalls -ne 0 -or
+        $check.storeDirectory -ne $storePath -or $check.storeExists -ne $false -or
+        $check.storeContract.basename -ne 'nightvoyage-rich-dream-sample-01' -or
+        $check.storeContract.prefix -ne 'nightvoyage-rich-dream-sample-' -or
+        $check.storeContract.constructed -ne $true -or $check.storeContract.ownerLockObserved -ne $true -or
+        $check.storeContract.closed -ne $true -or $check.storeContract.deleted -ne $true -or
+        $check.storeContract.simulatorCalls -ne 0 -or $check.storeContract.networkAttempts -ne 0 -or
+        $check.credentialSupplierCalls -ne 0 -or
         $check.sentinelSupplierCalls -ne 0 -or $check.networkAttempts -ne 0 -or
         $check.realModelRequests -ne 0) {
         Stop-SecureInput 'admission_not_ready'

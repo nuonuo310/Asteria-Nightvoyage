@@ -8,17 +8,17 @@
   "phaseAPromptHash": "23ab5917e42bfbcf4f6072f43142d5d32b9c7e47f3d19b426aaa49612bf15bea",
   "phaseASourceHash": "605d69511cc72c0b0ca60a77be34dafb061e63b57e98db94b778cf7bfce8cbb6",
   "phaseAPriceSnapshotHash": "4a4cfc970a3e285756b9ce0703467c13ff3b76da4578a0f7e9f637d4a3ecd00d",
-  "releaseHash": "3f14ffc735dcb62284424378b3596312976f14a7b6e36fb45b26e5886ae60969",
+  "releaseHash": "b60cd22b14ced7409e07742600b06a544acddff4f79430419b01404a605b9f26",
   "executionFiles": {
-    "check-admission.mjs": "f1b8f1817936a7be2233e97cd793e98b2fd3587fa3f2580377311d8f4d4aae50",
-    "config.mjs": "fbd2355b777bc9eeea3a7dfa611f322aa3d7efaaed11111146ecf4f585783578",
+    "check-admission.mjs": "5e3ba98c8e0afd8b1b1af7ea09d9623f2c8e8105c65b5c7d396fd808c8847d96",
+    "config.mjs": "4f746b4aea11639fb6178bfc56009b6303017e04b61cb3f0e725e1571a0d0184",
     "generate-identity.mjs": "ee610988ef8c15404a1aaf0267fc5d7e7613e19c6c8b58e00970f73a669ce86e",
     "identity.mjs": "628cca51d7df9f76287352272485818ff1d6c82070caff103d1d512a7a301ad0",
     "launcher.mjs": "b12b8a2199eb6bedb177c72f7e633e368e3e99a58801ec12efa67c4c8b3c2de8",
     "price-check.mjs": "6b1ebd8a80213319d6ac8dd9362f8995ba4b91de4e2757acacdbec8052f78892",
     "release.mjs": "951790d02f55b3ed8076ce3f99580de745750b292c672ee94f5d9a0dc278eb3a",
     "secure-console.mjs": "7632c27fd49018abb76811ddd6f31745d3a260ab1eff44a2b9f3b793f0d3e2bb",
-    "secure-input.ps1": "90ee18652703d0230b27a84fc4893d409a3d5a9bd761e09e4a9aa062049d4a7f",
+    "secure-input.ps1": "dae6b857157be52ba3bd8b708195613d5037f3968dfd541955f2715e94621782",
     "transport.mjs": "601da4ea767eaadec58acfe42ba56bb633c4078f7f097a8924f91300c3bb5e6d",
     "worker.mjs": "e3b151d5662533ae928f9a38a7ed70a9f6b07186fb07c8ea269be54b28d00e51"
   }
