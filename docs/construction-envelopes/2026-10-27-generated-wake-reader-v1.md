@@ -96,3 +96,31 @@ base codex/nightvoyage-generated-wake-offline-01，固定上述#101 head。
 回执为COMPLETE/BLOCKED/TOTAL CONTROL DECISION REQUIRED，
 列HEAD/tree、base、文件范围、测试/视觉证据、限制、STOP触碰情况。
 不ready、不merge、不部署、不自动续开下一包。DONE LINE达到即结束。
+
+## R1 · 总控收尾裁决（2026-10-27）
+本节是同包一次恢复授权，覆盖原文中本次恢复所涉的启动及验证要求；不是新任务。
+仅恢复既有 Asteria-Nightvoyage-NV-GENERATED-WAKE-READER-01 worktree、
+codex/nightvoyage-generated-wake-reader-01 分支及 Draft PR #103。
+预期实现 HEAD 8b14c592c699671cccc15027e78d43179c4a7d07，
+base 仍为 #101@40589d54838f542e470ed9d45c1f2500193b6eaa。
+先确认无同包在跑；有任务运行则不重复启动。身份不符先只读报告，不覆盖或回退。
+
+唯一修正：renderFeeling 的 absent 文案由“没有记下刚醒时的心情。”
+改为“无（明确记为无）。”，不扩写成平静、没有特别心情或其他心理解释。
+未记录/省略及已删除仍隐藏栏目，uncertain 与 present 保持原行为。
+同步已有状态区分测试，明确 absent 显示新文案且不出现旧文案；
+省略/已删除不出现 absent 文案，不改存储、状态或投影语义。
+
+允许变更仅 scripts/generated-wake-story-html.mjs、
+test/generated-wake-story.test.js、本权威包副本和对应说明/验证回执。
+不改 src/fixtures/生成协议/清单/许可/账本，不访问真实 Store/Key/模型，
+不新增示例剧情、布局功能、worktree、分支或 PR。
+本次是短显示文字修正：运行 node --test test/generated-wake-story.test.js
+与 git diff --check 即可；既有完整1958测试与截图仅保留为前轮证据，
+不得冒称本轮重跑，也不要求再次完整测试或截图。
+出现新的相关失败才按证据扩大必要验证。
+
+在原分支提交、推送至既有 #103；回执包含精确 HEAD/tree、差异文件和实际验证。
+PR 继续 Draft，不 ready、不合并、不部署。
+本修正通过即达到本包 DONE LINE，停止施工；不自动续开下一包，
+不把后续内容质量或动态余韵作为本包阻断项。
