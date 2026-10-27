@@ -108,3 +108,27 @@ Phase A 交付后，总控依据本次对话中糯糯“刚充值，让它多干
 先以无凭据 fake/sentinel 验证 R1 精确匹配、价格、目录、调用数、预算及零提前供应；定向验证通过后，允许紧接着执行唯一真实批次。按 run 1→3 串行，每场 scene 0→2、wake；每个结果无论好坏都保存。任一请求得到不确定网络结果、超时、取消、非 settled 账务或无干净 committed prefix 时停止后续真实调用；不重发同一 stage，不补第四场。这里的 committed-prefix 恢复只用于进程在“已 settled 且已原子保存”之后崩溃的确定恢复，不能重放 unknown/failed/cancelled 请求。
 
 完成后撤销 release（使 launcher 再次失败关闭），关闭 Store，生成逐场只读真实回执：三幕原文、逐幕 appraisal/before/delta/after 与证据、wake fragment/basis、独立 firstFeeling、associations、simulated residue、四笔 usage/charge 和总费用；later recollection 保持空。主阅读面不突出模型名。提交并 push 到 PR #107，保持 Draft；交回总控人工内容裁决后停止，不 ready、不合并、不部署、不续开任务。
+
+
+## R2 · 安全交互式凭据入口修正（2026-10-27）
+
+总控已核验 PR #107 的 Phase B 候选 `f27db88b15426a7c32911aa3f4cf6016cd3527e9`，tree `1939d96805523bc2f3ff20491868652bb65f267d`。接受 release/价格/身份/固定 HTTPS transport/子进程隔离和无重试结构；接受本次 `rich_sample_credential_source_unavailable` 为零请求、零费用、零 Store 的前置阻断，因此它不消耗 R1 唯一真实批次。
+
+发现一项必须修正的问题：`launcher.mjs` 默认 supplier 读取 `process.env.NIGHTVOYAGE_DEEPSEEK_KEY`，CLI 文案也宣称从父环境读取。即使本次值不存在，该路径仍与 R1“不得继承环境”冲突。禁止通过设置环境变量恢复运行。
+
+在同一 worktree、同一分支和 PR #107 内，仅授权以下 R2 修正：
+
+1. 删除所有环境变量凭据 fallback。核心 launcher 的 `run` 必须要求显式 supplier；缺失时在 Store/网络前返回 `rich_sample_credential_source_unavailable`。
+2. 增加一个 inventory-pinned Node 安全控制台适配器和一个 PowerShell 启动脚本。不得另建状态机、transport、source、prompt、预算或 Store 语义。
+3. PowerShell 脚本必须先完成 R1 精确 release 重建、Phase A/B identity、官方价格证据、专用 Store 不存在及 sentinel 无凭据准入；任一失败不得提示用户输入 Key。
+4. 只有准入通过后才调用 `Read-Host -AsSecureString` 显示一次 `DeepSeek API Key` 隐藏输入。不得把 Key 放入命令行参数、环境变量、仓库、临时文件、剪贴板读取、PowerShell history、Store、stdout/stderr 或回执。
+5. 脚本在内存中使用 BSTR 转换一次，将一个有界 JSON credential frame 写入 Node 适配器 stdin；适配器把对自己 stdin 的延迟读取函数作为显式 supplier 传给既有 launcher。launcher 只在 worker 完成全部静态 preflight 并发出匹配的 `credential_required` frame 后才调用 supplier。
+6. PowerShell 在发送后立即 `ZeroFreeBSTR`，清空明文变量；Node buffer 写完立即填零。真实 worker 继续使用净化后的 child environment。不得打印请求 Authorization header 或 provider 原始错误正文。
+7. 为“准入失败不提示”“隐藏输入只一次”“无 env fallback”“Key 不在 argv/env/file/output”“credential frame 只在匹配握手后读取”“完成或失败均撤销 release”增加定向测试并重钉 Phase B identity。
+8. 不修改 Phase A 十个执行文件、固定 source、prompt、三场×四次、400 tokens、16,384 bytes、480,000 micro-CNY、串行顺序、无 provider 重试/替代/第四场及 later recollection 为空的约束。不得修改 `runtime.mjs`、`records.mjs` 或已审 `transport.mjs` 的语义。
+
+本 R2 先施工并以 fake/dummy frame 验证，不得由施工代理读取真实 Key或代替用户输入。提交并 push 后状态应为 `READY_FOR_USER_SECURE_INPUT`，交回唯一一条普通 PowerShell 启动命令并停止。
+
+随后糯糯亲自在普通 PowerShell 运行该 inventory-pinned 脚本并在隐藏提示中粘贴 Key，视为 R1/R2 下唯一真实批次的现场启动授权。脚本只允许一次启动；若任何 provider 请求进入 unknown/timeout/cancelled，或某 run 未 completed，立即停止余下场次且不得重试。完成后必须撤销 release、关闭 Store、保存三场真实内容与账务回执；仍保持 PR #107 Draft，不 ready、不合并、不部署。
+
+原价格窗口 `2026-10-28T00:00:00Z` 不放宽。若到期前未启动，必须失败关闭并交回总控，不得自行延长或刷新费率合同。
