@@ -1,0 +1,74 @@
+import https from 'node:https';
+import {fail} from '../../../src/store.js';
+import {
+  phaseBMaxOutputTokens,phaseBRequestByteLimit,phaseBTransportEndpoint,phaseBTransportTimeoutMs
+} from './config.mjs';
+
+const credentialPattern=/^[\x21-\x7e]{1,2000}$/;
+
+export function createDeepSeekTransport(credential,{requestImpl=https.request,timeoutMs=phaseBTransportTimeoutMs}={}){
+  if(typeof credential!=='string'||!credentialPattern.test(credential))fail('credential_required');
+  if(typeof requestImpl!=='function'||!Number.isSafeInteger(timeoutMs)||timeoutMs<1||timeoutMs>60000)fail('invalid_rich_sample_transport');
+  return function transport(request,{signal}={}){
+    if(!request||request.endpoint!==phaseBTransportEndpoint||request.method!=='POST'||
+       request.body?.model!=='deepseek-flash'||request.body?.max_tokens!==phaseBMaxOutputTokens||
+       request.body?.stream!==false||request.body?.thinking?.type!=='disabled'||
+       request.body?.response_format?.type!=='json_object')fail('rich_sample_live_transport_refused');
+    const payload=Buffer.from(JSON.stringify(request.body),'utf8');
+    if(payload.byteLength>phaseBRequestByteLimit)fail('rich_sample_request_too_large');
+    return new Promise((resolve,reject)=>{
+      let settled=false,req;
+      const cleanup=()=>signal?.removeEventListener('abort',abort);
+      const settle=(failure,value)=>{
+        if(settled)return;
+        settled=true;cleanup();
+        if(failure)reject(value);else resolve(value);
+      };
+      const abort=()=>{
+        try{req?.destroy();}catch{}
+        settle(true,Error('cancelled'));
+      };
+      signal?.addEventListener('abort',abort,{once:true});
+      if(signal?.aborted){abort();return;}
+      try{
+        req=requestImpl(new URL(phaseBTransportEndpoint),{
+          method:'POST',agent:false,
+          headers:{'Content-Type':'application/json','Content-Length':payload.byteLength,Authorization:`Bearer ${credential}`}
+        },response=>{
+          const status=response.statusCode;
+          if(!Number.isInteger(status)){response.resume?.();settle(true,Error('provider_http_failure'));return;}
+          if(status!==200){response.resume?.();settle(false,{status});return;}
+          const contentType=String(response.headers?.['content-type']??'');
+          if(!contentType.toLowerCase().startsWith('application/json')){
+            response.resume?.();settle(true,Error('provider_http_failure'));return;
+          }
+          const parts=[];let size=0;
+          response.on('data',chunk=>{
+            if(settled)return;
+            size+=chunk.length;
+            if(size>65536){try{req?.destroy();}catch{}settle(true,Error('provider_response_too_large'));return;}
+            parts.push(Buffer.from(chunk));
+          });
+          response.on('error',()=>settle(true,Error('provider_http_failure')));
+          response.on('end',()=>{
+            if(settled)return;
+            const text=Buffer.concat(parts).toString('utf8');
+            for(const part of parts)part.fill(0);
+            if(text.includes(credential)){settle(true,Error('provider_response_echoed_credential'));return;}
+            let body;
+            try{body=JSON.parse(text);}catch{settle(true,Error('provider_invalid_json'));return;}
+            settle(false,{status,body});
+          });
+        });
+        req.on('error',()=>settle(true,Error(signal?.aborted?'cancelled':'provider_http_failure')));
+        req.setTimeout(timeoutMs,()=>{
+          settle(true,Error('timeout'));
+          try{req.destroy();}catch{}
+        });
+        req.end(payload);
+      }catch{
+        settle(true,Error('provider_http_failure'));
+      }
+    });
+  };
+}
