@@ -74,3 +74,37 @@ Phase A 交付后，总控依据本次对话中糯糯“刚充值，让它多干
 - 留下的意象是什么，因果或情绪仍空在哪里。
 
 最后比较三场的一致问题与偶发差异。三场可以全部失败或不确定；测试通过不能替内容通过。本批次不授权继续生成、改提示、接真实记忆、实现持续余韵或合并任何 PR。
+
+
+## R1 · Phase B 一次性真实批次授权（2026-10-27）
+
+总控已在 GitHub 只读核验 Phase A 候选：PR #107，head `c9c0438945bb35a1b507ca14166136c4292f73ec`，tree `375bc898da910d2311903ed9a4a74df50f2d95a0`，parent 为固定 #105 `621074a9a57772d957e43bed8d26ea7fae3a0561`；比较结果 ahead 1 / behind 0，15 个新增文件、`src/` 零修改。接受 Phase A 的离线结构证据，不把 fake 文本当内容质量证据。
+
+本 R1 只解锁同一包的一次 Phase B，不授权新题材、第四场、重试、提示调优、合并或部署。精确 release 对象必须包含：
+
+```json
+{
+  "status": "approved_once",
+  "phaseAHead": "c9c0438945bb35a1b507ca14166136c4292f73ec",
+  "phaseATree": "375bc898da910d2311903ed9a4a74df50f2d95a0",
+  "identityHash": "851e443a44bb044e8f2153dd791cc47ec653713b3bdc7339c5a0513cbc2c44ea",
+  "promptHash": "23ab5917e42bfbcf4f6072f43142d5d32b9c7e47f3d19b426aaa49612bf15bea",
+  "sourceHash": "605d69511cc72c0b0ca60a77be34dafb061e63b57e98db94b778cf7bfce8cbb6",
+  "priceSnapshotHash": "4a4cfc970a3e285756b9ce0703467c13ff3b76da4578a0f7e9f637d4a3ecd00d",
+  "allowanceCapMicroCny": 480000,
+  "maxRuns": 3,
+  "maxCalls": 12,
+  "storeDirectory": "C:\\Users\\Administrator\\AppData\\Local\\Nightvoyage\\rich-fictional-dream-sample-01",
+  "noRetry": true
+}
+```
+
+2026-10-27 总控已重新核对官方定价页：`deepseek-flash` 仍指向 `DeepSeek-V4.1-Flash-1017`；高峰缓存未命中输入 2 元/百万 tokens、输出 8 元/百万 tokens，空闲时段减半。运行前必须再次逐项比对；别名、币种或费率变贵、价格快照已过期、专用 Store 已存在或非空、Phase A 任一 hash 不符时，在凭据与网络前失败关闭。不得通过放宽比较来继续。
+
+允许在同一 worktree、同一分支上仅完成 Phase B 所必需的 release 与真实 transport 接线、identity 重钉、针对性测试和真实回执。不得改变固定 source、prompt 文字、3×4 调用结构、400-token 上限、16,384-byte 请求上限、0.48 元总上限、无重试语义或记录分层。优先以 `live-launcher.mjs` 包装现有 runtime 的 transport 接口，不复制第二套梦境状态机。
+
+真实传输仅允许 `POST https://api.deepseek.com/chat/completions`；禁止 Search、Fetch、工具、thinking、流式、备用 host、代理跳转与修复调用。Key 只能由既有私密一次性凭据供应机制在全部静态检查通过后供应一次：不得写入仓库、Store、回执、日志、命令行参数或继承环境；若该机制不可用，返回 BLOCKED，不改用明文或凭据存储探测。
+
+先以无凭据 fake/sentinel 验证 R1 精确匹配、价格、目录、调用数、预算及零提前供应；定向验证通过后，允许紧接着执行唯一真实批次。按 run 1→3 串行，每场 scene 0→2、wake；每个结果无论好坏都保存。任一请求得到不确定网络结果、超时、取消、非 settled 账务或无干净 committed prefix 时停止后续真实调用；不重发同一 stage，不补第四场。这里的 committed-prefix 恢复只用于进程在“已 settled 且已原子保存”之后崩溃的确定恢复，不能重放 unknown/failed/cancelled 请求。
+
+完成后撤销 release（使 launcher 再次失败关闭），关闭 Store，生成逐场只读真实回执：三幕原文、逐幕 appraisal/before/delta/after 与证据、wake fragment/basis、独立 firstFeeling、associations、simulated residue、四笔 usage/charge 和总费用；later recollection 保持空。主阅读面不突出模型名。提交并 push 到 PR #107，保持 Draft；交回总控人工内容裁决后停止，不 ready、不合并、不部署、不续开任务。
