@@ -1,4 +1,4 @@
-// Managed three-run R1 runtime. It has no credential loader, environment
+// Offline-review three-run runtime. It has no credential loader, environment
 // fallback, retry, replacement run, fourth run or later recollection.
 import path from 'node:path';
 import {BudgetLedger,validateAllowance} from '../../../src/budget-ledger.js';
@@ -26,6 +26,9 @@ import {
   prepareLivePublication
 } from './records.mjs';
 import {verifyLiveIdentity} from './identity.mjs';
+import {
+  buildStageDiagnostic,safeErrorCode,stableValidationSubreason
+} from './diagnostics.mjs';
 
 const optionKeys=['simulator','enabled','now','fault'];
 const batchKeys=['version','runIds','requestIds','sessionIds','matrixHash','startedAt'];
@@ -43,7 +46,8 @@ const passThroughCodes=new Set(['cancelled','source_withdrawn','allowance_exhaus
   'dream_climate_request_too_large','dream_climate_request_shape_mismatch',
   'dream_climate_live_run_call_limit','dream_climate_live_total_call_limit',
   'invalid_dream_climate_stage','dream_climate_live_runtime_identity_mismatch',
-  'dream_climate_live_allowance_mismatch','dream_climate_live_already_published']);
+  'dream_climate_live_allowance_mismatch','dream_climate_live_already_published',
+  'dream_climate_live_previous_run_incomplete']);
 
 export const liveAllowance=Object.freeze({
   id:liveAllowanceId,mode:'live',approved:true,expiresAt:liveAllowanceExpiresAt,
@@ -63,6 +67,20 @@ function ledgerFacade(store){
     set poisoned(value){store.poisoned=value;},
     assert:()=>store.assert(),save:()=>store.save()
   };
+}
+
+function accountingTotals(rows){
+  let settledCharge=0n,unknownReserved=0n;
+  for(const row of rows){
+    if(row.status==='settled')settledCharge+=BigInt(row.chargedMicroCny??0);
+    else if(['unknown','reserved','dispatched'].includes(row.status))
+      unknownReserved+=BigInt(row.reservedMicroCny??row.chargedMicroCny??0);
+  }
+  return {settledChargeMicroCny:settledCharge.toString(),
+    unknownReservedMicroCny:unknownReserved.toString(),
+    combinedAccountingMicroCny:(settledCharge+unknownReserved).toString(),
+    combinedIsProviderCharged:false,
+    combinedMeaning:'settled_calculated_charge_plus_unknown_reserved_hold'};
 }
 
 function mapStageError(error,stage,timedOut){
@@ -185,6 +203,9 @@ export class DreamClimateLiveRuntime {
          run.requestId!==batch.requestIds[index]||run.sessionId!==batch.sessionIds[index]||
          !safeId(run.status)||!Array.isArray(run.draftScenes)||!Array.isArray(run.attempts))
         fail('dream_climate_live_run_identity_mismatch');
+      if(run.diagnostics!==undefined&&(!Array.isArray(run.diagnostics)||
+         run.diagnostics.length>dreamClimateCallsPerRun))
+        fail('dream_climate_live_run_identity_mismatch');
       if(run.scenes!==undefined&&(!Array.isArray(run.scenes)||run.scenes.length!==3))
         fail('dream_climate_live_run_identity_mismatch');
     }
@@ -256,7 +277,7 @@ export class DreamClimateLiveRuntime {
         config:{scenesPerRun:dreamClimateScenesPerRun,callsPerRun:dreamClimateCallsPerRun,
           maxCalls:dreamClimateMaxCalls,requestByteLimit:dreamClimateRequestByteLimit,
           maxOutputTokens:liveMaxOutputTokens},
-        draftScenes:[],attempts:[],protocolVersion:dreamClimateProtocolVersion,
+        draftScenes:[],attempts:[],diagnostics:[],protocolVersion:dreamClimateProtocolVersion,
         runtimeVersion:liveRuntimeVersion,normalizationVersion:dreamClimateNormalizationVersion,
         identityHash:this.identity.liveIdentityHash,matrixHash:this.identity.matrixHash,
         releaseHash:this.identity.releaseHash,allowanceId:liveAllowanceId,
@@ -281,11 +302,12 @@ export class DreamClimateLiveRuntime {
   status(id){
     const run=this.assertIdentity(id),rows=this.rows(id);
     const settled=rows.filter(row=>row.status==='settled').length;
+    const accounting=accountingTotals(rows);
     return {id,ordinal:run.ordinal,status:run.status,
       scenesDrafted:run.draftScenes.length,scenesSaved:run.scenes?.length??0,
       wakeSaved:run.wake!==undefined,entryId:run.entryId??null,error:run.error??null,
       billing:{calls:rows.length,settled,unknown:rows.length-settled,
-        heldOrSpentMicroCny:rows.reduce((sum,row)=>sum+BigInt(row.chargedMicroCny),0n).toString()}};
+        ...accounting,heldOrSpentMicroCny:accounting.combinedAccountingMicroCny}};
   }
 
   batchStatus(){
@@ -299,15 +321,22 @@ export class DreamClimateLiveRuntime {
     const batch=this.batch();
     if(!batch)fail('dream_climate_live_batch_not_started');
     for(const runId of batch.runIds){
-      if(this.run(runId).status==='queued')await this.executeRun(runId);
+      const current=this.run(runId).status;
+      if(current==='completed')continue;
+      if(current!=='queued')break;
+      const status=await this.executeRun(runId);
+      if(status.status!=='completed')break;
     }
     return this.batchStatus();
   }
 
   async executeRun(id){
     const run=this.assertIdentity(id);
+    const batch=this.batch();
     if(this.active.has(id))fail('run_busy');
     if(run.status!=='queued')return this.status(id);
+    if(batch.runIds.slice(0,run.ordinal-1).some(runId=>this.run(runId).status!=='completed'))
+      fail('dream_climate_live_previous_run_incomplete');
     if(!this.enabled)fail('transport_disabled');
     const controller=new AbortController();
     this.active.set(id,controller);
@@ -338,6 +367,18 @@ export class DreamClimateLiveRuntime {
     return this.status(id);
   }
 
+  recordDiagnostic(run,diagnostic){
+    if(!Array.isArray(run.diagnostics))run.diagnostics=[];
+    if(run.diagnostics.some(value=>value.requestId===diagnostic.requestId&&
+       value.stage===diagnostic.stage))return;
+    if(run.diagnostics.length>=dreamClimateCallsPerRun)return;
+    run.diagnostics.push(diagnostic);
+    if(diagnostic.stage==='wake'&&diagnostic.subreason){
+      run.validationSubreason=diagnostic.subreason;
+      run.validationOriginalError=diagnostic.originalError;
+    }
+  }
+
   async stage(run,stage,signal){
     this.assertIdentity(run.id);
     if(!this.enabled)fail('transport_disabled');
@@ -361,6 +402,8 @@ export class DreamClimateLiveRuntime {
     if(reservation.replayed)fail('ambiguous_attempt');
     const controller=new AbortController();
     let timer,timedOut=false;
+    let response,parsed,settlementCommitted=false,publicationCommitted=false;
+    let diagnosticRecorded=false;
     const abort=()=>controller.abort();
     signal.addEventListener('abort',abort,{once:true});
     const active=()=>{
@@ -371,6 +414,11 @@ export class DreamClimateLiveRuntime {
         fail('source_withdrawn');
       this.assertIdentity(run.id);
     };
+    const diagnosticFor=(errorCode,{usageValidation,settlement,
+      publication='rejected_non_published'}={})=>buildStageDiagnostic({
+      runId:run.id,requestId,stage,errorCode,response,parsed,usageValidation,settlement,
+      publication,subreason:stableValidationSubreason(errorCode),
+      credentialEchoRejected:errorCode==='provider_response_echoed_credential'});
     try{
       this.fault('dream_climate_live_reserved');
       active();
@@ -380,51 +428,123 @@ export class DreamClimateLiveRuntime {
         controller.signal.addEventListener('abort',()=>reject(Error('cancelled')),{once:true});
         timer=setTimeout(()=>{timedOut=true;controller.abort();reject(Error('timeout'));},60000);
       });
-      const response=await Promise.race([Promise.resolve().then(()=>{
+      response=await Promise.race([Promise.resolve().then(()=>{
         active();
         return this.simulator(copy(request),{signal:controller.signal});
       }),stop]);
       active();
-      const parsed=parseDeepSeekResponse(response,{model:liveModelAlias,
-        maxOutputTokens:liveMaxOutputTokens});
-      let value,wakeValue;
-      if(stage==='scene'){
-        const before=run.draftScenes.at(-1)?.after??neutral();
-        value=normalizeDreamClimateScene(parsed.data,before);
-      }else{
-        wakeValue=normalizeDreamClimateWake(parsed.data,{previousScenes:run.draftScenes});
-        value=wakeValue.wake;
+      try{
+        parsed=parseDeepSeekResponse(response,{model:liveModelAlias,
+          maxOutputTokens:liveMaxOutputTokens});
+      }catch(error){
+        const code=safeErrorCode(error);
+        this.recordDiagnostic(run,diagnosticFor(code,{usageValidation:'unavailable_or_invalid',
+          settlement:'unknown'}));
+        diagnosticRecorded=true;
+        throw error;
       }
       active();
-      this.ledger.settle(liveAllowanceId,requestId,parsed.receipt,accounting=>{
-        active();
-        if(run.draftScenes.length!==index)fail('cancelled');
+      let value,wakeValue;
+      try{
         if(stage==='scene'){
-          run.draftScenes.push(copy(value));
-          run.attempts.push({stage,index,state:'committed',
-            billingRequestId:accounting.requestId,requestBytes:assertRequestBounds(request)});
+          const before=run.draftScenes.at(-1)?.after??neutral();
+          value=normalizeDreamClimateScene(parsed.data,before);
         }else{
-          const prepared=prepareLivePublication(this.store,{run,wake:value,
+          wakeValue=normalizeDreamClimateWake(parsed.data,{previousScenes:run.draftScenes});
+          value=wakeValue.wake;
+        }
+      }catch(error){
+        const code=safeErrorCode(error);
+        // Valid provider usage is settled exactly once even when content is
+        // rejected. Normalization never mutates or repairs the rejected data.
+        this.ledger.settle(liveAllowanceId,requestId,parsed.receipt);
+        settlementCommitted=true;
+        this.recordDiagnostic(run,diagnosticFor(code,{usageValidation:'verified',
+          settlement:'settled'}));
+        diagnosticRecorded=true;
+        throw error;
+      }
+      active();
+      this.ledger.settle(liveAllowanceId,requestId,parsed.receipt);
+      settlementCommitted=true;
+      active();
+      if(stage==='scene'){
+        const previousScenes=run.draftScenes.length,previousAttempts=run.attempts.length;
+        try{
+          run.draftScenes.push(copy(value));
+          run.attempts.push({stage,index,state:'committed',billingRequestId:requestId,
+            requestBytes:assertRequestBounds(request)});
+          this.store.save();
+        }catch(error){
+          run.draftScenes.length=previousScenes;
+          run.attempts.length=previousAttempts;
+          if(!this.store.poisoned&&!this.store.closed)
+            this.recordDiagnostic(run,diagnosticFor(safeErrorCode(error),
+              {usageValidation:'verified',settlement:'settled',publication:'not_published'}));
+          throw error;
+        }
+      }else{
+        let prepared;
+        try{
+          prepared=prepareLivePublication(this.store,{run,wake:value,
             firstFeeling:wakeValue.firstFeeling,firstFeelingOmitted:wakeValue.firstFeelingOmitted,
-            wakeRequestId:accounting.requestId,recordedAt:this.now()});
+            wakeRequestId:requestId,recordedAt:this.now()});
+        }catch(error){
+          if(!this.store.poisoned&&!this.store.closed)
+            this.recordDiagnostic(run,diagnosticFor(safeErrorCode(error),
+              {usageValidation:'verified',settlement:'settled',publication:'failed_not_published'}));
+          diagnosticRecorded=true;
+          throw error;
+        }
+        const previousEntries=copy(this.store.state.entries);
+        const hadJournal=Object.hasOwn(this.store.state,liveJournalKey);
+        const previousJournal=copy(this.store.state[liveJournalKey]);
+        const previousRun=copy(run);
+        try{
           this.store.state.entries[prepared.dreamId]=prepared.dreamEntry;
           if(prepared.feelingEntry)
             this.store.state.entries[prepared.feelingEntry.id]=prepared.feelingEntry;
           this.store.state[liveJournalKey]=prepared.journal;
           run.scenes=copy(run.draftScenes);
           run.wake=copy(value);run.entryId=prepared.dreamId;run.status='completed';
-          run.attempts.push({stage,index,state:'committed',
-            billingRequestId:accounting.requestId,wakeRequestId:accounting.requestId,
-            requestBytes:assertRequestBounds(request),firstFeelingStatus:
+          run.attempts.push({stage,index,state:'committed',billingRequestId:requestId,
+            wakeRequestId:requestId,requestBytes:assertRequestBounds(request),
+            firstFeelingStatus:
               wakeValue.firstFeelingOmitted?'omitted':wakeValue.firstFeeling.status});
+          this.store.save();
+          publicationCommitted=true;
+        }catch(error){
+          this.store.state.entries=previousEntries;
+          if(hadJournal)this.store.state[liveJournalKey]=previousJournal;
+          else delete this.store.state[liveJournalKey];
+          for(const key of Object.keys(run))delete run[key];
+          Object.assign(run,previousRun);
+          if(!this.store.poisoned&&!this.store.closed)
+            this.recordDiagnostic(run,diagnosticFor(safeErrorCode(error),
+              {usageValidation:'verified',settlement:'settled',publication:'failed_not_published'}));
+          diagnosticRecorded=true;
+          throw error;
         }
-      });
+      }
       if(stage==='scene')this.fault('dream_climate_live_scene_saved');
       else this.fault('dream_climate_live_wake_saved');
     }catch(error){
       controller.abort();
-      if(!this.store.poisoned&&!this.store.closed){
-        try{this.ledger.unknown(liveAllowanceId,requestId);}catch{}
+      const code=safeErrorCode(error,{timedOut});
+      if(!settlementCommitted&&!this.store.poisoned&&!this.store.closed){
+        if(!diagnosticRecorded){
+          this.recordDiagnostic(run,diagnosticFor(code,{usageValidation:parsed?
+            'invalid_rejected':'unavailable',settlement:'unknown',publication:'not_published'}));
+        }
+        try{
+          const unsettled=this.rows(run.id).find(row=>row.requestId===requestId);
+          if(unsettled?.status==='settled')this.store.poisoned=true;
+          else this.ledger.unknown(liveAllowanceId,requestId);
+        }catch{}
+      }else if(settlementCommitted&&!diagnosticRecorded&&!publicationCommitted&&
+               !this.store.poisoned&&!this.store.closed){
+        this.recordDiagnostic(run,diagnosticFor(code,{usageValidation:'verified',
+          settlement:'settled',publication:'failed_not_published'}));
       }
       fail(mapStageError(error,stage,timedOut));
     }finally{clearTimeout(timer);signal.removeEventListener('abort',abort);}

@@ -22,6 +22,37 @@ const stamp=value=>Number.isSafeInteger(value)&&value>=0;
 const text=value=>typeof value==='string'&&value.isWellFormed()&&value.trim().length>0;
 const emptyJournal=()=>({version:1,runs:{}});
 
+function accountingTotals(rows){
+  let settledCharge=0n,unknownReserved=0n;
+  for(const row of rows){
+    if(row.status==='settled')settledCharge+=BigInt(row.chargedMicroCny??0);
+    else if(['unknown','reserved','dispatched'].includes(row.status))
+      unknownReserved+=BigInt(row.reservedMicroCny??row.chargedMicroCny??0);
+  }
+  return {settledChargeMicroCny:settledCharge.toString(),
+    unknownReservedMicroCny:unknownReserved.toString(),
+    combinedAccountingMicroCny:(settledCharge+unknownReserved).toString(),
+    combinedIsProviderCharged:false,
+    combinedMeaning:'settled_calculated_charge_plus_unknown_reserved_hold'};
+}
+
+function sceneRecord(scene,index){
+  return {index,event:scene.event,appraisal:copy(scene.appraisal),before:copy(scene.before),
+    delta:copy(scene.delta),after:copy(scene.after),appraisalBasis:copy(scene.appraisalBasis),
+    affectDeclaration:copy(scene.affectDeclaration),
+    evidence:copy(scene.appraisalBasis?.evidence),protocolVersion:scene.appraisalBasis?.protocolVersion};
+}
+
+function billingRow(row,extra={}){
+  const settled=row.status==='settled';
+  return {...extra,requestId:row.requestId,status:row.status,
+    usage:row.usage?copy(row.usage):null,chargedMicroCny:row.chargedMicroCny,
+    reservedMicroCny:row.reservedMicroCny,sourceRefs:copy(row.sourceRefs),
+    chargeClass:settled?'settled_calculated_charge':'unknown_reserved_hold',
+    settledChargeMicroCny:settled?row.chargedMicroCny:null,
+    unknownReservedMicroCny:settled?null:row.reservedMicroCny};
+}
+
 function journal(store){
   const value=own(store.state,liveJournalKey);
   if(value===undefined)return emptyJournal();
@@ -136,24 +167,17 @@ function orderedBillingRows(rows,attempts){
     const row=byRequest.get(attempt.billingRequestId);
     if(!row)return {call:index+1,stage:attempt.stage,index:attempt.index,
       requestId:attempt.billingRequestId,status:'missing'};
-    return {call:index+1,stage:attempt.stage,index:attempt.index,requestId:row.requestId,
-      status:row.status,usage:row.usage?copy(row.usage):null,
-      chargedMicroCny:row.chargedMicroCny,reservedMicroCny:row.reservedMicroCny,
-      sourceRefs:copy(row.sourceRefs)};
+    return billingRow(row,{call:index+1,stage:attempt.stage,index:attempt.index});
   });
   for(const row of rows){
     if(committed.has(row.requestId))continue;
-    ordered.push({call:ordered.length+1,requestId:row.requestId,status:row.status,
-      usage:row.usage?copy(row.usage):null,chargedMicroCny:row.chargedMicroCny,
-      reservedMicroCny:row.reservedMicroCny,sourceRefs:copy(row.sourceRefs)});
+    ordered.push(billingRow(row,{call:ordered.length+1}));
   }
   return ordered;
 }
 
 function uncommittedBillingRows(rows){
-  return rows.map((row,index)=>({call:index+1,requestId:row.requestId,status:row.status,
-    usage:row.usage?copy(row.usage):null,chargedMicroCny:row.chargedMicroCny,
-    reservedMicroCny:row.reservedMicroCny,sourceRefs:copy(row.sourceRefs)}));
+  return rows.map((row,index)=>billingRow(row,{call:index+1}));
 }
 
 function extractCompletedRun(store,run,now){
@@ -223,16 +247,13 @@ function extractCompletedRun(store,run,now){
     foregroundAnchor:run.plan.foregroundAnchor,
     usedForegroundAnchors:copy(run.plan.usedForegroundAnchors),
     usedMechanisms:copy(run.plan.usedMechanisms),
-    scenes:dream.scenes.map((scene,index)=>({index,event:scene.event,
-      appraisal:copy(scene.appraisal),before:copy(scene.before),delta:copy(scene.delta),
-      after:copy(scene.after),evidence:copy(scene.appraisalBasis?.evidence),
-      protocolVersion:scene.appraisalBasis?.protocolVersion})),
+    scenes:dream.scenes.map(sceneRecord),
     wake:{fragment:wake.fragment,fragmentBasis:copy(wake.fragmentBasis),
       associations:copy(wake.associations),residue:{label:'simulated_estimate',
         baseStrength:residue.strength,currentStrength:residue.strength*nowDecay,
         startedAt:residue.startedAt,durationMs:residue.durationMs}},
     firstFeeling,
-    billing:{calls:4,rows:orderedBillingRows(rows,attempts)}
+    billing:{calls:4,...accountingTotals(rows),rows:orderedBillingRows(rows,attempts)}
   };
 }
 
@@ -256,18 +277,25 @@ export function extractLiveReceipt(store,{now=Date.now()}={}){
     const rows=billingRows(store,run.id);
     runs.push(run.status==='completed'?extractCompletedRun(store,run,now):{
       ordinal:index+1,id:run.id,status:run.status,error:run.error??null,
+      validation:run.validationSubreason?{subreason:run.validationSubreason,
+        originalError:run.validationOriginalError??null}:null,
+      diagnostics:copy(run.diagnostics??[]),
       climate:run.plan.climate,mechanism:run.plan.mechanism,
       foregroundAnchor:run.plan.foregroundAnchor,
       usedForegroundAnchors:copy(run.plan.usedForegroundAnchors),
       usedMechanisms:copy(run.plan.usedMechanisms),
       scenesSaved:run.scenes?.length??0,draftScenes:run.draftScenes?.length??0,
-      billing:{calls:rows.length,
+      draftSceneRecords:run.draftScenes.map(sceneRecord),
+      publication:{status:'not_published',wakeRecorded:false,
+        firstFeelingRecorded:false,residueCreated:false},
+      billing:{calls:rows.length,...accountingTotals(rows),
         rows:run.attempts?.length?orderedBillingRows(rows,run.attempts):
           uncommittedBillingRows(rows)}
     });
   }
   const completedRuns=runs.filter(run=>run.status==='completed').length;
   const allRows=runs.flatMap(run=>run.billing.rows);
+  const batchAccounting=accountingTotals(allRows);
   return {
     schemaVersion:1,extractionVersion:liveExtractionVersion,
     status:completedRuns===liveRunCount?'READY_FOR_MANUAL_CONTENT_REVIEW':'PARTIAL_OR_FAILED',
@@ -277,8 +305,9 @@ export function extractLiveReceipt(store,{now=Date.now()}={}){
       version:dreamClimateCanonicalSnapshot.version,materialKind:'fictional',
       isRealityFact:false,sourceRefs:copy(dreamClimateSourceRefs)},
     runs,
-    batch:{calls:allRows.length,chargedMicroCny:allRows.reduce((sum,row)=>
-      sum+BigInt(row.chargedMicroCny??0),0n).toString()},
+    batch:{calls:allRows.length,...batchAccounting,
+      chargedMicroCny:batchAccounting.combinedAccountingMicroCny,
+      chargedMicroCnyMeaning:'settled_calculated_charge_plus_unknown_reserved_hold'},
     laterRecollections:[],
     boundaries:{modelNamesInReadingSurface:false,laterRecollectionsEmpty:true,
       climateMappedToFirstFeeling:false,climateMappedToResidue:false,

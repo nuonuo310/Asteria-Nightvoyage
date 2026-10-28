@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "identityVersion": "nv-dream-climate-live-r1-identity-v1",
+  "identityVersion": "nv-dream-climate-live-r3-identity-v1",
   "offline": {
     "head": "119a6ba909cfaa75b29bd3d4c4fcf9500996e2bd",
     "tree": "ab4171b8f18fe49060d4f649c4b1672d09200abe",
@@ -84,28 +84,30 @@
     "directory": "C:\\Users\\Administrator\\AppData\\Local\\Nightvoyage\\nightvoyage-dream-climate-live-01"
   },
   "transportVersion": "nv-dream-climate-live-r1-https-v1",
-  "extractionVersion": "nv-dream-climate-live-r1-extraction-v1",
+  "extractionVersion": "nv-dream-climate-live-r3-extraction-v1",
   "releaseHash": "ee7ab9fbb6f71b582b442d27000d17f153dbfff1ac378ae4691cbfc869401bae",
   "noRetry": true,
   "executionFiles": {
-    "check-admission.mjs": "96842c3d9e6710e2f01aaef7c94698761a7a496b3f52ab37be3ab42a65d7d8bf",
-    "config.mjs": "ed2175ca4f72b42ac44fbe136abe648043a566eb2a3e0d92d941839154c49f00",
+    "check-admission.mjs": "e6d02cf02f93709c785bbef62e80239830bcef1b2077fdcbfaad18726832cae3",
+    "config.mjs": "c57c2ed710ca5831ac0fe67c7efd5860499591da9bcfda583e1bd4340222ef75",
+    "diagnostics.mjs": "182e6b935424668e64a0de111c6fe4a228285b1954a98327c1a28cf0aca702fa",
     "dummy-check.mjs": "abd925b0b6ba5fbf6bc5dcaf12d6c6bb931dfe2db36412e778316d4806de706f",
     "dummy.mjs": "f2bc03d38eed7ca66a1432f91cc86476251830807f61096f5c6acd2e9330937e",
     "generate-identity.mjs": "906b6b79aa6de2499e210c5f07f300be7a9bf6accf0e1c1ac2f893c5f34577c7",
     "identity.mjs": "5d6131f3044725221eee60a8674926884506a5ddbfb8585ce46325b86fc91332",
-    "launcher.mjs": "2625016d9fbff6e50c22d9a85b38c871e657686362f2c522215d967c0804c00b",
+    "launcher.mjs": "3dd2ded6e59dd8677bff5f3d61505392b0ec533e59f41273c8bb02195a048101",
     "matrix.mjs": "71234f798b3b8c2c8b78cfd213aa98c621325f59af830e38e7dca00673b4c6ea",
+    "offline-gate.mjs": "24377af8749aac4b529f040978dd9d0b211ee0c24b4230c00b39efadbdfb2dbf",
     "price-check.mjs": "6382c9050458262ee469cc34b991645b30cc9f80b4afa686bd15c0fefd90a802",
     "price.mjs": "0736d8b2f2ba68931461a3ead15204701ed3ca6521d002bcb27156df6d39f63e",
-    "records.mjs": "614834a0adfc6eff3e8aaf5d18f31f3e5cdf8088b497adb008a0b75ee7a9033c",
+    "records.mjs": "96e264ba5984de10903b7ba41c1c7674903ac56da4751100e21b1b6263032bf2",
     "release.mjs": "4abf8c4c736f5ded8dcda6ce28a381abc45b286c96f815dcd50be95ba1061ad4",
-    "runtime.mjs": "2891cf19769d817fdf130cfaa03971efe250b3ee335e447ea5b24bcf4ec73885",
-    "secure-console.mjs": "ba501be1bdcf0ebe2b9fa3e4e01c84fc8d57fe2a281fb2bdb9974955229a5c48",
-    "secure-input.ps1": "014066fa2bfcc9520001e276e97650b219cc1506a6a4501ba1a9130a1f4b0dc2",
+    "runtime.mjs": "47e6fdf6eb76cfef8a9115bff581373d727904f1a29e9b5a24faafbbdb7fe78a",
+    "secure-console.mjs": "b08455de6a8037e3e96ecde41be87c6e81ffe6fcec99b6bb9fb363366bcbcd3a",
+    "secure-input.ps1": "f81e1e2728bd8012de0c8cdb7bbe84616536fc99435fdf471820dcf6b3900d74",
     "store-contract.mjs": "a2907c39b9e6f77027cbcfe7a593b059e561e20257e3b60051e2544bdc8292bb",
     "telemetry.mjs": "7f77df22b6393a22fb8fff9c50bbcda806ddf8a298d82de2d561eab1b5f041f3",
     "transport.mjs": "3802be5d4bfc671b46935d7bd99b782d739b84f4ea6b40bcd3b2c56f8859cff7",
-    "worker.mjs": "cef9648f349582a63350bee91ed127fcead46d5d4ba672c88763d1017be4ff1a"
+    "worker.mjs": "889e9e667cc1860998d7a09222c3b44ffd5acbe7a1f2ffcfd3e7ad39a28977cc"
   }
 }

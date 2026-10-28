@@ -216,60 +216,41 @@ test('cancelled in-flight response arriving late never publishes a dream or wake
   assert.equal(fs.existsSync(path.join(directory,'owner.lock')),false);
 });
 
-test('secure console accepts one bounded stdin frame and never repeats the supplier',async()=>{
+test('secure console now refuses before stdin, credential supplier or live launch',async()=>{
   const input=new PassThrough();
-  let key;
-  const result=await runSecureConsole({priceFile:path.join(root,'package.json'),input,
-    launch:async(action,{credentialSupplier})=>{
-      assert.equal(action,'run');
-      assert.equal(typeof credentialSupplier,'function');
-      assert.equal(input.listenerCount('data'),0);
-      const pending=credentialSupplier();
-      assert.equal(input.listenerCount('data'),1);
-      input.end(JSON.stringify({credential:'DUMMY-FRAME-ONLY'}));
-      key=await pending;
-      assert.throws(()=>credentialSupplier(),/dream_climate_live_credential_frame_repeated/);
-      return {status:'dummy_completed',credentialSupplierCalls:1};
-    }});
-  assert.equal(key,'DUMMY-FRAME-ONLY');
-  assert.equal(JSON.stringify(result).includes('DUMMY-FRAME-ONLY'),false);
+  const result=await runSecureConsole({priceFile:path.join(root,'package.json'),input});
+  assert.equal(result.status,'blocked');
+  assert.equal(result.reason,'OFFLINE_REVIEW_REQUIRED_R3');
+  assert.equal(result.credentialSupplierCalls,0);
+  assert.equal(result.networkAttempts,0);
+  assert.equal(result.realModelRequests,0);
+  assert.equal(result.storeCreated,false);
+  assert.equal(input.listenerCount('data'),0);
+  assert.equal(input.listenerCount('readable'),0);
 });
 
-test('secure-input prompts once only after no-credential admission and keeps the key out of env argv files and output',()=>{
+test('secure-input and launchers contain only the R3 offline refusal path',()=>{
   const ps=fs.readFileSync(path.join(packageDirectory,'secure-input.ps1'),'utf8');
   const launcher=fs.readFileSync(path.join(packageDirectory,'launcher.mjs'),'utf8');
   const worker=fs.readFileSync(path.join(packageDirectory,'worker.mjs'),'utf8');
-  const prompts=ps.match(/Read-Host\s+'DeepSeek API Key'\s+-AsSecureString/g)??[];
-  assert.equal(prompts.length,1);
+  assert.equal(ps.includes('Read-Host'),false);
+  assert.equal(ps.includes('SecureString'),false);
+  assert.equal(ps.includes('OFFLINE_REVIEW_REQUIRED_R3'),true);
   assert.equal(ps.includes('NIGHTVOYAGE_DEEPSEEK_KEY'),false);
   assert.equal(ps.includes('Get-Clipboard'),false);
   assert.equal(ps.includes('Get-Credential'),false);
   assert.equal(ps.includes('Set-Content'),false);
   assert.equal(ps.includes('$env:'),false);
-  assert.equal(ps.includes('Write-Output $plain'),false);
-  assert.equal(ps.includes('Write-Host $plain'),false);
-  const admission=ps.indexOf('check-admission.mjs');
-  const ready=ps.indexOf('READY_FOR_USER_SECURE_INPUT_R2');
-  const prompt=ps.indexOf('Read-Host');
-  assert.ok(admission>=0&&admission<prompt);
-  assert.ok(ready>=0&&ready<prompt);
-  assert.ok(ps.includes('SecureStringToBSTR'));
-  assert.ok(ps.includes('ZeroFreeBSTR'));
-  assert.ok(ps.includes('nightvoyage-dream-climate-live-01'));
-  assert.ok(ps.includes('$check.storePath.directory'));
-  assert.ok(ps.includes('$check.dummy.ownerLockCleared'));
-  assert.ok(ps.includes('RedirectStandardInput = $true'));
-  assert.ok(ps.includes('StandardInput.BaseStream.Write'));
-  assert.ok(ps.includes('if ($releasePrepared)'));
-  assert.ok(ps.includes('Remove-Item -LiteralPath $releasePath'));
+  assert.equal(ps.includes('nightvoyage-dream-climate-live-01'),false);
+  assert.equal(ps.includes('New-Object'),false);
+  assert.equal(ps.includes('api.deepseek.com'),false);
   assert.equal(ps.includes('--climate'),false);
   assert.equal(ps.includes('forceClimate'),false);
   assert.equal(launcher.includes('process.env.NIGHTVOYAGE'),false);
   assert.equal(worker.includes('process.env.NIGHTVOYAGE'),false);
-  const encoded=ps.match(/\$releaseBase64 = '([^']+)'/);
-  assert.ok(encoded);
-  const embedded=JSON.parse(Buffer.from(encoded[1],'base64').toString('utf8'));
-  assert.deepEqual(validateLiveRelease(embedded),embedded);
+  assert.equal(launcher.includes('OFFLINE_REVIEW_REQUIRED_R3'),false);
+  assert.equal(launcher.includes('offlineReviewReceipt'),true);
+  assert.equal(worker.includes('offlineReviewReceipt'),true);
 });
 
 test('old paid and rich live entries still refuse before credentials, Store or network',async t=>{

@@ -1,12 +1,12 @@
 // Frozen R1 live wiring. The five offline execution files remain read-only.
 import {fileURLToPath} from 'node:url';
 
-export const liveConfigVersion='nv-dream-climate-live-r1-config-v1';
-export const liveIdentityVersion='nv-dream-climate-live-r1-identity-v1';
-export const liveRuntimeVersion='nv-dream-climate-live-r1-managed-runtime-v1';
+export const liveConfigVersion='nv-dream-climate-live-r3-config-v1';
+export const liveIdentityVersion='nv-dream-climate-live-r3-identity-v1';
+export const liveRuntimeVersion='nv-dream-climate-live-r3-managed-runtime-v1';
 export const liveTransportVersion='nv-dream-climate-live-r1-https-v1';
-export const liveExtractionVersion='nv-dream-climate-live-r1-extraction-v1';
-export const liveWorkerVersion='nv-dream-climate-live-r1-worker-v1';
+export const liveExtractionVersion='nv-dream-climate-live-r3-extraction-v1';
+export const liveWorkerVersion='nv-dream-climate-live-r3-worker-v1';
 export const liveProtocolVersion='nv-dream-climate-offline-v1';
 export const liveNormalizationVersion='nv-dream-climate-offline-normalization-v1';
 

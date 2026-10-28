@@ -228,3 +228,325 @@
 - 需要第四场、重试、修复调用或新增内容评分模型；
 - 同包已有施工正在运行；
 - 固定基线不存在或漂移且无法精确恢复。
+
+
+---
+
+# R1 · 三气候一次性真实内容验证
+
+日期：2026-10-28
+
+总控裁决：离线候选达到 `READY_FOR_HUMAN_OFFLINE_REVIEW`，人工阅读确认三场 fixture 已能表达普通、不安与非恐怖噩梦，并且每幕存在可观察变化；这只通过离线设计，不通过真实模型质量。糯糯随后明确同意继续小规模真实验证。本 R1 恢复同一 worktree、同一实现分支与同一 Draft PR #109，只授权一次固定矩阵真实批次；不得另开实现包或 PR。
+
+## R1 固定候选
+
+- 实现 PR：#109
+- HEAD：`119a6ba909cfaa75b29bd3d4c4fcf9500996e2bd`
+- tree：`ab4171b8f18fe49060d4f649c4b1672d09200abe`
+- parent：`7ec24e6d90c45af67fe251fc65f21c4d257bf476`
+- protocol：`nv-dream-climate-offline-v1`
+- runtime：`nv-dream-climate-offline-fixture-runtime-v1`
+- prompt：`nv-dream-climate-offline-prompt-v1`
+- normalization：`nv-dream-climate-offline-normalization-v1`
+- extraction：`nv-dream-climate-offline-receipt-v1`
+- promptHash：`9c855d8b3e3b2a55c3f58e36de4a9aee5dec07b706cbf675912632d6ff8dd119`
+- sourceHash：`605d69511cc72c0b0ca60a77be34dafb061e63b57e98db94b778cf7bfce8cbb6`
+- offline execution identityHash：`f88fccb0349b0004db6c81deb0261f3d620f06480ab24b4a9c3aee2f94cfae28`
+
+冻结的五个离线执行 blob SHA-256：
+
+| 文件 | SHA-256 |
+| --- | --- |
+| `fixtures.mjs` | `04ecad144ab7f5998baad126fe3f78ba0935616b3bfc5352da1f41d1cd606914` |
+| `generate-identity.mjs` | `469ed4561f048243226597c747c7d5348b92afe6efceb4d35bf7e816abb47793` |
+| `identity.mjs` | `33c8c8a061eb900456d62218499bc9f59b74bd6e327040198f0aa05be3f2f910` |
+| `offline-check.mjs` | `8bc2d9d879e68c2ea4e61431f411743e61ef584f5f2a4f0d97b1d8be183bdaf3` |
+| `protocol.mjs` | `b7659c829e1b5150663a0d5f8d2863233e46c9a72c5966448533a15004a44e09` |
+
+R1 实施前必须逐字节复核以上身份。任一漂移均 STOP，不得“更新到最新”后继续。
+
+## 价格与预算
+
+唯一价格权威：
+https://api-docs.deepseek.com/zh-cn/quick_start/pricing/
+
+2026-10-28 总控重新核对：
+
+- model alias：`deepseek-flash`
+- observed model：`DeepSeek-V4.1-Flash-1017`
+- 高峰缓存未命中输入：2 CNY / 1M tokens
+- 高峰输出：8 CNY / 1M tokens
+- 空闲价格为高峰一半；预算仍按高峰缓存未命中计算
+- Search / Fetch 禁用，工具禁用，thinking 禁用，stream 禁用
+
+每次完整序列化请求体不得超过 16,384 UTF-8 bytes；每次 `max_tokens=400`；固定三场、每场 3 scene + 1 wake，总计最多 12 calls。按 1 byte/token 的保守本地上界：
+
+- 最坏输入：196,608 tokens
+- 最坏输出：4,800 tokens
+- 最坏费用：431,616 micro-CNY
+- 本 R1 绝对硬上限：480,000 micro-CNY（0.48 CNY）
+
+模型别名、实际模型、币种、价格、请求上限、输出上限、场数、调用数或预算任一不符时，在凭据供应和 Store 创建前失败关闭。
+
+## 固定真实验证矩阵
+
+本次不是产品自然抽样，而是协议分支验证。三场顺序及约束逐字固定：
+
+| run | climate | mechanism | foregroundAnchor | usedForegroundAnchors | usedMechanisms |
+| --- | --- | --- | --- | --- | --- |
+| A | `ordinary` | `transformation` | `cup_tap` | `[]` | `[]` |
+| B | `uneasy` | `spatial_dislocation` | `rain_street` | `["cup_tap"]` | `["transformation"]` |
+| C | `nightmare` | `temporal_recurrence` | `ticket_date` | `["cup_tap","rain_street"]` | `["transformation","spatial_dislocation"]` |
+
+这不是可供用户选择的 `forceClimate` 产品入口。矩阵必须作为 R1 release 的固定常量与 identity 一起哈希；不得暴露 CLI/env 参数来更换 climate、mechanism、anchor、source、run 数或顺序。
+
+三场均使用 #109 同一固定虚构 source、同一 system prompt、同一模型参数；只有上表中声明的 batch-local user data 不同。每场完整保留，不按质量重试，不挑最好的一场，不添加第四场。
+
+## R1 Phase B 施工授权
+
+沿用现有 worktree：
+
+`C:\Users\Administrator\Desktop\Asteria-Nightvoyage-NV-DREAM-CLIMATE-OFFLINE-01`
+
+沿用分支与 Draft PR：
+
+- `codex/nightvoyage-dream-climate-offline-01`
+- PR #109，base 保持 `codex/nightvoyage-rich-fictional-dream-sample-01`
+
+只允许新增专用 `scripts/nv-dream-climate-offline-01/phase-b/`、对应测试和验证回执；允许为新 live identity 生成独立 manifest。冻结上述五个离线执行文件、固定 source、prompt、fixture、#107 全部真实历史、账务和旧 Phase B 文件。不得修改共享 `src/`，除非无法复用且先 STOP 交回总控；不得在本 R1 自行放宽。
+
+Phase B 必须：
+
+1. 使用 #109 的实际 request builder 与 normalization，不复制或改写 prompt；transport 只发送 builder 产生且通过边界检查的请求。
+2. 建立新的 live identity，覆盖冻结候选、所有新增 live 执行 blobs、固定矩阵、官方价格快照、模型、专用 Store、12-call/0.48-CNY 上限和无重试条款。
+3. 专用 Store 逐字固定为：
+   `C:\Users\Administrator\AppData\Local\Nightvoyage\nightvoyage-dream-climate-live-01`
+   必须在凭据提示前验证 parent、basename、dedicated prefix 与真实路径；不得读取、迁移或删除其它 Store。
+4. 新 launcher 默认失败关闭。没有精确 R1 release、价格证据、固定身份或专用 Store 准入时，在读取 Key、创建真实 Store/owner.lock、供应凭据或网络请求前拒绝。
+5. 先用 dummy simulator 与临时同 basename Store 排练三场，证明 owner.lock 创建/关闭/清理、每场前缀恢复、取消晚到、逐场原子发布、12 次后拒绝第 13 次、零自动重试和跨 run 不串 scenes/ledger。
+6. 凭据只允许从用户主动运行的私密一次性 PowerShell secure-input 管道供应一次。不得读取环境变量、系统凭据存储、剪贴板、命令行明文、文件 Key 或余额；不得打印、持久化或继承 Key。
+7. secure-input 命令必须接受用户显式提供的官方价格 HTML 路径，并在显示 Key 提示前完成所有不需要凭据的准入。准入失败不得询问 Key。
+8. 三场严格串行。每场最多四次调用；任一调用失败、解析失败、账务 unknown、取消或超界时不重试、不修复、不替代。已完成的场保持原字节；后续是否继续只按预先写死的安全状态机处理，不能生成第四场。
+9. 每场的三幕、wake、可选 firstFeeling、simulated residue 与四笔账务保持受管理一致。后来回想为空；climate 不映射为 firstFeeling 或 residue。
+10. 完成或停止后撤销临时 release、关闭 Store、确认 owner.lock 清除，生成机器可读与人类可读真实回执并提交到同一 PR #109。
+
+## 先到 READY_FOR_USER_SECURE_INPUT_R1
+
+施工端首先只完成 Phase B 准入、dummy 排练、测试、identity 和 secure-input；不得代用户输入 Key，不得自行执行真实批次。
+
+至少验证：
+
+- 新 Phase B 定向测试；
+- #109 11 项专项与相关 51 项回归；
+- 旧付费入口继续 `inline_paid_entry_refused`；
+- 无 release / 漂移价格 / 漂移 identity / 错 Store / 第 13 call / 重复 run / 晚到响应均失败关闭；
+- admission 运行时 credential supplier 0、network 0、real Store 0；
+- `git diff --check`；
+- 若仍未修改共享 `src/`，无需重跑完整 npm 测试；若修改共享 `src/`，STOP，不自行扩大验证。
+
+提交、推送 #109 后回执精确 HEAD/tree、Phase B identity/release hash、官方价格页 SHA-256、请求字节实数、预算和唯一 secure-input 命令。状态只允许：
+
+- `READY_FOR_USER_SECURE_INPUT_R1`
+- `BLOCKED`
+- `TOTAL_CONTROL_DECISION_REQUIRED`
+
+达到任一状态立即停止。不得自动提示多次、重试、运行模型、ready、合并或部署。
+
+## 用户执行后的唯一真实批次
+
+只有用户在普通 PowerShell 主动运行施工回执给出的唯一 secure-input 命令，才允许一次真实批次。
+
+真实执行必须产生逐场完整回执：
+
+- run / climate / mechanism / foregroundAnchor / used ledger；
+- 三幕原文与逐幕 appraisal、basis、before/delta/after；
+- wake fragment 与逐字 scene basis；
+- associations；
+- firstFeeling 的 omitted/present/absent/uncertain 真实返回；
+- simulated residue；
+- 每次 token usage、charge、attempt status；
+- source、prompt、identity 与 release；
+- 实际仍重复的意象，由总控后续人工判断，不由词面计数冒充。
+
+总费用、调用数与场数必须同时列出。任何质量结果都保留，不重试、不替换、不再付费追加。
+
+## 完成后的裁决边界
+
+真实批次完成只交回总控人工内容评审。测试通过不等于内容通过；fixture 不得混入真实结果。
+
+哥哥将逐场判断：
+
+- 是否有不照抄素材的可记画面；
+- scene/1 与 scene/2 是否真有状态改变；
+- 梦内变形是否自然而非完成提示词作业；
+- ordinary / uneasy / nightmare 是否有区别又不过度题材化；
+- appraisal 与 affect 是否有同幕语义依据；
+- firstFeeling、fragment、residue 是否仍然彼此独立；
+- 三场是否仍换词重复同一种梦。
+
+本 R1 不授权合并 #109、更新正式 V1 DONE LINE、接入 Memory/Mind、生成后来回想、再跑第二批、优化页面或开启下一包。
+
+## R1 STOP
+
+出现任一项立即停止：
+
+- 固定 #109 HEAD/tree、五个离线执行 blob、promptHash、sourceHash 或 identityHash 不符；
+- 官方价格或模型别名无法精确核对；
+- 需要读取环境 Key、凭据存储、余额或任意既有用户 Store；
+- 需要修改 prompt/source/fixture/shared src 才能接 live；
+- 无法把新 live identity 与 #107 旧 release/allowance 隔离；
+- 需要重试、修复调用、第四场、额外评分模型或泛化 forceClimate 入口；
+- 同一 Phase B 已有任务或真实批次在运行；
+- 无法保证停止后 release 撤销与 owner.lock 清理。
+
+
+---
+
+# R2 · 失败回执网络计数诚实性修正
+
+日期：2026-10-28
+
+状态：仅修正一次真实批次前的失败回执。R1 候选尚未运行真实模型、未读取 Key、未创建真实 Store、未产生费用。
+
+固定 R1 实现候选：
+
+- PR #109 HEAD：`8a7c42116a50261f844097de8427c9790b5d8fcc`
+- tree：`ab114099b893ff4417b6a4feef7c1ef08d7df23b`
+- parent：`119a6ba909cfaa75b29bd3d4c4fcf9500996e2bd`
+- offline identityHash：`f88fccb0349b0004db6c81deb0261f3d620f06480ab24b4a9c3aee2f94cfae28`
+- live identityHash：`42fda7ae6b3667c46c3f6b38cc2e16bdf3823fa840759a6e50d558904f633828`
+- releaseHash：`ee7ab9fbb6f71b582b442d27000d17f153dbfff1ac378ae4691cbfc869401bae`
+- matrixHash：`05247698e2b4e13989f40edb4c25ce8ad21a901a162ea1c9f7556e69dfcce7eb`
+- priceSnapshotHash：`247b8a83415ea54b05b43e2162d74ceef093824f6d2aba1b478028890cc85522`
+
+## 已证实缺口
+
+`phase-b/worker.mjs` 的通用 `blocked()` 当前硬编码：
+
+- `networkAttempts: 0`
+- `realModelRequests: 0`
+- `executed: false`
+
+普通 provider/解析失败通常由 runtime 捕获并进入持久 receipt，因此不一定触发该兜底；但如果凭据供应后、dispatch 已发生后出现逃出 runtime 的异常、Store poisoned、worker failure 或其它灾难性路径，上述硬编码可能把已经发生或无法确认的请求写成 0。launcher 的 worker-failed 兜底也有同类风险。
+
+这不授权重试，也不说明已经发生真实请求；它只是 R1 运行前必须消除的审计不诚实。
+
+## 唯一授权修正
+
+沿用现有 worktree、分支和 Draft PR #109。不得新建 worktree、分支、实现 PR 或真实批次。
+
+只允许修改 `scripts/nv-dream-climate-offline-01/phase-b/` 的计数/回执路径、对应定向测试和验证文档：
+
+1. 在真正调用 live transport 前后维护单调、进程内的实际计数：
+   - `networkAttempts`：每次准备向 `https.request` 发起一次真实请求时增加；
+   - `realModelRequests`：同一固定批次中实际交给 live provider transport 的请求次数。
+2. preflight、dummy、凭据供应前拒绝继续精确报告 0。
+3. 凭据供应后、live transport 尚未调用时仍可精确报告 0。
+4. live transport 已调用后发生普通失败，回执必须报告实际正整数，并保留对应 ledger row 为 settled 或 unknown；不得回写 0。
+5. 若 worker/父进程在已经供应凭据后异常终止，父进程无法证明是否已 dispatch，则相关字段必须报告显式 `unknown`/nullable 不确定状态，并附 `requestOutcomeKnown:false`；不得假装为 0。
+6. 成功批次报告实际 12/12；部分批次报告实际次数。任何失败都不重试、不替代、不启动下一场以外的额外 run。
+7. `credentialSupplierCalls`、Store 是否创建、release 是否撤销、owner.lock 是否清除仍如实报告；不得为了计数修正放宽 secure-input、identity、price、Store 或预算门禁。
+8. 若实现需要把计数器放入 live transport wrapper，可新增只在 Phase B 内使用的 telemetry object；不得打印 Key、请求 Authorization 或响应正文。
+9. 重新生成 live identity。若执行 blob 改变则 live identityHash 必须改变；release object 若未改变，releaseHash 可以保持，但必须重新验证。prompt、source、offline identity、matrix、价格、Store、12-call/0.48-CNY、三气候顺序不得改变。
+10. 不修改五个离线执行 blobs、fixture、protocol prompt、共享 `src/`、#107 历史或任何 Store。
+
+## R2 定向证明
+
+至少新增以下测试：
+
+- preflight 和凭据前失败：`networkAttempts=0`、`realModelRequests=0`、outcome known；
+- credential 已供应但 transport 未调用：仍为精确 0；
+- 模拟 live provider 在第一次 dispatch 后失败：两个计数均为 1，对应账务为 unknown/settled 中的真实状态，不能是零；
+- 两次成功后第三次失败：计数为 3，不重试，后续不新增调用；
+- 模拟 child/worker 在 credential 供应后不可解析或异常退出：launcher 报 `unknown` 与 `requestOutcomeKnown:false`，不能报 0；
+- dummy 排练继续为网络 0，12 个 fake calls 不冒充 realModelRequests；
+- 成功 fake live transport 的实际 dispatch 计数与 ledger 行数一致；
+- secure-input 仍只提示一次 Key，release 最终撤销，owner.lock 清除；
+- 旧付费入口继续失败关闭。
+
+重跑：
+
+- 更新后的 Phase B 定向测试；
+- 原 #109 11 项专项；
+-相关 51 项最小回归；
+- admission/dummy/checker；
+- `git diff --check`。
+
+共享 `src/` 仍禁止修改，因此无需完整 npm 测试。任何真实 Key、真实 Store、真实模型、网络请求或费用仍禁止。
+
+## R2 交付终点
+
+提交并推送同一 PR #109 后，只回执：
+
+- 新 HEAD/tree/parent；
+- changed files；
+- 新 live identityHash，release/matrix/price hash 是否保持；
+- 新增失败路径测试实数；
+- preflight/dummy 零网络证明；
+- 唯一 secure-input 命令（仅展示，不运行）；
+- PR Draft/open/base/head/mergeable。
+
+状态只允许：
+
+- `READY_FOR_USER_SECURE_INPUT_R2`
+- `BLOCKED`
+- `TOTAL_CONTROL_DECISION_REQUIRED`
+
+达到后立即停止。不得运行真实批次、提示或读取 Key、创建真实 Store、ready、合并、部署或开启下一包。
+
+
+---
+
+# R3 · 已发生失败后的离线诊断与账务分离
+
+本节是当前唯一施工授权，取代 R1/R2 的待运行授权。一次真实批次已经发生并停止；不得恢复、补跑或复用其 release。沿用同一 worktree、分支与 Draft PR #109。
+
+## 固定输入与事实
+
+- 实现起点：`9c2137304471ab554cb95d52374e10521e2f4272`
+- tree：`eeef65e184715aa1176f6f81351eae76ea65d1b5`
+- live identity：`54393cfd54ebef8d86afbb2922cc3ab0d8a2657ccf690b695691ac4ddb3528d3`
+- A run：三幕 draft 已保存，wake 被归类为 invalid_wake；4 次 dispatch；前三笔 settled 合计 11770 micro-CNY，第四笔 unknown 占用 35968，总账面占用 47738。
+- B/C queued，零调用；原始 wake 返回未持久化，具体失败字段不可追溯。不得把新 fake 复现写成原失败根因。
+- 真实 state.json：13399 bytes，SHA-256 `6d4ef8916c5610a4afd940ed2919c64f25915e4ba96842dfb02bc3f048f16754`。本轮无需重新读取它；绝不改写或重新结算历史。
+- 本次三幕证明画面、连续变化与梦内变形有所改善；三幕 unchanged 不足以判定情绪错误。车票成为共同主轴是内容观察，尚不证明批次差异（B/C 未跑）。
+
+## DONE LINE
+
+只在临时 synthetic Store 中证明：未来响应验证失败时保留明确的验证子原因；已验证的 usage 可以独立于内容发布结算；失败梦仍不发布，后续 run 停止，真实运行入口关闭。完成后交回人工离线评审，不输出新的输 Key 指令。
+
+## 允许范围与冻结项
+
+允许修改本包 phase-b 诊断、运行账务分离、回执、identity、入口关闭逻辑；新增对应测试及 docs/validation/dream-climate-live-r3.md。同步本权威文件副本。沿用既有分支提交并普通推送至 #109；不新建任务/分支/worktree/PR。
+
+共享 src、五个离线执行文件、prompt、source、fixture、matrix、价格、预算、所有真实 Store 与旧账冻结。本轮不改情绪规则或素材提示，不逼出 estimated、不强制非零 delta，不声称修好了未知的历史 wake 内容。内容候选是否需要进一步改动留给实际证据；不自动续包。
+
+## 实现要求
+
+1. **先关闭真实入口**：R3 是离线候选，secure-input / launcher 的真实 run 路径在提示或供应 Key、创建真实 Store、网络之前明确拒绝（例如 OFFLINE_REVIEW_REQUIRED_R3）。旧 R1 release 即使字节完全正确，也不得启用 R3 live。不得创建新真实 release、扩大预算或移除已存在 Store 防重跑检查。允许通过测试专用注入运行 synthetic runtime；不得暴露 CLI/env 绕过开关。
+2. **分开验证与发布**：保留原 normalization 的严格语义及原始错误码，并另存稳定字段分类（response/fragment/associations/residue/firstFeeling 等）。generic invalid_wake 可保留兼容，但回执须显示具体原因。不得静默修补、截断为合法输出、丢弃无效 firstFeeling 后发布，或放宽逐字摘录。
+3. **限量诊断**：仅为新 synthetic/未来另行获准的执行提供版本化诊断记录，包含 run/request/stage、原始验证错误码、响应可用性、usage 验证状态。可保留限长的模型 content 文本或解析后 JSON 诊断副本，明确 rejected/non-published；总大小设置硬上限（不超过 16 KiB/次），超界只记录省略原因与长度，不截成可接受梦。只允许模型 content，不保存请求头、Authorization、Key、环境、完整 HTTP envelope 或任意异常对象/堆栈。沿用 transport 的 credential echo 拒绝，并测试含凭据的返回不进入持久诊断。合成标记、现实素材不得混进用户梦簿。
+4. **账务与内容有效性分开**：先阅读 BudgetLedger.settle 的事务语义。仅当 provider usage 已通过现有模型/范围/预算/价格校验时，内容 invalid 仍可用该 receipt 完成一次结算，但不发布 dream/wake/feeling/residue。结算成功后诊断或内容失败不得再改写为 unknown；结算失败、usage 缺失/不可验证、传输不确定或持久化不确定继续保守 unknown。禁止直接改 ledger 私有结构或绕过校验。共享 src 如不足以支持，STOP 说明具体原因，不复制或扩大其契约。
+5. **费用标签诚实**：回执区分 settled 计算费用、unknown 保留占用、二者合计；保留兼容字段时解释其含义，不能把合计标作 provider 已确认实扣。旧第四笔不能凭新代码补造 usage 或追溯 settled。
+6. **状态和内容保护**：失败后三幕 draft 保留并可在诊断阅读面完整提取，明确未发布；无 wake/feeling/residue 时报告未记录，不推断心情。成功路径仍原子发布完整梦，发布失败不会留下半套记录；任意失败后不得启动 B/C、重试或替代 run。
+7. 更新候选执行 identity，保留旧身份作为历史证据。离线入口关闭属于新身份，不得调整旧 release 使之可用。不要为了检查新身份打开真实 Store。
+
+## 最小验证
+
+使用明确标记 fake 的新 fixture，不编造本次真实 wake：
+
+- 合法 wake：原子发布、逐字 fragment、四态 firstFeeling，usage settled。
+- 分别测试额外字段、错误 firstFeeling、非法 residue/associations、非逐字 fragment：精确子原因；三幕 draft 保留；无正式发布；已验证 usage settled 一次；后续零调用。
+- usage 缺失/越界与传输失败：保持 unknown，无伪造费用。
+- 结算成功后诊断写入失败，以及发布/持久化失败：事务状态诚实，不重复结算或覆盖成功账务；若无法保证，STOP。
+- 超长或含 dummy credential 的响应不泄露凭据、不形成可发布截断文本。
+- R2 dispatch 计数与 child unknown 语义继续成立。
+- 新真实入口在旧 release 存在/不存在时均零 credential supplier、零真实网络、零真实 Store。
+- 运行受影响的 Phase B 定向、11 项离线专项与 51 项相关回归、旧付费失败关闭检查、git diff --check。无需全套 npm 或截图；不反复跑无关测试。
+- 测试不得依赖真实 Key、实际专用 Store 或真实 provider；可用 fake clock 和合成价格校验输入，明确不是重新核验官方价格。
+
+## 交付与停止
+
+回执列 HEAD/tree/parent、改动文件、新 identity、具体测试与首次失败、一次“格式错误但已知 usage”的完整 synthetic 例子，以及零真实调用证明。PR 描述更新为当前离线候选状态，保留历史证据链接。
+
+终点仅为 READY_FOR_HUMAN_OFFLINE_REVIEW_R3、BLOCKED 或 TOTAL_CONTROL_DECISION_REQUIRED。禁止 READY_FOR_USER_SECURE_INPUT，禁止真实执行、ready、合并、部署或下一包。若起点漂移/同包正在施工，先回执，不覆盖。

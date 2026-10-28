@@ -9,7 +9,9 @@ import {
 } from '../scripts/nv-dream-climate-offline-01/phase-b/config.mjs';
 import {runDummyRehearsal,createDummySimulator} from '../scripts/nv-dream-climate-offline-01/phase-b/dummy.mjs';
 import {verifyLiveIdentity} from '../scripts/nv-dream-climate-offline-01/phase-b/identity.mjs';
-import {launchLive} from '../scripts/nv-dream-climate-offline-01/phase-b/launcher.mjs';
+import {
+  blockedLauncherReceipt,launchLive
+} from '../scripts/nv-dream-climate-offline-01/phase-b/launcher.mjs';
 import {liveRunIds} from '../scripts/nv-dream-climate-offline-01/phase-b/matrix.mjs';
 import {liveReleaseObject,revokeLiveRelease} from '../scripts/nv-dream-climate-offline-01/phase-b/release.mjs';
 import {DreamClimateLiveRuntime} from '../scripts/nv-dream-climate-offline-01/phase-b/runtime.mjs';
@@ -128,64 +130,41 @@ test('successful fake live transport reports 12/12 matching twelve ledger rows',
     .every(row=>row.status==='settled'));
 });
 
-test('launcher reports unknown after credential delivery and an abnormal worker',async t=>{
-  const price=officialPrice();
-  if(!fs.existsSync(price))return t.skip('official saved pricing HTML unavailable');
-  const parent=temporary();t.after(()=>fs.rmSync(parent,{recursive:true,force:true}));
-  const identity=verifyLiveIdentity();
-  const header={type:'credential_required',releaseHash:liveExpectedReleaseHash,
-    liveIdentityHash:identity.liveIdentityHash,pricePageSha256:livePricePageSha256,
-    nextRequestBytes:4855,nextReservationMicroCny:35968};
-  const cases=[
-    ['exit',`process.stdout.write(${JSON.stringify(JSON.stringify(header))}+'\\n');
-process.stdin.once('data',()=>process.exit(23));`],
-    ['malformed',`process.stdout.write(${JSON.stringify(JSON.stringify(header))}+'\\n');
-process.stdin.once('data',()=>{process.stdout.write('{not-json}\\n');setTimeout(()=>process.exit(24),10);});`]
-  ];
-  for(const [name,source] of cases){
-    const worker=path.join(parent,`${name}-worker.mjs`);fs.writeFileSync(worker,source);
-    const result=await launchLive('run',{priceFile:price,workerPath:worker,timeoutMs:5000,
-      credentialSupplier:()=> 'DUMMY-R2-KEY'});
-    assert.equal(result.status,'blocked',name);
-    assert.equal(result.credentialSupplierCalls,1,name);
-    assert.equal(result.networkAttempts,null,name);
-    assert.equal(result.realModelRequests,null,name);
-    assert.equal(result.requestOutcomeKnown,false,name);
-    assert.equal(result.storeCreated,null,name);
-  }
+test('R2 child-unknown classification remains conservative without a live child',()=>{
+  const before=blockedLauncherReceipt('before_transport');
+  assert.equal(before.networkAttempts,0);
+  assert.equal(before.realModelRequests,0);
+  assert.equal(before.requestOutcomeKnown,true);
+  assert.equal(before.storeCreated,false);
+  const abnormal=blockedLauncherReceipt('worker_failed_after_delivery',{
+    credentialSupplierCalls:1,credentialDelivered:true});
+  assert.equal(abnormal.status,'blocked');
+  assert.equal(abnormal.credentialSupplierCalls,1);
+  assert.equal(abnormal.networkAttempts,null);
+  assert.equal(abnormal.realModelRequests,null);
+  assert.equal(abnormal.requestOutcomeKnown,false);
+  assert.equal(abnormal.storeCreated,null);
 });
 
-test('launcher preserves positive worker counts instead of replacing them with unknown',async t=>{
-  const price=officialPrice();
-  if(!fs.existsSync(price))return t.skip('official saved pricing HTML unavailable');
-  const parent=temporary();t.after(()=>fs.rmSync(parent,{recursive:true,force:true}));
-  const identity=verifyLiveIdentity();
-  const header={type:'credential_required',releaseHash:liveExpectedReleaseHash,
-    liveIdentityHash:identity.liveIdentityHash,pricePageSha256:livePricePageSha256,
-    nextRequestBytes:4855,nextReservationMicroCny:35968};
-  const result={status:'blocked',ready:false,reason:'simulated_after_dispatch',
-    storeCreated:true,networkAttempts:1,realModelRequests:1,requestOutcomeKnown:true};
-  const worker=path.join(parent,'counted-worker.mjs');
-  fs.writeFileSync(worker,`process.stdout.write(${JSON.stringify(JSON.stringify(header))}+'\\n');
-process.stdin.once('data',()=>{process.stdout.write(${JSON.stringify(JSON.stringify({type:'result',value:result}))}+'\\n');process.exit(0);});`);
-  const value=await launchLive('run',{priceFile:price,workerPath:worker,timeoutMs:5000,
-    credentialSupplier:()=> 'DUMMY-R2-KEY'});
+test('live launcher refuses R3 before supplier, Store or network',async()=>{
+  let supplierCalls=0;
+  const value=await launchLive('run',{priceFile:path.join(os.tmpdir(),'not-read.html'),
+    credentialSupplier:()=>{supplierCalls++;return 'DUMMY-R2-KEY';}});
   assert.equal(value.status,'blocked');
-  assert.equal(value.credentialSupplierCalls,1);
-  assert.equal(value.networkAttempts,1);
-  assert.equal(value.realModelRequests,1);
+  assert.equal(value.reason,'OFFLINE_REVIEW_REQUIRED_R3');
+  assert.equal(value.offlineReview,true);
+  assert.equal(value.credentialSupplierCalls,0);
+  assert.equal(value.networkAttempts,0);
+  assert.equal(value.realModelRequests,0);
   assert.equal(value.requestOutcomeKnown,true);
-  assert.equal(value.storeCreated,true);
+  assert.equal(value.storeCreated,false);
+  assert.equal(supplierCalls,0);
 });
 
-test('preflight and dummy stay at exact zero with known outcome',async t=>{
-  const price=officialPrice();
-  if(!fs.existsSync(price))return t.skip('official saved pricing HTML unavailable');
-  if(fs.existsSync(liveReleasePath))return t.skip('temporary release path already occupied');
-  fs.writeFileSync(liveReleasePath,JSON.stringify(liveReleaseObject()));
-  t.after(()=>revokeLiveRelease(liveReleasePath));
-  const preflight=await launchLive('preflight',{priceFile:price});
-  assert.equal(preflight.status,'ready');
+test('preflight is closed and dummy stays at exact zero with known outcome',async()=>{
+  const preflight=await launchLive('preflight',{priceFile:path.join(os.tmpdir(),'not-read.html')});
+  assert.equal(preflight.status,'blocked');
+  assert.equal(preflight.reason,'OFFLINE_REVIEW_REQUIRED_R3');
   assert.equal(preflight.networkAttempts,0);
   assert.equal(preflight.realModelRequests,0);
   assert.equal(preflight.requestOutcomeKnown,true);
