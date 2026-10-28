@@ -7,7 +7,7 @@ function New-R6Release {
         profile = 'nv-dream-climate-single-run-r6-v1'
         authorityCommit = '1562240ca3c6967a2f3f50bb3788223b0ea73c5e'
         identityVersion = 'nv-dream-climate-single-run-r6-identity-v1'
-    executionDigest = '7bc93bb245fd9ed528b1fd00bf30ad1e03617f9f7b5a71718310af83ef1e88fd'
+    executionDigest = 'f2eceb8719d20b492f130b4cba9030ea7e09cd03f66fabd1c2ceb379d278b294'
         offlineHead = 'c4680ad1065c7b8c8c4cbf57ba90d24d04d175b6'
         offlineTree = 'b178f3ff6772842af210e3bac71206bbc5e13bb0'
         offlineParent = '48be3aad209db57cf125e69e84b1276cc3177efb'
@@ -35,7 +35,11 @@ function New-R6Release {
 }
 
 function Write-R6ReleaseJson {
-    param([Parameter(Mandatory = $true)][string]$Path)
-    $json = ConvertTo-Json -InputObject (New-R6Release) -Depth 8
+    param(
+        [Parameter(Mandatory = $true)][string]$Path,
+        [object]$Release = $null
+    )
+    $document = if ($null -eq $Release) { New-R6Release } else { $Release }
+    $json = ConvertTo-Json -InputObject $document -Depth 8
     Write-Utf8NewFile -Path $Path -Text ($json + [Environment]::NewLine)
 }

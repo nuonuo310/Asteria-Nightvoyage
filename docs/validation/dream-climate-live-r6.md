@@ -41,11 +41,19 @@
 | offline sourceHash | `605d69511cc72c0b0ca60a77be34dafb061e63b57e98db94b778cf7bfce8cbb6` |
 | matrixHash | `13c248a72b30266730997ee990838ec15ebaee48efd201c771bfc480bd1c52c9` |
 | priceSnapshotHash | `fd3016c7cc74a0eeac704bff94295dd1db3fd86a2bdee5ec464ef91d1c23b796` |
-| executionDigest / pin | `7bc93bb245fd9ed528b1fd00bf30ad1e03617f9f7b5a71718310af83ef1e88fd` |
-| identityHash | `f6df1c3f2334cf0aa84bb818375e9e2129dadd155f7e0be1cc06ec5e066b2d6d` |
-| releaseHash | `fbc473149d39fe917cbff0f47a851e5fce95c8baab78cf867f67b21e61998daa` |
+| executionDigest / pin | `f2eceb8719d20b492f130b4cba9030ea7e09cd03f66fabd1c2ceb379d278b294` |
+| identityHash | `ebceaf1a5609d31d5031cce86c86e4424e2ede4864f0d6d3c2d83005e30f2531` |
+| releaseHash | `5b35b7aa59806cfbc3d9d467e05190d8b2ee031b18df0a2d48e4bed25e7a63e5` |
 
 execution digest 覆盖 19 个 R6 执行文件、10 个复用的 Phase B 文件、固定 contract 和价格摘要；执行 pin 文件自身不进入摘要，避免自引用。代码、manifest 与 pin 同步漂移仍不能通过旧批准。
+
+## R6 入口接线修正（总控审阅）
+
+总控审阅在固定起点 `8b376bf1ffb4a2eec4832773ca67653d5f66bb4e` 上确认了一个入口缺陷：`secure-input.ps1` 比较 admission 摘要时使用了从未定义的脚本变量 `$executionDigest`；唯一的批准摘要只存在于 `execution-pin.ps1` 中 `New-R6Release` 的返回对象里。
+
+修正后入口在加载 pin 后取得 `New-R6Release` 的返回对象 `$approvedRelease`，比较 `$check.executionDigest -ne $approvedRelease.executionDigest`，写入临时 release 时复用同一对象，不另设第二份重复摘要常量。摘要不匹配仍以 `execution_pin_mismatch` 拒绝，且发生在写临时 release 与任何 Key 提示之前。
+
+`secure-input.ps1` 本身属于被摘要的执行文件，因此本次修改重新生成了 execution digest、执行 pin、`identity.json` 和 release hash；上表三项即为修正后的新值。
 
 ## 价格证据
 
@@ -81,6 +89,8 @@ execution digest 覆盖 19 个 R6 执行文件、10 个复用的 Phase B 文件�
 | 命令 | 结果 |
 | --- | --- |
 | `node --test test/dream-climate-live-r6.test.js` | 20/20 pass，exit 0 |
+| `node --test test/dream-climate-live-r6-entry.test.js` | 1/1 pass，exit 0（实际入口摘要比较） |
+| `node --test test/dream-climate-live-r6.test.js test/dream-climate-live-r6-entry.test.js` | 21/21 pass，exit 0 |
 | `node --test test/dream-climate-offline.test.js test/dream-climate-live-r1.test.js test/dream-climate-live-r2.test.js test/dream-climate-live-r3.test.js test/dream-climate-live-r4.test.js test/dream-climate-live-r5.test.js test/rich-fictional-dream-sample-phase-b.test.js` | 91/91 pass，exit 0 |
 | `node scripts/nv-dream-climate-offline-01/single-run-r6/check-admission.mjs --price-file C:\Users\Administrator\Desktop\deepseek-pricing-r1.html` | PASS，dummy 4 calls，真实网络/模型/Store 均为 0 |
 | `secure-input.ps1 -PriceFile <missing>` | exit 1，`required_file_missing`；无 release、无 Store、无 Key 提示 |
@@ -94,10 +104,13 @@ R6 专项首次运行有 8 个测试失败，均为测试对 receipt 形状的�
 - `error`：child 非零退出时 stdout/stderr 分开保留。
 - `garbage`：非法 UTF-8 被严格解码拒绝为 `stdout_invalid_utf8`，不会误读。
 - `receipt.json` 无 BOM、严格 UTF-8 可解析；第二次写同一路径被拒绝且原文件哈希不变。
+- 入口摘要比较（实际 `secure-input.ps1`，包副本 + stub `check-admission.mjs`）：摘要与 `New-R6Release` 输出一致时打印 `Admission ready`，越过比较、写临时 release 并进入 worker 预检；预检拒绝后退出 1，临时 release 已撤销。
+- 入口摘要比较（不匹配）：把 `executionDigest` 替换为 64 个 `0` 时，入口以 `execution_pin_mismatch` 退出 1，不打印 `Admission ready`，不创建 release。
+- 上述入口探针两次均未创建 R6 真实 Store，也未到达 `Read-Host`，没有提示或读取 Key。
 
 ## 零真实调用证明
 
-- credential supplier calls：0；本会话未运行 `secure-input.ps1`。
+- credential supplier calls：0；实际 `secure-input.ps1` 只在包副本中以 stub admission/worker 运行，从未到达 `Read-Host`，没有提示或读取 Key。
 - 真实网络请求：0；所有 worker/runtime 测试使用 dummy simulator 或 fake request implementation。
 - 真实模型请求：0；无真实费用。
 - R6 真实 Store：测试前后均不存在。

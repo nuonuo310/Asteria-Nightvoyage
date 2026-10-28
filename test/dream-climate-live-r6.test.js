@@ -129,8 +129,8 @@ test('R6 identity, matrix, release, price and request size are exact',()=>{
   const identity=verifyR6Identity();
   assert.equal(identity.executionDigest,r6ExecutionPin);
   assert.equal(identity.executionPin,r6ExecutionPin);
-  assert.equal(identity.identityHash,'f6df1c3f2334cf0aa84bb818375e9e2129dadd155f7e0be1cc06ec5e066b2d6d');
-  assert.equal(identity.releaseHash,'fbc473149d39fe917cbff0f47a851e5fce95c8baab78cf867f67b21e61998daa');
+  assert.equal(identity.identityHash,'ebceaf1a5609d31d5031cce86c86e4424e2ede4864f0d6d3c2d83005e30f2531');
+  assert.equal(identity.releaseHash,'5b35b7aa59806cfbc3d9d467e05190d8b2ee031b18df0a2d48e4bed25e7a63e5');
   assert.equal(identity.executionFiles,19);
   assert.equal(identity.sharedExecutionFiles,10);
   assert.equal(identity.runCount,1);

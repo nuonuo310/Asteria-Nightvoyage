@@ -7,6 +7,7 @@ $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'r6-common.ps1')
 . (Join-Path $PSScriptRoot 'execution-pin.ps1')
 
+$approvedRelease = New-R6Release
 $quote = [char]34
 $repoRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..\..'))
 $admissionPath = Join-Path $PSScriptRoot 'check-admission.mjs'
@@ -116,14 +117,14 @@ try {
         [string]::IsNullOrWhiteSpace($check.pricePageSha256)) {
         Stop-R6Input 'admission_not_ready'
     }
-    if ($check.executionDigest -ne $executionDigest) {
+    if ($check.executionDigest -ne $approvedRelease.executionDigest) {
         Stop-R6Input 'execution_pin_mismatch'
     }
     if (Test-Path -LiteralPath $storePath) { Stop-R6Input 'dedicated_store_already_present' }
     Write-Host ('Admission ready: ' + $check.status)
 
     $releasePrepared = $true
-    Write-R6ReleaseJson -Path $releasePath
+    Write-R6ReleaseJson -Path $releasePath -Release $approvedRelease
 
     $workerArgs = 'run --price-file ' + $quote + $PriceFile + $quote
     $capture = Start-Utf8Process -NodePath $nodePath -ScriptPath $workerPath `

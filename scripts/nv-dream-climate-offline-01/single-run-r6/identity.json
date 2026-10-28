@@ -69,7 +69,7 @@
     "receiptFileName": "receipt.json",
     "noRetry": true
   },
-  "executionDigest": "7bc93bb245fd9ed528b1fd00bf30ad1e03617f9f7b5a71718310af83ef1e88fd",
+  "executionDigest": "f2eceb8719d20b492f130b4cba9030ea7e09cd03f66fabd1c2ceb379d278b294",
   "priceSnapshotHash": "fd3016c7cc74a0eeac704bff94295dd1db3fd86a2bdee5ec464ef91d1c23b796",
   "pricePageSha256": "556097caba8adfeeed6455714bffd731c7f60db520fcee06a922eba5840663a3",
   "modelAlias": "deepseek-flash",
@@ -98,7 +98,7 @@
   "extractionVersion": "nv-dream-climate-single-run-r6-receipt-v1",
   "runtimeVersion": "nv-dream-climate-single-run-r6-runtime-v1",
   "profileVersion": "nv-dream-climate-single-run-r6-profile-v1",
-  "releaseHash": "fbc473149d39fe917cbff0f47a851e5fce95c8baab78cf867f67b21e61998daa",
+  "releaseHash": "5b35b7aa59806cfbc3d9d467e05190d8b2ee031b18df0a2d48e4bed25e7a63e5",
   "noRetry": true,
   "executionFiles": {
     "check-admission.mjs": "3e06133d373336d05f9afa1773f9a94b9603c22104d3e7b1424f84a7d54f0e54",
@@ -115,7 +115,7 @@
     "records.mjs": "4dfa2a0d1dc220a604f10e40cfb18a86d92f2c50c62151c3e5bf3b15b2d04b80",
     "release.mjs": "fe018c535007b08ae3b8e47658ee4ebffe0b9bf0bdb6916096254a3c9c424a89",
     "runtime.mjs": "883ca751c3f02548424462f7bc1ea50a1ac6dde7ea153ccec0ec910eaae8ce9e",
-    "secure-input.ps1": "6d4546f7675ed7111832176c108075bfb81e66a1c62539b0d39de6ad6465c24d",
+    "secure-input.ps1": "764eb8b1fd4a996348fcefae0e29aa951e94bd6569eb7712eb7a50d5e9eb4a2a",
     "store-contract.mjs": "d7f6657790186be404f4befaa650a2f57c51899e1a039428fcd6095c0d1f84e9",
     "utf8-roundtrip.ps1": "052588558584e7fd8bfa40547e6a5b441d7e1a2ab00f31505f6c52c7ac6f474b",
     "utf8-stub.mjs": "739832c1caa91595ca4fde7e6ccb2333daabf578232d014d056c4c9d262dcc18",
