@@ -493,3 +493,60 @@ Phase B 必须：
 - `TOTAL_CONTROL_DECISION_REQUIRED`
 
 达到后立即停止。不得运行真实批次、提示或读取 Key、创建真实 Store、ready、合并、部署或开启下一包。
+
+
+---
+
+# R3 · 已发生失败后的离线诊断与账务分离
+
+本节是当前唯一施工授权，取代 R1/R2 的待运行授权。一次真实批次已经发生并停止；不得恢复、补跑或复用其 release。沿用同一 worktree、分支与 Draft PR #109。
+
+## 固定输入与事实
+
+- 实现起点：`9c2137304471ab554cb95d52374e10521e2f4272`
+- tree：`eeef65e184715aa1176f6f81351eae76ea65d1b5`
+- live identity：`54393cfd54ebef8d86afbb2922cc3ab0d8a2657ccf690b695691ac4ddb3528d3`
+- A run：三幕 draft 已保存，wake 被归类为 invalid_wake；4 次 dispatch；前三笔 settled 合计 11770 micro-CNY，第四笔 unknown 占用 35968，总账面占用 47738。
+- B/C queued，零调用；原始 wake 返回未持久化，具体失败字段不可追溯。不得把新 fake 复现写成原失败根因。
+- 真实 state.json：13399 bytes，SHA-256 `6d4ef8916c5610a4afd940ed2919c64f25915e4ba96842dfb02bc3f048f16754`。本轮无需重新读取它；绝不改写或重新结算历史。
+- 本次三幕证明画面、连续变化与梦内变形有所改善；三幕 unchanged 不足以判定情绪错误。车票成为共同主轴是内容观察，尚不证明批次差异（B/C 未跑）。
+
+## DONE LINE
+
+只在临时 synthetic Store 中证明：未来响应验证失败时保留明确的验证子原因；已验证的 usage 可以独立于内容发布结算；失败梦仍不发布，后续 run 停止，真实运行入口关闭。完成后交回人工离线评审，不输出新的输 Key 指令。
+
+## 允许范围与冻结项
+
+允许修改本包 phase-b 诊断、运行账务分离、回执、identity、入口关闭逻辑；新增对应测试及 docs/validation/dream-climate-live-r3.md。同步本权威文件副本。沿用既有分支提交并普通推送至 #109；不新建任务/分支/worktree/PR。
+
+共享 src、五个离线执行文件、prompt、source、fixture、matrix、价格、预算、所有真实 Store 与旧账冻结。本轮不改情绪规则或素材提示，不逼出 estimated、不强制非零 delta，不声称修好了未知的历史 wake 内容。内容候选是否需要进一步改动留给实际证据；不自动续包。
+
+## 实现要求
+
+1. **先关闭真实入口**：R3 是离线候选，secure-input / launcher 的真实 run 路径在提示或供应 Key、创建真实 Store、网络之前明确拒绝（例如 OFFLINE_REVIEW_REQUIRED_R3）。旧 R1 release 即使字节完全正确，也不得启用 R3 live。不得创建新真实 release、扩大预算或移除已存在 Store 防重跑检查。允许通过测试专用注入运行 synthetic runtime；不得暴露 CLI/env 绕过开关。
+2. **分开验证与发布**：保留原 normalization 的严格语义及原始错误码，并另存稳定字段分类（response/fragment/associations/residue/firstFeeling 等）。generic invalid_wake 可保留兼容，但回执须显示具体原因。不得静默修补、截断为合法输出、丢弃无效 firstFeeling 后发布，或放宽逐字摘录。
+3. **限量诊断**：仅为新 synthetic/未来另行获准的执行提供版本化诊断记录，包含 run/request/stage、原始验证错误码、响应可用性、usage 验证状态。可保留限长的模型 content 文本或解析后 JSON 诊断副本，明确 rejected/non-published；总大小设置硬上限（不超过 16 KiB/次），超界只记录省略原因与长度，不截成可接受梦。只允许模型 content，不保存请求头、Authorization、Key、环境、完整 HTTP envelope 或任意异常对象/堆栈。沿用 transport 的 credential echo 拒绝，并测试含凭据的返回不进入持久诊断。合成标记、现实素材不得混进用户梦簿。
+4. **账务与内容有效性分开**：先阅读 BudgetLedger.settle 的事务语义。仅当 provider usage 已通过现有模型/范围/预算/价格校验时，内容 invalid 仍可用该 receipt 完成一次结算，但不发布 dream/wake/feeling/residue。结算成功后诊断或内容失败不得再改写为 unknown；结算失败、usage 缺失/不可验证、传输不确定或持久化不确定继续保守 unknown。禁止直接改 ledger 私有结构或绕过校验。共享 src 如不足以支持，STOP 说明具体原因，不复制或扩大其契约。
+5. **费用标签诚实**：回执区分 settled 计算费用、unknown 保留占用、二者合计；保留兼容字段时解释其含义，不能把合计标作 provider 已确认实扣。旧第四笔不能凭新代码补造 usage 或追溯 settled。
+6. **状态和内容保护**：失败后三幕 draft 保留并可在诊断阅读面完整提取，明确未发布；无 wake/feeling/residue 时报告未记录，不推断心情。成功路径仍原子发布完整梦，发布失败不会留下半套记录；任意失败后不得启动 B/C、重试或替代 run。
+7. 更新候选执行 identity，保留旧身份作为历史证据。离线入口关闭属于新身份，不得调整旧 release 使之可用。不要为了检查新身份打开真实 Store。
+
+## 最小验证
+
+使用明确标记 fake 的新 fixture，不编造本次真实 wake：
+
+- 合法 wake：原子发布、逐字 fragment、四态 firstFeeling，usage settled。
+- 分别测试额外字段、错误 firstFeeling、非法 residue/associations、非逐字 fragment：精确子原因；三幕 draft 保留；无正式发布；已验证 usage settled 一次；后续零调用。
+- usage 缺失/越界与传输失败：保持 unknown，无伪造费用。
+- 结算成功后诊断写入失败，以及发布/持久化失败：事务状态诚实，不重复结算或覆盖成功账务；若无法保证，STOP。
+- 超长或含 dummy credential 的响应不泄露凭据、不形成可发布截断文本。
+- R2 dispatch 计数与 child unknown 语义继续成立。
+- 新真实入口在旧 release 存在/不存在时均零 credential supplier、零真实网络、零真实 Store。
+- 运行受影响的 Phase B 定向、11 项离线专项与 51 项相关回归、旧付费失败关闭检查、git diff --check。无需全套 npm 或截图；不反复跑无关测试。
+- 测试不得依赖真实 Key、实际专用 Store 或真实 provider；可用 fake clock 和合成价格校验输入，明确不是重新核验官方价格。
+
+## 交付与停止
+
+回执列 HEAD/tree/parent、改动文件、新 identity、具体测试与首次失败、一次“格式错误但已知 usage”的完整 synthetic 例子，以及零真实调用证明。PR 描述更新为当前离线候选状态，保留历史证据链接。
+
+终点仅为 READY_FOR_HUMAN_OFFLINE_REVIEW_R3、BLOCKED 或 TOTAL_CONTROL_DECISION_REQUIRED。禁止 READY_FOR_USER_SECURE_INPUT，禁止真实执行、ready、合并、部署或下一包。若起点漂移/同包正在施工，先回执，不覆盖。
