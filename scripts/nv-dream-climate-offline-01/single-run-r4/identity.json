@@ -6,15 +6,15 @@
     "head": "de14f237d26b7ee82d5be7196162d661a6291b28",
     "tree": "5435202edc9ca444385609d867294d75a882e1e2",
     "parent": "9c2137304471ab554cb95d52374e10521e2f4272",
-    "identityHash": "f88fccb0349b0004db6c81deb0261f3d620f06480ab24b4a9c3aee2f94cfae28",
-    "promptHash": "9c855d8b3e3b2a55c3f58e36de4a9aee5dec07b706cbf675912632d6ff8dd119",
+    "identityHash": "47767f6f733dc657dfef815839b7e9cf3218cff3d4844711a7a3d32c4488dedd",
+    "promptHash": "9fe4d0863983eae2eb8a969d89fd6ffc5eeab3ebec507bf263d0f27664fbdb66",
     "sourceHash": "605d69511cc72c0b0ca60a77be34dafb061e63b57e98db94b778cf7bfce8cbb6",
     "executionFiles": {
       "fixtures.mjs": "04ecad144ab7f5998baad126fe3f78ba0935616b3bfc5352da1f41d1cd606914",
       "generate-identity.mjs": "469ed4561f048243226597c747c7d5348b92afe6efceb4d35bf7e816abb47793",
       "identity.mjs": "33c8c8a061eb900456d62218499bc9f59b74bd6e327040198f0aa05be3f2f910",
       "offline-check.mjs": "8bc2d9d879e68c2ea4e61431f411743e61ef584f5f2a4f0d97b1d8be183bdaf3",
-      "protocol.mjs": "b7659c829e1b5150663a0d5f8d2863233e46c9a72c5966448533a15004a44e09"
+      "protocol.mjs": "2a9f4f8fdc643b27010e96ae6fb7d6070b4c635ec228ef691257574e91940fdf"
     }
   },
   "matrix": [
@@ -56,11 +56,11 @@
   "transportVersion": "nv-dream-climate-single-run-r4-https-v1",
   "extractionVersion": "nv-dream-climate-single-run-r4-receipt-v1",
   "runtimeVersion": "nv-dream-climate-single-run-r4-runtime-v1",
-  "releaseHash": "de4c1c85dd4bea5831b7ead3cc7fa9bb728326ac4846640fe56afb6bcdbb1a5f",
+  "releaseHash": "3ebdae45838bbbbfe51d3b3b9af7f547389a1badc3747bb5bf7976c0eeb0373b",
   "noRetry": true,
   "executionFiles": {
     "check-admission.mjs": "3ada0ce8af76ecda133ab5e088a5d8d2ddbccc5728114a84ccf63cead088f3e2",
-    "config.mjs": "3c0cc94d39392af0994f54c96ffa2b385a94adc4c22331a9ddd1863d77423308",
+    "config.mjs": "73af70a60030d82cd2c00ead2c2d310f81092a507e3f13c8d8a7575272f94096",
     "dummy.mjs": "af214bd12d934a9a0ea5c7f4d51ac8028a79b351440d7daa6d61b988c6a830a3",
     "generate-identity.mjs": "7ff7c38ad4cf895ae352fa3e3c298c408c510f4006ee3d3a6feac6788a75b6d4",
     "identity.mjs": "4c017cea48e390fa8f29ad29d88ab58da7dbb7906466f4c2c2f1c0f6aeb07104",
@@ -68,15 +68,19 @@
     "price-check.mjs": "2a50d43d446297275538e213058840efbf2d6775f1c90c8fc3ce66074b7636b3",
     "price.mjs": "88c0b63005200bc7bdee244d9fc06766b420f21939b1fbc245f135d6411c22aa",
     "profile.mjs": "123bd98257e9d289957245245d51c4a8aebef0feb131235effcdd9c591b178c2",
+    "r5-readonly-extract.mjs": "e7b7548a04b839b070e80de0f4d98cc70d33b2cff53bc2759154fb6c708c399f",
     "records.mjs": "8edf621b804c80109feeaba1a4ecbc697f390020f6348629966e35e8a3eced3d",
     "release.mjs": "69c817457270a71c3d718ba9997e3d450bbeb7c94aa1c90ce63c43a2d74bef4a",
     "runtime.mjs": "19e6f1f8bd3857ffbdc27b92d2f9d2a85f7a919b1cca145603992d9aa411c498",
-    "secure-input.ps1": "14bd0d06536307920554a9ffdd0d2c264e2796fe0747416bb19250d69e070e70",
+    "secure-input.ps1": "37953e5a50582a4b1ef6ddfac38c6d2da6f5a85c5967d22742543723dcf2a30d",
     "store-contract.mjs": "dc2e2380f3495e7e127cbbe6266ce54b957c94e689a811f566d6d80a5fc05294",
-    "worker.mjs": "9658e3838fa0251bdc652a2a7bd59f77dcd5d99cccccabc8c7f08c81281cc1d9"
+    "utf8-capture.ps1": "acfe3ab33700cf40e815c80a07eaacfadd0a7c003290e1a0f071b4fe66efd5ef",
+    "utf8-roundtrip.ps1": "413190168ee73a1bdbeb83bc574684bc177b036abb37830358be8ec6e5a970b8",
+    "utf8-stub.mjs": "bf6fe411f4b69e32d8385fda8226b4688838e5d8ddd7552699d3730bbf721169",
+    "worker.mjs": "086888ac3b12f4177ac0e63e9745a9b7f1777c2822ec14242fd5076b0bbba990"
   },
   "sharedExecutionFiles": {
-    "config.mjs": "5440a8ef54c115a635e48588529a75e282cb733d96db78ccf6022b6e967900e9",
+    "config.mjs": "de0e4d1ab9f5a0a8c39e6574dad346d7e06b29fa290129f7ccad832a764b72d8",
     "diagnostics.mjs": "441cfe5e55205b7a59eff84b0077355bb7ce1bc478c85f33b73a8bf3e9bd9647",
     "dummy.mjs": "f2bc03d38eed7ca66a1432f91cc86476251830807f61096f5c6acd2e9330937e",
     "identity.mjs": "5d6131f3044725221eee60a8674926884506a5ddbfb8585ce46325b86fc91332",

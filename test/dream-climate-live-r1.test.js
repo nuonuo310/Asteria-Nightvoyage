@@ -44,7 +44,7 @@ test('R1 release is exact, hash-pinned and fails closed when absent or changed',
   const directory=temporary();t.after(()=>fs.rmSync(directory,{recursive:true,force:true}));
   const file=path.join(directory,'release.json'),release=liveReleaseObject();
   assert.equal(liveExpectedReleaseHash,
-    'ee7ab9fbb6f71b582b442d27000d17f153dbfff1ac378ae4691cbfc869401bae');
+    '73002cb681e4950609dea0c35f081bff55acfc95fd27c500bdaff2c9816185b4');
   assert.equal(Object.keys(release).length,14);
   assert.equal(hash(release),liveExpectedReleaseHash);
   assert.deepEqual(validateLiveRelease(release),release);
@@ -62,7 +62,7 @@ test('live identity pins the frozen five blobs, matrix, price and every new exec
   const current=createLiveIdentityManifest();
   assert.deepEqual(validateLiveIdentityManifest(manifest,current),manifest);
   assert.equal(manifest.offline.identityHash,
-    'f88fccb0349b0004db6c81deb0261f3d620f06480ab24b4a9c3aee2f94cfae28');
+    '47767f6f733dc657dfef815839b7e9cf3218cff3d4844711a7a3d32c4488dedd');
   assert.deepEqual(Object.keys(manifest.offline.executionFiles).sort(),[
     'fixtures.mjs','generate-identity.mjs','identity.mjs','offline-check.mjs','protocol.mjs'
   ]);

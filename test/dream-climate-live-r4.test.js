@@ -4,7 +4,6 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {EventEmitter} from 'node:events';
-import {PassThrough} from 'node:stream';
 import {hash} from '../src/contract.js';
 import {Store} from '../src/store.js';
 import {
@@ -138,7 +137,7 @@ test('R4 identity, matrix, release, budget and request size are exact',()=>{
   assert.equal(identity.allowanceCapMicroCny,160000);
   assert.equal(identity.priceSnapshotHash,r4PriceSnapshotHash);
   assert.equal(identity.releaseHash,r4ExpectedReleaseHash);
-  assert.equal(identity.executionFiles,15);
+  assert.equal(identity.executionFiles,19);
   assert.equal(identity.sharedExecutionFiles,10);
   assert.equal(r4PerCallMaximumMicroCny,35968);
   assert.equal(r4PerCallMaximumMicroCny*r4MaxCalls,r4WorstMicroCny);
@@ -172,25 +171,25 @@ test('R4 identity, matrix, release, budget and request size are exact',()=>{
   assert.ok(assertRequestBounds(request)<=r4RequestByteLimit);
 });
 
-test('secure-input release block is byte-identical to the pinned release object',()=>{
+test('secure-input and worker are closed R5 gates with no live path',()=>{
   const text=fs.readFileSync(ps1Path,'utf8');
-  const match=text.match(/\$releaseJson = @'([\s\S]*?)'@/);
-  assert.ok(match);
-  const parsed=JSON.parse(match[1]);
-  assert.equal(hash(parsed),r4ExpectedReleaseHash);
-  assert.equal(r4ExpectedReleaseHash,
-    'de4c1c85dd4bea5831b7ead3cc7fa9bb728326ac4846640fe56afb6bcdbb1a5f');
-  assert.deepEqual(parsed,r4ReleaseObject());
-  assert.equal((text.match(/Read-Host/g)??[]).length,1);
-  assert.ok(text.indexOf('credential_required')<text.indexOf('Read-Host'));
+  assert.ok(text.includes('OFFLINE_REVIEW_REQUIRED_R5'));
+  assert.ok(text.includes('exit 2'));
+  assert.equal(text.includes('Read-Host'),false);
+  assert.equal(text.includes('SecureStringToBSTR'),false);
+  assert.equal(text.includes('releaseJson'),false);
+  assert.equal(text.includes('worker.mjs'),false);
+  assert.equal(text.includes('RedirectStandardOutput'),false);
   assert.equal(text.includes('GetEnvironmentVariable'),false);
   assert.equal(text.includes('$env:'),false);
-  assert.ok(text.includes('SecureStringToBSTR'));
-  assert.ok(text.includes('ZeroFreeBSTR'));
-  assert.match(text,/reason = 'r4_worker_child_failed_after_credential'/);
-  assert.match(text,/networkAttempts = \$null/);
-  assert.match(text,/realModelRequests = \$null/);
-  assert.match(text,/requestOutcomeKnown = \$false/);
+  const worker=fs.readFileSync(path.join(r4PackageDirectory,'worker.mjs'),'utf8');
+  assert.ok(worker.includes('OFFLINE_REVIEW_REQUIRED_R5'));
+  assert.equal(worker.includes('readInlineCredentialFrame'),false);
+  assert.equal(worker.includes('createDeepSeekTransport'),false);
+  assert.equal(worker.includes('https'),false);
+  assert.equal(worker.includes('new Store'),false);
+  assert.equal(r4ExpectedReleaseHash,
+    '3ebdae45838bbbbfe51d3b3b9af7f547389a1badc3747bb5bf7976c0eeb0373b');
 });
 
 test('one completed dream publishes exactly three scenes and one wake in four settled calls',async t=>{
@@ -307,6 +306,8 @@ test('invalid wake keeps exact subreason, three drafts, settled usage and no ret
     ['invalid residue',data=>{data.residue=.31;},
       'invalid_generated_wake_residue','residue'],
     ['invalid associations',data=>{data.associations=['a','b'];},
+      'invalid_generated_wake_associations','associations'],
+    ['object associations',data=>{data.associations=[{question:'合成问题？'}];},
       'invalid_generated_wake_associations','associations'],
     ['nonliteral fragment',data=>{data.fragment='这段文字不在这三幕里';},
       'generated_wake_fragment_not_grounded','fragmentGrounding']
@@ -618,7 +619,7 @@ test('R4 price evidence pins the reviewed peak page and the 0.16 CNY cap',t=>{
 });
 
 test('dummy and admission stay exact-zero and never touch the real Store',async t=>{
-  assert.equal(fs.existsSync(r4StoreDirectory),false);
+  const storePresent=fs.existsSync(r4StoreDirectory);
   const dummy=await runR4DummyRehearsal();
   assert.equal(dummy.status,'R4_DUMMY_REHEARSAL_PASSED');
   assert.equal(dummy.ok,true);
@@ -638,8 +639,13 @@ test('dummy and admission stay exact-zero and never touch the real Store',async 
     credentialReads:0,requestOutcomeKnown:true,realUserStoreAccessed:false,
     realStoreCreated:false,paidCalls:0,costMicroCny:0,automaticRetries:0,
     secondRunStarted:false,laterRecollectionsEmpty:true});
-  assert.equal(fs.existsSync(r4StoreDirectory),false);
+  assert.equal(fs.existsSync(r4ReleasePath),false);
   if(!fs.existsSync(officialPrice))return;
+  if(storePresent){
+    await assert.rejects(()=>runR4Admission(officialPrice),
+      /dream_climate_r4_store_already_exists/);
+    return;
+  }
   const admission=await runR4Admission(officialPrice);
   assert.equal(admission.status,'R4_OFFLINE_ADMISSION_PASSED');
   assert.equal(admission.ok,true);
@@ -663,50 +669,48 @@ test('dummy and admission stay exact-zero and never touch the real Store',async 
   assert.equal(fs.existsSync(r4StoreDirectory),false);
 });
 
-test('worker refuses before credential, keeps exact zero and revokes any release',async t=>{
+test('R5 closes the R4 run path and keeps preflight credential-free',async t=>{
   assert.equal(fs.existsSync(r4ReleasePath),false);
+  const closed=await runR4Worker('run',{
+    priceFile:path.join(os.tmpdir(),'missing-pricing.html')});
+  assert.equal(closed.status,'blocked');
+  assert.equal(closed.ready,false);
+  assert.equal(closed.reason,'OFFLINE_REVIEW_REQUIRED_R5');
+  assert.equal(closed.liveEntryClosed,true);
+  assert.equal(closed.credentialRequested,false);
+  assert.equal(closed.credentialDelivered,false);
+  assert.equal(closed.credentialPersisted,false);
+  assert.equal(closed.networkAttempts,0);
+  assert.equal(closed.realModelRequests,0);
+  assert.equal(closed.requestOutcomeKnown,true);
+  assert.equal(closed.storeCreated,false);
+  assert.equal(closed.executed,false);
+  assert.equal(closed.automaticRetry,false);
+  assert.equal(fs.existsSync(r4ReleasePath),false);
+  assert.equal(closed.storeExists,fs.existsSync(r4StoreDirectory));
   await assert.rejects(()=>runR4Worker('preflight',{
     priceFile:path.join(os.tmpdir(),'missing-pricing.html')}),
   /dream_climate_r4_release_required/);
-  const absent=await runR4Worker('run',{
-    priceFile:path.join(os.tmpdir(),'missing-pricing.html')});
-  assert.equal(absent.status,'blocked');
-  assert.equal(absent.ready,false);
-  assert.equal(absent.reason,'dream_climate_r4_release_required');
-  assert.equal(absent.credentialRequested,false);
-  assert.equal(absent.credentialDelivered,false);
-  assert.equal(absent.credentialPersisted,false);
-  assert.equal(absent.networkAttempts,0);
-  assert.equal(absent.realModelRequests,0);
-  assert.equal(absent.requestOutcomeKnown,true);
-  assert.equal(absent.storeCreated,false);
-  assert.equal(absent.storeExists,false);
-  assert.equal(absent.executed,false);
-  assert.equal(absent.releaseRevoked,true);
-  assert.equal(absent.automaticRetry,false);
   if(!fs.existsSync(officialPrice))return;
-  t.after(()=>{try{fs.rmSync(r4ReleasePath,{force:true});}catch{}});
-  fs.writeFileSync(r4ReleasePath,JSON.stringify(r4ReleaseObject()));
-  const preflight=staticR4Preflight(officialPrice);
-  assert.equal(preflight.nextRequestBytes,4855);
-  assert.equal(preflight.nextReservationMicroCny,35968);
-  assert.equal(preflight.release.allowanceCapMicroCny,160000);
-  const input=new PassThrough();
-  const pending=runR4Worker('run',{priceFile:officialPrice,credentialSource:input});
-  input.end(JSON.stringify({unexpected:true}));
-  const refused=await pending;
-  assert.equal(refused.status,'blocked');
-  assert.equal(refused.reason,'dream_climate_r4_credential_source_unavailable');
-  assert.equal(refused.credentialRequested,true);
-  assert.equal(refused.credentialDelivered,false);
-  assert.equal(refused.credentialPersisted,false);
-  assert.equal(refused.networkAttempts,0);
-  assert.equal(refused.realModelRequests,0);
-  assert.equal(refused.requestOutcomeKnown,true);
-  assert.equal(refused.storeCreated,false);
-  assert.equal(refused.executed,false);
-  assert.equal(refused.automaticRetry,false);
-  assert.equal(refused.releaseRevoked,true);
+  const parent=fs.mkdtempSync(path.join(os.tmpdir(),'nv-dream-climate-r4-release-'));
+  t.after(()=>fs.rmSync(parent,{recursive:true,force:true}));
+  const releaseFile=path.join(parent,'release.json');
+  fs.writeFileSync(releaseFile,JSON.stringify(r4ReleaseObject()));
+  if(fs.existsSync(r4StoreDirectory)){
+    assert.throws(()=>staticR4Preflight(officialPrice,{releaseFile}),
+      /dream_climate_r4_store_already_exists/);
+  }else{
+    const preflight=staticR4Preflight(officialPrice,{releaseFile});
+    assert.equal(preflight.nextRequestBytes,4855);
+    assert.equal(preflight.nextReservationMicroCny,35968);
+    assert.equal(preflight.release.allowanceCapMicroCny,160000);
+  }
+  const stillClosed=await runR4Worker('run',{priceFile:officialPrice,releaseFile});
+  assert.equal(stillClosed.status,'blocked');
+  assert.equal(stillClosed.reason,'OFFLINE_REVIEW_REQUIRED_R5');
+  assert.equal(stillClosed.credentialRequested,false);
+  assert.equal(stillClosed.storeCreated,false);
+  assert.equal(stillClosed.executed,false);
   assert.equal(fs.existsSync(r4ReleasePath),false);
-  assert.equal(fs.existsSync(r4StoreDirectory),false);
+  assert.equal(stillClosed.releaseRevoked,true);
 });

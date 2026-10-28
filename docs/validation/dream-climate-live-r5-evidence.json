@@ -1,0 +1,295 @@
+{
+  "schemaVersion": 1,
+  "extractionMethod": "read_only_fs_readFileSync_and_JSON_parse",
+  "target": {
+    "store": "C:\\Users\\Administrator\\AppData\\Local\\Nightvoyage\\nightvoyage-dream-climate-one-dream-r4-01",
+    "stateFile": "C:\\Users\\Administrator\\AppData\\Local\\Nightvoyage\\nightvoyage-dream-climate-one-dream-r4-01\\state.json",
+    "runId": "nv-dream-climate-one-dream-r4-a",
+    "allowanceId": "nv-dream-climate-one-dream-r4-001"
+  },
+  "classification": {
+    "realModelGenerated": true,
+    "published": false,
+    "materialKind": "fictional",
+    "isRealityFact": false,
+    "rejectedResponseConvertedToSuccess": false
+  },
+  "storeBefore": {
+    "bytes": 9869,
+    "sha256": "b9c594fda3b4578639d0f10c26616371676eaf70c20ef5259127afcb4b254deb",
+    "locks": {
+      "owner.lock": false,
+      "recovery.lock": false,
+      "snapshot.tmp": false
+    }
+  },
+  "storeAfter": {
+    "bytes": 9869,
+    "sha256": "b9c594fda3b4578639d0f10c26616371676eaf70c20ef5259127afcb4b254deb",
+    "locks": {
+      "owner.lock": false,
+      "recovery.lock": false,
+      "snapshot.tmp": false
+    }
+  },
+  "unchanged": true,
+  "run": {
+    "id": "nv-dream-climate-one-dream-r4-a",
+    "status": "failed",
+    "error": "invalid_wake",
+    "ordinal": 1,
+    "plan": {
+      "climate": "ordinary",
+      "mechanism": "transformation",
+      "foregroundAnchor": "cup_tap",
+      "usedForegroundAnchors": [],
+      "usedMechanisms": []
+    },
+    "validation": {
+      "subreason": "associations",
+      "originalError": "invalid_generated_wake_associations"
+    },
+    "draftSceneCount": 3,
+    "scenes": [
+      {
+        "event": "梦里有一张临窗的小桌，桌面上放着两只白瓷杯，杯里都没有水。靠窗那个人用指节在杯沿轻敲两下，声音很脆，像雨停后屋檐上最后几滴水。另一人从口袋里摸出一张折过的车票，摊开在桌上。窗外是一条湿亮的小街，路面上还映着天光。敲杯的人没有接着往下说，只把杯子转了半圈，杯沿上那一点被敲过的痕迹留在原处。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "before": {
+          "valence": 0,
+          "arousal": 0.2
+        },
+        "delta": {
+          "valence": 0,
+          "arousal": 0
+        },
+        "after": {
+          "valence": 0,
+          "arousal": 0.2
+        },
+        "appraisalBasis": {
+          "schemaVersion": 1,
+          "protocolVersion": "nv-dream-climate-offline-normalization-v1",
+          "origin": "dream_appraisal",
+          "isRealityFact": false,
+          "verification": "literal_excerpt_only",
+          "semanticSupport": "not_assessed",
+          "evidence": {
+            "goal": null,
+            "controlExcerpt": null,
+            "uncertaintyExcerpt": null,
+            "affectExcerpt": null
+          }
+        },
+        "normalizationAudit": {
+          "schemaVersion": 1,
+          "policyVersion": "validated-unused-quotation-pruning-v1",
+          "receivedQuoteCount": 0,
+          "keptQuoteCount": 0,
+          "discardedUnusedQuoteCount": 0
+        },
+        "affectDeclaration": {
+          "schemaVersion": 1,
+          "kind": "unchanged"
+        }
+      },
+      {
+        "event": "靠窗那人的拇指停在杯沿的缺口上，来回摩挲。车票摊在桌面，原先清晰的日期被刚才杯底洇开的一圈水痕漫过，最后两位数字只剩模糊的墨影。另一人把空杯向自己拖近，杯底刮出细响，随后在桌面上压住车票一角，使它不再被风吹起。窗外的街亮了，行人踩过水洼朝巷口走去，停在杯沿的拇指没有移开。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "before": {
+          "valence": 0,
+          "arousal": 0.2
+        },
+        "delta": {
+          "valence": 0,
+          "arousal": 0
+        },
+        "after": {
+          "valence": 0,
+          "arousal": 0.2
+        },
+        "appraisalBasis": {
+          "schemaVersion": 1,
+          "protocolVersion": "nv-dream-climate-offline-normalization-v1",
+          "origin": "dream_appraisal",
+          "isRealityFact": false,
+          "verification": "literal_excerpt_only",
+          "semanticSupport": "not_assessed",
+          "evidence": {
+            "goal": null,
+            "controlExcerpt": null,
+            "uncertaintyExcerpt": null,
+            "affectExcerpt": null
+          }
+        },
+        "normalizationAudit": {
+          "schemaVersion": 1,
+          "policyVersion": "validated-unused-quotation-pruning-v1",
+          "receivedQuoteCount": 0,
+          "keptQuoteCount": 0,
+          "discardedUnusedQuoteCount": 0
+        },
+        "affectDeclaration": {
+          "schemaVersion": 1,
+          "kind": "unchanged"
+        }
+      },
+      {
+        "event": "靠窗那人用指甲沿杯沿的缺口刮了一下，刮下的细瓷末落在桌面上，竟变成一小撮干燥的糖。另一人把杯口朝下扣在车票上，再提起来时，票面的水痕已经干了，模糊的日期反倒清晰成同一天的两个数字。杯底在桌面留下的圆印慢慢合拢，像被桌布吸进去。那人捏起一点糖放进空杯，杯里随即响起很轻的雨声，杯沿又被敲了一下。",
+        "appraisal": {
+          "goalEffect": 0,
+          "control": 0.5,
+          "uncertainty": 0.5
+        },
+        "before": {
+          "valence": 0,
+          "arousal": 0.2
+        },
+        "delta": {
+          "valence": 0,
+          "arousal": 0
+        },
+        "after": {
+          "valence": 0,
+          "arousal": 0.2
+        },
+        "appraisalBasis": {
+          "schemaVersion": 1,
+          "protocolVersion": "nv-dream-climate-offline-normalization-v1",
+          "origin": "dream_appraisal",
+          "isRealityFact": false,
+          "verification": "literal_excerpt_only",
+          "semanticSupport": "not_assessed",
+          "evidence": {
+            "goal": null,
+            "controlExcerpt": null,
+            "uncertaintyExcerpt": null,
+            "affectExcerpt": null
+          }
+        },
+        "normalizationAudit": {
+          "schemaVersion": 1,
+          "policyVersion": "validated-unused-quotation-pruning-v1",
+          "receivedQuoteCount": 0,
+          "keptQuoteCount": 0,
+          "discardedUnusedQuoteCount": 0
+        },
+        "affectDeclaration": {
+          "schemaVersion": 1,
+          "kind": "unchanged"
+        }
+      }
+    ]
+  },
+  "wakeRejection": {
+    "version": "nv-dream-climate-single-run-r4-diagnostic-v1",
+    "runId": "nv-dream-climate-one-dream-r4-a",
+    "requestId": "nv-dream-climate-one-dream-r4-a-wake-3",
+    "stage": "wake",
+    "originalError": "invalid_generated_wake_associations",
+    "subreason": "associations",
+    "responseAvailable": true,
+    "contentByteLength": 242,
+    "usageValidation": "verified",
+    "settlement": "settled",
+    "publication": "rejected_non_published",
+    "rejected": true,
+    "published": false,
+    "credentialEchoRejected": false,
+    "parsedJson": {
+      "fragment": "刮下的细瓷末落在桌面上，竟变成一小撮干燥的糖",
+      "associations": [
+        {
+          "question": "那点糖是原本就在杯沿里，还是被刮下来的瓷变过去的？"
+        }
+      ],
+      "residue": 0.08,
+      "firstFeeling": {
+        "status": "uncertain"
+      }
+    }
+  },
+  "unpublished": {
+    "entryId": null,
+    "scenesField": null,
+    "entriesForRun": [],
+    "journalEntry": null
+  },
+  "accounting": {
+    "calls": 4,
+    "committedSceneAttempts": 3,
+    "rows": [
+      {
+        "call": 1,
+        "stage": "scene",
+        "stageIndex": 0,
+        "requestId": "nv-dream-climate-one-dream-r4-a-scene-0",
+        "status": "settled",
+        "usage": {
+          "inputTokens": 983,
+          "outputTokens": 162,
+          "totalTokens": 1145
+        },
+        "chargedMicroCny": "3262",
+        "reservedMicroCny": "35968",
+        "chargeClass": "settled_calculated_charge"
+      },
+      {
+        "call": 2,
+        "stage": "scene",
+        "stageIndex": 1,
+        "requestId": "nv-dream-climate-one-dream-r4-a-scene-1",
+        "status": "settled",
+        "usage": {
+          "inputTokens": 1302,
+          "outputTokens": 159,
+          "totalTokens": 1461
+        },
+        "chargedMicroCny": "3876",
+        "reservedMicroCny": "35968",
+        "chargeClass": "settled_calculated_charge"
+      },
+      {
+        "call": 3,
+        "stage": "scene",
+        "stageIndex": 2,
+        "requestId": "nv-dream-climate-one-dream-r4-a-scene-2",
+        "status": "settled",
+        "usage": {
+          "inputTokens": 1619,
+          "outputTokens": 162,
+          "totalTokens": 1781
+        },
+        "chargedMicroCny": "4534",
+        "reservedMicroCny": "35968",
+        "chargeClass": "settled_calculated_charge"
+      },
+      {
+        "call": 4,
+        "stage": "wake",
+        "stageIndex": 3,
+        "requestId": "nv-dream-climate-one-dream-r4-a-wake-3",
+        "status": "settled",
+        "usage": {
+          "inputTokens": 1745,
+          "outputTokens": 66,
+          "totalTokens": 1811
+        },
+        "chargedMicroCny": "4018",
+        "reservedMicroCny": "35968",
+        "chargeClass": "settled_calculated_charge"
+      }
+    ],
+    "settledChargeMicroCny": "15690",
+    "unknownReservedMicroCny": "0",
+    "combinedAccountingMicroCny": "15690",
+    "combinedIsProviderCharged": false
+  }
+}

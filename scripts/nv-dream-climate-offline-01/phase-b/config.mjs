@@ -13,15 +13,15 @@ export const liveNormalizationVersion='nv-dream-climate-offline-normalization-v1
 export const offlineHead='119a6ba909cfaa75b29bd3d4c4fcf9500996e2bd';
 export const offlineTree='ab4171b8f18fe49060d4f649c4b1672d09200abe';
 export const offlineParent='7ec24e6d90c45af67fe251fc65f21c4d257bf476';
-export const offlineIdentityHash='f88fccb0349b0004db6c81deb0261f3d620f06480ab24b4a9c3aee2f94cfae28';
-export const offlinePromptHash='9c855d8b3e3b2a55c3f58e36de4a9aee5dec07b706cbf675912632d6ff8dd119';
+export const offlineIdentityHash='47767f6f733dc657dfef815839b7e9cf3218cff3d4844711a7a3d32c4488dedd';
+export const offlinePromptHash='9fe4d0863983eae2eb8a969d89fd6ffc5eeab3ebec507bf263d0f27664fbdb66';
 export const offlineSourceHash='605d69511cc72c0b0ca60a77be34dafb061e63b57e98db94b778cf7bfce8cbb6';
 export const offlineExecutionFiles=Object.freeze({
   'fixtures.mjs':'04ecad144ab7f5998baad126fe3f78ba0935616b3bfc5352da1f41d1cd606914',
   'generate-identity.mjs':'469ed4561f048243226597c747c7d5348b92afe6efceb4d35bf7e816abb47793',
   'identity.mjs':'33c8c8a061eb900456d62218499bc9f59b74bd6e327040198f0aa05be3f2f910',
   'offline-check.mjs':'8bc2d9d879e68c2ea4e61431f411743e61ef584f5f2a4f0d97b1d8be183bdaf3',
-  'protocol.mjs':'b7659c829e1b5150663a0d5f8d2863233e46c9a72c5966448533a15004a44e09'
+  'protocol.mjs':'2a9f4f8fdc643b27010e96ae6fb7d6070b4c635ec228ef691257574e91940fdf'
 });
 
 export const liveModelAlias='deepseek-flash';
@@ -70,7 +70,7 @@ export const livePeakOutputMicroCnyPerMillion=8000000;
 export const liveTransportTimeoutMs=55000;
 export const liveWorkerTimeoutMs=900000;
 export const liveReleasePath=fileURLToPath(new URL('./release.json',import.meta.url));
-export const liveExpectedReleaseHash='ee7ab9fbb6f71b582b442d27000d17f153dbfff1ac378ae4691cbfc869401bae';
+export const liveExpectedReleaseHash='73002cb681e4950609dea0c35f081bff55acfc95fd27c500bdaff2c9816185b4';
 export const liveReleaseKeys=Object.freeze([
   'status','offlineHead','offlineTree','offlineParent','offlineIdentityHash',
   'offlinePromptHash','offlineSourceHash','priceSnapshotHash','pricePageSha256',

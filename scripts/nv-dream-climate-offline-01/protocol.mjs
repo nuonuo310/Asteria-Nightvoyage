@@ -102,7 +102,8 @@ const sceneRules=Object.freeze([
 const wakeRules=Object.freeze([
   'Return fragment, associations and residue, with optional firstFeeling. No other keys and no Markdown.',
   'fragment must be one brief exact contiguous excerpt from one of the three previous scene events. Do not paraphrase, join scenes, repair text or continue the story.',
-  'associations contain zero or one unverified question outside fragment. residue is an independent simulated estimate in 0..0.3, not a measured mood or persistent record.',
+  'associations must be a JSON array of length 0 or 1. Each element must be a non-empty string; a question object, null, a bare string instead of an array, and a second element are all invalid.',
+  'The only legal associations structures are [] and [\u0022<one unverified question>\u0022]. Neither is preferred and no fixed question text is supplied. residue is an independent simulated estimate in 0..0.3, not a measured mood or persistent record.',
   'firstFeeling has four equally valid forms: omitted entirely; {status:\u0022present\u0022,text:\u0022...\u0022}; {status:\u0022absent\u0022}; or {status:\u0022uncertain\u0022}. No form is preferred.',
   'A present firstFeeling is a short independent fictional waking state for 梦里的人, at most 240 Unicode code points. It is not an explanation or continuation of the dream and makes no claim about the real user or model.',
   'climate, appraisal, affect, fragment and residue must not select or fabricate firstFeeling. Never truncate, repair or silently omit an invalid firstFeeling.'

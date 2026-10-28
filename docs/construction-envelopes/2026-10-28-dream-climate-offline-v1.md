@@ -619,3 +619,70 @@ HEAD/tree/parent、新 identity/release/matrix/price 身份、请求大小实数
 - BLOCKED / TOTAL_CONTROL_DECISION_REQUIRED
 
 不得自行提示 Key 或执行真实批次。总控审阅通过并向用户交付新命令后，才允许用户主动触发一次。真实结果无论好坏完整保留；不自动二次尝试、ready、合并、部署或开下一包。旧 V1 结论不变；单场通过也不代表三气候或长期稳定性验收通过。
+
+
+---
+
+# R5 · associations 明确类型与中文输出离线修正
+
+本节为当前唯一施工授权。R4 真实单场已经执行并失败；原运行授权结束。本轮只离线修正和只读取证，不得再提示 Key、创建可用 release、运行真实模型、恢复或补跑旧 run。
+
+## 固定起点与事实
+
+沿用既有 worktree、分支和 Draft PR #109，固定实现起点：
+48be3aad209db57cf125e69e84b1276cc3177efb。
+先读取适用 AGENTS.md 与本权威全文，确认没有同包任务运行；漂移先报告，不覆盖用户改动。
+
+R4 run nv-dream-climate-one-dream-r4-a 三幕 draft 已保留；wake 错误为 invalid_generated_wake_associations，稳定分类 associations。诊断明确显示 associations 返回了 [{question:字符串}]，而现有 normalizer 只接受零或一个非空字符串的数组。四笔均 settled，计算额合计 15690 micro-CNY，unknown 为 0；没有正式 dream/wake/feeling/residue。诊断内 firstFeeling uncertain、residue 0.08 仅为拒绝响应内容，不是正式记录。
+
+用户粘贴的输出中文乱码，甚至出现 JSON 引号损坏。只能确认输出副本损坏，不能据此认定 Store 损坏。提示未明确字符串元素类型是已观察的协议说明缺口；不能证明模型选择对象形状的唯一因果，也不能追认更早一次 invalid_wake 的原因。
+
+## DONE LINE
+
+在零模型、零费用条件下完成：
+- wake 请求明确 associations 的字符串数组形状，现有严格校验不变；
+- Node → PowerShell → 人类可读回执的 UTF-8 往返有真实离线证据；
+- R4 真实三幕与拒绝响应以只读方式核对，若 Store 中文完好则完整呈现其原文；
+- 原失败 run 与账务原样保留，新候选真实入口关闭；
+- 提交同一 #109 后停止在 READY_FOR_HUMAN_OFFLINE_REVIEW_R5。
+
+## 唯一内容协议改动
+
+允许修改 scripts/nv-dream-climate-offline-01/protocol.mjs 的 wake associations 类型说明：明确 associations 必须是 JSON array，长度为 0 或 1；元素必须为非空字符串，禁止 question 对象、null、裸字符串及第二个元素。给出无剧情占位的两种结构 [] 与 ["<one unverified question>"]，两种均合法、无首选。不得把某个固定问题写成模型默认输出。
+
+不放宽 normalization，不将对象自动提取 question，不修补或重放真实失败响应，不修改 firstFeeling 四态、fragment 逐字要求、residue、情绪规则、源素材、气候、机制、主意象或 scene 提示。不得宣称离线测试证明真实模型必然遵循新提示。
+
+这明确解除此前对该文件上述 wake 说明的冻结；其它内容仍冻结。prompt 与候选 identity 必须变更。允许更新本包相关 manifest 和一致性引用以反映新候选，但旧提交、历史回执和旧身份证据不可改写。新身份不得让任何旧 release 重新可用。共享 src 不修改。
+
+## 中文取证与输出修正
+
+允许仅对下述文件进行一次只读取证：
+C:\Users\Administrator\AppData\Local\Nightvoyage\nightvoyage-dream-climate-one-dream-r4-01\state.json
+
+只能通过内建 fs.readFileSync + JSON.parse，严格 UTF-8 解码；不得实例化 Store/runtime 或执行应用入口。读取前后核对字节数与 SHA-256，检查锁文件存在性但不得修改。只提取目标 run 的 draftScenes、wake 拒绝诊断和四笔账务；不读 Key、凭据库、环境变量内容、历史或其它 Store。不做乱码猜测逆转换，不覆盖原文。
+
+检查并修正 single-run-r4/secure-input.ps1 的 ProcessStartInfo 标准输出/错误编码与最终输出编码；保留管道私密输入语义，不改用户全局终端设置。若需要编码 helper，应可独立用无凭据 stub 运行。用实际 Windows PowerShell 与 Node stub 测试中文、引号、换行、非 BMP 字符的 JSON 往返，解析后逐字一致；不能只搜索脚本文本作为证明。若控制台复制仍受外部设置影响，可导出本次只读提取的 UTF-8 文件到同一 worktree 的 docs/validation/，清楚标记未发布/拒绝诊断，禁止导出全 Store 或凭据。
+
+若 Store 原文正常，报告乱码位于输出链路的证据；若 Store 本身乱码，报告事实与未能定位的环节，不写回、不猜修，不扩大真实调用。
+
+允许在 docs/validation/dream-climate-live-r5.md 保存目标 run 的完整三幕和拒绝 wake（均标记真实模型生成、未发布、虚构非现实事实），保留精确内容，不润色；文件用于审阅，不冒充已完成梦簿。
+
+## 入口与范围
+
+先将 R4 secure-input/worker 的真实路径关闭为 OFFLINE_REVIEW_REQUIRED_R5，在读取凭据、写 release、创建真实 Store 或发网络请求之前拒绝。编码 helper 可供 stub 验证；真实入口关闭不得妨碍纯离线排练。旧 R3 入口继续关闭。
+
+允许本包 protocol 的上述小改、相关 identity/配置的一致性修正、single-run-r4 编码 helper/入口关闭、专项测试、验证文档及权威副本。保持同一 worktree/分支/PR。不得修改真实 Store/旧账/历史回执、共享 src、页面、Memory/Mind，不另开包、PR 或自动申请下一场。
+
+## 验证与交付
+
+必要测试：
+1. []、单字符串数组被接受；对象数组、null、裸字符串、两个元素被拒绝，保留 associations 子原因；四态 firstFeeling 仍合法。
+2. 实际 builder 发出的 wake system 包含明确元素类型，scene system 与 source 未变；新 prompt/identity 正确，旧 release 拒绝。
+3. synthetic 错误对象数组：三幕保留、有效 usage settled 一次、无正式发布、无重试；不得用真实失败数据的转换结果冒充修复成功。
+4. 实际 PowerShell/Node stub UTF-8 往返，中文及非 BMP 内容逐字一致。
+5. R4 真实入口无凭据、无真实 Store 创建、无网络；只读取证哈希前后一致。
+6. 受影响专项与必要 scene/wake 回归、旧入口失败关闭、git diff --check；不要求完整 npm 或截图，不重复无关测试。
+
+修复 PR 描述 UTF-8 问号乱码；若本地缺少元数据编辑能力，报告并由总控处理，不因此扩大凭据访问。普通提交推送同一 #109，保持 Draft。回执给出 HEAD/tree/parent、新 prompt/identity、实际测试、只读哈希、完整可读原文，以及“协议说明修正”和“历史失败未改写”的明确区别。
+
+终点仅 READY_FOR_HUMAN_OFFLINE_REVIEW_R5、BLOCKED 或 TOTAL_CONTROL_DECISION_REQUIRED。不得给用户输 Key 命令，不得真实试跑、ready、合并、部署或自动续包。
