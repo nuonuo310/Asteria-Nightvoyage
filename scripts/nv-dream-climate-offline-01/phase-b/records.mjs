@@ -131,7 +131,8 @@ function billingRows(store,runId){
 
 function orderedBillingRows(rows,attempts){
   const byRequest=new Map(rows.map(row=>[row.requestId,row]));
-  return attempts.map((attempt,index)=>{
+  const committed=new Set(attempts.map(attempt=>attempt.billingRequestId));
+  const ordered=attempts.map((attempt,index)=>{
     const row=byRequest.get(attempt.billingRequestId);
     if(!row)return {call:index+1,stage:attempt.stage,index:attempt.index,
       requestId:attempt.billingRequestId,status:'missing'};
@@ -140,6 +141,13 @@ function orderedBillingRows(rows,attempts){
       chargedMicroCny:row.chargedMicroCny,reservedMicroCny:row.reservedMicroCny,
       sourceRefs:copy(row.sourceRefs)};
   });
+  for(const row of rows){
+    if(committed.has(row.requestId))continue;
+    ordered.push({call:ordered.length+1,requestId:row.requestId,status:row.status,
+      usage:row.usage?copy(row.usage):null,chargedMicroCny:row.chargedMicroCny,
+      reservedMicroCny:row.reservedMicroCny,sourceRefs:copy(row.sourceRefs)});
+  }
+  return ordered;
 }
 
 function uncommittedBillingRows(rows){

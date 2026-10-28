@@ -25,14 +25,15 @@ export async function runAdmission(priceFile){
   const maxRequestBytes=Math.max(preflight.nextRequestBytes??0,...requestBytes);
   const ok=dummy.ok===true&&preflight.status==='ready'&&preflight.ready===true&&
     preflight.credentialSupplierCalls===0&&preflight.credentialRequested===false&&
-    preflight.storeCreated===false&&preflight.networkAttempts===0&&supplierCalls===0&&
+    preflight.storeCreated===false&&preflight.networkAttempts===0&&
+    preflight.realModelRequests===0&&preflight.requestOutcomeKnown===true&&supplierCalls===0&&
     preflight.releaseHash===liveExpectedReleaseHash&&
     preflight.liveIdentity?.liveIdentityHash===identity.liveIdentityHash&&
     preflight.price?.pageSha256===price.pageSha256&&
     dummy.receipt.completedRuns===3&&dummy.receipt.batch.calls===12&&
     dummy.boundaries.networkAttempts===0&&dummy.boundaries.realModelRequests===0&&
     dummy.boundaries.realStoreCreated===false;
-  return {status:ok?'READY_FOR_USER_SECURE_INPUT_R1':'ADMISSION_CHECK_FAILED',ok,
+  return {status:ok?'READY_FOR_USER_SECURE_INPUT_R2':'ADMISSION_CHECK_FAILED',ok,
     releaseHash:liveExpectedReleaseHash,liveIdentityHash:identity.liveIdentityHash,
     offlineIdentityHash:identity.offlineIdentityHash,matrixHash:identity.matrixHash,
     pricePageSha256:price.pageSha256,priceSnapshotHash:price.priceSnapshotHash??identity.priceSnapshotHash,
@@ -46,7 +47,8 @@ export async function runAdmission(priceFile){
       retryRefused:dummy.retryRefused,ownerLockObserved:dummy.storeContract.ownerLockObserved,
       ownerLockCleared:dummy.storeContract.ownerLockCleared,storeDeleted:dummy.storeContract.storeDeleted},
     sentinelSupplierCalls:supplierCalls,credentialSupplierCalls:preflight.credentialSupplierCalls,
-    credentialRead:false,networkAttempts:0,realModelRequests:0,realStoreCreated:false};
+    credentialRead:false,networkAttempts:0,realModelRequests:0,requestOutcomeKnown:true,
+    realStoreCreated:false};
 }
 
 if(import.meta.url===pathToFileURL(process.argv[1]??'').href){

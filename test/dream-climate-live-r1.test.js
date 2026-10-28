@@ -249,7 +249,7 @@ test('secure-input prompts once only after no-credential admission and keeps the
   assert.equal(ps.includes('Write-Output $plain'),false);
   assert.equal(ps.includes('Write-Host $plain'),false);
   const admission=ps.indexOf('check-admission.mjs');
-  const ready=ps.indexOf('READY_FOR_USER_SECURE_INPUT_R1');
+  const ready=ps.indexOf('READY_FOR_USER_SECURE_INPUT_R2');
   const prompt=ps.indexOf('Read-Host');
   assert.ok(admission>=0&&admission<prompt);
   assert.ok(ready>=0&&ready<prompt);

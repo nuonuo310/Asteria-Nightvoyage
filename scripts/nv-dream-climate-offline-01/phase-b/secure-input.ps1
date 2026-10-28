@@ -76,7 +76,7 @@ try {
     if ($checkResult.ExitCode -ne 0) { Stop-SecureInput 'admission_failed' }
     try { $check = $checkResult.Stdout | ConvertFrom-Json }
     catch { Stop-SecureInput 'admission_receipt_invalid' }
-    if ($check.status -ne 'READY_FOR_USER_SECURE_INPUT_R1' -or -not $check.ok -or
+    if ($check.status -ne 'READY_FOR_USER_SECURE_INPUT_R2' -or -not $check.ok -or
         $check.releaseHash -ne 'ee7ab9fbb6f71b582b442d27000d17f153dbfff1ac378ae4691cbfc869401bae' -or
         $check.pricePageSha256 -ne '556097caba8adfeeed6455714bffd731c7f60db520fcee06a922eba5840663a3' -or
         $check.storePath.directory -ne $storePath -or
@@ -88,6 +88,7 @@ try {
         $check.dummy.ownerLockCleared -ne $true -or $check.dummy.storeDeleted -ne $true -or
         $check.sentinelSupplierCalls -ne 0 -or $check.credentialSupplierCalls -ne 0 -or
         $check.networkAttempts -ne 0 -or $check.realModelRequests -ne 0 -or
+        $check.requestOutcomeKnown -ne $true -or
         $check.realStoreCreated -ne $false) {
         Stop-SecureInput 'admission_not_ready'
     }

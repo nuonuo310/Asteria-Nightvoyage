@@ -8,11 +8,16 @@ import {
 
 const credentialPattern=/^[\x21-\x7e]{1,2000}$/;
 
-export function createDeepSeekTransport(credential,{requestImpl=https.request,timeoutMs=liveTransportTimeoutMs}={}){
+export function createDeepSeekTransport(credential,{
+  requestImpl=https.request,timeoutMs=liveTransportTimeoutMs,telemetry
+}={}){
   if(typeof credential!=='string'||!credentialPattern.test(credential))fail('credential_required');
   if(typeof requestImpl!=='function'||!Number.isSafeInteger(timeoutMs)||timeoutMs<1||timeoutMs>60000) {
     fail('invalid_dream_climate_live_transport');
   }
+  if(telemetry!==undefined&&(!telemetry||typeof telemetry.recordNetworkAttempt!=='function'||
+     typeof telemetry.recordRealModelRequest!=='function'||typeof telemetry.snapshot!=='function'))
+    fail('invalid_dream_climate_live_transport');
   return function transport(request,{signal}={}){
     if(!request||request.endpoint!=='offline://dream-climate-fixture-only'||request.method!=='POST'||
        request.offlineOnly!==true||request.protocolVersion!==liveProtocolVersion||
@@ -36,6 +41,8 @@ export function createDeepSeekTransport(credential,{requestImpl=https.request,ti
       signal?.addEventListener('abort',abort,{once:true});
       if(signal?.aborted){abort();return;}
       try{
+        telemetry?.recordNetworkAttempt();
+        telemetry?.recordRealModelRequest();
         req=requestImpl(new URL(liveEndpoint),{
           method:'POST',agent:false,
           headers:{'Content-Type':'application/json','Content-Length':payload.byteLength,

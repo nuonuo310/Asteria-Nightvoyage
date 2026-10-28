@@ -20,6 +20,7 @@ import {verifyLivePriceEvidence} from './price-check.mjs';
 import {assertLiveStoreAbsent,verifyDedicatedStorePath} from './store-contract.mjs';
 import {DreamClimateLiveRuntime} from './runtime.mjs';
 import {extractLiveReceipt} from './records.mjs';
+import {createLiveDispatchTelemetry} from './telemetry.mjs';
 import {createDeepSeekTransport} from './transport.mjs';
 
 const exact=(value,names)=>value&&typeof value==='object'&&!Array.isArray(value)&&
@@ -62,19 +63,31 @@ function totalCharged(receipt){
     inner+BigInt(row.chargedMicroCny??0),0n)??0n),0n).toString();
 }
 
-function blocked(reason,{credentialRequested=false}={}){
+export function buildBlockedWorkerReceipt(reason,{
+  credentialRequested=false,telemetry=createLiveDispatchTelemetry()
+}={}){
+  const dispatch=telemetry.snapshot();
   return {status:'blocked',ready:false,reason,workerVersion:liveWorkerVersion,
     credentialRequested,releaseRevoked:!fs.existsSync(liveReleasePath),
-    storeExists:fs.existsSync(liveStoreDirectory),credentialPersisted:false,
-    networkAttempts:0,realModelRequests:0,automaticRetry:false,executed:false};
+    storeExists:fs.existsSync(liveStoreDirectory),
+    storeCreated:fs.existsSync(liveStoreDirectory),
+    ownerLockCleared:!fs.existsSync(path.join(liveStoreDirectory,'owner.lock')),
+    credentialPersisted:false,
+    networkAttempts:dispatch.networkAttempts,realModelRequests:dispatch.realModelRequests,
+    requestOutcomeKnown:dispatch.requestOutcomeKnown,automaticRetry:false,
+    executed:dispatch.realModelRequests>0};
 }
 
 export async function runLiveWorker(action,{priceFile,proofText,credentialSource=process.stdin}={}){
+  const telemetry=createLiveDispatchTelemetry();
   if(action==='preflight'){
     const state=staticPreflight(priceFile,proofText);
+    const dispatch=telemetry.snapshot();
     return {status:'ready',ready:true,workerVersion:liveWorkerVersion,
       configVersion:liveConfigVersion,credentialRequested:false,credentialSupplierCalls:0,
-      storeCreated:false,networkAttempts:0,release:state.release,
+      storeCreated:false,networkAttempts:dispatch.networkAttempts,
+      realModelRequests:dispatch.realModelRequests,
+      requestOutcomeKnown:dispatch.requestOutcomeKnown,release:state.release,
       liveIdentity:state.identity,price:state.price,storePath:state.storePath,
       storeAbsent:state.storeAbsent,nextRequestBytes:state.nextRequestBytes,
       nextReservationMicroCny:state.nextReservationMicroCny,runCount:liveRunIds.length,
@@ -95,7 +108,7 @@ export async function runLiveWorker(action,{priceFile,proofText,credentialSource
     credential=await readInlineCredentialFrame(credentialSource,{timeoutMs:30000});
     const checked=staticPreflight(priceFile,proofText);
     runtime=new DreamClimateLiveRuntime(liveStoreDirectory,{enabled:true,
-      simulator:createDeepSeekTransport(credential)});
+      simulator:createDeepSeekTransport(credential,{telemetry})});
     runtime.startBatch();
     let stopped=false;
     for(const runId of liveRunIds){
@@ -110,12 +123,17 @@ export async function runLiveWorker(action,{priceFile,proofText,credentialSource
     store.close();store=undefined;
     const ownerLockCleared=!fs.existsSync(path.join(liveStoreDirectory,'owner.lock'));
     const allCompleted=receipt.completedRuns===liveRunCount;
+    const dispatch=telemetry.snapshot();
     return {...receipt,batchStatus:allCompleted?'COMPLETE_ONE_LIVE_BATCH':'PARTIAL_FAILED_ONE_LIVE_BATCH',
       release:{...checked.release,hash:liveExpectedReleaseHash},liveIdentity:checked.identity,
       priceEvidence:checked.price,storeDirectory:liveStoreDirectory,
       transportVersion:liveTransportVersion,stoppedAfterNonCompletedRun:stopped,
       releaseRevoked,storeClosed:true,ownerLockCleared,credentialRequested:true,
+      storeCreated:true,
+      networkAttempts:dispatch.networkAttempts,realModelRequests:dispatch.realModelRequests,
+      requestOutcomeKnown:dispatch.requestOutcomeKnown,
       credentialPersisted:false,automaticRetry:false,replacementRun:false,fourthRun:false,
+      executed:dispatch.realModelRequests>0,
       laterRecollectionsEmpty:true,totalChargedMicroCny:totalCharged(receipt),
       totalReservedMicroCny:String(livePerCallMaximumMicroCny*liveMaxCalls)};
   }catch(error){
@@ -127,7 +145,7 @@ export async function runLiveWorker(action,{priceFile,proofText,credentialSource
       'dream_climate_live_credential_source_unavailable':
       (typeof error?.message==='string'&&error.message?error.message:
         'dream_climate_live_worker_failed');
-    return blocked(reason,{credentialRequested});
+    return buildBlockedWorkerReceipt(reason,{credentialRequested,telemetry});
   }finally{
     credential=undefined;
     if(runtime){try{runtime.close();}catch{}}

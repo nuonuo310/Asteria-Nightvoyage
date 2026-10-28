@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {spawn,execFileSync} from 'node:child_process';
@@ -12,8 +13,21 @@ import {
 
 const directory=fileURLToPath(new URL('.',import.meta.url));
 const repositoryRoot=path.resolve(directory,'../../..');
-const workerPath=path.join(directory,'worker.mjs');
+const defaultWorkerPath=path.join(directory,'worker.mjs');
 const hex=value=>typeof value==='string'&&/^[a-f0-9]{64}$/.test(value);
+const validCounts=value=>value&&typeof value.requestOutcomeKnown==='boolean'&&
+  (value.requestOutcomeKnown?
+    Number.isSafeInteger(value.networkAttempts)&&value.networkAttempts>=0&&
+    Number.isSafeInteger(value.realModelRequests)&&value.realModelRequests>=0:
+    value.networkAttempts===null&&value.realModelRequests===null);
+
+function blocked(reason,{credentialSupplierCalls=0,credentialDelivered=false}={}){
+  const known=!credentialDelivered;
+  return {status:'blocked',ready:false,reason,credentialSupplierCalls,
+    networkAttempts:known?0:null,realModelRequests:known?0:null,
+    requestOutcomeKnown:known,storeCreated:known?false:null,
+    releaseRevoked:!fs.existsSync(liveReleasePath)};
+}
 
 function offlineProof(){
   const git=args=>execFileSync('git',['-c',`safe.directory=${repositoryRoot}`,...args],
@@ -28,35 +42,41 @@ function offlineProof(){
   return JSON.stringify(proof);
 }
 
-export function launchLive(action,{priceFile,credentialSupplier,timeoutMs=liveWorkerTimeoutMs}={}){
+export function launchLive(action,{
+  priceFile,credentialSupplier,timeoutMs=liveWorkerTimeoutMs,workerPath=defaultWorkerPath
+}={}){
   if(!['preflight','run'].includes(action)||typeof priceFile!=='string'||!path.isAbsolute(priceFile)||
      credentialSupplier!==undefined&&typeof credentialSupplier!=='function'||
-     !Number.isSafeInteger(timeoutMs)||timeoutMs<1||timeoutMs>liveWorkerTimeoutMs){
-    return Promise.resolve({status:'blocked',ready:false,
-      reason:'invalid_dream_climate_live_launcher_arguments',credentialSupplierCalls:0,
-      networkAttempts:0,storeCreated:false});
+     !Number.isSafeInteger(timeoutMs)||timeoutMs<1||timeoutMs>liveWorkerTimeoutMs||
+     typeof workerPath!=='string'||!path.isAbsolute(workerPath)){
+    return Promise.resolve(blocked('invalid_dream_climate_live_launcher_arguments'));
   }
   if(action==='run'&&typeof credentialSupplier!=='function'){
-    return Promise.resolve({status:'blocked',ready:false,
-      reason:'dream_climate_live_credential_source_unavailable',credentialSupplierCalls:0,
-      networkAttempts:0,storeCreated:false});
+    return Promise.resolve(blocked('dream_climate_live_credential_source_unavailable'));
   }
   let proof,identity;
   try{
     proof=offlineProof();identity=verifyLiveIdentity();
   }catch(error){
-    return Promise.resolve({status:'blocked',ready:false,
-      reason:error?.message??'dream_climate_live_identity_changed',
-      credentialSupplierCalls:0,networkAttempts:0,storeCreated:false});
+    return Promise.resolve(blocked(error?.message??'dream_climate_live_identity_changed'));
   }
   return new Promise(resolve=>{
     const child=spawn(process.execPath,[workerPath,action,'--price-file',priceFile,
       '--offline-proof',proof],{cwd:repositoryRoot,env:inlineChildEnvironment(),
       stdio:['pipe','pipe','pipe'],windowsHide:true,shell:false});
     let bytes=0,text='',result,requested=0,supplied=0,stopped=false,closed=false;
+    let credentialDelivered=false,resolved=false;
     const stop=()=>{stopped=true;try{child.kill('SIGKILL');}catch{}};
     const timer=setTimeout(stop,timeoutMs);
     const cleanup=()=>{closed=true;clearTimeout(timer);};
+    const finish=value=>{
+      if(resolved)return;
+      resolved=true;cleanup();
+      if(action==='run')revokeLiveRelease(liveReleasePath);
+      resolve({...value,releaseRevoked:!fs.existsSync(liveReleasePath)});
+    };
+    const abnormal=reason=>finish(blocked(reason,{credentialSupplierCalls:supplied,
+      credentialDelivered}));
     const frame=line=>{
       const value=JSON.parse(line);
       if(value.type==='result'){
@@ -73,6 +93,7 @@ export function launchLive(action,{priceFile,credentialSupplier,timeoutMs=liveWo
         .then(key=>{
           if(closed||stopped)return;
           if(typeof key!=='string'||!/^[\x21-\x7e]{1,2000}$/.test(key)){child.stdin.end();return;}
+          credentialDelivered=true;
           const buffer=Buffer.from(JSON.stringify({credential:key}));key=undefined;
           child.stdin.end(buffer,()=>buffer.fill(0));
         }).catch(()=>child.stdin.end());
@@ -87,18 +108,18 @@ export function launchLive(action,{priceFile,credentialSupplier,timeoutMs=liveWo
       }
     });
     child.stderr.on('data',chunk=>{bytes+=chunk.length;if(bytes>262144)stop();});
-    child.on('error',()=>{cleanup();resolve({status:'blocked',ready:false,
-      reason:'dream_climate_live_worker_failed',credentialSupplierCalls:supplied,
-      networkAttempts:0,storeCreated:false});});
+    child.on('error',()=>abnormal('dream_climate_live_worker_failed'));
     child.on('close',code=>{
       cleanup();
-      if(action==='run')revokeLiveRelease(liveReleasePath);
       if(stopped||text.trim()||result===undefined||(code!==0&&result.status!=='blocked')){
-        resolve({status:'blocked',ready:false,
-          reason:stopped?'dream_climate_live_worker_timeout':'dream_climate_live_worker_failed',
-          credentialSupplierCalls:supplied,networkAttempts:0,storeCreated:false});return;
+        abnormal(stopped?'dream_climate_live_worker_timeout':'dream_climate_live_worker_failed');
+        return;
       }
-      resolve({...result,credentialSupplierCalls:supplied});
+      if(!validCounts(result)||!(result.storeCreated===null||
+         typeof result.storeCreated==='boolean')) {
+        abnormal('dream_climate_live_worker_receipt_invalid');return;
+      }
+      finish({...result,credentialSupplierCalls:supplied});
     });
     if(action==='preflight')child.stdin.end();
   });

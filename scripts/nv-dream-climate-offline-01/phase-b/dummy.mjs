@@ -89,6 +89,7 @@ export async function runDummyRehearsal({temporaryRoot=os.tmpdir(),now=()=>Date.
       storeContract:{basename:liveStoreBasename,ownerLockObserved,ownerLockCleared,storeDeleted},
       calls,dispatches,thirteenthRefused,fourthRunRefused,retryRefused,
       boundaries:{networkAttempts:0,realModelRequests:0,credentialReads:0,
+        requestOutcomeKnown:true,
         realUserStoreAccessed:false,realStoreCreated:false,paidCalls:0,costMicroCny:0,
         automaticRetries:0,fourthRunStarted:false,laterRecollectionsEmpty:true}};
   }catch(error){

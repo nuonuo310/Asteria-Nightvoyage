@@ -88,23 +88,24 @@
   "releaseHash": "ee7ab9fbb6f71b582b442d27000d17f153dbfff1ac378ae4691cbfc869401bae",
   "noRetry": true,
   "executionFiles": {
-    "check-admission.mjs": "a2d5c3aaaf692892da38461f6849b5cfa2fdb90607eb1334aa9b82b8ae1d1422",
+    "check-admission.mjs": "96842c3d9e6710e2f01aaef7c94698761a7a496b3f52ab37be3ab42a65d7d8bf",
     "config.mjs": "ed2175ca4f72b42ac44fbe136abe648043a566eb2a3e0d92d941839154c49f00",
     "dummy-check.mjs": "abd925b0b6ba5fbf6bc5dcaf12d6c6bb931dfe2db36412e778316d4806de706f",
-    "dummy.mjs": "06b5b67c97a70a1b251462796a0b55a9a467a58584abee370913d0409afaa2fb",
+    "dummy.mjs": "f2bc03d38eed7ca66a1432f91cc86476251830807f61096f5c6acd2e9330937e",
     "generate-identity.mjs": "906b6b79aa6de2499e210c5f07f300be7a9bf6accf0e1c1ac2f893c5f34577c7",
     "identity.mjs": "5d6131f3044725221eee60a8674926884506a5ddbfb8585ce46325b86fc91332",
-    "launcher.mjs": "7cc41afcbf8d111873a8661efff08c42e71a31515c774b525669a8b31c326669",
+    "launcher.mjs": "2625016d9fbff6e50c22d9a85b38c871e657686362f2c522215d967c0804c00b",
     "matrix.mjs": "71234f798b3b8c2c8b78cfd213aa98c621325f59af830e38e7dca00673b4c6ea",
     "price-check.mjs": "6382c9050458262ee469cc34b991645b30cc9f80b4afa686bd15c0fefd90a802",
     "price.mjs": "0736d8b2f2ba68931461a3ead15204701ed3ca6521d002bcb27156df6d39f63e",
-    "records.mjs": "55e72a1815db75523dcbf67aae2b220c6a26eac0002d2ed6fc1c3c8efa85510c",
+    "records.mjs": "614834a0adfc6eff3e8aaf5d18f31f3e5cdf8088b497adb008a0b75ee7a9033c",
     "release.mjs": "4abf8c4c736f5ded8dcda6ce28a381abc45b286c96f815dcd50be95ba1061ad4",
     "runtime.mjs": "2891cf19769d817fdf130cfaa03971efe250b3ee335e447ea5b24bcf4ec73885",
     "secure-console.mjs": "ba501be1bdcf0ebe2b9fa3e4e01c84fc8d57fe2a281fb2bdb9974955229a5c48",
-    "secure-input.ps1": "528efa6042347a969fd8b15668b7967511f78aa08cd56b05981cd2504e022781",
+    "secure-input.ps1": "014066fa2bfcc9520001e276e97650b219cc1506a6a4501ba1a9130a1f4b0dc2",
     "store-contract.mjs": "a2907c39b9e6f77027cbcfe7a593b059e561e20257e3b60051e2544bdc8292bb",
-    "transport.mjs": "931798e75e354aa57e2171fd9a93a32fc9de354594614d4af96be263192e0c2b",
-    "worker.mjs": "2184c3cb487ba6400b07fa4acab7526062b6b610f94099b8f7af045bfab3e69b"
+    "telemetry.mjs": "7f77df22b6393a22fb8fff9c50bbcda806ddf8a298d82de2d561eab1b5f041f3",
+    "transport.mjs": "3802be5d4bfc671b46935d7bd99b782d739b84f4ea6b40bcd3b2c56f8859cff7",
+    "worker.mjs": "cef9648f349582a63350bee91ed127fcead46d5d4ba672c88763d1017be4ff1a"
   }
 }
