@@ -228,3 +228,173 @@
 - 需要第四场、重试、修复调用或新增内容评分模型；
 - 同包已有施工正在运行；
 - 固定基线不存在或漂移且无法精确恢复。
+
+
+---
+
+# R1 · 三气候一次性真实内容验证
+
+日期：2026-10-28
+
+总控裁决：离线候选达到 `READY_FOR_HUMAN_OFFLINE_REVIEW`，人工阅读确认三场 fixture 已能表达普通、不安与非恐怖噩梦，并且每幕存在可观察变化；这只通过离线设计，不通过真实模型质量。糯糯随后明确同意继续小规模真实验证。本 R1 恢复同一 worktree、同一实现分支与同一 Draft PR #109，只授权一次固定矩阵真实批次；不得另开实现包或 PR。
+
+## R1 固定候选
+
+- 实现 PR：#109
+- HEAD：`119a6ba909cfaa75b29bd3d4c4fcf9500996e2bd`
+- tree：`ab4171b8f18fe49060d4f649c4b1672d09200abe`
+- parent：`7ec24e6d90c45af67fe251fc65f21c4d257bf476`
+- protocol：`nv-dream-climate-offline-v1`
+- runtime：`nv-dream-climate-offline-fixture-runtime-v1`
+- prompt：`nv-dream-climate-offline-prompt-v1`
+- normalization：`nv-dream-climate-offline-normalization-v1`
+- extraction：`nv-dream-climate-offline-receipt-v1`
+- promptHash：`9c855d8b3e3b2a55c3f58e36de4a9aee5dec07b706cbf675912632d6ff8dd119`
+- sourceHash：`605d69511cc72c0b0ca60a77be34dafb061e63b57e98db94b778cf7bfce8cbb6`
+- offline execution identityHash：`f88fccb0349b0004db6c81deb0261f3d620f06480ab24b4a9c3aee2f94cfae28`
+
+冻结的五个离线执行 blob SHA-256：
+
+| 文件 | SHA-256 |
+| --- | --- |
+| `fixtures.mjs` | `04ecad144ab7f5998baad126fe3f78ba0935616b3bfc5352da1f41d1cd606914` |
+| `generate-identity.mjs` | `469ed4561f048243226597c747c7d5348b92afe6efceb4d35bf7e816abb47793` |
+| `identity.mjs` | `33c8c8a061eb900456d62218499bc9f59b74bd6e327040198f0aa05be3f2f910` |
+| `offline-check.mjs` | `8bc2d9d879e68c2ea4e61431f411743e61ef584f5f2a4f0d97b1d8be183bdaf3` |
+| `protocol.mjs` | `b7659c829e1b5150663a0d5f8d2863233e46c9a72c5966448533a15004a44e09` |
+
+R1 实施前必须逐字节复核以上身份。任一漂移均 STOP，不得“更新到最新”后继续。
+
+## 价格与预算
+
+唯一价格权威：
+https://api-docs.deepseek.com/zh-cn/quick_start/pricing/
+
+2026-10-28 总控重新核对：
+
+- model alias：`deepseek-flash`
+- observed model：`DeepSeek-V4.1-Flash-1017`
+- 高峰缓存未命中输入：2 CNY / 1M tokens
+- 高峰输出：8 CNY / 1M tokens
+- 空闲价格为高峰一半；预算仍按高峰缓存未命中计算
+- Search / Fetch 禁用，工具禁用，thinking 禁用，stream 禁用
+
+每次完整序列化请求体不得超过 16,384 UTF-8 bytes；每次 `max_tokens=400`；固定三场、每场 3 scene + 1 wake，总计最多 12 calls。按 1 byte/token 的保守本地上界：
+
+- 最坏输入：196,608 tokens
+- 最坏输出：4,800 tokens
+- 最坏费用：431,616 micro-CNY
+- 本 R1 绝对硬上限：480,000 micro-CNY（0.48 CNY）
+
+模型别名、实际模型、币种、价格、请求上限、输出上限、场数、调用数或预算任一不符时，在凭据供应和 Store 创建前失败关闭。
+
+## 固定真实验证矩阵
+
+本次不是产品自然抽样，而是协议分支验证。三场顺序及约束逐字固定：
+
+| run | climate | mechanism | foregroundAnchor | usedForegroundAnchors | usedMechanisms |
+| --- | --- | --- | --- | --- | --- |
+| A | `ordinary` | `transformation` | `cup_tap` | `[]` | `[]` |
+| B | `uneasy` | `spatial_dislocation` | `rain_street` | `["cup_tap"]` | `["transformation"]` |
+| C | `nightmare` | `temporal_recurrence` | `ticket_date` | `["cup_tap","rain_street"]` | `["transformation","spatial_dislocation"]` |
+
+这不是可供用户选择的 `forceClimate` 产品入口。矩阵必须作为 R1 release 的固定常量与 identity 一起哈希；不得暴露 CLI/env 参数来更换 climate、mechanism、anchor、source、run 数或顺序。
+
+三场均使用 #109 同一固定虚构 source、同一 system prompt、同一模型参数；只有上表中声明的 batch-local user data 不同。每场完整保留，不按质量重试，不挑最好的一场，不添加第四场。
+
+## R1 Phase B 施工授权
+
+沿用现有 worktree：
+
+`C:\Users\Administrator\Desktop\Asteria-Nightvoyage-NV-DREAM-CLIMATE-OFFLINE-01`
+
+沿用分支与 Draft PR：
+
+- `codex/nightvoyage-dream-climate-offline-01`
+- PR #109，base 保持 `codex/nightvoyage-rich-fictional-dream-sample-01`
+
+只允许新增专用 `scripts/nv-dream-climate-offline-01/phase-b/`、对应测试和验证回执；允许为新 live identity 生成独立 manifest。冻结上述五个离线执行文件、固定 source、prompt、fixture、#107 全部真实历史、账务和旧 Phase B 文件。不得修改共享 `src/`，除非无法复用且先 STOP 交回总控；不得在本 R1 自行放宽。
+
+Phase B 必须：
+
+1. 使用 #109 的实际 request builder 与 normalization，不复制或改写 prompt；transport 只发送 builder 产生且通过边界检查的请求。
+2. 建立新的 live identity，覆盖冻结候选、所有新增 live 执行 blobs、固定矩阵、官方价格快照、模型、专用 Store、12-call/0.48-CNY 上限和无重试条款。
+3. 专用 Store 逐字固定为：
+   `C:\Users\Administrator\AppData\Local\Nightvoyage\nightvoyage-dream-climate-live-01`
+   必须在凭据提示前验证 parent、basename、dedicated prefix 与真实路径；不得读取、迁移或删除其它 Store。
+4. 新 launcher 默认失败关闭。没有精确 R1 release、价格证据、固定身份或专用 Store 准入时，在读取 Key、创建真实 Store/owner.lock、供应凭据或网络请求前拒绝。
+5. 先用 dummy simulator 与临时同 basename Store 排练三场，证明 owner.lock 创建/关闭/清理、每场前缀恢复、取消晚到、逐场原子发布、12 次后拒绝第 13 次、零自动重试和跨 run 不串 scenes/ledger。
+6. 凭据只允许从用户主动运行的私密一次性 PowerShell secure-input 管道供应一次。不得读取环境变量、系统凭据存储、剪贴板、命令行明文、文件 Key 或余额；不得打印、持久化或继承 Key。
+7. secure-input 命令必须接受用户显式提供的官方价格 HTML 路径，并在显示 Key 提示前完成所有不需要凭据的准入。准入失败不得询问 Key。
+8. 三场严格串行。每场最多四次调用；任一调用失败、解析失败、账务 unknown、取消或超界时不重试、不修复、不替代。已完成的场保持原字节；后续是否继续只按预先写死的安全状态机处理，不能生成第四场。
+9. 每场的三幕、wake、可选 firstFeeling、simulated residue 与四笔账务保持受管理一致。后来回想为空；climate 不映射为 firstFeeling 或 residue。
+10. 完成或停止后撤销临时 release、关闭 Store、确认 owner.lock 清除，生成机器可读与人类可读真实回执并提交到同一 PR #109。
+
+## 先到 READY_FOR_USER_SECURE_INPUT_R1
+
+施工端首先只完成 Phase B 准入、dummy 排练、测试、identity 和 secure-input；不得代用户输入 Key，不得自行执行真实批次。
+
+至少验证：
+
+- 新 Phase B 定向测试；
+- #109 11 项专项与相关 51 项回归；
+- 旧付费入口继续 `inline_paid_entry_refused`；
+- 无 release / 漂移价格 / 漂移 identity / 错 Store / 第 13 call / 重复 run / 晚到响应均失败关闭；
+- admission 运行时 credential supplier 0、network 0、real Store 0；
+- `git diff --check`；
+- 若仍未修改共享 `src/`，无需重跑完整 npm 测试；若修改共享 `src/`，STOP，不自行扩大验证。
+
+提交、推送 #109 后回执精确 HEAD/tree、Phase B identity/release hash、官方价格页 SHA-256、请求字节实数、预算和唯一 secure-input 命令。状态只允许：
+
+- `READY_FOR_USER_SECURE_INPUT_R1`
+- `BLOCKED`
+- `TOTAL_CONTROL_DECISION_REQUIRED`
+
+达到任一状态立即停止。不得自动提示多次、重试、运行模型、ready、合并或部署。
+
+## 用户执行后的唯一真实批次
+
+只有用户在普通 PowerShell 主动运行施工回执给出的唯一 secure-input 命令，才允许一次真实批次。
+
+真实执行必须产生逐场完整回执：
+
+- run / climate / mechanism / foregroundAnchor / used ledger；
+- 三幕原文与逐幕 appraisal、basis、before/delta/after；
+- wake fragment 与逐字 scene basis；
+- associations；
+- firstFeeling 的 omitted/present/absent/uncertain 真实返回；
+- simulated residue；
+- 每次 token usage、charge、attempt status；
+- source、prompt、identity 与 release；
+- 实际仍重复的意象，由总控后续人工判断，不由词面计数冒充。
+
+总费用、调用数与场数必须同时列出。任何质量结果都保留，不重试、不替换、不再付费追加。
+
+## 完成后的裁决边界
+
+真实批次完成只交回总控人工内容评审。测试通过不等于内容通过；fixture 不得混入真实结果。
+
+哥哥将逐场判断：
+
+- 是否有不照抄素材的可记画面；
+- scene/1 与 scene/2 是否真有状态改变；
+- 梦内变形是否自然而非完成提示词作业；
+- ordinary / uneasy / nightmare 是否有区别又不过度题材化；
+- appraisal 与 affect 是否有同幕语义依据；
+- firstFeeling、fragment、residue 是否仍然彼此独立；
+- 三场是否仍换词重复同一种梦。
+
+本 R1 不授权合并 #109、更新正式 V1 DONE LINE、接入 Memory/Mind、生成后来回想、再跑第二批、优化页面或开启下一包。
+
+## R1 STOP
+
+出现任一项立即停止：
+
+- 固定 #109 HEAD/tree、五个离线执行 blob、promptHash、sourceHash 或 identityHash 不符；
+- 官方价格或模型别名无法精确核对；
+- 需要读取环境 Key、凭据存储、余额或任意既有用户 Store；
+- 需要修改 prompt/source/fixture/shared src 才能接 live；
+- 无法把新 live identity 与 #107 旧 release/allowance 隔离；
+- 需要重试、修复调用、第四场、额外评分模型或泛化 forceClimate 入口；
+- 同一 Phase B 已有任务或真实批次在运行；
+- 无法保证停止后 release 撤销与 owner.lock 清理。
