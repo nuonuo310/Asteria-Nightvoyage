@@ -1,0 +1,971 @@
+{
+  "schemaVersion": 1,
+  "command": "node scripts/nv-dream-climate-offline-01/offline-check.mjs",
+  "status": "READY_FOR_HUMAN_OFFLINE_REVIEW",
+  "node": "v24.19.0",
+  "platform": "win32",
+  "offlineCheckVersion": "nv-dream-climate-offline-check-v1",
+  "identity": {
+    "schemaVersion": 1,
+    "inventoryVersion": "nv-dream-climate-offline-inventory-v1",
+    "protocolVersion": "nv-dream-climate-offline-v1",
+    "runtimeVersion": "nv-dream-climate-offline-fixture-runtime-v1",
+    "promptVersion": "nv-dream-climate-offline-prompt-v1",
+    "normalizationVersion": "nv-dream-climate-offline-normalization-v1",
+    "extractionVersion": "nv-dream-climate-offline-receipt-v1",
+    "source": {
+      "id": "rich-fictional-dream-sample-memory",
+      "version": "1",
+      "sha256": "605d69511cc72c0b0ca60a77be34dafb061e63b57e98db94b778cf7bfce8cbb6"
+    },
+    "promptHash": "9c855d8b3e3b2a55c3f58e36de4a9aee5dec07b706cbf675912632d6ff8dd119",
+    "climateWeights": {
+      "ordinary": 0.65,
+      "uneasy": 0.3,
+      "nightmare": 0.05
+    },
+    "oldPaidCoreInventoryHash": "c1e14b491c0249061fc13714575b8a67cd8b1fc4c24c39bde26b486be4af5ad2",
+    "oldPaidCoreInventoryFiles": 92,
+    "executionFiles": {
+      "fixtures.mjs": "04ecad144ab7f5998baad126fe3f78ba0935616b3bfc5352da1f41d1cd606914",
+      "generate-identity.mjs": "469ed4561f048243226597c747c7d5348b92afe6efceb4d35bf7e816abb47793",
+      "identity.mjs": "33c8c8a061eb900456d62218499bc9f59b74bd6e327040198f0aa05be3f2f910",
+      "offline-check.mjs": "8bc2d9d879e68c2ea4e61431f411743e61ef584f5f2a4f0d97b1d8be183bdaf3",
+      "protocol.mjs": "b7659c829e1b5150663a0d5f8d2863233e46c9a72c5966448533a15004a44e09"
+    },
+    "sourceHash": "605d69511cc72c0b0ca60a77be34dafb061e63b57e98db94b778cf7bfce8cbb6",
+    "identityHash": "f88fccb0349b0004db6c81deb0261f3d620f06480ab24b4a9c3aee2f94cfae28"
+  },
+  "protocol": {
+    "version": "nv-dream-climate-offline-v1",
+    "runtimeVersion": "nv-dream-climate-offline-fixture-runtime-v1",
+    "promptVersion": "nv-dream-climate-offline-prompt-v1",
+    "normalizationVersion": "nv-dream-climate-offline-normalization-v1",
+    "promptHash": "9c855d8b3e3b2a55c3f58e36de4a9aee5dec07b706cbf675912632d6ff8dd119",
+    "requestByteLimit": 16384
+  },
+  "source": {
+    "id": "rich-fictional-dream-sample-memory",
+    "version": "1",
+    "text": "两个虚构人物曾在雨停后走过一条小街。一个人轻敲杯沿两下，说有件事下次再讲；另一个人保留了一张折过的车票，票面日期后来模糊了。除此之外没有关于两人关系、那件事的内容或后来结局的资料。",
+    "sha256": "605d69511cc72c0b0ca60a77be34dafb061e63b57e98db94b778cf7bfce8cbb6",
+    "refs": [
+      {
+        "id": "rich-fictional-dream-sample-memory",
+        "version": "1"
+      }
+    ]
+  },
+  "climateContract": {
+    "order": [
+      "ordinary",
+      "uneasy",
+      "nightmare"
+    ],
+    "weights": {
+      "ordinary": 0.65,
+      "uneasy": 0.3,
+      "nightmare": 0.05
+    }
+  },
+  "batch": {
+    "runCount": 3,
+    "calls": 12,
+    "scenesPerRun": 3,
+    "callsPerRun": 4,
+    "status": "COMPLETE_SYNTHETIC_ONLY"
+  },
+  "requestCapture": {
+    "count": 12,
+    "requests": [
+      {
+        "caseId": "A",
+        "stage": "scene",
+        "sceneIndex": 0,
+        "bytes": 4855,
+        "bodyHash": "59285a0067de7655cc42aea4efea2af1718d1a210981b28e8e2921ef5342c67b",
+        "systemHash": "ef51d2f7b7f5e5620de1984e4111618a5ab1cf97a2e3011c2d642ad1a34db746",
+        "climate": "ordinary",
+        "mechanism": "transformation",
+        "foregroundAnchor": "cup_tap",
+        "usedForegroundAnchors": [],
+        "usedMechanisms": [],
+        "previousSceneCount": 0,
+        "sourceExact": true,
+        "systemContainsSourceText": false,
+        "systemContainsAnchorId": false,
+        "systemContainsUsedLedger": false
+      },
+      {
+        "caseId": "A",
+        "stage": "scene",
+        "sceneIndex": 1,
+        "bytes": 5780,
+        "bodyHash": "b15aaad592a913457c7acd73fcee46b2386d6f6f9faf79ab4ef638032339ead7",
+        "systemHash": "ef51d2f7b7f5e5620de1984e4111618a5ab1cf97a2e3011c2d642ad1a34db746",
+        "climate": "ordinary",
+        "mechanism": "transformation",
+        "foregroundAnchor": "cup_tap",
+        "usedForegroundAnchors": [],
+        "usedMechanisms": [],
+        "previousSceneCount": 1,
+        "sourceExact": true,
+        "systemContainsSourceText": false,
+        "systemContainsAnchorId": false,
+        "systemContainsUsedLedger": false
+      },
+      {
+        "caseId": "A",
+        "stage": "scene",
+        "sceneIndex": 2,
+        "bytes": 6795,
+        "bodyHash": "97452602f9acbe3c4f7b78f8cf8b63decaaae49f41bcc736ff22091bedaba49e",
+        "systemHash": "ef51d2f7b7f5e5620de1984e4111618a5ab1cf97a2e3011c2d642ad1a34db746",
+        "climate": "ordinary",
+        "mechanism": "transformation",
+        "foregroundAnchor": "cup_tap",
+        "usedForegroundAnchors": [],
+        "usedMechanisms": [],
+        "previousSceneCount": 2,
+        "sourceExact": true,
+        "systemContainsSourceText": false,
+        "systemContainsAnchorId": false,
+        "systemContainsUsedLedger": false
+      },
+      {
+        "caseId": "A",
+        "stage": "wake",
+        "sceneIndex": 3,
+        "bytes": 6761,
+        "bodyHash": "24271c7cf9264a1692c6fd9818b54101b809653223bc76e03d662ec1621d41d8",
+        "systemHash": "e630e6b52023d668adea744e842ae8379b00bbe213eb04d5bc6a91f92c9b2af4",
+        "climate": "ordinary",
+        "mechanism": "transformation",
+        "foregroundAnchor": "cup_tap",
+        "usedForegroundAnchors": [],
+        "usedMechanisms": [],
+        "previousSceneCount": 3,
+        "sourceExact": true,
+        "systemContainsSourceText": false,
+        "systemContainsAnchorId": false,
+        "systemContainsUsedLedger": false
+      },
+      {
+        "caseId": "B",
+        "stage": "scene",
+        "sceneIndex": 0,
+        "bytes": 4903,
+        "bodyHash": "87075d7ee9e0d975be12ebf71d201b8516adb62dbe062057718d171d7dc8c8e0",
+        "systemHash": "ef51d2f7b7f5e5620de1984e4111618a5ab1cf97a2e3011c2d642ad1a34db746",
+        "climate": "uneasy",
+        "mechanism": "spatial_dislocation",
+        "foregroundAnchor": "rain_street",
+        "usedForegroundAnchors": [
+          "cup_tap"
+        ],
+        "usedMechanisms": [
+          "transformation"
+        ],
+        "previousSceneCount": 0,
+        "sourceExact": true,
+        "systemContainsSourceText": false,
+        "systemContainsAnchorId": false,
+        "systemContainsUsedLedger": false
+      },
+      {
+        "caseId": "B",
+        "stage": "scene",
+        "sceneIndex": 1,
+        "bytes": 5889,
+        "bodyHash": "ebc26eb9777516e6227990986b666c7448252970ef139d73a144989859702080",
+        "systemHash": "ef51d2f7b7f5e5620de1984e4111618a5ab1cf97a2e3011c2d642ad1a34db746",
+        "climate": "uneasy",
+        "mechanism": "spatial_dislocation",
+        "foregroundAnchor": "rain_street",
+        "usedForegroundAnchors": [
+          "cup_tap"
+        ],
+        "usedMechanisms": [
+          "transformation"
+        ],
+        "previousSceneCount": 1,
+        "sourceExact": true,
+        "systemContainsSourceText": false,
+        "systemContainsAnchorId": false,
+        "systemContainsUsedLedger": false
+      },
+      {
+        "caseId": "B",
+        "stage": "scene",
+        "sceneIndex": 2,
+        "bytes": 6962,
+        "bodyHash": "c904fc365548fb449da0bcf5c32aec6be3d451edf67283e42d91daf5f4171c63",
+        "systemHash": "ef51d2f7b7f5e5620de1984e4111618a5ab1cf97a2e3011c2d642ad1a34db746",
+        "climate": "uneasy",
+        "mechanism": "spatial_dislocation",
+        "foregroundAnchor": "rain_street",
+        "usedForegroundAnchors": [
+          "cup_tap"
+        ],
+        "usedMechanisms": [
+          "transformation"
+        ],
+        "previousSceneCount": 2,
+        "sourceExact": true,
+        "systemContainsSourceText": false,
+        "systemContainsAnchorId": false,
+        "systemContainsUsedLedger": false
+      },
+      {
+        "caseId": "B",
+        "stage": "wake",
+        "sceneIndex": 3,
+        "bytes": 6943,
+        "bodyHash": "551bf5171b85d82c8e3e9cbc5961abdf7cd7299e369f9ba62b705c28dae9a2c5",
+        "systemHash": "e630e6b52023d668adea744e842ae8379b00bbe213eb04d5bc6a91f92c9b2af4",
+        "climate": "uneasy",
+        "mechanism": "spatial_dislocation",
+        "foregroundAnchor": "rain_street",
+        "usedForegroundAnchors": [
+          "cup_tap"
+        ],
+        "usedMechanisms": [
+          "transformation"
+        ],
+        "previousSceneCount": 3,
+        "sourceExact": true,
+        "systemContainsSourceText": false,
+        "systemContainsAnchorId": false,
+        "systemContainsUsedLedger": false
+      },
+      {
+        "caseId": "C",
+        "stage": "scene",
+        "sceneIndex": 0,
+        "bytes": 5012,
+        "bodyHash": "c2478a4bf23ae25b9562d0de5206d797e296cbaa3917cbc6f1860362fc7d89cc",
+        "systemHash": "ef51d2f7b7f5e5620de1984e4111618a5ab1cf97a2e3011c2d642ad1a34db746",
+        "climate": "nightmare",
+        "mechanism": "temporal_recurrence",
+        "foregroundAnchor": "ticket_date",
+        "usedForegroundAnchors": [
+          "cup_tap",
+          "rain_street"
+        ],
+        "usedMechanisms": [
+          "transformation",
+          "spatial_dislocation"
+        ],
+        "previousSceneCount": 0,
+        "sourceExact": true,
+        "systemContainsSourceText": false,
+        "systemContainsAnchorId": false,
+        "systemContainsUsedLedger": false
+      },
+      {
+        "caseId": "C",
+        "stage": "scene",
+        "sceneIndex": 1,
+        "bytes": 5967,
+        "bodyHash": "957ecb01ddfb40083174735ec33b1ec6a9904a1cd95f59bd540380e26040f799",
+        "systemHash": "ef51d2f7b7f5e5620de1984e4111618a5ab1cf97a2e3011c2d642ad1a34db746",
+        "climate": "nightmare",
+        "mechanism": "temporal_recurrence",
+        "foregroundAnchor": "ticket_date",
+        "usedForegroundAnchors": [
+          "cup_tap",
+          "rain_street"
+        ],
+        "usedMechanisms": [
+          "transformation",
+          "spatial_dislocation"
+        ],
+        "previousSceneCount": 1,
+        "sourceExact": true,
+        "systemContainsSourceText": false,
+        "systemContainsAnchorId": false,
+        "systemContainsUsedLedger": false
+      },
+      {
+        "caseId": "C",
+        "stage": "scene",
+        "sceneIndex": 2,
+        "bytes": 7121,
+        "bodyHash": "8251c27754ef92f64df42ac62f6ff2c8431e4171556ec6b72548df5238689166",
+        "systemHash": "ef51d2f7b7f5e5620de1984e4111618a5ab1cf97a2e3011c2d642ad1a34db746",
+        "climate": "nightmare",
+        "mechanism": "temporal_recurrence",
+        "foregroundAnchor": "ticket_date",
+        "usedForegroundAnchors": [
+          "cup_tap",
+          "rain_street"
+        ],
+        "usedMechanisms": [
+          "transformation",
+          "spatial_dislocation"
+        ],
+        "previousSceneCount": 2,
+        "sourceExact": true,
+        "systemContainsSourceText": false,
+        "systemContainsAnchorId": false,
+        "systemContainsUsedLedger": false
+      },
+      {
+        "caseId": "C",
+        "stage": "wake",
+        "sceneIndex": 3,
+        "bytes": 7153,
+        "bodyHash": "0e15c770c4eb1b96f7a2ca09d83a6a83a93c95ea0639a118b34c5ddb7cb8c32f",
+        "systemHash": "e630e6b52023d668adea744e842ae8379b00bbe213eb04d5bc6a91f92c9b2af4",
+        "climate": "nightmare",
+        "mechanism": "temporal_recurrence",
+        "foregroundAnchor": "ticket_date",
+        "usedForegroundAnchors": [
+          "cup_tap",
+          "rain_street"
+        ],
+        "usedMechanisms": [
+          "transformation",
+          "spatial_dislocation"
+        ],
+        "previousSceneCount": 3,
+        "sourceExact": true,
+        "systemContainsSourceText": false,
+        "systemContainsAnchorId": false,
+        "systemContainsUsedLedger": false
+      }
+    ]
+  },
+  "cases": [
+    {
+      "id": "A",
+      "fixtureKind": "fictional_fixture_not_model_output",
+      "disclaimer": "fictional fixture / not model output",
+      "climate": "ordinary",
+      "mechanism": "transformation",
+      "foregroundAnchor": "cup_tap",
+      "usedForegroundAnchors": [],
+      "usedMechanisms": [],
+      "scenes": [
+        {
+          "index": 0,
+          "event": "杯沿刚被轻敲两下，余音还在桌面下面轻轻碰着。梦里的人把杯子放下，手指仍停在杯沿。",
+          "appraisal": {
+            "goalEffect": 0,
+            "control": 0.5,
+            "uncertainty": 0.5
+          },
+          "before": {
+            "valence": 0,
+            "arousal": 0.2
+          },
+          "delta": {
+            "valence": 0,
+            "arousal": 0
+          },
+          "after": {
+            "valence": 0,
+            "arousal": 0.2
+          },
+          "evidence": {
+            "goal": null,
+            "controlExcerpt": null,
+            "uncertaintyExcerpt": null,
+            "affectExcerpt": null
+          },
+          "affectDeclaration": {
+            "schemaVersion": 1,
+            "kind": "unchanged"
+          },
+          "normalizationAudit": {
+            "schemaVersion": 1,
+            "policyVersion": "validated-unused-quotation-pruning-v1",
+            "receivedQuoteCount": 0,
+            "keptQuoteCount": 0,
+            "discardedUnusedQuoteCount": 0
+          },
+          "protocolVersion": "nv-dream-climate-offline-normalization-v1"
+        },
+        {
+          "index": 1,
+          "event": "第二下余音没有散，杯沿顺着一圈看不见的力裂出细白纹。梦里的人伸手去摸，不确定纹路会不会碰到杯里的水。",
+          "appraisal": {
+            "goalEffect": 0,
+            "control": 0.5,
+            "uncertainty": 0.6
+          },
+          "before": {
+            "valence": 0,
+            "arousal": 0.2
+          },
+          "delta": {
+            "valence": 0,
+            "arousal": 0.06
+          },
+          "after": {
+            "valence": 0,
+            "arousal": 0.26
+          },
+          "evidence": {
+            "goal": null,
+            "controlExcerpt": null,
+            "uncertaintyExcerpt": "不确定纹路会不会碰到杯里的水",
+            "affectExcerpt": "伸手去摸"
+          },
+          "affectDeclaration": {
+            "schemaVersion": 1,
+            "kind": "estimated"
+          },
+          "normalizationAudit": {
+            "schemaVersion": 1,
+            "policyVersion": "validated-unused-quotation-pruning-v1",
+            "receivedQuoteCount": 2,
+            "keptQuoteCount": 2,
+            "discardedUnusedQuoteCount": 0
+          },
+          "protocolVersion": "nv-dream-climate-offline-normalization-v1"
+        },
+        {
+          "index": 2,
+          "event": "细纹向杯底收拢，杯沿恢复成圆，桌上却留下一小片白屑。梦里的人把杯子挪到桌面另一侧，白屑留在原处。",
+          "appraisal": {
+            "goalEffect": 0,
+            "control": 0.65,
+            "uncertainty": 0.4
+          },
+          "before": {
+            "valence": 0,
+            "arousal": 0.26
+          },
+          "delta": {
+            "valence": 0.04,
+            "arousal": -0.04
+          },
+          "after": {
+            "valence": 0.04,
+            "arousal": 0.22
+          },
+          "evidence": {
+            "goal": null,
+            "controlExcerpt": "把杯子挪到桌面另一侧",
+            "uncertaintyExcerpt": "白屑留在原处",
+            "affectExcerpt": "白屑留在原处"
+          },
+          "affectDeclaration": {
+            "schemaVersion": 1,
+            "kind": "estimated"
+          },
+          "normalizationAudit": {
+            "schemaVersion": 1,
+            "policyVersion": "validated-unused-quotation-pruning-v1",
+            "receivedQuoteCount": 2,
+            "keptQuoteCount": 2,
+            "discardedUnusedQuoteCount": 0
+          },
+          "protocolVersion": "nv-dream-climate-offline-normalization-v1"
+        }
+      ],
+      "wake": {
+        "fragment": "桌上却留下一小片白屑",
+        "fragmentBasis": {
+          "kind": "scene_excerpt",
+          "sceneIndex": 2
+        },
+        "associations": [],
+        "residue": 0.07,
+        "firstFeeling": {
+          "status": "present",
+          "text": "醒来时，梦里的人先听见指尖碰到桌面的轻响，随后才发现桌上没有杯子。"
+        },
+        "firstFeelingOmitted": false,
+        "firstFeelingStatus": "present"
+      },
+      "fixtureDeclaration": {
+        "scene0Establishes": "杯沿刚被轻敲两下，余音仍在，手仍可继续触摸杯子。",
+        "scene1Change": "杯沿出现细白纹，动作从听见余音转为伸手触摸。",
+        "scene2Change": "细纹合拢并留下白屑，杯子被移到另一侧而白屑留在原处。",
+        "transformation": {
+          "sceneIndex": 1,
+          "kind": "object_material_boundary",
+          "description": "杯沿随余音裂出白纹，随后向杯底收拢并恢复圆形。"
+        },
+        "repeatedImagery": [
+          "杯沿/杯子",
+          "白屑",
+          "轻响/余音"
+        ]
+      },
+      "anchorDiagnostics": {
+        "schemaVersion": 1,
+        "method": "literal_term_occurrence",
+        "textUnits": 3,
+        "anchors": {
+          "cup_tap": {
+            "terms": {
+              "杯": 8,
+              "杯沿": 4,
+              "敲击": 0
+            },
+            "total": 12
+          },
+          "rain_street": {
+            "terms": {
+              "雨停": 0,
+              "小街": 0,
+              "街道": 0,
+              "雨": 0
+            },
+            "total": 0
+          },
+          "ticket_date": {
+            "terms": {
+              "车票": 0,
+              "票面": 0,
+              "日期": 0
+            },
+            "total": 0
+          }
+        },
+        "semanticJudgment": false,
+        "overlappingTermsCountedSeparately": true,
+        "note": "Literal matches are reproducible diagnostics only. They do not prove semantic repetition, absence or dream quality."
+      },
+      "provenance": {
+        "intervalChangesAndTransformation": "fixture_author_declaration_not_semantic_validation",
+        "appraisalAndAffectEvidence": "literal_same_scene_excerpt_validation_only",
+        "reachedSceneTextQuality": "not_assessed",
+        "climateQuality": "not_assessed"
+      }
+    },
+    {
+      "id": "B",
+      "fixtureKind": "fictional_fixture_not_model_output",
+      "disclaimer": "fictional fixture / not model output",
+      "climate": "uneasy",
+      "mechanism": "spatial_dislocation",
+      "foregroundAnchor": "rain_street",
+      "usedForegroundAnchors": [
+        "cup_tap"
+      ],
+      "usedMechanisms": [
+        "transformation"
+      ],
+      "scenes": [
+        {
+          "index": 0,
+          "event": "雨停后，小街两侧的门牌都朝同一个方向滴水。梦里的人站在一间关门的店前，手里握着门把，觉得再往前一步就能看见街口。",
+          "appraisal": {
+            "goalEffect": 0,
+            "control": 0.55,
+            "uncertainty": 0.5
+          },
+          "before": {
+            "valence": 0,
+            "arousal": 0.2
+          },
+          "delta": {
+            "valence": 0,
+            "arousal": 0
+          },
+          "after": {
+            "valence": 0,
+            "arousal": 0.2
+          },
+          "evidence": {
+            "goal": null,
+            "controlExcerpt": "握着门把",
+            "uncertaintyExcerpt": null,
+            "affectExcerpt": null
+          },
+          "affectDeclaration": {
+            "schemaVersion": 1,
+            "kind": "unchanged"
+          },
+          "normalizationAudit": {
+            "schemaVersion": 1,
+            "policyVersion": "validated-unused-quotation-pruning-v1",
+            "receivedQuoteCount": 1,
+            "keptQuoteCount": 1,
+            "discardedUnusedQuoteCount": 0
+          },
+          "protocolVersion": "nv-dream-climate-offline-normalization-v1"
+        },
+        {
+          "index": 1,
+          "event": "门把在掌心转了一圈，关着的店门却出现在身后；小街向两边拉长，原来三步外的街口退到雨雾里。梦里的人松开手，门把仍留在掌心。",
+          "appraisal": {
+            "goalEffect": 0,
+            "control": 0.35,
+            "uncertainty": 0.8
+          },
+          "before": {
+            "valence": 0,
+            "arousal": 0.2
+          },
+          "delta": {
+            "valence": -0.06,
+            "arousal": 0.08
+          },
+          "after": {
+            "valence": -0.06,
+            "arousal": 0.28
+          },
+          "evidence": {
+            "goal": null,
+            "controlExcerpt": "松开手",
+            "uncertaintyExcerpt": "原来三步外的街口退到雨雾里",
+            "affectExcerpt": "门把仍留在掌心"
+          },
+          "affectDeclaration": {
+            "schemaVersion": 1,
+            "kind": "estimated"
+          },
+          "normalizationAudit": {
+            "schemaVersion": 1,
+            "policyVersion": "validated-unused-quotation-pruning-v1",
+            "receivedQuoteCount": 3,
+            "keptQuoteCount": 3,
+            "discardedUnusedQuoteCount": 0
+          },
+          "protocolVersion": "nv-dream-climate-offline-normalization-v1"
+        },
+        {
+          "index": 2,
+          "event": "街道缩回原来的长度，店面变成一堵湿墙，门把从掌心落进墙缝。梦里的人沿墙走了几步，听见街口的水声从墙后传来。",
+          "appraisal": {
+            "goalEffect": 0,
+            "control": 0.15,
+            "uncertainty": 0.7
+          },
+          "before": {
+            "valence": -0.06,
+            "arousal": 0.28
+          },
+          "delta": {
+            "valence": -0.04,
+            "arousal": 0.05
+          },
+          "after": {
+            "valence": -0.1,
+            "arousal": 0.33
+          },
+          "evidence": {
+            "goal": null,
+            "controlExcerpt": "沿墙走了几步",
+            "uncertaintyExcerpt": "水声从墙后传来",
+            "affectExcerpt": "门把从掌心落进墙缝"
+          },
+          "affectDeclaration": {
+            "schemaVersion": 1,
+            "kind": "estimated"
+          },
+          "normalizationAudit": {
+            "schemaVersion": 1,
+            "policyVersion": "validated-unused-quotation-pruning-v1",
+            "receivedQuoteCount": 3,
+            "keptQuoteCount": 3,
+            "discardedUnusedQuoteCount": 0
+          },
+          "protocolVersion": "nv-dream-climate-offline-normalization-v1"
+        }
+      ],
+      "wake": {
+        "fragment": "门把从掌心落进墙缝",
+        "fragmentBasis": {
+          "kind": "scene_excerpt",
+          "sceneIndex": 2
+        },
+        "associations": [
+          "墙后面的水声是不是刚才那条街？"
+        ],
+        "residue": 0.11,
+        "firstFeeling": {
+          "status": "absent"
+        },
+        "firstFeelingOmitted": false,
+        "firstFeelingStatus": "absent"
+      },
+      "fixtureDeclaration": {
+        "scene0Establishes": "雨后小街、关门店前、手里的门把和前方街口构成一个可继续的瞬间。",
+        "scene1Change": "店门移到身后，街口退远，门把留在掌心而手已松开。",
+        "scene2Change": "街道缩回，店面变成湿墙，门把落入墙缝，水声移到墙后。",
+        "transformation": {
+          "sceneIndex": 1,
+          "kind": "spatial_relation",
+          "description": "关着的门与街口交换了相对位置，小街被拉长而门把留在掌心。"
+        },
+        "repeatedImagery": [
+          "小街/街道",
+          "门把",
+          "雨雾/水声"
+        ]
+      },
+      "anchorDiagnostics": {
+        "schemaVersion": 1,
+        "method": "literal_term_occurrence",
+        "textUnits": 3,
+        "anchors": {
+          "cup_tap": {
+            "terms": {
+              "杯": 0,
+              "杯沿": 0,
+              "敲击": 0
+            },
+            "total": 0
+          },
+          "rain_street": {
+            "terms": {
+              "雨停": 1,
+              "小街": 2,
+              "街道": 1,
+              "雨": 2
+            },
+            "total": 6
+          },
+          "ticket_date": {
+            "terms": {
+              "车票": 0,
+              "票面": 0,
+              "日期": 0
+            },
+            "total": 0
+          }
+        },
+        "semanticJudgment": false,
+        "overlappingTermsCountedSeparately": true,
+        "note": "Literal matches are reproducible diagnostics only. They do not prove semantic repetition, absence or dream quality."
+      },
+      "provenance": {
+        "intervalChangesAndTransformation": "fixture_author_declaration_not_semantic_validation",
+        "appraisalAndAffectEvidence": "literal_same_scene_excerpt_validation_only",
+        "reachedSceneTextQuality": "not_assessed",
+        "climateQuality": "not_assessed"
+      }
+    },
+    {
+      "id": "C",
+      "fixtureKind": "fictional_fixture_not_model_output",
+      "disclaimer": "fictional fixture / not model output",
+      "climate": "nightmare",
+      "mechanism": "temporal_recurrence",
+      "foregroundAnchor": "ticket_date",
+      "usedForegroundAnchors": [
+        "cup_tap",
+        "rain_street"
+      ],
+      "usedMechanisms": [
+        "transformation",
+        "spatial_dislocation"
+      ],
+      "scenes": [
+        {
+          "index": 0,
+          "event": "折过的车票摊在掌心，模糊的日期被指腹盖住。梦里的人站在候车线后，听见广播说下一班还没到。",
+          "appraisal": {
+            "goalEffect": 0,
+            "control": 0.5,
+            "uncertainty": 0.6
+          },
+          "before": {
+            "valence": 0,
+            "arousal": 0.2
+          },
+          "delta": {
+            "valence": 0,
+            "arousal": 0
+          },
+          "after": {
+            "valence": 0,
+            "arousal": 0.2
+          },
+          "evidence": {
+            "goal": null,
+            "controlExcerpt": null,
+            "uncertaintyExcerpt": "下一班还没到",
+            "affectExcerpt": null
+          },
+          "affectDeclaration": {
+            "schemaVersion": 1,
+            "kind": "unchanged"
+          },
+          "normalizationAudit": {
+            "schemaVersion": 1,
+            "policyVersion": "validated-unused-quotation-pruning-v1",
+            "receivedQuoteCount": 1,
+            "keptQuoteCount": 1,
+            "discardedUnusedQuoteCount": 0
+          },
+          "protocolVersion": "nv-dream-climate-offline-normalization-v1"
+        },
+        {
+          "index": 1,
+          "event": "广播又响了一遍，内容和刚才完全相同；候车线退到身后，车票上的日期却变成明天。梦里的人想确认下一班，抬头看见站牌仍显示刚刚那班车。",
+          "appraisal": {
+            "goalEffect": -1,
+            "control": 0.3,
+            "uncertainty": 0.8
+          },
+          "before": {
+            "valence": 0,
+            "arousal": 0.2
+          },
+          "delta": {
+            "valence": -0.08,
+            "arousal": 0.08
+          },
+          "after": {
+            "valence": -0.08,
+            "arousal": 0.28
+          },
+          "evidence": {
+            "goal": {
+              "goalExcerpt": "想确认下一班",
+              "outcomeExcerpt": "站牌仍显示刚刚那班车"
+            },
+            "controlExcerpt": "抬头",
+            "uncertaintyExcerpt": "候车线退到身后",
+            "affectExcerpt": "候车线退到身后"
+          },
+          "affectDeclaration": {
+            "schemaVersion": 1,
+            "kind": "estimated"
+          },
+          "normalizationAudit": {
+            "schemaVersion": 1,
+            "policyVersion": "validated-unused-quotation-pruning-v1",
+            "receivedQuoteCount": 4,
+            "keptQuoteCount": 4,
+            "discardedUnusedQuoteCount": 0
+          },
+          "protocolVersion": "nv-dream-climate-offline-normalization-v1"
+        },
+        {
+          "index": 2,
+          "event": "车票日期回到模糊的原样，广播第三次说下一班还没到；候车线重新出现在脚前，刚空出的站台又站满了人。梦里的人没有挪步，手里的票仍是折过的。",
+          "appraisal": {
+            "goalEffect": 0,
+            "control": 0.1,
+            "uncertainty": 0.9
+          },
+          "before": {
+            "valence": -0.08,
+            "arousal": 0.28
+          },
+          "delta": {
+            "valence": -0.12,
+            "arousal": 0.12
+          },
+          "after": {
+            "valence": -0.2,
+            "arousal": 0.4
+          },
+          "evidence": {
+            "goal": null,
+            "controlExcerpt": "没有挪步",
+            "uncertaintyExcerpt": "刚空出的站台又站满了人",
+            "affectExcerpt": "刚空出的站台又站满了人"
+          },
+          "affectDeclaration": {
+            "schemaVersion": 1,
+            "kind": "estimated"
+          },
+          "normalizationAudit": {
+            "schemaVersion": 1,
+            "policyVersion": "validated-unused-quotation-pruning-v1",
+            "receivedQuoteCount": 2,
+            "keptQuoteCount": 2,
+            "discardedUnusedQuoteCount": 0
+          },
+          "protocolVersion": "nv-dream-climate-offline-normalization-v1"
+        }
+      ],
+      "wake": {
+        "fragment": "广播第三次说下一班还没到",
+        "fragmentBasis": {
+          "kind": "scene_excerpt",
+          "sceneIndex": 2
+        },
+        "associations": [],
+        "residue": 0.16,
+        "firstFeeling": null,
+        "firstFeelingOmitted": true,
+        "firstFeelingStatus": "omitted"
+      },
+      "fixtureDeclaration": {
+        "scene0Establishes": "折过的车票、被遮住的日期、候车线后的位置和“下一班还没到”的广播。",
+        "scene1Change": "广播原样重复，候车线退到身后，日期变成明天，站牌却仍指向刚刚那班车。",
+        "scene2Change": "日期回到模糊原样，广播第三次重复，候车线回到脚前，空站台重新站满人。",
+        "transformation": {
+          "sceneIndex": 1,
+          "kind": "temporal_order",
+          "description": "票面日期跳到明天而站牌仍显示刚刚那班车，广播与候车线顺序开始重复。"
+        },
+        "repeatedImagery": [
+          "车票/日期",
+          "广播",
+          "候车线/站台"
+        ]
+      },
+      "anchorDiagnostics": {
+        "schemaVersion": 1,
+        "method": "literal_term_occurrence",
+        "textUnits": 3,
+        "anchors": {
+          "cup_tap": {
+            "terms": {
+              "杯": 0,
+              "杯沿": 0,
+              "敲击": 0
+            },
+            "total": 0
+          },
+          "rain_street": {
+            "terms": {
+              "雨停": 0,
+              "小街": 0,
+              "街道": 0,
+              "雨": 0
+            },
+            "total": 0
+          },
+          "ticket_date": {
+            "terms": {
+              "车票": 3,
+              "票面": 0,
+              "日期": 3
+            },
+            "total": 6
+          }
+        },
+        "semanticJudgment": false,
+        "overlappingTermsCountedSeparately": true,
+        "note": "Literal matches are reproducible diagnostics only. They do not prove semantic repetition, absence or dream quality."
+      },
+      "provenance": {
+        "intervalChangesAndTransformation": "fixture_author_declaration_not_semantic_validation",
+        "appraisalAndAffectEvidence": "literal_same_scene_excerpt_validation_only",
+        "reachedSceneTextQuality": "not_assessed",
+        "climateQuality": "not_assessed"
+      }
+    }
+  ],
+  "boundaries": {
+    "fictionalFixturesOnly": true,
+    "fixtureNotModelOutput": true,
+    "realUserStoreAccessed": false,
+    "credentialReads": 0,
+    "networkAttempts": 0,
+    "realModelRequests": 0,
+    "paidCalls": 0,
+    "costMicroCny": 0,
+    "ownerLockCreated": false,
+    "storeOpened": false,
+    "automaticRetries": 0,
+    "fourthRunStarted": false,
+    "laterRecollectionsEmpty": true,
+    "qualityAssessed": false,
+    "semanticSupport": "not_assessed",
+    "memoryMindIntegration": false,
+    "liveDispatchAvailable": false
+  }
+}

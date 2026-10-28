@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "inventoryVersion": "nv-dream-climate-offline-inventory-v1",
+  "protocolVersion": "nv-dream-climate-offline-v1",
+  "runtimeVersion": "nv-dream-climate-offline-fixture-runtime-v1",
+  "promptVersion": "nv-dream-climate-offline-prompt-v1",
+  "normalizationVersion": "nv-dream-climate-offline-normalization-v1",
+  "extractionVersion": "nv-dream-climate-offline-receipt-v1",
+  "source": {
+    "id": "rich-fictional-dream-sample-memory",
+    "version": "1",
+    "sha256": "605d69511cc72c0b0ca60a77be34dafb061e63b57e98db94b778cf7bfce8cbb6"
+  },
+  "promptHash": "9c855d8b3e3b2a55c3f58e36de4a9aee5dec07b706cbf675912632d6ff8dd119",
+  "climateWeights": {
+    "ordinary": 0.65,
+    "uneasy": 0.3,
+    "nightmare": 0.05
+  },
+  "oldPaidCoreInventoryHash": "c1e14b491c0249061fc13714575b8a67cd8b1fc4c24c39bde26b486be4af5ad2",
+  "oldPaidCoreInventoryFiles": 92,
+  "executionFiles": {
+    "fixtures.mjs": "04ecad144ab7f5998baad126fe3f78ba0935616b3bfc5352da1f41d1cd606914",
+    "generate-identity.mjs": "469ed4561f048243226597c747c7d5348b92afe6efceb4d35bf7e816abb47793",
+    "identity.mjs": "33c8c8a061eb900456d62218499bc9f59b74bd6e327040198f0aa05be3f2f910",
+    "offline-check.mjs": "8bc2d9d879e68c2ea4e61431f411743e61ef584f5f2a4f0d97b1d8be183bdaf3",
+    "protocol.mjs": "b7659c829e1b5150663a0d5f8d2863233e46c9a72c5966448533a15004a44e09"
+  }
+}
