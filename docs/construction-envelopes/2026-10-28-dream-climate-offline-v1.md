@@ -686,3 +686,56 @@ C:\Users\Administrator\AppData\Local\Nightvoyage\nightvoyage-dream-climate-one-d
 修复 PR 描述 UTF-8 问号乱码；若本地缺少元数据编辑能力，报告并由总控处理，不因此扩大凭据访问。普通提交推送同一 #109，保持 Draft。回执给出 HEAD/tree/parent、新 prompt/identity、实际测试、只读哈希、完整可读原文，以及“协议说明修正”和“历史失败未改写”的明确区别。
 
 终点仅 READY_FOR_HUMAN_OFFLINE_REVIEW_R5、BLOCKED 或 TOTAL_CONTROL_DECISION_REQUIRED。不得给用户输 Key 命令，不得真实试跑、ready、合并、部署或自动续包。
+
+
+---
+
+# R6 · R5 修正后一次单场闭环准备
+
+当前唯一授权：沿用 #109，同一 worktree/分支，准备一次新单场。施工端仅离线实施，交总控审核后才由用户主动输入 Key 触发。不得自行执行或反复尝试。
+
+固定实现起点 c4680ad1065c7b8c8c4cbf57ba90d24d04d175b6，tree b178f3ff6772842af210e3bac71206bbc5e13bb0。先读适用 AGENTS.md、本包与参考；若同包已在运行或起点漂移，停止重复启动，不覆盖。
+
+## 冻结内容与运行范围
+
+冻结 R5 promptHash 9fe4d0863983eae2eb8a969d89fd6ffc5eeab3ebec507bf263d0f27664fbdb66、sourceHash 605d69511cc72c0b0ca60a77be34dafb061e63b57e98db94b778cf7bfce8cbb6、严格 normalization、scene/affect 规则、four-state firstFeeling、逐字 fragment 和独立 simulated residue。不得加入新剧情、强迫情绪变化或进一步修改 prompt。
+
+新 profile：r6。固定 ordinary / transformation / cup_tap，used ledger 均空。
+新 runId：nv-dream-climate-one-dream-r6-a
+新 allowanceId：nv-dream-climate-one-dream-r6-001
+新专用目录：
+C:\Users\Administrator\AppData\Local\Nightvoyage\nightvoyage-dream-climate-one-dream-r6-01
+
+一场、三幕加一次 wake、最多 4 calls，max_tokens=400，请求体上限 16384 UTF-8 bytes。沿用每 call 保留 35968 micro-CNY，四次最坏 143872，硬上限 160000（0.16 元）。不得扩大。预算价格是此前审查参数；只读复核官方证据，若无法确认仍适用则 PRICE_REVIEW_PENDING，不自行标记 ready 或加预算。
+
+禁止打开/修改任何旧真实 Store 或把 R4 draft 作为新场景。历史 R4 是失败的一场，四笔 settled 计算额 15690；其 rejected wake 不得追认为正式记录。所有旧入口继续关闭，不用旧 release。
+
+## 最小实现
+
+允许新增本包 single-run-r6/ 的薄适配器、profile、配置、manifest、release、secure-input/worker 与测试回执。复用现有 runtime/records/diagnostics/transport、R5 UTF-8 helper；允许必要的内部固定 profile 接线，不复制整套生成引擎，不暴露任意 CLI/env profile/预算/Store 绕过接口。共享 src、五个离线执行文件和旧验证文档冻结。
+
+身份必须覆盖全部实际执行依赖、模型参数、prompt/source、固定 profile、价格、目录、四次/0.16 元与无重试规则；记录所有随接线变更的候选 identity，不改写历史身份。新 release 显式固定已审查执行 manifest 摘要或等价的不可自更新执行 pin；不能仅比较可随代码一同重生成的当前 identity。避免自引用：将 release/manifest 的固定 pin 设计清楚，必要时采用单独 execution digest；测试代码与 manifest 一起漂移仍不能通过旧批准。
+
+secure-input 保留 R4 的流程：无凭据 admission → 临时 release → worker 静态检查通过的 credential_required → 唯一一次私密 Key 输入。目录存在即拒绝，不能删除后重跑。价格/身份/目录检查全部在 Key 提示前完成。临时 release 在完成和错误路径撤销。无命令行明文 Key、环境凭据、凭据库或剪贴板读取。
+
+将 R5 已验证的严格 UTF-8 捕获真正接入新的 worker stdout/stderr 和用户结果输出，不只保留孤立 stub。成功/失败回执均应有可读取的 UTF-8 文件，文件位于新专用目录中的独立 receipt 文件（如 receipt.json），只包含审阅所需内容，不导出 Key/headers/全 Store；禁止覆盖既有文件。回执写入失败如实报告，不重新请求模型或撤销已结算账务。
+
+继续精确调用计数；交付凭据后 child 崩溃或输出无法解析时返回 unknown/null，不报零，即使 child exit 0 但结果缺失/不可解析也要处理。凭据回显拦截、限量诊断、已验证 usage 独立结算、完整梦原子发布、失败 draft 保留均复用。第一处失败就停，无第二场、第五次、重试或替代。
+
+## 有限离线验收
+
+使用临时 synthetic Store 与 dummy credential：
+- 一场四次成功，四态 firstFeeling 合法，逐字 fragment、独立 residue、后来回想为空。
+- associations 对象数组严格拒绝，精确子原因、三幕 draft 保留、有效 usage settled、不发布、不重试；字符串数组成功。
+- usage 未知、网络失败、持久化/发布失败保持既有诚实账务与计数。
+- 旧 release、manifest 漂移、代码+manifest 同步漂移、Store 已存在、第五次/第二场均拒绝。
+- 实际 Windows PowerShell 调用新的捕获路径与 fake worker，验证中文/非 BMP/JSON 引号/换行和最终 receipt.json 字节；child 正常无结果、错误退出与无法解析输出均有确定状态，零真实网络。
+- admission 不提示 Key、不供应凭据、不创建真实 Store；准备阶段无 release 遗留。
+运行新专项和受影响的既有专项/必要回归、旧入口拒绝、diff --check；已通过的无关检查不反复跑。无需全套 npm 或截图。
+
+## 交付终点
+
+普通提交推送同一 #109，Draft 保持，正文 UTF-8 更新并保留历史证据。回执必须完整提供 HEAD/tree/parent、新 execution/identity/release hash、价格核实来源与时间、request bytes、预算、测试命令与实数，以及唯一新 secure-input 命令（仅展示）。
+本轮只到 READY_FOR_TOTAL_CONTROL_REVIEW_R6、PRICE_REVIEW_PENDING、BLOCKED 或 TOTAL_CONTROL_DECISION_REQUIRED。
+
+总控审阅实际实现后才向用户交付一次新命令。一次真实执行结果完整保留，不挑选、不自动续批。若仍失败，依据具体诊断再裁决，禁止自动以“修好了”为由反复充值调用。此次通过仅证明单场闭环，不代表三气候/长期质量或整个 V1 自动验收。不得 ready、合并、部署、接 Memory/Mind 或另开下一包。
