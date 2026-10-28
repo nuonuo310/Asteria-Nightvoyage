@@ -550,3 +550,72 @@ Phase B 必须：
 回执列 HEAD/tree/parent、改动文件、新 identity、具体测试与首次失败、一次“格式错误但已知 usage”的完整 synthetic 例子，以及零真实调用证明。PR 描述更新为当前离线候选状态，保留历史证据链接。
 
 终点仅为 READY_FOR_HUMAN_OFFLINE_REVIEW_R3、BLOCKED 或 TOTAL_CONTROL_DECISION_REQUIRED。禁止 READY_FOR_USER_SECURE_INPUT，禁止真实执行、ready、合并、部署或下一包。若起点漂移/同包正在施工，先回执，不覆盖。
+
+
+---
+
+# R4 · 单场完整梦准备与一次人工触发验证
+
+本节为当前施工授权。用户同意继续一次单场验证；施工端本轮仅离线准备，完成后交总控审核，不能自行运行模型或提示 Key。沿用同一 worktree、分支、Draft PR #109，不另开施工任务或 PR。
+
+## 固定起点
+
+- HEAD：`de14f237d26b7ee82d5be7196162d661a6291b28`
+- tree：`5435202edc9ca444385609d867294d75a882e1e2`
+- R3 identity：`aff0b17e450c561908589a68ae2306be7a694c4faf9b044782286ea50a36e3f1`
+- 权威历史 R3：`40cf8e998abdccdaa2ce10fbae1f425a4fe0c10e`
+
+先阅读适用 AGENTS.md、本包及相关参考。若已有同包施工运行，停止重复启动；起点漂移先报告，不 reset 用户改动。
+
+## 固定范围
+
+一次新 run，三幕 scene + 一次 wake，最多 4 calls，每次 max_tokens=400，请求体最多 16384 UTF-8 bytes。固定 ordinary / transformation / cup_tap，两个 used ledger 均为空。使用同一 source、prompt、严格 normalization；不改情绪规则、不给 estimated 或非零 delta 配额、不提高剧情强度、不改素材分配规则。
+
+这是新单场验证，不是继续旧批次或修复旧梦。旧三幕、unknown 账务、B/C queued 和历史身份均保持原样；禁止读取/打开/迁移旧真实 Store。
+
+新专用目录逐字为：
+`C:\Users\Administrator\AppData\Local\Nightvoyage\nightvoyage-dream-climate-one-dream-r4-01`
+新 runId：`nv-dream-climate-one-dream-r4-a`
+新 allowanceId：`nv-dream-climate-one-dream-r4-001`
+新 release/identity/请求 ID 必须与旧批次隔离。目录必须在提示凭据前确认不存在，存在即拒绝，不能删除后重来。没有 B/C 占位或第五次调用。
+
+按原已审查高峰价格输入 2 CNY / 1M、输出 8 CNY / 1M，单 call 保留 35968 micro-CNY，四次最坏 143872，硬上限 160000 micro-CNY（0.16 CNY）。这些是预算参数，不代表本轮已重新核验价格。施工端只读核对官方价格页和已保存 HTML：若可核实价格与模型相符，记录来源、时间和 SHA；无法核实则可完成离线实现，但明确 PRICE_REVIEW_PENDING，不能声称 ready for secure input。价格变化不得自行加预算。
+
+## 实现方式
+
+允许本包内新增专用 `single-run-r4/` 适配器/配置/secure-input/identity，及必要的 phase-b 可复用逻辑重构、测试、验证文档。优先复用 R3 runtime/records/diagnostics/transport；若需将 run 列表、目录、allowance 提取为内部显式 profile，限于固定 R3 synthetic 与 R4 两个 profile，不暴露任意 CLI/env 配置，不绕过共享 ledger 校验。五个离线执行文件、共享 src、source/prompt/fixtures、旧价格/身份文档保持不变。
+
+旧 phase-b secure-input/launcher/worker 继续返回 OFFLINE_REVIEW_REQUIRED_R3。只能新增精确绑定 R4 的入口；旧 release 无法打开 R4，R4 release 无法打开旧入口。新执行 identity 覆盖实际运行文件、profile、source/prompt、模型参数、价格证据、四次/0.16 元上限、专用目录与无重试规则。不得把旧身份记录覆盖成新值。
+
+R4 入口必须：
+1. 无 release、价格未核实、身份漂移、Store 存在或路径不符时，在询问/供应 Key、创建 Store 或网络前拒绝。
+2. 先完成无凭据 admission 与 dummy 排练，再由用户在普通 PowerShell 主动运行 secure-input，只提示一次私密 Key，经现有管道供应，不读环境 Key/凭据库/剪贴板/Key 文件，不持久化凭据。
+3. 新 release 精确绑定 R4 全部约束、identity；准备阶段不遗留可用 release。一次触发结束即撤销，异常/失败不重试，不增补或替换 run。
+4. 保留 R2 已发起计数与子进程崩溃 unknown 语义，不能退回硬编码零。
+5. 继承 R3 具体验证错误、限量诊断、已验证 usage 独立结算和原子内容发布。原始 JSON 解析失败可报告内容未保留与原因，不宣称所有失败都有完整正文。
+6. 在 transport 序列化原文与解析后的模型 content 中检查凭据回显，覆盖 JSON Unicode 转义后才显现的 dummy Key；拒绝回显后不能把内容持久化为诊断。只保存模型内容或受限解析副本，不保存 headers/Authorization/凭据/任意异常对象。
+7. 成功与失败均输出可复制的完整回执；失败保留全部 draft 原文，未发布字段明确未记录；成功分开原梦、逐字 fragment、独立四态 firstFeeling、simulated residue、未记录的后来回想。技术模型名仅审计显示。
+8. 费用列 settled 计算额、unknown 占用、合计和实际调用数，不把合计称 provider 已确认实扣。
+
+## 必要离线验证
+
+- 一场成功恰好四次，三幕加 wake 完整保存；present/absent/uncertain/omitted 均合法。
+- 三幕后 wake 无效：精确子原因、完整 draft、有效 usage settled、无正式梦/余韵、无重试。
+- 缺失/非法 usage、请求失败、结算后诊断写入失败、发布失败继续保持 R3 账务语义。
+- 第五次、第二场、同 run 重启、目录已存在、旧 release、identity 漂移均拒绝。
+- admission supplier=0；dummy 不访问真实目录；真实入口只经用户 secure-input。
+- 凭据前错误为精确零，dispatch 后实际数，child 交付凭据后崩溃为 unknown。
+- 原文与 Unicode 转义 dummy credential 回显均不进入 Store/回执。
+- 新 R4 专项、受影响 R1/R2/R3 专项、11 项离线及 51 项回归、旧付费关闭检查与 diff --check。不跑全套 npm/截图；不访问真实 Store/Key/模型。已有测试仅因入口结构变化可调整断言，不削弱真实状态证明。
+
+## 交付与停点
+
+提交并普通推送同一 #109；更新 PR 描述为当前状态，使用 UTF-8，修复现有中文问号乱码，保留历史证据链接。回执：
+HEAD/tree/parent、新 identity/release/matrix/price 身份、请求大小实数、四次/0.16 元上限、官方价格核实状态、实际测试、零真实调用证明；展示唯一新 secure-input 命令但不运行。
+
+本轮终点：
+- READY_FOR_TOTAL_CONTROL_REVIEW_R4（离线准备与价格证据齐备，等待总控审阅）
+- PRICE_REVIEW_PENDING（离线实现完成但价格证据未核实）
+- BLOCKED / TOTAL_CONTROL_DECISION_REQUIRED
+
+不得自行提示 Key 或执行真实批次。总控审阅通过并向用户交付新命令后，才允许用户主动触发一次。真实结果无论好坏完整保留；不自动二次尝试、ready、合并、部署或开下一包。旧 V1 结论不变；单场通过也不代表三气候或长期稳定性验收通过。
