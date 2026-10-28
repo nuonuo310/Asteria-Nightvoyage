@@ -398,3 +398,98 @@ Phase B 必须：
 - 需要重试、修复调用、第四场、额外评分模型或泛化 forceClimate 入口；
 - 同一 Phase B 已有任务或真实批次在运行；
 - 无法保证停止后 release 撤销与 owner.lock 清理。
+
+
+---
+
+# R2 · 失败回执网络计数诚实性修正
+
+日期：2026-10-28
+
+状态：仅修正一次真实批次前的失败回执。R1 候选尚未运行真实模型、未读取 Key、未创建真实 Store、未产生费用。
+
+固定 R1 实现候选：
+
+- PR #109 HEAD：`8a7c42116a50261f844097de8427c9790b5d8fcc`
+- tree：`ab114099b893ff4417b6a4feef7c1ef08d7df23b`
+- parent：`119a6ba909cfaa75b29bd3d4c4fcf9500996e2bd`
+- offline identityHash：`f88fccb0349b0004db6c81deb0261f3d620f06480ab24b4a9c3aee2f94cfae28`
+- live identityHash：`42fda7ae6b3667c46c3f6b38cc2e16bdf3823fa840759a6e50d558904f633828`
+- releaseHash：`ee7ab9fbb6f71b582b442d27000d17f153dbfff1ac378ae4691cbfc869401bae`
+- matrixHash：`05247698e2b4e13989f40edb4c25ce8ad21a901a162ea1c9f7556e69dfcce7eb`
+- priceSnapshotHash：`247b8a83415ea54b05b43e2162d74ceef093824f6d2aba1b478028890cc85522`
+
+## 已证实缺口
+
+`phase-b/worker.mjs` 的通用 `blocked()` 当前硬编码：
+
+- `networkAttempts: 0`
+- `realModelRequests: 0`
+- `executed: false`
+
+普通 provider/解析失败通常由 runtime 捕获并进入持久 receipt，因此不一定触发该兜底；但如果凭据供应后、dispatch 已发生后出现逃出 runtime 的异常、Store poisoned、worker failure 或其它灾难性路径，上述硬编码可能把已经发生或无法确认的请求写成 0。launcher 的 worker-failed 兜底也有同类风险。
+
+这不授权重试，也不说明已经发生真实请求；它只是 R1 运行前必须消除的审计不诚实。
+
+## 唯一授权修正
+
+沿用现有 worktree、分支和 Draft PR #109。不得新建 worktree、分支、实现 PR 或真实批次。
+
+只允许修改 `scripts/nv-dream-climate-offline-01/phase-b/` 的计数/回执路径、对应定向测试和验证文档：
+
+1. 在真正调用 live transport 前后维护单调、进程内的实际计数：
+   - `networkAttempts`：每次准备向 `https.request` 发起一次真实请求时增加；
+   - `realModelRequests`：同一固定批次中实际交给 live provider transport 的请求次数。
+2. preflight、dummy、凭据供应前拒绝继续精确报告 0。
+3. 凭据供应后、live transport 尚未调用时仍可精确报告 0。
+4. live transport 已调用后发生普通失败，回执必须报告实际正整数，并保留对应 ledger row 为 settled 或 unknown；不得回写 0。
+5. 若 worker/父进程在已经供应凭据后异常终止，父进程无法证明是否已 dispatch，则相关字段必须报告显式 `unknown`/nullable 不确定状态，并附 `requestOutcomeKnown:false`；不得假装为 0。
+6. 成功批次报告实际 12/12；部分批次报告实际次数。任何失败都不重试、不替代、不启动下一场以外的额外 run。
+7. `credentialSupplierCalls`、Store 是否创建、release 是否撤销、owner.lock 是否清除仍如实报告；不得为了计数修正放宽 secure-input、identity、price、Store 或预算门禁。
+8. 若实现需要把计数器放入 live transport wrapper，可新增只在 Phase B 内使用的 telemetry object；不得打印 Key、请求 Authorization 或响应正文。
+9. 重新生成 live identity。若执行 blob 改变则 live identityHash 必须改变；release object 若未改变，releaseHash 可以保持，但必须重新验证。prompt、source、offline identity、matrix、价格、Store、12-call/0.48-CNY、三气候顺序不得改变。
+10. 不修改五个离线执行 blobs、fixture、protocol prompt、共享 `src/`、#107 历史或任何 Store。
+
+## R2 定向证明
+
+至少新增以下测试：
+
+- preflight 和凭据前失败：`networkAttempts=0`、`realModelRequests=0`、outcome known；
+- credential 已供应但 transport 未调用：仍为精确 0；
+- 模拟 live provider 在第一次 dispatch 后失败：两个计数均为 1，对应账务为 unknown/settled 中的真实状态，不能是零；
+- 两次成功后第三次失败：计数为 3，不重试，后续不新增调用；
+- 模拟 child/worker 在 credential 供应后不可解析或异常退出：launcher 报 `unknown` 与 `requestOutcomeKnown:false`，不能报 0；
+- dummy 排练继续为网络 0，12 个 fake calls 不冒充 realModelRequests；
+- 成功 fake live transport 的实际 dispatch 计数与 ledger 行数一致；
+- secure-input 仍只提示一次 Key，release 最终撤销，owner.lock 清除；
+- 旧付费入口继续失败关闭。
+
+重跑：
+
+- 更新后的 Phase B 定向测试；
+- 原 #109 11 项专项；
+-相关 51 项最小回归；
+- admission/dummy/checker；
+- `git diff --check`。
+
+共享 `src/` 仍禁止修改，因此无需完整 npm 测试。任何真实 Key、真实 Store、真实模型、网络请求或费用仍禁止。
+
+## R2 交付终点
+
+提交并推送同一 PR #109 后，只回执：
+
+- 新 HEAD/tree/parent；
+- changed files；
+- 新 live identityHash，release/matrix/price hash 是否保持；
+- 新增失败路径测试实数；
+- preflight/dummy 零网络证明；
+- 唯一 secure-input 命令（仅展示，不运行）；
+- PR Draft/open/base/head/mergeable。
+
+状态只允许：
+
+- `READY_FOR_USER_SECURE_INPUT_R2`
+- `BLOCKED`
+- `TOTAL_CONTROL_DECISION_REQUIRED`
+
+达到后立即停止。不得运行真实批次、提示或读取 Key、创建真实 Store、ready、合并、部署或开启下一包。
