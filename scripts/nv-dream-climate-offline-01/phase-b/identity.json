@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "identityVersion": "nv-dream-climate-live-r1-identity-v1",
+  "offline": {
+    "head": "119a6ba909cfaa75b29bd3d4c4fcf9500996e2bd",
+    "tree": "ab4171b8f18fe49060d4f649c4b1672d09200abe",
+    "parent": "7ec24e6d90c45af67fe251fc65f21c4d257bf476",
+    "identityHash": "f88fccb0349b0004db6c81deb0261f3d620f06480ab24b4a9c3aee2f94cfae28",
+    "promptHash": "9c855d8b3e3b2a55c3f58e36de4a9aee5dec07b706cbf675912632d6ff8dd119",
+    "sourceHash": "605d69511cc72c0b0ca60a77be34dafb061e63b57e98db94b778cf7bfce8cbb6",
+    "executionFiles": {
+      "fixtures.mjs": "04ecad144ab7f5998baad126fe3f78ba0935616b3bfc5352da1f41d1cd606914",
+      "generate-identity.mjs": "469ed4561f048243226597c747c7d5348b92afe6efceb4d35bf7e816abb47793",
+      "identity.mjs": "33c8c8a061eb900456d62218499bc9f59b74bd6e327040198f0aa05be3f2f910",
+      "offline-check.mjs": "8bc2d9d879e68c2ea4e61431f411743e61ef584f5f2a4f0d97b1d8be183bdaf3",
+      "protocol.mjs": "b7659c829e1b5150663a0d5f8d2863233e46c9a72c5966448533a15004a44e09"
+    }
+  },
+  "matrix": [
+    {
+      "id": "nv-dream-climate-live-a",
+      "plan": {
+        "ordinal": 1,
+        "climate": "ordinary",
+        "mechanism": "transformation",
+        "foregroundAnchor": "cup_tap",
+        "usedForegroundAnchors": [],
+        "usedMechanisms": []
+      }
+    },
+    {
+      "id": "nv-dream-climate-live-b",
+      "plan": {
+        "ordinal": 2,
+        "climate": "uneasy",
+        "mechanism": "spatial_dislocation",
+        "foregroundAnchor": "rain_street",
+        "usedForegroundAnchors": [
+          "cup_tap"
+        ],
+        "usedMechanisms": [
+          "transformation"
+        ]
+      }
+    },
+    {
+      "id": "nv-dream-climate-live-c",
+      "plan": {
+        "ordinal": 3,
+        "climate": "nightmare",
+        "mechanism": "temporal_recurrence",
+        "foregroundAnchor": "ticket_date",
+        "usedForegroundAnchors": [
+          "cup_tap",
+          "rain_street"
+        ],
+        "usedMechanisms": [
+          "transformation",
+          "spatial_dislocation"
+        ]
+      }
+    }
+  ],
+  "matrixHash": "05247698e2b4e13989f40edb4c25ce8ad21a901a162ea1c9f7556e69dfcce7eb",
+  "priceSnapshotHash": "247b8a83415ea54b05b43e2162d74ceef093824f6d2aba1b478028890cc85522",
+  "pricePageSha256": "556097caba8adfeeed6455714bffd731c7f60db520fcee06a922eba5840663a3",
+  "modelAlias": "deepseek-flash",
+  "observedModelAlias": "DeepSeek-V4.1-Flash-1017",
+  "endpoint": "https://api.deepseek.com/chat/completions",
+  "requestByteLimit": 16384,
+  "maxOutputTokens": 400,
+  "scenesPerRun": 3,
+  "callsPerRun": 4,
+  "runCount": 3,
+  "maxCalls": 12,
+  "allowanceId": "nv-dream-climate-live-r1-001",
+  "allowanceCapMicroCny": 480000,
+  "perCallMaximumMicroCny": 35968,
+  "worstMicroCny": 431616,
+  "store": {
+    "parent": "C:\\Users\\Administrator\\AppData\\Local\\Nightvoyage",
+    "prefix": "nightvoyage-dream-climate-live-",
+    "basename": "nightvoyage-dream-climate-live-01",
+    "directory": "C:\\Users\\Administrator\\AppData\\Local\\Nightvoyage\\nightvoyage-dream-climate-live-01"
+  },
+  "transportVersion": "nv-dream-climate-live-r1-https-v1",
+  "extractionVersion": "nv-dream-climate-live-r1-extraction-v1",
+  "releaseHash": "ee7ab9fbb6f71b582b442d27000d17f153dbfff1ac378ae4691cbfc869401bae",
+  "noRetry": true,
+  "executionFiles": {
+    "check-admission.mjs": "a2d5c3aaaf692892da38461f6849b5cfa2fdb90607eb1334aa9b82b8ae1d1422",
+    "config.mjs": "ed2175ca4f72b42ac44fbe136abe648043a566eb2a3e0d92d941839154c49f00",
+    "dummy-check.mjs": "abd925b0b6ba5fbf6bc5dcaf12d6c6bb931dfe2db36412e778316d4806de706f",
+    "dummy.mjs": "06b5b67c97a70a1b251462796a0b55a9a467a58584abee370913d0409afaa2fb",
+    "generate-identity.mjs": "906b6b79aa6de2499e210c5f07f300be7a9bf6accf0e1c1ac2f893c5f34577c7",
+    "identity.mjs": "5d6131f3044725221eee60a8674926884506a5ddbfb8585ce46325b86fc91332",
+    "launcher.mjs": "7cc41afcbf8d111873a8661efff08c42e71a31515c774b525669a8b31c326669",
+    "matrix.mjs": "71234f798b3b8c2c8b78cfd213aa98c621325f59af830e38e7dca00673b4c6ea",
+    "price-check.mjs": "6382c9050458262ee469cc34b991645b30cc9f80b4afa686bd15c0fefd90a802",
+    "price.mjs": "0736d8b2f2ba68931461a3ead15204701ed3ca6521d002bcb27156df6d39f63e",
+    "records.mjs": "55e72a1815db75523dcbf67aae2b220c6a26eac0002d2ed6fc1c3c8efa85510c",
+    "release.mjs": "4abf8c4c736f5ded8dcda6ce28a381abc45b286c96f815dcd50be95ba1061ad4",
+    "runtime.mjs": "2891cf19769d817fdf130cfaa03971efe250b3ee335e447ea5b24bcf4ec73885",
+    "secure-console.mjs": "ba501be1bdcf0ebe2b9fa3e4e01c84fc8d57fe2a281fb2bdb9974955229a5c48",
+    "secure-input.ps1": "528efa6042347a969fd8b15668b7967511f78aa08cd56b05981cd2504e022781",
+    "store-contract.mjs": "a2907c39b9e6f77027cbcfe7a593b059e561e20257e3b60051e2544bdc8292bb",
+    "transport.mjs": "931798e75e354aa57e2171fd9a93a32fc9de354594614d4af96be263192e0c2b",
+    "worker.mjs": "2184c3cb487ba6400b07fa4acab7526062b6b610f94099b8f7af045bfab3e69b"
+  }
+}
