@@ -45,6 +45,21 @@ export const liveStoreBasename='nightvoyage-dream-climate-live-01';
 export const liveStoreDirectory='C:\\Users\\Administrator\\AppData\\Local\\Nightvoyage\\nightvoyage-dream-climate-live-01';
 export const liveAllowanceId='nv-dream-climate-live-r1-001';
 export const liveAllowanceExpiresAt=Date.parse('2026-11-30T23:59:59Z');
+export const liveAllowance=Object.freeze({
+  id:liveAllowanceId,mode:'live',approved:true,expiresAt:liveAllowanceExpiresAt,
+  limits:{maxRuns:liveRunCount,maxCalls:liveMaxCalls,maxMicroCny:liveAllowanceCapMicroCny},
+  pricing:{model:liveModelAlias,contextTokenLimit:liveRequestByteLimit,
+    inputMicroCnyPerMillion:2000000,outputMicroCnyPerMillion:8000000,
+    reference:'https://api-docs.deepseek.com/zh-cn/quick_start/pricing/',
+    checkedAt:Date.parse('2026-10-28T15:22:24Z')}
+});
+
+export const liveBatchKey='dreamClimateLiveBatch';
+export const liveJournalKey='dreamClimateLiveJournal';
+export const liveBillingKey='dreamClimateLiveBilling';
+export const liveRuntimeStateKey='dreamClimateLiveVersion';
+export const liveWakeOrigin='dream_climate_live_wake';
+export const liveFirstFeelingOrigin='dream_climate_live_first_feeling';
 
 export const livePricePageUrl='https://api-docs.deepseek.com/zh-cn/quick_start/pricing/';
 export const livePriceReviewedAt=Date.parse('2026-10-28T15:22:24Z');

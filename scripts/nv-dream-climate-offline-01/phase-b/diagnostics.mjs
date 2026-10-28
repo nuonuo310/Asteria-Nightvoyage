@@ -44,10 +44,11 @@ function fallbackRecord(base){
 
 export function buildStageDiagnostic({
   runId,requestId,stage,errorCode,response,parsed,usageValidation,settlement,
-  publication='rejected_non_published',subreason=null,credentialEchoRejected=false
+  publication='rejected_non_published',subreason=null,credentialEchoRejected=false,
+  version=liveDiagnosticVersion
 }){
   const contentByteLength=modelContentByteLength(response);
-  const base={version:liveDiagnosticVersion,runId,requestId,stage,
+  const base={version,runId,requestId,stage,
     originalError:safeErrorCode({message:errorCode}),subreason,
     responseAvailable:Boolean(response),contentByteLength,
     usageValidation,settlement,publication,rejected:true,published:false,

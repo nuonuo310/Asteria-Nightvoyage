@@ -7,25 +7,12 @@ import {hash,neutral,own,safeId} from '../../../src/contract.js';
 import {copy,fail,Store} from '../../../src/store.js';
 import {
   assertRequestBounds,buildDreamStageRequest,dreamClimateCanonicalSnapshot,
-  dreamClimateCallsPerRun,dreamClimateMaxCalls,dreamClimateNormalizationVersion,
-  dreamClimateProtocolVersion,dreamClimateRequestByteLimit,dreamClimateRunCount,
-  dreamClimateScenesPerRun,dreamClimateSourceRefs,normalizeDreamClimateCheckpoint,
-  normalizeDreamClimateScene,normalizeDreamClimateWake
+  dreamClimateNormalizationVersion,dreamClimateProtocolVersion,dreamClimateSourceRefs,
+  normalizeDreamClimateCheckpoint,normalizeDreamClimateScene,normalizeDreamClimateWake
 } from '../protocol.mjs';
-import {
-  liveAllowanceCapMicroCny,liveAllowanceExpiresAt,liveAllowanceId,liveMaxOutputTokens,
-  liveModelAlias,livePerCallMaximumMicroCny,livePricePageUrl,livePriceReviewedAt,
-  liveRunCount,liveRuntimeVersion
-} from './config.mjs';
-import {
-  assertLiveMatrix,liveMatrix,liveMatrixHash,liveRunIds,liveRunRequestIds,
-  liveRunSessionIds
-} from './matrix.mjs';
-import {
-  extractLiveReceipt,liveBatchKey,liveFirstFeelingOrigin,liveJournalKey,
-  prepareLivePublication
-} from './records.mjs';
-import {verifyLiveIdentity} from './identity.mjs';
+import {liveAllowance,livePerCallMaximumMicroCny} from './config.mjs';
+import {r3Profile} from './profile.mjs';
+import {extractManagedReceipt,prepareManagedPublication} from './records.mjs';
 import {
   buildStageDiagnostic,safeErrorCode,stableValidationSubreason
 } from './diagnostics.mjs';
@@ -35,8 +22,6 @@ const batchKeys=['version','runIds','requestIds','sessionIds','matrixHash','star
 const exact=(value,names)=>value&&typeof value==='object'&&!Array.isArray(value)&&
   Object.keys(value).length===names.length&&names.every(name=>Object.hasOwn(value,name));
 const stamp=value=>Number.isSafeInteger(value)&&value>=0;
-const cleanStateKeys=new Set(['version','runs','requests','sessions','entries','recalls',
-  'dreamClimateLiveVersion','dreamClimateLiveBilling',liveBatchKey,liveJournalKey]);
 const uncertainCodes=new Set(['simulated_crash','ambiguous_attempt','timeout',
   'offline_simulator_failure','provider_http_failure','provider_rate_limited',
   'provider_authentication_failed']);
@@ -49,19 +34,12 @@ const passThroughCodes=new Set(['cancelled','source_withdrawn','allowance_exhaus
   'dream_climate_live_allowance_mismatch','dream_climate_live_already_published',
   'dream_climate_live_previous_run_incomplete']);
 
-export const liveAllowance=Object.freeze({
-  id:liveAllowanceId,mode:'live',approved:true,expiresAt:liveAllowanceExpiresAt,
-  limits:{maxRuns:liveRunCount,maxCalls:dreamClimateMaxCalls,
-    maxMicroCny:liveAllowanceCapMicroCny},
-  pricing:{model:liveModelAlias,contextTokenLimit:dreamClimateRequestByteLimit,
-    inputMicroCnyPerMillion:2000000,outputMicroCnyPerMillion:8000000,
-    reference:livePricePageUrl,checkedAt:livePriceReviewedAt}
-});
+export {liveAllowance};
 
-function ledgerFacade(store){
+function ledgerFacade(store,billingKey){
   return {
-    state:{get billing(){return store.state.dreamClimateLiveBilling;},
-      set billing(value){store.state.dreamClimateLiveBilling=value;}},
+    state:{get billing(){return store.state[billingKey];},
+      set billing(value){store.state[billingKey]=value;}},
     get withdrawn(){return store.withdrawn;},
     get poisoned(){return store.poisoned;},
     set poisoned(value){store.poisoned=value;},
@@ -97,8 +75,10 @@ function mapStageError(error,stage,timedOut){
   return stage==='scene'?'scene_response_rejected':'wake_response_rejected';
 }
 
-export class DreamClimateLiveRuntime {
-  constructor(directory,options={}){
+export class ManagedDreamClimateRuntime {
+  constructor(directory,options={},profile){
+    if(!profile||typeof profile!=='object'||typeof profile.verifyIdentity!=='function')
+      fail('invalid_dream_climate_runtime_profile');
     if(!options||typeof options!=='object'||Array.isArray(options)||
        Object.keys(options).some(key=>!optionKeys.includes(key)))
       fail('invalid_dream_climate_live_runtime_options');
@@ -107,31 +87,34 @@ export class DreamClimateLiveRuntime {
        options.now!==undefined&&typeof options.now!=='function'||
        options.enabled!==undefined&&typeof options.enabled!=='boolean')
       fail('invalid_dream_climate_live_runtime_options');
-    if(typeof directory!=='string'||path.basename(path.resolve(directory))!=='nightvoyage-dream-climate-live-01')
+    if(typeof directory!=='string'||path.basename(path.resolve(directory))!==profile.storeBasename)
       fail('dream_climate_live_dedicated_store_required');
     this.store=new Store(directory);
     try{
-      if(path.basename(this.store.directory)!=='nightvoyage-dream-climate-live-01')
+      if(path.basename(this.store.directory)!==profile.storeBasename)
         fail('dream_climate_live_dedicated_store_required');
       this.store.assert();
       if(this.store.withdrawn.length||this.store.deletions.length)
         fail('dream_climate_live_store_not_dedicated');
+      const cleanStateKeys=new Set(['version','runs','requests','sessions','entries','recalls',
+        profile.runtimeStateKey,profile.billingKey,profile.batchKey,profile.journalKey]);
       if(Object.keys(this.store.state).some(key=>!cleanStateKeys.has(key)))
         fail('dream_climate_live_store_not_dedicated');
+      Object.defineProperty(this,'profile',{value:profile});
       this.assertDedicatedState();
-      const identity=verifyLiveIdentity();
-      const allowance=validateAllowance(copy(liveAllowance));
-      if(allowance.mode!=='live'||allowance.id!==liveAllowanceId||
-         allowance.limits.maxRuns!==liveRunCount||allowance.limits.maxCalls!==dreamClimateMaxCalls||
-         allowance.limits.maxMicroCny!==liveAllowanceCapMicroCny||
-         allowance.pricing.contextTokenLimit!==dreamClimateRequestByteLimit||
-         allowance.pricing.model!==liveModelAlias||
+      const identity=profile.verifyIdentity();
+      const allowance=validateAllowance(copy(profile.allowance));
+      if(allowance.mode!=='live'||allowance.id!==profile.allowanceId||
+         allowance.limits.maxRuns!==profile.runCount||allowance.limits.maxCalls!==profile.maxCalls||
+         allowance.limits.maxMicroCny!==profile.allowanceCapMicroCny||
+         allowance.pricing.contextTokenLimit!==profile.requestByteLimit||
+         allowance.pricing.model!==profile.modelAlias||
          allowance.pricing.inputMicroCnyPerMillion!==2000000||
          allowance.pricing.outputMicroCnyPerMillion!==8000000)
         fail('dream_climate_live_allowance_mismatch');
-      const ledger=new BudgetLedger(ledgerFacade(this.store));
+      const ledger=new BudgetLedger(ledgerFacade(this.store,profile.billingKey));
       ledger.approve(allowance);
-      for(const account of Object.values(this.store.state.dreamClimateLiveBilling.accounts)){
+      for(const account of Object.values(this.store.state[profile.billingKey].accounts)){
         for(const row of Object.values(account.attempts)){
           if(['reserved','dispatched'].includes(row.status))row.status='unknown';
         }
@@ -142,10 +125,10 @@ export class DreamClimateLiveRuntime {
         enabled:{value:options.enabled===true},clock:{value:options.now??Date.now},
         fault:{value:options.fault??(()=>{})},active:{value:new Map()}
       });
-      if(this.store.state.dreamClimateLiveVersion!==undefined&&
-         this.store.state.dreamClimateLiveVersion!==liveRuntimeVersion)
+      if(this.store.state[profile.runtimeStateKey]!==undefined&&
+         this.store.state[profile.runtimeStateKey]!==profile.runtimeVersion)
         fail('dream_climate_live_runtime_identity_mismatch');
-      this.store.state.dreamClimateLiveVersion=liveRuntimeVersion;
+      this.store.state[profile.runtimeStateKey]=profile.runtimeVersion;
       if(this.batch())this.assertDedicatedState();
       this.store.save();
     }catch(error){this.store.close();throw error;}
@@ -164,14 +147,14 @@ export class DreamClimateLiveRuntime {
   }
 
   batch(){
-    const value=own(this.store.state,liveBatchKey);
+    const value=own(this.store.state,this.profile.batchKey);
     if(value===undefined)return null;
     if(!exact(value,batchKeys)||value.version!==1||
        !Array.isArray(value.runIds)||!Array.isArray(value.requestIds)||
-       !Array.isArray(value.sessionIds)||hash(value.runIds)!==hash([...liveRunIds])||
-       hash(value.requestIds)!==hash([...liveRunRequestIds])||
-       hash(value.sessionIds)!==hash([...liveRunSessionIds])||
-       value.matrixHash!==liveMatrixHash||!stamp(value.startedAt))
+       !Array.isArray(value.sessionIds)||hash(value.runIds)!==hash([...this.profile.runIds])||
+       hash(value.requestIds)!==hash([...this.profile.requestIds])||
+       hash(value.sessionIds)!==hash([...this.profile.sessionIds])||
+       value.matrixHash!==this.profile.matrixHash||!stamp(value.startedAt))
       fail('invalid_dream_climate_live_batch');
     return copy(value);
   }
@@ -180,20 +163,20 @@ export class DreamClimateLiveRuntime {
     this.store.assert();
     const state=this.store.state,batch=this.batch();
     if(!batch){
-      const billing=state.dreamClimateLiveBilling;
+      const billing=state[this.profile.billingKey];
       const ownBilling=billing===undefined||
         (billing?.version===1&&billing.accounts&&Object.keys(billing.accounts).length===1&&
-         Object.hasOwn(billing.accounts,liveAllowanceId)&&
-         Object.keys(billing.accounts[liveAllowanceId].attempts).length===0&&
-         billing.accounts[liveAllowanceId].runIds.length===0);
-      if(!ownBilling||own(state,liveJournalKey)!==undefined||
+         Object.hasOwn(billing.accounts,this.profile.allowanceId)&&
+         Object.keys(billing.accounts[this.profile.allowanceId].attempts).length===0&&
+         billing.accounts[this.profile.allowanceId].runIds.length===0);
+      if(!ownBilling||own(state,this.profile.journalKey)!==undefined||
          Object.keys(state.runs).length||Object.keys(state.requests).length||
          Object.keys(state.sessions).length||Object.keys(state.entries).length||
          Object.keys(state.recalls).length||state.billing!==undefined)
         fail('dream_climate_live_store_not_dedicated');
       return;
     }
-    if(state.dreamClimateLiveVersion!==liveRuntimeVersion||
+    if(state[this.profile.runtimeStateKey]!==this.profile.runtimeVersion||
        Object.keys(state.runs).length!==batch.runIds.length||
        !Object.keys(state.runs).every(id=>batch.runIds.includes(id)))
       fail('dream_climate_live_runtime_identity_mismatch');
@@ -204,9 +187,10 @@ export class DreamClimateLiveRuntime {
          !safeId(run.status)||!Array.isArray(run.draftScenes)||!Array.isArray(run.attempts))
         fail('dream_climate_live_run_identity_mismatch');
       if(run.diagnostics!==undefined&&(!Array.isArray(run.diagnostics)||
-         run.diagnostics.length>dreamClimateCallsPerRun))
+         run.diagnostics.length>this.profile.callsPerRun))
         fail('dream_climate_live_run_identity_mismatch');
-      if(run.scenes!==undefined&&(!Array.isArray(run.scenes)||run.scenes.length!==3))
+      if(run.scenes!==undefined&&(!Array.isArray(run.scenes)||
+         run.scenes.length!==this.profile.scenesPerRun))
         fail('dream_climate_live_run_identity_mismatch');
     }
     for(const [index,requestId] of batch.requestIds.entries()){
@@ -218,35 +202,37 @@ export class DreamClimateLiveRuntime {
       if(own(state.sessions,batch.sessionIds[index])!==batch.runIds[index])
         fail('dream_climate_live_run_identity_mismatch');
     }
-    if(Object.keys(state.requests).length!==liveRunCount||
-       Object.keys(state.sessions).length!==liveRunCount)
+    if(Object.keys(state.requests).length!==this.profile.runCount||
+       Object.keys(state.sessions).length!==this.profile.runCount)
       fail('dream_climate_live_run_identity_mismatch');
     for(const entry of Object.values(state.entries)){
       if(!batch.runIds.includes(entry?.runId)||
-         !['dream',liveFirstFeelingOrigin].includes(entry?.origin))
+         !['dream',this.profile.firstFeelingOrigin].includes(entry?.origin))
         fail('dream_climate_live_store_not_dedicated');
     }
     if(Object.keys(state.recalls).length||state.billing!==undefined||
-       state.dreamClimateLiveBilling?.version!==1||
-       Object.keys(state.dreamClimateLiveBilling.accounts).length!==1||
-       !Object.hasOwn(state.dreamClimateLiveBilling.accounts,liveAllowanceId))
+       state[this.profile.billingKey]?.version!==1||
+       Object.keys(state[this.profile.billingKey].accounts).length!==1||
+       !Object.hasOwn(state[this.profile.billingKey].accounts,this.profile.allowanceId))
       fail('dream_climate_live_store_not_dedicated');
   }
 
   assertIdentity(id){
     this.assertDedicatedState();
-    const run=this.run(id),batch=this.batch(),identity=verifyLiveIdentity();
+    const run=this.run(id),batch=this.batch(),identity=this.profile.verifyIdentity();
     if(!batch||hash(identity)!==hash(this.identity)||
-       run.protocolVersion!==dreamClimateProtocolVersion||
-       run.runtimeVersion!==liveRuntimeVersion||
+       run.protocolVersion!==this.profile.protocolVersion||
+       run.runtimeVersion!==this.profile.runtimeVersion||
        run.normalizationVersion!==dreamClimateNormalizationVersion||
-       run.identityHash!==identity.liveIdentityHash||run.matrixHash!==identity.matrixHash||
-       run.releaseHash!==identity.releaseHash||run.allowanceId!==liveAllowanceId||
+       run.identityHash!==this.profile.identityHash(identity)||
+       run.matrixHash!==this.profile.matrixHash||
+       run.releaseHash!==this.profile.releaseHash(identity)||
+       run.allowanceId!==this.profile.allowanceId||
        run.allowanceHash!==this.allowanceHash||run.ordinal!==batch.runIds.indexOf(run.id)+1||
        !run.snapshot||hash(run.snapshot)!==hash(dreamClimateCanonicalSnapshot)||
        hash(run.sourceRefs)!==hash(dreamClimateSourceRefs)||
-       hash(run.plan)!==hash(liveMatrix[run.ordinal-1].plan)||
-       hash(this.ledger.account(liveAllowanceId).allowance)!==this.allowanceHash)
+       hash(run.plan)!==hash(this.profile.matrix[run.ordinal-1].plan)||
+       hash(this.ledger.account(this.profile.allowanceId).allowance)!==this.allowanceHash)
       fail('dream_climate_live_runtime_identity_mismatch');
     let before=neutral();
     for(const scene of run.draftScenes){
@@ -260,42 +246,45 @@ export class DreamClimateLiveRuntime {
     const existing=this.batch();
     if(existing)return existing;
     this.assertDedicatedState();
-    assertLiveMatrix();
+    this.profile.assertMatrix();
     const startedAt=this.now();
-    for(const [index,runId] of liveRunIds.entries()){
-      const requestId=liveRunRequestIds[index],sessionId=liveRunSessionIds[index],ordinal=index+1;
-      const plan=copy(liveMatrix[index].plan);
-      const fingerprint=hash({protocolVersion:dreamClimateProtocolVersion,
-        runtimeVersion:liveRuntimeVersion,identityHash:this.identity.liveIdentityHash,
-        matrixHash:this.identity.matrixHash,releaseHash:this.identity.releaseHash,
+    for(const [index,runId] of this.profile.runIds.entries()){
+      const requestId=this.profile.requestIds[index],sessionId=this.profile.sessionIds[index],ordinal=index+1;
+      const plan=copy(this.profile.matrix[index].plan);
+      const fingerprint=hash({protocolVersion:this.profile.protocolVersion,
+        runtimeVersion:this.profile.runtimeVersion,
+        identityHash:this.profile.identityHash(this.identity),
+        matrixHash:this.profile.matrixHash,releaseHash:this.profile.releaseHash(this.identity),
         requestId,sessionId,runId,ordinal,plan});
       this.store.state.requests[requestId]={runId,sessionId,fingerprint};
       this.store.state.sessions[sessionId]=runId;
       this.store.state.runs[runId]={id:runId,status:'queued',ordinal,plan,
         requestId,sessionId,snapshot:copy(dreamClimateCanonicalSnapshot),
         sourceRefs:copy(dreamClimateSourceRefs),
-        config:{scenesPerRun:dreamClimateScenesPerRun,callsPerRun:dreamClimateCallsPerRun,
-          maxCalls:dreamClimateMaxCalls,requestByteLimit:dreamClimateRequestByteLimit,
-          maxOutputTokens:liveMaxOutputTokens},
-        draftScenes:[],attempts:[],diagnostics:[],protocolVersion:dreamClimateProtocolVersion,
-        runtimeVersion:liveRuntimeVersion,normalizationVersion:dreamClimateNormalizationVersion,
-        identityHash:this.identity.liveIdentityHash,matrixHash:this.identity.matrixHash,
-        releaseHash:this.identity.releaseHash,allowanceId:liveAllowanceId,
+        config:{scenesPerRun:this.profile.scenesPerRun,callsPerRun:this.profile.callsPerRun,
+          maxCalls:this.profile.maxCalls,requestByteLimit:this.profile.requestByteLimit,
+          maxOutputTokens:this.profile.maxOutputTokens},
+        draftScenes:[],attempts:[],diagnostics:[],protocolVersion:this.profile.protocolVersion,
+        runtimeVersion:this.profile.runtimeVersion,
+        normalizationVersion:dreamClimateNormalizationVersion,
+        identityHash:this.profile.identityHash(this.identity),
+        matrixHash:this.profile.matrixHash,
+        releaseHash:this.profile.releaseHash(this.identity),allowanceId:this.profile.allowanceId,
         allowanceHash:this.allowanceHash};
     }
-    this.store.state[liveBatchKey]={version:1,runIds:[...liveRunIds],
-      requestIds:[...liveRunRequestIds],sessionIds:[...liveRunSessionIds],
-      matrixHash:this.identity.matrixHash,startedAt};
+    this.store.state[this.profile.batchKey]={version:1,runIds:[...this.profile.runIds],
+      requestIds:[...this.profile.requestIds],sessionIds:[...this.profile.sessionIds],
+      matrixHash:this.profile.matrixHash,startedAt};
     this.assertDedicatedState();
     this.store.save();
     return this.batch();
   }
 
-  rows(id){return this.ledger.status(liveAllowanceId).attempts.filter(row=>row.runId===id);}
+  rows(id){return this.ledger.status(this.profile.allowanceId).attempts.filter(row=>row.runId===id);}
 
   assertCallCapacity(){
-    const status=this.ledger.status(liveAllowanceId);
-    if(status.calls>=dreamClimateMaxCalls)fail('dream_climate_live_total_call_limit');
+    const status=this.ledger.status(this.profile.allowanceId);
+    if(status.calls>=this.profile.maxCalls)fail('dream_climate_live_total_call_limit');
     return status.calls;
   }
 
@@ -343,7 +332,7 @@ export class DreamClimateLiveRuntime {
     run.status='running';delete run.error;
     try{
       this.store.save();
-      while(run.status==='running'&&run.draftScenes.length<dreamClimateScenesPerRun){
+      while(run.status==='running'&&run.draftScenes.length<this.profile.scenesPerRun){
         await this.stage(run,'scene',controller.signal);
       }
       if(run.status==='running')await this.stage(run,'wake',controller.signal);
@@ -371,7 +360,7 @@ export class DreamClimateLiveRuntime {
     if(!Array.isArray(run.diagnostics))run.diagnostics=[];
     if(run.diagnostics.some(value=>value.requestId===diagnostic.requestId&&
        value.stage===diagnostic.stage))return;
-    if(run.diagnostics.length>=dreamClimateCallsPerRun)return;
+    if(run.diagnostics.length>=this.profile.callsPerRun)return;
     run.diagnostics.push(diagnostic);
     if(diagnostic.stage==='wake'&&diagnostic.subreason){
       run.validationSubreason=diagnostic.subreason;
@@ -384,21 +373,23 @@ export class DreamClimateLiveRuntime {
     if(!this.enabled)fail('transport_disabled');
     if(run.status!=='running'||signal.aborted)fail('cancelled');
     const index=run.draftScenes.length;
-    if(stage==='scene'?index>=dreamClimateScenesPerRun:
-       stage!=='wake'||index!==dreamClimateScenesPerRun)fail('invalid_dream_climate_stage');
+    if(stage==='scene'?index>=this.profile.scenesPerRun:
+       stage!=='wake'||index!==this.profile.scenesPerRun)fail('invalid_dream_climate_stage');
     const request=buildDreamStageRequest({run:run.plan,previousScenes:copy(run.draftScenes),stage});
     assertRequestBounds(request);
     const rows=this.rows(run.id);
-    if(rows.length>=dreamClimateCallsPerRun)fail('dream_climate_live_run_call_limit');
+    if(rows.length>=this.profile.callsPerRun)fail('dream_climate_live_run_call_limit');
     this.assertCallCapacity();
     const requestId=`${run.id}-${stage}-${index}`;
     if(!safeId(requestId)||rows.some(row=>row.requestId===requestId))fail('ambiguous_attempt');
-    const fingerprint=hash({protocolVersion:dreamClimateProtocolVersion,
-      runtimeVersion:liveRuntimeVersion,identityHash:this.identity.liveIdentityHash,
-      matrixHash:this.identity.matrixHash,releaseHash:this.identity.releaseHash,
+    const fingerprint=hash({protocolVersion:this.profile.protocolVersion,
+      runtimeVersion:this.profile.runtimeVersion,
+      identityHash:this.profile.identityHash(this.identity),
+      matrixHash:this.profile.matrixHash,releaseHash:this.profile.releaseHash(this.identity),
       runId:run.id,runOrdinal:run.ordinal,request:request.body});
-    const reservation=this.ledger.reserve(liveAllowanceId,{requestId,runId:run.id,
-      fingerprint,sourceRefs:copy(run.sourceRefs),maxOutputTokens:liveMaxOutputTokens},this.now());
+    const reservation=this.ledger.reserve(this.profile.allowanceId,{requestId,runId:run.id,
+      fingerprint,sourceRefs:copy(run.sourceRefs),maxOutputTokens:this.profile.maxOutputTokens},
+      this.now());
     if(reservation.replayed)fail('ambiguous_attempt');
     const controller=new AbortController();
     let timer,timedOut=false;
@@ -418,11 +409,12 @@ export class DreamClimateLiveRuntime {
       publication='rejected_non_published'}={})=>buildStageDiagnostic({
       runId:run.id,requestId,stage,errorCode,response,parsed,usageValidation,settlement,
       publication,subreason:stableValidationSubreason(errorCode),
-      credentialEchoRejected:errorCode==='provider_response_echoed_credential'});
+      credentialEchoRejected:errorCode==='provider_response_echoed_credential',
+      version:this.profile.diagnosticVersion});
     try{
       this.fault('dream_climate_live_reserved');
       active();
-      this.ledger.dispatch(liveAllowanceId,requestId);
+      this.ledger.dispatch(this.profile.allowanceId,requestId);
       this.fault('dream_climate_live_dispatched');
       const stop=new Promise((_,reject)=>{
         controller.signal.addEventListener('abort',()=>reject(Error('cancelled')),{once:true});
@@ -434,8 +426,8 @@ export class DreamClimateLiveRuntime {
       }),stop]);
       active();
       try{
-        parsed=parseDeepSeekResponse(response,{model:liveModelAlias,
-          maxOutputTokens:liveMaxOutputTokens});
+        parsed=parseDeepSeekResponse(response,{model:this.profile.modelAlias,
+          maxOutputTokens:this.profile.maxOutputTokens});
       }catch(error){
         const code=safeErrorCode(error);
         this.recordDiagnostic(run,diagnosticFor(code,{usageValidation:'unavailable_or_invalid',
@@ -457,7 +449,7 @@ export class DreamClimateLiveRuntime {
         const code=safeErrorCode(error);
         // Valid provider usage is settled exactly once even when content is
         // rejected. Normalization never mutates or repairs the rejected data.
-        this.ledger.settle(liveAllowanceId,requestId,parsed.receipt);
+        this.ledger.settle(this.profile.allowanceId,requestId,parsed.receipt);
         settlementCommitted=true;
         this.recordDiagnostic(run,diagnosticFor(code,{usageValidation:'verified',
           settlement:'settled'}));
@@ -465,7 +457,7 @@ export class DreamClimateLiveRuntime {
         throw error;
       }
       active();
-      this.ledger.settle(liveAllowanceId,requestId,parsed.receipt);
+      this.ledger.settle(this.profile.allowanceId,requestId,parsed.receipt);
       settlementCommitted=true;
       active();
       if(stage==='scene'){
@@ -486,9 +478,9 @@ export class DreamClimateLiveRuntime {
       }else{
         let prepared;
         try{
-          prepared=prepareLivePublication(this.store,{run,wake:value,
+          prepared=prepareManagedPublication(this.store,{run,wake:value,
             firstFeeling:wakeValue.firstFeeling,firstFeelingOmitted:wakeValue.firstFeelingOmitted,
-            wakeRequestId:requestId,recordedAt:this.now()});
+            wakeRequestId:requestId,recordedAt:this.now()},this.profile);
         }catch(error){
           if(!this.store.poisoned&&!this.store.closed)
             this.recordDiagnostic(run,diagnosticFor(safeErrorCode(error),
@@ -497,14 +489,14 @@ export class DreamClimateLiveRuntime {
           throw error;
         }
         const previousEntries=copy(this.store.state.entries);
-        const hadJournal=Object.hasOwn(this.store.state,liveJournalKey);
-        const previousJournal=copy(this.store.state[liveJournalKey]);
+        const hadJournal=Object.hasOwn(this.store.state,this.profile.journalKey);
+        const previousJournal=copy(this.store.state[this.profile.journalKey]);
         const previousRun=copy(run);
         try{
           this.store.state.entries[prepared.dreamId]=prepared.dreamEntry;
           if(prepared.feelingEntry)
             this.store.state.entries[prepared.feelingEntry.id]=prepared.feelingEntry;
-          this.store.state[liveJournalKey]=prepared.journal;
+          this.store.state[this.profile.journalKey]=prepared.journal;
           run.scenes=copy(run.draftScenes);
           run.wake=copy(value);run.entryId=prepared.dreamId;run.status='completed';
           run.attempts.push({stage,index,state:'committed',billingRequestId:requestId,
@@ -515,8 +507,8 @@ export class DreamClimateLiveRuntime {
           publicationCommitted=true;
         }catch(error){
           this.store.state.entries=previousEntries;
-          if(hadJournal)this.store.state[liveJournalKey]=previousJournal;
-          else delete this.store.state[liveJournalKey];
+          if(hadJournal)this.store.state[this.profile.journalKey]=previousJournal;
+          else delete this.store.state[this.profile.journalKey];
           for(const key of Object.keys(run))delete run[key];
           Object.assign(run,previousRun);
           if(!this.store.poisoned&&!this.store.closed)
@@ -539,7 +531,7 @@ export class DreamClimateLiveRuntime {
         try{
           const unsettled=this.rows(run.id).find(row=>row.requestId===requestId);
           if(unsettled?.status==='settled')this.store.poisoned=true;
-          else this.ledger.unknown(liveAllowanceId,requestId);
+          else this.ledger.unknown(this.profile.allowanceId,requestId);
         }catch{}
       }else if(settlementCommitted&&!diagnosticRecorded&&!publicationCommitted&&
                !this.store.poisoned&&!this.store.closed){
@@ -551,12 +543,18 @@ export class DreamClimateLiveRuntime {
   }
 
   readReceipt({now=this.now()}={}){
-    return extractLiveReceipt(this.store,{now});
+    return extractManagedReceipt(this.store,{now,profile:this.profile});
   }
 
   close(){
     if(this.active.size)fail('active_runs');
     this.store.close();
+  }
+}
+
+export class DreamClimateLiveRuntime extends ManagedDreamClimateRuntime {
+  constructor(directory,options={}){
+    super(directory,options,r3Profile);
   }
 }
 

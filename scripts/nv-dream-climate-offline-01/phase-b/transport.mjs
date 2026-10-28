@@ -8,6 +8,26 @@ import {
 
 const credentialPattern=/^[\x21-\x7e]{1,2000}$/;
 
+function unicodeEscapedCredential(credential){
+  return [...credential].map(character=>'\\u'+character.codePointAt(0)
+    .toString(16).padStart(4,'0')).join('');
+}
+
+export function credentialEchoDetected(text,credential){
+  if(typeof text!=='string'||typeof credential!=='string'||!credential)return false;
+  if(text.includes(credential))return true;
+  if(text.includes(JSON.stringify(credential).slice(1,-1)))return true;
+  return text.toLowerCase().includes(unicodeEscapedCredential(credential).toLowerCase());
+}
+
+function valueContainsCredential(value,credential){
+  if(typeof value==='string')return credentialEchoDetected(value,credential);
+  if(Array.isArray(value))return value.some(item=>valueContainsCredential(item,credential));
+  if(value&&typeof value==='object')
+    return Object.values(value).some(item=>valueContainsCredential(item,credential));
+  return false;
+}
+
 export function createDeepSeekTransport(credential,{
   requestImpl=https.request,timeoutMs=liveTransportTimeoutMs,telemetry
 }={}){
@@ -67,9 +87,14 @@ export function createDeepSeekTransport(credential,{
             if(settled)return;
             const text=Buffer.concat(parts).toString('utf8');
             for(const part of parts)part.fill(0);
-            if(text.includes(credential)){settle(true,Error('provider_response_echoed_credential'));return;}
+            if(credentialEchoDetected(text,credential)){
+              settle(true,Error('provider_response_echoed_credential'));return;
+            }
             let body;
             try{body=JSON.parse(text);}catch{settle(true,Error('provider_invalid_json'));return;}
+            if(valueContainsCredential(body,credential)){
+              settle(true,Error('provider_response_echoed_credential'));return;
+            }
             settle(false,{status,body});
           });
         });
