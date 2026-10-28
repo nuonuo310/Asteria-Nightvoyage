@@ -97,7 +97,9 @@ const sceneRules=Object.freeze([
   'Return fields event, appraisal, basis and affect only. appraisal has exactly goalEffect, control and uncertainty as finite numbers. basis has exactly goal, control and uncertainty.',
   'goal is null, or two exact contiguous event quotations [goalExcerpt,outcomeExcerpt] required by nonzero goalEffect. control and uncertainty are null or one exact event quotation. Null control or uncertainty requires the UNKNOWN placeholder 0.5.',
   'affect is exactly either {kind:\u0022unchanged\u0022} or {kind:\u0022estimated\u0022,delta:{valence,arousal},excerpt:exact event quotation}. No numerical example or preferred branch is supplied; an estimated branch always needs same-scene evidence, including an explicit zero estimate.',
-  'Every quotation is a nonblank exact contiguous excerpt from this scene event. Literal matching does not establish semantic support. A quiet or emotionally unclear scene may remain unchanged.'
+  'Every quotation is a nonblank exact contiguous excerpt from this scene event. Literal matching does not establish semantic support. A quiet or emotionally unclear scene may remain unchanged.',
+  'previousScenes supply narrative continuity and earlier states only. Both basis.goal quotations, basis.control, basis.uncertainty and an estimated affect.excerpt must be copied literally from the event you return now; a sentence that appears only in previousScenes, the source text or an earlier scene is not evidence for this scene.',
+  'Before returning, confirm each quotation occurs in the current event, without printing that check. When this scene offers no support, express it with the existing null or UNKNOWN values, goalEffect and unchanged forms; do not import an earlier sentence to satisfy the quotation rule. Neither a nonzero change nor neutral or unchanged is preferred.'
 ]);
 const wakeRules=Object.freeze([
   'Return fragment, associations and residue, with optional firstFeeling. No other keys and no Markdown.',

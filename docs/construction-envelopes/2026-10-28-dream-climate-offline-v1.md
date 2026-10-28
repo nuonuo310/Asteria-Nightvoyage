@@ -739,3 +739,44 @@ secure-input 保留 R4 的流程：无凭据 admission → 临时 release → wo
 本轮只到 READY_FOR_TOTAL_CONTROL_REVIEW_R6、PRICE_REVIEW_PENDING、BLOCKED 或 TOTAL_CONTROL_DECISION_REQUIRED。
 
 总控审阅实际实现后才向用户交付一次新命令。一次真实执行结果完整保留，不挑选、不自动续批。若仍失败，依据具体诊断再裁决，禁止自动以“修好了”为由反复充值调用。此次通过仅证明单场闭环，不代表三气候/长期质量或整个 V1 自动验收。不得 ready、合并、部署、接 Memory/Mind 或另开下一包。
+
+---
+
+# R7 · 同幕证据边界离线澄清
+
+本修订只授权离线修正，覆盖此前尚未执行的 live 指令；不授权任何真实调用、重试或新的 release。沿用原 worktree、分支及 Draft PR #109；不得新开施工包、worktree 或 PR。
+
+## 固定起点与事实
+
+- 实现起点：`5885ebf8f7a73f53fd471e1680d21b9f6a457945`，tree `cb675f41419616d8559402196123ebb0ed18c461`。
+- R6 run：`nv-dream-climate-one-dream-r6-a`。用户提供的回执显示两幕 draft、第三幕被拒，错误 `scene_response_rejected / invalid_compact_evidence`；未执行 wake，未发布 dream/firstFeeling/residue。
+- 第三幕 basis.uncertainty 为“日期被水汽洇得看不清了”，该句逐字存在于第二幕，但不在第三幕 event 内。这是明确的跨幕引用现象；必须通过实际 normalization 离线复现，不能只凭诊断名称断言它是唯一原因。
+- 三次真实调用均 settled，计算金额 12384 micro-CNY，unknown 保留为 0；不是 provider 实扣确认。历史 receipt SHA-256（回执声明）：`1c90693fb832fa62b4c6d908955e6b3963984059dd46324930195826fae5e4ae`。
+- 现有 sceneRules 已要求同幕逐字引用。因此本轮是对既有规则的针对性澄清，不得写成“过去没有同幕规则”，更不能宣称提示修正能保证真实成功率。
+
+## 最小施工范围
+
+1. 在 `scripts/nv-dream-climate-offline-01/protocol.mjs` 的 sceneRules 内明确：previousScenes 仅提供叙事连续性和历史状态；本次 basis.goal 的两个引文、basis.control、basis.uncertainty、estimated affect.excerpt 必须逐字来自本次返回的 event，不能仅来自 previousScenes/source。wake 的跨幕逐字摘录规则保持不变。
+2. 要求在返回前核对这些引文是否存在于当前 event，不输出核对过程。当前幕无证据时按既有 null/UNKNOWN、goalEffect 和 unchanged 规则表达；不强迫非零情绪，也不强迫 neutral/unchanged。不为满足引文校验机械重写旧句到新幕。
+3. 严禁运行时自动替换引文、复制前幕正文、改写模型数值、丢弃非法字段、放宽 parser 或添加修复调用。共享 src、normalization、wake 提示、固定 source、fixtures、气候/机制/情绪语义、预算与价格均冻结。
+4. 只新增专项测试与 R7 验证文档；允许同步本权威副本及更新受实际改动影响的候选 identity manifest。旧 R6 真实入口必须在凭据、Store、网络前失败关闭；允许最小离线关闭保护及对应测试。不得为新源码生成可执行 live release，不刷新批准 pin 来继续使用 R6 许可；R1–R6 历史身份与回执保持原义。
+5. 不重读真实 Store/Key、不要求用户再次执行 secure-input。离线复现材料优先取已有本地 R6 receipt 的已交付副本；若副本没有第三幕正文，使用下述精确被拒对象即可，不进入真实 Store。只将最小失败对象作为“历史被拒响应”加入新测试，不修改旧 fixtures。
+
+## 精确被拒对象（历史模型响应，虚构，未发布）
+
+```json
+{"event":"铁皮盒的盖子被搁到长凳另一头，盒口朝上，那张洇湿的票根还贴在盒底。梦里的人伸指沿着盒沿走了一圈，走到缺口处停住，又轻轻敲了两下。声音闷在薄铁里，像从很远的地方传回来。旁边另一个人没有接话，只把盒盖拿起来，对着剩余的天光看了一会儿，然后把它翻扣在盒口上，像一杯凉透的茶被合了盖。小街的积水暗下去，早点摊的板凳腿在湿地上挪出轻轻一声。","appraisal":{"goalEffect":0,"control":0.4,"uncertainty":0.6},"basis":{"goal":null,"control":"把它翻扣在盒口上","uncertainty":"日期被水汽洇得看不清了"},"affect":{"kind":"estimated","delta":{"valence":0,"arousal":-0.1},"excerpt":"声音闷在薄铁里，像从很远的地方传回来"}}
+```
+
+输入 before 为 `{"valence":0,"arousal":0.1}`。前幕含“日期被水汽洇得看不清了”；只作为测试上下文，不能被当前幕 normalization 当作证据。
+
+## 有限验证与结束线
+
+- 用真实 normalization 重现上述对象被拒；单独构造合规对照（例如仅将 uncertainty 引文换成本幕的精确片段），明确标记人工测试变体，不覆盖历史响应、不声称语义成立。
+- 表驱动覆盖 goal 的两处引文、control、uncertainty、affect.excerpt 的跨幕引用均不能通过；合法同幕引文、合法无证据分支保持原行为。
+- 经实际 builder 验证三个 scene 阶段均携带澄清、前幕仍完整传递、wake system 保持逐字不变；新增文字进入 prompt identity。
+- fake transport 复现第三幕失败后停止：两幕草稿保留，第三次有效 usage 结算一次，wake 调用为 0、发布为 0、无重试。无需新建诊断系统。
+- 运行 R7 专项、受影响 R6/scene/wake 最小回归、旧付费失败关闭检查、diff --check。共享 src 未变则不要求全套测试；已有通过的无关检查不反复重跑。
+- 如实列命令、实数、首次失败及修正、changed files、新旧 prompt/identity、真实网络/模型/Key/Store访问为零；测试只证明结构与处理路径，不证明模型服从率或文学/情绪质量。
+
+完成后普通推送同一分支，PR #109 保持 Draft；更新 PR 描述为 R7 离线候选并保留历史链接（如本机不具备工具，回执说明，由总控处理）。最终状态 `READY_FOR_HUMAN_OFFLINE_REVIEW_R7`。到此停止，不自动开启 R8、真实试跑、ready、合并或部署。

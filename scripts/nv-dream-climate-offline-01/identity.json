@@ -11,7 +11,7 @@
     "version": "1",
     "sha256": "605d69511cc72c0b0ca60a77be34dafb061e63b57e98db94b778cf7bfce8cbb6"
   },
-  "promptHash": "9fe4d0863983eae2eb8a969d89fd6ffc5eeab3ebec507bf263d0f27664fbdb66",
+  "promptHash": "89b1d4a87d53f41b697341dd32fb4bb3ad41b665e2a47b68a3d5e5464cbf3c38",
   "climateWeights": {
     "ordinary": 0.65,
     "uneasy": 0.3,
@@ -24,6 +24,6 @@
     "generate-identity.mjs": "469ed4561f048243226597c747c7d5348b92afe6efceb4d35bf7e816abb47793",
     "identity.mjs": "33c8c8a061eb900456d62218499bc9f59b74bd6e327040198f0aa05be3f2f910",
     "offline-check.mjs": "8bc2d9d879e68c2ea4e61431f411743e61ef584f5f2a4f0d97b1d8be183bdaf3",
-    "protocol.mjs": "2a9f4f8fdc643b27010e96ae6fb7d6070b4c635ec228ef691257574e91940fdf"
+    "protocol.mjs": "0a3ee6bf1e7b2a7ca458913f5c8518c0adbb72a062f460048a0eb241349fe1fd"
   }
 }
