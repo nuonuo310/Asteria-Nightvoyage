@@ -1,0 +1,42 @@
+// Entirely synthetic fictional fixture. No real dream, user Store or model output.
+export const generatedWakeFixture={
+  id:'generated-wake-offline-fixture',
+  version:'1',
+  materialKind:'fictional',
+  isRealityFact:false,
+  allowance:{
+    id:'generated-wake-offline-stub',mode:'stub',approved:true,expiresAt:4102444800000,
+    limits:{maxRuns:3,maxCalls:12,maxMicroCny:50000000},
+    pricing:{model:'deepseek-flash',contextTokenLimit:1100000,inputMicroCnyPerMillion:2000000,
+      outputMicroCnyPerMillion:8000000,reference:'https://api-docs.deepseek.com/synthetic-fixture-not-price-review',checkedAt:1},
+    generatedWakeOffline:'generated-wake-offline-v2'
+  },
+  snapshot:{
+    id:'generated-wake-offline-source',version:'1',materialKind:'fictional',
+    sources:[{id:'generated-wake-offline-memory',version:'1',
+      text:'完全虚构：一只纸船、一只浅水槽，以及窗边看不见来处的灯光。除此之外没有可用背景。',
+      grant:{dream:true,modelEgress:false}}],
+    channels:{
+      memory:{availability:'present',sourceIds:['generated-wake-offline-memory']},
+      background:{availability:'unavailable',sourceIds:[]},
+      affect:{availability:'absent',sourceIds:[]},
+      mind:{availability:'denied',sourceIds:[]},
+      intents:{availability:'stale',sourceIds:[]}
+    }
+  },
+  scenes:[
+    {event:'夜里的人把一只纸船放进浅水槽，船身碰到槽壁后停住，灯影在水面拉得很直。',
+      appraisal:{goalEffect:0,control:.5,uncertainty:.5},basis:{goal:null,control:null,uncertainty:null},
+      affect:{kind:'unchanged'}},
+    {event:'夜里的人伸手扶正纸船，水从船尾慢慢渗进来，窗外仍没有风。',
+      appraisal:{goalEffect:0,control:.5,uncertainty:.5},basis:{goal:null,control:null,uncertainty:null},
+      affect:{kind:'estimated',delta:{valence:-.05,arousal:.05},excerpt:'水从船尾慢慢渗进来'}},
+    {event:'纸船吸了水，船身慢慢软下去，折成一只贴着槽底的浅杯；灯影被这道圆边分成两半。',
+      appraisal:{goalEffect:0,control:.5,uncertainty:.6},basis:{goal:null,control:null,uncertainty:null},
+      affect:{kind:'unchanged'}}
+  ],
+  wake:{
+    fragmentSceneIndex:2,residue:.12,associations:['梦里那只船后来去了哪里？'],
+    firstFeeling:{status:'present',text:'刚醒时只觉得指尖还碰着那只湿纸船，屋里很静，说不清是遗憾还是别的。'}
+  }
+};

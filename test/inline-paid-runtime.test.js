@@ -1,3 +1,4 @@
+import {runLegacySuite as runLegacySuiteR1} from '../test-support/legacy-source-view.js';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -9,6 +10,8 @@ import {readAppraisalView} from '../src/appraisal-view.js';
 import {revokeInlineTrialAuthorization,inlineTrialAllowanceId} from '../src/inline-trial-authorization.js';
 import {prepareTrialHistory,trialFixtureNow} from '../test-support/inline-trial-fixtures.js';
 import {mockPaidHttps,paidFixtureBody} from '../test-support/inline-paid-http-fixture.js';
+const legacyDelegatedR1=runLegacySuiteR1(import.meta.url);
+if(!legacyDelegatedR1){
 const dummy='DUMMY-PAID-PIPE-ONLY';
 function setup(t,handle,options={}){const h=prepareTrialHistory(t,{mode:'live'}),calls=mockPaidHttps(t,handle??(({body,respond})=>respond(paidFixtureBody(body)))),engine=new InlinePaidRuntime(h.directory,{enabled:true,...options});engine.credential=dummy;t.after(()=>engine.close());return {...h,engine,calls};}
 function olds(e,h){for(const [id,a]of Object.entries(h.oldAccounts))assert.deepEqual(e.store.state.billing.accounts[id],a);}
@@ -36,3 +39,4 @@ test('pre-credential request gate rejects an ambiguous row, while committed-pref
 for(const point of ['reserved','dispatched','scene_saved'])test(`paid runtime actual ${point} process death never resends an ambiguous request`,async t=>{
   const h=prepareTrialHistory(t,{mode:'live',dispatchKind:'rehearsal'});const code=`import {InlinePaidRuntime} from ${JSON.stringify(new URL('../src/inline-paid-runtime.js',import.meta.url).href)};Date.now=()=>${trialFixtureNow};const e=new InlinePaidRuntime(${JSON.stringify(h.directory)},{enabled:true,fault:p=>{if(p===${JSON.stringify(point)})process.exit(8);}});e.credential='DUMMY-CHILD';await e.execute(e.start());`;const dead=spawnSync(process.execPath,['--input-type=module','-e',code],{encoding:'utf8',timeout:15000});assert.equal(dead.status,8,dead.stderr);const e=new InlinePaidRuntime(h.directory,{enabled:true});e.credential=dummy;try{const id=e.start();if(point==='scene_saved'){assert.equal(e.prepare({resume:true,dispatchKind:'rehearsal'}).id,id);await e.resume(id,{retryUnknown:true});assert.equal(e.status(id).status,'completed');assert.equal(e.status(id).billing.length,3);}else{assert.throws(()=>e.prepare({resume:true,dispatchKind:'rehearsal'}),/inline_resume_requires_committed_prefix/);assert.equal(e.status(id).billing.length,1);assert.equal(e.status(id).billing[0].status,'unknown');}olds(e,h);}finally{e.close();}
 });
+}

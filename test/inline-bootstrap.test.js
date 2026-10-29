@@ -1,3 +1,4 @@
+import {runLegacySuite as runLegacySuiteR1} from '../test-support/legacy-source-view.js';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -9,6 +10,8 @@ import {hash} from '../src/contract.js';
 import {Store} from '../src/store.js';
 import {inlineChildEnvironment} from '../src/inline-stub-launcher.js';
 import {prepareAuthorizedHistory} from '../test-support/inline-authorization-fixtures.js';
+const legacyDelegatedR1=runLegacySuiteR1(import.meta.url);
+if(!legacyDelegatedR1){
 const root=fileURLToPath(new URL('..',import.meta.url));
 const cli=fileURLToPath(new URL('../src/inline-stub-launcher.js',import.meta.url));
 function run(directory,command='run',project=root,environment={}){
@@ -72,3 +75,4 @@ for(const kind of ['revoked','expired','withdrawn','busy','old-history'])test(`b
   }finally{s.close();}
   assert.equal(run(directory).status,1);const after=new Store(directory);try{assert.equal(Object.keys(after.state.billing.accounts['inline-evidence-dream-trial-candidate'].attempts).length,0);}finally{after.close();}
 });
+}

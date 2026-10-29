@@ -1,3 +1,4 @@
+import {runLegacySuite as runLegacySuiteR1} from '../test-support/legacy-source-view.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -15,6 +16,8 @@ import {aggregateEvents,envelopeSeed} from '../test-support/offline-aggregate-fi
 import {aggregateTrialProposal} from '../scripts/aggregate-plan-trial.mjs';
 import {eventClassProbeProposal} from '../scripts/event-class-probe.mjs';
 import {readInlinePaidContract} from '../src/inline-paid-contract.js';
+const legacyDelegatedR1=runLegacySuiteR1(import.meta.url);
+if(!legacyDelegatedR1){
 const frame=type=>envelopeBytes([{type}]);
 function rejection(type,prefix=[]){const parser=new OfflineEventWitnessEnvelopeStream(shapeModel);let diagnostic;try{parser.push(Buffer.from([...prefix,{type,secret:'SYNTHETIC-PRIVATE-BODY',id:'SYNTHETIC-PRIVATE-ID'}].map(e=>'data:'+JSON.stringify(e)+'\n\n').join('')));}catch(error){diagnostic=eventWitnessDiagnostic(error);}assert.ok(diagnostic);assert.throws(()=>parser.finish(),/closed/);return diagnostic;}
 function book(t,adapter){const root=fs.mkdtempSync(path.join(os.tmpdir(),'nightvoyage-event-witness-')),directory=path.join(root,'book');let engine;const open=()=>engine=new ModelPortNightvoyage(directory,{selection:adapter===undefined?selectAdapter():selectAdapter({primary:adapter})});t.after(()=>{engine?.close();fs.rmSync(root,{recursive:true,force:true});});return {directory,open,get engine(){return engine;}};}
@@ -84,3 +87,4 @@ test('actual process exit after durable dispatch reopens uncertain and cannot re
 test('failed diagnostic persistence reopens the previous unknown stage without a fabricated witness or repeat call',async t=>{
  let calls=0;const adapter=new OfflineEventWitnessPlanAdapter({model_id:'synthetic-fault-witness',simulator:()=>{calls++;return [frame('response.audio.delta')];}}),b=book(t,adapter);b.open();const id=b.engine.start('synthetic-fault','synthetic-fault',envelopeSeed()),save=b.engine.store.save.bind(b.engine.store);b.engine.store.save=()=>{if(b.engine.store.state.runs[id]?.modelPortDiagnostic)fs.mkdirSync(path.join(b.directory,'snapshot.tmp'));return save();};await assert.rejects(b.engine.execute(id),/store_unavailable|storage_io_failure/);assert.equal(calls,1);b.engine.close();fs.rmdirSync(path.join(b.directory,'snapshot.tmp'));b.open();assert.equal(b.engine.status(id).status,'uncertain');assert.equal(b.engine.status(id).validation_diagnostic,null);assert.equal(b.engine.status(id).usage[0].usage,'unknown');await b.engine.execute(id);assert.equal(calls,1);
 });
+}

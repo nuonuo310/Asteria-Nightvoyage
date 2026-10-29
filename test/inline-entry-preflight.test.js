@@ -1,3 +1,4 @@
+import {runLegacySuite as runLegacySuiteR1} from '../test-support/legacy-source-view.js';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -6,6 +7,8 @@ import path from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {inlineEntryInventory,inlineEntryPreflight,preservedAccountIds} from '../src/inline-entry-preflight.js';
 import {prepareInlineEntryHistory} from '../test-support/inline-entry-fixtures.js';
+const legacyDelegatedR1=runLegacySuiteR1(import.meta.url);
+if(!legacyDelegatedR1){
 const repo=new URL('..',import.meta.url);
 function temp(t){const d=fs.mkdtempSync(path.join(os.tmpdir(),'nightvoyage-entry-preflight-'));t.after(()=>fs.rmSync(d,{recursive:true,force:true}));return d;}
 function project(t){const d=temp(t);for(const name of ['src','fixtures'])fs.cpSync(new URL(name,repo),path.join(d,name),{recursive:true});fs.copyFileSync(new URL('package.json',repo),path.join(d,'package.json'));return d;}
@@ -53,3 +56,4 @@ test('CLI rejects live/init/key/budget flags, uses no default user directory and
 test('fixed rehearsal guards mutation APIs and reports only synthetic metadata',()=>{
   const r=spawnSync(process.execPath,['scripts/check-inline-entry-preflight.mjs'],{encoding:'utf8',timeout:15000});assert.equal(r.status,0,r.stderr);const v=JSON.parse(r.stdout);assert.equal(v.syntheticUnknowns,4);assert.equal(v.historyBytesUnchanged,true);assert.equal(v.preflightMutationCalls,0);assert.equal(v.realModelRequests,0);assert.equal(v.credentialReads,0);assert.equal(v.pricingReviewed,false);assert.equal(v.budgetSelected,false);assert.equal(v.ready,false);assert.equal(v.liveEntryAvailable,false);
 });
+}

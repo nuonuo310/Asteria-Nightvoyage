@@ -1,3 +1,4 @@
+import {runLegacySuite as runLegacySuiteR1} from '../test-support/legacy-source-view.js';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -9,6 +10,8 @@ import {inlineProtocolVersion} from '../src/inline-evidence-protocol.js';
 import {InlineHistoryGuard,inlineCandidateAllowanceId} from '../src/inline-entry-admission.js';
 import {inlineStubAllowance} from '../test-support/inline-budget-fixtures.js';
 import {prepareInlineAdmissionHistory} from '../test-support/inline-admission-fixtures.js';
+const legacyDelegatedR1=runLegacySuiteR1(import.meta.url);
+if(!legacyDelegatedR1){
 function setup(t){const d=prepareInlineAdmissionHistory(t),s=new Store(d);t.after(()=>s.close());return {d,s};}
 test('owner-locked guard binds all old accounts, approvals and request/run identities without granting dispatch',t=>{const {s}=setup(t),before=structuredClone(s.state),g=new InlineHistoryGuard(s);assert.deepEqual(g.assertPreserved(),{historyPreserved:true,preservedUnknowns:4,heldMicroCny:'8812800',ownerLockChecked:true,liveEntryAvailable:false,dispatchAuthorized:false});assert.deepEqual(s.state,before);});
 for(const kind of ['fingerprint','allowance','row-key','run-ids','run-binding','request-binding','diagnostic-binding','unrelated-unknown'])test(`locked prerequisite rejects ${kind} even with unchanged unknown sum`,t=>{
@@ -24,3 +27,4 @@ test('owner pathname identity and pid are checked rather than merely trusting an
 test('historical approval changes and unsafe config links never refresh or reinterpret old permissions',t=>{const {s,d}=setup(t),p=path.join(d,'scene-continuity-dream-trial-20261016.json'),original=fs.readFileSync(p),v=JSON.parse(original);v.allowance.limits.maxCalls++;fs.writeFileSync(p,JSON.stringify(v));assert.throws(()=>new InlineHistoryGuard(s));fs.writeFileSync(p,original);fs.renameSync(p,p+'.target');fs.symlinkSync(p+'.target',p);assert.throws(()=>new InlineHistoryGuard(s),/unsafe_history_approval/);fs.rmSync(p);fs.writeFileSync(p,'SYNTHETIC-PRIVATE-CONFIG-SENTINEL');assert.throws(()=>new InlineHistoryGuard(s),error=>error.message==='invalid_history_approval'&&!error.message.includes('SENTINEL'));});
 test('dependency rehearsal uses fresh-process hooks, parse-only graph and no real model/key',()=>{const r=spawnSync(process.execPath,['--experimental-vm-modules','scripts/check-inline-entry-dependencies.mjs'],{encoding:'utf8',timeout:15000});assert.equal(r.status,0,r.stderr);const v=JSON.parse(r.stdout);assert.equal(v.staticGraphMatches,true);assert.equal(v.unpinnedDynamicImportRejected,true);assert.equal(v.nativeRequests,0);assert.equal(v.credentialReads,0);assert.equal(v.liveEntryAvailable,false);assert.equal(v.qualityAssessed,false);});
 test('fixed locked-history rehearsal preserves old accounts through candidate stub account and withdrawal/reopen',()=>{const r=spawnSync(process.execPath,['scripts/check-inline-history-guard.mjs'],{encoding:'utf8',timeout:15000});assert.equal(r.status,0,r.stderr);const v=JSON.parse(r.stdout);assert.equal(v.oldAccountsUnchanged,true);assert.equal(v.guardStateBytesUnchanged,true);assert.equal(v.withdrawalBlocksGuard,true);assert.equal(v.durableApprovalBaselineImplemented,false);assert.equal(v.nativeRequests,0);assert.equal(v.credentialReads,0);assert.equal(v.dispatchAuthorized,false);});
+}

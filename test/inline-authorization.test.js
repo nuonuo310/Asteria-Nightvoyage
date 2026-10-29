@@ -1,3 +1,4 @@
+import {runLegacySuite as runLegacySuiteR1} from '../test-support/legacy-source-view.js';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -13,6 +14,8 @@ import {inlineAuthorizationId,initInlineStubAuthorization,readInlineAuthorizatio
 import {inlineCandidateAllowanceId} from '../src/inline-entry-admission.js';
 import {prepareInlineAdmissionHistory} from '../test-support/inline-admission-fixtures.js';
 import {authorizationAllowance,authorize,authorizedTransport,prepareAuthorizedHistory} from '../test-support/inline-authorization-fixtures.js';
+const legacyDelegatedR1=runLegacySuiteR1(import.meta.url);
+if(!legacyDelegatedR1){
 function runtime(t,options={}){const v=prepareAuthorizedHistory(t),calls=[],e=new InlineAuthorizedStubRuntime(v.directory,{enabled:true,fetchImpl:async(u,r)=>{calls.push(JSON.parse(r.body));return authorizedTransport(u,r);},...options});t.after(()=>e.close());return {...v,e,calls};}
 function child(directory,body){return spawnSync(process.execPath,['--input-type=module','-e',`import fs from 'node:fs';import path from 'node:path';import {Store} from ${JSON.stringify(new URL('../src/store.js',import.meta.url).href)};import {InlineAuthorizedStubRuntime} from ${JSON.stringify(new URL('../src/inline-authorized-runtime.js',import.meta.url).href)};import {authorize,authorizationAllowance,authorizedTransport} from ${JSON.stringify(new URL('../test-support/inline-authorization-fixtures.js',import.meta.url).href)};const directory=${JSON.stringify(directory)};${body}`],{encoding:'utf8',timeout:15000});}
 function assertOld(store,accounts){for(const [id,a]of Object.entries(accounts))assert.deepEqual(store.state.billing.accounts[id],a);}
@@ -63,3 +66,4 @@ for(const point of ['reserved','dispatched','scene_saved'])test(`actual ${point}
   const {directory,oldAccounts}=prepareAuthorizedHistory(t),r=child(directory,`const e=new InlineAuthorizedStubRuntime(directory,{enabled:true,fetchImpl:authorizedTransport,fault:p=>{if(p===${JSON.stringify(point)})process.exit(87);}});const id=e.start();await e.execute(id);`);assert.equal(r.status,87,r.stderr);let calls=0;const e=new InlineAuthorizedStubRuntime(directory,{enabled:true,fetchImpl:async(u,r)=>{calls++;return authorizedTransport(u,r);}});try{const id=e.start();if(point==='scene_saved'){await e.resume(id,{retryUnknown:true});assert.equal(e.status(id).status,'completed');assert.equal(calls,2);}else{await assert.rejects(async()=>e.resume(id,{retryUnknown:true}),/inline_resume_requires_committed_prefix/);assert.equal(calls,0);assert.equal(e.status(id).billing[0].status,'unknown');}assertOld(e.store,oldAccounts);}finally{e.close();}
 });
 test('fixed authorized loop reports synthetic usage only, with no key or native request',()=>{const r=spawnSync(process.execPath,['scripts/check-inline-authorized-loop.mjs'],{encoding:'utf8',timeout:15000});assert.equal(r.status,0,r.stderr);const v=JSON.parse(r.stdout);assert.equal(v.stubCalls,3);assert.equal(v.settledRows,3);assert.equal(v.replayAdditionalCalls,0);assert.equal(v.oldAccountsUnchanged,true);assert.equal(v.withdrawalPurgedBodies,true);assert.equal(v.durableAuthorization,true);assert.equal(v.nativeRequests,0);assert.equal(v.credentialReads,0);assert.equal(v.liveEntryAvailable,false);assert.equal(v.qualityAssessed,false);});
+}
