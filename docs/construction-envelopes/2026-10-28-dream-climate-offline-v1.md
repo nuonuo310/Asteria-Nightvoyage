@@ -907,3 +907,76 @@ normalization 语义已变化，必须生成新的 normalization/identity 候选
 普通提交推送同一分支并更新同一 Draft PR #109；不 ready、不合并、不部署。回执必须给出 HEAD/tree/parent、changed files、新旧 normalization/identity、R8 旧入口关闭证明、测试命令与实数，以及 R8 历史账务未改写证明。
 
 结束状态仅为 \`READY_FOR_HUMAN_OFFLINE_REVIEW_R9\`、\`BLOCKED\` 或 \`TOTAL_CONTROL_DECISION_REQUIRED\`。到此停止，不提供 Key 命令，不启动 R10，不自动申请真实试跑。总控先审阅这次架构修正是否足以结束“内容被元数据格式挡住”的问题，再决定是否还有一次人工触发；没有总控新授权就不产生下一笔费用。
+
+
+---
+
+# R10 · R9 后一次单场内容闭环准备
+
+2026-10-29 总控审阅结论：接受 R9 的有限离线实现。它解决的是“合格梦正文被无证据 control/uncertainty 数值挡住”的确定性处理，不证明文学质量或完整 V1。现授权在同一候选上准备一次新的单场闭环，仍由用户后续主动输入 Key 才能发生真实调用；施工端本轮不得执行。
+
+这不是自动续错包。R10 是当前链路的单次内容验收准备：真实结果无论成功或失败都停止，直接交回总控阅读，不因新的格式差异自动启动 R11。
+
+## 固定起点与旧事实
+
+- 固定实现 HEAD：\`fe0afa3ee734611bc949de33b61e4d19e2151f13\`。
+- 沿用 worktree \`C:\Users\Administrator\Desktop\Asteria-Nightvoyage-NV-DREAM-CLIMATE-OFFLINE-01\`、分支 \`codex/nightvoyage-dream-climate-offline-01\` 和 Draft PR #109。
+- 冻结 R9 normalization \`nv-dream-climate-offline-normalization-v2\`、offline identity \`153503232906afd729d78054cc199ee71a9ea6aca8ebfd7ddfb6ebe7283ac867\`、promptHash \`89b1d4a87d53f41b697341dd32fb4bb3ad41b665e2a47b68a3d5e5464cbf3c38\`、sourceHash \`605d69511cc72c0b0ca60a77be34dafb061e63b57e98db94b778cf7bfce8cbb6\`。
+- R8 历史保持失败：一笔 settled 计算额 3316 micro-CNY、unknown 0、无发布；receipt SHA-256 \`034b53bd5ea4b59f7033c19cc556bdc0be2cb9addc6034937c7dea5e18f02c2a\`。不得恢复、迁移、补发布或重写 R8 Store。
+- 所有 R1–R8 live release 和 secure-input 入口继续在凭据、Store、网络前关闭。
+
+## 唯一新运行配置
+
+- profile：\`r10\`
+- runId：\`nv-dream-climate-one-dream-r10-a\`
+- allowanceId：\`nv-dream-climate-one-dream-r10-001\`
+- 专用 Store：\`C:\Users\Administrator\AppData\Local\Nightvoyage\nightvoyage-dream-climate-one-dream-r10-01\`
+- matrix：\`ordinary / transformation / cup_tap\`，两个 used ledger 均为空
+- 固定 1 场、3 scene + 1 wake、最多 4 calls；无重试、无第二场、无替代场、无第五次
+- \`max_tokens=400\`；每请求上限 16384 UTF-8 bytes
+- 每次预留上限 35968 micro-CNY，四次最坏 143872，硬上限 160000 micro-CNY（0.16 CNY），不得扩大
+- 沿用 2026-10-29 已保存的官方价格证据 \`C:\Users\Administrator\Desktop\deepseek-pricing-r8.html\`，SHA-256 \`556097caba8adfeeed6455714bffd731c7f60db520fcee06a922eba5840663a3\`。施工准备只读核对，不联网刷新；文件缺失、哈希不符或固定价格不匹配则 \`PRICE_REVIEW_PENDING\`，不得自行换模型、改预算或抓取别的页面。
+
+选择 ordinary 只是固定本次样本，不是梦境配额、用户状态或长期概率结论；不能由它推导 firstFeeling 或 residue。
+
+## 最小施工
+
+新增 \`scripts/nv-dream-climate-offline-01/single-run-r10/\` 的薄接线，复用现有 R9 protocol、Phase B runtime/records/diagnostics/transport 和 UTF-8 receipt 机制。不得复制生成引擎、建立通用 profile CLI、修改共享 \`src/\`，也不得改 prompt、source、fixtures、气候/机制语义、情绪规则、wake schema 或 R9 canonicalization。
+
+R10 identity 必须覆盖实际执行依赖，包括 R9 protocol、runtime、records、transport、diagnostics、固定 profile/matrix、价格、预算、Store、模型参数和无重试规则。生成新的固定 execution digest/pin 与 release 候选；pin 不能随 manifest 同步漂移后自行通过。R8/R6 的 pin、identity 或 release 不得复用。
+
+R9 审计必须进入真实技术 checkpoint 与显式 receipt：received value、canonical 0.5、dimension、rule、sceneIndex、requestId 均保留并校验。后续模型材料和正式梦簿 entry 继续剥离技术审计；原梦 event 不改字。无 canonicalization 时允许固定空审计，但不得伪造 received value。
+
+secure-input 沿用已审查流程：
+
+1. 所有身份、execution pin、价格、目录不存在、固定配置检查都在 Key 提示前完成。
+2. 只有用户主动运行唯一命令时，才临时写一次 release、私密读取一次 Key 并启动一次 worker。
+3. 不读命令行明文 Key、环境变量凭据、剪贴板、凭据库、旧 Key 或余额；Key 不持久化、不回显。
+4. 完成与失败路径都撤销 release、关闭 Store、清理 owner lock。
+5. 目录已存在即拒绝，不能删除后重跑。
+6. provider 已返回且 usage 合法时，即使正文被拒也只 settled 一次；结果未知才记 unknown。不得把 combined accounting 冒称 provider 实扣。
+7. 成功时三幕、wake、可选 firstFeeling、residue 原子发布；失败时只保留允许的 draft/诊断/账务，不追认不完整梦。
+
+## 有限离线验收
+
+1. 真实 R10 builder 的首请求字节实测并小于 16384；system/prompt/source 与 R9 冻结值一致。
+2. fake 四次成功闭环：第一幕使用 R8 精确对象，证明 \`uncertainty 0.6 + null basis\` 在 R10 实际 runtime 中 canonicalize 为 UNKNOWN 0.5，原文逐字不变，审计保留；后两幕与 wake 完成，正式 entry 不含技术审计。
+3. fake 覆盖无 canonicalization、control 与 uncertainty 各自及同时 canonicalization；receipt/checkpoint round-trip 和审计篡改拒绝继续成立。
+4. 非法 goal、跨幕/不存在引文、非法 affect、wake associations 对象数组、非法 firstFeeling 仍在首处停止；有效 usage 恰一次 settled、无发布、无重试。
+5. 新旧 release、identity、pin 不混用；代码+manifest 同步漂移、目录已存在、第二场、第五次均拒绝。
+6. 实际 Windows PowerShell 调用新的 secure-input，以无凭据 stub 验证批准 digest 匹配/不匹配、UTF-8 中文/非 BMP/引号/换行、正常/空/错误/垃圾输出、receipt 独占写入及临时 release 清理。不得提示真实 Key。
+7. admission 阶段 credential supplier 0、真实 Store 0、模型/网络 0；R8 及旧入口继续关闭。
+8. 运行 R10 专项、R9 与直接受影响的 scene/wake/runtime/records 最小回归、旧付费关闭检查、\`git diff --check\`。无需全套 npm、截图或为历史身份测试刷新旧 pin。
+
+## 交付、人工触发与终止线
+
+普通提交推送同一分支，PR #109 保持 Draft。回执必须给出 HEAD/tree/parent、changed files、R10 execution/pin/identity/release 候选、首请求 bytes、预算/价格核对、测试命令与实数，以及唯一 secure-input 命令；本轮只展示，不执行、不提示 Key。
+
+施工终点仅：
+
+- \`READY_FOR_TOTAL_CONTROL_REVIEW_R10\`
+- \`PRICE_REVIEW_PENDING\`
+- \`BLOCKED\`
+- \`TOTAL_CONTROL_DECISION_REQUIRED\`
+
+总控审阅实际 R10 接线后，才可能把唯一命令交给用户。用户执行后的真实结果无论成功或失败都停止：不自动重试、不补跑、不新建 R11。若成功，下一步是直接阅读原梦、梦中情绪、醒来残片、刚醒心情和模拟余韵，裁决 V1 内容候选；若失败，先按真实诊断判断是否应接受现有 V1 边界或暂停，而不是继续无限门禁。未 ready、合并或部署。
