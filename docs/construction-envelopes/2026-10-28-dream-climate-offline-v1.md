@@ -780,3 +780,56 @@ secure-input 保留 R4 的流程：无凭据 admission → 临时 release → wo
 - 如实列命令、实数、首次失败及修正、changed files、新旧 prompt/identity、真实网络/模型/Key/Store访问为零；测试只证明结构与处理路径，不证明模型服从率或文学/情绪质量。
 
 完成后普通推送同一分支，PR #109 保持 Draft；更新 PR 描述为 R7 离线候选并保留历史链接（如本机不具备工具，回执说明，由总控处理）。最终状态 `READY_FOR_HUMAN_OFFLINE_REVIEW_R7`。到此停止，不自动开启 R8、真实试跑、ready、合并或部署。
+
+
+---
+
+# R8 · R7 候选单场验证准备
+
+2026-10-29 总控接续裁决：R7 有限离线修正已接受。恢复同一施工任务，准备一次新的单场内容验证；本轮施工只到可审阅的离线交付，不执行真实调用。不是恢复 R6，也不重签旧许可。已有同任务施工在跑则不重复启动。
+
+## 固定输入与唯一目标
+
+- 原 worktree：`C:\Users\Administrator\Desktop\Asteria-Nightvoyage-NV-DREAM-CLIMATE-OFFLINE-01`。
+- 原分支 `codex/nightvoyage-dream-climate-offline-01`、Draft PR #109，base 不变。
+- 固定实现 HEAD `a99341ea31f25fa67df968e46f8eb45159f0fa75`，tree `2c3f5a172433b6b3ef1e3eadbb08d80e339a05df`，parent `5885ebf8f7a73f53fd471e1680d21b9f6a457945`。
+- 冻结 R7 promptHash `89b1d4a87d53f41b697341dd32fb4bb3ad41b665e2a47b68a3d5e5464cbf3c38`、offline identityHash `e574d505ca4ce104507af00b19f72f63c99658d65cab1918ff6c3ad903e2287a`、sourceHash `605d69511cc72c0b0ca60a77be34dafb061e63b57e98db94b778cf7bfce8cbb6`。
+- 唯一目标：准备一场 R7 协议的三幕加 wake，完成后可直接审阅原梦、梦中情绪、逐字醒来残片、firstFeeling 四态及独立模拟 residue；后来回想为空。不增加内容规则、语义评分、题材或 Memory/Mind。
+
+## 固定运行配置
+
+- profile：r8；runId：`nv-dream-climate-one-dream-r8-a`；allowanceId：`nv-dream-climate-one-dream-r8-001`。
+- 专用 Store：`C:\Users\Administrator\AppData\Local\Nightvoyage\nightvoyage-dream-climate-one-dream-r8-01`。
+- matrix：ordinary / transformation / cup_tap；两个 used ledger 均为空。
+- 一场，3 scene + 1 wake，最多 4 calls，无重试、无替代场、无第二场或第五次调用。
+- 每请求上限 16384 UTF-8 bytes，max_tokens=400；预算硬上限 160000 micro-CNY（0.16 元）。
+- 35968 micro-CNY/次、143872/四次是此前审查价格下的预留，不冒称今日新价格。准备阶段允许只访问官方公开价格页核对模型及价格并保存新证据；不调用 provider 生成接口、不读取余额或凭据。价格仍一致才沿用上述预留；不一致或不可确认则 PRICE_REVIEW_PENDING，不自行加预算或换模型。公开价格核对网络与模型网络分开报告。
+
+## 最小实现与旧历史
+
+新增 `scripts/nv-dream-climate-offline-01/single-run-r8/` 的固定接线，复用既有 Phase B runtime/records/diagnostics/transport 与已验证 UTF-8 捕获代码。只允许为独立 r8 配置所需的薄适配器，不复制第二套生成/结算引擎，不做通用配置框架或大型重构。旧 R6 脚本中的硬编码不能直接继承为新身份：run/Store/profile/prompt/首请求长度必须对应实际 R8。
+
+冻结共享 src、protocol.mjs、source、fixtures、情绪语义、wake schema、旧 R1–R7 回执和旧批准 pin。旧入口继续关闭，不读写旧真实 Store，不把旧 draft/被拒响应补发布为新梦。新目录已存在即拒绝，不删除以便重跑。
+
+沿用 R6 的凭据前检查、固定执行 pin、独立结算与原子发布、限量拒绝诊断、真实调用计数及 UTF-8 receipt 文件机制。新 identity 覆盖实际执行依赖和固定配置；生成新批准摘要候选，不能仅依赖可自动重生成的 manifest。不生成遗留的可执行 release.json；secure-input 仅在用户主动执行后临时建立并最终撤销。PowerShell 从唯一 release 对象取得批准 digest，避免重新引入未定义变量或重复常量。
+
+成功与失败回执必须包含原文或已保留的 draft/拒绝响应、准确发布状态、结算/unknown 分列，文件独占写入、不覆盖。凭据交付后无结果/错误/不可解析仍按未知计数处理，不报零；不得为回执失败再次请求模型。
+
+## 有限验证
+
+只跑新适配器相关与直接受影响测试：
+1. 使用 R7 实际 builder 和 normalization 的 synthetic 四次成功闭环；完整独立记录及后来回想为空。
+2. R7 同幕证据专项继续通过；第三幕跨幕引文失败与 wake associations 对象数组失败，均停止、保留 draft、有效 usage 恰一次 settled、不发布、不重试。
+3. 新旧 release 不混用，代码与 manifest 同步漂移仍被固定 pin 拒绝；目录已存在、第二场、第五次拒绝。
+4. 实际 Windows PowerShell 的真实新 secure-input 入口以无凭据 stub 跑到 worker preflight，分别验证批准摘要匹配与不匹配，不只测试 helper。首请求 bytes 从实际 R7 请求取得，不能沿用 R6 的 4855 常量。
+5. 实际 UTF-8 路径与 receipt：中文、非 BMP、引号和换行；正常结果、空结果、错误退出、不可解析结果；临时 release 清理。仅临时 synthetic 目录。
+6. 新 admission 在 Key 前核对身份/价格/目录；零凭据供应、零真实 Store 创建、零模型请求。旧 R6 admission 继续拒绝。
+7. diff --check 与直接 scene/wake 回归。无需全套 npm、截图或重跑已知因历史身份固定而失败的 R1–R6 整套测试；不得把旧失败计为通过，也不为全绿刷新旧 pin。
+
+## 交付与停止
+
+允许改动仅为新 r8 接线、专项测试、新验证文档及权威副本。必要共享接线若超出现有 profile 扩展能力，先报告具体阻碍，不自行重写引擎。
+
+普通提交推送同一 #109，保持 Draft。回执给出 HEAD/tree/parent、changed files、execution/pin/identity/release 候选哈希、实际请求 bytes、价格证据路径/时间/hash、测试实数及首次失败、无真实模型/Key/旧 Store访问证明。报告唯一 secure-input 命令作为候选，不执行、不提示用户输入 Key。
+
+结束状态：READY_FOR_TOTAL_CONTROL_REVIEW_R8、PRICE_REVIEW_PENDING 或 BLOCKED。总控核对实际实现后才交付用户一次执行命令。此时才进入一次新场的人工触发；无论成败均停止并审阅内容，不自动追加修正包或新场。单场成功不等于三气候/长期质量或完整 V1 验收。未 ready、合并或部署。
