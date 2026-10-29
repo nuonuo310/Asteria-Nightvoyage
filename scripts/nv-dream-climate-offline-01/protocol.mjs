@@ -5,13 +5,14 @@ import {
   generatedWakeProtocolVersion,normalizeGeneratedWakeCheckpoint,
   normalizeGeneratedWakeResponse,normalizeGeneratedWakeScene
 } from '../../src/generated-wake-protocol.js';
-import {hash,neutral,snapshot} from '../../src/contract.js';
+import {hash,neutral,safeId,snapshot} from '../../src/contract.js';
 import {copy,fail} from '../../src/store.js';
 
 export const dreamClimateProtocolVersion='nv-dream-climate-offline-v1';
 export const dreamClimateRuntimeVersion='nv-dream-climate-offline-fixture-runtime-v1';
 export const dreamClimatePromptVersion='nv-dream-climate-offline-prompt-v1';
-export const dreamClimateNormalizationVersion='nv-dream-climate-offline-normalization-v1';
+export const dreamClimateNormalizationVersion='nv-dream-climate-offline-normalization-v2';
+export const dreamClimateUnknownAuditPolicyVersion='unbased-appraisal-unknown-v1';
 export const dreamClimateExtractionVersion='nv-dream-climate-offline-receipt-v1';
 export const dreamClimateInventoryVersion='nv-dream-climate-offline-inventory-v1';
 export const dreamClimateRequestByteLimit=16384;
@@ -201,26 +202,136 @@ export function assertBatchPlan(plans){
   return true;
 }
 
-function normalizeScene(raw,before){
-  const value=normalizeGeneratedWakeScene(raw,before);
+const auditPolicyVersion=dreamClimateUnknownAuditPolicyVersion;
+const auditRule='unbased_requires_unknown';
+const auditDimensions=Object.freeze(['control','uncertainty']);
+const auditKeys=Object.freeze(['schemaVersion','policyVersion','sceneIndex','requestId',
+  'integrityHash','items']);
+const auditItemKeys=Object.freeze(['dimension','receivedValue','canonicalValue','rule']);
+
+function auditContext(context,{required=false}={}){
+  if(context===undefined&&!required)return null;
+  const value=context??{};
+  if(!Number.isSafeInteger(value.sceneIndex)||value.sceneIndex<0||
+     value.sceneIndex>=dreamClimateScenesPerRun||!safeId(value.requestId))
+    fail('invalid_dream_climate_audit');
+  return {sceneIndex:value.sceneIndex,requestId:value.requestId};
+}
+
+function auditItem(dimension,receivedValue){
+  return {dimension,receivedValue,canonicalValue:.5,rule:auditRule};
+}
+
+function sourceProjection(scene){
+  const evidence=scene.appraisalBasis.evidence;
+  return {
+    event:scene.event,
+    appraisal:{goalEffect:scene.appraisal.goalEffect,control:scene.appraisal.control,
+      uncertainty:scene.appraisal.uncertainty},
+    basis:{goal:evidence.goal===null?null:
+      [evidence.goal.goalExcerpt,evidence.goal.outcomeExcerpt],
+    control:evidence.controlExcerpt,uncertainty:evidence.uncertaintyExcerpt},
+    affect:scene.affectDeclaration.kind==='unchanged'?{kind:'unchanged'}:
+      {kind:'estimated',delta:{valence:scene.delta.valence,arousal:scene.delta.arousal},
+        excerpt:evidence.affectExcerpt}
+  };
+}
+
+function auditIntegrity(sceneIndex,requestId,source){
+  return hash({schemaVersion:1,policyVersion:auditPolicyVersion,sceneIndex,requestId,source});
+}
+
+function buildAudit(scene,context,items){
+  const source=sourceProjection(scene);
+  for(const item of items)source.appraisal[item.dimension]=item.receivedValue;
+  return {schemaVersion:1,policyVersion:auditPolicyVersion,
+    sceneIndex:context.sceneIndex,requestId:context.requestId,
+    integrityHash:auditIntegrity(context.sceneIndex,context.requestId,source),
+    items:copy(items)};
+}
+
+function validateAudit(audit,scene,expected=null){
+  if(!exact(audit,auditKeys)||audit.schemaVersion!==1||audit.policyVersion!==auditPolicyVersion||
+     !Number.isSafeInteger(audit.sceneIndex)||audit.sceneIndex<0||
+     audit.sceneIndex>=dreamClimateScenesPerRun||!safeId(audit.requestId)||
+     !Array.isArray(audit.items)||audit.items.length>auditDimensions.length||
+     typeof audit.integrityHash!=='string'||!/^[0-9a-f]{64}$/.test(audit.integrityHash))
+    fail('invalid_dream_climate_audit');
+  if(expected&&(audit.sceneIndex!==expected.sceneIndex||audit.requestId!==expected.requestId))
+    fail('invalid_dream_climate_audit');
+  const seen=new Set(),canonicalDimensions=[];
+  for(const item of audit.items){
+    if(!exact(item,auditItemKeys)||!auditDimensions.includes(item.dimension)||seen.has(item.dimension)||
+       !Number.isFinite(item.receivedValue)||item.receivedValue<0||item.receivedValue>1||
+       item.receivedValue===.5||item.canonicalValue!==.5||item.rule!==auditRule)
+      fail('invalid_dream_climate_audit');
+    seen.add(item.dimension);canonicalDimensions.push(item.dimension);
+  }
+  if(canonicalDimensions.join('\u0000')!==
+     auditDimensions.filter(dimension=>seen.has(dimension)).join('\u0000'))
+    fail('invalid_dream_climate_audit');
+  const evidence=scene.appraisalBasis.evidence;
+  for(const item of audit.items){
+    const excerpt=item.dimension==='control'?evidence.controlExcerpt:evidence.uncertaintyExcerpt;
+    if(excerpt!==null||scene.appraisal[item.dimension]!==.5)fail('invalid_dream_climate_audit');
+  }
+  const source=sourceProjection(scene);
+  for(const item of audit.items)source.appraisal[item.dimension]=item.receivedValue;
+  if(audit.integrityHash!==auditIntegrity(audit.sceneIndex,audit.requestId,source))
+    fail('invalid_dream_climate_audit');
+  return copy(audit);
+}
+
+function normalizeScene(raw,before,context){
+  const selected=auditContext(context,{required:true});
+  if(Buffer.byteLength(JSON.stringify(raw))>1200)fail('generated_wake_output_too_large');
+  const items=[];
+  let projected=raw;
+  for(const dimension of auditDimensions){
+    if(raw?.basis?.[dimension]!==null)continue;
+    const receivedValue=raw?.appraisal?.[dimension];
+    if(Number.isFinite(receivedValue)&&receivedValue>=0&&receivedValue<=1&&receivedValue!==.5){
+      if(projected===raw){
+        projected={...raw};
+        projected.appraisal={...raw.appraisal};
+      }
+      projected.appraisal[dimension]=.5;
+      items.push(auditItem(dimension,receivedValue));
+    }
+  }
+  const value=normalizeGeneratedWakeScene(projected,before);
   value.appraisalBasis.protocolVersion=dreamClimateNormalizationVersion;
+  value.unbasedAppraisalAudit=buildAudit(value,selected,items);
   return value;
 }
 
-export function normalizeDreamClimateScene(raw,before){
-  return normalizeScene(raw,before);
+export function normalizeDreamClimateScene(raw,before,context={
+  sceneIndex:0,requestId:'offline-local-scene-0'
+}){
+  return normalizeScene(raw,before,context);
 }
 
-export function normalizeDreamClimateCheckpoint(saved,before){
+export function normalizeDreamClimateCheckpoint(saved,before,context){
   if(saved?.appraisalBasis?.protocolVersion!==dreamClimateNormalizationVersion) {
     fail('invalid_dream_climate_checkpoint');
   }
-  const old=copy(saved);
+  if(!saved||typeof saved!=='object'||Array.isArray(saved)||
+     !Object.hasOwn(saved,'unbasedAppraisalAudit'))fail('invalid_dream_climate_checkpoint');
+  const old=copy(saved),audit=old.unbasedAppraisalAudit;
+  delete old.unbasedAppraisalAudit;
   old.appraisalBasis.protocolVersion=generatedWakeProtocolVersion;
   const normalized=normalizeGeneratedWakeCheckpoint(old,before);
   normalized.appraisalBasis.protocolVersion=dreamClimateNormalizationVersion;
+  normalized.unbasedAppraisalAudit=validateAudit(audit,normalized,auditContext(context));
   if(hash(normalized)!==hash(saved))fail('invalid_dream_climate_checkpoint');
   return normalized;
+}
+
+export function dreamClimateSceneMaterial(scene){
+  const value=copy(scene);
+  delete value.normalizationAudit;
+  delete value.unbasedAppraisalAudit;
+  return value;
 }
 
 export function normalizeDreamClimateWake(data,{previousScenes}={}){
@@ -295,7 +406,7 @@ export function buildDreamStageRequest({run,previousScenes,stage}){
     sources:dreamClimateCanonicalSnapshot.sources.map(source=>({
       id:source.id,version:source.version,text:source.text
     })),
-    previousScenes:copy(chain.scenes),previousAffect:copy(chain.before)
+    previousScenes:chain.scenes.map(dreamClimateSceneMaterial),previousAffect:copy(chain.before)
   };
   const request={
     endpoint:'offline://dream-climate-fixture-only',method:'POST',offlineOnly:true,

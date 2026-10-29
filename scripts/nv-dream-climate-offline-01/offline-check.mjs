@@ -57,6 +57,7 @@ function sceneRecord(scene,index){
     evidence:copy(scene.appraisalBasis.evidence),
     affectDeclaration:copy(scene.affectDeclaration),
     normalizationAudit:copy(scene.normalizationAudit),
+    unbasedAppraisalAudit:copy(scene.unbasedAppraisalAudit),
     protocolVersion:scene.appraisalBasis.protocolVersion
   };
 }
@@ -82,7 +83,8 @@ export function runOfflineRehearsal(){
       assert.equal(captured.systemContainsAnchorId,false);
       assert.equal(captured.systemContainsUsedLedger,false);
       requests.push(captured);
-      const scene=normalizeDreamClimateScene(raw,before);
+      const scene=normalizeDreamClimateScene(raw,before,{sceneIndex:index,
+        requestId:`offline-check-${fixture.id}-scene-${index}`});
       previousScenes.push(scene);
       before=scene.after;
     }

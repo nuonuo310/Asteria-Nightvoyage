@@ -4,7 +4,7 @@ import {hash,neutral,own,safeId} from '../../../src/contract.js';
 import {copy,fail} from '../../../src/store.js';
 import {
   dreamClimateCanonicalSnapshot,dreamClimateScenesPerRun,
-  dreamClimateSourceRefs,normalizeDreamClimateCheckpoint
+  dreamClimateSceneMaterial,dreamClimateSourceRefs,normalizeDreamClimateCheckpoint
 } from '../protocol.mjs';
 import {liveBatchKey,liveFirstFeelingOrigin,liveJournalKey} from './config.mjs';
 import {r3Profile} from './profile.mjs';
@@ -31,11 +31,14 @@ function accountingTotals(rows){
     combinedMeaning:'settled_calculated_charge_plus_unknown_reserved_hold'};
 }
 
-function sceneRecord(scene,index){
+function sceneRecord(scene,index,technicalScene=scene){
   return {index,event:scene.event,appraisal:copy(scene.appraisal),before:copy(scene.before),
     delta:copy(scene.delta),after:copy(scene.after),appraisalBasis:copy(scene.appraisalBasis),
     affectDeclaration:copy(scene.affectDeclaration),
-    evidence:copy(scene.appraisalBasis?.evidence),protocolVersion:scene.appraisalBasis?.protocolVersion};
+    evidence:copy(scene.appraisalBasis?.evidence),
+    normalizationAudit:copy(technicalScene.normalizationAudit),
+    unbasedAppraisalAudit:copy(technicalScene.unbasedAppraisalAudit),
+    protocolVersion:scene.appraisalBasis?.protocolVersion};
 }
 
 function billingRow(row,extra={}){
@@ -74,11 +77,14 @@ function validateWake(wake,scenes){
   return wake;
 }
 
-function validateScenes(scenes){
+function validateScenes(scenes,run){
   if(!Array.isArray(scenes)||scenes.length!==dreamClimateScenesPerRun)
     fail('invalid_dream_climate_live_scenes');
   let before=neutral();
-  for(const scene of scenes){const value=normalizeDreamClimateCheckpoint(scene,before);before=value.after;}
+  for(const [index,scene] of scenes.entries()){
+    const value=normalizeDreamClimateCheckpoint(scene,before,{sceneIndex:index,
+      requestId:`${run.id}-scene-${index}`});before=value.after;
+  }
 }
 
 function feelingRecord({run,dreamId,feeling,recordedAt,wakeRequestId,profile}){
@@ -105,7 +111,7 @@ export function prepareManagedPublication(store,input,profile){
      !safeId(wakeRequestId)||!stamp(recordedAt)||typeof firstFeelingOmitted!=='boolean')
     fail('invalid_dream_climate_live_publication');
   if(hash(run.sourceRefs)!==hash(dreamClimateSourceRefs))fail('invalid_dream_climate_live_publication');
-  validateScenes(run.draftScenes);
+  validateScenes(run.draftScenes,run);
   validateWake(wake,run.draftScenes);
   if(firstFeelingOmitted!==(firstFeeling===null))fail('invalid_dream_climate_live_publication');
   if(!firstFeelingOmitted&&(!firstFeeling||!statuses.has(firstFeeling.status)||
@@ -116,7 +122,8 @@ export function prepareManagedPublication(store,input,profile){
   if(own(store.state.entries,dreamId)!==undefined||own(current.runs,run.id)!==undefined)
     fail('dream_climate_live_already_published');
   const next=copy(current);
-  const dreamEntry={...envelope(run,dreamId,'dream'),scenes:copy(run.draftScenes),
+  const dreamEntry={...envelope(run,dreamId,'dream'),
+    scenes:copy(run.draftScenes).map(dreamClimateSceneMaterial),
     wake:{...envelope(run,`${profile.idPrefix}-wake-${run.id}`,profile.wakeOrigin,[dreamId]),
       ...copy(wake),protocolVersion:profile.protocolVersion},
     residue:{...envelope(run,`${profile.idPrefix}-residue-${run.id}`,'simulated_affect',[dreamId]),
@@ -195,7 +202,8 @@ function extractCompletedRun(store,run,now,profile){
      dream.derivedFrom[0]!==dreamClimateCanonicalSnapshot.id||
      dream.protocolVersion!==profile.protocolVersion||dream.runOrdinal!==run.ordinal||
      !Array.isArray(dream.scenes)||dream.scenes.length!==dreamClimateScenesPerRun||
-     hash(dream.scenes)!==hash(run.scenes)||dream.climate!==run.plan.climate||
+     hash(dream.scenes)!==hash(run.scenes.map(dreamClimateSceneMaterial))||
+     dream.climate!==run.plan.climate||
      dream.mechanism!==run.plan.mechanism||dream.foregroundAnchor!==run.plan.foregroundAnchor)
     fail('dream_climate_live_dream_unavailable');
   const wake=dream.wake;
@@ -247,7 +255,7 @@ function extractCompletedRun(store,run,now,profile){
     foregroundAnchor:run.plan.foregroundAnchor,
     usedForegroundAnchors:copy(run.plan.usedForegroundAnchors),
     usedMechanisms:copy(run.plan.usedMechanisms),
-    scenes:dream.scenes.map(sceneRecord),
+    scenes:dream.scenes.map((scene,index)=>sceneRecord(scene,index,run.scenes[index])),
     wake:{fragment:wake.fragment,fragmentBasis:copy(wake.fragmentBasis),
       associations:copy(wake.associations),residue:{label:'simulated_estimate',
         baseStrength:residue.strength,currentStrength:residue.strength*nowDecay,
@@ -286,7 +294,7 @@ export function extractManagedReceipt(store,{now=Date.now(),profile}={}){
       usedForegroundAnchors:copy(run.plan.usedForegroundAnchors),
       usedMechanisms:copy(run.plan.usedMechanisms),
       scenesSaved:run.scenes?.length??0,draftScenes:run.draftScenes?.length??0,
-      draftSceneRecords:run.draftScenes.map(sceneRecord),
+      draftSceneRecords:run.draftScenes.map((scene,index)=>sceneRecord(scene,index,scene)),
       publication:{status:'not_published',wakeRecorded:false,
         firstFeelingRecorded:false,residueCreated:false},
       billing:{calls:rows.length,...accountingTotals(rows),

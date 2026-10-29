@@ -12,6 +12,7 @@ import {
 } from './config.mjs';
 import {r8MatrixHash} from './matrix.mjs';
 import {r8PriceSnapshotHash} from './price.mjs';
+import {dreamClimateIdentity} from '../identity.mjs';
 
 export const r8ReleaseKeys=Object.freeze([
   'status','profile','authorityCommit','identityVersion','executionDigest',
@@ -48,6 +49,9 @@ export const r8ExpectedReleaseHash=hash(r8ReleaseObject());
 export function validateR8Release(value){
   if(!exact(value,r8ReleaseKeys))fail('dream_climate_r8_release_shape');
   if(hash(value)!==r8ExpectedReleaseHash)fail('dream_climate_r8_release_mismatch');
+  let current;
+  try{current=dreamClimateIdentity();}catch{fail('dream_climate_r8_release_superseded');}
+  if(current.identityHash!==r8OfflineIdentityHash)fail('dream_climate_r8_release_superseded');
   const expected=r8ReleaseObject();
   if(hash(value)!==hash(expected)||value.status!==expected.status||
      value.noRetry!==true||value.executionDigest!==r8ExecutionPin)

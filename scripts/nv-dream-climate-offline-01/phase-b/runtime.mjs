@@ -235,8 +235,9 @@ export class ManagedDreamClimateRuntime {
        hash(this.ledger.account(this.profile.allowanceId).allowance)!==this.allowanceHash)
       fail('dream_climate_live_runtime_identity_mismatch');
     let before=neutral();
-    for(const scene of run.draftScenes){
-      const value=normalizeDreamClimateCheckpoint(scene,before);before=value.after;
+    for(const [index,scene] of run.draftScenes.entries()){
+      const value=normalizeDreamClimateCheckpoint(scene,before,{sceneIndex:index,
+        requestId:`${run.id}-scene-${index}`});before=value.after;
     }
     return run;
   }
@@ -440,7 +441,7 @@ export class ManagedDreamClimateRuntime {
       try{
         if(stage==='scene'){
           const before=run.draftScenes.at(-1)?.after??neutral();
-          value=normalizeDreamClimateScene(parsed.data,before);
+          value=normalizeDreamClimateScene(parsed.data,before,{sceneIndex:index,requestId});
         }else{
           wakeValue=normalizeDreamClimateWake(parsed.data,{previousScenes:run.draftScenes});
           value=wakeValue.wake;
