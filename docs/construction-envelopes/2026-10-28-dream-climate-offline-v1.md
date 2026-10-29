@@ -980,3 +980,213 @@ secure-input 沿用已审查流程：
 - \`TOTAL_CONTROL_DECISION_REQUIRED\`
 
 总控审阅实际 R10 接线后，才可能把唯一命令交给用户。用户执行后的真实结果无论成功或失败都停止：不自动重试、不补跑、不新建 R11。若成功，下一步是直接阅读原梦、梦中情绪、醒来残片、刚醒心情和模拟余韵，裁决 V1 内容候选；若失败，先按真实诊断判断是否应接受现有 V1 边界或暂停，而不是继续无限门禁。未 ready、合并或部署。
+
+---
+
+# V1-CLOSEOUT-01 · 夜航梦境层工程收口（不是 R11）
+
+日期：2026-10-29
+
+状态：**单一工程收口权威包**。R10 的真实内容验收已经结束；本包不再生成梦、不再调用模型，也不修复或重跑 R10。目标是把分散在 stacked Draft PR 中的 V1 正式能力整理成一条可审阅、可合并到 `main` 的最小产品候选，同时把探针、付费试跑器、历史 secure-input 与价格证据留在原 Draft 作为审计史，不带入主产品面。
+
+本包只有一次施工、一个新 worktree、一个新分支和一个 Draft PR。不得把它拆成 R11/R12，也不得为推进而自动开启下一包。
+
+## 一、总控裁决与已接受事实
+
+1. R10 run `nv-dream-climate-one-dream-r10-a` 已完成：3 幕 + 1 次 wake，4/4 账务行为为 settled，settled 计算额合计 `16924 micro-CNY`，unknown hold 为 0。
+2. 已发布的记录包含：原梦、逐字 wake fragment、独立 `uncertain` firstFeeling、独立 simulated residue `0.12`；later recollection 仍未记录。
+3. 人工内容验收结论：**通过 Nightvoyage V1 内容候选**。该梦有连续画面、三幕状态变化、安静而可感知的变形，以及醒后仍能留下的感觉；不要求戏剧化、恐怖或正向结局。
+4. 结构化 scene affect 在本样本中仍为 neutral/unchanged。这是已知限制，不是本次收口阻断项；不得为了让数值“更好看”改写梦、伪造证据或再付费试跑。
+5. R10 receipt SHA-256：`e6eb5e63050a12fa2eb8c3fe36347a97da98d78055038a0467cfce4e8042e6d6`。本包只能把它作为既有人工验收证据引用，不得读取、复制、迁移或重新保存真实 Store。
+6. 不再授权 R11。后续 Memory/Mind、真实长期状态、自然回想、持续余韵和更完整噩梦机制均属于 V1 之后的独立产品阶段。
+
+## 二、DONE LINE
+
+从固定 `main@249d38ab6eb65aeab3207771062b0e51b962bd4d` 建立一条干净的 V1 closeout candidate，满足：
+
+- 正式代码只保留 V1 需要的纯协议、记录、离线 runtime、独立 firstFeeling 与阅读能力；
+- 把已接受的 dream-climate 规则和 R9 UNKNOWN canonicalization 提升为可复用、版本化、无网络的产品模块；
+- 原梦、wake 残片、刚醒心情、模拟余韵和后来回想在类型、保存和阅读上保持分离；
+- 面向糯糯的阅读面不显眼展示模型名；
+- 旧 paid/live 入口在新源码身份下继续失败关闭，凭据供应、真实 Store 和网络均为 0；
+- 不把探针、历史试跑器、Key/price/release/transport 脚本或 R1–R10 旧执行身份合并进主线；
+- 形成一个以 `main` 为 base 的 Draft PR，供总控做一次最终代码审阅。
+
+施工终点只能是 `READY_FOR_TOTAL_CONTROL_REVIEW_V1_CLOSEOUT`、`BLOCKED` 或 `TOTAL_CONTROL_DECISION_REQUIRED`。不得自动 ready、合并、部署或关闭旧 PR。
+
+## 三、固定输入与来源
+
+施工前逐一核对对象存在并精确匹配；任何 head 漂移都停止，不“跟最新”：
+
+| 来源 | 固定提交 | 用途 |
+| --- | --- | --- |
+| `main` | `249d38ab6eb65aeab3207771062b0e51b962bd4d` | 唯一实现基线与新 PR base |
+| PR #98 | `4e994b5f2ab0c42df4bdb9cff2a95aa9fc96d94f` | 独立 firstFeeling 与 versioned admission 证据 |
+| PR #101 | `40589d54838f542e470ed9d45c1f2500193b6eaa` | generated wake 协议、记录与离线 runtime |
+| PR #103 | `d7f070713aa7d13828efc18667ae66b7a62d257b` | 只读 reader 与 absent/omitted 显示语义 |
+| PR #105 | `621074a9a57772d957e43bed8d26ea7fae3a0561` | fictional source 边界证据，仅参考 |
+| PR #107 | `7ec24e6d90c45af67fe251fc65f21c4d257bf476` | rich sample/Phase B 历史证据，仅参考 |
+| PR #109 | `340867606e2356eb02ec1f7388646123c764e70a` | accepted dream-climate/R9/R10 候选与真实验收史 |
+
+不得依次 merge 或整 commit cherry-pick #98→#109。施工端必须从 `main` 建干净分支，按下面 keep/exclude 清单逐文件提取，并在 closeout manifest 中记录每个正式文件的来源 commit/blob 与必要改写。
+
+## 四、正式能力 KEEP
+
+### A. 独立醒后记录
+
+从 #98 提取并保留 `src/wake-first-feeling.js` 的正式语义及必要测试/fixture：
+
+- `present | absent | uncertain` 为显式记录状态；omitted 表示没有记录对象；
+- present 才允许文字；absent/uncertain 不伪造文字；
+- 不从 appraisal、affect、fragment、climate 或 residue 推导 firstFeeling；
+- 与原 dream/wake 记录分离，requestId 幂等与失败关闭语义保持；
+- 不把虚构记录当现实事实。
+
+若 #101 已有等价或更新的 generated firstFeeling record，施工端先做兼容矩阵，选一个唯一正式写路径；不得保留两个会产生不同 journal 形状的生产实现。
+
+### B. Generated wake 正式核心
+
+从 #101 提取并保留以下正式模块及直接测试：
+
+- `src/generated-wake-protocol.js`
+- `src/generated-wake-records.js`
+- `src/generated-wake-runtime.js`
+
+要求保留：
+
+- 三幕原梦与一次 wake；
+- fragment 必须逐字来自已保存 scene；
+- optional firstFeeling 四态独立；
+- residue 是 `simulated_estimate`，不是主观心情；
+- later recollection 只能由显式后续追加产生，本轮不自动生成；
+- fictional/non-reality 边界、无工具、无现实人格事实与不强迫正向结局。
+
+### C. Dream climate 正式纯模块
+
+从 #109 的 `scripts/nv-dream-climate-offline-01/protocol.mjs` 提取**纯协议与规范化语义**，新建唯一正式模块，建议：
+
+`src/dream-climate-protocol.js`
+
+只允许包含无 I/O、无凭据、无网络、无价格、无 release、无 Store 的纯函数与常量。至少冻结：
+
+- climate 权重：ordinary `0.65`、uneasy `0.30`、nightmare `0.05`；
+- climate 是梦境创作气候，不是现实心理状态、诊断、firstFeeling 或 residue；
+- ordinary 也可安静、古怪、空白或失落；nightmare 核心是无力、循环、规则失效、错过连接等，不等于血腥/怪物/惊吓；
+- 三幕内 scene/1、scene/2 各有可观察状态变化，整场至少一次梦内变形，但不强制冲突、高潮、危险、解释或积极结局；
+- mechanism 与 foreground anchor 只做本批创作约束，不冒充长期记忆；
+- previousScenes 只提供连续性；goal/control/uncertainty/affect 证据必须来自本幕；
+- R9 normalization v2：当 `basis.control===null` 或 `basis.uncertainty===null` 时，对合法有限原值 canonicalize 为 UNKNOWN `0.5`，并保存确定形状的技术审计；非法数、非零 goal 无证据、跨幕引文和非法 affect 继续拒绝；
+- 技术审计不得进入梦正文、basis、后续模型叙事材料或默认阅读面。
+
+不得把 #109 的 live worker/transport/release/price/secure-input 代码改名后塞进 `src`。
+
+### D. 只读阅读面
+
+从 #103 提取最小 reader 能力。允许保留既有纯离线 HTML/terminal renderer，或在不扩大范围的前提下整理为一个可测试的只读模块；不要重做页面视觉。
+
+阅读顺序固定为：
+
+1. 原梦（三幕）；
+2. 醒来残片；
+3. 刚醒心情；
+4. 模拟余韵；
+5. 后来回想。
+
+显示语义：
+
+- absent：`无（明确记为无）。`
+- uncertain：明确写“说不清/不确定”，不得伪造文字；
+- omitted：该栏未记录，不显示 absent 文案；
+- deleted：不回填旧文本；
+- later recollection 为空时不得生成样例内容；
+- 默认阅读面不显示 provider/model、authorization、账务、identity、prompt hash 或技术审计。
+
+## 五、明确 EXCLUDE
+
+以下内容不得进入新的 closeout branch；其历史继续留在原 Draft commit 可审计：
+
+- `scripts/fictional-source-probe.mjs` 及仅为 #105 探针服务的代码；
+- `scripts/nv-rich-fictional-dream-sample-01/**`；
+- `scripts/nv-dream-climate-offline-01/phase-b/**`；
+- `scripts/nv-dream-climate-offline-01/single-run-r4/**`、`single-run-r6/**`、`single-run-r8/**`、`single-run-r10/**`；
+- 所有 secure-input、credential supplier、provider transport、price fetch/check、release/pin、allowance、真实 Store launcher 与 receipt writer；
+- R1–R10 的旧 live identity、执行清单和可重新触发入口；
+- 仅用于证明付费试跑的测试矩阵与大体积原始日志；
+- 真实 Key、Store、receipt 原件、账本或用户资料；
+- Dreambook 美化、插图、Memory/Mind/Asteria bridge、自动后来回想或持续余韵。
+
+不要删除或改写原分支上的历史文件；只是不要把它们复制到新产品 PR。
+
+## 六、closeout manifest 与接受样本
+
+新增一份简洁的 `docs/v1-closure/NIGHTVOYAGE-V1-CLOSEOUT.md`，必须包含：
+
+- keep/exclude 表；
+- 每个正式文件的来源 commit 与 blob；
+- V1 概念边界：dream / wake fragment / firstFeeling / simulated residue / later recollection；
+- R10 的 runId、receipt SHA-256、4/4 settled、`16924 micro-CNY` settled 计算额、unknown 0，以及“内容人工通过、structured affect neutral/unchanged 为已知限制”；
+- 说明 `16924 micro-CNY` 是本地规则计算的 settled accounting，不冒称 provider 账单确认；
+- 说明 R10 正文和真实 Store 不复制进 repo，不用 synthetic fixture 冒充真实结果；
+- 后续阶段只列为非阻断项：Memory/Mind 接入、自然回想、动态梦境气候、更完整 affect 语义。
+
+不要新增一份虚构“R10 原文”或伪造 receipt。若仓库中没有总控提供的精确原文，就只保存可核验身份和人工裁决。
+
+## 七、接线与兼容
+
+1. 新正式 dream-climate 模块必须通过明确导出被 generated wake protocol/runtime 使用；不能只是未引用的旁路文件。
+2. 不新增真实 dispatch 入口。closeout PR 只证明协议、记录、读取和 fake/offline runtime。
+3. 旧 `launchInlinePaid` 在新 source identity 下必须继续以 `inline_paid_entry_refused` 失败关闭；sentinel credential supplier 0、network 0、真实 Store 0、无 `owner.lock`。
+4. 不刷新旧 source inventory，不复用旧许可，不生成新 release，不改历史账务。
+5. 若接线需要改变 schema，提供一次显式 version bump 与兼容读取；不得就地改变旧记录含义。
+6. 不迁移旧 dream；reader 只能读取调用方明确提供的记录或 synthetic fixture。
+7. model/provider 名只允许出现在测试和技术验证，不进入 reader 的默认 HTML/text。
+
+## 八、有限测试
+
+必须运行并逐项记录实数与退出码：
+
+1. 新 closeout 专项：纯 climate roll 边界、三幕变化提示、同幕证据、R9 UNKNOWN canonicalization 与审计完整性；
+2. generated wake：三幕 + wake、逐字 fragment、firstFeeling 四态、residue 分离、later recollection 空；
+3. reader：present/absent/uncertain/omitted/deleted，且默认面无模型名；
+4. fail-closed：旧付费入口、credential 0、network 0、真实 Store 0、无锁；
+5. 从 #98/#101/#103 提取后的直接回归；
+6. `git diff --check`；
+7. 因为改动触及共享 `src/`，运行一次完整 `npm.cmd test`。若仅遇到已知 Windows symlink/EPERM 偶发失败，可隔离核对后再完整重跑一次；必须同时记录首轮与重跑，之后停止，不能无限重试。
+
+测试不得访问真实 Store、Key、余额、价格网络或模型 endpoint；不得产生费用。
+
+## 九、施工与交付
+
+先检查是否已有同名任务、worktree、branch 或 PR；存在则沿用并核对身份，不重复派工。
+
+固定：
+
+- worktree：`C:\Users\Administrator\Desktop\Asteria-Nightvoyage-NV-V1-CLOSEOUT-01`
+- branch：`codex/nightvoyage-v1-closeout-01`
+- base：`main@249d38ab6eb65aeab3207771062b0e51b962bd4d`
+- Draft PR base：`main`
+
+提交前报告：
+
+- worktree、branch、HEAD、tree、parent、工作区 clean；
+- changed files、来源 commit/blob、keep/exclude 对照；
+- 新 protocol/record/reader identities；
+- 测试命令、实数、退出码、首次失败；
+- old paid fail-closed 与零凭据/零网络/零真实 Store/零费用证明；
+- PR open/Draft/base/head/mergeable；
+- old Draft PR #98/#101/#103/#105/#107/#108/#109 均未 ready、未 merge、未关闭。
+
+总控在 closeout PR 审阅通过后，才会决定是否 ready/merge，并在合并后把旧 stacked Draft 标为 superseded。施工端不得提前执行这些动作。
+
+## STOP 条件
+
+出现任一项立即停止并回执：
+
+- `main` 固定基线或任一来源 head 不存在/漂移；
+- 必须整包合并 #107/#109 或带入 live/secure-input 才能接线；
+- 必须读取真实 Store、Key、余额、receipt 原件或发网络模型请求；
+- 无法保持旧 paid 入口失败关闭；
+- firstFeeling/residue/recollection 需要互相推导才能通过；
+- closeout 正式模块无法被实际 runtime 引用，只能成为旁路文件；
+- 同名施工已在运行；
+- 需要第二个实现 PR、R11、新付费试跑或扩大到 Memory/Mind。
