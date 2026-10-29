@@ -833,3 +833,77 @@ secure-input 保留 R4 的流程：无凭据 admission → 临时 release → wo
 普通提交推送同一 #109，保持 Draft。回执给出 HEAD/tree/parent、changed files、execution/pin/identity/release 候选哈希、实际请求 bytes、价格证据路径/时间/hash、测试实数及首次失败、无真实模型/Key/旧 Store访问证明。报告唯一 secure-input 命令作为候选，不执行、不提示用户输入 Key。
 
 结束状态：READY_FOR_TOTAL_CONTROL_REVIEW_R8、PRICE_REVIEW_PENDING 或 BLOCKED。总控核对实际实现后才交付用户一次执行命令。此时才进入一次新场的人工触发；无论成败均停止并审阅内容，不自动追加修正包或新场。单场成功不等于三气候/长期质量或完整 V1 验收。未 ready、合并或部署。
+
+
+---
+
+# R9 · 无证据 appraisal 的确定性 UNKNOWN 归一化
+
+2026-10-29 总控裁决：R8 真实单场已停止并保留。此次只授权同一候选内的离线协议修正与审计证明，不授权重跑、补跑或新的付费 release。沿用原 worktree、原分支和 Draft PR #109；不得另开施工包、worktree 或 PR。
+
+## R8 固定事实
+
+- 实现 HEAD 为 \`fe0b196a0a22210107205a0a6660955251c8f724\`；R8 receipt profile 为 \`r8\`，runId 为 \`nv-dream-climate-one-dream-r8-a\`。
+- 唯一真实请求是 scene 0；provider 返回正文完整，usage 为 input 1114 / output 136 / total 1250，settled 计算额 3316 micro-CNY，unknown 保留为 0。该数值是本地按 usage 计算的账务额，不冒称 provider 实扣确认。
+- run 因 \`scene_response_rejected / unbased_appraisal_requires_placeholder\` 停止；0 幕保存、0 wake、0 firstFeeling、0 residue、0 发布、0 重试。release 已撤销，Store 已关闭，owner lock 已清除。
+- receipt SHA-256 为 \`034b53bd5ea4b59f7033c19cc556bdc0be2cb9addc6034937c7dea5e18f02c2a\`。历史 Store、receipt、账务和 R1–R8 文档均不得改写。
+- 被拒对象如下；这是模型返回的虚构内容，不是现实事实，也不是正式梦簿记录：
+
+\`\`\`json
+{"event":"梦里，一个人把一只白瓷杯搁在窗台上，杯里剩一点温水。雨刚停，街面泛着灰白的光。另一人伸手用指节在杯沿上轻敲两下，声音很薄，杯壁随之微微一颤。随后那人把杯子往窗台内侧挪了挪，像是要把这场对话留在那儿，却没说下次再讲的是什么事。","appraisal":{"goalEffect":0,"control":0.5,"uncertainty":0.6},"basis":{"goal":null,"control":null,"uncertainty":null},"affect":{"kind":"unchanged"}}
+\`\`\`
+
+失败不是梦正文不合格，而是 \`basis.uncertainty=null\` 与 \`appraisal.uncertainty=0.6\` 不符合现协议的 UNKNOWN 占位 0.5。现有 prompt 已明确说明该规则；本轮不得再靠追加同义提示词、增加重试或再付费碰运气。
+
+## 唯一允许的语义改动
+
+在 dream-climate 候选的本地 normalization 边界增加确定性 canonicalization，规则仅限以下两维：
+
+1. 对 \`control\`：若 \`basis.control===null\`，则 canonical \`appraisal.control\` 必须为 0.5。
+2. 对 \`uncertainty\`：若 \`basis.uncertainty===null\`，则 canonical \`appraisal.uncertainty\` 必须为 0.5。
+3. 模型原值为合法有限数且处于现有范围、但不是 0.5 时，不因该差异拒绝整幕；只把对应 canonical 值降级为 0.5，并生成程序审计记录。模型原值不是合法有限范围值时仍按原规则拒绝。
+4. 这不是推断、评分或“修好情绪”。null basis 表示没有可核验的本幕证据；0.5 仍只表示 UNKNOWN 占位，不表示测得的中点。不得从正文猜测 0.6 是否“其实合理”。
+5. canonicalization 不得改动 event 的任何字符，不得新增、删除或改写引文，不得修改 goalEffect、basis.goal、affect.kind、delta 或 affect excerpt。非零 goal 无证据、非法/跨幕引文、非法 affect、额外字段和错误 schema 继续严格拒绝。
+6. basis 为非 null 时继续要求本幕逐字引文；不得把非法引文降级成 null，也不得用 previousScenes/source 补证据。
+7. 已合法的 null + 0.5 输入保持逐字等价；合法有证据输入保持原值。不得把该规则扩展到 wake、firstFeeling、residue 或 associations。
+
+优先在 \`scripts/nv-dream-climate-offline-01/\` 候选边界实现；共享 \`src/\` 冻结。若无法在不修改共享 src 的情况下安全完成，报告明确阻碍并停下，不自行扩大范围。
+
+## 审计与保存边界
+
+- 每个被 canonicalize 的维度必须留下程序生成的、确定形状的审计项，至少含 dimension、receivedValue、canonicalValue=0.5、rule=\`unbased_requires_unknown\`。不写主观情绪词，不声称语义正确。
+- 审计必须与成功 scene 的 checkpoint 一起受完整性校验，或存于同一 run 的不可分离审计记录；不得只写测试日志，也不得在成功后丢失原值。
+- 后续模型输入只接收 canonical scene 与原有叙事字段；程序审计不得伪装为梦正文、basis 引文或新的记忆素材。面向梦簿的默认阅读面不显示技术审计或模型名。
+- checkpoint 重读必须得到同一 canonical scene 和同一审计；篡改 received/canonical/rule/dimension 任一字段应拒绝。不得为了通过旧 checkpoint 校验静默删除审计。
+- 若现有固定 scene schema 无法安全容纳审计，可在本包 runtime/run record 中建立与 sceneIndex/requestId 绑定的独立固定结构，但必须原子保存并进入 identity/checkpoint 完整性证明。不得建立通用修复框架。
+
+## 冻结项与身份
+
+冻结 R7/R8 scene/wake prompt 文本、source、fixtures、气候/机制/foreground anchor、firstFeeling 四态、逐字 fragment、simulated residue、预算和价格。本轮不修改 prompt 来宣称提高模型服从率。
+
+允许改动仅为：
+- 候选 \`protocol.mjs\` 的最小 normalization 接线；
+- 为保存/校验上述审计所必需的本包 runtime/record 薄改；
+- 新 R9 专项测试与验证文档；
+- 本权威副本及受真实执行依赖影响的 identity/manifest 一致性更新；
+- 在任何凭据前关闭 R8 及所有旧 live 入口。
+
+normalization 语义已变化，必须生成新的 normalization/identity 候选并如实列出；旧 R8 execution pin、identity、release 一律拒绝。不得生成可执行的新 live release，不得刷新 secure-input 命令，不得读取 Key、余额、真实 Store 或价格网络，也不得调用模型。
+
+## 有限离线验证
+
+1. 用上面的 R8 精确对象通过实际候选 normalization：event 逐字符不变；goalEffect/control/affect 不变；uncertainty 从 received 0.6 canonicalize 为 0.5；审计恰有一项且内容固定。
+2. 表驱动覆盖 control/uncertainty 各自 null + 非 0.5、两维同时、null + 0.5、合法本幕引文；canonicalization 必须幂等。
+3. 非有限/越界数、非零 goal 无证据、跨幕或不存在引文、非法 affect、额外字段仍拒绝，且不留下可发布 scene。
+4. checkpoint round-trip 保存 canonical 值与原值审计；审计任一字段被改写、删除、换 sceneIndex/requestId 均拒绝。builder 不把技术审计注入叙事/source/basis。
+5. synthetic 单场 3 scene + wake 可完整闭环，其中第一幕使用 R8 精确对象；4 calls、3 draft/正式 scene、逐字 fragment、firstFeeling 四态之一、独立 residue、后来回想为空。只用 fake transport；零真实 Store、Key、网络、模型和费用。
+6. fake 非法 goal/引文/affect 仍在首处失败停止，usage 结算一次、无发布、无重试。R8/旧 release 在凭据、Store 和网络之前失败关闭。
+7. 运行 R9 专项及直接受影响的 scene/checkpoint/runtime 最小回归、旧付费失败关闭检查与 \`git diff --check\`。不刷新历史 pin 来追求旧整套全绿，不重复全套 npm 或截图。
+
+测试证明只限结构处理与账务/发布边界，不证明文学质量、语义支持、模型长期服从率或 V1 完整验收。首次失败与修正均如实记录，不得用 synthetic 结果冒充真实梦。
+
+## 交付与停止
+
+普通提交推送同一分支并更新同一 Draft PR #109；不 ready、不合并、不部署。回执必须给出 HEAD/tree/parent、changed files、新旧 normalization/identity、R8 旧入口关闭证明、测试命令与实数，以及 R8 历史账务未改写证明。
+
+结束状态仅为 \`READY_FOR_HUMAN_OFFLINE_REVIEW_R9\`、\`BLOCKED\` 或 \`TOTAL_CONTROL_DECISION_REQUIRED\`。到此停止，不提供 Key 命令，不启动 R10，不自动申请真实试跑。总控先审阅这次架构修正是否足以结束“内容被元数据格式挡住”的问题，再决定是否还有一次人工触发；没有总控新授权就不产生下一笔费用。
