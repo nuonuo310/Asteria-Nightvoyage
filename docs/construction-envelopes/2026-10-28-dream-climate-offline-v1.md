@@ -1190,3 +1190,117 @@ secure-input 沿用已审查流程：
 - closeout 正式模块无法被实际 runtime 引用，只能成为旁路文件；
 - 同名施工已在运行；
 - 需要第二个实现 PR、R11、新付费试跑或扩大到 Memory/Mind。
+
+---
+
+# V1-CLOSEOUT-01 R1 · 旧身份测试分离（同一收口，不是新包）
+
+日期：2026-10-30
+
+## 总控裁决
+
+不接受 PR #110 在完整测试 `1942 / 1798 pass / 144 fail` 的状态下 ready 或 merge。
+
+这 144 个失败不推翻 V1 内容候选，也不授权 R11、真实模型调用或新付费验证。它们集中在 11 组旧 secure-input/source-pin 套件，根因是：当前 closeout 新增正式 `src/` 模块后，生产源码身份理应让旧 paid graph 失败关闭；但历史正向测试仍在当前工作树上要求旧身份通过。
+
+总控选择：**同一 worktree、同一分支、同一 PR 内完成一次最小测试身份分离**。不另开施工包，不刷新旧 inventory/pin/release，不接受永久红套件。
+
+## 固定起点
+
+- worktree：`C:\Users\Administrator\Desktop\Asteria-Nightvoyage-NV-V1-CLOSEOUT-01`
+- branch：`codex/nightvoyage-v1-closeout-01`
+- Draft PR：#110
+- 固定候选 HEAD：`ebc078ac7201e7f317ff9d9ca90dfe4ead75091d`
+- base：`main@249d38ab6eb65aeab3207771062b0e51b962bd4d`
+- 当前定向证据：44/44 pass
+- 当前完整证据：1942 tests，1798 pass，144 fail，exit 1
+- 失败范围：continuity-trial、inline-admission、inline-authorization、inline-bootstrap、inline-entry-preflight、inline-integration-review、inline-paid-contract、inline-paid-runtime、inline-trial-authorization、response-event-coverage、response-event-witness
+
+先核对 worktree clean、HEAD、PR base/head 与上述完全一致；已有同一 R1 修改则沿用，不重复施工。
+
+## 目标语义
+
+测试必须同时证明两个不同事实：
+
+1. **当前 closeout 源码身份**：新增正式模块存在，所以旧 paid/live graph 必须以现有稳定错误失败关闭；credential supplier 0、network 0、真实 Store 0、无 owner.lock、无费用。
+2. **历史冻结身份**：在严格由旧 manifest 路径与旧哈希构成的 test-only legacy source view 中，旧授权/contract/bootstrap 的历史正向证据仍可复现；这只是历史身份验证，不是让当前源码获得旧许可。
+
+不得再让同一测试对象同时代表“当前源码”与“旧冻结源码”。
+
+## 允许改动
+
+只允许修改：
+
+- 这 11 组失败测试；
+- 它们直接共用的 `test/` helper 或新建一个明确命名的 test-only legacy-source helper；
+- `docs/v1-closure/NIGHTVOYAGE-V1-CLOSEOUT.md`；
+- PR #110 描述。
+
+冻结：
+
+- `src/**`；
+- `fixtures/**`；
+- `scripts/**`；
+- 当前 product blobs、dream-climate/generated-wake/firstFeeling/reader 行为；
+- 旧 source inventory、manifest、graph、hash、authorization、allowance、release 与 paid contract；
+- R10 身份和既有事实。
+
+如果修复测试必须改生产源码、放宽 source guard 或刷新旧 pin，立即 `TOTAL_CONTROL_DECISION_REQUIRED`，不得自行扩大。
+
+## test-only legacy source view
+
+优先使用一个纯测试 helper，按旧冻结 manifest 的**显式路径清单**建立隔离 view：
+
+- 只纳入旧 manifest 已声明路径；
+- 对每个纳入文件核对旧哈希；
+- 新增 closeout 模块不得被复制、过滤后伪装成当前源码，也不得被加入旧清单；
+- view 使用临时目录或内存结构，测试结束清理；
+- 不访问用户 Store、网络、凭据、环境 Key 或 GitHub；
+- 不通过 checkout/reset/stash 改动实际 worktree；
+- 不修改历史文件字节来“还原”旧身份；
+- 若 manifest 中任一旧路径或哈希不匹配，历史正向测试必须失败。
+
+历史正向套件只能显式接收该 legacy view。当前候选套件必须继续使用真实当前工作树并断言失败关闭。
+
+## 禁止的过绿方式
+
+不得：
+
+- `skip`、`todo`、`only`、按平台/分支条件跳过；
+- 删除、合并或减少原断言数量来降失败；
+- 把 expected error 改成任意 error；
+- 捕获异常后无条件通过；
+- 白名单新增 `src` 文件进入旧 inventory；
+- 更新旧 source hash/pin/release；
+- 把旧 positive path 重新暴露给当前生产入口；
+- 在 package/test runner 中排除这 11 组套件；
+- 把 144 fail 重新标记为“允许失败”；
+- 运行真实 secure-input、提示 Key、打开真实 Store 或发网络请求。
+
+## 有限验证
+
+按顺序执行：
+
+1. 新 test-only helper 自测：路径缺失、哈希漂移、额外文件、清理失败均拒绝；
+2. 11 组原失败套件，必须全部通过且保持原测试数量可追踪；
+3. 当前 candidate fail-closed 专项，确认旧 paid 入口仍拒绝且 credential/network/Store/lock 均为 0；
+4. closeout 定向 44 项及新增测试；
+5. `git diff --check`；
+6. 在以上全部通过后运行一次完整 `npm.cmd test`。
+
+已有的 1942/1798/144 首轮必须保留在回执中。R1 最终完整运行不得隐藏失败或声称首次即绿。若最终完整运行仍有失败，只允许隔离定位，不连续重跑；修正需要超出允许范围则停止交回总控。
+
+## DONE LINE
+
+只有同时满足以下条件才可报告 `READY_FOR_TOTAL_CONTROL_REVIEW_V1_CLOSEOUT_R1`：
+
+- 完整测试 0 fail；
+- 11 组历史正向套件只在严格 legacy view 下通过；
+- 当前真实源码继续让旧 paid/live graph 失败关闭；
+- 旧 inventory/pin/release 字节不变；
+- product `src/fixtures/scripts` 相对固定候选 HEAD 无变化；
+- 零 Key、零网络、零真实 Store、零模型、零费用；
+- PR #110 保持 Draft、base `main`、未 ready/merge/deploy；
+- 不新建 PR、worktree、R11 或下一包。
+
+若无法在以上边界内让完整套件归零，状态为 `TOTAL_CONTROL_DECISION_REQUIRED` 或 `BLOCKED`。完成即停，交回总控。
