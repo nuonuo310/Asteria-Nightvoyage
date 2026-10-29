@@ -1,3 +1,4 @@
+import {runLegacySuite as runLegacySuiteR1} from '../test-support/legacy-source-view.js';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -9,6 +10,8 @@ import {Store} from '../src/store.js';
 import {inlineEntryInventory} from '../src/inline-entry-preflight.js';
 import {readInlinePaidContract,validateInlinePaidContract,inlinePaidContractPreflight,inspectInlinePaidAdmission,inspectInlinePaidAcknowledgement,inlinePaidContractPath} from '../src/inline-paid-contract.js';
 import {prepareInlineAdmissionHistory} from '../test-support/inline-admission-fixtures.js';
+const legacyDelegatedR1=runLegacySuiteR1(import.meta.url);
+if(!legacyDelegatedR1){
 const root=fileURLToPath(new URL('..',import.meta.url));
 const now=Date.parse('2026-10-17T14:49:01Z');
 const read=()=>readInlinePaidContract({now});
@@ -51,3 +54,4 @@ test('CLI accepts only proposal and credential-free preflight; no action can gra
 test('fixed contract rehearsal leaves each synthetic old account untouched without key/network or paid permission',()=>{
   const r=spawnSync(process.execPath,['scripts/check-inline-paid-contract.mjs'],{encoding:'utf8',timeout:15000});assert.equal(r.status,0,r.stderr);const v=JSON.parse(r.stdout);assert.equal(v.oldStateAndAccountBytesUnchanged,true);assert.equal(v.reviewClockIsFixture,true);assert.equal(v.createsAuthorization,false);assert.equal(v.createsAccount,false);assert.equal(v.credentialReads,0);assert.equal(v.nativeRequests,0);assert.equal(v.liveEntryAvailable,false);assert.equal(v.implementationReady,false);assert.equal(v.qualityAssessed,false);
 });
+}

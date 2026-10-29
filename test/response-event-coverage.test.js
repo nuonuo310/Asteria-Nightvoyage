@@ -1,3 +1,4 @@
+import {runLegacySuite as runLegacySuiteR1} from '../test-support/legacy-source-view.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -10,6 +11,8 @@ import {aggregateTrialProposal} from '../scripts/aggregate-plan-trial.mjs';
 import {readInlinePaidContract} from '../src/inline-paid-contract.js';
 import {aggregateTranscript,envelopeSeed} from '../test-support/offline-aggregate-fixtures.js';
 
+const legacyDelegatedR1=runLegacySuiteR1(import.meta.url);
+if(!legacyDelegatedR1){
 test('static reference audit distinguishes routing from event acceptance and discloses incomplete service coverage',()=>{
  const summary=responseEventCoverageSummary();assert.equal(summary.reviewedReferenceNames,59);assert.equal(new Set(reviewedEventTypes).size,59);assert.deepEqual(summary.routes,{classified_rejection_route:6,unreviewed_documented_audio:4,unreviewed_documented_tool:32,core_validation_route:9,reasoning_validation_route:6,refusal_rejection_route:2});assert.equal(summary.acceptanceChanged,false);assert.equal(summary.historicalTypeRecoverable,false);assert.equal(summary.providerSchemaCompatibilityValidated,false);
  const manifest=JSON.parse(fs.readFileSync(new URL('../test-support/reviewed-response-event-types.json',import.meta.url),'utf8'));assert.equal(manifest.scope,'reviewed_static_reference_names_not_all_possible_service_events');assert.ok(Object.isFrozen(reviewedEventTypes));summary.routes.core_validation_route=999;assert.equal(responseEventCoverageSummary().routes.core_validation_route,9);
@@ -33,3 +36,4 @@ test('audit does not replace native source pins or weaken complete-stream/stage 
 test('standalone audit forbids any fetch and reports only aggregate synthetic counts',()=>{
  const env={...process.env};delete env.NODE_TEST_CONTEXT;const code=`globalThis.fetch=()=>{throw Error('UNEXPECTED-NETWORK');};await import(${JSON.stringify(new URL('../scripts/check-response-event-coverage.mjs',import.meta.url).href)});`;const c=spawnSync(process.execPath,['--input-type=module','-e',code],{encoding:'utf8',env});assert.equal(c.status,0,c.stderr);const out=JSON.parse(c.stdout);assert.equal(out.scriptedAmbiguousRejections,36);assert.equal(out.realModelRequests,0);assert.equal(out.userStoreAccessed,false);assert.equal(out.credentialsRead,false);assert.equal(out.dispatchAttempts,0);assert.equal(c.stdout.includes('SYNTHETIC-SECRET'),false);
 });
+}

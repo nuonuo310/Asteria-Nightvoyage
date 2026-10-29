@@ -2,9 +2,9 @@
 
 Date: 2026-10-30
 
-Status: **V1 closeout candidate for total-control review only; final receipt `TOTAL_CONTROL_DECISION_REQUIRED`**. This branch does not authorize R11, a real model call, secure input, price review, a real Store access, release, ready, merge or deployment.
+Status: **V1 closeout R1 review candidate for total-control review only; final receipt `READY_FOR_TOTAL_CONTROL_REVIEW_V1_CLOSEOUT_R1`**. This branch does not authorize R11, a real model call, secure input, price review, a real Store access, release, ready, merge or deployment.
 
-Authority: `docs/construction-envelopes/2026-10-28-dream-climate-offline-v1.md`, section `V1-CLOSEOUT-01`, from commit `b640f7f3942fd7b7742e936a41d787ac15af8f03`.
+Authority: `docs/construction-envelopes/2026-10-28-dream-climate-offline-v1.md`, section `V1-CLOSEOUT-01`, from commit `b640f7f3942fd7b7742e936a41d787ac15af8f03`, and its same-package R1 section from commit `1391c360dbc652326c8ed68730b3c3139fdc7e3f`.
 
 Implementation base: `main@249d38ab6eb65aeab3207771062b0e51b962bd4d`.
 
@@ -110,11 +110,28 @@ Complete `npm.cmd test` first run:
 - These are the expected fail-closed consequence of adding the authority-mandated product modules under `src/` while deliberately leaving the old inventory and graph unrefreshed. They are not refreshed or reinterpreted by this branch.
 - No failure was a Windows symlink/EPERM-only retry case, so the authority did not permit a second complete rerun.
 
-## TOTAL CONTROL DECISION REQUIRED
+### R1 legacy identity separation
 
-The authority fixes the formal modules under `src/`, requires the old paid entry to fail closed under the new source identity and forbids refreshing the old source inventory. The same frozen inventory is used by pre-existing legacy suites that test the former positive secure-input paths. Those suites therefore turn red even though the closeout-specific behavior, fail-closed proof and direct regressions pass.
+The R1 authority does not accept the first run's 144 failures as a permanently red closeout. It requires one minimal test identity separation in the same worktree, branch and Draft PR, without refreshing the old inventory, pins, graph, authorization, allowance, release or paid contract and without changing product source.
 
-Total control must decide whether the intentional 144 legacy failures are accepted as evidence of the new fail-closed source identity, or whether a separately authorized test/inventory migration should be performed. This branch does not make that decision, does not refresh the old pins, does not mark the PR ready and does not merge it.
+`test-support/legacy-source-view.js` is test-only. It verifies the frozen legacy manifest `src/inline-entry-review.json` at LF-normalized SHA-256 `21e08f5444ef0923d9bdc8bc9b2736a1f491601cb3dd960a5b4107ff37d52d6a`, requires exactly 86 manifest paths, and verifies every listed file hash. It materializes a temporary source view only from those paths, plus the unchanged `examples/`, `docs/proposals/`, `test-support/` and harness scripts. The two closeout-only scripts `scripts/generated-wake-story-html.mjs` and `scripts/wake-first-feeling-demo.mjs` are excluded. Missing paths, hash drift, extra product-view files, symlinks, unsafe paths and cleanup failure are rejected. Temporary views are removed after each child run.
+
+The 11 previously failing legacy suites now execute only inside that isolated view in child processes. Their original test bodies and test names are preserved and mirrored to the outer runner; directives fail rather than skip. Result: **201 tests, 201 pass, 0 fail, exit 0**. The helper self-tests cover a missing manifest path, hash drift, an extra file after materialization and unsuccessful cleanup.
+
+The current product tree is not substituted by the legacy view. The current closeout fail-closed and direct regression command remains **44 tests, 44 pass, 0 fail, exit 0**, including refusal of the old paid entry before credentials, network, real Store or `owner.lock`.
+
+Complete `npm.cmd test` final R1 run:
+
+- **1946 tests, 1946 pass, 0 fail, exit 0**.
+- This is the required final complete run after the helper self-tests and the 11-suite legacy-view pass. It does not replace or hide the recorded first run of **1942 tests, 1798 pass, 144 fail, exit 1**.
+- `git diff --exit-code ebc078ac7201e7f317ff9d9ca90dfe4ead75091d -- src fixtures scripts` reported **exit 0**, proving the product, fixture and script trees remain identical to the fixed R1 candidate HEAD.
+- No old inventory, pin, release or product blob was refreshed. No Key, real Store, balance, price network, model endpoint or user data was accessed. No model was called, no fee was incurred and no retry was attempted.
+
+## R1 REVIEW STATE
+
+The historical positive secure-input/source-pin evidence is now reproduced only against its frozen legacy identity. The current closeout identity continues to make the old paid/live graph fail closed. This resolves the earlier request for total control to choose between accepting a permanently red suite and authorizing a separate inventory migration: neither was done.
+
+PR #110 remains the same Draft PR with base `main` and branch `codex/nightvoyage-v1-closeout-01`. It is not ready, merged or deployed, and this change does not start R11 or create a new package, worktree, branch or PR.
 
 ## NON-BLOCKING FUTURE ITEMS
 

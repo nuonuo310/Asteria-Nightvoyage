@@ -1,3 +1,4 @@
+import {runLegacySuite as runLegacySuiteR1} from '../test-support/legacy-source-view.js';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -14,6 +15,8 @@ import {readInlinePaidContract} from '../src/inline-paid-contract.js';
 import {InlineTrialRehearsalRuntime} from '../src/inline-trial-rehearsal-runtime.js';
 import {initInlineTrialAuthorization,readInlineTrialAuthorization,revokeInlineTrialAuthorization,inlineTrialAllowanceId} from '../src/inline-trial-authorization.js';
 import {prepareTrialHistory,trialTransport,trialFixtureNow} from '../test-support/inline-trial-fixtures.js';
+const legacyDelegatedR1=runLegacySuiteR1(import.meta.url);
+if(!legacyDelegatedR1){
 function oldUnchanged(store,old){for(const [id,a]of Object.entries(old))assert.deepEqual(store.state.billing.accounts[id],a);}
 function setup(t,options={}){const h=prepareTrialHistory(t),calls=[],engine=new InlineTrialRehearsalRuntime(h.directory,{enabled:true,fetchImpl:async(u,r)=>{calls.push(JSON.parse(r.body));return trialTransport(u,r);},...options});t.after(()=>engine.close());return {...h,engine,calls};}
 function child(directory,code){return spawnSync(process.execPath,['--input-type=module','-e',`import fs from 'node:fs';import {Store} from ${JSON.stringify(new URL('../src/store.js',import.meta.url).href)};import {InlineTrialRehearsalRuntime} from ${JSON.stringify(new URL('../src/inline-trial-rehearsal-runtime.js',import.meta.url).href)};import {initInlineTrialAuthorization} from ${JSON.stringify(new URL('../src/inline-trial-authorization.js',import.meta.url).href)};import {trialTransport,trialConfirmation} from ${JSON.stringify(new URL('../test-support/inline-trial-fixtures.js',import.meta.url).href)};Date.now=()=>${trialFixtureNow};const directory=${JSON.stringify(directory)};${code}`],{encoding:'utf8',timeout:15000});}
@@ -94,3 +97,4 @@ test('default disabled, missing managed publication and mode mutation cannot spe
 test('fixed authority rehearsal distinguishes synthetic live intent from actual dispatch or user approval',()=>{
   const r=spawnSync(process.execPath,['scripts/check-inline-trial-authorization.mjs'],{encoding:'utf8',timeout:15000});assert.equal(r.status,0,r.stderr);const v=JSON.parse(r.stdout);assert.equal(v.liveIntentFixtureSaved,true);assert.equal(v.liveIntentFixtureDispatches,0);assert.equal(v.stubCalls,3);assert.equal(v.replayAdditionalCalls,0);assert.equal(v.oldAccountsUnchanged,true);assert.equal(v.withdrawalPurgedAfterReopen,true);assert.equal(v.credentialReads,0);assert.equal(v.nativeRequests,0);assert.equal(v.realUserApprovalRecorded,false);assert.equal(v.liveEntryAvailable,false);assert.equal(v.qualityAssessed,false);
 });
+}
