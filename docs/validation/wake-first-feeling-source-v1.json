@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "identity": "wake-first-feeling-nonpaid-source-v1",
+  "featureVersion": "wake-first-feeling-v1",
+  "viewVersion": "wake-first-feeling-view-v1",
+  "source": {
+    "path": "src/wake-first-feeling.js",
+    "lfBytes": 11416,
+    "lfSha256": "3360e66779cdbef9f63fa2422179fdb21e539dd040911cdb905a0b70de844bf8"
+  },
+  "fixture": {
+    "path": "fixtures/wake-first-feeling.json",
+    "lfBytes": 566,
+    "lfSha256": "e5d62c287e8b73281aeec02c89587df46d705f31afaf65841468c968d80b3b4a",
+    "materialKind": "fictional",
+    "modelEgress": false
+  },
+  "independence": {
+    "paidProfile": false,
+    "priceSnapshot": false,
+    "liveSwitch": false,
+    "credentialInput": false,
+    "networkModelInput": false,
+    "migratesOldDreams": false,
+    "reusesOldPermission": false
+  },
+  "acceptance": {
+    "targeted": "node --test test/wake-first-feeling.test.js",
+    "versionedReceipt": "node scripts/check-versioned-wake-admission.mjs",
+    "full": "npm.cmd test"
+  }
+}
